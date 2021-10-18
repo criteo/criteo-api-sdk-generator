@@ -1,1 +1,2 @@
-echo "Hello world"
+echo "Generating Sources..."
+echo "Done."
