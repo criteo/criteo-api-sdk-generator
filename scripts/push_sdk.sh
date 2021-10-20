@@ -50,7 +50,7 @@ git_push() {
 process() {
   language=$1
   cd ${BUILD_DIR}/criteo
-  REPO="criteo/criteo-${language}-marketing-sdk"
+  REPO="criteo/criteo-api-${language}-sdk"
   git_clone ${REPO}
 
   NEXT_CLIENT="NEXT_criteo-api-${language}-sdk"

@@ -39,7 +39,7 @@ for language in "${LANGUAGES[@]}"
 do
     echo "Building SDK - ${language}"
 
-    get_next_patch_number "https://github.com/criteo/criteo-${language}-marketing-sdk"
+    get_next_patch_number "https://github.com/criteo/criteo-api-${language}-sdk"
     ${GRADLEW} :build-${language}:generateClient -Dorg.gradle.project.buildNumber=${NEXT_PATCH_NUMBER}
 
     # write version into a file
