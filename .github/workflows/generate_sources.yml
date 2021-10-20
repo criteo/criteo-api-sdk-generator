@@ -8,8 +8,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Hello World Step (to be removed)
+      - name: Generate Sdks
         run: |
           chmod +x ./scripts/build_sdk.sh
           ./scripts/build_sdk.sh
+        shell: bash
+
+      - name: Push SDKs
+        run: |
+          chmod +x ./scripts/push_sdk.sh
+          ./scripts/push_sdk.sh
         shell: bash
