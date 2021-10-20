@@ -3,8 +3,8 @@ set -ex
 
 SCRIPT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if [[ $GITHUB_BUILD_NUMBER != "" ]]; then
-    BUILD_NUMBER=$GITHUB_BUILD_NUMBER
+if [[ $GITHUB_RUN_NUMBER != "" ]]; then
+    BUILD_NUMBER=$GITHUB_RUN_NUMBER
 else
     echo "Usage: $0 BUILD_NUMBER"
     exit 1
