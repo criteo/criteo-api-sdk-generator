@@ -3,8 +3,8 @@ set -ex
 
 SCRIPT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if [[ $1 != "" ]]; then
-    BUILD_NUMBER=$1
+if [[ $GITHUB_BUILD_NUMBER != "" ]]; then
+    BUILD_NUMBER=$GITHUB_BUILD_NUMBER
 else
     echo "Usage: $0 BUILD_NUMBER"
     exit 1
@@ -15,8 +15,8 @@ git_clone() {
 }
 
 setup_git() {
-  git config user.email ${USER_EMAIL}
-  git config user.name "Travis CI"
+  git config user.email $github.actor
+  git config user.name "GITHUB CI"
 }
 
 git_add_files() {
@@ -40,7 +40,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  if [[ ${USER} == "travis" ]]; then
+  if [[ ${github.actor} == "github" ]]; then
     git push origin --tags --quiet && git push origin --quiet
   else
     echo "Only user travis should be able to push."
@@ -70,7 +70,7 @@ process() {
                          | grep -Ev 'user_agent|UserAgent' \
                          | grep -Ev 'marketing\.java-client.+[0-9]\.[0-9]\.[0-9]' \
                          | wc -l | tr -d '[:space:]')
-  next_version=$(cat "/tmp/travis_${BUILD_NUMBER}-build_sdk-${language}.version")
+  next_version=$(cat "/tmp/gh_${BUILD_NUMBER}-build_sdk-${language}.version")
 
   if [[ ${modification_count} != 0 && ${next_version} != "" ]]; then
       setup_git

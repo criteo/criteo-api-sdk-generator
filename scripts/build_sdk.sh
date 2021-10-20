@@ -9,7 +9,6 @@ set -ex
 SCRIPT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 GRADLEW="${SCRIPT_ROOT}/../gradlew"
 API_VERSION='1.0'
-echo $GITHUB_RUN_NUMBER;
 
 if [[ $GITHUB_RUN_NUMBER != "" ]]; then
     BUILD_NUMBER=$GITHUB_RUN_NUMBER
@@ -44,6 +43,6 @@ do
 
     # write version into a file
     nextVersion="v${API_VERSION}.${NEXT_PATCH_NUMBER}"
-    VERSION_FILE="/tmp/travis_${BUILD_NUMBER}-build_sdk-${language}.version"
+    VERSION_FILE="/tmp/gh_${BUILD_NUMBER}-build_sdk-${language}.version"
     echo "${nextVersion}" > ${VERSION_FILE}
 done
