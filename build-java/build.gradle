@@ -68,17 +68,6 @@ task generateClient(type: GradleBuild) {
                     dateLibrary              : 'java8',
             ]
         }
-
-        def copyExamples = task("copyExamples_java_"+ apiName, type: Copy) {
-            from "$resourcesDir/examples"
-            into "$clientOutputDirPerVersion/src/examples/java/$basePackagePath/examples".toString()
-        };
-
-        def copyTests = task("copyTests_java_" + apiName, type: Copy) {
-            from "$resourcesDir/tests/"
-            into "$clientOutputDirPerVersion/src/test/java/$basePackagePath/".toString()
-        };
-
         def copyLicense = task("copyLicense_java_" + apiName, type: Copy) {
             group 'Criteo'
             description 'Copy the license into the client output folder'
@@ -100,8 +89,6 @@ task generateClient(type: GradleBuild) {
         }
 
         taskList << generateTask.name
-        taskList << copyExamples.name
-        taskList << copyTests.name
         taskList << copyLicense.name
         taskList << removeUnwantedFiles.name
     }
