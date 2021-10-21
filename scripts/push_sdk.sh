@@ -55,7 +55,7 @@ process() {
   git_clone ${REPO}
 
   NEXT_CLIENT="NEXT_criteo-api-${language}-sdk"
-  cp -r "${SCRIPT_ROOT}/../generated-clients/${language}" ${NEXT_CLIENT}
+  cp -r "${SCRIPT_ROOT}/../generated-sources/${language}" ${NEXT_CLIENT}
   cp -r "${BUILD_DIR}/${REPO}/.git" ${NEXT_CLIENT}
 
   cd ${NEXT_CLIENT}

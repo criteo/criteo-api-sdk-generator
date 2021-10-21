@@ -1,3 +1,5 @@
+import groovy.io.FileType
+
 buildscript {
     repositories {
         mavenLocal()
@@ -7,16 +9,29 @@ buildscript {
 
 apply plugin: 'java-library'
 
+def swaggerList = []
+def dir = new File("$rootDir/api-specification".toString());
+
+if (dir.exists()) {
+    dir.eachFileRecurse(FileType.FILES) { file ->
+        if (file.getName().endsWith(".json"))
+            swaggerList << file
+    }
+} else {
+    throw new GradleException("Folder api-specification doesnt exist")
+}
+
+if (swaggerList.isEmpty()) {
+    throw new GradleException("No swaggers found in api-specification folder")
+}
+
 ext {
-    artifactId = "criteo-sdk-client-generator"
+    artifactId = "criteo-client-generator"
     groupId = "com.criteo.api"
     version = '1.0.0'
     description = 'Criteo API Clients Generator'
     sourceCompatibility = '1.8'
     jar.enabled = false
-
-    gereratedClientsDirName = 'generated-clients'
-
-    apiVersion = '2021-04'
-    swaggerPath = "$rootDir/input/transition-swagger.json".toString()
+    gereratedClientsDirName = 'generated-sources'
+    swaggerSourceList = swaggerList
 }
