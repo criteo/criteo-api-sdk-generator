@@ -46,6 +46,11 @@ This script uses [https://api.criteo.com](https://api.criteo.com) public API.
 A clean step has been added to the build process in order to delete the folder of previous generated code.
 Otherwise some changes will not be applied by openapi-generator.
 
+
+## Github Actions
+If one wouldnt want to run the build locally, it is possible to go to Actions tab on Github repo main page and run build for each of the language separately through "Generate {language} Sources" or for all of them through "Generate All Sources actions".
+After running a workflow artefact will be generated and available for download.
+
 ## Disclaimer
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
