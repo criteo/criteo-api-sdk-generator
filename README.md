@@ -48,7 +48,12 @@ Otherwise some changes will not be applied by openapi-generator.
 
 
 ## Github Actions
-If one wouldnt want to run the build locally, it is possible to go to Actions tab on Github repo main page and run build for each of the language separately through "Generate {language} Sources" or for all of them through "Generate All Sources actions".
+Each time a push is done, three separate actions for each of the languages are fired -
+- Generate Java Sources
+- Generate PHP Sources
+- Generate Python Sources
+Each of them generated output for every language.
+There is also Generate All Sources action that is runnable on demand from Actions tab.
 After running a workflow artefact will be generated and available for download.
 
 ## Disclaimer
