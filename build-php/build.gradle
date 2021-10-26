@@ -66,6 +66,14 @@ task generateClient(type: GradleBuild) {
                 ]
         }
 
+        def copyExtraSources = task("copyExtraSources_php_" + apiName, type: Copy) {
+            group 'Criteo'
+            description 'Copy the PHP custom client into the lib client output folder'
+
+            from "$resourcesDir/extra-src/"
+            into "$clientOutputDirPerVersion/lib/"
+        }
+
         def copyLicense = task("copyLicense_php_" + apiName, type: Copy) {
             group 'Criteo'
             description 'Copy the license into the client output folder'
@@ -87,6 +95,7 @@ task generateClient(type: GradleBuild) {
 
         taskList << generateTask.name
         taskList << copyLicense.name
+        taskList << copyExtraSources.name
         taskList << removeUnwantedFiles.name
     }
 
