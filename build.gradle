@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'java-library'
 
 def swaggerList = []
-def dir = new File("$rootDir/api-specification".toString());
+def dir = new File("$rootDir/api-specifications".toString());
 
 if (dir.exists()) {
     dir.eachFileRecurse(FileType.FILES) { file ->
@@ -18,11 +18,11 @@ if (dir.exists()) {
             swaggerList << file
     }
 } else {
-    throw new GradleException("Folder api-specification doesnt exist")
+    throw new GradleException("Folder api-specifications doesnt exist")
 }
 
 if (swaggerList.isEmpty()) {
-    throw new GradleException("No swaggers found in api-specification folder")
+    throw new GradleException("No swaggers found in api-specifications folder")
 }
 
 ext {
