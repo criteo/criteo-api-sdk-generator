@@ -1,5 +1,5 @@
 ![Java generation](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_java_sources.yml/badge.svg)
-![Python generation](https://github.com/github/docscriteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml/badge.svg)
+![Python generation](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml/badge.svg)
 ![PHP generation](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_php_sources.yml/badge.svg)
 
 # Criteo API - Clients
