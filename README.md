@@ -1,6 +1,6 @@
-![Java generation](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_java_sources.yml/badge.svg)
-![Python generation](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml/badge.svg)
-![PHP generation](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_php_sources.yml/badge.svg)
+[![Generate Java Sources](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_java_sources.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_java_sources.yml)
+[![Generate PHP Sources](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_php_sources.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_php_sources.yml)
+[![Generate Python Sources](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml)
 
 # Criteo API - Clients
 
