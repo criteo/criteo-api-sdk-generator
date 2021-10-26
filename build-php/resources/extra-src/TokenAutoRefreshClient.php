@@ -3,8 +3,8 @@
 
 namespace Criteo\SDK;
 
-use Criteo\Marketing\Api\OAuthApi;
-use Criteo\Marketing\TokenAutoRefreshClient\Token;
+use Criteo\SDK\Api\OAuthApi;
+use Criteo\SDK\TokenAutoRefreshClient\Token;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
