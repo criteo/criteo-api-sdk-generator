@@ -63,8 +63,7 @@ Download the files and include `autoload.php`:
 To run the unit tests:
 
 ```bash
-composer install
-./vendor/bin/phpunit
+composer run-script test
 ```
 
 ## Getting Started
@@ -76,17 +75,18 @@ Please follow the [installation procedure](#installation--usage) and then run th
 require_once(__DIR__ . '/vendor/autoload.php');
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 $clientId = 'YOUR_CLIENT_ID';
-$clientCredentials = 'YOUR_PASSWORD';
+$clientSecret = 'YOUR_CLIENT_SECRET';
 
 // Automatic token refresh
-$apiInstance = new {{invokerPackage}}\Api\{{classname}}(new TokenAutoRefreshClient($clientId, $clientCredentials));
+$apiInstance = new {{invokerPackage}}\Api\{{classname}}(new TokenAutoRefreshClient($clientId, $clientSecret));
 
-{{#allParams}}${{paramName}} = {{{example}}};
+{{#allParams}}
+${{paramName}} = {{{example}}};
 {{/allParams}}
 
 try {
-    {{#returnType}}$result = {{/returnType}}$apiInstance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
-    print_r($result);{{/returnType}}
+    {{#returnType}}$result = {{/returnType}}$apiInstance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#returnType}}print_r($result);{{/returnType}}
 } catch (Exception $e) {
     echo 'Exception when calling {{classname}}->{{operationId}}: ', $e->getMessage(), PHP_EOL;
 }
