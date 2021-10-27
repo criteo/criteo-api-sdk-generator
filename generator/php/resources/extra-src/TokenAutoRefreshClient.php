@@ -176,7 +176,7 @@ class TokenAutoRefreshClient implements \GuzzleHttp\ClientInterface
     }
 }
 
-namespace Criteo\API\TokenAutoRefreshClient;
+namespace Criteo\SDK\TokenAutoRefreshClient;
 
 use DateTime;
 
