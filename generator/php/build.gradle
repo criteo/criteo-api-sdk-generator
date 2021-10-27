@@ -90,7 +90,7 @@ task generateClient(type: GradleBuild) {
             into "$clientOutputDirPerVersion/examples"
         }
 
-        def copyTests("copyTests_php_" + apiName, type: Copy) {
+        def copyTests = task("copyTests_php_" + apiName, type: Copy) {
             group 'Criteo'
             description 'Copy the PHP tests into the client output folder'
 
@@ -111,6 +111,7 @@ task generateClient(type: GradleBuild) {
         taskList << generateTask.name
         taskList << copyLicense.name
         taskList << copyExamples.name
+        taskList << copyTests.name
         taskList << copyExtraSources.name
         taskList << removeUnwantedFiles.name
     }
