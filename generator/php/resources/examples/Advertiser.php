@@ -1,11 +1,10 @@
 <?php
 
-// Install Criteo API SDK, via composer for example: `composer require criteo/criteo-api-php-sdk`
+// Install Criteo Marketing sdk, via composer for example: `composer require criteo/criteo-php-marketing-sdk`
 // Then import it as follow:
 // require_once(__DIR__ . '/vendor/autoload.php');
 
-use Criteo\SDK\Api\AnalyticsApi;
-use Criteo\SDK\Model\StatisticsReportQueryMessage;
+use Criteo\SDK\Api\AdvertiserApi;
 use Criteo\SDK\TokenAutoRefreshClient;
 
 /*
@@ -22,21 +21,13 @@ use Criteo\SDK\TokenAutoRefreshClient;
 $clientId = 'YOUR_CLIENT_ID';
 $clientSecret = 'YOUR_CLIENT_SECRET';
 
-$apiInstance = new AnalyticsApi(new TokenAutoRefreshClient($clientId, $clientSecret));
-        
-$stats_query = new StatisticsReportQueryMessage(array(
-    'advertiser_ids'=>"11", # Supposing you have the rights to report on this advertiser
-    'dimensions'=>["AdsetId"],
-    'metrics'=>["Clicks"],
-    'start_date'=>"2021-01-01",
-    'end_date'=>"2021-10-01",
-    'currency'=>"EUR",
-    'format'=>"Csv"
-));
+$client = new TokenAutoRefreshClient($clientId, $clientSecret);
+
+$apiInstance = new AdvertiserApi(client: $client);
 
 try {
-    $result = $apiInstance->getAdsetReport($stats_query);
+    $result = $apiInstance->apiPortfolioGet();
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AnalyticsApi->getAdsetReport: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AdvertiserApi->apiPortfolioGet: ', $e->getMessage(), PHP_EOL;
 }
