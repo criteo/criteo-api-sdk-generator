@@ -35,7 +35,7 @@ get_next_patch_number() {
 echo "Building SDK - Python"
 
 get_next_patch_number "https://github.com/criteo/criteo-api-python-sdk"
-${GRADLEW} :generator:generateClient -Dorg.gradle.project.buildNumber=${NEXT_PATCH_NUMBER}
+${GRADLEW} :generator:python:generateClient -Dorg.gradle.project.buildNumber=${NEXT_PATCH_NUMBER}
 
 # write version into a file
 nextVersion="v${API_VERSION}.${NEXT_PATCH_NUMBER}"
