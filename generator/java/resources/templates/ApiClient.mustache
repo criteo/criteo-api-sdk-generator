@@ -467,9 +467,9 @@ public class ApiClient {
      */
     public void setApiKey(String apiKey) {
         for (Authentication auth : authentications.values()) {
-                if (auth instanceof ApiKeyAuth) {
-                    ((ApiKeyAuth) auth).setApiKey(apiKey);
-                    return;
+            if (auth instanceof OAuth) {
+                ((OAuth) auth).setAccessToken(apiKey);
+                return;
             }
         }
         throw new RuntimeException("No API key authentication configured!");
