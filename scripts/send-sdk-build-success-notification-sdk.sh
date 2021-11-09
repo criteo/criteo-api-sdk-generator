@@ -1,3 +1,4 @@
+echo $1
 SUITE_AND_RUN_ID = $(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/workflows/${$1}/runs \
                 | jq -r '.workflow_runs[0] | ((.check_suite_id | tostring) +" "+ (.id | tostring))')
 SUITE_ID = $SUITE_AND_ARTIFACT_ID[0]
