@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -ex
 
 RUN_ID = $(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/workflows/$1/runs \
