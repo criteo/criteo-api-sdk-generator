@@ -17,4 +17,4 @@ $(curl -X POST --data-urlencode \
     \"text\": \"$2 build succeeded.\n <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}|Link to build> \n \
     <https://github.com/criteo/criteo-api-sdk-generator/suites/${SUITE_ID}/artifacts/${ARTIFACT_ID}|Link to download the artifact>\", \
     \"icon_emoji\": \":heavy_check_mark:\"}" \
-    https://hooks.slack.com/services/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 )
+    https://hooks.slack.com/services/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 )

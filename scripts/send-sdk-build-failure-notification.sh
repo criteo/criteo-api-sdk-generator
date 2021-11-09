@@ -10,4 +10,4 @@ $(curl -X POST --data-urlencode \
     \"username\": \"sdk-generation-bot\", \
     \"text\": \"$2 build failed.\n <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}|Link to build>, \
     \"icon_emoji\": \":x:\"}" \
-https://hooks.slack.com/services/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)
+https://hooks.slack.com/services/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)
