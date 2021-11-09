@@ -32,3 +32,14 @@ jobs:
         with:
           name: generated-sources-java
           path: ./generated-sources/java
+      
+      - name: Send success notification
+        run: |
+          chmod +x ./scripts/send-sdk-build-success-notification-sdk.sh
+          ./scripts/send-sdk-build-success-notification-sdk.sh generate_java_sources.yml Java
+      
+      - name: Step failure notification
+        if: ${{ failure() }}
+        run: |
+          chmod +x ./scripts/send-sdk-build-failure-notification.sh
+          ./scripts/send-sdk-build-failure-notification.sh generate_java_sources.yml Java
