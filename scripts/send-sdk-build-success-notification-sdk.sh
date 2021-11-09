@@ -8,6 +8,6 @@ result=$(curl -X POST --data-urlencode \
 "payload={ \
     \"channel\": \"#criteo-api-sdk-generator\", \
     \"username\": \"sdk-generation-bot\", \
-    \"text\": \"$2 build succeeded.\n<https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}|Link to build>\, \
+    \"text\": \"$2 build succeeded.\n<https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}|Link to build>\", \
     \"icon_emoji\": \":green_check_mark:\"}" \
     $3 )
