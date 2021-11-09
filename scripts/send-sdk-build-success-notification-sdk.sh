@@ -7,6 +7,8 @@ SUITE_AND_RUN_ID_ARRAY=($SUITE_AND_RUN_ID)
 SUITE_ID=${SUITE_AND_RUN_ID_ARRAY[0]}
 RUN_ID=${SUITE_AND_RUN_ID_ARRAY[1]}
 
+sleep 15
+
 echo "$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}/artifacts)"
 ARTIFACT_ID="$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}/artifacts \
                 | jq -r '.artifacts[0].id')"
