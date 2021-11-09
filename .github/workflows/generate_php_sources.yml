@@ -33,13 +33,25 @@ jobs:
           name: generated-sources-php
           path: ./generated-sources/php
 
-      - name: Send success notification
-        run: |
-          chmod +x ./scripts/send-sdk-build-notification.sh
-          ./scripts/send-sdk-build-notification.sh generate_php_sources.yml "PHP build succeeded" green_check_mark ${{ secrets.SLACK_WEBHOOK }} 
+      - name: Send success notification plugin
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: criteo-api-sdk-generator
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: PHP build succeeded. https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{github.run_id}}|Link to build>
+          SLACK_USERNAME: sdk-generation-bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_FOOTER: ''
+          SLACK_ICON_EMOJI: green_check_mark
       
-      - name: Step failure notification
+      - name: Send failure notification plugin
         if: ${{ failure() }}
-        run: |
-          chmod +x ./scripts/send-sdk-build-notification.sh
-          ./scripts/send-sdk-build-notificationn.sh generate_php_sources.yml "PHP build failed" x ${{ secrets.SLACK_WEBHOOK }} 
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: criteo-api-sdk-generator
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: PHP build failed. <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{github.run_id}}|Link to build>
+          SLACK_USERNAME: sdk-generation-bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_FOOTER: ''
+          SLACK_ICON_EMOJI: x

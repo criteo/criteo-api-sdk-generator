@@ -38,19 +38,20 @@ jobs:
         env:
           SLACK_CHANNEL: criteo-api-sdk-generator
           SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: Java build succeeded.\n <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${github.run_id}|Link to build>
+          SLACK_MESSAGE: Java build succeeded. https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{github.run_id}}|Link to build>
           SLACK_USERNAME: sdk-generation-bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_FOOTER: ''
           SLACK_ICON_EMOJI: green_check_mark
-  
-      - name: Send success notification
-        run: |
-          chmod +x ./scripts/send-sdk-build-notification.sh
-          ./scripts/send-sdk-build-notification.sh generate_java_sources.yml "Java build succeeded" green_check_mark ${{ secrets.SLACK_WEBHOOK }} 
       
-      - name: Step failure notification
+      - name: Send failure notification plugin
         if: ${{ failure() }}
-        run: |
-          chmod +x ./scripts/send-sdk-build-notification.sh
-          ./scripts/send-sdk-build-notificationn.sh generate_java_sources.yml "Java build failed" x ${{ secrets.SLACK_WEBHOOK }} 
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: criteo-api-sdk-generator
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: Java build failed. <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{github.run_id}}|Link to build>
+          SLACK_USERNAME: sdk-generation-bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_FOOTER: ''
+          SLACK_ICON_EMOJI: x
