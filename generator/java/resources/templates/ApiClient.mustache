@@ -66,8 +66,36 @@ import com.criteo.api.model.JwtModel;
 public class ApiClient {
 
     private String basePath = "{{{basePath}}}";
+    protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>({{#servers}}{{#-first}}Arrays.asList(
+    {{/-first}}    new ServerConfiguration(
+          "{{{url}}}",
+          "{{{description}}}{{^description}}No description provided{{/description}}",
+          new HashMap<String, ServerVariable>(){{#variables}}{{#-first}} {{
+    {{/-first}}        put("{{{name}}}", new ServerVariable(
+              "{{{description}}}{{^description}}No description provided{{/description}}",
+              "{{{defaultValue}}}",
+              new HashSet<String>(
+              {{#enumValues}}
+              {{#-first}}
+                  Arrays.asList(
+              {{/-first}}
+                  "{{{.}}}"{{^-last}},{{/-last}}
+              {{#-last}}
+                  )
+              {{/-last}}
+              {{/enumValues}}
+              )
+            ));
+          {{#-last}}
+          }}{{/-last}}{{/variables}}
+              ){{^-last}},{{/-last}}
+        {{#-last}}
+    ){{/-last}}{{/servers}});
+    protected Integer serverIndex = 0;
+    protected Map<String, String> serverVariables = null;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+    private Map<String, String> defaultCookieMap = new HashMap<String, String>();
     private String tempFolderPath = null;
 
     private Map<String, Authentication> authentications;
@@ -190,6 +218,33 @@ public class ApiClient {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        return this;
+    }
+
+    public List<ServerConfiguration> getServers() {
+        return servers;
+    }
+
+    public ApiClient setServers(List<ServerConfiguration> servers) {
+        this.servers = servers;
+        return this;
+    }
+
+    public Integer getServerIndex() {
+        return serverIndex;
+    }
+
+    public ApiClient setServerIndex(Integer serverIndex) {
+        this.serverIndex = serverIndex;
+        return this;
+    }
+
+    public Map<String, String> getServerVariables() {
+        return serverVariables;
+    }
+
+    public ApiClient setServerVariables(Map<String, String> serverVariables) {
+        this.serverVariables = serverVariables;
         return this;
     }
 
@@ -348,6 +403,24 @@ public class ApiClient {
         return authentications;
     }
 
+    {{#hasHttpBearerMethods}}
+    /**
+     * Helper method to set access token for the first Bearer authentication.
+     * @param bearerToken Bearer token
+     * @return API client
+     */
+    public void setBearerToken(String bearerToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                return;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
+    }
+
+    {{/hasHttpBearerMethods}}
+
     /**
      * Get authentication for the given name.
      *
@@ -390,8 +463,7 @@ public class ApiClient {
 
     /**
      * Helper method to set API key value for the first API key authentication.
-     *
-     * @param apiKey API key
+     * @param apiKey the API key
      */
     public void setApiKey(String apiKey) {
         for (Authentication auth : authentications.values()) {
@@ -403,6 +475,19 @@ public class ApiClient {
         throw new RuntimeException("No API key authentication configured!");
     }
 
+    /**
+     * Helper method to set API key prefix for the first API key authentication.
+     * @param apiKeyPrefix API key prefix
+     */
+    public void setApiKeyPrefix(String apiKeyPrefix) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof ApiKeyAuth) {
+                ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
+                return;
+            }
+        }
+        throw new RuntimeException("No API key authentication configured!");
+    }
 
     /**
      * Helper method to set access token for the first OAuth2 authentication.
@@ -441,6 +526,18 @@ public class ApiClient {
      */
     public ApiClient addDefaultHeader(String key, String value) {
         defaultHeaderMap.put(key, value);
+        return this;
+    }
+
+    /**
+     * Add a default cookie.
+     *
+     * @param key The cookie's key
+     * @param value The cookie's value
+     * @return API client
+     */
+    public ApiClient addDefaultCookie(String key, String value) {
+        defaultCookieMap.put(key, value);
         return this;
     }
 
@@ -1071,14 +1168,15 @@ public class ApiClient {
      * @param collectionQueryParams The collection query parameters
      * @param body The request body object
      * @param headerParams The header parameters
+     * @param cookieParams The cookie parameters
      * @param formParams The form parameters
      * @param authNames The authentications to apply
      * @param callback Callback for upload/download progress
      * @return The HTTP call
      * @throws ApiException If fail to serialize the request body object
      */
-    public Call buildCall(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
-        Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, authNames, callback);
+    public Call buildCall(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
+        Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, authNames, callback);
         return httpClient.newCall(request);
     }
 
@@ -1091,13 +1189,14 @@ public class ApiClient {
      * @param collectionQueryParams The collection query parameters
      * @param body The request body object
      * @param headerParams The header parameters
+     * @param cookieParams The cookie parameters
      * @param formParams The form parameters
      * @param authNames The authentications to apply
      * @param callback Callback for upload/download progress
      * @return The HTTP request
      * @throws ApiException If fail to serialize the request body object
      */
-    public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
+    public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
         if (!"/oauth2/token".equals(path)) {
             String explicitUserToken = headerParams.get("Authorization");
             if (explicitUserToken == null || explicitUserToken.isEmpty()) {
@@ -1105,7 +1204,7 @@ public class ApiClient {
             }
         }
 
-        updateParamsForAuth(authNames, queryParams, headerParams);
+        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final String url = buildUrl(path, queryParams, collectionQueryParams);
         final Request.Builder reqBuilder = new Request.Builder().url(url);
@@ -1161,8 +1260,19 @@ public class ApiClient {
      * @return The full URL
      */
     public String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
+        String baseURL;
+        if (serverIndex != null) {
+            if (serverIndex < 0 || serverIndex >= servers.size()) {
+                throw new ArrayIndexOutOfBoundsException(String.format(
+                    "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+                ));
+            }
+            baseURL = servers.get(serverIndex).URL(serverVariables);
+        } else {
+            baseURL = basePath;
+        }
         final StringBuilder url = new StringBuilder();
-        url.append(basePath).append(path);
+        url.append(baseURL).append(path);
 
         if (queryParams != null && !queryParams.isEmpty()) {
             // support (constant) query string in `path`, e.g. "/posts?draft=1"
@@ -1224,14 +1334,15 @@ public class ApiClient {
      * @param authNames The authentications to apply
      * @param queryParams List of query parameters
      * @param headerParams Map of header parameters
+     * @param cookieParams Cookie parameters
      */
-    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
+    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RuntimeException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 
