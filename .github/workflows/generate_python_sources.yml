@@ -35,11 +35,11 @@ jobs:
 
       - name: Send success notification
         run: |
-          chmod +x ./scripts/send-sdk-build-success-notification-sdk.sh
-          ./scripts/send-sdk-build-success-notification-sdk.sh generate_python_sources.yml Python ${{ secrets.SLACK_WEBHOOK }}
+          chmod +x ./scripts/send-sdk-build-notification.sh
+          ./scripts/send-sdk-build-notification.sh generate_python_sources.yml "Python build succeeded" green_check_mark ${{ secrets.SLACK_WEBHOOK }} 
       
       - name: Step failure notification
         if: ${{ failure() }}
         run: |
-          chmod +x ./scripts/send-sdk-build-failure-notification.sh
-          ./scripts/send-sdk-build-failure-notification.sh generate_python_sources.yml Python ${{ secrets.SLACK_WEBHOOK }}
+          chmod +x ./scripts/send-sdk-build-notification.sh
+          ./scripts/send-sdk-build-notificationn.sh generate_python_sources.yml "Python build failed" x ${{ secrets.SLACK_WEBHOOK }} 
