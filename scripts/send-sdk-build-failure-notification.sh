@@ -2,7 +2,7 @@
 set -ex
 
 RUN_ID = "$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/workflows/$1/runs \
-                | jq -r '.workflow_runs[0].id | tostring')"
+            | jq -r '.workflow_runs[0].id | tostring')"
 
 $(curl -X POST --data-urlencode \
 "payload={
