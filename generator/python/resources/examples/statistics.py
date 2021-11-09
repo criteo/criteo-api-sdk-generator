@@ -1,8 +1,9 @@
 import re
 import sys
 
-import criteo_marketing_transition as cm
-from criteo_marketing_transition import Configuration
+from criteo_api_sdk.api import analytics_api
+from criteo_api_sdk.models import StatisticsReportQueryMessage
+from criteo_api_sdk import Configuration, ApiClient
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
@@ -10,10 +11,10 @@ if __name__ == '__main__':
 
     configuration = Configuration(username=sys.argv[1], password=sys.argv[2])
 
-    client = cm.ApiClient(configuration)
+    client = ApiClient(configuration)
 
-    analytics_api = cm.AnalyticsApi(client)
-    stats_query_message = cm.StatisticsReportQueryMessage(
+    analytics_api = analytics_api.AnalyticsApi(client)
+    stats_query_message = StatisticsReportQueryMessage(
         dimensions=["AdsetId"],
         metrics=["Clicks"],
         start_date="2019-01-01",
