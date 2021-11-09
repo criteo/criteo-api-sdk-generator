@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -ex
 
-SUITE_AND_RUN_ID = "$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/workflows/$1/runs)"                
+SUITE_AND_RUN_ID="$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/workflows/$1/runs \
+                | jq -r '.workflow_runs[0] | ((.check_suite_id | tostring) + " "+ (.id | tostring))')"
 
-SUITE_ID = "$(${SUITE_AND_RUN_ID} | jq -r '.workflow_runs[0].check_suite_id | tostring')"
-RUN_ID = "$(${SUITE_AND_RUN_ID} | jq -r '.workflow_runs[0].id | tostring')"
+SUITE_ID=($SUITE_AND_RUN_ID)[0]
+RUN_ID=($SUITE_AND_RUN_ID)[1]
 
-ARTIFACT_ID = "$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}/artifacts \
+ARTIFACT_ID="$(curl https://api.github.com/repos/criteo/criteo-api-sdk-generator/actions/runs/${RUN_ID}/artifacts \
                 | jq -r '.artifacts[0].id | tostring')"
 
 $(curl -X POST --data-urlencode \
