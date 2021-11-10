@@ -53,8 +53,8 @@ task generateClient(type: GradleBuild) {
         if (packageBase.matches("[0-9].*"))
              packageBase= "v" + packageBase;
 
-        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // com.criteo.api.marketingsolutions.v2021_10
-        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}";
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // example : criteo_api_marketingsolutions_v2021_10
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}"; // example : 2021_10.1.211110
 
         def generateTask = task("openApiGenerate_python_" + parsedApiName, type: GenerateTask.class) {
                 generatorName = "python"

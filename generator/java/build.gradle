@@ -49,10 +49,10 @@ task generateClient(type: GradleBuild) {
         if (packageBase.matches("[0-9].*"))
              packageBase= "v" + packageBase;
 
-        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // com.criteo.api.marketingsolutions.v2021_10
-        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}";
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); 
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}"; // example : 2021_10.1.211110
         
-        packageBase = "com." + packageBase; // Java-specific
+        packageBase = "com." + packageBase; // 'com' is Java-specific => exmaple: com.criteo.api.marketingsolutions.v2021_10
 
         def generateTask = task("openApiGenerate_java_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "java"
@@ -66,7 +66,7 @@ task generateClient(type: GradleBuild) {
                     groupId                  : 'com.criteo',
                     apiPackage               : "${packageBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
                     artifactId               : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(), // criteo-api-marketingsolutions-sdk-java8
-                    artifactVersion          : "${packageVersion}".toString(), // v2021_10.1.211109 
+                    artifactVersion          : "${packageVersion}".toString(), // v2021_10.1.211110 
                     apiVersion               : parsedJson.info.version,  // 2021-10
                     artifactDescription      : "Java SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     artifactUrl              : 'https://github.com/criteo/criteo-api-java-sdk',
