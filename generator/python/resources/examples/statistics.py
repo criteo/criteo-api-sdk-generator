@@ -1,7 +1,7 @@
 import re
 import sys
 
-from criteo_api_sdk.api import analytics_api
+from criteo_api_sdk.api.analytics_api import AnalyticsApi
 from criteo_api_sdk.models import StatisticsReportQueryMessage
 from criteo_api_sdk import Configuration, ApiClient
 
@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     client = ApiClient(configuration)
 
-    analytics_api = analytics_api.AnalyticsApi(client)
+    api = AnalyticsApi(client)
     stats_query_message = StatisticsReportQueryMessage(
         dimensions=["AdsetId"],
         metrics=["Clicks"],
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Use the method with 'with_http_info' if you want to retrieve the filename
     # Otherwise, you can directly call the get_adset_report method
-    [response_content, http_code, response_headers] = analytics_api.get_adset_report_with_http_info(statistics_report_query_message=stats_query_message)
+    [response_content, http_code, response_headers] = api.get_adset_report_with_http_info(statistics_report_query_message=stats_query_message)
     if 200 == http_code:
         content_disposition = response_headers["Content-Disposition"]
         if content_disposition:
