@@ -21,9 +21,9 @@ ext {
 def clientOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/python".toString()
 def resourcesDir = "$projectDir/resources".toString()
 def criteoPackage = project.properties["package.name.base"]
-def basePackagePath = criteoPackage.replace(".", "/")
 def generatorVersion = project.properties["generator.version"]
 def technologyStack = "python"
+def nameSeparator = '_'
 
 task cleanPreviousDist(type: Delete) {
     group 'Criteo'
@@ -52,7 +52,9 @@ task generateClient(type: GradleBuild) {
         def packageBase =  criteoApiVersion; 
         if (packageBase.matches("[0-9].*"))
              packageBase= "v" + packageBase;
-        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".toString(); // com.criteo.api.marketingsolutions.v2021_10
+
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // com.criteo.api.marketingsolutions.v2021_10
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}";
 
         def generateTask = task("openApiGenerate_python_" + parsedApiName, type: GenerateTask.class) {
                 generatorName = "python"
@@ -71,8 +73,8 @@ task generateClient(type: GradleBuild) {
                         packageUrl              : 'https://github.com/criteo/criteo-api-python-sdk',
                         hideGenerationTimestamp : 'true',
                         artifactId              : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(),
-                        packageVersion          : "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}".toString(), // v2021_10.1.211109
-                        groupId                 : 'com.criteo',
+                        packageVersion          : "${packageVersion}".toString(), // v2021_10.1.211109
+                        groupId                 : 'criteo',
                         version                 : '1.0.0',
                         description             : "Python SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                         sourceCompatibility     : '1.8'

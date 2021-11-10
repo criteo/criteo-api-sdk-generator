@@ -19,7 +19,7 @@ def criteoPackage = project.properties["package.name.base"]
 def basePackagePath = criteoPackage.replace(".", "/")
 def generatorVersion = project.properties["generator.version"]
 def technologyStack = "java8"
-
+def nameSeparator = '.'
 
 task cleanPreviousJavaBuild(type: Delete) {
     group 'Criteo'
@@ -48,7 +48,11 @@ task generateClient(type: GradleBuild) {
         def packageBase =  criteoApiVersion; 
         if (packageBase.matches("[0-9].*"))
              packageBase= "v" + packageBase;
-        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".toString(); // com.criteo.api.marketingsolutions.v2021_10
+
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // com.criteo.api.marketingsolutions.v2021_10
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}";
+        
+        packageBase = "com." + packageBase; // Java-specific
 
         def generateTask = task("openApiGenerate_java_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "java"
@@ -62,7 +66,7 @@ task generateClient(type: GradleBuild) {
                     groupId                  : 'com.criteo',
                     apiPackage               : "${packageBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
                     artifactId               : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(), // criteo-api-marketingsolutions-sdk-java8
-                    artifactVersion          : "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}".toString(), // v2021_10.1.211109 
+                    artifactVersion          : "${packageVersion}".toString(), // v2021_10.1.211109 
                     apiVersion               : parsedJson.info.version,  // 2021-10
                     artifactDescription      : "Java SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     artifactUrl              : 'https://github.com/criteo/criteo-api-java-sdk',
