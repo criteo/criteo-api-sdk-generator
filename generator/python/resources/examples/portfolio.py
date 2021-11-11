@@ -5,6 +5,7 @@ import sys
 from pprint import pprint
 
 from criteo_api_sdk.api.advertiser_api import AdvertiserApi 
+
 from criteo_api_sdk import Configuration, ApiClient
 
 if __name__ == '__main__':
