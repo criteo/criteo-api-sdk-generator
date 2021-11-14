@@ -5,11 +5,11 @@ import com.criteo.api.sdk.gradle.tasks.GenerateSdkTask
 
 def clientOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/java".toString()
 def resourcesDir = "$projectDir/resources".toString()
-def criteoPackage = project.properties["package.name"]
+def criteoPackage = project.properties["package.name.base"]
 def basePackagePath = criteoPackage.replace(".", "/")
 def generatorVersion = project.properties["generator.version"]
 def technologyStack = "java8"
-
+def nameSeparator = '.'
 
 task cleanPreviousJavaBuild(type: Delete) {
     group 'Criteo'
@@ -35,10 +35,14 @@ task generateClient(type: GradleBuild) {
         
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
-        def packageBase =  criteoApiVersion; // com.criteo.api.marketingsolutions.v2021_10
+        def packageBase =  criteoApiVersion; 
         if (packageBase.matches("[0-9].*"))
              packageBase= "v" + packageBase;
-        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".toString();
+
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); 
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}"; // example : 2021_10.1.211110
+        
+        packageBase = "com." + packageBase; // 'com' is Java-specific => exmaple: com.criteo.api.marketingsolutions.v2021_10
 
         def generateTask = task("openApiGenerate_java_" + parsedApiName, type: GenerateSdkTask.class) {
             generatorName = "java"
@@ -49,10 +53,10 @@ task generateClient(type: GradleBuild) {
             generateApiTests = false
             generateModelTests = false
             configOptions = [
-//                    groupId                  : 'com.criteo',
-                    //apiPackage               : "${packageBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
-//                    artifactId               : "criteo-api-${criteoService}-${technologyStack}".toString(), // criteo-api-marketingsolutions-sdk-java8
-//                    artifactVersion          : "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}".toString(), // v2021_10. 
+                    groupId                  : 'com.criteo',
+                    apiPackage               : "${packageBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
+                    artifactId               : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(), // criteo-api-marketingsolutions-sdk-java8
+                    artifactVersion          : "${packageVersion}".toString(), // v2021_10.1.211110 
                     apiVersion               : parsedJson.info.version,  // 2021-10
                     artifactDescription      : "Java SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     artifactUrl              : 'https://github.com/criteo/criteo-api-java-sdk',
