@@ -6,17 +6,10 @@
  * User Manual available at https://docs.gradle.org/6.8.3/userguide/custom_plugins.html
  */
 
-plugins {
-    // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
-    `java-gradle-plugin`
-
-    // Apply the Kotlin JVM plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.4.20"
-}
-
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
+    maven(url = "https://plugins.gradle.org/m2/")
 }
 
 dependencies {
@@ -34,7 +27,21 @@ dependencies {
 
     // Use OpenAPITools generator tasks
     implementation("org.openapitools:openapi-generator-gradle-plugin:5.2.1")
+
 }
+
+
+plugins {
+    // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
+    `java-gradle-plugin`
+    `kotlin-dsl`
+    // Apply the Kotlin JVM plugin to add support for Kotlin.
+    id("org.jetbrains.kotlin.jvm") version "1.4.20"
+}
+
+//kotlinDslPluginOptions {
+//    experimentalWarning.set(false)
+//}
 
 gradlePlugin {
     plugins {

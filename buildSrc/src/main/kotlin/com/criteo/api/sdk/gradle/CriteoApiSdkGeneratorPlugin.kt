@@ -11,12 +11,7 @@ class CriteoApiSdkGeneratorPlugin: Plugin<Project> {
     override fun apply(project: Project) {
         project.run {   
             tasks.apply {
-                register("greeting") { task ->
-                    task.doLast {
-                        println("Hello from plugin 'com.criteo.api.sdk.gradle.greeting'")
-                    }
-                }
-                register("generateSdk", GenerateSdkTask::class.java).configure {
+                register("generateCriteoApiSdk", GenerateSdkTask::class.java).configure {
                 }
             }
         }
