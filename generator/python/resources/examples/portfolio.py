@@ -4,8 +4,9 @@ import logging
 import sys
 from pprint import pprint
 
-import criteo_marketing_transition
-from criteo_marketing_transition import Configuration
+from criteo_api_sdk.api.advertiser_api import AdvertiserApi 
+
+from criteo_api_sdk import Configuration, ApiClient
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
@@ -17,10 +18,10 @@ if __name__ == '__main__':
     # logging.basicConfig(level=logging.DEBUG)
     # configuration.debug = True
 
-    client = criteo_marketing_transition.ApiClient(configuration)
+    client = ApiClient(configuration)
 
     # Reuse the same client to benefit from the configuration in order to automatically refresh expired token
-    advertiser_api = criteo_marketing_transition.AdvertiserApi(client)
+    api = AdvertiserApi(client)
 
-    portfolio_response = advertiser_api.api_portfolio_get()
+    portfolio_response = api.api_portfolio_get()
     pprint(portfolio_response)
