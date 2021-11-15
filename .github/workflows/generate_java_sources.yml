@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       
@@ -32,3 +31,8 @@ jobs:
         with:
           name: generated-sources-java
           path: ./generated-sources/java
+      
+      - name: Push java SDK
+        run: |
+          chmod +x ./scripts/push_sdk_java.sh
+          ./scripts/push_sdk_java.sh
