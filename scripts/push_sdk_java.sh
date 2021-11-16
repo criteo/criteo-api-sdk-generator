@@ -100,7 +100,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  git push origin --tags --quiet && git push origin --quiet
+  git push origin --tags --quiet --prune https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 }
 
 process() {
@@ -122,7 +122,7 @@ process() {
                          | wc -l | tr -d '[:space:]')
 
   if [[ ${modification_count} != 0 ]]; then
-      setup_git
+      # setup_git
       git_commit_and_tag
       git_push
   else
