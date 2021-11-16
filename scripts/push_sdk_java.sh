@@ -79,7 +79,7 @@ copy_new_sdks() {
 setup_git() {
   echo "[INFO] Setting up GH credentials..."
 
-  git config user.email "criteo@criteo.com"
+  git config user.email "paul.mathon@outlook.fr"
   git config user.name $GITHUB_ACTOR
 
   echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_USER_NAME"
