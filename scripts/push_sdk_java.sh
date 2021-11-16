@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-BUILD_DIR=$GITHUB_REPOSITORY
+BUILD_DIR=$GITHUB_WORKSPACE
 TEMP_DIR=$RUNNER_TEMP
 
 LANGUAGE="java"
@@ -45,7 +45,9 @@ git_clone() {
 
 remove_previous_sdks() {
   echo "[INFO] Removing previous SDKs..."
+
   sdks_directory="$TEMP_DIR/$REPO/sdks"
+
   if [ -d sdks_directory ]; then
       cd $TEMP_DIR/$REPO
       rm -rf *
@@ -53,6 +55,7 @@ remove_previous_sdks() {
   else
     echo "[WARN] Directory $REPO/sdks doesn't exists, skipping."
   fi
+
   echo ""
 }
 
