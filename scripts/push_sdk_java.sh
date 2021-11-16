@@ -37,7 +37,7 @@ git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
   cd $TEMP_DIR
-  git clone --depth 1 https://token:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git clone --depth 1 https://x-access-token:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
@@ -79,8 +79,8 @@ copy_new_sdks() {
 setup_git() {
   echo "[INFO] Setting up GH credentials..."
 
-  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-  git config user.name "github-actions[bot]"
+  git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+  git config user.name "$GITHUB_ACTOR"
 
   echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_ACTOR"
   echo ""
