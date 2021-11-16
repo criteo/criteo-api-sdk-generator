@@ -79,8 +79,8 @@ copy_new_sdks() {
 setup_git() {
   echo "[INFO] Setting up GH credentials..."
 
-  git config user.email $GITHUB_ACTOR
-  git config user.name $GITHUB_USER_NAME
+  git config user.email "criteo@criteo.com"
+  git config user.name $GITHUB_ACTOR
 
   echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_USER_NAME"
   echo ""
@@ -122,6 +122,7 @@ process() {
                          | wc -l | tr -d '[:space:]')
 
   if [[ ${modification_count} != 0 ]]; then
+      setup_git
       git_commit_and_tag
       git_push
   else
