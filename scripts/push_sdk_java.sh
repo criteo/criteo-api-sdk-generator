@@ -100,7 +100,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  git push origin --tags --quiet --prune https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git push origin --tags --quiet --prune https://token:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 }
 
 process() {
