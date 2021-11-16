@@ -28,8 +28,8 @@ if [ "$GITHUB_ACTOR" = "" ]; then
     exit 1
 fi
 
-if [ "$GITHUB_TOKEN" = "" ]; then
-    echo "[ERROR] GITHUB_TOKEN not set"
+if [ "$GH_JAVA_REPO_TOKEN" = "" ]; then
+    echo "[ERROR] GH_JAVA_REPO_TOKEN not set"
     exit 1
 fi
 
@@ -37,7 +37,7 @@ git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
   cd $TEMP_DIR
-  git clone --depth 1 https://x-access-token:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git clone --depth 1 https://x-access-token:$GH_JAVA_REPO_TOKEN@github.com/$ORGANIZATION/$REPO.git
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
