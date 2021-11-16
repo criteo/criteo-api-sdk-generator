@@ -1,8 +1,8 @@
 <?php
 
-use Criteo\SDK\Configuration;
-use Criteo\SDK\ObjectSerializer;
-use Criteo\SDK\TokenAutoRefreshClient;
+use {{invokerPackage}}\Configuration;
+use {{invokerPackage}}\ObjectSerializer;
+use {{invokerPackage}}\TokenAutoRefreshClient;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Uri;
@@ -49,11 +49,11 @@ class TokenAutoRefreshClientTest extends TestCase
 
 
         // Call Authentication endpoint which does not require Authorization header
-        $response = (new Criteo\SDK\Api\OAuthApi($mockClient))
+        $response = (new {{invokerPackage}}\Api\OAuthApi($mockClient))
             ->createToken($this->clientId, $this->clientSecret, $this->grantType);
 
 
-        $this->assertInstanceOf("\Criteo\SDK\Model\JwtModel", $response);
+        $this->assertInstanceOf('{{invokerPackage}}\Model\JwtModel', $response);
         $this->assertEquals($token, $response->getAccessToken());
     }
 
