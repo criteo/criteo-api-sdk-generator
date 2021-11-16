@@ -37,7 +37,7 @@ git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
   cd $TEMP_DIR
-  git clone --depth 1 https://github.com/criteo/criteo-api-java-sdk.git # https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git clone --depth 1 https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
