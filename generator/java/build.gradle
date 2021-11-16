@@ -15,8 +15,11 @@ apply plugin: 'org.openapi.generator'
 
 def clientOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/java".toString()
 def resourcesDir = "$projectDir/resources".toString()
-def basePackage = "com.criteo.api"
-def basePackagePath = basePackage.replace(".", "/")
+def criteoPackage = project.properties["package.name.base"]
+def basePackagePath = criteoPackage.replace(".", "/")
+def generatorVersion = project.properties["generator.version"]
+def technologyStack = "java8"
+def nameSeparator = '.'
 
 task cleanPreviousJavaBuild(type: Delete) {
     group 'Criteo'
@@ -33,13 +36,25 @@ task generateClient(type: GradleBuild) {
     def taskList = ['cleanPreviousJavaBuild'];
 
 	rootProject.swaggerSourceList.each {
-        def apiName = it.getName().replace(".json", "").toLowerCase();
         def jsonFile = file(it.path);
         def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
-        def clientOutputDirPerVersion = clientOutputDir + "/" + it.getName().replace(".json", "");
-        def specPath = it.path;
 
-        def generateTask = task("openApiGenerate_java_" + apiName, type: GenerateTask.class) {
+        def parsedApiName = it.getName().replace(".json", "").toLowerCase();
+        def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
+        def criteoApiVersion = apiVersionFromName.replace('-', '_');
+        
+        def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
+        def specPath = it.path;
+        def packageBase =  criteoApiVersion; 
+        if (packageBase.matches("[0-9].*"))
+             packageBase= "v" + packageBase;
+
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); 
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}"; // example : 2021_10.1.211110
+        
+        packageBase = "com." + packageBase; // 'com' is Java-specific => exmaple: com.criteo.api.marketingsolutions.v2021_10
+
+        def generateTask = task("openApiGenerate_java_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "java"
             templateDir = "$resourcesDir/templates/".toString()
             inputSpec = specPath
@@ -49,12 +64,13 @@ task generateClient(type: GradleBuild) {
             generateModelTests = false
             configOptions = [
                     groupId                  : 'com.criteo',
-                    apiPackage               : "${basePackage}.api".toString(),
-                    artifactId               : 'api.java-client',
-                    apiVersion               : parsedJson.info.version,
-                    artifactDescription      : 'Criteo API SDK for Java',
+                    apiPackage               : "${packageBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
+                    artifactId               : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(), // criteo-api-marketingsolutions-sdk-java8
+                    artifactVersion          : "${packageVersion}".toString(), // v2021_10.1.211110 
+                    apiVersion               : parsedJson.info.version,  // 2021-10
+                    artifactDescription      : "Java SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     artifactUrl              : 'https://github.com/criteo/criteo-api-java-sdk',
-                    modelPackage             : "${basePackage}.model".toString(),
+                    modelPackage             : "${packageBase}.model".toString(),
                     scmConnection            : 'scm:git:git://github.com/criteo/criteo-api-java-sdk.git',
                     scmDeveloperConnection   : 'scm:git:ssh://github.com:criteo/criteo-api-java-sdk.git',
                     scmUrl                   : 'https://github.com/criteo/criteo-api-java-sdk',
@@ -65,10 +81,10 @@ task generateClient(type: GradleBuild) {
                     licenseName              : 'Apache License, version 2.0',
                     licenseUrl               : 'https://www.apache.org/licenses/LICENSE-2.0.txt',
                     hideGenerationTimestamp  : 'true',
-                    dateLibrary              : 'java8',
+                    dateLibrary              : technologyStack.toString(),
             ]
         }
-        def copyLicense = task("copyLicense_java_" + apiName, type: Copy) {
+        def copyLicense = task("copyLicense_java_" + parsedApiName, type: Copy) {
             group 'Criteo'
             description 'Copy the license into the client output folder'
 
@@ -77,12 +93,12 @@ task generateClient(type: GradleBuild) {
             rename 'LICENSE', 'LICENSE.txt'
         };
 
-        def copyExamples = task("copyExamples_java_"+ apiName, type: Copy) {
+        def copyExamples = task("copyExamples_java_"+ parsedApiName, type: Copy) {
                                  from "$resourcesDir/examples"
                                  into "$clientOutputDirPerVersion/src/examples/java/$basePackagePath/examples".toString()
         }
 
-        def removeUnwantedFiles = task("removeUnwantedFiles_java_" + apiName, type: Delete) {
+        def removeUnwantedFiles = task("removeUnwantedFiles_java_" + parsedApiName, type: Delete) {
             group 'Criteo'
             description 'Remove files generated by openapi-generator that we don\'t want to push'
 
@@ -103,3 +119,9 @@ task generateClient(type: GradleBuild) {
 }
 
 def clientPatch = hasProperty('buildNumber') ? buildNumber : '0'
+
+def getFormattedDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyMMdd')
+    return formattedDate
+}
