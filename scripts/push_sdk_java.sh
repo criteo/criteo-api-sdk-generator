@@ -37,7 +37,7 @@ git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
   cd $TEMP_DIR
-  git clone --depth 1 https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git clone --depth 1 https://$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
@@ -100,7 +100,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  git push origin --tags --quiet --prune https://$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git push origin --tags --quiet
 }
 
 process() {
@@ -131,6 +131,6 @@ process() {
   fi
 }
 
-echo "Stating push for - ${LANGUAGE}"
+echo "Starting push for - ${LANGUAGE}"
 
 process
