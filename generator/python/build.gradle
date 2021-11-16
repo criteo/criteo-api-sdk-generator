@@ -15,22 +15,21 @@ apply plugin: 'java-library'
 apply plugin: 'org.openapi.generator'
 
 ext {
-    artifactId = "python-client-generator"
-    groupId = "com.criteo.mapi"
-    version = '1.0.0'
-    description = 'Criteo Generator for Python Client'
-    sourceCompatibility = '1.8'
     jar.enabled = false
 }
 
-def clientBaseOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/python".toString()
+def clientOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/python".toString()
 def resourcesDir = "$projectDir/resources".toString()
+def criteoPackage = project.properties["package.name.base"]
+def generatorVersion = project.properties["generator.version"]
+def technologyStack = "python"
+def nameSeparator = '_'
 
 task cleanPreviousDist(type: Delete) {
     group 'Criteo'
     description 'Clean up client output folder'
 
-    delete clientBaseOutputDir
+    delete clientOutputDir
     followSymlinks = true
 }
 
@@ -41,13 +40,23 @@ task generateClient(type: GradleBuild) {
     def taskList = ['cleanPreviousDist'];
 
 	rootProject.swaggerSourceList.each {
-        def apiName = it.getName().replace(".json", "").toLowerCase();
         def jsonFile = file(it.path);
         def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
-        def clientOutputDirPerVersion = clientBaseOutputDir + "/" + it.getName().replace(".json", "");
-        def specPath = it.path;
 
-        def generateTask = task("openApiGenerate_python_" + apiName, type: GenerateTask.class) {
+        def parsedApiName = it.getName().replace(".json", "").toLowerCase();
+        def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
+        def criteoApiVersion = apiVersionFromName.replace('-', '_');
+        
+        def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
+        def specPath = it.path;
+        def packageBase =  criteoApiVersion; 
+        if (packageBase.matches("[0-9].*"))
+             packageBase= "v" + packageBase;
+
+        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // example : criteo_api_marketingsolutions_v2021_10
+        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}"; // example : 2021_10.1.211110
+
+        def generateTask = task("openApiGenerate_python_" + parsedApiName, type: GenerateTask.class) {
                 generatorName = "python"
                 templateDir = "$resourcesDir/templates/".toString()
                 inputSpec = specPath
@@ -58,15 +67,21 @@ task generateClient(type: GradleBuild) {
                 gitUserId='criteo'
                 gitRepoId='criteo-api-python-sdk'
                 configOptions = [
-                        apiVersion             : parsedJson.info.version,
-                        packageName            : 'criteo_api_sdk',
-                        invokerPackage         : 'Criteo\\SDK',
-                        packageUrl             : 'https://github.com/criteo/criteo-api-python-sdk',
-                        hideGenerationTimestamp: 'true'
+                        apiVersion              : parsedJson.info.version,
+                        packageName             : "${packageBase}".toString(),
+                        invokerPackage          : 'Criteo\\SDK',
+                        packageUrl              : 'https://github.com/criteo/criteo-api-python-sdk',
+                        hideGenerationTimestamp : 'true',
+                        artifactId              : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(),
+                        packageVersion          : "${packageVersion}".toString(), // v2021_10.1.211109
+                        groupId                 : 'criteo',
+                        version                 : '1.0.0',
+                        description             : "Python SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
+                        sourceCompatibility     : '1.8'
                 ]
         }
 
-        def copyLicense = task("copyLicense_python_"+apiName, type: Copy) {
+        def copyLicense = task("copyLicense_python_"+ parsedApiName, type: Copy) {
             group 'Criteo'
             description 'Copy the license into the client output folder'
 
@@ -75,7 +90,7 @@ task generateClient(type: GradleBuild) {
             rename 'LICENSE', 'LICENSE.txt'
         };
 
-         def copyExamples = task("copyExamples_python_" + apiName, type: Copy) {
+         def copyExamples = task("copyExamples_python_" + parsedApiName, type: Copy) {
             group 'Criteo'
             description 'Copy the Python examples into the client output folder'
 
@@ -83,7 +98,7 @@ task generateClient(type: GradleBuild) {
             into "$clientOutputDirPerVersion/examples"
         }
 
-        def removeUnwantedFiles = task("removeUnwantedFiles_python_" + apiName, type: Delete) {
+        def removeUnwantedFiles = task("removeUnwantedFiles_python_" + parsedApiName, type: Delete) {
             group 'Criteo'
             description 'Remove files generated by openapi-generator that we don\'t want to push'
 
@@ -103,3 +118,8 @@ task generateClient(type: GradleBuild) {
 }
 
 def clientPatch = hasProperty('buildNumber') ? buildNumber : '0'
+def getFormattedDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyMMdd')
+    return formattedDate
+}
