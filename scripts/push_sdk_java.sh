@@ -122,7 +122,7 @@ process() {
                          | wc -l | tr -d '[:space:]')
 
   if [[ ${modification_count} != 0 ]]; then
-      # setup_git
+      setup_git
       git_commit_and_tag
       git_push
   else
