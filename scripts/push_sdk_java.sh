@@ -28,16 +28,32 @@ if [ "$GITHUB_ACTOR" = "" ]; then
     exit 1
 fi
 
+<<<<<<< HEAD
 if [ "$GITHUB_TOKEN" = "" ]; then
     echo "[ERROR] GITHUB_TOKEN not set"
     exit 1
 fi
+=======
+setup_git() {
+  echo "[INFO] Setting up GH credentials..."
+
+  git config user.email $GITHUB_ACTOR
+  git config user.name $GITHUB_USER_NAME
+
+  echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_USER_NAME"
+  echo ""
+}
+>>>>>>> a6c14a9 (Push Java SDK, 1st commit)
 
 git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
   cd $RUNNER_TEMP
+<<<<<<< HEAD
   git clone --depth 1 git clone --depth 1 https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+=======
+  git clone --depth 1 https://github.com/$ORGANIZATION/$REPO.git
+>>>>>>> a6c14a9 (Push Java SDK, 1st commit)
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
@@ -73,6 +89,7 @@ copy_new_sdks() {
   echo ""
 }
 
+<<<<<<< HEAD
 setup_git() {
   echo "[INFO] Setting up GH credentials..."
 
@@ -83,6 +100,8 @@ setup_git() {
   echo ""
 }
 
+=======
+>>>>>>> a6c14a9 (Push Java SDK, 1st commit)
 git_add_files() {
   cd $TEMP_DIR/$REPO
   git add .
@@ -101,6 +120,11 @@ git_push() {
 }
 
 process() {
+<<<<<<< HEAD
+=======
+  setup_git
+
+>>>>>>> a6c14a9 (Push Java SDK, 1st commit)
   git_clone
 
   remove_previous_sdks
@@ -128,4 +152,8 @@ process() {
 }
 
 echo "Starting push for - ${LANGUAGE}"
+<<<<<<< HEAD
 process
+=======
+process ${LANGUAGE}
+>>>>>>> a6c14a9 (Push Java SDK, 1st commit)
