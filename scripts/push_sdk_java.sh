@@ -131,6 +131,6 @@ process() {
   fi
 }
 
-echo "Starting push for - ${LANGUAGE}"
+echo "Stating push for - ${LANGUAGE}"
 
 process
