@@ -36,8 +36,8 @@ fi
 git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
-  cd $RUNNER_TEMP
-  git clone --depth 1 https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  cd $TEMP_DIR
+  git clone --depth 1 https://github.com/criteo/criteo-api-java-sdk.git # https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
@@ -46,12 +46,12 @@ git_clone() {
 remove_previous_sdks() {
   echo "[INFO] Removing previous SDKs..."
 
-  sdks_directory="$TEMP_DIR/$REPO/sdks"
+  sdks_directory="$TEMP_DIR/$REPO/sdks/$LANGUAGE"
 
-  if [ -d sdks_directory ]; then
-      cd $TEMP_DIR/$REPO
-      rm -rf *
-      echo "[INFO] Success."
+  if [[ -d $sdks_directory ]]; then
+    cd $sdks_directory
+    rm -rf *
+    echo "[INFO] Success."
   else
     echo "[WARN] Directory $REPO/sdks doesn't exists, skipping."
   fi
@@ -64,7 +64,7 @@ copy_new_sdks() {
 
   sdks_directory="$TEMP_DIR/$REPO/sdks"
 
-  if [ ! -d sdks_directory ]; then
+  if [[ ! -d $sdks_directory ]]; then
     echo "[WARN] Directory $sdks_directory doesn't exists, creating it..."
     mkdir $sdks_directory
     echo "[INFO] Directory $sdks_directory created."
@@ -96,7 +96,7 @@ git_commit_and_tag() {
     echo "[ERROR] Version is not defined"
     exit 1
   fi
-  git commit -m "Automatic update of SDK - ${VERSION}" && git tag ${VERSION}
+  git commit -m "Automatic update of SDK - ${VERSION}"
 }
 
 git_push() {
