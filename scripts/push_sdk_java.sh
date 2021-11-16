@@ -37,7 +37,7 @@ git_clone() {
   echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
 
   cd $TEMP_DIR
-  git clone --depth 1 https://$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git clone --depth 1 https://token:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
 
   echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
   echo ""
@@ -82,7 +82,7 @@ setup_git() {
   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
   git config user.name "github-actions[bot]"
 
-  echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_USER_NAME"
+  echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_ACTOR"
   echo ""
 }
 
