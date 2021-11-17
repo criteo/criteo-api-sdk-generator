@@ -9,31 +9,36 @@ REPO_NAME="criteo-api-${LANGUAGE}-sdk"
 GENERATOR_REPO_DIR=$GITHUB_WORKSPACE
 SDK_REPO_DIR=$RUNNER_TEMP
 
-VERSION="1.0"
+VERSION="v$GITHUB_RUN_ID"
 
 if [ "$LANGUAGE" = "" ]; then
-    echo "[ERROR] LANGUAGE not set"
-    exit 1
+  echo "[ERROR] LANGUAGE not set"
+  exit 1
 fi
 
 if [ "$GENERATOR_REPO_DIR" = "" ]; then
-    echo "[ERROR] GENERATOR_REPO_DIR not set"
-    exit 1
+  echo "[ERROR] GENERATOR_REPO_DIR not set"
+  exit 1
 fi
 
 if [ "$SDK_REPO_DIR" = "" ]; then
-    echo "[ERROR] SDK_REPO_DIR not set"
-    exit 1
+  echo "[ERROR] SDK_REPO_DIR not set"
+  exit 1
 fi
 
 if [ "$GITHUB_ACTOR" = "" ]; then
-    echo "[ERROR] GITHUB_ACTOR not set"
-    exit 1
+  echo "[ERROR] GITHUB_ACTOR not set"
+  exit 1
 fi
 
 if [ "$GH_ACCESS_TOKEN" = "" ]; then
-    echo "[ERROR] GH_ACCESS_TOKEN not set"
-    exit 1
+  echo "[ERROR] GH_ACCESS_TOKEN not set"
+  exit 1
+fi
+
+if [[ $VERSION == "" ]]; then
+  echo "[ERROR] VERSION is not defined"
+  exit 1
 fi
 
 git_clone() {
@@ -91,11 +96,7 @@ git_add_files() {
 }
 
 git_commit_and_tag() {
-  if [[ ${VERSION} == "" ]]; then
-    echo "[ERROR] Version is not defined"
-    exit 1
-  fi
-  git commit -m "Automatic update of SDK - ${VERSION}"
+  git commit -m "Automatic update of SDK - $VERSION" && git tag $VERSION
 }
 
 git_push() {
@@ -111,7 +112,11 @@ process() {
 
   git_add_files
 
+  # For test To be removed
   git status
+  git config --global core.pager cat
+  git diff
+
   # git diff, ignore version's modifications
   modification_count=$(git diff -U0 --staged \
                          | grep '^[+-]' \
