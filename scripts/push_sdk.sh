@@ -1,67 +1,125 @@
 #!/usr/bin/env bash
 set -ex
 
-SCRIPT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+LANGUAGE=$1
 
-if [[ $GITHUB_RUN_NUMBER != "" ]]; then
-    BUILD_NUMBER=$GITHUB_RUN_NUMBER
-else
-    echo "Usage: $0 BUILD_NUMBER"
-    exit 1
+ORGANIZATION_NAME="criteo"
+REPOSITORY_NAME="criteo-api-${LANGUAGE}-sdk"
+
+GENERATOR_REPO_DIR=$GITHUB_WORKSPACE
+SDK_REPO_DIR=$RUNNER_TEMP
+
+TAG_VERSION="v$GITHUB_RUN_NUMBER"
+
+if [ "$LANGUAGE" = "" ]; then
+  echo "[ERROR] LANGUAGE not set"
+  exit 1
+fi
+
+if [ "$GENERATOR_REPO_DIR" = "" ]; then
+  echo "[ERROR] GENERATOR_REPO_DIR not set"
+  exit 1
+fi
+
+if [ "$SDK_REPO_DIR" = "" ]; then
+  echo "[ERROR] SDK_REPO_DIR not set"
+  exit 1
+fi
+
+if [ "$GITHUB_ACTOR" = "" ]; then
+  echo "[ERROR] GITHUB_ACTOR not set"
+  exit 1
+fi
+
+if [ "$GH_ACCESS_TOKEN" = "" ]; then
+  echo "[ERROR] GH_ACCESS_TOKEN not set"
+  exit 1
+fi
+
+if [[ $TAG_VERSION == "" ]]; then
+  echo "[ERROR] TAG_VERSION is not defined"
+  exit 1
 fi
 
 git_clone() {
-  git clone --depth 1 https://${GH_TOKEN}@github.com/$1.git
+  echo "[INFO] Cloning $ORGANIZATION_NAME/$REPOSITORY_NAME repository..."
+
+  cd $SDK_REPO_DIR
+  git clone --depth 1 https://x-access-token:$GH_ACCESS_TOKEN@github.com/$ORGANIZATION_NAME/$REPOSITORY_NAME.git
+  SDK_REPO_DIR="$SDK_REPO_DIR/$REPOSITORY_NAME"
+
+  echo "[INFO] Success. Repository cloned at $SDK_REPO_DIR"
+}
+
+remove_previous_sdks() {
+  echo "[INFO] Removing previous SDKs..."
+
+  sdks_directory="$SDK_REPO_DIR/sdks/$LANGUAGE"
+
+  if [[ -d $sdks_directory ]]; then
+    cd $sdks_directory
+    rm -rf *
+    echo "[INFO] Success."
+  else
+    echo "[WARN] Directory $REPO_NAME/sdks doesn't exists, skipping."
+  fi
+}
+
+copy_new_sdks() {
+  echo "[INFO] Copying new SDKs..."
+
+  sdks_directory="$SDK_REPO_DIR/sdks"
+
+  if [[ ! -d $sdks_directory ]]; then
+    echo "[WARN] Directory $sdks_directory doesn't exists, creating it..."
+    mkdir $sdks_directory
+    echo "[INFO] Directory $sdks_directory created."
+  fi
+
+  cp -r "$GENERATOR_REPO_DIR/generated-sources/$LANGUAGE/." "$SDK_REPO_DIR/sdks"
+
+  echo "[INFO] Copy successful."
 }
 
 setup_git() {
-  git config user.email $github.actor
-  git config user.name "GITHUB CI"
+  echo "[INFO] Setting up GH credentials..."
+
+  git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+  git config user.name "$GITHUB_ACTOR"
+
+  echo "[INFO] Success. Email: $GITHUB_ACTOR@users.noreply.github.com, Name: $GITHUB_ACTOR"
 }
 
 git_add_files() {
-  GIT_TRACK_FILE="${SCRIPT_ROOT}/git-track/${1}.txt"
-  if [[ -f ${GIT_TRACK_FILE} ]]; then
-      files_to_add=$(cat ${GIT_TRACK_FILE} | grep -Ev "^\s*#|^\s*$" | tr '\n' ' ')
-      git add ${files_to_add}
-  else
-    echo "'${GIT_TRACK_FILE}' does not exists, no files to add."
-    exit 1
-  fi
+  cd $SDK_REPO_DIR
+  ls
+  git add .
 }
 
 git_commit_and_tag() {
-  version=$1
-  if [[ ${version} == "" ]]; then
-    echo "version is not defined"
-    exit 1
-  fi
-  git commit -m "Automatic update of SDK - ${version}" && git tag ${version}
+  git commit -m "Automatic update of SDK - $TAG_VERSION"
+  git tag $TAG_VERSION
 }
 
 git_push() {
-  if [[ ${github.actor} == "github" ]]; then
-    git push origin --tags --quiet && git push origin --quiet
-  else
-    echo "Only user travis should be able to push."
-  fi
+  git push origin --quiet
+  # Push tag
+  git push origin --tags --quiet
 }
 
 process() {
-  language=$1
-  mkdir ${BUILD_DIR}/criteo
-  cd ${BUILD_DIR}/criteo
-  REPO="criteo/criteo-api-${language}-sdk"
-  git_clone ${REPO}
+  git_clone
 
-  NEXT_CLIENT="NEXT_criteo-api-${language}-sdk"
-  cp -r "${SCRIPT_ROOT}/../generated-sources/${language}" ${NEXT_CLIENT}
-  cp -r "${BUILD_DIR}/${REPO}/.git" ${NEXT_CLIENT}
+  remove_previous_sdks
 
-  cd ${NEXT_CLIENT}
+  copy_new_sdks
 
-  # add files before doing the diff
-  git_add_files ${language}
+  git_add_files
+
+  # For test To be removed
+  git status
+  git config --global core.pager cat
+  git diff
 
   # git diff, ignore version's modifications
   modification_count=$(git diff -U0 --staged \
@@ -69,11 +127,10 @@ process() {
                          | grep -Ev 'version|VERSION|Version' \
                          | grep -Ev 'user_agent|UserAgent' \
                          | wc -l | tr -d '[:space:]')
-  next_version=$(cat "/tmp/gh_${BUILD_NUMBER}-build_sdk-${language}.version")
 
-  if [[ ${modification_count} != 0 && ${next_version} != "" ]]; then
+  if [[ ${modification_count} != 0 ]]; then
       setup_git
-      git_commit_and_tag ${next_version}
+      git_commit_and_tag
       git_push
   else
       echo No push to Github. Modifications:
@@ -81,12 +138,6 @@ process() {
   fi
 }
 
-BUILD_DIR=${HOME}/build
+echo "Starting push for - ${LANGUAGE}"
 
-LANGUAGES=("python" "java" "php")
-
-for language in "${LANGUAGES[@]}"
-do
-  echo "Starting upload for - ${language}"
-  process ${language}
-done
+process
