@@ -76,7 +76,7 @@ copy_new_sdks() {
     echo "[INFO] Directory $sdks_directory created."
   fi
 
-  cp -r "$GENERATOR_REPO_DIR/generated-sources/$LANGUAGE/" "$SDK_REPO_DIR/sdks"
+  cp -r "$GENERATOR_REPO_DIR/generated-sources/$LANGUAGE/." "$SDK_REPO_DIR/sdks"
 
   echo "[INFO] Copy successful."
 }
