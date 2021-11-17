@@ -3,13 +3,13 @@ set -ex
 
 LANGUAGE=$1
 
-ORGANIZATION="criteo"
-REPO_NAME="criteo-api-${LANGUAGE}-sdk"
+ORGANIZATION_NAME="criteo"
+REPOSITORY_NAME="criteo-api-${LANGUAGE}-sdk"
 
 GENERATOR_REPO_DIR=$GITHUB_WORKSPACE
 SDK_REPO_DIR=$RUNNER_TEMP
 
-VERSION="v$GITHUB_RUN_NUMBER"
+TAG_VERSION="v$GITHUB_RUN_NUMBER"
 
 if [ "$LANGUAGE" = "" ]; then
   echo "[ERROR] LANGUAGE not set"
@@ -36,17 +36,17 @@ if [ "$GH_ACCESS_TOKEN" = "" ]; then
   exit 1
 fi
 
-if [[ $VERSION == "" ]]; then
-  echo "[ERROR] VERSION is not defined"
+if [[ $TAG_VERSION == "" ]]; then
+  echo "[ERROR] TAG_VERSION is not defined"
   exit 1
 fi
 
 git_clone() {
-  echo "[INFO] Cloning $ORGANIZATION/$REPO_NAME repository..."
+  echo "[INFO] Cloning $ORGANIZATION_NAME/$REPOSITORY_NAME repository..."
 
   cd $SDK_REPO_DIR
-  git clone --depth 1 https://x-access-token:$GH_ACCESS_TOKEN@github.com/$ORGANIZATION/$REPO_NAME.git
-  SDK_REPO_DIR="$SDK_REPO_DIR/$REPO_NAME"
+  git clone --depth 1 https://x-access-token:$GH_ACCESS_TOKEN@github.com/$ORGANIZATION_NAME/$REPOSITORY_NAME.git
+  SDK_REPO_DIR="$SDK_REPO_DIR/$REPOSITORY_NAME"
 
   echo "[INFO] Success. Repository cloned at $SDK_REPO_DIR"
 }
@@ -97,8 +97,8 @@ git_add_files() {
 }
 
 git_commit_and_tag() {
-  git commit -m "Automatic update of SDK - $VERSION"
-  git tag $VERSION
+  git commit -m "Automatic update of SDK - $TAG_VERSION"
+  git tag $TAG_VERSION
 }
 
 git_push() {
