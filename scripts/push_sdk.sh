@@ -9,7 +9,7 @@ REPO_NAME="criteo-api-${LANGUAGE}-sdk"
 GENERATOR_REPO_DIR=$GITHUB_WORKSPACE
 SDK_REPO_DIR=$RUNNER_TEMP
 
-VERSION="v$GITHUB_RUN_ID"
+VERSION="v$GITHUB_RUN_NUMBER"
 
 if [ "$LANGUAGE" = "" ]; then
   echo "[ERROR] LANGUAGE not set"
@@ -100,7 +100,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  git push origin --quiet
+  git push origin --tags --quiet
 }
 
 process() {
