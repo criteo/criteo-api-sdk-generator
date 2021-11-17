@@ -1,170 +1,113 @@
 #!/usr/bin/env bash
 set -ex
 
-BUILD_DIR=$GITHUB_WORKSPACE
-TEMP_DIR=$RUNNER_TEMP
+LANGUAGE=$1
 
-LANGUAGE="java"
+ORGANIZATION_NAME="criteo"
+REPOSITORY_NAME="criteo-api-${LANGUAGE}-sdk"
 
-GITHUB_USER_NAME="Criteo GITHUB CI"
+GENERATOR_REPO_DIR=$GITHUB_WORKSPACE
+SDK_REPO_DIR=$RUNNER_TEMP
 
-ORGANIZATION="criteo"
-REPO="criteo-api-${LANGUAGE}-sdk"
+TAG_VERSION="v$GITHUB_RUN_NUMBER"
 
-VERSION="1.0"
-
-if [ "$BUILD_DIR" = "" ]; then
-    echo "[ERROR] BUILD_DIR not set"
-    exit 1
+if [ "$LANGUAGE" = "" ]; then
+  echo "[ERROR] LANGUAGE not set"
+  exit 1
 fi
 
-if [ "$TEMP_DIR" = "" ]; then
-    echo "[ERROR] TEMP_DIR not set"
-    exit 1
+if [ "$GENERATOR_REPO_DIR" = "" ]; then
+  echo "[ERROR] GENERATOR_REPO_DIR not set"
+  exit 1
+fi
+
+if [ "$SDK_REPO_DIR" = "" ]; then
+  echo "[ERROR] SDK_REPO_DIR not set"
+  exit 1
 fi
 
 if [ "$GITHUB_ACTOR" = "" ]; then
-    echo "[ERROR] GITHUB_ACTOR not set"
-    exit 1
+  echo "[ERROR] GITHUB_ACTOR not set"
+  exit 1
 fi
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
-if [ "$GITHUB_TOKEN" = "" ]; then
-    echo "[ERROR] GITHUB_TOKEN not set"
-    exit 1
+if [ "$GH_ACCESS_TOKEN" = "" ]; then
+  echo "[ERROR] GH_ACCESS_TOKEN not set"
+  exit 1
 fi
-<<<<<<< HEAD
-=======
-=======
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
-setup_git() {
-  echo "[INFO] Setting up GH credentials..."
 
-  git config user.email $GITHUB_ACTOR
-  git config user.name $GITHUB_USER_NAME
-
-  echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_USER_NAME"
-  echo ""
-}
-<<<<<<< HEAD
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
-=======
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
-=======
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
+if [[ $TAG_VERSION == "" ]]; then
+  echo "[ERROR] TAG_VERSION is not defined"
+  exit 1
+fi
 
 git_clone() {
-  echo "[INFO] Cloning $ORGANIZATION/$REPO repository..."
+  echo "[INFO] Cloning $ORGANIZATION_NAME/$REPOSITORY_NAME repository..."
 
-  cd $RUNNER_TEMP
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  git clone --depth 1 git clone --depth 1 https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
-=======
-  git clone --depth 1 https://github.com/$ORGANIZATION/$REPO.git
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
-=======
-  git clone --depth 1 git clone --depth 1 https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
-=======
-  git clone --depth 1 https://github.com/$ORGANIZATION/$REPO.git
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
+  cd $SDK_REPO_DIR
+  git clone --depth 1 https://x-access-token:$GH_ACCESS_TOKEN@github.com/$ORGANIZATION_NAME/$REPOSITORY_NAME.git
+  SDK_REPO_DIR="$SDK_REPO_DIR/$REPOSITORY_NAME"
 
-  echo "[INFO] Success. Repository cloned at $RUNNER_TEMP/$REPO"
-  echo ""
+  echo "[INFO] Success. Repository cloned at $SDK_REPO_DIR"
 }
 
 remove_previous_sdks() {
   echo "[INFO] Removing previous SDKs..."
 
-  sdks_directory="$TEMP_DIR/$REPO/sdks"
+  sdks_directory="$SDK_REPO_DIR/sdks/$LANGUAGE"
 
-  if [ -d sdks_directory ]; then
-      cd $TEMP_DIR/$REPO
-      rm -rf *
-      echo "[INFO] Success."
+  if [[ -d $sdks_directory ]]; then
+    cd $sdks_directory
+    rm -rf *
+    echo "[INFO] Success."
   else
-    echo "[WARN] Directory $REPO/sdks doesn't exists, skipping."
+    echo "[WARN] Directory $REPO_NAME/sdks doesn't exists, skipping."
   fi
-
-  echo ""
 }
 
 copy_new_sdks() {
   echo "[INFO] Copying new SDKs..."
 
-  sdks_directory="$TEMP_DIR/$REPO/sdks"
+  sdks_directory="$SDK_REPO_DIR/sdks"
 
-  if [ ! -d sdks_directory ]; then
+  if [[ ! -d $sdks_directory ]]; then
     echo "[WARN] Directory $sdks_directory doesn't exists, creating it..."
     mkdir $sdks_directory
     echo "[INFO] Directory $sdks_directory created."
   fi
 
-  cp -r "$BUILD_DIR/generated-sources/$LANGUAGE" "$TEMP_DIR/$REPO/sdks"
+  cp -r "$GENERATOR_REPO_DIR/generated-sources/$LANGUAGE/." "$SDK_REPO_DIR/sdks"
 
   echo "[INFO] Copy successful."
-  echo ""
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
 setup_git() {
   echo "[INFO] Setting up GH credentials..."
 
-  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-  git config user.name "github-actions[bot]"
+  git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+  git config user.name "$GITHUB_ACTOR"
 
-  echo "[INFO] Success. Email: $GITHUB_ACTOR, Name: $GITHUB_USER_NAME"
-  echo ""
+  echo "[INFO] Success. Email: $GITHUB_ACTOR@users.noreply.github.com, Name: $GITHUB_ACTOR"
 }
 
-<<<<<<< HEAD
-=======
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
-=======
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
-=======
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
 git_add_files() {
-  cd $TEMP_DIR/$REPO
+  cd $SDK_REPO_DIR
+  ls
   git add .
 }
 
 git_commit_and_tag() {
-  if [[ ${VERSION} == "" ]]; then
-    echo "[ERROR] Version is not defined"
-    exit 1
-  fi
-  git commit -m "Automatic update of SDK - ${VERSION}" && git tag ${VERSION}
+  git commit -m "Automatic update of SDK - $TAG_VERSION"
+  git tag $TAG_VERSION
 }
 
 git_push() {
-  git push origin --tags --quiet --prune https://$GITHUB_TOKEN@github.com/$ORGANIZATION/$REPO.git
+  git push origin --quiet
+  # Push tag
+  git push origin --tags --quiet
 }
 
 process() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  setup_git
-
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
-=======
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
-=======
-  setup_git
-
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
   git_clone
 
   remove_previous_sdks
@@ -173,13 +116,16 @@ process() {
 
   git_add_files
 
+  # For test To be removed
+  git status
+  git config --global core.pager cat
+  git diff
+
   # git diff, ignore version's modifications
   modification_count=$(git diff -U0 --staged \
-                         | grep '^[+-]' \
-                         | grep -Ev '^(--- a/|\+\+\+ b/)' \
+                         | grep '^[+-][^+-]' \
                          | grep -Ev 'version|VERSION|Version' \
                          | grep -Ev 'user_agent|UserAgent' \
-                         | grep -Ev 'marketing\.java-client.+[0-9]\.[0-9]\.[0-9]' \
                          | wc -l | tr -d '[:space:]')
 
   if [[ ${modification_count} != 0 ]]; then
@@ -193,16 +139,5 @@ process() {
 }
 
 echo "Starting push for - ${LANGUAGE}"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 process
-=======
-process ${LANGUAGE}
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
-=======
-process
->>>>>>> 0518f3d (Push Java SDK, 1st commit)
-=======
-process ${LANGUAGE}
->>>>>>> a6c14a9 (Push Java SDK, 1st commit)
