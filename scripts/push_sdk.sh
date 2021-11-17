@@ -100,7 +100,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  git push origin --tags --quiet
+  git push origin --quiet
 }
 
 process() {
