@@ -99,7 +99,7 @@ git_commit_and_tag() {
 }
 
 git_push() {
-  git push origin --tags --quiet
+  git push origin --quiet
 }
 
 process() {
@@ -111,6 +111,7 @@ process() {
 
   git_add_files
 
+  git status
   # git diff, ignore version's modifications
   modification_count=$(git diff -U0 --staged \
                          | grep '^[+-]' \
