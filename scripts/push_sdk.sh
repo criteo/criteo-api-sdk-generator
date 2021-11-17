@@ -92,7 +92,6 @@ setup_git() {
 
 git_add_files() {
   cd $SDK_REPO_DIR
-  ls
   git add .
 }
 
@@ -115,11 +114,6 @@ process() {
   copy_new_sdks
 
   git_add_files
-
-  # For test To be removed
-  git status
-  git config --global core.pager cat
-  git diff
 
   # git diff, ignore version's modifications
   modification_count=$(git diff -U0 --staged \
