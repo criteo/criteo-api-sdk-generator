@@ -92,11 +92,13 @@ setup_git() {
 
 git_add_files() {
   cd $SDK_REPO_DIR
+  ls
   git add .
 }
 
 git_commit_and_tag() {
-  git commit -m "Automatic update of SDK - $VERSION" && git tag $VERSION
+  git commit -m "Automatic update of SDK - $VERSION"
+  git tag $VERSION
 }
 
 git_push() {
