@@ -123,11 +123,9 @@ process() {
 
   # git diff, ignore version's modifications
   modification_count=$(git diff -U0 --staged \
-                         | grep '^[+-]' \
-                         | grep -Ev '^(--- a/|\+\+\+ b/)' \
+                         | grep '^[+-][^+-]' \
                          | grep -Ev 'version|VERSION|Version' \
                          | grep -Ev 'user_agent|UserAgent' \
-                         | grep -Ev 'marketing\.java-client.+[0-9]\.[0-9]\.[0-9]' \
                          | wc -l | tr -d '[:space:]')
 
   if [[ ${modification_count} != 0 ]]; then
