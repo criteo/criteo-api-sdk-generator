@@ -41,11 +41,16 @@ if [[ $TAG_VERSION == "" ]]; then
   exit 1
 fi
 
+setup_ssh() {
+  eval "$(ssh-agent -s)"
+  ssh-add - <<< "${SDK_REPO_PUBLIC_KEY}"
+}
+
 git_clone() {
   echo "[INFO] Cloning $ORGANIZATION_NAME/$REPOSITORY_NAME repository..."
 
   cd $SDK_REPO_DIR
-  git clone --depth 1 https://x-access-token:$GH_ACCESS_TOKEN@github.com/$ORGANIZATION_NAME/$REPOSITORY_NAME.git
+  git clone --depth 1 git@github.com:$ORGANIZATION_NAME/$REPOSITORY_NAME.git
   SDK_REPO_DIR="$SDK_REPO_DIR/$REPOSITORY_NAME"
 
   echo "[INFO] Success. Repository cloned at $SDK_REPO_DIR"
@@ -107,6 +112,8 @@ git_push() {
 }
 
 process() {
+  setup_ssh
+
   git_clone
 
   remove_previous_sdks
