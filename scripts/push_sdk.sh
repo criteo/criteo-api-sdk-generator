@@ -31,8 +31,8 @@ if [ "$GITHUB_ACTOR" = "" ]; then
   exit 1
 fi
 
-if [ "$GH_ACCESS_TOKEN" = "" ]; then
-  echo "[ERROR] GH_ACCESS_TOKEN not set"
+if [ "$SDK_REPO_PRIVATE_KEY" = "" ]; then
+  echo "[ERROR] SDK_REPO_PRIVATE_KEY not set"
   exit 1
 fi
 
@@ -43,7 +43,7 @@ fi
 
 setup_ssh() {
   eval "$(ssh-agent -s)"
-  ssh-add - <<< "${SDK_REPO_PUBLIC_KEY}"
+  ssh-add - <<< "${SDK_REPO_PRIVATE_KEY}"
 }
 
 git_clone() {
