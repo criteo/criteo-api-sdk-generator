@@ -7,38 +7,37 @@ import static org.junit.Assert.*;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.Configuration;
-import {{invokerPackage}}.api.AdvertiserApi;
+import {{invokerPackage}}.api.OAuthApi;
 import {{invokerPackage}}.ApiResponse;
-import {{invokerPackage}}.model.GetPortfolioResponse;
+import {{invokerPackage}}.model.JwtModel;
 
 public class E2eTest {
     private ApiClient client;
 
+    private static String clientId = System.getenv("TEST_CLIENT_ID");
+    private static String clientSecret = System.getenv("TEST_CLIENT_SECRET");
+
     @Before
     public void setUp() {
-    }
-
-    @Test
-    public void testCallUnauthenticatedEndpoint() throws Exception {
-        
+        client = Configuration.getDefaultApiClient();
     }
  
     @Test
-    public void testGetPortfolio() throws ApiException {
-        ApiClient client = Configuration.getDefaultApiClient();
-        client.setUsername("44e3c39ad28848d5a9ddb72158683a4b");
-        client.setPassword("fwAf1MdvQ1gRnBhC4oESTXJPoJ4PMtoeFB9GUbvQTC+h");
+    public void testGetApplicationInfoShouldSucceedWithValidToken() throws ApiException {
+        // Arrange
+        OAuthApi apiInstance = new OAuthApi(client);
+        String grantType = "client_credentials";
 
-        AdvertiserApi apiInstance = new AdvertiserApi(client);
- 
-        ApiResponse<GetPortfolioResponse> apiResponse = apiInstance.apiPortfolioGetWithHttpInfo();
- 
-        int statusCode = apiResponse.getStatusCode();
-        GetPortfolioResponse data = apiResponse.getData();
- 
-        assertEquals(200, statusCode);
-        // This might need to be updated in case the portfolio is not empty
-        assertEquals(0, data.getData().size());
+        // Act
+        JwtModel apiResponse = apiInstance.createToken(clientId, clientSecret, grantType);
 
+        // Assert
+        assertNotNull(apiResponse.getAccessToken());
+    }
+
+    @Test
+    public void testGetApplicationInfoShouldFailWithInvalidToken() throws ApiException {
+        // Arrange
+        String invalidToken = "invalidToken";
     }
 }

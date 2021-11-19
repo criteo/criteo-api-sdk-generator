@@ -11,7 +11,108 @@
     }
   ],
   "paths": {
+<<<<<<< HEAD
     "/preview/audiences": {
+=======
+    "/oauth2/token": {
+      "post": {
+        "tags": [
+          "OAuth"
+        ],
+        "description": "Creates a token when the supplied client credentials are valid",
+        "operationId": "CreateToken",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "description": "API Client-Id or Username",
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "description": "API Client secret or password",
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "grant_type": {
+                    "description": "Other grant types are not available",
+                    "type": "string",
+                    "default": "client_credentials"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuth2Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuth2Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuth2Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/2021-04/me": {
+      "get": {
+        "tags": [
+          "OAuth"
+        ],
+        "description": "Retrieve application's information from token",
+        "operationId": "GetApplicationInfo",
+        "responses": {
+          "200": {
+            "description": "The list was retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetApplicationInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/2021-04/audiences": {
+>>>>>>> e79b4e6 (Add clean command and improve tests)
       "get": {
         "tags": [
           "Audience"
@@ -2671,6 +2772,7 @@
               }
             }
           },
+<<<<<<< HEAD
           "400": {
             "description": "The request contained invalid parameters.",
             "content": {
@@ -2718,6 +2820,53 @@
         "responses": {
           "204": {
             "description": "The Coupon was deleted."
+=======
+          "401": {
+            "description": "Authentication failed.",
+            "content": {}
+          },
+          "429": {
+            "description": "Throttling failure. Maximum sending rate exceeded.",
+            "content": {}
+          },
+          "500": {
+            "description": "Unknown error.",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "categoriesPerCatalog"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetApplicationInfoResponse": {
+        "type": "object",
+        "description": "You can add a schema description by using the 'summary' block",
+        "properties": {
+          "applicationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "applicationName": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organizationName": {
+            "type": "string"
+          }
+        }
+      },
+      "JwtModel": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "The access token issued by the authorization server."
+>>>>>>> e79b4e6 (Add clean command and improve tests)
           },
           "400": {
             "description": "The request contained invalid parameters."
