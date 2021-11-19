@@ -34,6 +34,12 @@ jobs:
           name: generated-sources-java
           path: ./generated-sources/java
 
+      - name: Test SDKs
+        run: |
+          chmod +x ./scripts/test_sdk.sh
+          ./scripts/test_sdk.sh java
+        shell: bash
+
       - name: Push java SDK
         env:
           SDK_REPO_PRIVATE_KEY: ${{ secrets.JAVA_SDK_REPO_PRIVATE_KEY }}
