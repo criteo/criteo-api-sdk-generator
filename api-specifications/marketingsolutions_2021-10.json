@@ -1557,6 +1557,10 @@
             "description": "Forbidden",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                },
+                "example": {
                   "errors": [
                     {
                       "traceId": "00000000-0000-0000-941c-7dd3acd18056",
@@ -1665,39 +1669,6 @@
   },
   "components": {
     "schemas": {
-      "JwtModel": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string",
-            "description": "The access token issued by the authorization server."
-          },
-          "token_type": {
-            "type": "string",
-            "description": "The type of the token issued."
-          },
-          "expires_in": {
-            "type": "integer",
-            "description": "The lifetime in seconds of the access token.For\r\nexample, the value \"3600\" denotes that the access token will\r\nexpire in one hour from the time the response was generated.\r\nIf omitted, the authorization server SHOULD provide the\r\nexpiration time via other means or document the default value.",
-            "format": "int32"
-          }
-        }
-      },
-      "OAuth2Error": {
-        "required": [
-          "error"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string"
-          },
-          "error_description": {
-            "type": "string"
-          }
-        },
-        "description": "Represents an error response from an OAuth2 flow"
-      },
       "GetAudiencesResponse": {
         "required": [
           "data",
