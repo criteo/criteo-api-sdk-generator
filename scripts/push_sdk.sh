@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# With -e, the shell will execute the ERR trap and then exit, whenever a simple command returns a non-zero exit
 set -ex
 
 LANGUAGE=$1
@@ -81,7 +82,7 @@ copy_new_sdks() {
     echo "[INFO] Directory $sdks_directory created."
   fi
 
-  cp -r "$GENERATOR_REPO_DIR/generated-sources/$LANGUAGE/." "$SDK_REPO_DIR/sdks"
+  cp -r "$GENERATOR_REPO_DIR/generated-sources/$LANGUAGE/." "$SDK_REPO_DIR/sdks" || echo "[ERROR]"
 
   echo "[INFO] Copy successful."
 }
