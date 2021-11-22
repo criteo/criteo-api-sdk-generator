@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       
@@ -32,7 +31,15 @@ jobs:
         with:
           name: generated-sources-java
           path: ./generated-sources/java
-      
+
+      - name: Push java SDK
+        env:
+          SDK_REPO_PRIVATE_KEY: ${{ secrets.JAVA_SDK_REPO_PRIVATE_KEY }}
+        run: |
+          chmod +x ./scripts/push_sdk.sh
+          ./scripts/push_sdk.sh java
+        shell: bash
+
       - name: Send success notification plugin
         uses: rtCamp/action-slack-notify@v2
         env:

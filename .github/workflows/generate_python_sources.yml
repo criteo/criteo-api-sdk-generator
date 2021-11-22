@@ -33,6 +33,14 @@ jobs:
           name: generated-sources-python
           path: ./generated-sources/python
 
+      - name: Push python SDK
+        env:
+          SDK_REPO_PRIVATE_KEY: ${{ secrets.PYTHON_SDK_REPO_PRIVATE_KEY }}
+        run: |
+          chmod +x ./scripts/push_sdk.sh
+          ./scripts/push_sdk.sh python
+        shell: bash
+
       - name: Send success notification plugin
         uses: rtCamp/action-slack-notify@v2
         env:

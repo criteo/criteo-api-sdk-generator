@@ -33,6 +33,14 @@ jobs:
           name: generated-sources-php
           path: ./generated-sources/php
 
+      - name: Push php SDK
+        env:
+          SDK_REPO_PRIVATE_KEY: ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY }}
+        run: |
+          chmod +x ./scripts/push_sdk.sh
+          ./scripts/push_sdk.sh php
+        shell: bash
+
       - name: Send success notification plugin
         uses: rtCamp/action-slack-notify@v2
         env:
