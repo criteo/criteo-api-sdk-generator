@@ -119,7 +119,7 @@ process() {
 
   remove_previous_sdks
 
-  #copy_new_sdks
+  copy_new_sdks
 
   git_add_files
 
