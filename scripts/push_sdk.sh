@@ -60,14 +60,14 @@ git_clone() {
 remove_previous_sdks() {
   echo "[INFO] Removing previous SDKs..."
 
-  sdks_directory="$SDK_REPO_DIR/sdks/$LANGUAGE"
+  sdks_directory="$SDK_REPO_DIR/sdks/"
 
   if [[ -d $sdks_directory ]]; then
     cd $sdks_directory
     rm -rf *
     echo "[INFO] Success."
   else
-    echo "[WARN] Directory $REPO_NAME/sdks doesn't exists, skipping."
+    echo "[WARN] Directory $sdks_directory doesn't exists, it will be created."
   fi
 }
 
