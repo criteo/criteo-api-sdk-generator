@@ -60,7 +60,7 @@ git_clone() {
 remove_previous_sdks() {
   echo "[INFO] Removing previous SDKs..."
 
-  sdks_directory="$SDK_REPO_DIR/sdks"
+  sdks_directory="$SDK_REPO_DIR/sdks/"
 
   if [[ -d $sdks_directory ]]; then
     cd $sdks_directory
