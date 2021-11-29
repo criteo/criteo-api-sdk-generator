@@ -11,7 +11,7 @@ This project generates code for the [Java](https://github.com/criteo/criteo-api-
 To generate the Java code, run:
 
 ```bash 
-./gradlew :generator:python:generateClient -Dorg.gradle.project.buildNumber=$GH_BUILD_NUMBER
+./gradlew :generator:java:generateClient -Dorg.gradle.project.buildNumber=$GH_BUILD_NUMBER
 ```
 
 The generated code can be found under `generated-sources/java` folder.
@@ -27,7 +27,7 @@ The generated code can be found under `generated-sources/python` folder.
 To generate the PHP code, run:
 
 ```bash 
-./gradlew :generator:python:generateClient -Dorg.gradle.project.buildNumber=$GH_BUILD_NUMBER
+./gradlew :generator:php:generateClient -Dorg.gradle.project.buildNumber=$GH_BUILD_NUMBER
 ```
 
 The generated code can be found under `generated-sources/php` folder.

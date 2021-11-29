@@ -23,6 +23,7 @@ def criteoPackage = project.properties["package.name.base"]
 def generatorVersion = project.properties["generator.version"]
 def technologyStack = "php"
 def nameSeparator = '\\'
+def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()
 
 task cleanPreviousDist(type: Delete) {
     group 'Criteo'
@@ -34,7 +35,7 @@ task cleanPreviousDist(type: Delete) {
 
 task generateClient(type: GradleBuild) {
     group 'Criteo'
-    description 'Generate the PHP client using openapi-generator and custom templates'
+    description "Generate the {language.toUpperCase()} client using openapi-generator and custom templates".toString()
 
     def taskList = ['cleanPreviousDist'];
 
@@ -48,39 +49,45 @@ task generateClient(type: GradleBuild) {
         
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
-        def packageBase =  criteoApiVersion;
-        if (packageBase.matches("[0-9].*"))
-             packageBase= "v" + packageBase;
+        def versionCategory = criteoApiVersion == 'preview' ? 'preview' : 'stable'
+  
+        def versionInNamespace =  criteoApiVersion
+        if (versionInNamespace.matches("[0-9].*"))
+             versionInNamespace= "v" + versionInNamespace
 
-        packageBase = "${criteoPackage}.${criteoService}.${packageBase}".replace('.', nameSeparator).toString(); // example: criteo\api\marketingsolutions\v2021_10
-        def packageVersion = "${criteoApiVersion}.${generatorVersion}.${getFormattedDate()}"; // example : 2021_10.1.211110
+        def namespaceBase = "${criteoPackage}.${criteoService}.${versionInNamespace}".replace('.', nameSeparator).toString(); // example: criteo\api\marketingsolutions\v2021_10
+        
+        def artifactVersion = versionCategory == 'preview' ? '0' : criteoApiVersion.replaceAll("_",".").toString()
+        artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
 
-        def generateTask = task("openApiGenerate_php_" + parsedApiName, type: GenerateTask.class) {
+        def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
                 configFile = "$projectDir/generatorConfiguration.yaml".toString()
-                generatorName = "php"
+                generatorName = "$language".toString()
                 templateDir = "$resourcesDir/templates/".toString()
                 inputSpec = specPath
                 outputDir = clientOutputDirPerVersion
                 removeOperationIdPrefix = true
                 generateApiTests = false
                 generateModelTests = false
+                gitUserId = 'criteo'
+                gitRepoId = "criteo-api-${criteoService}-${versionCategory}-sdk".toString()
                 configOptions = [
-                        apiVersion              : parsedJson.info.version,
-                        packageName             : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(),
-                        invokerPackage          : "${packageBase}".toString(),
-                        packageUrl              : 'https://github.com/criteo/criteo-api-php-sdk',
+                        groupId                 : 'criteo',
+                        artifactId              : "criteo-api-${criteoService}-${versionCategory}-sdk".toString(),
+                        artifactVersion         : "${artifactVersion}".toString(),
+                        description             : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                         hideGenerationTimestamp : 'true',
-                        artifactId              : "criteo-api-${criteoService}-sdk-${technologyStack}".toString(),
-                        packageVersion          : "${packageVersion}".toString(), // v2021_10.1.211110
-                        groupId                 :  'criteo',
+                        invokerPackage          : "${namespaceBase}".toString(),
+                        packageName             : "criteo-api-${criteoService}-${versionCategory}-sdk".toString(),
+                        packageUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
+                        packageVersion          : "${artifactVersion}".toString(), // v2021.10.1.211110
+                        sourceCompatibility     : '1.8',
                         version                 : '1.0.0',
-                        description             : "PHP SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
-                        sourceCompatibility     : '1.8'
                 ]
         }
 
 
-        def copyLicense = task("copyLicense_php_" + parsedApiName, type: Copy) {
+        def copyLicense = task("copyLicense_" + technologyStack + "_" + parsedApiName, type: Copy) {
             group 'Criteo'
             description 'Copy the license into the client output folder'
 
@@ -89,15 +96,15 @@ task generateClient(type: GradleBuild) {
             rename 'LICENSE', 'LICENSE.txt'
         };
 
-        def copyExamples = task("copyExamples_php_" + parsedApiName, type: Copy) {
+        def copyExamples = task("copyExamples_" + technologyStack + "_" + parsedApiName, type: Copy) {
             group 'Criteo'
-            description 'Copy the PHP examples into the client output folder'
+            description "Copy the " + technologyStack.toUpperCase() + " examples into the client output folder"
 
             from "$resourcesDir/examples"
             into "$clientOutputDirPerVersion/examples"
         }
 
-        def removeUnwantedFiles = task("removeUnwantedFiles_php_" + parsedApiName, type: Delete) {
+        def removeUnwantedFiles = task("removeUnwantedFiles_" + technologyStack + "_" + parsedApiName, type: Delete) {
             group 'Criteo'
             description 'Remove files generated by openapi-generator that we don\'t want to push'
 
