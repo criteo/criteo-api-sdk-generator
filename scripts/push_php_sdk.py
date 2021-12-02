@@ -1,0 +1,1 @@
+print("Setting up push to PHP repositories")
