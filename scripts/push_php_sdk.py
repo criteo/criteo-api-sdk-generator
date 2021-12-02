@@ -12,7 +12,7 @@ sdk_repo_private_key = os.environ["SDK_REPO_PRIVATE_KEY"]
 
 print("Initializing github")
 g = Github("access_token")
-g = Github(base_url="https://github.com/criteo", login_or_token=sdk_repo_private_key)
+g = Github(base_url="https://github.com/criteo/criteo-api-marketingsolutions-php-sdk", login_or_token=sdk_repo_private_key)
 
 for repo in g.get_user().get_repos():
     print(repo.name)
