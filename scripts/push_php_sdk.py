@@ -1,30 +1,33 @@
-# from github import Github
+from github import Github
 import os
 
 print("Setting up push to PHP repositories")
 
-generator_directory = os.environ["GITHUB_WORKSPACE"]
-tag_version = os.environ["GITHUB_RUN_NUMBER"]
-sdk_directory = os.environ["RUNNER_TEMP"]
+generator_repo_dir = os.environ["GITHUB_WORKSPACE"]
+sdk_repo_dir = os.environ["RUNNER_TEMP"]
 github_actor = os.environ["GITHUB_ACTOR"]
+tag_version = os.environ["GITHUB_RUN_NUMBER"]
 sdk_repo_private_key = os.environ["SDK_REPO_PRIVATE_KEY"]
 
-print("Github workspace is: ", generator_directory)
-print("Github tag is: ", tag_version)
-print("Github sdk workspace is: ", sdk_directory)
-print("Github actor is: ", github_actor)
-print("Sdk repo private key is: ", sdk_repo_private_key)
+
+print("Initializing github")
+g = Github("access_token")
+g = Github(base_url="https://github.com/criteo", login_or_token=sdk_repo_private_key)
+
+for repo in g.get_user().get_repos():
+    print(repo.name)
 
 
-print ("Setting up ssh")
+# print ("Setting up ssh")
 
-print("remove previous sdk")
 
-print("copy new sdks")
+# print("remove previous sdk")
 
-print("git add files")
+# print("copy new sdks")
 
-print("check modifications and push")
+# print("git add files")
+
+# print("check modifications and push")
 
 # Push specifications:
 # iterate over the generate sdks
