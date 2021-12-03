@@ -20,8 +20,11 @@ def setup_ssh():
     subprocess.run(['ssh-add', '-', '<<<', '"${SDK_REPO_PRIVATE_KEY}"'], shell=True)
 
 def clone_repo():
+    # subprocess.run(['cd', '/home/runner/work/_temp'])
+    # subprocess.run(['ls', '-l'])
+    subprocess.run(['mkdir', '/home/runner/work/criteo-api-marketingsolutions-php-sdk'])
     print("Cloning repo")
-    git.Repo.clone_from('git@github.com:criteo/criteo-api-marketingsolutions-php-sdk.git', sdk_repo_dir + '/')
+    git.Repo.clone_from('git@github.com:criteo/criteo-api-marketingsolutions-php-sdk.git', '/home/runner/work/criteo-api-marketingsolutions-php-sdk')
 
 setup_ssh()
 clone_repo()
