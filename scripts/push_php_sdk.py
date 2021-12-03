@@ -21,7 +21,7 @@ def clone_repo():
     git.Repo.clone_from('git@github.com:criteo/criteo-api-marketingsolutions-php-sdk.git')
 
 setup_ssh()
-# clone_repo()
+clone_repo()
 
 # print("Cloning git repositories")
 
