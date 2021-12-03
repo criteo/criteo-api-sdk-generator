@@ -13,8 +13,8 @@ sdk_repo_private_key = os.environ["SDK_REPO_PRIVATE_KEY"]
 
 def setup_ssh():
     print ("Setting up ssh")
-    subprocess.run(['eval', "$(ssh-agent -s)"])
-    subprocess.run(['ssh-add', '-', '<<<', '"${SDK_REPO_PRIVATE_KEY}"'])
+    subprocess.run('eval "$(ssh-agent -s)"')
+    subprocess.run('ssh-add - <<< "${SDK_REPO_PRIVATE_KEY}"')
 
 def clone_repo():
     print("Cloning repo")
