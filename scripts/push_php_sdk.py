@@ -10,6 +10,8 @@ github_actor = os.environ["GITHUB_ACTOR"]
 tag_version = os.environ["GITHUB_RUN_NUMBER"]
 sdk_repo_private_key = os.environ["SDK_REPO_PRIVATE_KEY"]
 
+print(sdk_repo_dir)
+
 
 def setup_ssh():
     print ("Setting up ssh")
@@ -18,7 +20,7 @@ def setup_ssh():
 
 def clone_repo():
     print("Cloning repo")
-    git.Repo.clone_from('git@github.com:criteo/criteo-api-marketingsolutions-php-sdk.git')
+    git.Repo.clone_from('git@github.com:criteo/criteo-api-marketingsolutions-php-sdk.git', sdk_repo_dir)
 
 setup_ssh()
 clone_repo()
