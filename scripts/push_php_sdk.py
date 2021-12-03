@@ -17,7 +17,7 @@ print(sdk_repo_dir)
 def setup_ssh():
     print ("Setting up ssh")
     subprocess.run(['eval', "$(ssh-agent -s)"], shell=True)
-    subprocess.run(['ssh-add', '-', '<<<', '"${SDK_REPO_PRIVATE_KEY}"'], shell=True)
+    subprocess.run(['ssh-add', '-', '<<<"${SDK_REPO_PRIVATE_KEY}"'], shell=True)
 
 def clone_repo():
     # subprocess.run(['cd', '/home/runner/work/_temp'])
