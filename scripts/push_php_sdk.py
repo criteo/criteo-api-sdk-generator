@@ -1,5 +1,6 @@
-from github import Github
 import os
+import subprocess
+import git
 
 print("Setting up push to PHP repositories")
 
@@ -10,15 +11,19 @@ tag_version = os.environ["GITHUB_RUN_NUMBER"]
 sdk_repo_private_key = os.environ["SDK_REPO_PRIVATE_KEY"]
 
 
-print("Initializing github")
-g = Github("access_token")
-g = Github(base_url="https://github.com/criteo", login_or_token=sdk_repo_private_key)
+def setup_ssh():
+    print ("Setting up ssh")
+    subprocess.run('eval "$(ssh-agent -s)"')
+    subprocess.run('ssh-add - <<< "${SDK_REPO_PRIVATE_KEY}"')
 
-for repo in g.get_user().get_repos():
-    print(repo.name)
+def clone_repo():
+    print("Cloning repo")
+    git.Repo.clone_from('git@github.com:criteo/criteo-api-marketingsolutions-php-sdk.git')
 
+setup_ssh()
+clone_repo()
 
-# print ("Setting up ssh")
+# print("Cloning git repositories")
 
 
 # print("remove previous sdk")
