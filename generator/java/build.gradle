@@ -46,7 +46,7 @@ task generateClient(type: GradleBuild) {
         
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
-        def versionCategory = criteoApiVersion == 'preview' ? 'preview' : 'stable'
+        def isPreviewVersion = criteoApiVersion == 'preview';
   
         def versionInNamespace =  criteoApiVersion
         if (versionInNamespace.matches("[0-9].*"))
@@ -54,7 +54,7 @@ task generateClient(type: GradleBuild) {
         
         def namespaceBase = "${criteoPackage}.${criteoService}.${versionInNamespace}".replace('.', nameSeparator).toString(); // example : criteo.api.marketingsolutions.v2021_10
 
-        def artifactVersion = versionCategory == 'preview' ? '0' : criteoApiVersion.replaceAll("_",".").toString()
+        def artifactVersion = isPreviewVersion ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
        
         namespaceBase = "com." + namespaceBase; // 'com' is Java-specific => exmaple: com.criteo.api.marketingsolutions.v2021_10
@@ -71,8 +71,8 @@ task generateClient(type: GradleBuild) {
                     groupId                  : 'com.criteo',
                     apiPackage               : "${namespaceBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
                     artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
-                    artifactId               : "criteo-api-${criteoService}-sdk".toString(), // criteo-api-marketingsolutions-preview-sdk
-                    artifactVersion          : "${artifactVersion}".toString(), // 2021.10.1.211110 
+                    artifactId               : "criteo-api-${criteoService}-sdk".toString(), // criteo-api-marketingsolutions-sdk
+                    artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110 
                     artifactUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
                     dateLibrary              : technologyStack.toString(),
                     developerName            : 'Criteo',
