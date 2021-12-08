@@ -17,6 +17,7 @@ class IFsClient:
 
 
 class FsClient(IFsClient):
+
     def change_dir(self, path):
         os.chdir(path)
 

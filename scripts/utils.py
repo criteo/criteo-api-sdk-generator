@@ -3,8 +3,6 @@ import re
 import subprocess
 import logging
 
-logger = None
-
 def assert_environment_variable(variable_name):
   try:
     return os.environ[variable_name]
@@ -38,9 +36,6 @@ def assert_api_version(directory_name):
   return api_version
 
 def get_logger():
-  if logger is not None:
-    return logger
-
   logging.basicConfig(
       level=logging.DEBUG,
       format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -53,18 +48,10 @@ def get_logger():
 
 def run_command(command):
   try:
-    output = subprocess.Popen(command,
-                       shell=True,
-                       stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE)
-
-    error = output.stderr.readlines()
-    if len(error) > 0:
-      get_logger().error(str(error))
-
-    return output.stdout.readlines()
+    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
+    return output
   except subprocess.CalledProcessError as e:
-    raise CommandException(e.output)
+    raise CommandException(str(e))
 
 class CommandException(Exception):
   pass
