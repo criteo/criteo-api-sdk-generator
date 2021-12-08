@@ -51,7 +51,7 @@ def run_command(command):
     output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
     return output
   except subprocess.CalledProcessError as e:
-    raise CommandException(str(e))
+    raise CommandException(e.output)
 
 class CommandException(Exception):
   pass
