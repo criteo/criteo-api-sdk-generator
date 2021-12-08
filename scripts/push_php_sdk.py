@@ -1,123 +1,164 @@
 import os
-import re
 from os import path
+from datetime import datetime
 
-# $Env:GITHUB_WORKSPACE = "/Users/p.mathon/criteo-api-sdk-generator"
-# $Env:RUNNER_TEMP = "/Users/p.mathon/"
-# $Env:GITHUB_ACTOR = "paul.mathon"
-# $Env:GITHUB_RUN_NUMBER = "8"
-# $Env:SDK_REPO_PRIVATE_KEY = "fve"
+from git_client import GitClient, GitException
+from fs_client import FsClient
+import utils
 
-# export GITHUB_WORKSPACE="/Users/p.mathon/criteo-api-sdk-generator"
-# export RUNNER_TEMP="/Users/p.mathon/"
-# export GITHUB_ACTOR="paul.mathon"
-# export GITHUB_RUN_NUMBER="8"
-# export SDK_REPO_PRIVATE_KEY="fve"
-
-from git_client import Git
+logger = utils.get_logger()
 
 class PushPhpSdkPipeline:
 
-  def __init__(self, criteo_service, api_version) -> None:
+  def __init__(self, git_client, fs_client, criteo_service, api_version):
     self.criteo_service = criteo_service
     self.api_version = api_version
+    self.generator_version = 0
     self.__init_environment_variables()
-    self.git = Git(self.generator_repo_dir, self.github_actor, self.sdk_repo_private_key)
 
+    self.fs = fs_client
+    self.fs.change_dir(self.generator_repo_dir)
+
+    self.git = git_client
+    self.git.setup_ssh(self.sdk_repo_private_key)
+  
+  def clone_repo(self):
+    self.fs.change_dir(self.sdk_repo_dir)
+
+    organization_name = 'criteo'
+    repository_name = f'criteo-api-{self.criteo_service}-php-sdk'
+  
+    logger.info(f'Cloning repository {organization_name}/{repository_name}...')
+
+    self.git.clone(organization_name, repository_name)
+
+    self.sdk_repo_dir = path.join(self.sdk_repo_dir, repository_name)
+
+  def checkout(self):
+    self.fs.change_dir(self.sdk_repo_dir)
+  
+    branch_name = self.api_version
+    if self.criteo_service != 'preview':
+      branch_name = branch_name.replace('-', '.')
+
+    logger.info(f'Checkout branch {branch_name}.')
+
+    self.git.checkout(branch_name)
+
+  def update_sources(self):
+    logger.info('Copying new sources to repository...')
+
+    el_to_update = ['docs', 'examples', 'lib', 'test', '.gitignore', '.php_cs', 'README.md', 'composer.json', 'composer.lock', 'phpunit.xml.dist']
+
+    for element_name in el_to_update:
+      source = path.join(self.generator_repo_dir, f'generated-sources/php/{self.criteo_service}_{self.api_version}', element_name)
+      destination = path.join(self.sdk_repo_dir, element_name)
+
+      if path.exists(destination):
+        self.fs.remove(destination)
+
+      if path.exists(source):
+        self.fs.copy(source, destination)
+
+  def upload(self):
+    self.fs.change_dir(self.sdk_repo_dir)
+
+    self.git.add()
+
+    diff_count = self.git.diff_count()
+
+    logger.info(f'{diff_count} new lines modified.')
+
+    if diff_count > 0:
+      now_date = datetime.today().strftime('%Y-%m-%d')
+      tag_name = self.__get_tag_name()
+
+      logger.info(f'Committing and tagging with tag name "{tag_name}".')
+
+      self.git.commit(f'[{now_date}] Automatic update of SDK - {tag_name}')
+
+      tag_name = self.__tag_with_retry()
+
+      logger.info(f'Pushing commit and tag "{tag_name}"...')
+
+      self.git.push(include_tags=True)      
+
+  def clean(self):
+    logger.info(f'Removing directory {self.sdk_repo_dir}')
+
+    self.fs.remove(self.sdk_repo_dir)
+  
   def __init_environment_variables(self):
-    self.generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
-    self.sdk_repo_dir = assert_environment_variable('RUNNER_TEMP')
-    self.github_actor = assert_environment_variable('GITHUB_ACTOR')
-    self.tag_version = assert_environment_variable('GITHUB_RUN_NUMBER')
-    self.sdk_repo_private_key = assert_environment_variable('SDK_REPO_PRIVATE_KEY')
+    self.generator_repo_dir = utils.assert_environment_variable('GITHUB_WORKSPACE')
+    self.sdk_repo_dir = utils.assert_environment_variable('RUNNER_TEMP')
+    self.github_actor = utils.assert_environment_variable('GITHUB_ACTOR')
+    self.tag_version = utils.assert_environment_variable('GITHUB_RUN_NUMBER')
 
+    if self.criteo_service == "marketingsolutions":
+      self.sdk_repo_private_key = utils.assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS')
+    else:
+      self.sdk_repo_private_key = utils.assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_RM')
 
-def assert_environment_variable(variable_name):
-  try:
-    return os.environ[variable_name]
-  except:
-    raise Exception(f'[ERROR] Environment variable {variable_name} not set.')
+  def __get_tag_name(self, patch=0):
+      now_date = datetime.today().strftime('%Y%m%d')[2:]
 
-def assert_criteo_service(directory_name):
-  splitted_directory_name = directory_name.split('_')
+      if self.api_version == 'preview':
+        api_version = 0
+      else:
+        api_version = self.api_version.replace('-', '.')
 
-  if len(splitted_directory_name) != 2:
-    raise Exception(f'Directory name for generated source don\'t have a valid format ({directory_name})')
-  
-  criteo_service = splitted_directory_name[0].lower()
+      tag_name = f'{api_version}.{self.generator_version}.{now_date}'
 
-  if criteo_service != 'marketingsolutions' and criteo_service != 'retailmedia':
-    raise Exception(f'Criteo Service found in directory name of generated source is invalid ({criteo_service})')
-
-  return criteo_service
-
-def assert_api_version(directory_name):
-  splitted_directory_name = directory_name.split('_')
-
-  if len(splitted_directory_name) != 2:
-    raise Exception(f'Directory name for generated source don\'t have a valid format ({directory_name})')
-  
-  api_version = splitted_directory_name[1]
-
-  if api_version != 'preview' and not re.match(r'[0-9]{2,}(-[0-9]{2})', api_version):
-    raise Exception(f'API Version found in directory name of generated source is invalid ({api_version})')
-  
-  return api_version
+      if patch > 0:
+        tag_name += f'-patch{patch}'
+      
+      return tag_name
+    
+  def __tag_with_retry(self, max_retries=100):
+    retry_count = 0;
+    while retry_count < max_retries:
+        try:
+            tag_name = self.__get_tag_name(retry_count)
+            self.git.tag(tag_name)
+            
+            return tag_name
+        except GitException:
+            retry_count += 1
+            continue
+        break
 
 
 def main():
-  generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
-  print(generator_repo_dir)
+  generator_repo_dir = utils.assert_environment_variable('GITHUB_WORKSPACE')
   generator_repo_dir += '/generated-sources/php'
-  sdk_repo_dir = assert_environment_variable('RUNNER_TEMP')
-  print(generator_repo_dir)
+
   if not path.exists(generator_repo_dir):
     raise Exception(f'[ERROR] Path {generator_repo_dir} does not exist')
   
   for directory in os.listdir(generator_repo_dir):
-    print(generator_repo_dir, directory)
+    logger.info(f'Handling generated sources for {directory}')
+
     if path.isfile(path.join(generator_repo_dir, directory)):
       continue
 
-    criteo_service = assert_criteo_service(directory)
-    api_version = assert_api_version(directory)
+    criteo_service = utils.assert_criteo_service(directory)
+    api_version = utils.assert_api_version(directory)
 
-    pipeline = PushPhpSdkPipeline(criteo_service, api_version)
+    logger.info(f'Found Criteo Service "{criteo_service}" and API version "{api_version}"')
 
+    fs_client = FsClient()
+    git_client = GitClient()
+    pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
 
+    pipeline.clone_repo()
 
+    pipeline.checkout()
+
+    pipeline.update_sources()
+
+    pipeline.upload()
+
+    pipeline.clean()
     
 
-
 main()
-
-  
-
-  
-
-
-
-
-
-
-
-# Check environment variables
- 
-# Loop over ./generated-sources/php/ folder
-
-# Read folder name -> Get criteo-service / API version -> check validity
-
-# Clone "criteo-api-{criteo_service}-php-sdk" repository
-
-# From api_version -> check if branch exists -> yes: checkout, no: checkout -b
-
-# Copy/paste sources
-
-# Add -> Commit
-
-# Tag (if api_version == 'preview' -> tag version = 0.x.yyyyMMdd)
-
-# If tag fail (because it already exists) retry until retry_count == 100 with tag name = 0.0.yyyyMMdd-patch{retry_count}
-
-# push --all and push --tags
-

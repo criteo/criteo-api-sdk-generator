@@ -1,81 +1,81 @@
-import subprocess
-from subprocess import *
-import os
+import utils
 
-class Git:
+class IGitClient:
+    def setup_ssh(self, private_key):
+        pass
 
-    def __init__(self, generator_repo_dir, github_actor, sdk_repo_private_key):
-        print("Setting up push to PHP repositories")
-        self.generator_repo_dir = generator_repo_dir
-        self.github_actor = github_actor
-        self.sdk_repo_private_key = sdk_repo_private_key
-
-        print("generator_repo_dir : " + self.generator_repo_dir)
-        pipe =  Popen(
-            'eval $(ssh-agent -s)', shell=True, stdout=PIPE, stderr=STDOUT
-        )
-        output, errors = pipe.communicate(input=input)
-        print(output)
-        print ("Setting up ssh")
-        subprocess.run(['ssh-agent', '-s'], shell=True)
-        subprocess.run(['eval'], shell=True)
-        # subprocess.run(['eval', '$(ssh-agent -s)'], shell=True)
-        os.system(f'ssh-add - <<< "{self.sdk_repo_private_key}"')
+    def clone(self, organization, repository):
+        pass
     
+    def checkout(self, branch_name):
+        pass
 
-    def clone(organization, repository):
-        # subprocess.run(['cd', '/home/runner/work/_temp'])
-        # subprocess.run(['ls', '-l'])
-        # os.system(f'mkdir /home/runner/work/{repository}')
+    def branch(self, branch_name):
+        pass
 
-        print("Cloning repo")
-        os.system(f'git clone --depth 1 git@github.com:${organization}/{repository}.git')
+    def diff_count(self):
+        pass
+
+    def add(self, *args):
+        pass
     
-    def add(*args):
+    def commit(self, message):
+        pass
+    
+    def tag(self,tag_name):
+        pass
+    
+    def push(self, include_tags = True):
+        pass
+class GitClient(IGitClient):
+
+    def setup_ssh(self, sdk_repo_private_key):
+        utils.run_command('eval $(ssh-agent -s)')
+        utils.run_command('ssh-add -D')
+        utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
+
+    def clone(self, organization, repository):
+        utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
+    
+    def checkout(self, branch_name):
+        is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')) > 0
+
+        if not is_branch_exist:
+            self.branch(branch_name)
+        
+        utils.run_command(f'git checkout {branch_name}')
+
+    def branch(self, branch_name):
+        utils.run_command(f'git branch {branch_name}')
+
+    def diff_count(self):
+        diff_count = utils.run_command('git diff -U0 --staged | grep \'^[+-][^+-]\' | grep -Ev \'version|VERSION|Version\' | grep -Ev \'user_agent|UserAgent\' | wc -l | tr -d \'[:space:]\'')
+
+        return int(diff_count)
+
+    def add(self, *args):
         files = '.' if (len(args) == 0) else ''
 
         for file in args:
             files += file + ' '
         
-        os.system(f'git add {files}')
+        utils.run_command(f'git add {files}')
     
-    def commit(message):
-        os.system(f'git commit -m {message}')
+    def commit(self, message):
+        utils.run_command(f'git commit -m "{message}"')
     
-    def tag(tag_name):
-        os.system(f'git tag {tag_name}')
+    def tag(self,tag_name):
+        try:
+            utils.run_command(f'git tag {tag_name}')
+        except utils.CommandException as e:
+
+            raise GitException(f'Git tag operation failed: {str(e)}')
     
-    def push(tag = True):
-        options = '--quiet'
+    def push(self, include_tags = True):
+        utils.run_command(f'git push origin --quiet --all')
 
-        if (tag):
-            options += ' --tags'
-        else:
-            options += ' --all'
+        if include_tags:
+            utils.run_command(f'git push origin --tags')
 
-        os.system(f'git push origin {options}')
-
-
-# print("Cloning git repositories")
-
-
-# print("remove previous sdk")
-
-# print("copy new sdks")
-
-# print("git add files")
-
-# print("check modifications and push")
-
-# Push specifications:
-# iterate over the generate sdks
-# 1. Get Criteo Service
-# 2. Get Version Name
-# 3. Determine Branch Name:
-#   -- For Preview Branch, branch name should be 0.generator.yyyyMMdd (ex. 0.0.211124)
-#   -- For Stable Branch, branch name should be Api.version.generator.yyyyMMdd (ex. 2021.01.0.211124)
-#   -- Create Tag for the branch (with the actual version ex. 20201.10.0.2)
-# 4. Check for existence of Tag
-# 5. If Tag exists, append -patchX to new branch. If X is 100, fail the script with an error.
-# 6. Push branches and tags
-
+class GitException(Exception):
+    pass
