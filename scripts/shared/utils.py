@@ -5,7 +5,6 @@ import logging
 from datetime import datetime
 
 logger = None
-formatted_date = None
 
 def assert_environment_variable(variable_name):
   try:
@@ -30,8 +29,8 @@ def assert_api_version(directory_name):
   splitted_directory_name = directory_name.split('_')
 
   if len(splitted_directory_name) != 2:
-    raise InvalidApiVersionException(f'Directory name for generated source doesn\'t have a valid format ({directory_name})')
-
+    raise InvalidApiVersionException(f'Directory name for generated source don\'t have a valid format ({directory_name})')
+  
   api_version = splitted_directory_name[1]
 
   if api_version != 'preview' and not re.match(r'[0-9]{2,}(-[0-9]{2})', api_version):
@@ -52,14 +51,11 @@ def get_logger(name=''):
 
     logger = logging.getLogger(name)
 
-  return logger
+  return logging.getLogger(name)
 
 def get_formatted_date():
-  global formatted_date
-  if formatted_date is None:
-    formatted_date = datetime.today().strftime('%Y%m%d')[2:]
-
-  return formatted_date
+  date = datetime.today().strftime('%Y%m%d')[2:]
+  return date
 
 def run_command(command, env=None, error_template=None):
   try:
