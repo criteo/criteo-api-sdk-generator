@@ -2,12 +2,12 @@ import pytest
 from os import path
 
 from ..models.criteo_service import CriteoService
-from ..php_sdk_push_action import PhpSdkPushAction
+from ..push_php_sdk_action import PushPhpSdkAction
 from ..clients.git_client import GitException
 from ..utils import InvalidCriteoServiceException, InvalidApiVersionException, get_formatted_date
-from .builders.git_client_builder import GitClientBuilder
-from .builders.fs_client_builder import FsClientBuilder
-from .builders.os_client_builder import OsClientBuilder
+from ..builders.git_client_builder import GitClientBuilder
+from ..builders.fs_client_builder import FsClientBuilder
+from ..builders.os_client_builder import OsClientBuilder
 
 
 class TestPushSdkAction:
@@ -33,11 +33,11 @@ class TestPushSdkAction:
   def test_execute_should_fail_when_sdks_folder_not_found(self):
     # Arrange
     fs_client = self.fs_client_builder.that_responds_on_exists(self.generated_sources, False).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
 
     # Act & Assert
     with pytest.raises(FileNotFoundError):
-      pipeline.execute()
+      action.execute()
   
   
   def test_execute_should_fail_when_invalid_folder_name_for_generate_source(self):
@@ -46,66 +46,66 @@ class TestPushSdkAction:
     
     fs_client = (self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [invalid_folder_name])
       .client)
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
     with pytest.raises(InvalidCriteoServiceException):
-      pipeline.execute()
+      action.execute()
   
   def test_execute_should_fail_when_invalid_criteo_service(self):
     # Arrange
     invalid_criteo_service = 'invalid_criteo_service'
     
     fs_client = self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [f'{invalid_criteo_service}_preview']).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
     with pytest.raises(InvalidCriteoServiceException):
-      pipeline.execute()
+      action.execute()
       
   def test_execute_should_fail_when_invalid_api_version(self):
     # Arrange
     invalid_api_version = 'invalid-api-version'
     
     fs_client = self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [f'{CriteoService.marketingsolutions}_{invalid_api_version}']).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
     with pytest.raises(InvalidApiVersionException):
-      pipeline.execute()
+      action.execute()
   
   def test_execute_should_fail_when_remove_previous_sources_fails(self):
     # Arrange
     expected_exception = FileNotFoundError()
     
     fs_client = self.fs_client_builder.that_fails_on_remove(expected_exception).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
-      pipeline.execute()
+    with pytest.raises(FileNotFoundError):
+      action.execute()
   
   def test_execute_should_fail_when_copy_new_sources_fails(self):
     # Arrange
     expected_exception = FileNotFoundError()
     
     fs_client = self.fs_client_builder.that_fails_on_copy(expected_exception).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
-      pipeline.execute()
+    with pytest.raises(FileNotFoundError):
+      action.execute()
       
   def test_execute_should_fail_when_copy_new_sources_fails(self):
     # Arrange
     expected_exception = FileNotFoundError()
     
     fs_client = self.fs_client_builder.that_fails_on_copy(expected_exception).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
-      pipeline.execute()
+    with pytest.raises(FileNotFoundError):
+      action.execute()
   
   test_data = [
     ('preview', 0, f'0.0.{get_formatted_date()}'),
@@ -122,10 +122,10 @@ class TestPushSdkAction:
     git_client = self.git_client_builder.with_nth_failures_before_success(failure_count).client
     fs_client = (self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [f'{self.criteo_service}_{api_version}'])
                                        .that_responds_on_list_dir(path.join(self.generated_sources, f'{self.criteo_service}_{api_version}'), ['lib'])).client
-    pipeline = PhpSdkPushAction(git_client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(git_client, fs_client, self.os_client_builder.client)
 
     # Act
-    pipeline.execute()
+    action.execute()
 
     # Assert
     assert git_client.current_tag == expected_tag
@@ -133,11 +133,11 @@ class TestPushSdkAction:
   def test_tag_should_fail_when_tag_retries_exceed_max(self):
     # Arrange
     git_client = self.git_client_builder.with_nth_failures_before_success(100).client
-    pipeline = PhpSdkPushAction(git_client, self.fs_client_builder.client, self.os_client_builder.client)
+    action = PushPhpSdkAction(git_client, self.fs_client_builder.client, self.os_client_builder.client)
 
     # Act & Assert
     with pytest.raises(GitException):
-      pipeline.execute()
+      action.execute()
   
   test_data = [
     ('preview', 'preview'),
@@ -152,10 +152,10 @@ class TestPushSdkAction:
     # Arrange
     fs_client = (self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [f'{self.criteo_service}_{api_version}'])
                                        .that_responds_on_list_dir(path.join(self.generated_sources, f'{self.criteo_service}_{api_version}'), ['lib'])).client
-    pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
+    action = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
 
     # Act
-    pipeline.execute()
+    action.execute()
 
     # Assert
     assert self.git_client_builder.client.current_branch == expected_branch
@@ -163,10 +163,10 @@ class TestPushSdkAction:
   def test_upload_should_not_be_triggered_if_no_diff(self):
     # Arrange
     git_client = self.git_client_builder.that_responds_on_diff_count(0).client
-    pipeline = PhpSdkPushAction(git_client, self.fs_client_builder.client, self.os_client_builder.client)
+    action = PushPhpSdkAction(git_client, self.fs_client_builder.client, self.os_client_builder.client)
 
     # Act
-    pipeline.execute()
+    action.execute()
 
     # Assert
     assert not git_client.is_pushed
@@ -174,10 +174,10 @@ class TestPushSdkAction:
   def test_upload_should_be_triggered_if_diff_exists(self):
     # Arrange
     git_client = self.git_client_builder.that_responds_on_diff_count(42).client
-    pipeline = PhpSdkPushAction(git_client, self.fs_client_builder.client, self.os_client_builder.client)
+    action = PushPhpSdkAction(git_client, self.fs_client_builder.client, self.os_client_builder.client)
 
     # Act
-    pipeline.execute()
+    action.execute()
 
     # Assert
     assert git_client.is_pushed
