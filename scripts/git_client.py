@@ -31,11 +31,11 @@ class IGitClient:
 class GitClient(IGitClient):
 
     def setup_ssh(self, sdk_repo_private_key):
-        utils.run_command(f'eval `ssh-agent -s` && ssh-add -D && ssh-add - <<< "{sdk_repo_private_key}"')
+        self.command_prefix = f'eval `ssh-agent -s` && ssh-add -D && ssh-add - <<< "{sdk_repo_private_key}"'
         # utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
 
     def clone(self, organization, repository):
-        utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
+        utils.run_command(f'{self.command_prefix} git clone git@github.com:{organization}/{repository}.git')
     
     def checkout(self, branch_name):
         is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')) > 0
