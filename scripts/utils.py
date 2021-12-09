@@ -48,7 +48,7 @@ def get_logger():
 
 def run_command(command):
   try:
-    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
+    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, executable='/bin/bash')
     return output
   except subprocess.CalledProcessError as e:
     raise CommandException(e.output)
