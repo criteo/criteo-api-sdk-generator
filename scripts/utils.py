@@ -53,6 +53,9 @@ def run_command(command):
                        shell=True,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
+    error = output.stderr.readlines()
+    if len(error) > 0:
+      print("ERRRROOORR", error)
     return output.stdout.readlines()
   except subprocess.CalledProcessError as e:
     raise CommandException(e.output)
