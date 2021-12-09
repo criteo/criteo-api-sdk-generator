@@ -36,7 +36,8 @@ class GitClient(IGitClient):
         utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
 
     def clone(self, organization, repository):
-        utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
+        output = utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
+        print("output", output)
     
     def checkout(self, branch_name):
         is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')[0]) > 0

@@ -35,6 +35,8 @@ class PushPhpSdkPipeline:
     self.sdk_repo_dir = path.join(self.sdk_repo_dir, repository_name)
 
   def checkout(self):
+    print("second output", utils.run_command('ls'))
+    print("third output", utils.run_command('pwd'))
     self.fs.change_dir(self.sdk_repo_dir)
   
     branch_name = self.api_version
