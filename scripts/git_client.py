@@ -31,14 +31,15 @@ class IGitClient:
 class GitClient(IGitClient):
 
     def setup_ssh(self, sdk_repo_private_key):
-        self.command_prefix = f'eval `ssh-agent -s` && ssh-add -D && ssh-add - <<< "{sdk_repo_private_key}" &&'
-        # utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
+        utils.run_command('eval `ssh-agent -s`')
+        utils.run_command('ssh-add -D')
+        utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
 
     def clone(self, organization, repository):
-        utils.run_command(f'{self.command_prefix} git clone git@github.com:{organization}/{repository}.git')
+        utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
     
     def checkout(self, branch_name):
-        is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')) > 0
+        is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')[0]) > 0
 
         if not is_branch_exist:
             self.branch(branch_name)
@@ -51,7 +52,7 @@ class GitClient(IGitClient):
     def diff_count(self):
         diff_count = utils.run_command('git diff -U0 --staged | grep \'^[+-][^+-]\' | grep -Ev \'version|VERSION|Version\' | grep -Ev \'user_agent|UserAgent\' | wc -l | tr -d \'[:space:]\'')
 
-        return int(diff_count)
+        return int(diff_count[0])
 
     def add(self, *args):
         files = '.' if (len(args) == 0) else ''
