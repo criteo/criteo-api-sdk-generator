@@ -48,8 +48,12 @@ def get_logger():
 
 def run_command(command):
   try:
-    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, executable='/bin/bash')
-    return output
+    # output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, executable='/bin/bash')
+    output = subprocess.Popen(command,
+                       shell=True,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+    return output.stdout.readlines()
   except subprocess.CalledProcessError as e:
     raise CommandException(e.output)
 
