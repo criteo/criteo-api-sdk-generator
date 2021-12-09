@@ -27,11 +27,11 @@ class IGitClient:
     
     def push(self, include_tags = True):
         pass
+
 class GitClient(IGitClient):
 
     def setup_ssh(self, sdk_repo_private_key):
-        utils.run_command('eval `ssh-agent`')
-        utils.run_command('ssh-add -D')
+        utils.run_command('eval `ssh-agent -s` && ssh-add -D')
         utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
 
     def clone(self, organization, repository):
