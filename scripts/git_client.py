@@ -30,7 +30,7 @@ class IGitClient:
 class GitClient(IGitClient):
 
     def setup_ssh(self, sdk_repo_private_key):
-        utils.run_command('eval $(ssh-agent -s)')
+        utils.run_command('eval `ssh-agent`')
         utils.run_command('ssh-add -D')
         utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
 
