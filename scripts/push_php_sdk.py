@@ -21,6 +21,7 @@ class PushPhpSdkPipeline:
 
     self.git = git_client
     self.git.setup_ssh(self.sdk_repo_private_key)
+    print(self.sdk_repo_private_key)
   
   def clone_repo(self):
     self.fs.change_dir(self.sdk_repo_dir)
