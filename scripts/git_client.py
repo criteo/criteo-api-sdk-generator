@@ -31,8 +31,8 @@ class IGitClient:
 class GitClient(IGitClient):
 
     def setup_ssh(self, sdk_repo_private_key):
-        utils.run_command('eval `ssh-agent -s` && ssh-add -D')
-        utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
+        utils.run_command(f'eval `ssh-agent -s` && ssh-add -D && ssh-add - <<< "{sdk_repo_private_key}"')
+        # utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
 
     def clone(self, organization, repository):
         utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
