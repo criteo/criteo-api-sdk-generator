@@ -15,7 +15,6 @@ class IFsClient:
         """Copy directory (recursively) or folder"""
         pass
 
-
 class FsClient(IFsClient):
     def change_dir(self, path):
         os.chdir(path)

@@ -2,14 +2,13 @@ import os
 from os import path
 from datetime import datetime
 
-from git_client import GitClient2, GitException
+from git_client import GitClient, GitException
 from fs_client import FsClient
 import utils
 
 logger = utils.get_logger()
 
 class PushPhpSdkPipeline:
-
   def __init__(self, git_client, fs_client, criteo_service, api_version):
     self.criteo_service = criteo_service
     self.api_version = api_version
@@ -37,8 +36,6 @@ class PushPhpSdkPipeline:
     self.sdk_repo_dir = path.join(self.sdk_repo_dir, repository_name)
 
   def checkout(self):
-    print("second output", utils.run_command('ls'))
-    print("third output", utils.run_command('pwd'))
     self.fs.change_dir(self.sdk_repo_dir)
   
     branch_name = self.api_version
@@ -124,8 +121,6 @@ class PushPhpSdkPipeline:
         except GitException:
             retry_count += 1
             continue
-        break
-
 
 def main():
   generator_repo_dir = utils.assert_environment_variable('GITHUB_WORKSPACE')
@@ -146,7 +141,7 @@ def main():
     logger.info(f'Found Criteo Service "{criteo_service}" and API version "{api_version}"')
 
     fs_client = FsClient()
-    git_client = GitClient2()
+    git_client = GitClient()
     pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
 
     pipeline.clone_repo()
@@ -158,6 +153,5 @@ def main():
     pipeline.upload()
 
     pipeline.clean()
-    
 
 main()
