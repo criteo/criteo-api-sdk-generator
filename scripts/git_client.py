@@ -1,11 +1,51 @@
 import utils
+import os
+from os import path
+from git import Repo
 
+os.environ['GIT-PYTHON-TRACE'] = '1'
 class IGitClient:
     def setup_ssh(self, private_key):
         pass
 
     def clone(self, organization, repository):
         pass
+    
+    def checkout(self, branch_name):
+        pass
+
+    def branch(self, branch_name):
+        pass
+
+    def diff_count(self):
+        pass
+
+    def add(self, *args):
+        pass
+    
+    def commit(self, message):
+        pass
+    
+    def tag(self,tag_name):
+        pass
+    
+    def push(self, include_tags = True):
+        pass
+
+class GitClient2:
+    def setup_ssh(self, private_key):
+        self.private_key = private_key
+
+
+    def clone(self, organization, repository):
+        path2 = utils.assert_environment_variable('RUNNER_TEMP')
+
+        with open(path.join(path2, 'pk'), 'w') as f:
+            f.write(self.private_key)
+        
+        pk_path = path.join(path2, 'pk')
+
+        Repo.clone_from(f'git@github.com:{organization}/{repository}.git', repository, env= { 'GIT_SSH_COMMAND': f'ssh -i {pk_path}'})
     
     def checkout(self, branch_name):
         pass
