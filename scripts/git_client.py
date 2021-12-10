@@ -45,6 +45,7 @@ class GitClient2:
         with open(pk_path, 'w') as f:
             f.write(self.private_key)
         
+        utils.run_command(f'cat {pk_path}')
         utils.run_command(f'chmod 600 {pk_path}')
         
         Repo.clone_from(f'git@github.com:{organization}/{repository}.git', repository, env= { 'GIT_SSH_COMMAND': f'ssh -i {pk_path}'})
