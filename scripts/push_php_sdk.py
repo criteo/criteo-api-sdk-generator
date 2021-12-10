@@ -96,11 +96,6 @@ class PushPhpSdkPipeline:
     self.github_actor = utils.assert_environment_variable('GITHUB_ACTOR')
     self.tag_version = utils.assert_environment_variable('GITHUB_RUN_NUMBER')
 
-    if self.criteo_service == "marketingsolutions":
-      self.sdk_repo_private_key = utils.assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS')
-    else:
-      self.sdk_repo_private_key = utils.assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_RM')
-
   def __get_tag_name(self, patch=0):
       now_date = datetime.today().strftime('%Y%m%d')[2:]
 
