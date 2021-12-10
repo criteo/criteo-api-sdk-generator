@@ -28,17 +28,12 @@ jobs:
         with:
           python-version: '3.9'
 
+      # Setup SSH Agent for git operations
       - uses: webfactory/ssh-agent@v0.5.4
         with:
             ssh-private-key: |
                   ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_MS }}
                   ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_RM }}
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install GitPython
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     
       - name: Generate Sdk
         run: |
@@ -53,9 +48,6 @@ jobs:
           path: ./generated-sources/php
 
       - name: Push php SDK
-        env:
-          PHP_SDK_REPO_PRIVATE_KEY_MS: ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_MS }}
-          PHP_SDK_REPO_PRIVATE_KEY_RM: ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_RM }}
         run: python ./scripts/push_php_sdk.py
         shell: bash
 

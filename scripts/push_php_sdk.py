@@ -2,7 +2,7 @@ import os
 from os import path
 from datetime import datetime
 
-from git_client import GitClient, GitException
+from git_client import GitClient2, GitException
 from fs_client import FsClient
 import utils
 
@@ -37,6 +37,8 @@ class PushPhpSdkPipeline:
     self.sdk_repo_dir = path.join(self.sdk_repo_dir, repository_name)
 
   def checkout(self):
+    print("second output", utils.run_command('ls'))
+    print("third output", utils.run_command('pwd'))
     self.fs.change_dir(self.sdk_repo_dir)
   
     branch_name = self.api_version
@@ -96,11 +98,6 @@ class PushPhpSdkPipeline:
     self.github_actor = utils.assert_environment_variable('GITHUB_ACTOR')
     self.tag_version = utils.assert_environment_variable('GITHUB_RUN_NUMBER')
 
-    if self.criteo_service == "marketingsolutions":
-      self.sdk_repo_private_key = utils.assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS')
-    else:
-      self.sdk_repo_private_key = utils.assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_RM')
-
   def __get_tag_name(self, patch=0):
       now_date = datetime.today().strftime('%Y%m%d')[2:]
 
@@ -149,7 +146,7 @@ def main():
     logger.info(f'Found Criteo Service "{criteo_service}" and API version "{api_version}"')
 
     fs_client = FsClient()
-    git_client = GitClient()
+    git_client = GitClient2()
     pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
 
     pipeline.clone_repo()

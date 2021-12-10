@@ -1,11 +1,8 @@
 import utils
-import os
-from os import path
-from git import Repo
 
 os.environ['GIT-PYTHON-TRACE'] = '1'
 class IGitClient:
-    def setup_ssh(self, private_key):
+    def setup(self, actor):
         pass
 
     def clone(self, organization, repository):
@@ -73,13 +70,13 @@ class GitClient2:
         pass
 
 class GitClient(IGitClient):
-
     def setup(self, actor):
         utils.run_command('git config --global user.email "{actor}@users.noreply.github.com"')
         utils.run_command(f'git config --global user.name "{actor}"')
 
     def clone(self, organization, repository):
-        utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
+        output = utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
+        print("output", output)
     
     def checkout(self, branch_name):
         is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')[0]) > 0
