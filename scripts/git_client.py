@@ -1,7 +1,4 @@
 import utils
-import os
-from os import path
-from git import Repo
 
 class IGitClient:
     def setup(self, actor):
