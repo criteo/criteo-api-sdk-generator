@@ -28,6 +28,12 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install GitPython
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
       - name: Generate Sdk
         run: |
           chmod +x ./scripts/build_php_sdk.sh
