@@ -74,14 +74,12 @@ class GitClient2:
 
 class GitClient(IGitClient):
 
-    def setup_ssh(self, sdk_repo_private_key):
-        utils.run_command('eval `ssh-agent -s`')
-        utils.run_command('ssh-add -D')
-        utils.run_command(f'ssh-add - <<< "{sdk_repo_private_key}"')
+    def setup(self, actor):
+        utils.run_command('git config user.email "{actor}@users.noreply.github.com"')
+        utils.run_command(f'git config user.name "{actor}"')
 
     def clone(self, organization, repository):
-        output = utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
-        print("output", output)
+        utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
     
     def checkout(self, branch_name):
         is_branch_exist = int(utils.run_command(f'git branch --all | grep -l {branch_name} | wc -l | tr -d \'[:space:]\'')[0]) > 0

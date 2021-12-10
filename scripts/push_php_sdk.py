@@ -20,8 +20,7 @@ class PushPhpSdkPipeline:
     self.fs.change_dir(self.generator_repo_dir)
 
     self.git = git_client
-    # self.git.setup_ssh(self.sdk_repo_private_key)
-    print(self.sdk_repo_private_key)
+    self.git.setup(self.github_actor)
   
   def clone_repo(self):
     self.fs.change_dir(self.sdk_repo_dir)
@@ -36,8 +35,6 @@ class PushPhpSdkPipeline:
     self.sdk_repo_dir = path.join(self.sdk_repo_dir, repository_name)
 
   def checkout(self):
-    print("second output", utils.run_command('ls'))
-    print("third output", utils.run_command('pwd'))
     self.fs.change_dir(self.sdk_repo_dir)
   
     branch_name = self.api_version
