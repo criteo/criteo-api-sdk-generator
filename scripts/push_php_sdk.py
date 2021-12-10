@@ -2,7 +2,7 @@ import os
 from os import path
 from datetime import datetime
 
-from git_client import GitClient, GitException
+from git_client import GitClient2, GitException
 from fs_client import FsClient
 import utils
 
@@ -150,7 +150,7 @@ def main():
     logger.info(f'Found Criteo Service "{criteo_service}" and API version "{api_version}"')
 
     fs_client = FsClient()
-    git_client = GitClient()
+    git_client = GitClient2()
     pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
 
     pipeline.clone_repo()
