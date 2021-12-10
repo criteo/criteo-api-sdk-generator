@@ -28,6 +28,12 @@ jobs:
         with:
           python-version: '3.9'
 
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+            ssh-private-key: |
+                  ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_MS }}
+                  ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_RM }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
