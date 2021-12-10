@@ -2,7 +2,7 @@ import os
 from os import path
 from datetime import datetime
 
-from git_client import GitClient2, GitException
+from git_client import GitClient, GitException
 from fs_client import FsClient
 import utils
 
@@ -20,7 +20,7 @@ class PushPhpSdkPipeline:
     self.fs.change_dir(self.generator_repo_dir)
 
     self.git = git_client
-    self.git.setup_ssh(self.sdk_repo_private_key)
+    # self.git.setup_ssh(self.sdk_repo_private_key)
     print(self.sdk_repo_private_key)
   
   def clone_repo(self):
@@ -150,7 +150,7 @@ def main():
     logger.info(f'Found Criteo Service "{criteo_service}" and API version "{api_version}"')
 
     fs_client = FsClient()
-    git_client = GitClient2()
+    git_client = GitClient()
     pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
 
     pipeline.clone_repo()
