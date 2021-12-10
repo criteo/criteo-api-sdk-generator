@@ -20,6 +20,8 @@ class PushPhpSdkPipeline:
     self.fs.change_dir(self.generator_repo_dir)
 
     self.git = git_client
+
+    logger.info(f'Setup Git with user {self.github_actor}.')
     self.git.setup(self.github_actor)
   
   def clone_repo(self):

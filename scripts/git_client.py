@@ -75,8 +75,8 @@ class GitClient2:
 class GitClient(IGitClient):
 
     def setup(self, actor):
-        utils.run_command('git config user.email "{actor}@users.noreply.github.com"')
-        utils.run_command(f'git config user.name "{actor}"')
+        utils.run_command('git config --global user.email "{actor}@users.noreply.github.com"')
+        utils.run_command(f'git config --global user.name "{actor}"')
 
     def clone(self, organization, repository):
         utils.run_command(f'git clone git@github.com:{organization}/{repository}.git')
