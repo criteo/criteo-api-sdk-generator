@@ -53,14 +53,13 @@ def get_logger():
 
 def run_command(command):
   try:
-    # output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, executable='/bin/bash')
     output = subprocess.Popen(command,
                        shell=True,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
     error = output.stderr.readlines()
     if len(error) > 0:
-      get_logger().error(' '.join(error))
+      get_logger().error(str(error))
 
     return output.stdout.readlines()
   except subprocess.CalledProcessError as e:
