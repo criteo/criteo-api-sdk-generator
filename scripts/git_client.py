@@ -40,11 +40,13 @@ class GitClient2:
     def clone(self, organization, repository):
         path2 = utils.assert_environment_variable('RUNNER_TEMP')
 
-        with open(path.join(path2, 'pk'), 'w') as f:
+        pk_path = path.join(path2, 'pk')
+        
+        with open(pk_path, 'w') as f:
             f.write(self.private_key)
         
-        pk_path = path.join(path2, 'pk')
-
+        utils.run_command(f'chmod 600 {pk_path}')
+        
         Repo.clone_from(f'git@github.com:{organization}/{repository}.git', repository, env= { 'GIT_SSH_COMMAND': f'ssh -i {pk_path}'})
     
     def checkout(self, branch_name):
