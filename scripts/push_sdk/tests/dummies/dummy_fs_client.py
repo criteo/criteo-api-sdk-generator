@@ -1,4 +1,4 @@
-from ...fs_client import IFsClient
+from ...clients.fs_client import IFsClient
 
 class DummyFsClient(IFsClient):
   def change_dir(self, path):

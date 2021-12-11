@@ -1,6 +1,6 @@
 from os import path
 
-from .git_client import GitException
+from .clients.git_client import GitException
 from .utils import get_logger, assert_environment_variable, get_formatted_date
 
 logger = get_logger()

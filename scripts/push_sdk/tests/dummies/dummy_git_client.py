@@ -1,4 +1,4 @@
-from ...git_client import IGitClient, GitException
+from ...clients.git_client import IGitClient, GitException
 
 class DummyGitClient(IGitClient):
     def __init__(self):
