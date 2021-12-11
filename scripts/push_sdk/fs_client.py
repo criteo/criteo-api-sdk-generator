@@ -15,6 +15,10 @@ class IFsClient:
         """Copy directory (recursively) or folder"""
         pass
 
+    def exist(self, file_path):
+        """check if file or folder exists"""
+        pass
+
 
 class FsClient(IFsClient):
     def change_dir(self, path):
@@ -31,3 +35,6 @@ class FsClient(IFsClient):
             shutil.copy(source, destination)
         else:
             shutil.copytree(source, destination)
+    
+    def exists(self, file_path):
+        return path.exists(file_path)

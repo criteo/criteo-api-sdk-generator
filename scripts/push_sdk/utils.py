@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import logging
+from datetime import datetime
 
 logger = None
 
@@ -50,6 +51,10 @@ def get_logger():
   )
 
   return logging.getLogger('')
+
+def get_formatted_date():
+  date = datetime.today().strftime('%Y%m%d')[2:]
+  return date
 
 def run_command(command):
   try:
