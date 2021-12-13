@@ -15,28 +15,23 @@ class PushPhpSdkPipeline:
     self.cloned_repositories = []
     self.__init_environment_variables()
 
-    self.fs.change_dir(self.generator_repo_dir)
-
     logger.info(f'Setting up Git with user {self.git_user}...')
     self.git.setup(self.git_user)
 
     if not self.is_prod_environment:
       private_key = (assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS')
         if self.criteo_service == 'marketingsolutions'
-        else assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS'))
+        else assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_RM'))
       self.git.setup_ssh(private_key)
 
   def execute(self):
-    generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
-    generator_repo_dir += '/generated-sources/php'
-
-    if not self.fs.exists(generator_repo_dir):
-      raise Exception(f'[ERROR] Path {generator_repo_dir} does not exist')
+    if not self.fs.exists(self.generated_sources_base_path):
+      raise Exception(f'[ERROR] Path {self.generated_sources_base_path} does not exist')
     
-    for directory in self.fs.list_dir(generator_repo_dir):
+    for directory in self.fs.list_dir(self.generated_sources_base_path):
       logger.info(f'Handling generated sources for {directory}')
 
-      if path.isfile(path.join(generator_repo_dir, directory)):
+      if path.isfile(path.join(self.generated_sources_base_path, directory)):
         continue
 
       self.criteo_service = assert_criteo_service(directory)
@@ -88,7 +83,7 @@ class PushPhpSdkPipeline:
     el_to_update = ['docs', 'examples', 'lib', 'test', '.gitignore', '.php_cs', 'README.md', 'composer.json', 'composer.lock', 'phpunit.xml.dist']
 
     for element_name in el_to_update:
-      source = path.join(self.generator_repo_dir, f'generated-sources/php/{self.criteo_service}_{self.api_version}', element_name)
+      source = path.join(self.generated_sources_base_path, f'{self.criteo_service}_{self.api_version}', element_name)
       destination = path.join(self.sdk_repo_dir, element_name)
 
       if self.fs.exists(destination):
@@ -126,7 +121,7 @@ class PushPhpSdkPipeline:
       self.fs.remove(repository)
   
   def __init_environment_variables(self):
-    self.generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
+    self.generated_sources_base_path = self.os_client.get_generated_sources_base_path()
     self.sdk_base_folder = assert_environment_variable('RUNNER_TEMP')
     self.git_user = assert_environment_variable('GITHUB_ACTOR')
 

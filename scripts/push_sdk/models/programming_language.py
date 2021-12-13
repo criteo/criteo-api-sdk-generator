@@ -1,4 +1,4 @@
 from enum import Enum
 
-class ProgrammingLanguages(Enum):
+class ProgrammingLanguage(Enum):
   php = 'php'

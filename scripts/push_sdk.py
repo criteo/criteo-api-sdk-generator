@@ -5,7 +5,7 @@ import sys, getopt
 from push_sdk.clients.fs_client import FsClient
 from push_sdk.clients.git_client import GitClient
 from push_sdk.php_pipeline import PushPhpSdkPipeline
-from push_sdk.utils import assert_environment_variable, assert_criteo_service, assert_api_version, get_logger
+from push_sdk.utils import get_logger
 
 logger = get_logger()
 
