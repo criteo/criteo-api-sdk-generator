@@ -2,7 +2,7 @@ import os
 from os import path
 import shutil
 
-class IFsClient:
+class IFsClient:        
     def list_dir(self, dir_path):
         """List files and directories in a given folder"""
         pass
@@ -19,7 +19,7 @@ class IFsClient:
         """Copy directory (recursively) or folder"""
         pass
 
-    def exist(self, file_path):
+    def exists(self, file_path):
         """check if file or folder exists"""
         pass
 

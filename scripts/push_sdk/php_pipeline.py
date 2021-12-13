@@ -8,9 +8,12 @@ logger = get_logger()
 
 class PushPhpSdkPipeline:
 
-  def __init__(self, git_client, fs_client):
+  def __init__(self, git_client, fs_client, os_client):
     self.fs = fs_client
     self.git = git_client
+    self.os = os_client
+    
+    self.programming_language = 'php'
     self.generator_version = 0
     self.cloned_repositories = []
     self.__init_environment_variables()
@@ -18,15 +21,9 @@ class PushPhpSdkPipeline:
     logger.info(f'Setting up Git with user {self.git_user}...')
     self.git.setup(self.git_user)
 
-    if not self.is_prod_environment:
-      private_key = (assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS')
-        if self.criteo_service == 'marketingsolutions'
-        else assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_RM'))
-      self.git.setup_ssh(private_key)
-
   def execute(self):
     if not self.fs.exists(self.generated_sources_base_path):
-      raise Exception(f'[ERROR] Path {self.generated_sources_base_path} does not exist')
+      raise FileNotFoundError(f'[ERROR] Path {self.generated_sources_base_path} does not exist')
     
     for directory in self.fs.list_dir(self.generated_sources_base_path):
       logger.info(f'Handling generated sources for {directory}')
@@ -36,9 +33,13 @@ class PushPhpSdkPipeline:
 
       self.criteo_service = assert_criteo_service(directory)
       self.api_version = assert_api_version(directory)
-
+      
       logger.info(f'Found Criteo Service "{self.criteo_service}" and API version "{self.api_version}"')
-
+      
+      if not self.is_prod_environment:
+        private_key = self.os.get_private_key(self.programming_language, self.criteo_service)
+        self.git.setup_ssh(private_key)
+  
       self.clone_repo()
 
       self.checkout()
@@ -65,7 +66,6 @@ class PushPhpSdkPipeline:
 
       self.cloned_repositories.append(self.sdk_repo_dir)
 
-
   def checkout(self):
     self.fs.change_dir(self.sdk_repo_dir)
   
@@ -80,17 +80,18 @@ class PushPhpSdkPipeline:
   def update_sources(self):
     logger.info('Copying new sources to repository...')
 
-    el_to_update = ['docs', 'examples', 'lib', 'test', '.gitignore', '.php_cs', 'README.md', 'composer.json', 'composer.lock', 'phpunit.xml.dist']
-
-    for element_name in el_to_update:
-      source = path.join(self.generated_sources_base_path, f'{self.criteo_service}_{self.api_version}', element_name)
+    # Remove repository content except .git file
+    for element_name in self.fs.list_dir(self.sdk_repo_dir):
+      if element_name == '.git':
+        continue
+      
+      self.fs.remove(path.join(self.sdk_repo_dir, element_name))
+    
+    generated_sources_path = path.join(self.generated_sources_base_path, f'{self.criteo_service}_{self.api_version}')
+    for element_name in self.fs.list_dir(generated_sources_path):
+      source = path.join(generated_sources_path, element_name)
       destination = path.join(self.sdk_repo_dir, element_name)
-
-      if self.fs.exists(destination):
-        self.fs.remove(destination)
-
-      if self.fs.exists(source):
-        self.fs.copy(source, destination)
+      self.fs.copy(source, destination)
 
   def upload(self):
     self.fs.change_dir(self.sdk_repo_dir)
@@ -121,15 +122,10 @@ class PushPhpSdkPipeline:
       self.fs.remove(repository)
   
   def __init_environment_variables(self):
-    self.generated_sources_base_path = self.os_client.get_generated_sources_base_path()
-    self.sdk_base_folder = assert_environment_variable('RUNNER_TEMP')
-    self.git_user = assert_environment_variable('GITHUB_ACTOR')
-
-    try:
-      assert_environment_variable('GITHUB_RUN_NUMBER')
-      self.is_prod_environment = True
-    except Exception:
-      self.is_prod_environment = False
+    self.generated_sources_base_path = self.os.get_generated_sources_base_path(self.programming_language)
+    self.sdk_base_folder = self.os.get_sdk_repo_base_path()
+    self.git_user = self.os.get_git_user()
+    self.is_prod_environment = self.os.is_prod_environment()
 
   def __get_tag_name(self, patch=0):
       now_date = get_formatted_date()
@@ -158,4 +154,4 @@ class PushPhpSdkPipeline:
             retry_count += 1
             continue
     
-    raise Exception(f'Maximum number of retry reached for the tag operation: {max_retries}')
+    raise GitException(f'Maximum number of retry reached for the tag operation: {max_retries}')

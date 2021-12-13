@@ -1,9 +1,9 @@
 import os
-from os import path
 import sys, getopt
 
 from push_sdk.clients.fs_client import FsClient
 from push_sdk.clients.git_client import GitClient
+from push_sdk.clients.os_client import OsClient
 from push_sdk.php_pipeline import PushPhpSdkPipeline
 from push_sdk.utils import get_logger
 
@@ -28,7 +28,8 @@ def main():
   if language in ('php',):
     git_client = GitClient()
     fs_client = FsClient()
-    pipeline = PushPhpSdkPipeline(git_client, fs_client)
+    os_client = OsClient()
+    pipeline = PushPhpSdkPipeline(git_client, fs_client, os_client)
   else:
     raise Exception(f'Unsupported programming language ({language}).')
   

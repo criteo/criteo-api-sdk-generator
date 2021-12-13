@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 
-class ProgrammingLanguage(Enum):
+class ProgrammingLanguage(str, Enum):
   php = 'php'
