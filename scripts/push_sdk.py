@@ -25,43 +25,20 @@ def main():
     else:
       raise Exception(f'Unsupported command line option ({option}={value}).')
   
-  if language != 'php':
-    raise Exception(f'Unsupported programming language ({language}).')
-
-  push_php_sdk()
-
-def push_php_sdk():
-  fs_client = FsClient()
-
-  generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
-  generator_repo_dir += '/generated-sources/php'
-
-  if not fs_client.exists(generator_repo_dir):
-    raise Exception(f'[ERROR] Path {generator_repo_dir} does not exist')
-  
-  for directory in os.listdir(generator_repo_dir):
-    logger.info(f'Handling generated sources for {directory}')
-
-    if path.isfile(path.join(generator_repo_dir, directory)):
-      continue
-
-    criteo_service = assert_criteo_service(directory)
-    api_version = assert_api_version(directory)
-
-    logger.info(f'Found Criteo Service "{criteo_service}" and API version "{api_version}"')
-
+  if language in ('php',):
     git_client = GitClient()
-    pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
+    fs_client = FsClient()
+    pipeline = PushPhpSdkPipeline(git_client, fs_client)
+  else:
+    raise Exception(f'Unsupported programming language ({language}).')
+  
+  pipeline.execute()
 
-    pipeline.clone_repo()
+  
 
-    pipeline.checkout()
 
-    pipeline.update_sources()
 
-    pipeline.upload()
 
-    pipeline.clean()
     
 
 if __name__ == '__main__':

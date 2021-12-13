@@ -6,12 +6,38 @@ from .dummies.dummy_git_client import DummyGitClient
 from .dummies.dummy_fs_client import DummyFsClient
 from .builders.git_client_builder import GitClientBuilder
 
+# test_execute_should_fail_when_sdks_folder_not_found
+# test_execute_should_fail_when_invalid_criteo_service
+# test_execute_should_fail_when_invalid_api_version
+# test_execute_should_fail_when_generated_sources_not_found
+# test_execute_should_fail_when_copy_new_sources_fails
+# test_execute_should_fail_when_remove_old_sources_fails
+# test_execute_should_fail_when_tag_fails_more_than_max_retries
+# test_execute_should_fail_when_commit_fails
+# test_execute_should_fail_when_push_fails
+# test_execute_should_succeed_when_no_diff
+# test_execute_should_succeed_when_diff
+# test_execute_should_succeed_when_tag_succeed_after_less_than_max_retries
+# test_execute_should_fail_when_cloned_repositories_removal_fails
+
 test_data = [
   ('marketingsolutions', 'preview'),
   ('marketingsolutions', '2021-10'),
   ('retailmedia', 'preview'),
   ('retailmedia', '2021-10')
 ]
+
+def test_execute_should_fail_when_sdks_folder_not_found():
+  criteo_service = 'marketingsolutions'
+  api_version = 'preview'
+
+  git_client = GitClientBuilder().with_diff_count(2).with_failures_before_success(100).client
+  fs_client = DummyFsClient()
+  pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
+
+  # Act & Assert
+  with pytest.raises(Exception):
+    pipeline.upload()
 
 @pytest.mark.parametrize("criteo_service, api_version", test_data)
 def test_clone_successful(criteo_service, api_version):
@@ -64,7 +90,7 @@ def test_tag_successful(api_version, failure_count, expected_tag):
 
   git_client = GitClientBuilder().with_diff_count(2).with_failures_before_success(failure_count).client
   fs_client = DummyFsClient()
-  pipeline = PushPhpSdkPipeline(git_client, fs_client, criteo_service, api_version)
+  pipeline = PushPhpSdkPipeline(git_client, fs_client)
 
   # Act
   pipeline.upload()

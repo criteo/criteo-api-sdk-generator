@@ -1,6 +1,10 @@
 from ...clients.fs_client import IFsClient
 
 class DummyFsClient(IFsClient):
+
+  def list_dir(self, path):
+      pass
+
   def change_dir(self, path):
       self.current_dir = path
       pass

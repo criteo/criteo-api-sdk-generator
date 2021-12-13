@@ -1,24 +1,24 @@
+import os
 from os import path
 
 from .clients.git_client import GitException
-from .utils import get_logger, assert_environment_variable, get_formatted_date
+from .utils import get_logger, assert_environment_variable, assert_criteo_service, assert_api_version, get_formatted_date
 
 logger = get_logger()
 
 class PushPhpSdkPipeline:
-  def __init__(self, git_client, fs_client, criteo_service, api_version):
-    self.criteo_service = criteo_service
-    self.api_version = api_version
+
+  def __init__(self, git_client, fs_client):
+    self.fs = fs_client
+    self.git = git_client
     self.generator_version = 0
+    self.cloned_repositories = []
     self.__init_environment_variables()
 
-    self.fs = fs_client
     self.fs.change_dir(self.generator_repo_dir)
 
-    self.git = git_client
-
-    logger.info(f'Setup Git with user {self.github_actor}.')
-    self.git.setup(self.github_actor)
+    logger.info(f'Setting up Git with user {self.git_user}...')
+    self.git.setup(self.git_user)
 
     if not self.is_prod_environment:
       private_key = (assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS')
@@ -26,18 +26,50 @@ class PushPhpSdkPipeline:
         else assert_environment_variable('PHP_SDK_REPO_PRIVATE_KEY_MS'))
       self.git.setup_ssh(private_key)
 
-  
+  def execute(self):
+    generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
+    generator_repo_dir += '/generated-sources/php'
+
+    if not self.fs.exists(generator_repo_dir):
+      raise Exception(f'[ERROR] Path {generator_repo_dir} does not exist')
+    
+    for directory in self.fs.list_dir(generator_repo_dir):
+      logger.info(f'Handling generated sources for {directory}')
+
+      if path.isfile(path.join(generator_repo_dir, directory)):
+        continue
+
+      self.criteo_service = assert_criteo_service(directory)
+      self.api_version = assert_api_version(directory)
+
+      logger.info(f'Found Criteo Service "{self.criteo_service}" and API version "{self.api_version}"')
+
+      self.clone_repo()
+
+      self.checkout()
+
+      self.update_sources()
+
+      self.upload()
+
+    self.clean()
+
   def clone_repo(self):
-    self.fs.change_dir(self.sdk_repo_dir)
+    self.fs.change_dir(self.sdk_base_folder)
 
-    organization_name = 'criteo'
     repository_name = f'criteo-api-{self.criteo_service}-php-sdk'
-  
-    logger.info(f'Cloning repository {organization_name}/{repository_name}...')
 
-    self.git.clone(organization_name, repository_name)
+    self.sdk_repo_dir = path.join(self.sdk_base_folder, repository_name)
 
-    self.sdk_repo_dir = path.join(self.sdk_repo_dir, repository_name)
+    if not self.fs.exists(self.sdk_repo_dir):
+      organization_name = 'criteo'
+    
+      logger.info(f'Cloning repository {organization_name}/{repository_name}...')
+
+      self.git.clone(organization_name, repository_name)
+
+      self.cloned_repositories.append(self.sdk_repo_dir)
+
 
   def checkout(self):
     self.fs.change_dir(self.sdk_repo_dir)
@@ -76,11 +108,10 @@ class PushPhpSdkPipeline:
 
     if diff_count > 0:
       now_date = get_formatted_date()
-      tag_name = self.__get_tag_name()
 
-      logger.info(f'Committing and tagging with tag name "{tag_name}".')
+      self.git.commit(f'[{now_date}] Automatic update of SDK.')
 
-      self.git.commit(f'[{now_date}] Automatic update of SDK - {tag_name}')
+      logger.info(f'Committing and tagging...')
 
       tag_name = self.__tag_with_retry()
 
@@ -91,13 +122,13 @@ class PushPhpSdkPipeline:
   def clean(self):
     logger.info(f'Removing directory {self.sdk_repo_dir}')
 
-    self.fs.remove(self.sdk_repo_dir)
+    for repository in self.cloned_repositories:
+      self.fs.remove(repository)
   
   def __init_environment_variables(self):
     self.generator_repo_dir = assert_environment_variable('GITHUB_WORKSPACE')
-    self.sdk_repo_dir = assert_environment_variable('RUNNER_TEMP')
-    self.github_actor = assert_environment_variable('GITHUB_ACTOR')
-    self.tag_version = assert_environment_variable('GITHUB_RUN_NUMBER')
+    self.sdk_base_folder = assert_environment_variable('RUNNER_TEMP')
+    self.git_user = assert_environment_variable('GITHUB_ACTOR')
 
     try:
       assert_environment_variable('GITHUB_RUN_NUMBER')

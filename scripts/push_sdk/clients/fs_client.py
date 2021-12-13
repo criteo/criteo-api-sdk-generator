@@ -3,7 +3,11 @@ from os import path
 import shutil
 
 class IFsClient:
-    def change_dir(self, path):
+    def list_dir(self, dir_path):
+        """List files and directories in a given folder"""
+        pass
+
+    def change_dir(self, dir_path):
         """Change current directory to given path"""
         pass
 
@@ -21,6 +25,9 @@ class IFsClient:
 
 
 class FsClient(IFsClient):
+    def list_dir(self, dir_path):
+        return os.listdir(dir_path)
+
     def change_dir(self, path):
         os.chdir(path)
 
