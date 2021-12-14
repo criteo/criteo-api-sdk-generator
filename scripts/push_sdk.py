@@ -1,4 +1,3 @@
-import os
 import sys, getopt
 
 from push_sdk.clients.fs_client import FsClient
@@ -34,12 +33,6 @@ def main():
     raise Exception(f'Unsupported programming language ({language}).')
   
   pipeline.execute()
-
-  
-
-
-
-
     
 
 if __name__ == '__main__':

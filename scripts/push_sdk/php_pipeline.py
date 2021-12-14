@@ -1,4 +1,3 @@
-import os
 from os import path
 
 from .clients.git_client import GitException
