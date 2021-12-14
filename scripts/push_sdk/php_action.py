@@ -5,7 +5,7 @@ from .utils import get_logger, assert_environment_variable, assert_criteo_servic
 
 logger = get_logger()
 
-class PushPhpSdkPipeline:
+class PushPhpSdkAction:
 
   def __init__(self, git_client, fs_client, os_client):
     self.fs = fs_client
