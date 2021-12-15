@@ -41,4 +41,3 @@ ${GRADLEW} :generator:java:generateClient -Dorg.gradle.project.buildNumber=${NEX
 nextVersion="v${API_VERSION}.${NEXT_PATCH_NUMBER}"
 VERSION_FILE="/tmp/gh_${BUILD_NUMBER}-build_sdk-java.version"
 echo "${nextVersion}" > ${VERSION_FILE}
-
