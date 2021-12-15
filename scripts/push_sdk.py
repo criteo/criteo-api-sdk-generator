@@ -3,7 +3,7 @@ import sys, getopt
 from push_sdk.clients.fs_client import FsClient
 from push_sdk.clients.git_client import GitClient
 from push_sdk.clients.os_client import OsClient
-from push_sdk.php_action import PushPhpSdkAction
+from push_sdk.push_php_sdk_action import PushPhpSdkAction
 from push_sdk.utils import get_logger
 
 logger = get_logger()

@@ -1,18 +1,22 @@
 from os import path
 
-from .clients.git_client import GitException
+from .clients.fs_client import IFsClient
+from .clients.os_client import IOsClient
+
+from .clients.git_client import GitException, IGitClient
+from .models.programming_language import ProgrammingLanguage
 from .utils import get_logger, assert_environment_variable, assert_criteo_service, assert_api_version, get_formatted_date
 
 logger = get_logger()
 
 class PushPhpSdkAction:
 
-  def __init__(self, git_client, fs_client, os_client):
+  def __init__(self, git_client: IGitClient, fs_client: IFsClient, os_client: IOsClient):
     self.fs = fs_client
     self.git = git_client
     self.os = os_client
     
-    self.programming_language = 'php'
+    self.programming_language = ProgrammingLanguage.php
     self.generator_version = 0
     self.cloned_repositories = []
     self.__init_environment_variables()
@@ -142,7 +146,7 @@ class PushPhpSdkAction:
       return tag_name
     
   def __tag_with_retry(self, max_retries=100):
-    retry_count = 0;
+    retry_count = 0
     while retry_count < max_retries:
         try:
             tag_name = self.__get_tag_name(retry_count)
@@ -153,4 +157,4 @@ class PushPhpSdkAction:
             retry_count += 1
             continue
     
-    raise GitException(f'Maximum number of retry reached for the tag operation: {max_retries}')
+    raise GitException(f'Maximum number of retries reached for the tag operation: {max_retries}')

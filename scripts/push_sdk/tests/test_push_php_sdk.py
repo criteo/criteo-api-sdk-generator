@@ -2,7 +2,7 @@ import pytest
 from os import path
 
 from ..models.criteo_service import CriteoService
-from ..php_action import PushPhpSdkAction
+from ..push_php_sdk_action import PushPhpSdkAction
 from ..clients.git_client import GitException
 from ..utils import InvalidCriteoServiceException, InvalidApiVersionException, get_formatted_date
 from .builders.git_client_builder import GitClientBuilder
@@ -93,7 +93,7 @@ class TestPushSdkAction:
     pipeline = PushPhpSdkAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
       pipeline.execute()
       
   def test_execute_should_fail_when_copy_new_sources_fails(self):
