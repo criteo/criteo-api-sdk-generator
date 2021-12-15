@@ -4,7 +4,7 @@ from os import path
 from .builders.git_client_builder import GitClientBuilder
 from .builders.fs_client_builder import FsClientBuilder
 from .builders.os_client_builder import OsClientBuilder
-from ..default_push import DefaultPushSdkAction
+from ..default_push_action import DefaultPushSdkAction
 
 class TestDefaultPushAction:
 
