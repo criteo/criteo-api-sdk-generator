@@ -43,7 +43,8 @@ class DefaultPushSdkAction:
       self.logger.info(f'Cloning repository {organization_name}/{repository_name}...')
 
       self.git.clone(organization_name, repository_name)
-  
+
+
   def __update_sources(self):
     sdks_folder = path.join(self.sdk_repository, 'sdks')
 
@@ -54,7 +55,8 @@ class DefaultPushSdkAction:
     if self.fs.exists(self.generated_sources):
       self.logger.info(f'Copy sources from {self.generated_sources} to {sdks_folder}...')
       self.fs.copy(self.generated_sources, sdks_folder)
-  
+
+
   def __upload_sources(self):
     self.fs.change_dir(self.sdk_repository)
 
