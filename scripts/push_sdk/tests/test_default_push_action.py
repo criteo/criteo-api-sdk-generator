@@ -1,6 +1,7 @@
 import pytest
 from os import path
 
+from ..clients.git_client import GitException
 from .builders.git_client_builder import GitClientBuilder
 from .builders.fs_client_builder import FsClientBuilder
 from .builders.os_client_builder import OsClientBuilder
@@ -46,3 +47,12 @@ class TestDefaultPushAction:
 
     # Assert
     assert git_client.is_pushed == True
+  
+  def test_should_fail_when_push_fails(self):
+    # Arrange
+    git_client = self.git_client_builder.that_fails_on_push().client
+    action = DefaultPushSdkAction(git_client, self.fs_client_builder.client, self.os_client_builder.client, self.test_programming_language)
+
+    # Act & Assert
+    with pytest.raises(GitException):
+      action.execute()
