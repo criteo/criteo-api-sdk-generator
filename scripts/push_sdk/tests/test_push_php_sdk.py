@@ -82,7 +82,7 @@ class TestPushSdkAction:
     pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
       pipeline.execute()
   
   def test_execute_should_fail_when_copy_new_sources_fails(self):
@@ -93,7 +93,7 @@ class TestPushSdkAction:
     pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
       pipeline.execute()
       
   def test_execute_should_fail_when_copy_new_sources_fails(self):
@@ -104,7 +104,7 @@ class TestPushSdkAction:
     pipeline = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
       pipeline.execute()
   
   test_data = [

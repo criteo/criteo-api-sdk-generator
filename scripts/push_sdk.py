@@ -4,7 +4,7 @@ from push_sdk.clients.fs_client import FsClient
 from push_sdk.clients.git_client import GitClient
 from push_sdk.clients.os_client import OsClient
 from push_sdk.php_sdk_push_action import PhpSdkPushAction
-from push_sdk.default_push import DefaultPushSdkAction
+from push_sdk.default_push_action import DefaultPushSdkAction
 from push_sdk.utils import get_logger
 
 logger = get_logger()
