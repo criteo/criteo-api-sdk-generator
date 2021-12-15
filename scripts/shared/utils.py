@@ -5,6 +5,7 @@ import logging
 from datetime import datetime
 
 logger = None
+formatted_date = None
 
 def assert_environment_variable(variable_name):
   try:
@@ -51,11 +52,14 @@ def get_logger(name=''):
 
     logger = logging.getLogger(name)
 
-  return logging.getLogger(name)
+  return logger
 
 def get_formatted_date():
-  date = datetime.today().strftime('%Y%m%d')[2:]
-  return date
+  global formatted_date
+  if formatted_date is None:
+    formatted_date = datetime.today().strftime('%Y%m%d')[2:]
+
+  return formatted_date
 
 def run_command(command, env=None, error_template=None):
   try:
