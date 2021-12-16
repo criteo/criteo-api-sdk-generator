@@ -1,0 +1,108 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+plugins {
+    id 'idea'
+    id 'eclipse'
+    id 'java'
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+}
+
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
+
+repositories {
+    jcenter()
+}
+{{#sourceFolder}}
+sourceSets {
+    main.java.srcDirs = ['{{sourceFolder}}']
+}
+{{/sourceFolder}}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+    options.tags = [ "http.response.details:a:Http Response Details" ]
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId '{{groupId}}'
+            artifactId '{{artifactId}}'
+            version '{{artifactVersion}}'
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                packaging = 'jar'
+                name = '{{groupId}}:{{artifactId}}'
+                description = '{{artifactDescription}}'
+                url = '{{artifactUrl}}'
+                licenses {
+                    license {
+                        name = '{{licenseName}}'
+                        url = '{{licenseUrl}}'
+                    }
+                }
+                developers {
+                    developer {
+                        name = '{{developerName}}'
+                        email = '{{developerEmail}}'
+                        url = '{{developerOrganizationUrl}}'
+                        organization = '{{developerOrganization}}'
+                        organizationUrl = '{{developerOrganizationUrl}}'
+                    }
+                }
+                scm {
+                    connection = '{{scmConnection}}'
+                    developerConnection = '{{scmDeveloperConnection}}'
+                    url = '{{scmUrl}}'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    def signingKey = System.getenv("MAVEN_SECRING_GPG_BASE64")
+    def signingPassword = System.getenv("MAVEN_SECRING_PASSWORD")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}
+
+nexusPublishing {
+    packageGroup = '{{groupId}}'
+    repositories {
+        sonatype {
+            username = "criteo-oss"
+            password = System.getenv("SONATYPE_PASSWORD")
+        }
+    }
+
+    transitionCheckOptions {
+        maxRetries.set(50)
+        delayBetween.set(java.time.Duration.ofMillis(3000))
+    }
+}
