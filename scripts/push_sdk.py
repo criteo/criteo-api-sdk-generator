@@ -33,7 +33,6 @@ def main():
     raise Exception(f'Unsupported programming language ({language}).')
   
   action.execute()
-    
 
 if __name__ == '__main__':
   main()

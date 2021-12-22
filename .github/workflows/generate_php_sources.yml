@@ -27,32 +27,49 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+      
+      - name: Set up PHP Composer
+        uses: php-actions/composer@v6
+        with:
+          version: 2
+          php_version: 7.4
+          command: about
 
       - uses: webfactory/ssh-agent@v0.5.4
         with:
             ssh-private-key: |
-                  ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_MS }}
-                  ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_RM }}
+              ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_MS }}
+              ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_RM }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install GitPython
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    
-      - name: Generate Sdk
+
+      - name: Generate SDKs
         run: |
           chmod +x ./scripts/build_php_sdk.sh
           ./scripts/build_php_sdk.sh
         shell: bash
 
-      - name: Upload Sdks
+      - name: Test SDKs
+        run: |
+          chmod +x ./scripts/test_php_sdk.sh
+          ./scripts/test_php_sdk.sh
+        env:
+          TEST_CLIENT_ID: ${{ secrets.SDK_TEST_CLIENT_ID }}
+          TEST_CLIENT_SECRET: ${{ secrets.SDK_TEST_CLIENT_SECRET }}
+          TEST_APPLICATION_ID: ${{ secrets.SDK_TEST_APPLICATION_ID }}
+        shell: bash
+
+      - name: Upload SDKs
         uses: actions/upload-artifact@v2
         with:
           name: generated-sources-php
           path: ./generated-sources/php
 
-      - name: Push php SDK
+      - name: Push SDKs
         run: python ./scripts/push_sdk.py --language php
         shell: bash
 
