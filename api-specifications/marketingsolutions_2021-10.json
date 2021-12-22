@@ -11,82 +11,6 @@
     }
   ],
   "paths": {
-    "/oauth2/token": {
-      "post": {
-        "tags": [
-          "OAuth"
-        ],
-        "description": "Creates a token when the supplied client credentials are valid",
-        "operationId": "CreateToken",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "client_id": {
-                    "description": "API Client-Id or Username",
-                    "type": "string"
-                  },
-                  "client_secret": {
-                    "description": "API Client secret or password",
-                    "type": "string",
-                    "format": "password"
-                  },
-                  "grant_type": {
-                    "description": "Other grant types are not available",
-                    "type": "string",
-                    "default": "client_credentials"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/JwtModel"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JwtModel"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JwtModel"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuth2Error"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuth2Error"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuth2Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/2021-10/audiences": {
       "get": {
         "tags": [
@@ -626,6 +550,33 @@
           }
         }
       ]
+    },
+    "/me": {
+      "get": {
+        "tags": [
+          "Gateway"
+        ],
+        "description": "Get information about the currently logged application",
+        "operationId": "GetCurrentApplication",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationSummaryModelResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": { }
+            }
+          }
+        }
+      }
     },
     "/2021-10/marketing-solutions/ad-sets/{adSetId}": {
       "get": {
@@ -1196,6 +1147,78 @@
         }
       }
     },
+    "/oauth2/token": {
+      "post": {
+        "tags": [
+          "OAuth"
+        ],
+        "summary": "Creates a token when the supplied client credentials are valid",
+        "description": "Creates a token when the supplied client credentials are valid",
+        "operationId": "ClientCredentials",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/2021-10/statistics/report": {
       "post": {
         "tags": [
@@ -1498,7 +1521,7 @@
                       "type": "TransparencyReport",
                       "attributes": {
                         "advertiserId": "123",
-                        "tokenValidUntil": "2021-01-31T00:00:00.0000000+00:00",
+                        "tokenValidUntil": "2021-01-31T00:00:00.0000000+01:00",
                         "files": [
                           {
                             "fileName": "report.csv",
@@ -1669,39 +1692,6 @@
   },
   "components": {
     "schemas": {
-      "JwtModel": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string",
-            "description": "The access token issued by the authorization server."
-          },
-          "token_type": {
-            "type": "string",
-            "description": "The type of the token issued."
-          },
-          "expires_in": {
-            "type": "integer",
-            "description": "The lifetime in seconds of the access token.For\r\nexample, the value \"3600\" denotes that the access token will\r\nexpire in one hour from the time the response was generated.\r\nIf omitted, the authorization server SHOULD provide the\r\nexpiration time via other means or document the default value.",
-            "format": "int32"
-          }
-        }
-      },
-      "OAuth2Error": {
-        "required": [
-          "error"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string"
-          },
-          "error_description": {
-            "type": "string"
-          }
-        },
-        "description": "Represents an error response from an OAuth2 flow"
-      },
       "GetAudiencesResponse": {
         "required": [
           "data",
@@ -2294,6 +2284,122 @@
           }
         },
         "description": "Description of an audience with name and detailed description"
+      },
+      "ApplicationSummaryModelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ApplicationSummaryModelResource"
+          },
+          "warnings": {
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          },
+          "errors": {
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          }
+        },
+        "description": "Response of ApplicationSummaryModel"
+      },
+      "ApplicationSummaryModelResource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/ApplicationSummaryModel"
+          }
+        },
+        "description": "Resource of ApplicationSummaryModel"
+      },
+      "CommonProblem": {
+        "type": "object",
+        "properties": {
+          "traceIdentifier": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from."
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "The problem's category."
+          },
+          "code": {
+            "type": "string",
+            "description": "A machine-readable  error code, expressed as a string value."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that identifies the specific occurrence of the problem."
+          },
+          "title": {
+            "type": "string",
+            "description": "A short human-readable description of the problem type"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem"
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)"
+          },
+          "stackTrace": {
+            "type": "string"
+          }
+        },
+        "description": "Common problem object. Can be specialized as needed."
+      },
+      "ApplicationSummaryModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the application"
+          },
+          "organizationId": {
+            "type": "integer",
+            "description": "The id of the organization that own this application",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the application"
+          },
+          "criteoService": {
+            "type": "string",
+            "description": "The business service of this application"
+          }
+        },
+        "description": "A summary of an API application",
+        "x-criteo-canonical": {
+          "infoType": "entity"
+        }
       },
       "ResponseReadAdSet": {
         "type": "object",
@@ -3252,6 +3358,39 @@
         },
         "description": "ad set targeting rule model"
       },
+      "AccessTokenModel": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "The access token issued by the authorization server."
+          },
+          "token_type": {
+            "type": "string",
+            "description": "The type of the token issued."
+          },
+          "expires_in": {
+            "type": "integer",
+            "description": "The lifetime in seconds of the access token.For\r\nexample, the value \"3600\" denotes that the access token will\r\nexpire in one hour from the time the response was generated.\r\nIf omitted, the authorization server SHOULD provide the\r\nexpiration time via other means or document the default value.",
+            "format": "int32"
+          }
+        },
+        "description": "Access Token to be used with other services"
+      },
+      "OAuthErrorModel": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          },
+          "error_uri": {
+            "type": "string"
+          }
+        }
+      },
       "ErrorMessage": {
         "type": "object",
         "properties": {
@@ -3400,8 +3539,8 @@
           "currency": "EUR",
           "format": "csv",
           "timezone": "Europe/Paris",
-          "startDate": "2021-01-01T00:00:00.0000000+00:00",
-          "endDate": "2021-01-01T00:00:00.0000000+00:00"
+          "startDate": "2021-01-01T00:00:00.0000000+01:00",
+          "endDate": "2021-01-01T00:00:00.0000000+01:00"
         }
       },
       "TransactionsReportQueryDataMessage": {
@@ -3429,8 +3568,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2021-01-01T00:00:00.0000000+00:00",
-                "endDate": "2021-01-01T00:00:00.0000000+00:00"
+                "startDate": "2021-01-01T00:00:00.0000000+01:00",
+                "endDate": "2021-01-01T00:00:00.0000000+01:00"
               }
             }
           ]
@@ -3462,8 +3601,8 @@
         "description": "This is the message defining the query for Transparency report",
         "example": {
           "shouldDisplayProductIds": false,
-          "startDate": "2021-01-01T00:00:00.0000000+00:00",
-          "endDate": "2021-01-02T00:00:00.0000000+00:00"
+          "startDate": "2021-01-01T00:00:00.0000000+01:00",
+          "endDate": "2021-01-02T00:00:00.0000000+01:00"
         }
       },
       "TransparencyReportEntityMessage": {
