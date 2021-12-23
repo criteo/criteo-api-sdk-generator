@@ -31,6 +31,10 @@ jobs:
       - name: Test SDKs
         run: python ./scripts/test_sdk.py --language java
         shell: bash
+        env:
+          TEST_CLIENT_ID: ${{ secrets.SDK_TEST_CLIENT_ID }}
+          TEST_CLIENT_SECRET: ${{ secrets.SDK_TEST_CLIENT_SECRET }}
+          TEST_APPLICATION_ID: ${{ secrets.SDK_TEST_APPLICATION_ID }}
 
       - name: Upload Sdk
         uses: actions/upload-artifact@v2

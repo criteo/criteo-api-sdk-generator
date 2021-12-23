@@ -15,7 +15,8 @@ class JavaSdkTestAction:
     self.logger.info('Testing...')
     utils.run_command('mvn test', error_template=self.java_error_template, env={
       'TEST_CLIENT_ID': utils.assert_environment_variable('TEST_CLIENT_ID'),
-      'TEST_CLIENT_SECRET': utils.assert_environment_variable('TEST_CLIENT_SECRET')
+      'TEST_CLIENT_SECRET': utils.assert_environment_variable('TEST_CLIENT_SECRET'),
+      'TEST_APPLICATION_ID': utils.assert_environment_variable('TEST_APPLICATION_ID'),
     })
     self.logger.info('Test successful')
 
