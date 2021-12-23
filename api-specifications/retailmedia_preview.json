@@ -1,0 +1,4526 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Criteo API",
+      "description": "Criteo publicly exposed API",
+      "version": "preview"
+    },
+    "servers": [
+      {
+        "url": "https://api.criteo.com"
+      }
+    ],
+    "paths": {
+      "/me": {
+        "get": {
+          "tags": [
+            "Gateway"
+          ],
+          "description": "Get information about the currently logged application",
+          "operationId": "GetCurrentApplication",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApplicationSummaryModelResponse"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {
+                "application/json": { }
+              }
+            }
+          }
+        }
+      },
+      "/oauth2/token": {
+        "post": {
+          "tags": [
+            "OAuth"
+          ],
+          "summary": "Creates a token when the supplied client credentials are valid",
+          "description": "Creates a token when the supplied client credentials are valid",
+          "operationId": "ClientCredentials",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AccessTokenModel"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AccessTokenModel"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AccessTokenModel"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OAuthErrorModel"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OAuthErrorModel"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OAuthErrorModel"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OAuthErrorModel"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OAuthErrorModel"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OAuthErrorModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of account objects that the current user can access",
+          "operationId": "AccountsApi_GetApiV1ExternalAccounts",
+          "parameters": [
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts/{accountId}/retailers": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of retailer objects that are associated with the given account",
+          "operationId": "AccountsApi_GetApiV1ExternalAccountRetailersByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "The given account id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts/{accountId}/brands": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of retailer objects that are associated with the given account",
+          "operationId": "AccountsApi_GetApiV1ExternalAccountBrandsByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "The given account id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts/{accountId}/audiences": {
+        "get": {
+          "tags": [
+            "Audience"
+          ],
+          "description": "Get a page of audiences for a given account ID",
+          "operationId": "AudienceApi_GetAudiencesByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "External account ID which owns audience.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-example": "68004146450571264"
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-example": 25
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "Returns the specified page of results given a pageSize; pages are 0-indexed",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-example": 0
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A page of audiences for the supplied account.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetPageOfAudiencesByAccountIdResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing or invalid account ID.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "404": {
+              "description": "The audience was not found.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "406": {
+              "description": "The Accept header must contain application/json.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "415": {
+              "description": "The Content-Type header must be application/json if present.",
+              "content": {
+                "application/json": { }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Audience"
+          ],
+          "description": "Create an audience for a given account ID",
+          "operationId": "AudienceApi_CreateAudience",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "ID of the account to which this audience belongs.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-example": "68004146450571264"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAudienceRequest"
+                }
+              }
+            },
+            "required": true,
+            "x-bodyName": "body"
+          },
+          "responses": {
+            "201": {
+              "description": "The audience that was just created.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateRetailMediaAudienceResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing or invalid account ID. - OR - Missing or invalid retailerID field. - OR - Missing or invalid name field. Name should be less than 255 characters. - OR - Missing or invalid userType field. Valid values are: 'buy', 'view'. - OR - The retailerTaxonomyIds is not a valid list of IDs or may contain more than 100 elements. - OR - Missing or invalid lookbackDays field.  Valid values are: 7, 14,  30, 45, 60, 90, 120, 150 or 180. - OR - Exactly one of retailerTaxonomyIds or globalBrandIds must be specified, but not both. - OR - The retailer is invalid because it is not live - OR - The globalBrandIds is not a valid list of IDs or may contain more than 100 elements.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "404": {
+              "description": "The audience was not found. - OR - You do not have permission to access these global brands.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "406": {
+              "description": "The Accept header must contain application/json.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "409": {
+              "description": "An audience name should be unique per account.",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "415": {
+              "description": "The Content-Type header must be application/json if present.",
+              "content": {
+                "application/json": { }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts/{accountId}/catalogs": {
+        "post": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Create a request for a Catalog available to the indicated account.",
+          "operationId": "CatalogApi_PostApiV0ExternalAccountCatalogsByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "The account to request the catalog for.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiRequestOfCatalogRequestPreview"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "request"
+          },
+          "responses": {
+            "200": {
+              "description": "Catalog request successfully created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/catalogs/{catalogId}/status": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Check the status of a catalog request.",
+          "operationId": "CatalogApi_GetApiV0ExternalCatalogStatusByCatalogId",
+          "parameters": [
+            {
+              "name": "catalogId",
+              "in": "path",
+              "description": "A catalog ID returned from an account catalog request.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Catalog request found.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/catalogs/{catalogId}/output": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Output the indicated catalog. Catalogs are only available for retrieval when their associated status request\r\nis at a Success status.\r\nProduces application/x-json-stream of CatalogProduct json objects.",
+          "operationId": "CatalogApi_GetApiV0ExternalCatalogOutputByCatalogId",
+          "parameters": [
+            {
+              "name": "catalogId",
+              "in": "path",
+              "description": "A catalog ID returned from an account catalog request.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Catalog download initiated.",
+              "content": {
+                "application/x-json-stream": { },
+                "application/json": { }
+              }
+            },
+            "400": {
+              "description": "The indicated catalog is not available for retrieval, wait for a success status.",
+              "content": {
+                "application/x-json-stream": { },
+                "application/json": { }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/catalogs/sku-search": {
+        "post": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Endpoint to search skus by text, retailer and sellers/brands.",
+          "operationId": "SkuSearchApi_PostApiV1ExternalCatalogsSkuSearch",
+          "parameters": [
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The start position in the overall list of matches. Must be zero or greater.",
+              "schema": {
+                "maximum": 500.0,
+                "minimum": 0.0,
+                "type": "integer",
+                "format": "int32",
+                "default": 0
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of results to return with each call. Must be greater than zero.",
+              "schema": {
+                "maximum": 100.0,
+                "minimum": 1.0,
+                "type": "integer",
+                "format": "int32",
+                "default": 100
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkuSearchRequestPreviewRequest"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "skuRequest"
+          },
+          "responses": {
+            "200": {
+              "description": "Skus found.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SkuDataPreviewListResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/catalogs/sku-retrieval": {
+        "post": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Endpoint to search skus by text, retailer and sellers/brands.",
+          "operationId": "SkuRetrievalApi_PostApiV1ExternalCatalogsSkuRetrieval",
+          "parameters": [
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The start position in the overall list of matches. Must be zero or greater.",
+              "schema": {
+                "maximum": 500.0,
+                "minimum": 0.0,
+                "type": "integer",
+                "format": "int32",
+                "default": 0
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of results to return with each call. Must be greater than zero.",
+              "schema": {
+                "maximum": 100.0,
+                "minimum": 1.0,
+                "type": "integer",
+                "format": "int32",
+                "default": 100
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The list of SKU keys to retrieve sku information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "uniqueItems": false,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "x-nullable": false
+                  },
+                  "x-nullable": false
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "skuKeys"
+          },
+          "responses": {
+            "200": {
+              "description": "Skus found.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SkuDataPreviewListResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/retailers/{retailerId}/sellers/{seller}": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Endpoint to get market place seller id and name",
+          "operationId": "SellerApi_GetApiV1ExternalRetailerByRetailerIdSellerBySeller",
+          "parameters": [
+            {
+              "name": "retailerId",
+              "in": "path",
+              "description": "The retailer id for which seller should be fetched.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "seller",
+              "in": "path",
+              "description": "The seller id or seller name which should be validated.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Seller found.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SellerPreviewResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts/{accountId}/balances": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of balance objects for the given account id",
+          "operationId": "BalancesApi_GetApiV1ExternalAccountBalancesByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "The account to get balances for",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfBalance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/balances/{balanceId}/campaigns": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of campaigns for the given balanceId",
+          "operationId": "BalancesApi_GetApiV1ExternalBalanceCampaignsByBalanceId",
+          "parameters": [
+            {
+              "name": "balanceId",
+              "in": "path",
+              "description": "The balance to get campaigns from",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PageOfBalanceCampaign"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "appends one or more campaigns to the specified balance",
+          "operationId": "BalancesApi_PutApiV1ExternalBalanceCampaignsByBalanceId",
+          "parameters": [
+            {
+              "name": "balanceId",
+              "in": "path",
+              "description": "The balance to add campaigns from",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The campaigns to append",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiDataRequestOfPutBalanceCampaign"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "campaigns"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PageOfBalanceCampaign"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Removes one or more campaigns on the specified balance",
+          "operationId": "BalancesApi_DeleteApiV1ExternalBalanceCampaignsByBalanceId",
+          "parameters": [
+            {
+              "name": "balanceId",
+              "in": "path",
+              "description": "The balance to remove campaigns from",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The campaigns to append",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiDataRequestOfDeleteBalanceCampaign"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "campaigns"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PageOfBalanceCampaign"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/accounts/{accountId}/campaigns": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of campaign objects for the given account id",
+          "operationId": "CampaignsApi_GetApiV1ExternalAccountCampaignsByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "The given account id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfCampaign"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Creates a new campaign with the specified settings",
+          "operationId": "CampaignsApi_PostApiV1ExternalAccountCampaignsByAccountId",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "description": "The given account id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The campaign settings to create a campaign with",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalPostCampaign"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "campaign"
+          },
+          "responses": {
+            "201": {
+              "description": "Success",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfCampaign"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/campaigns/{campaignId}": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets the campaign for the given campaign id",
+          "operationId": "CampaignsApi_GetApiV1ExternalCampaignByCampaignId",
+          "parameters": [
+            {
+              "name": "campaignId",
+              "in": "path",
+              "description": "The given campaign id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfCampaign"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Updates the campaign for the given campaign id",
+          "operationId": "CampaignsApi_PutApiV1ExternalCampaignByCampaignId",
+          "parameters": [
+            {
+              "name": "campaignId",
+              "in": "path",
+              "description": "The given campaign id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The campaign settings to update that campaign with",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalPutCampaign"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "campaign"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfCampaign"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/campaigns/{campaignId}/line-items": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets page of line item objects for the given campaign id",
+          "operationId": "LineItemsApi_GetApiV1ExternalCampaignLineItemsByCampaignId",
+          "parameters": [
+            {
+              "name": "campaignId",
+              "in": "path",
+              "description": "The given campaign id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfLineItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Creates a new line item with the specified settings",
+          "operationId": "LineItemsApi_PostApiV1ExternalCampaignLineItemsByCampaignId",
+          "parameters": [
+            {
+              "name": "campaignId",
+              "in": "path",
+              "description": "The given campaign id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The line item settings to create a line item with",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalPostLineItem"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "lineItem"
+          },
+          "responses": {
+            "201": {
+              "description": "Success",
+              "content": {
+                "application/json": { }
+              }
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/line-items/{lineItemId}": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Gets the line item for the given line item id",
+          "operationId": "LineItemsApi_GetApiV1ExternalLineItemByLineItemId",
+          "parameters": [
+            {
+              "name": "lineItemId",
+              "in": "path",
+              "description": "The given line item id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "Updates the line item for the given line item id",
+          "operationId": "LineItemsApi_PutApiV1ExternalLineItemByLineItemId",
+          "parameters": [
+            {
+              "name": "lineItemId",
+              "in": "path",
+              "description": "The given line item id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "The line item settings to create a line item with",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalPutLineItem"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "lineItem"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/line-items/{lineItemId}/products": {
+        "get": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "This endpoint gets the promoted products on the specified line item.",
+          "operationId": "PromotedProductsApi_GetApiV1ExternalLineItemProductsByLineItemId",
+          "parameters": [
+            {
+              "name": "lineItemId",
+              "in": "path",
+              "description": "The line item to interact with",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "limitToId",
+              "in": "query",
+              "description": "The ids that you would like to limit your result set to",
+              "style": "form",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageIndex",
+              "in": "query",
+              "description": "The 0 indexed page index you would like to receive given the page size",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "The maximum number of items you would like to receive in this request",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfStringAndPromotedProduct"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "This endpoint appends one or more products to promote on the specified line item.  The resulting state of the line item is returned.",
+          "operationId": "PromotedProductsApi_PutApiV1ExternalLineItemProductsByLineItemId",
+          "parameters": [
+            {
+              "name": "lineItemId",
+              "in": "path",
+              "description": "The line item to interact with",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "the products to append to this line item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiDataRequestWithIdOfStringAndPromotedProduct"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "promotedProductsToAppend"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfStringAndPromotedProduct"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Campaign"
+          ],
+          "description": "This endpoint removes one or more products from promotion on the specified line item.  The resulting state of the line item is returned.",
+          "operationId": "PromotedProductsApi_DeleteApiV1ExternalLineItemProductsByLineItemId",
+          "parameters": [
+            {
+              "name": "lineItemId",
+              "in": "path",
+              "description": "The line item to interact with",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "x-nullable": false
+            }
+          ],
+          "requestBody": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiDataRequestWithIdOfStringAndPromotedProduct"
+                }
+              }
+            },
+            "x-nullable": false,
+            "x-bodyName": "promotedProductsToRemove"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/JsonApiPageResponseOfStringAndPromotedProduct"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/preview/retail-media/reports/campaigns": {
+        "post": {
+          "tags": [
+            "Analytics"
+          ],
+          "description": "Request a campaign report",
+          "operationId": "requestCampaignReport",
+          "requestBody": {
+            "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the campaign id to select\n      \"ids\": Array[string], //the campaign ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeReportRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Returns the status of the report",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EnvelopeReportStatus"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BadRequest"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Missing Authorization or token invalid"
+            },
+            "403": {
+              "description": "Must have access to RetailMedia accounts"
+            }
+          }
+        }
+      },
+      "/preview/retail-media/reports/line-items": {
+        "post": {
+          "tags": [
+            "Analytics"
+          ],
+          "description": "Request a line item report",
+          "operationId": "requestLineItemReport",
+          "requestBody": {
+            "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the line item id to select\n      \"ids: Array[string] // the line item ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeReportRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Returns the status of the report",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EnvelopeReportStatus"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BadRequest"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Missing Authorization or token invalid"
+            },
+            "403": {
+              "description": "Must have access to RetailMedia accounts"
+            }
+          }
+        }
+      },
+      "/preview/retail-media/reports/{reportId}/output": {
+        "get": {
+          "tags": [
+            "Analytics"
+          ],
+          "description": "Request the report output",
+          "operationId": "getReportOutput",
+          "parameters": [
+            {
+              "name": "reportId",
+              "in": "path",
+              "description": "report id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "example": "ee439121-13e3-4734-9f67-c504dd921a41"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The output",
+              "headers": {
+                "Content-Disposition": {
+                  "description": "Returns a filename for the output",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  },
+                  "example": "inline; filename=data_<reportId>.csv"
+                }
+              },
+              "content": {
+                "application/octet-stream": {
+                  "schema": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Missing Authorization or token invalid"
+            },
+            "403": {
+              "description": "Must have access to RetailMedia accounts"
+            },
+            "404": {
+              "description": "ReportId not found"
+            }
+          }
+        }
+      },
+      "/preview/retail-media/reports/{reportId}/status": {
+        "get": {
+          "tags": [
+            "Analytics"
+          ],
+          "description": "Get the status of the report",
+          "operationId": "getReportStatus",
+          "parameters": [
+            {
+              "name": "reportId",
+              "in": "path",
+              "description": "report id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "example": "ee439121-13e3-4734-9f67-c504dd921a41"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Returns the status of the report",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EnvelopeReportStatus"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Missing Authorization or token invalid"
+            },
+            "403": {
+              "description": "Must have access to RetailMedia accounts"
+            },
+            "404": {
+              "description": "ReportId not found"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "ApplicationSummaryModelResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/ApplicationSummaryModelResource"
+            },
+            "warnings": {
+              "uniqueItems": false,
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonProblem"
+              },
+              "readOnly": true
+            },
+            "errors": {
+              "uniqueItems": false,
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonProblem"
+              },
+              "readOnly": true
+            }
+          },
+          "description": "Response of ApplicationSummaryModel"
+        },
+        "ApplicationSummaryModelResource": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ApplicationSummaryModel"
+            }
+          },
+          "description": "Resource of ApplicationSummaryModel"
+        },
+        "CommonProblem": {
+          "type": "object",
+          "properties": {
+            "traceIdentifier": {
+              "type": "string",
+              "description": "The request correlation ID this problem comes from."
+            },
+            "type": {
+              "enum": [
+                "unknown",
+                "access-control",
+                "authentication",
+                "authorization",
+                "availability",
+                "deprecation",
+                "quota",
+                "validation"
+              ],
+              "type": "string",
+              "description": "The problem's category."
+            },
+            "code": {
+              "type": "string",
+              "description": "A machine-readable  error code, expressed as a string value."
+            },
+            "instance": {
+              "type": "string",
+              "description": "A URI that identifies the specific occurrence of the problem."
+            },
+            "title": {
+              "type": "string",
+              "description": "A short human-readable description of the problem type"
+            },
+            "detail": {
+              "type": "string",
+              "description": "A human-readable explanation specific to this occurrence of the problem"
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)"
+            },
+            "stackTrace": {
+              "type": "string"
+            }
+          },
+          "description": "Common problem object. Can be specialized as needed."
+        },
+        "ApplicationSummaryModel": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the application"
+            },
+            "organizationId": {
+              "type": "integer",
+              "description": "The id of the organization that own this application",
+              "format": "int32"
+            },
+            "description": {
+              "type": "string",
+              "description": "The description of the application"
+            },
+            "criteoService": {
+              "type": "string",
+              "description": "The business service of this application"
+            }
+          },
+          "description": "A summary of an API application",
+          "x-criteo-canonical": {
+            "infoType": "entity"
+          }
+        },
+        "AccessTokenModel": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "description": "The access token issued by the authorization server."
+            },
+            "token_type": {
+              "type": "string",
+              "description": "The type of the token issued."
+            },
+            "expires_in": {
+              "type": "integer",
+              "description": "The lifetime in seconds of the access token.For\r\nexample, the value \"3600\" denotes that the access token will\r\nexpire in one hour from the time the response was generated.\r\nIf omitted, the authorization server SHOULD provide the\r\nexpiration time via other means or document the default value.",
+              "format": "int32"
+            }
+          },
+          "description": "Access Token to be used with other services"
+        },
+        "OAuthErrorModel": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "error_description": {
+              "type": "string"
+            },
+            "error_uri": {
+              "type": "string"
+            }
+          }
+        },
+        "JsonApiPageResponseOfAccount": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndAccountAndAccount"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "JsonApiPageResponseOfRetailer": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndRetailerAndRetailer"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "JsonApiPageResponseOfBrand": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndBrandAndBrand"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "PageMetadata": {
+          "required": [
+            "currentPageSize",
+            "currentPageIndex"
+          ],
+          "type": "object",
+          "properties": {
+            "totalItemsAcrossAllPages": {
+              "type": "integer",
+              "format": "int64",
+              "x-nullable": true
+            },
+            "currentPageSize": {
+              "type": "integer",
+              "format": "int32",
+              "x-nullable": false
+            },
+            "currentPageIndex": {
+              "type": "integer",
+              "format": "int32",
+              "x-nullable": false
+            },
+            "totalPages": {
+              "type": "integer",
+              "format": "int64",
+              "x-nullable": true
+            },
+            "nextPage": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "previousPage": {
+              "type": "string",
+              "x-nullable": false
+            }
+          },
+          "description": "Metadata related to the current request",
+          "x-nullable": false
+        },
+        "CommonError": {
+          "type": "object",
+          "properties": {
+            "traceId": {
+              "type": "string",
+              "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
+              "x-nullable": false
+            },
+            "type": {
+              "enum": [
+                "unknown",
+                "access-control",
+                "authentication",
+                "authorization",
+                "availability",
+                "deprecation",
+                "quota",
+                "validation"
+              ],
+              "type": "string",
+              "description": "(REQUIRED) The classification of the error.",
+              "x-nullable": false
+            },
+            "code": {
+              "type": "string",
+              "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
+              "x-nullable": false
+            },
+            "instance": {
+              "type": "string",
+              "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
+              "x-nullable": false
+            },
+            "title": {
+              "type": "string",
+              "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
+              "x-nullable": false
+            },
+            "detail": {
+              "type": "string",
+              "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
+              "x-nullable": false
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "x-nullable": false
+              },
+              "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
+              "x-nullable": false
+            },
+            "stackTrace": {
+              "type": "string",
+              "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API Common error structure",
+          "x-nullable": false
+        },
+        "CommonWarning": {
+          "type": "object",
+          "properties": {
+            "traceId": {
+              "type": "string",
+              "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
+              "x-nullable": false
+            },
+            "type": {
+              "enum": [
+                "unknown",
+                "access-control",
+                "authentication",
+                "authorization",
+                "availability",
+                "deprecation",
+                "quota",
+                "validation"
+              ],
+              "type": "string",
+              "description": "(REQUIRED) The classification of the error.",
+              "x-nullable": false
+            },
+            "code": {
+              "type": "string",
+              "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
+              "x-nullable": false
+            },
+            "instance": {
+              "type": "string",
+              "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
+              "x-nullable": false
+            },
+            "title": {
+              "type": "string",
+              "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
+              "x-nullable": false
+            },
+            "detail": {
+              "type": "string",
+              "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
+              "x-nullable": false
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "x-nullable": false
+              },
+              "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
+              "x-nullable": false
+            },
+            "stackTrace": {
+              "type": "string",
+              "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API Base common warning",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndAccountAndAccount": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalAccount"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndRetailerAndRetailer": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalRetailer"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndBrandAndBrand": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalBrand"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "ExternalAccount": {
+          "required": [
+            "name",
+            "type",
+            "countries",
+            "currency",
+            "parentAccountLabel",
+            "timeZone"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "maxLength": 510,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "type": {
+              "enum": [
+                "unknown",
+                "supply",
+                "demand"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "subtype": {
+              "enum": [
+                "unknown",
+                "brand",
+                "seller"
+              ],
+              "type": "string",
+              "x-nullable": true
+            },
+            "countries": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "x-nullable": false
+              },
+              "x-nullable": false
+            },
+            "currency": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "parentAccountLabel": {
+              "maxLength": 510,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "timeZone": {
+              "type": "string",
+              "x-nullable": false
+            }
+          },
+          "description": "A Retail Media Account used to launch campaigns and line items",
+          "x-nullable": false
+        },
+        "ExternalRetailer": {
+          "required": [
+            "name"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "maxLength": 100,
+              "type": "string",
+              "x-nullable": false
+            }
+          },
+          "description": "A Retail Media Retailer used to represent a selection of products from multiple brands",
+          "x-nullable": false
+        },
+        "ExternalBrand": {
+          "required": [
+            "name"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "maxLength": 120,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            }
+          },
+          "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
+          "x-nullable": false
+        },
+        "GetPageOfAudiencesByAccountIdResponse": {
+          "required": [
+            "data",
+            "metadata"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/RetailMediaAudience"
+              },
+              "description": "data",
+              "readOnly": true
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "description": "errors",
+              "readOnly": true
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "description": "warnings",
+              "readOnly": true
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            }
+          },
+          "description": "Response for page of audiences by given account"
+        },
+        "CreateRetailMediaAudienceResponse": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/RetailMediaAudience"
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "Response of CreateAudienceRequest"
+        },
+        "CreateAudienceRequest": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/CreateAudienceBody"
+            }
+          },
+          "description": "Request to create an audience"
+        },
+        "RetailMediaAudience": {
+          "required": [
+            "attributes",
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "the name of the entity type",
+              "example": "RetailMediaAudience"
+            },
+            "id": {
+              "type": "string",
+              "description": "Unique ID of this audience.",
+              "format": "int64",
+              "example": "314159"
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
+            }
+          },
+          "description": "Retail Media audience"
+        },
+        "CreateAudienceBody": {
+          "required": [
+            "attributes",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "the name of the entity type",
+              "example": "RetailMediaAudience"
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
+            }
+          },
+          "description": "Request body of CreateAudienceRequest"
+        },
+        "RetailMediaAudienceAttributes": {
+          "required": [
+            "lookbackWindow",
+            "name",
+            "retailerId",
+            "userType"
+          ],
+          "type": "object",
+          "properties": {
+            "userType": {
+              "enum": [
+                "viewer",
+                "buyer"
+              ],
+              "type": "string",
+              "description": "Type of the user",
+              "example": "viewer"
+            },
+            "lookbackWindow": {
+              "enum": [
+                "P7D",
+                "P14D",
+                "P30D",
+                "P45D",
+                "P60D",
+                "P90D",
+                "P120D",
+                "P150D",
+                "P180D"
+              ],
+              "type": "string",
+              "description": "Length of lookback window",
+              "example": "P7D"
+            },
+            "brandIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The brands to target"
+            },
+            "categoryIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The categories to target"
+            },
+            "retailerId": {
+              "type": "string",
+              "description": "ID of the retailer associated with this audience",
+              "example": "68004146450571264"
+            },
+            "name": {
+              "type": "string",
+              "description": "name"
+            }
+          },
+          "description": "Parameters needed to create an audience"
+        },
+        "JsonApiSingleResponseOfCatalogStatus": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus"
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
+          "x-nullable": false
+        },
+        "SkuDataPreviewListResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ResourceOfSkuDataPreview"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ProblemDetails"
+              },
+              "readOnly": true,
+              "x-nullable": false
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ProblemDetails"
+              },
+              "readOnly": true,
+              "x-nullable": false
+            }
+          },
+          "description": "Data model for a list of response resources",
+          "x-nullable": false
+        },
+        "SellerPreviewResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/ResourceOfSellerPreview"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ProblemDetails"
+              },
+              "readOnly": true,
+              "x-nullable": false
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ProblemDetails"
+              },
+              "readOnly": true,
+              "x-nullable": false
+            }
+          },
+          "description": "Data model for response resource",
+          "x-nullable": false
+        },
+        "JsonApiRequestOfCatalogRequestPreview": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequestPreview"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
+          "x-nullable": false
+        },
+        "SkuSearchRequestPreviewRequest": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/ResourceOfSkuSearchRequestPreview"
+            }
+          },
+          "description": "Data model for an input resource",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalCatalogStatus"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "ResourceOfSkuDataPreview": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id of the entity"
+            },
+            "type": {
+              "type": "string",
+              "description": "Canonical type name of the entity"
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/SkuDataPreview"
+            }
+          },
+          "description": "Data model for a Resource",
+          "x-nullable": false
+        },
+        "ProblemDetails": {
+          "type": "object",
+          "properties": {
+            "traceIdentifier": {
+              "type": "string",
+              "description": "The request correlation ID this problem comes from.",
+              "x-nullable": false
+            },
+            "type": {
+              "enum": [
+                "unknown",
+                "access-control",
+                "authentication",
+                "authorization",
+                "availability",
+                "deprecation",
+                "quota",
+                "validation"
+              ],
+              "type": "string",
+              "description": "The problem's category.",
+              "x-nullable": false
+            },
+            "code": {
+              "type": "string",
+              "description": "A machine-readable  error code, expressed as a string value.",
+              "x-nullable": false
+            },
+            "instance": {
+              "type": "string",
+              "description": "A URI that identifies the specific occurrence of the problem.",
+              "x-nullable": false
+            },
+            "title": {
+              "type": "string",
+              "description": "A short human-readable description of the problem type",
+              "x-nullable": false
+            },
+            "detail": {
+              "type": "string",
+              "description": "A human-readable explanation specific to this occurrence of the problem",
+              "x-nullable": false
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "x-nullable": false
+              },
+              "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
+              "x-nullable": false
+            },
+            "stackTrace": {
+              "type": "string",
+              "description": "Technical information, only used in non-prod environments",
+              "x-nullable": false
+            }
+          },
+          "description": "Data model for common error or warning",
+          "x-nullable": false
+        },
+        "ResourceOfSellerPreview": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id of the entity"
+            },
+            "type": {
+              "type": "string",
+              "description": "Canonical type name of the entity"
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/SellerPreview"
+            }
+          },
+          "description": "Data model for a Resource",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequestPreview": {
+          "required": [
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalCatalogRequestPreview"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "ResourceOfSkuSearchRequestPreview": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id of the entity"
+            },
+            "type": {
+              "type": "string",
+              "description": "Canonical type name of the entity"
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/SkuSearchRequestPreview"
+            }
+          },
+          "description": "Data model for a Resource",
+          "x-nullable": false
+        },
+        "ExternalCatalogStatus": {
+          "required": [
+            "status",
+            "currency",
+            "rowCount",
+            "fileSizeBytes",
+            "md5Checksum",
+            "createdAt",
+            "message"
+          ],
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "Unknown",
+                "Pending",
+                "Success",
+                "Failure",
+                "Expired"
+              ],
+              "type": "string",
+              "description": "An enumeration of the status of the catalog.",
+              "x-nullable": false
+            },
+            "currency": {
+              "type": "string",
+              "description": "An ISO4217 representation of the currency products are listed under in this catalog.",
+              "x-nullable": false
+            },
+            "rowCount": {
+              "type": "integer",
+              "description": "An indication of the number of products contained in this catalog. Available when\r\nthis catalog reaches a success status.",
+              "format": "int32",
+              "x-nullable": true
+            },
+            "fileSizeBytes": {
+              "type": "integer",
+              "description": "The size of this catalog in bytes. Available when this catalog reaches a success status.",
+              "format": "int32",
+              "x-nullable": true
+            },
+            "md5Checksum": {
+              "type": "string",
+              "description": "An MD5 checksum of the catalog for use in confirming complete and uncorrupted retrieval.\r\nAvailable when this catalog reaches a success status.",
+              "x-nullable": false
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "The time this catalog was created. Represented as a UTC ISO8601 string.",
+              "format": "date-time",
+              "x-nullable": false
+            },
+            "message": {
+              "type": "string",
+              "description": "An optional information message intended for developer consumption.",
+              "x-nullable": false
+            }
+          },
+          "description": "The status of an asynchronous request to generate a catalog",
+          "x-nullable": false
+        },
+        "SkuDataPreview": {
+          "required": [
+            "skuKey",
+            "id",
+            "brandId",
+            "brandName",
+            "retailerId",
+            "retailerName",
+            "price",
+            "isInStock",
+            "updatedAt"
+          ],
+          "type": "object",
+          "properties": {
+            "skuKey": {
+              "type": "string",
+              "description": "The product SKU Key.",
+              "x-nullable": false
+            },
+            "name": {
+              "maxLength": 1000,
+              "minLength": 0,
+              "type": "string",
+              "description": "A short product name.",
+              "x-nullable": false
+            },
+            "description": {
+              "type": "string",
+              "description": "A product description.",
+              "x-nullable": false
+            },
+            "categoryId": {
+              "type": "string",
+              "description": "The category Id.",
+              "x-nullable": false
+            },
+            "category": {
+              "maxLength": 1000,
+              "minLength": 0,
+              "type": "string",
+              "description": "The full category breadcrumb in the retailers catalog.",
+              "x-nullable": false
+            },
+            "sellerId": {
+              "type": "string",
+              "description": "The id of the seller.",
+              "x-nullable": false
+            },
+            "sellerName": {
+              "type": "string",
+              "description": "The name of the seller.",
+              "x-nullable": false
+            },
+            "brandId": {
+              "type": "string",
+              "description": "The global brand id associated to the product.",
+              "x-nullable": false
+            },
+            "brandName": {
+              "maxLength": 120,
+              "minLength": 0,
+              "type": "string",
+              "description": "The name of the global brand.",
+              "x-nullable": false
+            },
+            "retailerId": {
+              "type": "string",
+              "description": "The identifier for the retailer the product is listed by.",
+              "x-nullable": false
+            },
+            "retailerName": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string",
+              "description": "The retailer name.",
+              "x-nullable": false
+            },
+            "price": {
+              "type": "number",
+              "description": "The price of the product on the retailer site.",
+              "format": "double",
+              "x-nullable": false
+            },
+            "isInStock": {
+              "type": "boolean",
+              "description": "An indication of if the retailer currently has the product in stock.",
+              "x-nullable": false
+            },
+            "gtin": {
+              "type": "string",
+              "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
+              "x-nullable": false
+            },
+            "mpn": {
+              "type": "string",
+              "description": "The MPN for the product if available.",
+              "x-nullable": false
+            },
+            "imageUrl": {
+              "type": "string",
+              "description": "An http image resource provided by the retailer.",
+              "x-nullable": false
+            },
+            "productPage": {
+              "type": "string",
+              "description": "An The product page URL",
+              "x-nullable": false
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "The last time this product was updated in the Retail Media Catalog. Represented as a UTC ISO8601 string.",
+              "format": "date-time",
+              "x-nullable": false
+            }
+          },
+          "description": "Metadata and usage info of a sku search",
+          "x-nullable": false
+        },
+        "SellerPreview": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Seller Name",
+              "x-nullable": false
+            }
+          },
+          "description": "Retail media Seller Id and Name",
+          "x-nullable": false
+        },
+        "ExternalCatalogRequestPreview": {
+          "type": "object",
+          "properties": {
+            "format": {
+              "enum": [
+                "json-newline"
+              ],
+              "type": "string",
+              "default": "json-newline",
+              "x-nullable": false
+            }
+          },
+          "description": "A request for a catalog under the specified format. Currently \"json-newline\" is supported.",
+          "x-nullable": false
+        },
+        "SkuSearchRequestPreview": {
+          "required": [
+            "queryString",
+            "retailerId"
+          ],
+          "type": "object",
+          "properties": {
+            "queryString": {
+              "type": "string",
+              "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)",
+              "x-nullable": false
+            },
+            "retailerId": {
+              "type": "string",
+              "description": "Retailer Id",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "sellers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "x-nullable": false
+              },
+              "description": "A list of seller names and/or seller Id's",
+              "x-nullable": false
+            },
+            "brandIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "long-id"
+              },
+              "description": "A list of brand Id's",
+              "x-nullable": false
+            }
+          },
+          "description": "A request for sku by sellers or brands.",
+          "x-nullable": false
+        },
+        "JsonApiPageResponseOfBalance": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndBalanceAndBalance"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "PageOfBalanceCampaign": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ExternalBalanceCampaign"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "JsonApiPageResponseOfCampaign": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndCampaignAndCampaign"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "JsonApiSingleResponseOfCampaign": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndCampaignAndCampaign"
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
+          "x-nullable": false
+        },
+        "JsonApiPageResponseOfLineItem": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndLineItemAndLineItem"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "JsonApiSingleResponseOfLineItem": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndLineItemAndLineItem"
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
+          "x-nullable": false
+        },
+        "JsonApiPageResponseOfStringAndPromotedProduct": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonError"
+              },
+              "x-nullable": false
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonWarning"
+              },
+              "x-nullable": false
+            },
+            "metadata": {
+              "$ref": "#/components/schemas/PageMetadata"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfStringAndPromotedProductAndPromotedProduct"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+          "x-nullable": false
+        },
+        "JsonApiDataRequestOfPutBalanceCampaign": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ExternalPutBalanceCampaign"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API wrapper class to format request with array of data",
+          "x-nullable": false
+        },
+        "JsonApiDataRequestOfDeleteBalanceCampaign": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ExternalDeleteBalanceCampaign"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API wrapper class to format request with array of data",
+          "x-nullable": false
+        },
+        "ExternalPostCampaign": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfCampaignAttributesAndCampaign"
+            }
+          },
+          "description": "An object that represents the available options to set when creating a Retail Media Campaign",
+          "x-nullable": false
+        },
+        "ExternalPutCampaign": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithExternalIdOfEditableCampaignAttributesAndCampaign"
+            }
+          },
+          "description": "An object that represents the available options to set when editing a Retail Media Campaign",
+          "x-nullable": false
+        },
+        "ExternalPostLineItem": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfLineItemAttributesAndLineItem"
+            }
+          },
+          "description": "Represents a line item to be created",
+          "x-nullable": false
+        },
+        "ExternalPutLineItem": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/JsonApiBodyWithExternalIdOfEditableLineItemAttributesAndLineItem"
+            }
+          },
+          "description": "An object to update a Retail Media Line Item",
+          "x-nullable": false
+        },
+        "JsonApiDataRequestWithIdOfStringAndPromotedProduct": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/JsonApiBodyWithIdOfStringAndPromotedProductAndPromotedProduct"
+              },
+              "x-nullable": false
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndBalanceAndBalance": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalBalance"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "ExternalBalanceCampaign": {
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalNoAttributes"
+            }
+          },
+          "description": "Campaigns related to the balance",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndCampaignAndCampaign": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalCampaign"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfInt64AndLineItemAndLineItem": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalLineItem"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithIdOfStringAndPromotedProductAndPromotedProduct": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalPromotedProduct"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "ExternalPutBalanceCampaign": {
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalNoAttributes"
+            }
+          },
+          "description": "Associaties a campaign to a balance",
+          "x-nullable": false
+        },
+        "ExternalDeleteBalanceCampaign": {
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalNoAttributes"
+            }
+          },
+          "description": "represents a campaign to remove from a balance",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithoutIdOfCampaignAttributesAndCampaign": {
+          "required": [
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalCampaignAttributes"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithExternalIdOfEditableCampaignAttributesAndCampaign": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalEditableCampaignAttributes"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithoutIdOfLineItemAttributesAndLineItem": {
+          "required": [
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalLineItemAttributes"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "JsonApiBodyWithExternalIdOfEditableLineItemAttributesAndLineItem": {
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "type": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "attributes": {
+              "$ref": "#/components/schemas/ExternalEditableLineItemAttributes"
+            }
+          },
+          "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+          "x-nullable": false
+        },
+        "ExternalBalance": {
+          "required": [
+            "name",
+            "poNumber",
+            "memo",
+            "deposited",
+            "spent",
+            "remaining",
+            "startDate",
+            "endDate",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "poNumber": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "memo": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "deposited": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "spent": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "remaining": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "startDate": {
+              "required": [
+                "true"
+              ],
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "endDate": {
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "status": {
+              "enum": [
+                "unknown",
+                "scheduled",
+                "active",
+                "ended"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "x-nullable": false
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "x-nullable": false
+            }
+          },
+          "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
+          "x-nullable": false
+        },
+        "ExternalNoAttributes": {
+          "type": "object",
+          "description": "body that intentionaly has no attributes",
+          "x-nullable": false
+        },
+        "ExternalCampaign": {
+          "required": [
+            "accountId",
+            "promotedBrandIds",
+            "budgetSpent",
+            "budgetRemaining",
+            "createdAt",
+            "updatedAt",
+            "name"
+          ],
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "promotedBrandIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "long-id"
+              },
+              "x-nullable": false
+            },
+            "budgetSpent": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "budgetRemaining": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "status": {
+              "enum": [
+                "unknown",
+                "active",
+                "inactive"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "x-nullable": false
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "x-nullable": false
+            },
+            "type": {
+              "enum": [
+                "unknown",
+                "auction",
+                "preferred"
+              ],
+              "type": "string",
+              "default": "auction",
+              "x-nullable": false
+            },
+            "drawableBalanceIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "long-id"
+              },
+              "x-nullable": false
+            },
+            "clickAttributionWindow": {
+              "enum": [
+                "7D",
+                "14D",
+                "30D",
+                "unknown"
+              ],
+              "type": "string",
+              "default": "30D",
+              "x-nullable": false
+            },
+            "viewAttributionWindow": {
+              "enum": [
+                "none",
+                "1D",
+                "7D",
+                "14D",
+                "30D",
+                "unknown"
+              ],
+              "type": "string",
+              "default": "none",
+              "x-nullable": false
+            },
+            "name": {
+              "maxLength": 255,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "budget": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "clickAttributionScope": {
+              "enum": [
+                "unknown",
+                "sameSku",
+                "sameSkuCategory",
+                "sameSkuCategoryBrand"
+              ],
+              "type": "string",
+              "x-nullable": true
+            },
+            "viewAttributionScope": {
+              "enum": [
+                "unknown",
+                "sameSku",
+                "sameSkuCategory",
+                "sameSkuCategoryBrand"
+              ],
+              "type": "string",
+              "x-nullable": true
+            }
+          },
+          "description": "A Retail Media Campaign used to represent an advertiser's marketing objective",
+          "x-nullable": false
+        },
+        "ExternalLineItem": {
+          "required": [
+            "campaignId",
+            "budgetRemaining",
+            "createdAt",
+            "updatedAt",
+            "targetRetailerId",
+            "name",
+            "startDate"
+          ],
+          "type": "object",
+          "properties": {
+            "campaignId": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "budgetSpent": {
+              "type": "number",
+              "format": "double",
+              "x-nullable": false
+            },
+            "budgetRemaining": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "x-nullable": false
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "x-nullable": false
+            },
+            "targetRetailerId": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "status": {
+              "enum": [
+                "unknown",
+                "active",
+                "scheduled",
+                "draft",
+                "paused",
+                "budgetHit",
+                "ended",
+                "archived",
+                "noFunds"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "targetBid": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "isAutoDailyPacing": {
+              "type": "boolean",
+              "default": false,
+              "x-nullable": false
+            },
+            "name": {
+              "maxLength": 255,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "startDate": {
+              "required": [
+                "true"
+              ],
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "endDate": {
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "maxBid": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "budget": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "monthlyPacing": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "dailyPacing": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "bidStrategy": {
+              "enum": [
+                "unknown",
+                "conversion",
+                "clicks",
+                "revenue"
+              ],
+              "type": "string",
+              "default": "conversion",
+              "x-nullable": false
+            }
+          },
+          "description": "A Retail Media Line Item used to hold bid settings for one or many promoted products on a single retailer",
+          "x-nullable": false
+        },
+        "ExternalPromotedProduct": {
+          "required": [
+            "bidOverride"
+          ],
+          "type": "object",
+          "properties": {
+            "bidOverride": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            }
+          },
+          "description": "identifies a promoted product",
+          "x-nullable": false
+        },
+        "ExternalCampaignAttributes": {
+          "required": [
+            "name"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "unknown",
+                "auction",
+                "preferred"
+              ],
+              "type": "string",
+              "default": "auction",
+              "x-nullable": false
+            },
+            "drawableBalanceIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "long-id"
+              },
+              "x-nullable": false
+            },
+            "clickAttributionWindow": {
+              "enum": [
+                "7D",
+                "14D",
+                "30D",
+                "unknown"
+              ],
+              "type": "string",
+              "default": "30D",
+              "x-nullable": false
+            },
+            "viewAttributionWindow": {
+              "enum": [
+                "none",
+                "1D",
+                "7D",
+                "14D",
+                "30D",
+                "unknown"
+              ],
+              "type": "string",
+              "default": "none",
+              "x-nullable": false
+            },
+            "name": {
+              "maxLength": 255,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "budget": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "clickAttributionScope": {
+              "enum": [
+                "unknown",
+                "sameSku",
+                "sameSkuCategory",
+                "sameSkuCategoryBrand"
+              ],
+              "type": "string",
+              "x-nullable": true
+            },
+            "viewAttributionScope": {
+              "enum": [
+                "unknown",
+                "sameSku",
+                "sameSkuCategory",
+                "sameSkuCategoryBrand"
+              ],
+              "type": "string",
+              "x-nullable": true
+            }
+          },
+          "description": "An object that represents the available options to set when creating a Retail Media Campaign",
+          "x-nullable": false
+        },
+        "ExternalEditableCampaignAttributes": {
+          "required": [
+            "name",
+            "clickAttributionWindow",
+            "viewAttributionWindow"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "maxLength": 255,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "budget": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "clickAttributionWindow": {
+              "enum": [
+                "7D",
+                "14D",
+                "30D",
+                "unknown"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "viewAttributionWindow": {
+              "enum": [
+                "none",
+                "1D",
+                "7D",
+                "14D",
+                "30D",
+                "unknown"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "clickAttributionScope": {
+              "enum": [
+                "unknown",
+                "sameSku",
+                "sameSkuCategory",
+                "sameSkuCategoryBrand"
+              ],
+              "type": "string",
+              "x-nullable": true
+            },
+            "viewAttributionScope": {
+              "enum": [
+                "unknown",
+                "sameSku",
+                "sameSkuCategory",
+                "sameSkuCategoryBrand"
+              ],
+              "type": "string",
+              "x-nullable": true
+            }
+          },
+          "description": "An object that represents the available options to set when editing a Retail Media Campaign",
+          "x-nullable": false
+        },
+        "ExternalLineItemAttributes": {
+          "required": [
+            "targetRetailerId",
+            "name",
+            "startDate"
+          ],
+          "type": "object",
+          "properties": {
+            "targetRetailerId": {
+              "type": "string",
+              "format": "long-id",
+              "x-nullable": false
+            },
+            "status": {
+              "enum": [
+                "unknown",
+                "active",
+                "scheduled",
+                "draft",
+                "paused",
+                "budgetHit",
+                "ended",
+                "archived",
+                "noFunds"
+              ],
+              "type": "string",
+              "x-nullable": false
+            },
+            "targetBid": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "isAutoDailyPacing": {
+              "type": "boolean",
+              "default": false,
+              "x-nullable": false
+            },
+            "name": {
+              "maxLength": 255,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "startDate": {
+              "required": [
+                "true"
+              ],
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "endDate": {
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "maxBid": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "budget": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "monthlyPacing": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "dailyPacing": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "bidStrategy": {
+              "enum": [
+                "unknown",
+                "conversion",
+                "clicks",
+                "revenue"
+              ],
+              "type": "string",
+              "default": "conversion",
+              "x-nullable": false
+            }
+          },
+          "description": "The attributes of a Retail Media Line Item",
+          "x-nullable": false
+        },
+        "ExternalEditableLineItemAttributes": {
+          "required": [
+            "name",
+            "startDate",
+            "targetBid",
+            "isAutoDailyPacing",
+            "status"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "maxLength": 255,
+              "minLength": 0,
+              "type": "string",
+              "x-nullable": false
+            },
+            "startDate": {
+              "required": [
+                "true"
+              ],
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "endDate": {
+              "type": "string",
+              "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+              "format": "date"
+            },
+            "targetBid": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "description": "The greater value between RMP default of $0.3 or a retailer-specific value - varies by retailer",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "maxBid": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "budget": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "monthlyPacing": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "dailyPacing": {
+              "required": [
+                "false"
+              ],
+              "type": "number",
+              "format": "decimal",
+              "x-nullable": true
+            },
+            "isAutoDailyPacing": {
+              "type": "boolean",
+              "x-nullable": false
+            },
+            "bidStrategy": {
+              "enum": [
+                "unknown",
+                "conversion",
+                "clicks",
+                "revenue"
+              ],
+              "type": "string",
+              "default": "conversion",
+              "x-nullable": false
+            },
+            "status": {
+              "enum": [
+                "unknown",
+                "active",
+                "scheduled",
+                "draft",
+                "paused",
+                "budgetHit",
+                "ended",
+                "archived",
+                "noFunds"
+              ],
+              "type": "string",
+              "x-nullable": false
+            }
+          },
+          "description": "The mutable attributes of a Retail Media Line Item",
+          "x-nullable": false
+        },
+        "EnvelopeReportStatus": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/ReportStatus"
+            }
+          },
+          "description": "Standard response envelope"
+        },
+        "BadRequest": {
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Error"
+              },
+              "description": "The errors"
+            }
+          },
+          "description": "Bad request errors"
+        },
+        "EnvelopeReportRequest": {
+          "required": [
+            "data"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/ReportRequest"
+            }
+          },
+          "description": "Standard response envelope"
+        },
+        "ReportStatus": {
+          "required": [
+            "type",
+            "id",
+            "attributes"
+          ],
+          "type": "object",
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/ReportStatusAttributes"
+            },
+            "id": {
+              "type": "string",
+              "description": "The reportId"
+            },
+            "type": {
+              "type": "string",
+              "description": "Always \"RetailMediaReportStatus\""
+            }
+          },
+          "description": "Report Status"
+        },
+        "Error": {
+          "required": [
+            "code",
+            "type",
+            "traceId",
+            "instance"
+          ],
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
+            },
+            "detail": {
+              "type": "string",
+              "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
+            },
+            "instance": {
+              "type": "string",
+              "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
+            },
+            "source": {
+              "$ref": "#/components/schemas/MapString"
+            },
+            "stackTrace": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology e.g. .Net, Scala, etc"
+            },
+            "title": {
+              "type": "string",
+              "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
+            },
+            "traceId": {
+              "type": "string",
+              "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
+            },
+            "type": {
+              "enum": [
+                "access-control",
+                "authentication",
+                "authorization",
+                "availability",
+                "deprecation",
+                "quota",
+                "validation"
+              ],
+              "type": "string",
+              "description": "Type should be: \"validation\", \"unavailable, \"violation\", \"permission\", ..."
+            }
+          },
+          "description": "Error"
+        },
+        "ReportRequest": {
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object",
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/ReportRequestAttributes"
+            },
+            "type": {
+              "type": "string",
+              "description": "Always \"RetailMediaReportRequest\""
+            }
+          },
+          "description": "Report Request"
+        },
+        "ReportStatusAttributes": {
+          "required": [
+            "status"
+          ],
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp when the report started to execute",
+              "format": "date-time"
+            },
+            "expiresAt": {
+              "type": "string",
+              "description": "Timestamp when the cached report will expire",
+              "format": "date-time"
+            },
+            "fileSizeBytes": {
+              "type": "integer",
+              "description": "Total size of file, only populated on success",
+              "format": "int64"
+            },
+            "md5Checksum": {
+              "type": "string",
+              "description": "The MD5 checksum of the content, only populated on success"
+            },
+            "message": {
+              "type": "string",
+              "description": "Failure message, only populated on failure"
+            },
+            "rowCount": {
+              "type": "integer",
+              "description": "Rows of data in report, only populated on success",
+              "format": "int64"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "success",
+                "failure",
+                "expired"
+              ],
+              "type": "string",
+              "description": "One of \"pending\", \"success\", \"failure\", or \"expired\""
+            }
+          },
+          "description": "Report Status Attributes"
+        },
+        "MapString": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)."
+        },
+        "ReportRequestAttributes": {
+          "required": [
+            "reportType",
+            "startDate",
+            "endDate"
+          ],
+          "type": "object",
+          "properties": {
+            "clickAttributionWindow": {
+              "enum": [
+                "7D",
+                "14D",
+                "30D"
+              ],
+              "type": "string",
+              "description": "Defaults to value from campaign or one of \"7D\", \"14D\", or \"30D\". If specified, viewAttributionWindow must also be specified"
+            },
+            "endDate": {
+              "type": "string",
+              "description": "YYYY-MM-DD, must not be before startDate and not more than 100 days later",
+              "format": "date"
+            },
+            "format": {
+              "enum": [
+                "csv",
+                "json",
+                "json-compact",
+                "json-newline"
+              ],
+              "type": "string",
+              "description": "One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\"",
+              "default": "json"
+            },
+            "id": {
+              "type": "string",
+              "description": "The id of the campaign or line item.  Either 'id' or 'ids' must be specified, but not both"
+            },
+            "ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The ids of the campaigns or line items.  Either 'id' or 'ids' must be specified, but not both"
+            },
+            "reportType": {
+              "enum": [
+                "summary",
+                "keyword",
+                "pageType",
+                "productCategory",
+                "product",
+                "attributedTransactions"
+              ],
+              "type": "string",
+              "description": "One of \"summary\", \"keyword\", \"pageType\", \"productCategory\", \"product\", or \"attributedTransactions\""
+            },
+            "startDate": {
+              "type": "string",
+              "description": "YYYY-MM-DD",
+              "format": "date"
+            },
+            "timeZone": {
+              "type": "string"
+            },
+            "viewAttributionWindow": {
+              "enum": [
+                "none",
+                "1D",
+                "7D",
+                "14D",
+                "30D"
+              ],
+              "type": "string",
+              "description": "Defaults to value from campaign or one of \"none\", \"1D\", \"7D\", \"14D\", or \"30D\". If specified, must be less than clickAttributionWindow, which must also be specified."
+            }
+          },
+          "description": "Report Request Attributes"
+        }
+      },
+      "securitySchemes": {
+        "oauth": {
+          "type": "oauth2",
+          "flows": {
+            "clientCredentials": {
+              "tokenUrl": "https://api.criteo.com/oauth2/token",
+              "scopes": { }
+            }
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "oauth": [ ]
+      }
+    ],
+    "x-samples-languages": [
+      "java",
+      "python",
+      "php",
+      "csharp",
+      "javascript",
+      "curl",
+      "ruby"
+    ]
+  }
