@@ -61,12 +61,13 @@ def get_formatted_date():
 
   return formatted_date
 
-def run_command(command):
+def run_command(command, env=None):
   try:
     output = subprocess.Popen(command,
                        shell=True,
                        stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE)
+                       stderr=subprocess.PIPE,
+                       env=env)
 
     error = output.stderr.readlines()
     if len(error) > 0:

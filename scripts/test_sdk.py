@@ -1,12 +1,28 @@
 import sys, getopt
+from os import path
 
 from push_sdk.clients.fs_client import FsClient
-from push_sdk.clients.git_client import GitClient
 from push_sdk.clients.os_client import OsClient
-from push_sdk.php_sdk_push_action import PhpSdkPushAction
 from push_sdk.utils import get_logger
 
+from push_sdk.java_sdk_test_action import JavaSdkTestAction
+
 logger = get_logger()
+
+def run_tests(language):
+  fs_client = FsClient()
+  os_client = OsClient()
+
+  if language == 'java':
+    action = JavaSdkTestAction()
+  else:
+    raise Exception(f'Unsupported programming language ({language}).')
+
+  generated_sdks_path = os_client.get_generated_sources_base_path(language)
+  for sdk_name in fs_client.list_dir(generated_sdks_path):
+    fs_client.change_dir(path.join(generated_sdks_path, sdk_name))
+
+    action.execute(sdk_name)
 
 def main():
   try:
@@ -14,7 +30,7 @@ def main():
   except getopt.GetoptError:
     logger.error('Invalid call: [help] push_sdk.py -l <language>')
     sys.exit(2)
-    
+
   for option, value in opts:
     if option in ('-h', '--help'):
       logger.info('push_sdk.py -l <language>')
@@ -23,17 +39,8 @@ def main():
       language = value
     else:
       raise Exception(f'Unsupported command line option ({option}={value}).')
-  
-  if language in ('php',):
-    git_client = GitClient()
-    fs_client = FsClient()
-    os_client = OsClient()
-    pipeline = PhpSdkPushAction(git_client, fs_client, os_client)
-  else:
-    raise Exception(f'Unsupported programming language ({language}).')
-  
-  pipeline.execute()
-    
+
+  run_tests(language)
 
 if __name__ == '__main__':
   main()
