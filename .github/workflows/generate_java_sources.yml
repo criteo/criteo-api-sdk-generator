@@ -28,15 +28,15 @@ jobs:
           ./scripts/build_java_sdk.sh
         shell: bash
 
+      - name: Test SDKs
+        run: python ./scripts/test_sdk.py --language java
+        shell: bash
+
       - name: Upload Sdk
         uses: actions/upload-artifact@v2
         with:
           name: generated-sources-java
           path: ./generated-sources/java
-
-      - name: Test SDKs
-        run: python ./scripts/test_sdk.py --language java
-        shell: bash
 
       - name: Push java SDK
         env:

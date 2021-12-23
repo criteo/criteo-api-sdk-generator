@@ -61,7 +61,7 @@ def get_formatted_date():
 
   return formatted_date
 
-def run_command(command, env=None):
+def run_command(command, env=None, error_template=None):
   try:
     output = subprocess.Popen(command,
                        shell=True,
@@ -72,6 +72,10 @@ def run_command(command, env=None):
     lines = ''
     for line in iter(output.stdout.readline, b''):
       line = line.decode("utf-8").strip().rstrip("\r\n")
+
+      if error_template is not None and re.match(error_template, line):
+        handle_command_error(output)
+
       get_logger().info(line)
       lines += line
 
@@ -90,3 +94,11 @@ class InvalidCriteoServiceException(Exception):
 
 class InvalidApiVersionException(Exception):
   pass
+
+def handle_command_error(output):
+  lines = output.stdout.readlines()
+  error_message = ''
+  for line in lines:
+    error_message += line.decode("utf-8")
+
+  raise CommandException(error_message)
