@@ -69,11 +69,16 @@ def run_command(command, env=None):
                        stderr=subprocess.PIPE,
                        env=env)
 
-    error = output.stderr.readlines()
-    if len(error) > 0:
-      get_logger().error(str(error))
+    lines = ''
+    for line in iter(output.stdout.readline, b''):
+      line = line.decode("utf-8").strip().rstrip("\r\n")
+      get_logger().info(line)
+      lines += line
 
-    return output.stdout.readlines()
+    output.stdout.close()
+    output.wait()
+
+    return lines
   except subprocess.CalledProcessError as e:
     raise CommandException(e.output)
 
