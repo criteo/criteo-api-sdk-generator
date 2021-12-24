@@ -61,6 +61,7 @@ task generateClient(type: GradleBuild) {
 
         def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "$language".toString()
+            configFile = "$projectDir/generatorConfiguration.yaml".toString()
             templateDir = "$resourcesDir/templates/".toString()
             inputSpec = specPath
             outputDir = clientOutputDirPerVersion

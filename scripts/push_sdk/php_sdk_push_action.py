@@ -9,7 +9,7 @@ from .utils import get_logger, assert_environment_variable, assert_criteo_servic
 
 logger = get_logger()
 
-class PushPhpSdkAction:
+class PhpSdkPushAction:
 
   def __init__(self, git_client: IGitClient, fs_client: IFsClient, os_client: IOsClient):
     self.fs = fs_client

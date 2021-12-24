@@ -28,6 +28,14 @@ jobs:
           ./scripts/build_java_sdk.sh
         shell: bash
 
+      - name: Test SDKs
+        run: python ./scripts/test_sdk.py --language java
+        shell: bash
+        env:
+          TEST_CLIENT_ID: ${{ secrets.SDK_TEST_CLIENT_ID }}
+          TEST_CLIENT_SECRET: ${{ secrets.SDK_TEST_CLIENT_SECRET }}
+          TEST_APPLICATION_ID: ${{ secrets.SDK_TEST_APPLICATION_ID }}
+
       - name: Upload Sdk
         uses: actions/upload-artifact@v2
         with:
@@ -41,8 +49,8 @@ jobs:
           chmod +x ./scripts/push_sdk.sh
           ./scripts/push_sdk.sh java
         shell: bash
-
-      - name: Send success notification plugin
+      
+      - name: Send success notification
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: criteo-api-sdk-generator
@@ -52,8 +60,8 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_FOOTER: ''
           SLACK_ICON_EMOJI: green_check_mark
-
-      - name: Send failure notification plugin
+      
+      - name: Send failure notification
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
