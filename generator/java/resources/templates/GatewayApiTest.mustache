@@ -4,12 +4,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.lang.*;
+
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.Configuration;
-import {{invokerPackage}}.api.OAuthApi;
+import {{invokerPackage}}.api.GatewayApi;
 import {{invokerPackage}}.ApiResponse;
-import {{invokerPackage}}.model.AccessTokenModel;
+import {{invokerPackage}}.model.ApplicationSummaryModelResponse;
 
 public class GatewayApiTest {
     private ApiClient client;
@@ -20,74 +22,56 @@ public class GatewayApiTest {
 
     @Before
     public void setUp() {
-        client = Configuration.getDefaultApiClient();
         assertNotNull(clientId);
         assertNotNull(clientSecret);
         assertNotNull(applicationId);
+
+        client = Configuration.getDefaultApiClient();
+        client.setUsername(clientId);
+        client.setPassword(clientSecret);
     }
  
     @Test
-    public void testGetApplicationInfoShouldSucceedWithValidToken() throws ApiException {
+    public void testGetCurrentApplicationShouldSucceedWithValidToken() throws ApiException {
         // Arrange
-        OAuthApi api = new OAuthApi(client);
-        String grantType = "client_credentials";
+        GatewayApi api = new GatewayApi(client);
 
         // Act
-        AccessTokenModel apiResponse = api.createToken(grantType, clientId, clientSecret, null, null, null);
+        ApiResponse<ApplicationSummaryModelResponse> httpResponse = api.getCurrentApplicationWithHttpInfo();
 
         // Assert
-        assertNotNull(apiResponse.getAccessToken());
+        assertEquals(200, httpResponse.getStatusCode());
+
+        ApplicationSummaryModelResponse response = httpResponse.getData();
+        assertEquals(applicationId, response.getData().getId());
     }
 
     @Test
-    public void testGetApplicationInfoShouldFailWithInvalidToken() throws ApiException {
+    public void testGetCurrentApplicationShouldSucceedWithRenewedInvalidToken() throws ApiException {
         // Arrange
-        String invalidToken = "invalidToken";
+        String invalidToken = "invalid.access.token";
+        client.setAccessToken(invalidToken);
+        GatewayApi api = new GatewayApi(client);
+
+        // Act
+        ApiResponse<ApplicationSummaryModelResponse> httpResponse = api.getCurrentApplicationWithHttpInfo();
+
+        // Assert
+        assertEquals(200, httpResponse.getStatusCode());
+
+        ApplicationSummaryModelResponse response = httpResponse.getData();
+        assertEquals(applicationId, response.getData().getId());
     }
 
-    // public function testGetCurrentApplicationShouldSucceedWithValidToken()
-    // {
-    //     // Arrange
-    //     $api = new GatewayApi(new TokenAutoRefreshClient($this->clientId, $this->clientSecret));
-    //     // Act
-    //     $response = $api->getCurrentApplicationWithHttpInfo();
-    //     // Assert
-    //     $this->assertEquals(200, $response[1]);
-    //     $this->assertEquals($this->applicationId, $response[0]->getData()->getId());
-    // }
+    @Test
+    public void testGetCurrentApplicationShouldFailWithoutToken() throws ApiException {
+        // Arrange
+        GatewayApi api = new GatewayApi(new ApiClient());
 
-    // public function testGetCurrentApplicationShouldSucceedWithRenewedInvalidToken()
-    // {
-    //     // Arrange
-    //     $api = new GatewayApi(new TokenAutoRefreshClient($this->clientId, $this->clientSecret));
-    //     $api->getConfig()->setAccessToken('invalid-access-token');
-    //     // Act
-    //     $response = $api->getCurrentApplicationWithHttpInfo();
-    //     // Assert
-    //     $this->assertEquals(200, $response[1]);
-    //     $this->assertEquals($this->applicationId, $response[0]->getData()->getId());
-    // }
-
-    // public function testGetCurrentApplicationShouldFailWithoutToken()
-    // {
-    //     $this->assertThrows(ApiException::class, 
-    //         function() {
-    //             // Arrange
-    //             $api = new GatewayApi();
-    //             // Act
-    //             $api->getCurrentApplicationWithHttpInfo();
-    //         },
-    //         function($exception) {
-    //             $data = ObjectSerializer::deserialize(
-    //                 $exception->getResponseBody(),
-    //                 '\{{invokerPackage}}\Model\ApplicationSummaryModelResponse',
-    //                 $exception->getResponseHeaders()
-    //             );
-    //             // Assert
-    //             $this->assertEquals(401, $exception->getCode());
-    //             $this->assertEquals('authorization', $data->getErrors()[0]->getType());
-    //             $this->assertEquals('authorization-token-invalid', $data->getErrors()[0]->getCode());
-    //         }
-    //     );
-    // }
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            api.getCurrentApplication();
+        });
+        assertEquals("username or password is not present.", exception.getMessage());
+    }
 }
