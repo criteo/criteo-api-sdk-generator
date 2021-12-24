@@ -163,7 +163,7 @@ class TokenAutoRefreshClient implements \GuzzleHttp\ClientInterface
     {
         if ($this->token == null || !$this->token->isValidEnough()) {
             try {
-                $response = $this->oauthApi->createToken($this->clientId, $this->clientSecret, GRANT_TYPE);
+                $response = $this->oauthApi->getToken(GRANT_TYPE, $this->clientId, $this->clientSecret);
             } catch (ApiException $e) {
                 throw new \Exception('Cannot refresh token automatically. Response from server: ' . $e->getCode() . ' - ' . $e->getResponseBody(), 0, $e);
             }
