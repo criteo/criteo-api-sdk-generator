@@ -1513,8 +1513,8 @@ public class ApiClient {
             if (auth.getUsername() == null || auth.getPassword() == null) {
                 throw new IllegalArgumentException("username or password is not present.");
             }
-            JwtModel response = (new OAuthApi(this)).createToken(
-                                auth.getUsername(), auth.getPassword(), "client_credentials");
+            JwtModel response = (new OAuthApi(this)).getToken(
+                "client_credentials", auth.getUsername(), auth.getPassword());
             tokenInfo = new TokenInfo(response.getExpiresIn() + System.currentTimeMillis() / 1000);
             this.setApiKey(response.getAccessToken());
         }
