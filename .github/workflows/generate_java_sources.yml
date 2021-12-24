@@ -22,7 +22,7 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Generate Sdk
+      - name: Generate SDKs
         run: |
           chmod +x ./scripts/build_java_sdk.sh
           ./scripts/build_java_sdk.sh
@@ -36,13 +36,13 @@ jobs:
           TEST_CLIENT_SECRET: ${{ secrets.SDK_TEST_CLIENT_SECRET }}
           TEST_APPLICATION_ID: ${{ secrets.SDK_TEST_APPLICATION_ID }}
 
-      - name: Upload Sdk
+      - name: Upload SDKs
         uses: actions/upload-artifact@v2
         with:
           name: generated-sources-java
           path: ./generated-sources/java
 
-      - name: Push java SDK
+      - name: Push SDKs
         env:
           SDK_REPO_PRIVATE_KEY: ${{ secrets.JAVA_SDK_REPO_PRIVATE_KEY }}
         run: |
