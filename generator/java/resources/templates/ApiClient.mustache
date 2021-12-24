@@ -1514,7 +1514,7 @@ public class ApiClient {
                 throw new IllegalArgumentException("username or password is not present.");
             }
             AccessTokenModel response = (new OAuthApi(this)).getToken(
-                                "client_credentials", auth.getUsername(), auth.getPassword(), null, null, null);
+                "client_credentials", auth.getUsername(), auth.getPassword(), null, null, null);
             tokenInfo = new TokenInfo(response.getExpiresIn() + System.currentTimeMillis() / 1000);
             this.setApiKey(response.getAccessToken());
         }
