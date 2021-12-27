@@ -1,11 +1,11 @@
 from os import path
 
-from .clients.fs_client import IFsClient
-from .clients.os_client import IOsClient
+from ...shared.clients.fs_client import IFsClient
+from ...shared.clients.os_client import IOsClient
 
-from .clients.git_client import GitException, IGitClient
-from .models.programming_language import ProgrammingLanguage
-from .utils import get_logger, assert_environment_variable, assert_criteo_service, assert_api_version, get_formatted_date
+from ...shared.clients.git_client import GitException, IGitClient
+from ...shared.models.programming_language import ProgrammingLanguage
+from ...shared.utils import get_logger, assert_environment_variable, assert_criteo_service, assert_api_version, get_formatted_date
 
 logger = get_logger()
 

@@ -1,10 +1,10 @@
 from os import path
 
-from push_sdk.clients.git_client import IGitClient
-from push_sdk.clients.fs_client import IFsClient
-from push_sdk.clients.os_client import IOsClient
-from push_sdk.models.programming_language import ProgrammingLanguage
-from push_sdk.utils import get_logger, get_formatted_date
+from ...shared.clients.git_client import IGitClient
+from ...shared.clients.fs_client import IFsClient
+from ...shared.clients.os_client import IOsClient
+from ...shared.models.programming_language import ProgrammingLanguage
+from ...shared.utils import get_logger, get_formatted_date
 
 class DefaultPushSdkAction:
   def __init__(self, git_client: IGitClient, fs_client: IFsClient, os_client: IOsClient, programming_language: ProgrammingLanguage):
