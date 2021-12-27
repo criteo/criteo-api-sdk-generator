@@ -1,5 +1,5 @@
 from ..result_or_exception import ResultOrException
-from ...clients.fs_client import IFsClient
+from ...shared.clients.fs_client import IFsClient
 
 class DummyFsClient(IFsClient):
   def __init__(self):

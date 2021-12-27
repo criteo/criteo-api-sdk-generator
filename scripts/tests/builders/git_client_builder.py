@@ -1,4 +1,4 @@
-from ...clients.git_client import GitException
+from ...shared.clients.git_client import GitException
 from ..dummies.dummy_git_client import DummyGitClient
 
 class GitClientBuilder:

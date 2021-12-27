@@ -2,7 +2,7 @@ from os import path
 
 from ..models.programming_language import ProgrammingLanguage
 from ..models.criteo_service import CriteoService
-from ..utils import assert_environment_variable
+from ...shared.utils import assert_environment_variable
 
 
 class IOsClient:
