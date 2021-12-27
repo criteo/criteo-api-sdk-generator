@@ -8,6 +8,7 @@ class PythonSdkTestAction:
     self.logger.info(f'Starting testing SDK {sdk_name}...')
 
     self.logger.info('Installing dependencies...')
+    os.system('pip install pytest')
     os.system('pip install -r test-requirements.txt')
     os.system('pip install -r requirements.txt')
     self.logger.info('Install successful')
