@@ -1,10 +1,12 @@
 import os
 
+from push_sdk.clients.fs_client import IFsClient
 from push_sdk import utils
 
 class PhpSdkTestAction:
-  def __init__(self):
+  def __init__(self, fs_client: IFsClient):
     self.logger = utils.get_logger()
+    self.fs_client = fs_client
 
   def execute(self, sdk_name):
     self.logger.info(f'Starting testing SDK {sdk_name}...')
@@ -20,3 +22,9 @@ class PhpSdkTestAction:
       raise Exception(f'Test Action failed to SDK {sdk_name}')
 
     self.logger.info('Test successful')
+
+    self.logger.info('Cleaning...')
+    self.fs_client.remove('vendor')
+    self.fs_client.remove('.php_cs.cache')
+    self.fs_client.remove('.phpunit.result.cache')
+    self.logger.info('Clean successful')
