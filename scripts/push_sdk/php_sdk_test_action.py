@@ -24,7 +24,8 @@ class PhpSdkTestAction:
     self.logger.info('Test successful')
 
     self.logger.info('Cleaning...')
-    self.fs_client.remove('vendor')
-    self.fs_client.remove('.php_cs.cache')
-    self.fs_client.remove('.phpunit.result.cache')
+    elements_to_remove = ['vendor', '.php_cs', '.php_cs.cache', '.phpunit.result', '.phpunit.result.cache']
+    for element_to_remove in elements_to_remove:
+      if self.fs_client.exists(element_to_remove):
+        self.fs_client.remove(element_to_remove)
     self.logger.info('Clean successful')
