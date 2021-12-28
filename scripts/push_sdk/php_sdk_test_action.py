@@ -10,9 +10,13 @@ class PhpSdkTestAction:
     self.logger.info(f'Starting testing SDK {sdk_name}...')
 
     self.logger.info('Installing dependencies...')
-    os.system('composer install')
+    exit_code = os.system('composer install')
     self.logger.info('Install successful')
 
     self.logger.info('Testing...')
-    os.system('composer test')
+    exit_code += os.system('composer test')
+
+    if exit_code != 0:
+      raise Exception(f'Test Action failed to SDK {sdk_name}')
+
     self.logger.info('Test successful')
