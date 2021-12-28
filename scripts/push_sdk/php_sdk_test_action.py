@@ -16,7 +16,7 @@ class PhpSdkTestAction:
     self.logger.info('Install successful')
 
     self.logger.info('Testing...')
-    exit_code += os.system('SYMFONY_DEPRECATIONS_HELPER=disabled composer test')
+    exit_code += os.system('composer test')
 
     if exit_code != 0:
       raise Exception(f'Test Action failed to SDK {sdk_name}')
