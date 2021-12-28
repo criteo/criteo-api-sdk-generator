@@ -17,7 +17,7 @@ def run_tests(language):
   if language == 'java':
     action = JavaSdkTestAction()
   elif language == 'python':
-    action = PythonSdkTestAction()
+    action = PythonSdkTestAction(os_client, fs_client)
   else:
     raise Exception(f'Unsupported programming language ({language}).')
 
