@@ -14,9 +14,5 @@ class PhpSdkTestAction:
     self.logger.info('Install successful')
 
     self.logger.info('Testing...')
-    os.system('composer test', env={
-        'TEST_CLIENT_ID': utils.assert_environment_variable('TEST_CLIENT_ID'),
-        'TEST_CLIENT_SECRET': utils.assert_environment_variable('TEST_CLIENT_SECRET'),
-        'TEST_APPLICATION_ID': utils.assert_environment_variable('TEST_APPLICATION_ID'),
-    })
+    os.system('composer test')
     self.logger.info('Test successful')
