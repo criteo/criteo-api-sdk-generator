@@ -6,6 +6,7 @@ from push_sdk.clients.os_client import OsClient
 from push_sdk.utils import get_logger
 
 from push_sdk.java_sdk_test_action import JavaSdkTestAction
+from push_sdk.python_sdk_test_action import PythonSdkTestAction
 
 logger = get_logger()
 
@@ -15,6 +16,8 @@ def run_tests(language):
 
   if language == 'java':
     action = JavaSdkTestAction()
+  elif language == 'python':
+    action = PythonSdkTestAction(os_client, fs_client)
   else:
     raise Exception(f'Unsupported programming language ({language}).')
 
