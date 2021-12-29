@@ -7,6 +7,7 @@ from push_sdk.utils import get_logger
 
 from push_sdk.java_sdk_test_action import JavaSdkTestAction
 from push_sdk.python_sdk_test_action import PythonSdkTestAction
+from push_sdk.php_sdk_test_action import PhpSdkTestAction
 
 logger = get_logger()
 
@@ -18,6 +19,8 @@ def run_tests(language):
     action = JavaSdkTestAction()
   elif language == 'python':
     action = PythonSdkTestAction(os_client, fs_client)
+  elif language == 'php':
+    action = PhpSdkTestAction(os_client, fs_client)
   else:
     raise Exception(f'Unsupported programming language ({language}).')
 
@@ -44,6 +47,7 @@ def main():
       raise Exception(f'Unsupported command line option ({option}={value}).')
 
   run_tests(language)
+
 
 if __name__ == '__main__':
   main()

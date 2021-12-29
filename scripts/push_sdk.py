@@ -28,12 +28,11 @@ def main():
     git_client = GitClient()
     fs_client = FsClient()
     os_client = OsClient()
-    pipeline = PhpSdkPushAction(git_client, fs_client, os_client)
+    action = PhpSdkPushAction(git_client, fs_client, os_client)
   else:
     raise Exception(f'Unsupported programming language ({language}).')
   
-  pipeline.execute()
-    
+  action.execute()
 
 if __name__ == '__main__':
   main()

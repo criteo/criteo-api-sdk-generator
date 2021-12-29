@@ -29,7 +29,6 @@ class IOsClient:
   def is_prod_environment(self):
     """Returns True if environment is Github Actions, False if not"""
     pass
-    
 
 class OsClient(IOsClient):
   def get_private_key(self, programming_language, criteo_service = None):
