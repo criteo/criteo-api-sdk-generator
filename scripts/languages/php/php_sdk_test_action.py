@@ -1,11 +1,11 @@
 import os
 
-from push_sdk.clients.fs_client import IFsClient
-from push_sdk import utils
+from shared.clients.fs_client import IFsClient
+from shared.utils import get_logger
 
 class PhpSdkTestAction:
   def __init__(self, fs_client: IFsClient):
-    self.logger = utils.get_logger()
+    self.logger = get_logger()
     self.fs_client = fs_client
 
   def execute(self, sdk_name):
