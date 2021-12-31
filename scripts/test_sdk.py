@@ -1,13 +1,13 @@
 import sys, getopt
 from os import path
 
-from .shared.clients.fs_client import FsClient
-from .shared.clients.os_client import OsClient
-from .shared.utils import get_logger
+from shared.clients.fs_client import FsClient
+from shared.clients.os_client import OsClient
+from shared.utils import get_logger
 
-from .languages.java.java_sdk_test_action import JavaSdkTestAction
-from .languages.python.python_sdk_test_action import PythonSdkTestAction
-from .languages.php.php_sdk_test_action import PhpSdkTestAction
+from languages.java.java_sdk_test_action import JavaSdkTestAction
+from languages.python.python_sdk_test_action import PythonSdkTestAction
+from languages.php.php_sdk_test_action import PhpSdkTestAction
 
 logger = get_logger()
 

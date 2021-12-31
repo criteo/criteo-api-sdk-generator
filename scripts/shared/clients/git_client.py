@@ -1,4 +1,4 @@
-from ...shared.utils import run_command, CommandException
+from ..utils import run_command, CommandException
 
 class IGitClient:
     def setup(self, actor):
