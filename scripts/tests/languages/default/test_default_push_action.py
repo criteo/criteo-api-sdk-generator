@@ -1,11 +1,11 @@
 import pytest
 from os import path
 
-from ...shared.clients.git_client import GitException
-from ..builders.git_client_builder import GitClientBuilder
-from ..builders.fs_client_builder import FsClientBuilder
-from ..builders.os_client_builder import OsClientBuilder
-from ...languages.default.default_push_action import DefaultPushSdkAction
+from shared.clients.git_client import GitException
+from languages.default.default_push_action import DefaultPushSdkAction
+from ...builders.git_client_builder import GitClientBuilder
+from ...builders.fs_client_builder import FsClientBuilder
+from ...builders.os_client_builder import OsClientBuilder
 
 class TestDefaultPushAction:
 
