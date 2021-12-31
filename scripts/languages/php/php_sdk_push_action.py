@@ -5,7 +5,7 @@ from shared.clients.os_client import IOsClient
 
 from shared.clients.git_client import GitException, IGitClient
 from shared.models.programming_language import ProgrammingLanguage
-from shared.utils import get_logger, assert_environment_variable, assert_criteo_service, assert_api_version, get_formatted_date
+from shared.utils import get_logger, assert_criteo_service, assert_api_version, get_formatted_date
 
 logger = get_logger()
 

@@ -1,16 +1,16 @@
 import pytest
 from os import path
 
-from ...shared.models.criteo_service import CriteoService
-from ...languages.php.php_sdk_push_action import PhpSdkPushAction
-from ...shared.clients.git_client import GitException
-from ...shared.utils import InvalidCriteoServiceException, InvalidApiVersionException, get_formatted_date
-from ..builders.git_client_builder import GitClientBuilder
-from ..builders.fs_client_builder import FsClientBuilder
-from ..builders.os_client_builder import OsClientBuilder
+from shared.models.criteo_service import CriteoService
+from languages.php.php_sdk_push_action import PhpSdkPushAction
+from shared.clients.git_client import GitException
+from shared.utils import InvalidCriteoServiceException, InvalidApiVersionException, get_formatted_date
+from ...builders.git_client_builder import GitClientBuilder
+from ...builders.fs_client_builder import FsClientBuilder
+from ...builders.os_client_builder import OsClientBuilder
 
 
-class TestPushSdkAction:
+class TestPhpSdkPushAction:
   @pytest.fixture(autouse=True)
   def setup_builders(self):
     self.criteo_service = CriteoService.marketingsolutions

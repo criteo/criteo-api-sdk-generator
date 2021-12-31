@@ -34,12 +34,12 @@ def main():
   try:
     opts, _ = getopt.getopt(sys.argv[1:], "hl:", ["help","language="])
   except getopt.GetoptError:
-    logger.error('Invalid call: [help] push_sdk.py -l <language>')
+    logger.error('Invalid call: [help] test_sdk.py -l <language>')
     sys.exit(2)
 
   for option, value in opts:
     if option in ('-h', '--help'):
-      logger.info('push_sdk.py -l <language>')
+      logger.info('test_sdk.py -l <language>')
       sys.exit()
     elif option in ('-l', '--language'):
       language = value
