@@ -1,5 +1,5 @@
 from shared.clients.git_client import GitException
-from ..dummies.dummy_git_client import DummyGitClient
+from tests.dummies.dummy_git_client import DummyGitClient
 
 class GitClientBuilder:
   def __init__(self):
