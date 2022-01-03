@@ -5,9 +5,9 @@ from shared.models.criteo_service import CriteoService
 from languages.php.php_sdk_push_action import PhpSdkPushAction
 from shared.clients.git_client import GitException
 from shared.utils import InvalidCriteoServiceException, InvalidApiVersionException, get_formatted_date
-from ...builders.git_client_builder import GitClientBuilder
-from ...builders.fs_client_builder import FsClientBuilder
-from ...builders.os_client_builder import OsClientBuilder
+from tests.builders.git_client_builder import GitClientBuilder
+from tests.builders.fs_client_builder import FsClientBuilder
+from tests.builders.os_client_builder import OsClientBuilder
 
 
 class TestPhpSdkPushAction:

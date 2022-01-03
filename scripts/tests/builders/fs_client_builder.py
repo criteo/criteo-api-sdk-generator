@@ -1,6 +1,6 @@
-from ..result_or_exception import ResultOrException
+from tests.result_or_exception import ResultOrException
 
-from ..dummies.dummy_fs_client import DummyFsClient
+from tests.dummies.dummy_fs_client import DummyFsClient
 
 class FsClientBuilder:
   

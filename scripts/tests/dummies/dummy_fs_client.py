@@ -1,4 +1,4 @@
-from ..result_or_exception import ResultOrException
+from tests.result_or_exception import ResultOrException
 from shared.clients.fs_client import IFsClient
 
 class DummyFsClient(IFsClient):
