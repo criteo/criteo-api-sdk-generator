@@ -33,9 +33,7 @@ jobs:
             ssh-private-key: ${{ secrets.JAVA_SDK_REPO_PRIVATE_KEY }}
     
       - name: Generate Sdk
-        run: |
-          chmod +x ./scripts_legacy/build_java_sdk.sh
-          ./scripts_legacy/build_java_sdk.sh
+        run: ./gradlew :generator:java:generateClient
         shell: bash
 
       - name: Test SDKs

@@ -34,9 +34,7 @@ jobs:
             ssh-private-key: ${{ secrets.PYTHON_SDK_REPO_PRIVATE_KEY }}
 
       - name: Generate SDKs
-        run: |
-          chmod +x ./scripts_legacy/build_python_sdk.sh
-          ./scripts_legacy/build_python_sdk.sh
+        run: ./gradlew :generator:python:generateClient
         shell: bash
 
       - name: Test SDKs
