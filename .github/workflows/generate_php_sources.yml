@@ -48,9 +48,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Generate SDKs
-        run: |
-          chmod +x ./scripts_legacy/build_php_sdk.sh
-          ./scripts_legacy/build_php_sdk.sh
+        run: ./gradlew :generator:php:generateClient
         shell: bash
 
       - name: Test SDKs
