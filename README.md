@@ -4,7 +4,10 @@
 
 # Criteo API - Clients
 
-This project generates code for the [Java](https://github.com/criteo/criteo-api-java-sdk), [Python](https://github.com/criteo/criteo-api-python-sdk) and [PHP](https://github.com/criteo/criteo-api-php-sdk) Criteo API client libraries.
+This project generates code for the client libraries for [Criteo's API](https://developers.criteo.com/)
+* **Java**: the SDKs are available on the [criteo/criteo-api-java-sdk](https://github.com/criteo/criteo-api-java-sdk) repository and MavenCentral ([criteo-api-retailmedia-sdk](https://search.maven.org/artifact/com.criteo/criteo-api-retailmedia-sdk) and [criteo-api-marketingsolutions-sdk](https://search.maven.org/artifact/com.criteo/criteo-api-marketingsolutions-sdk))
+* **Python**: the SDKs are available on the [criteo/criteo-api-python-sdk](https://github.com/criteo/criteo-api-python-sdk) repository and on Pypi ([criteo-api-retailmedia-sdk](https://pypi.org/project/criteo-api-retailmedia-sdk/) and [criteo-api-marketingsolutions-sdk](https://pypi.org/project/criteo-api-marketingsolutions-sdk/))
+* **PHP**: the SDKs are available on the [criteo/criteo-api-retailmedia-php-sdk](https://github.com/criteo/criteo-api-retailmedia-php-sdk) and [criteo/criteo-api-marketingsolutions-php-sdk](https://github.com/criteo/criteo-api-marketingsolutions-php-sdk) repositories and on Packagist ([criteo-api-retailmedia-sdk](https://packagist.org/packages/criteo/criteo-api-retailmedia-sdk) and [criteo-api-marketingsolutions-sdk](https://packagist.org/packages/criteo/criteo-api-marketingsolutions-sdk))
 
 ## Generate the clients
 
