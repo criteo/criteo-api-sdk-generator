@@ -17,7 +17,7 @@ def assert_criteo_service(directory_name):
   splitted_directory_name = directory_name.split('_')
 
   if len(splitted_directory_name) != 2:
-    raise InvalidCriteoServiceException(f'Directory name for generated source don\'t have a valid format ({directory_name})')
+    raise InvalidCriteoServiceException(f'Directory name for generated source doesn\'t have a valid format ({directory_name})')
   
   criteo_service = splitted_directory_name[0].lower()
 
@@ -39,7 +39,7 @@ def assert_api_version(directory_name):
   
   return api_version
 
-def get_logger():
+def get_logger(name=''):
   global logger
   if logger is None:
     logging.basicConfig(
@@ -50,7 +50,7 @@ def get_logger():
         ]
     )
 
-    logger = logging.getLogger('')
+    logger = logging.getLogger(name)
 
   return logger
 

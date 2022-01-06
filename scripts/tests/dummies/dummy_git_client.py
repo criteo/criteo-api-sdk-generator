@@ -1,4 +1,5 @@
-from ...clients.git_client import IGitClient, GitException
+from tests.result_or_exception import ResultOrException
+from shared.clients.git_client import IGitClient, GitException
 
 class DummyGitClient(IGitClient):
     def __init__(self):
@@ -6,6 +7,7 @@ class DummyGitClient(IGitClient):
       self.retries_count = 0
       self.diff_count_response = 0
       self.is_pushed = False
+      self.response_on_push = ResultOrException()
 
     def clone(self, organization, repository):
       self.cloned_repository = f'{organization}/{repository}'
@@ -35,4 +37,8 @@ class DummyGitClient(IGitClient):
       self.current_tag = tag_name
     
     def push(self, include_tags = True):
+      if self.response_on_push.is_exception():
+        raise self.response_on_push.exception
+  
       self.is_pushed = True
+      return self.response_on_push.result

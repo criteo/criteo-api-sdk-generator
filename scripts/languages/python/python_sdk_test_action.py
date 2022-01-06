@@ -1,10 +1,10 @@
 import os
 
-from push_sdk import utils
+from shared.utils import get_logger
 
 class PythonSdkTestAction:
   def __init__(self):
-      self.logger = utils.get_logger()
+      self.logger = get_logger()
 
   def execute(self, sdk_name):
     self.logger.info(f'Starting testing SDK {sdk_name}...')

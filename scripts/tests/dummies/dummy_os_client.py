@@ -1,5 +1,5 @@
-from ...clients.os_client import IOsClient
-from ..result_or_exception import ResultOrException
+from shared.clients.os_client import IOsClient
+from tests.result_or_exception import ResultOrException
 
 class DummyOsClient(IOsClient):
   

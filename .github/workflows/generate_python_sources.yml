@@ -22,11 +22,21 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+  
+      - name: Setup SSH Agent for git operations
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+            ssh-private-key: ${{ secrets.PYTHON_SDK_REPO_PRIVATE_KEY }}
 
       - name: Generate SDKs
         run: |
-          chmod +x ./scripts/build_python_sdk.sh
-          ./scripts/build_python_sdk.sh
+          chmod +x ./scripts_legacy/build_python_sdk.sh
+          ./scripts_legacy/build_python_sdk.sh
         shell: bash
 
       - name: Test SDKs
@@ -43,12 +53,8 @@ jobs:
           name: generated-sources-python
           path: ./generated-sources/python
 
-      - name: Push SDKs
-        env:
-          SDK_REPO_PRIVATE_KEY: ${{ secrets.PYTHON_SDK_REPO_PRIVATE_KEY }}
-        run: |
-          chmod +x ./scripts/push_sdk.sh
-          ./scripts/push_sdk.sh python
+      - name: Push python SDK
+        run: python ./scripts/push_sdk.py --language python
         shell: bash
 
       - name: Send success notification

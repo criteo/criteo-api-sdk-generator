@@ -22,10 +22,20 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+  
+      - name: Setup SSH Agent for git operations
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+            ssh-private-key: ${{ secrets.JAVA_SDK_REPO_PRIVATE_KEY }}
+    
       - name: Generate SDKs
         run: |
-          chmod +x ./scripts/build_java_sdk.sh
-          ./scripts/build_java_sdk.sh
+          chmod +x ./scripts_legacy/build_java_sdk.sh
+          ./scripts_legacy/build_java_sdk.sh
         shell: bash
 
       - name: Test SDKs
@@ -43,11 +53,7 @@ jobs:
           path: ./generated-sources/java
 
       - name: Push SDKs
-        env:
-          SDK_REPO_PRIVATE_KEY: ${{ secrets.JAVA_SDK_REPO_PRIVATE_KEY }}
-        run: |
-          chmod +x ./scripts/push_sdk.sh
-          ./scripts/push_sdk.sh java
+        run: python ./scripts/push_sdk.py --language java
         shell: bash
       
       - name: Send success notification

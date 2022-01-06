@@ -1,4 +1,4 @@
-from ..dummies.dummy_os_client import DummyOsClient
+from tests.dummies.dummy_os_client import DummyOsClient
 
 class OsClientBuilder:
   
