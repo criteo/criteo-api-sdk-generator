@@ -1159,7 +1159,6 @@
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "required": ["grant_type", "client_id", "client_secret"],
                 "properties": {
                   "grant_type": {
                     "type": "string"
@@ -1550,7 +1549,7 @@
                       "type": "TransparencyReport",
                       "attributes": {
                         "advertiserId": "123",
-                        "tokenValidUntil": "2021-01-31T00:00:00.0000000+01:00",
+                        "tokenValidUntil": "2021-01-31T00:00:00.0000000+00:00",
                         "files": [
                           {
                             "fileName": "report.csv",
@@ -2357,11 +2356,11 @@
       "CommonProblem": {
         "type": "object",
         "properties": {
-          "TraceIdentifier": {
+          "traceIdentifier": {
             "type": "string",
             "description": "The request correlation ID this problem comes from."
           },
-          "Type": {
+          "type": {
             "enum": [
               "unknown",
               "access-control",
@@ -2375,28 +2374,31 @@
             "type": "string",
             "description": "The problem's category."
           },
-          "Code": {
+          "code": {
             "type": "string",
             "description": "A machine-readable  error code, expressed as a string value."
           },
-          "Instance": {
+          "instance": {
             "type": "string",
             "description": "A URI that identifies the specific occurrence of the problem."
           },
-          "Title": {
+          "title": {
             "type": "string",
             "description": "A short human-readable description of the problem type"
           },
-          "Detail": {
+          "detail": {
             "type": "string",
             "description": "A human-readable explanation specific to this occurrence of the problem"
           },
-          "Source": {
+          "source": {
             "type": "object",
             "additionalProperties": {
               "type": "string"
             },
             "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)"
+          },
+          "stackTrace": {
+            "type": "string"
           }
         },
         "description": "Common problem object. Can be specialized as needed."
@@ -2931,6 +2933,14 @@
           },
           "budget": {
             "$ref": "#/components/schemas/ReadAdSetBudget"
+          },
+          "mediaType": {
+            "enum": [
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "description": "Media type for the ad set"
           }
         },
         "description": "ad set read model"
@@ -3397,12 +3407,12 @@
           },
           "refresh_token": {
             "type": "string",
-            "description": "The refresh token issued by the authorization server.\r\n///",
+            "description": "The refresh token issued by the authorization server.",
             "x-nullable": true
           },
           "expires_in": {
             "type": "integer",
-            "description": "The lifetime in seconds of the access token.For\r\nexample, the value \"3600\" denotes that the access token will\r\nexpire in one hour from the time the response was generated.\r\nIf omitted, the authorization server SHOULD provide the\r\nexpiration time via other means or document the default value.",
+            "description": "The lifetime in seconds of the access token.For example, the value \"3600\" denotes that the access token will expire in one hour from the time the response was generated. If omitted, the authorization server SHOULD provide the expiration time via other means or document the default value.",
             "format": "int32"
           }
         },
@@ -3570,8 +3580,8 @@
           "currency": "EUR",
           "format": "csv",
           "timezone": "Europe/Paris",
-          "startDate": "2021-01-01T00:00:00.0000000+01:00",
-          "endDate": "2021-01-01T00:00:00.0000000+01:00"
+          "startDate": "2021-01-01T00:00:00.0000000+00:00",
+          "endDate": "2021-01-01T00:00:00.0000000+00:00"
         }
       },
       "TransactionsReportQueryDataMessage": {
@@ -3599,8 +3609,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2021-01-01T00:00:00.0000000+01:00",
-                "endDate": "2021-01-01T00:00:00.0000000+01:00"
+                "startDate": "2021-01-01T00:00:00.0000000+00:00",
+                "endDate": "2021-01-01T00:00:00.0000000+00:00"
               }
             }
           ]
@@ -3632,8 +3642,8 @@
         "description": "This is the message defining the query for Transparency report",
         "example": {
           "shouldDisplayProductIds": false,
-          "startDate": "2021-01-01T00:00:00.0000000+01:00",
-          "endDate": "2021-01-02T00:00:00.0000000+01:00"
+          "startDate": "2021-01-01T00:00:00.0000000+00:00",
+          "endDate": "2021-01-02T00:00:00.0000000+00:00"
         }
       },
       "TransparencyReportEntityMessage": {
