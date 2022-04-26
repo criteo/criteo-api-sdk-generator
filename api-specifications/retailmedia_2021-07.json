@@ -3,7 +3,7 @@
     "info": {
         "title": "Criteo API",
         "description": "Criteo publicly exposed API",
-        "version": "Preview"
+        "version": "2021-07"
     },
     "servers": [
         {
@@ -143,7 +143,7 @@
                 }
             }
         },
-        "/preview/retail-media/accounts": {
+        "/2021-07/retail-media/accounts": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -199,7 +199,7 @@
                 }
             }
         },
-        "/preview/retail-media/accounts/{accountId}/retailers": {
+        "/2021-07/retail-media/accounts/{accountId}/retailers": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -265,7 +265,7 @@
                 }
             }
         },
-        "/preview/retail-media/accounts/{accountId}/brands": {
+        "/2021-07/retail-media/accounts/{accountId}/brands": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -331,174 +331,13 @@
                 }
             }
         },
-        "/preview/retail-media/accounts/{accountId}/audiences": {
-            "get": {
-                "tags": [
-                    "Audience"
-                ],
-                "description": "Get a page of audiences for a given account ID",
-                "operationId": "AudienceApi_GetAudiencesByAccountId",
-                "parameters": [
-                    {
-                        "name": "accountId",
-                        "in": "path",
-                        "description": "External account ID which owns audience.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-example": "68004146450571264"
-                    },
-                    {
-                        "name": "limitToId",
-                        "in": "query",
-                        "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
-                        "style": "form",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "x-example": 25
-                    },
-                    {
-                        "name": "pageIndex",
-                        "in": "query",
-                        "description": "Returns the specified page of results given a pageSize; pages are 0-indexed",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "x-example": 0
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A page of audiences for the supplied account.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/GetPageOfAudiencesByAccountIdResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Missing or invalid account ID.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "The audience was not found.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "The Accept header must contain application/json.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "415": {
-                        "description": "The Content-Type header must be application/json if present.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Audience"
-                ],
-                "description": "Create an audience for a given account ID",
-                "operationId": "AudienceApi_CreateAudience",
-                "parameters": [
-                    {
-                        "name": "accountId",
-                        "in": "path",
-                        "description": "ID of the account to which this audience belongs.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-example": "68004146450571264"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateAudienceRequest"
-                            }
-                        }
-                    },
-                    "required": true,
-                    "x-bodyName": "body"
-                },
-                "responses": {
-                    "201": {
-                        "description": "The audience that was just created.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CreateRetailMediaAudienceResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Missing or invalid account ID. - OR - Missing or invalid retailerID field. - OR - Missing or invalid name field. Name should be less than 255 characters. - OR - Missing or invalid userType field. Valid values are: 'buy', 'view'. - OR - The retailerTaxonomyIds is not a valid list of IDs or may contain more than 100 elements. - OR - Missing or invalid lookbackDays field.  Valid values are: 7, 14,  30, 45, 60, 90, 120, 150 or 180. - OR - Exactly one of retailerTaxonomyIds or globalBrandIds must be specified, but not both. - OR - The retailer is invalid because it is not live - OR - The globalBrandIds is not a valid list of IDs or may contain more than 100 elements.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "The audience was not found. - OR - You do not have permission to access these global brands.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "The Accept header must contain application/json.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "409": {
-                        "description": "An audience name should be unique per account.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "415": {
-                        "description": "The Content-Type header must be application/json if present.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/accounts/{accountId}/catalogs": {
+        "/2021-07/retail-media/accounts/{accountId}/catalogs": {
             "post": {
                 "tags": [
                     "Campaign"
                 ],
                 "description": "Create a request for a Catalog available to the indicated account.",
-                "operationId": "CatalogApi_PostApiV0ExternalAccountCatalogsByAccountId",
+                "operationId": "CatalogApi_PostApiV1ExternalAccountCatalogsByAccountId",
                 "parameters": [
                     {
                         "name": "accountId",
@@ -515,7 +354,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/JsonApiRequestOfCatalogRequestPreview"
+                                "$ref": "#/components/schemas/JsonApiRequestOfCatalogRequest"
                             }
                         }
                     },
@@ -536,13 +375,13 @@
                 }
             }
         },
-        "/preview/retail-media/catalogs/{catalogId}/status": {
+        "/2021-07/retail-media/catalogs/{catalogId}/status": {
             "get": {
                 "tags": [
                     "Campaign"
                 ],
                 "description": "Check the status of a catalog request.",
-                "operationId": "CatalogApi_GetApiV0ExternalCatalogStatusByCatalogId",
+                "operationId": "CatalogApi_GetApiV1ExternalCatalogStatusByCatalogId",
                 "parameters": [
                     {
                         "name": "catalogId",
@@ -569,13 +408,13 @@
                 }
             }
         },
-        "/preview/retail-media/catalogs/{catalogId}/output": {
+        "/2021-07/retail-media/catalogs/{catalogId}/output": {
             "get": {
                 "tags": [
                     "Campaign"
                 ],
-                "description": "Output the indicated catalog. Catalogs are only available for retrieval when their associated status request\r\nis at a Success status.\r\nProduces application/x-json-stream of CatalogProduct json objects.",
-                "operationId": "CatalogApi_GetApiV0ExternalCatalogOutputByCatalogId",
+                "description": "Output the indicated catalog. Catalogs are only available for retrieval when their associated status request\r\nis at a Success status.\r\nProduces application/x-json-stream of v2021_07 CatalogProduct json objects.",
+                "operationId": "CatalogApi_GetApiV1ExternalCatalogOutputByCatalogId",
                 "parameters": [
                     {
                         "name": "catalogId",
@@ -606,213 +445,7 @@
                 }
             }
         },
-        "/preview/retail-media/catalogs/sku-search": {
-            "post": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Endpoint to search skus by text, retailer and sellers/brands.",
-                "operationId": "SkuSearchApi_PostApiV1ExternalCatalogsSkuSearch",
-                "parameters": [
-                    {
-                        "name": "pageIndex",
-                        "in": "query",
-                        "description": "The start position in the overall list of matches. Must be zero or greater.",
-                        "schema": {
-                            "maximum": 500,
-                            "minimum": 0,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 0
-                        },
-                        "x-nullable": false
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "description": "The maximum number of results to return with each call. Must be greater than zero.",
-                        "schema": {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 100
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "requestBody": {
-                    "description": "",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SkuSearchRequestPreviewRequest"
-                            }
-                        }
-                    },
-                    "x-nullable": false,
-                    "x-bodyName": "skuRequest"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Skus found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SkuDataPreviewListResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/catalogs/sku-retrieval": {
-            "post": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Endpoint to search skus by text, retailer and sellers/brands.",
-                "operationId": "SkuRetrievalApi_PostApiV1ExternalCatalogsSkuRetrieval",
-                "parameters": [
-                    {
-                        "name": "pageIndex",
-                        "in": "query",
-                        "description": "The start position in the overall list of matches. Must be zero or greater.",
-                        "schema": {
-                            "maximum": 500,
-                            "minimum": 0,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 0
-                        },
-                        "x-nullable": false
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "description": "The maximum number of results to return with each call. Must be greater than zero.",
-                        "schema": {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 100
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "requestBody": {
-                    "description": "The list of SKU keys to retrieve sku information",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "uniqueItems": false,
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "x-nullable": false
-                                },
-                                "x-nullable": false
-                            }
-                        }
-                    },
-                    "x-nullable": false,
-                    "x-bodyName": "skuKeys"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Skus found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SkuDataPreviewListResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/retailers/{retailerId}/sellers/{seller}": {
-            "get": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Endpoint to get market place seller id and name",
-                "operationId": "SellerApi_GetApiV1ExternalRetailerByRetailerIdSellerBySeller",
-                "parameters": [
-                    {
-                        "name": "retailerId",
-                        "in": "path",
-                        "description": "The retailer id for which seller should be fetched.",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "x-nullable": false
-                    },
-                    {
-                        "name": "seller",
-                        "in": "path",
-                        "description": "The seller id or seller name which should be validated.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Seller found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SellerPreviewResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/retailers/{retailerId}/brands": {
-            "get": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Gets the brands for the given retailer",
-                "operationId": "RetailerApi_GetApiV1ExternalRetailerBrandsByRetailerId",
-                "parameters": [
-                    {
-                        "name": "retailerId",
-                        "in": "path",
-                        "description": "The retailer id for which brands should be fetched.",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Brands found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BrandPreviewListResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/accounts/{accountId}/balances": {
+        "/2021-07/retail-media/accounts/{accountId}/balances": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -878,7 +511,7 @@
                 }
             }
         },
-        "/preview/retail-media/balances/{balanceId}/campaigns": {
+        "/2021-07/retail-media/balances/{balanceId}/campaigns": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -1030,7 +663,7 @@
                 }
             }
         },
-        "/preview/retail-media/accounts/{accountId}/campaigns": {
+        "/2021-07/retail-media/accounts/{accountId}/campaigns": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -1145,7 +778,7 @@
                 }
             }
         },
-        "/preview/retail-media/campaigns/{campaignId}": {
+        "/2021-07/retail-media/campaigns/{campaignId}": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -1221,198 +854,7 @@
                 }
             }
         },
-        "/preview/retail-media/campaigns/{campaignId}/line-items": {
-            "get": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Gets page of line item objects for the given campaign id",
-                "operationId": "LineItemsApi_GetApiV1ExternalCampaignLineItemsByCampaignId",
-                "parameters": [
-                    {
-                        "name": "campaignId",
-                        "in": "path",
-                        "description": "The given campaign id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-nullable": false
-                    },
-                    {
-                        "name": "limitToId",
-                        "in": "query",
-                        "description": "The ids that you would like to limit your result set to",
-                        "style": "form",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "x-nullable": false
-                    },
-                    {
-                        "name": "pageIndex",
-                        "in": "query",
-                        "description": "The 0 indexed page index you would like to receive given the page size",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "x-nullable": false
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "description": "The maximum number of items you would like to receive in this request",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JsonApiPageResponseOfLineItem"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Creates a new line item with the specified settings",
-                "operationId": "LineItemsApi_PostApiV1ExternalCampaignLineItemsByCampaignId",
-                "parameters": [
-                    {
-                        "name": "campaignId",
-                        "in": "path",
-                        "description": "The given campaign id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "requestBody": {
-                    "description": "The line item settings to create a line item with",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ExternalPostLineItem"
-                            }
-                        }
-                    },
-                    "x-nullable": false,
-                    "x-bodyName": "lineItem"
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItem"
-                                }
-                            }
-                        }
-                    },
-                    "201": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/line-items/{lineItemId}": {
-            "get": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Gets the line item for the given line item id",
-                "operationId": "LineItemsApi_GetApiV1ExternalLineItemByLineItemId",
-                "parameters": [
-                    {
-                        "name": "lineItemId",
-                        "in": "path",
-                        "description": "The given line item id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItem"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Updates the line item for the given line item id",
-                "operationId": "LineItemsApi_PutApiV1ExternalLineItemByLineItemId",
-                "parameters": [
-                    {
-                        "name": "lineItemId",
-                        "in": "path",
-                        "description": "The given line item id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "x-nullable": false
-                    }
-                ],
-                "requestBody": {
-                    "description": "The line item settings to create a line item with",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ExternalPutLineItem"
-                            }
-                        }
-                    },
-                    "x-nullable": false,
-                    "x-bodyName": "lineItem"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItem"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/preview/retail-media/line-items/{lineItemId}/products": {
+        "/2021-07/retail-media/line-items/{lineItemId}/products": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -1564,7 +1006,732 @@
                 }
             }
         },
-        "/preview/retail-media/reports/campaigns": {
+        "/2021-07/retail-media/accounts/{account-id}/line-items": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets page of line item objects for the given account id",
+                "operationId": "GetApiV2ExternalAccountLineItemsByAccountId",
+                "parameters": [
+                    {
+                        "name": "account-id",
+                        "in": "path",
+                        "description": "The given account id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "limitToCampaignId",
+                        "in": "query",
+                        "description": "The campaign ids that you would like to limit your result set to",
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "limitToType",
+                        "in": "query",
+                        "description": "The campaign types that you would like to limit your result set to",
+                        "schema": {
+                            "enum": [
+                                "Unknown",
+                                "Auction",
+                                "Preferred"
+                            ],
+                            "type": "string"
+                        },
+                        "x-nullable": true
+                    },
+                    {
+                        "name": "limitToId",
+                        "in": "query",
+                        "description": "The ids that you would like to limit your result set to",
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "pageIndex",
+                        "in": "query",
+                        "description": "The 0 indexed page index you would like to receive given the page size",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "The maximum number of items you would like to receive in this request",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommonLineItemPagedListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/line-items/{line-item-id}": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets the line item for the given line item id",
+                "operationId": "GetApiV2ExternalLineItemByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The given line item id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommonLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/preferred-line-items/{line-item-id}": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets the preferred line item for the given line item id",
+                "operationId": "GetApiV2ExternalPreferredLineItemByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The given line item id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Updates the preferred line item for the given line item id",
+                "operationId": "PutApiV2ExternalPreferredLineItemByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The given line item id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The line item settings to create a line item with",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PreferredLineItemUpdateModelRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "lineItem"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/campaigns/{campaign-id}/preferred-line-items": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets page of preferred line item objects for the given campaign id",
+                "operationId": "GetApiV2ExternalCampaignPreferredLineItemsByCampaignId",
+                "parameters": [
+                    {
+                        "name": "campaign-id",
+                        "in": "path",
+                        "description": "The given campaign id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "limitToId",
+                        "in": "query",
+                        "description": "The ids that you would like to limit your result set to",
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "pageIndex",
+                        "in": "query",
+                        "description": "The 0 indexed page index you would like to receive given the page size",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "The maximum number of items you would like to receive in this request",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemPagedListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemPagedListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Creates a new preferred line item with the specified settings",
+                "operationId": "PostApiV2ExternalCampaignPreferredLineItemsByCampaignId",
+                "parameters": [
+                    {
+                        "name": "campaign-id",
+                        "in": "path",
+                        "description": "The given campaign id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The line item settings to create a line item with",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PreferredLineItemCreateModelRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "lineItem"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/auction-line-items/{line-item-id}": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets the auction line item for the given line item id",
+                "operationId": "GetApiV2ExternalAuctionLineItemByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The given line item id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Updates the auction line item for the given line item id",
+                "operationId": "PutApiV2ExternalAuctionLineItemByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The given line item id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The line item settings to create a line item with",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuctionLineItemUpdateModelRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "lineItem"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/campaigns/{campaign-id}/auction-line-items": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets page of auction line item objects for the given campaign id",
+                "operationId": "GetApiV2ExternalCampaignAuctionLineItemsByCampaignId",
+                "parameters": [
+                    {
+                        "name": "campaign-id",
+                        "in": "path",
+                        "description": "The given campaign id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "limitToId",
+                        "in": "query",
+                        "description": "The ids that you would like to limit your result set to",
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "pageIndex",
+                        "in": "query",
+                        "description": "The 0 indexed page index you would like to receive given the page size",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "The maximum number of items you would like to receive in this request",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemPagedListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemPagedListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Creates new auction line item with the specified settings",
+                "operationId": "PostApiV2ExternalCampaignAuctionLineItemsByCampaignId",
+                "parameters": [
+                    {
+                        "name": "campaign-id",
+                        "in": "path",
+                        "description": "The given campaign id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The line item settings to create a line item with",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuctionLineItemCreateModelRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "lineItem"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuctionLineItemResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/line-items/{line-item-id}/targeting/keywords": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "This endpoint gets the keyword target on the specified line item.",
+                "operationId": "GetApiV2ExternalLineItemTargetingKeywordsByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The line item to interact with",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KeywordTargetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KeywordTargetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "This endpoint appends one or more keywords to targeting on the specified line item.  The resulting state of the keyword target is returned.",
+                "operationId": "PutApiV2ExternalLineItemTargetingKeywordsByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The line item to interact with",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/KeywordTargetRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "keywordsToAppend"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KeywordTargetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KeywordTargetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "This endpoint removes one or more keywords from targeting on the specified line item.  The resulting state of the keyword target is returned.",
+                "operationId": "DeleteApiV2ExternalLineItemTargetingKeywordsByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "The line item to interact with",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/KeywordTargetRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "keywordsToRemove"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KeywordTargetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KeywordTargetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2021-07/retail-media/reports/campaigns": {
             "post": {
                 "tags": [
                     "Analytics"
@@ -1612,7 +1779,7 @@
                 }
             }
         },
-        "/preview/retail-media/reports/line-items": {
+        "/2021-07/retail-media/reports/line-items": {
             "post": {
                 "tags": [
                     "Analytics"
@@ -1660,7 +1827,7 @@
                 }
             }
         },
-        "/preview/retail-media/reports/{reportId}/output": {
+        "/2021-07/retail-media/reports/{reportId}/output": {
             "get": {
                 "tags": [
                     "Analytics"
@@ -1712,7 +1879,7 @@
                 }
             }
         },
-        "/preview/retail-media/reports/{reportId}/status": {
+        "/2021-07/retail-media/reports/{reportId}/status": {
             "get": {
                 "tags": [
                     "Analytics"
@@ -2342,184 +2509,6 @@
                 "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
                 "x-nullable": false
             },
-            "GetPageOfAudiencesByAccountIdResponse": {
-                "required": [
-                    "data",
-                    "metadata"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/RetailMediaAudience"
-                        },
-                        "description": "data",
-                        "readOnly": true
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonError"
-                        },
-                        "description": "errors",
-                        "readOnly": true
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonWarning"
-                        },
-                        "description": "warnings",
-                        "readOnly": true
-                    },
-                    "metadata": {
-                        "$ref": "#/components/schemas/PageMetadata"
-                    }
-                },
-                "description": "Response for page of audiences by given account"
-            },
-            "CreateRetailMediaAudienceResponse": {
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/RetailMediaAudience"
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonError"
-                        },
-                        "x-nullable": false
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonWarning"
-                        },
-                        "x-nullable": false
-                    }
-                },
-                "description": "Response of CreateAudienceRequest"
-            },
-            "CreateAudienceRequest": {
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/CreateAudienceBody"
-                    }
-                },
-                "description": "Request to create an audience"
-            },
-            "RetailMediaAudience": {
-                "required": [
-                    "attributes",
-                    "id",
-                    "type"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "description": "the name of the entity type",
-                        "example": "RetailMediaAudience"
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "Unique ID of this audience.",
-                        "format": "int64",
-                        "example": "314159"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
-                    }
-                },
-                "description": "Retail Media audience"
-            },
-            "CreateAudienceBody": {
-                "required": [
-                    "attributes",
-                    "type"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "description": "the name of the entity type",
-                        "example": "RetailMediaAudience"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
-                    }
-                },
-                "description": "Request body of CreateAudienceRequest"
-            },
-            "RetailMediaAudienceAttributes": {
-                "required": [
-                    "lookbackWindow",
-                    "name",
-                    "retailerId",
-                    "userType"
-                ],
-                "type": "object",
-                "properties": {
-                    "userType": {
-                        "enum": [
-                            "viewer",
-                            "buyer"
-                        ],
-                        "type": "string",
-                        "description": "Type of the user",
-                        "example": "viewer"
-                    },
-                    "lookbackWindow": {
-                        "enum": [
-                            "P7D",
-                            "P14D",
-                            "P30D",
-                            "P45D",
-                            "P60D",
-                            "P90D",
-                            "P120D",
-                            "P150D",
-                            "P180D"
-                        ],
-                        "type": "string",
-                        "description": "Length of lookback window",
-                        "example": "P7D"
-                    },
-                    "brandIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The brands to target"
-                    },
-                    "categoryIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The categories to target"
-                    },
-                    "retailerId": {
-                        "type": "string",
-                        "description": "ID of the retailer associated with this audience",
-                        "example": "68004146450571264"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "name"
-                    }
-                },
-                "description": "Parameters needed to create an audience"
-            },
             "JsonApiSingleResponseOfCatalogStatus": {
                 "required": [
                     "data"
@@ -2547,110 +2536,14 @@
                 "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
                 "x-nullable": false
             },
-            "SkuDataPreviewListResponse": {
+            "JsonApiRequestOfCatalogRequest": {
                 "type": "object",
                 "properties": {
                     "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ResourceOfSkuDataPreview"
-                        },
-                        "x-nullable": false
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for a list of response resources",
-                "x-nullable": false
-            },
-            "SellerPreviewResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ResourceOfSellerPreview"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for response resource",
-                "x-nullable": false
-            },
-            "BrandPreviewListResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ResourceOfBrandPreview"
-                        },
-                        "x-nullable": false
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for a list of response resources",
-                "x-nullable": false
-            },
-            "JsonApiRequestOfCatalogRequestPreview": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequestPreview"
+                        "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequest"
                     }
                 },
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
-                "x-nullable": false
-            },
-            "SkuSearchRequestPreviewRequest": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ResourceOfSkuSearchRequestPreview"
-                    }
-                },
-                "description": "Data model for an input resource",
                 "x-nullable": false
             },
             "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
@@ -2676,122 +2569,7 @@
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
                 "x-nullable": false
             },
-            "ResourceOfSkuDataPreview": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/SkuDataPreview"
-                    }
-                },
-                "description": "Data model for a Resource",
-                "x-nullable": false
-            },
-            "ProblemDetails": {
-                "type": "object",
-                "properties": {
-                    "traceIdentifier": {
-                        "type": "string",
-                        "description": "The request correlation ID this problem comes from.",
-                        "x-nullable": false
-                    },
-                    "type": {
-                        "enum": [
-                            "unknown",
-                            "access-control",
-                            "authentication",
-                            "authorization",
-                            "availability",
-                            "deprecation",
-                            "quota",
-                            "validation"
-                        ],
-                        "type": "string",
-                        "description": "The problem's category.",
-                        "x-nullable": false
-                    },
-                    "code": {
-                        "type": "string",
-                        "description": "A machine-readable  error code, expressed as a string value.",
-                        "x-nullable": false
-                    },
-                    "instance": {
-                        "type": "string",
-                        "description": "A URI that identifies the specific occurrence of the problem.",
-                        "x-nullable": false
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "A short human-readable description of the problem type",
-                        "x-nullable": false
-                    },
-                    "detail": {
-                        "type": "string",
-                        "description": "A human-readable explanation specific to this occurrence of the problem",
-                        "x-nullable": false
-                    },
-                    "source": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
-                        "x-nullable": false
-                    },
-                    "stackTrace": {
-                        "type": "string",
-                        "description": "Technical information, only used in non-prod environments",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for common error or warning",
-                "x-nullable": false
-            },
-            "ResourceOfSellerPreview": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/SellerPreview"
-                    }
-                },
-                "description": "Data model for a Resource",
-                "x-nullable": false
-            },
-            "ResourceOfBrandPreview": {
-                "type": "object",
-                "properties": {
-                    "attributes": {
-                        "$ref": "#/components/schemas/BrandPreview"
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    }
-                },
-                "description": "Data model for a Resource",
-                "x-nullable": false
-            },
-            "JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequestPreview": {
+            "JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequest": {
                 "required": [
                     "type"
                 ],
@@ -2802,28 +2580,10 @@
                         "x-nullable": false
                     },
                     "attributes": {
-                        "$ref": "#/components/schemas/ExternalCatalogRequestPreview"
+                        "$ref": "#/components/schemas/ExternalCatalogRequest"
                     }
                 },
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
-                "x-nullable": false
-            },
-            "ResourceOfSkuSearchRequestPreview": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/SkuSearchRequestPreview"
-                    }
-                },
-                "description": "Data model for a Resource",
                 "x-nullable": false
             },
             "ExternalCatalogStatus": {
@@ -2887,157 +2647,7 @@
                 "description": "The status of an asynchronous request to generate a catalog",
                 "x-nullable": false
             },
-            "SkuDataPreview": {
-                "required": [
-                    "skuKey",
-                    "id",
-                    "brandId",
-                    "brandName",
-                    "retailerId",
-                    "retailerName",
-                    "price",
-                    "isInStock",
-                    "updatedAt"
-                ],
-                "type": "object",
-                "properties": {
-                    "skuKey": {
-                        "type": "string",
-                        "description": "The product SKU Key.",
-                        "x-nullable": false
-                    },
-                    "name": {
-                        "maxLength": 1000,
-                        "minLength": 0,
-                        "type": "string",
-                        "description": "A short product name.",
-                        "x-nullable": false
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "A product description.",
-                        "x-nullable": false
-                    },
-                    "categoryId": {
-                        "type": "string",
-                        "description": "The category Id.",
-                        "x-nullable": false
-                    },
-                    "category": {
-                        "maxLength": 1000,
-                        "minLength": 0,
-                        "type": "string",
-                        "description": "The full category breadcrumb in the retailers catalog.",
-                        "x-nullable": false
-                    },
-                    "isSellerSku": {
-                        "type": "boolean",
-                        "description": "An indication of if the sku is seller sku.",
-                        "x-nullable": false
-                    },
-                    "sellerId": {
-                        "type": "string",
-                        "description": "The id of the seller.",
-                        "x-nullable": false
-                    },
-                    "sellerName": {
-                        "type": "string",
-                        "description": "The name of the seller.",
-                        "x-nullable": false
-                    },
-                    "brandId": {
-                        "type": "string",
-                        "description": "The global brand id associated to the product.",
-                        "x-nullable": false
-                    },
-                    "brandName": {
-                        "maxLength": 120,
-                        "minLength": 0,
-                        "type": "string",
-                        "description": "The name of the global brand.",
-                        "x-nullable": false
-                    },
-                    "retailerId": {
-                        "type": "string",
-                        "description": "The identifier for the retailer the product is listed by.",
-                        "x-nullable": false
-                    },
-                    "retailerName": {
-                        "maxLength": 100,
-                        "minLength": 0,
-                        "type": "string",
-                        "description": "The retailer name.",
-                        "x-nullable": false
-                    },
-                    "price": {
-                        "type": "number",
-                        "description": "The price of the product on the retailer site.",
-                        "format": "double",
-                        "x-nullable": false
-                    },
-                    "isInStock": {
-                        "type": "boolean",
-                        "description": "An indication of if the retailer currently has the product in stock.",
-                        "x-nullable": false
-                    },
-                    "gtin": {
-                        "type": "string",
-                        "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
-                        "x-nullable": false
-                    },
-                    "mpn": {
-                        "type": "string",
-                        "description": "The MPN for the product if available.",
-                        "x-nullable": false
-                    },
-                    "imageUrl": {
-                        "type": "string",
-                        "description": "An http image resource provided by the retailer.",
-                        "x-nullable": false
-                    },
-                    "productPage": {
-                        "type": "string",
-                        "description": "An The product page URL",
-                        "x-nullable": false
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "description": "The last time this product was updated in the Retail Media Catalog. Represented as a UTC ISO8601 string.",
-                        "format": "date-time",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Metadata and usage info of a sku search",
-                "x-nullable": false
-            },
-            "SellerPreview": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Seller Name",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Retail media Seller Id and Name",
-                "x-nullable": false
-            },
-            "BrandPreview": {
-                "required": [
-                    "name"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Brand Name",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Retail media brands",
-                "x-nullable": false
-            },
-            "ExternalCatalogRequestPreview": {
+            "ExternalCatalogRequest": {
                 "type": "object",
                 "properties": {
                     "format": {
@@ -3047,60 +2657,17 @@
                         "type": "string",
                         "default": "json-newline",
                         "x-nullable": false
-                    }
-                },
-                "description": "A request for a catalog under the specified format. Currently \"json-newline\" is supported.",
-                "x-nullable": false
-            },
-            "SkuSearchRequestPreview": {
-                "required": [
-                    "queryString",
-                    "retailerId"
-                ],
-                "type": "object",
-                "properties": {
-                    "queryString": {
-                        "type": "string",
-                        "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)",
-                        "x-nullable": false
                     },
-                    "retailerId": {
-                        "type": "string",
-                        "description": "Retailer Id",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "sellers": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "A list of seller names and/or seller Id's",
-                        "x-nullable": false
-                    },
-                    "brandIds": {
+                    "brandIdFilter": {
                         "type": "array",
                         "items": {
                             "type": "string",
                             "format": "long-id"
                         },
-                        "description": "A list of brand Id's",
-                        "x-nullable": false
-                    },
-                    "skuType": {
-                        "enum": [
-                            "brand",
-                            "seller",
-                            "all"
-                        ],
-                        "type": "string",
-                        "description": "Enum to set isSellerSku field",
-                        "default": "brand",
                         "x-nullable": false
                     }
                 },
-                "description": "A request for sku by sellers or brands.",
+                "description": "A request for a catalog under the specified format. Currently \"json-newline\" is supported.",
                 "x-nullable": false
             },
             "JsonApiPageResponseOfBalance": {
@@ -3218,67 +2785,6 @@
                 "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
                 "x-nullable": false
             },
-            "JsonApiPageResponseOfLineItem": {
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonError"
-                        },
-                        "x-nullable": false
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonWarning"
-                        },
-                        "x-nullable": false
-                    },
-                    "metadata": {
-                        "$ref": "#/components/schemas/PageMetadata"
-                    },
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndLineItemAndLineItem"
-                        },
-                        "x-nullable": false
-                    }
-                },
-                "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-                "x-nullable": false
-            },
-            "JsonApiSingleResponseOfLineItem": {
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndLineItemAndLineItem"
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonError"
-                        },
-                        "x-nullable": false
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonWarning"
-                        },
-                        "x-nullable": false
-                    }
-                },
-                "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
-                "x-nullable": false
-            },
             "JsonApiPageResponseOfStringAndPromotedProduct": {
                 "required": [
                     "data"
@@ -3311,6 +2817,209 @@
                     }
                 },
                 "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+                "x-nullable": false
+            },
+            "CommonLineItemPagedListResponse": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "$ref": "#/components/schemas/PageMetadata"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceOfCommonLineItem"
+                        },
+                        "x-nullable": false
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a paged list of response resources",
+                "x-nullable": false
+            },
+            "CommonLineItemResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfCommonLineItem"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
+            "PreferredLineItemResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfPreferredLineItem"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
+            "PreferredLineItemPagedListResponse": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "$ref": "#/components/schemas/PageMetadata"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceOfPreferredLineItem"
+                        },
+                        "x-nullable": false
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a paged list of response resources",
+                "x-nullable": false
+            },
+            "AuctionLineItemResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfAuctionLineItem"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
+            "AuctionLineItemPagedListResponse": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "$ref": "#/components/schemas/PageMetadata"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceOfAuctionLineItem"
+                        },
+                        "x-nullable": false
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a paged list of response resources",
+                "x-nullable": false
+            },
+            "KeywordTargetResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfKeywordTarget"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
                 "x-nullable": false
             },
             "JsonApiDataRequestOfPutBalanceCampaign": {
@@ -3361,26 +3070,6 @@
                 "description": "An object that represents the available options to set when editing a Retail Media Campaign",
                 "x-nullable": false
             },
-            "ExternalPostLineItem": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfLineItemAttributesAndLineItem"
-                    }
-                },
-                "description": "Represents a line item to be created",
-                "x-nullable": false
-            },
-            "ExternalPutLineItem": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/JsonApiBodyWithExternalIdOfEditableLineItemAttributesAndLineItem"
-                    }
-                },
-                "description": "An object to update a Retail Media Line Item",
-                "x-nullable": false
-            },
             "JsonApiDataRequestWithIdOfStringAndPromotedProduct": {
                 "type": "object",
                 "properties": {
@@ -3393,6 +3082,56 @@
                     }
                 },
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
+                "x-nullable": false
+            },
+            "PreferredLineItemUpdateModelRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfPreferredLineItemUpdateModel"
+                    }
+                },
+                "description": "Data model for an input resource",
+                "x-nullable": false
+            },
+            "PreferredLineItemCreateModelRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/InputResourceOfPreferredLineItemCreateModel"
+                    }
+                },
+                "description": "Data model for a create input resource",
+                "x-nullable": false
+            },
+            "AuctionLineItemUpdateModelRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfAuctionLineItemUpdateModel"
+                    }
+                },
+                "description": "Data model for an input resource",
+                "x-nullable": false
+            },
+            "AuctionLineItemCreateModelRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/InputResourceOfAuctionLineItemCreateModel"
+                    }
+                },
+                "description": "Data model for a create input resource",
+                "x-nullable": false
+            },
+            "KeywordTargetRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfKeywordTarget"
+                    }
+                },
+                "description": "Data model for an input resource",
                 "x-nullable": false
             },
             "JsonApiBodyWithIdOfInt64AndBalanceAndBalance": {
@@ -3464,29 +3203,6 @@
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
                 "x-nullable": false
             },
-            "JsonApiBodyWithIdOfInt64AndLineItemAndLineItem": {
-                "required": [
-                    "id",
-                    "type"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalLineItem"
-                    }
-                },
-                "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-                "x-nullable": false
-            },
             "JsonApiBodyWithIdOfStringAndPromotedProductAndPromotedProduct": {
                 "required": [
                     "id",
@@ -3507,6 +3223,139 @@
                     }
                 },
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+                "x-nullable": false
+            },
+            "ResourceOfCommonLineItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalCommonLineItem"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ProblemDetails": {
+                "type": "object",
+                "properties": {
+                    "traceIdentifier": {
+                        "type": "string",
+                        "description": "The request correlation ID this problem comes from.",
+                        "x-nullable": false
+                    },
+                    "type": {
+                        "enum": [
+                            "unknown",
+                            "access-control",
+                            "authentication",
+                            "authorization",
+                            "availability",
+                            "deprecation",
+                            "quota",
+                            "validation"
+                        ],
+                        "type": "string",
+                        "description": "The problem's category.",
+                        "x-nullable": false
+                    },
+                    "code": {
+                        "type": "string",
+                        "description": "A machine-readable  error code, expressed as a string value.",
+                        "x-nullable": false
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI that identifies the specific occurrence of the problem.",
+                        "x-nullable": false
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "A short human-readable description of the problem type",
+                        "x-nullable": false
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem",
+                        "x-nullable": false
+                    },
+                    "source": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
+                        "x-nullable": false
+                    },
+                    "stackTrace": {
+                        "type": "string",
+                        "description": "Technical information, only used in non-prod environments",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for common error or warning",
+                "x-nullable": false
+            },
+            "ResourceOfPreferredLineItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalPreferredLineItem"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ResourceOfAuctionLineItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAuctionLineItem"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ResourceOfKeywordTarget": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalKeywordTarget"
+                    }
+                },
+                "description": "Data model for a Resource",
                 "x-nullable": false
             },
             "ExternalPutBalanceCampaign": {
@@ -3595,44 +3444,68 @@
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
                 "x-nullable": false
             },
-            "JsonApiBodyWithoutIdOfLineItemAttributesAndLineItem": {
-                "required": [
-                    "type"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalLineItemAttributes"
-                    }
-                },
-                "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
-                "x-nullable": false
-            },
-            "JsonApiBodyWithExternalIdOfEditableLineItemAttributesAndLineItem": {
-                "required": [
-                    "id",
-                    "type"
-                ],
+            "ResourceOfPreferredLineItemUpdateModel": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
+                        "description": "Id of the entity"
                     },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModel"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "InputResourceOfPreferredLineItemCreateModel": {
+                "type": "object",
+                "properties": {
                     "type": {
                         "type": "string",
                         "x-nullable": false
                     },
                     "attributes": {
-                        "$ref": "#/components/schemas/ExternalEditableLineItemAttributes"
+                        "$ref": "#/components/schemas/ExternalPreferredLineItemCreateModel"
                     }
                 },
-                "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ResourceOfAuctionLineItemUpdateModel": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAuctionLineItemUpdateModel"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "InputResourceOfAuctionLineItemCreateModel": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAuctionLineItemCreateModel"
+                    }
+                },
+                "description": "Data model for a Resource",
                 "x-nullable": false
             },
             "ExternalBalance": {
@@ -3869,18 +3742,93 @@
                 "description": "A Retail Media Campaign used to represent an advertiser's marketing objective",
                 "x-nullable": false
             },
-            "ExternalLineItem": {
+            "ExternalPromotedProduct": {
                 "required": [
-                    "campaignId",
-                    "budgetRemaining",
-                    "createdAt",
-                    "updatedAt",
-                    "targetRetailerId",
-                    "name",
-                    "startDate"
+                    "bidOverride"
                 ],
                 "type": "object",
                 "properties": {
+                    "bidOverride": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    }
+                },
+                "description": "identifies a promoted product",
+                "x-nullable": false
+            },
+            "ExternalCommonLineItem": {
+                "required": [
+                    "name",
+                    "type",
+                    "startDate",
+                    "targetRetailerId",
+                    "campaignId",
+                    "budgetRemaining",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "type": {
+                        "enum": [
+                            "unknown",
+                            "auction",
+                            "preferred"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "startDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "status": {
+                        "enum": [
+                            "unknown",
+                            "active",
+                            "scheduled",
+                            "draft",
+                            "paused",
+                            "budgetHit",
+                            "ended",
+                            "archived",
+                            "noFunds"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "targetRetailerId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budget": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
                     "campaignId": {
                         "type": "string",
                         "format": "long-id",
@@ -3908,11 +3856,47 @@
                         "type": "string",
                         "format": "date-time",
                         "x-nullable": false
-                    },
-                    "targetRetailerId": {
+                    }
+                },
+                "description": "A common line item to hold line item information shared between preferred and auction line items",
+                "x-nullable": false
+            },
+            "ExternalPreferredLineItem": {
+                "required": [
+                    "name",
+                    "startDate",
+                    "endDate",
+                    "status",
+                    "pacing",
+                    "targetRetailerId",
+                    "campaignId",
+                    "budgetRemaining",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 255,
+                        "minLength": 0,
                         "type": "string",
-                        "format": "long-id",
                         "x-nullable": false
+                    },
+                    "startDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
                     },
                     "status": {
                         "enum": [
@@ -3929,7 +3913,24 @@
                         "type": "string",
                         "x-nullable": false
                     },
-                    "targetBid": {
+                    "pacing": {
+                        "enum": [
+                            "unknown",
+                            "standard",
+                            "accelerated"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "capping": {
+                        "$ref": "#/components/schemas/ExternalLineItemCapping"
+                    },
+                    "targetRetailerId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budget": {
                         "required": [
                             "false"
                         ],
@@ -3937,11 +3938,50 @@
                         "format": "decimal",
                         "x-nullable": true
                     },
-                    "isAutoDailyPacing": {
-                        "type": "boolean",
-                        "default": false,
+                    "campaignId": {
+                        "type": "string",
+                        "format": "long-id",
                         "x-nullable": false
                     },
+                    "budgetSpent": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "budgetRemaining": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
+                "x-nullable": false
+            },
+            "ExternalAuctionLineItem": {
+                "required": [
+                    "name",
+                    "startDate",
+                    "targetRetailerId",
+                    "campaignId",
+                    "budgetRemaining",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
                     "name": {
                         "maxLength": 255,
                         "minLength": 0,
@@ -4003,27 +4043,94 @@
                         "type": "string",
                         "default": "conversion",
                         "x-nullable": false
-                    }
-                },
-                "description": "A Retail Media Line Item used to hold bid settings for one or many promoted products on a single retailer",
-                "x-nullable": false
-            },
-            "ExternalPromotedProduct": {
-                "required": [
-                    "bidOverride"
-                ],
-                "type": "object",
-                "properties": {
-                    "bidOverride": {
+                    },
+                    "targetRetailerId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "status": {
+                        "enum": [
+                            "unknown",
+                            "active",
+                            "scheduled",
+                            "draft",
+                            "paused",
+                            "budgetHit",
+                            "ended",
+                            "archived",
+                            "noFunds"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "targetBid": {
                         "required": [
                             "false"
                         ],
                         "type": "number",
                         "format": "decimal",
                         "x-nullable": true
+                    },
+                    "isAutoDailyPacing": {
+                        "type": "boolean",
+                        "default": false,
+                        "x-nullable": false
+                    },
+                    "campaignId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budgetSpent": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "budgetRemaining": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-nullable": false
                     }
                 },
-                "description": "identifies a promoted product",
+                "description": "A Retail Media Auction Line Item used to hold bid settings for one or many promoted products on a single retailer",
+                "x-nullable": false
+            },
+            "ExternalKeywordTarget": {
+                "required": [
+                    "keywords"
+                ],
+                "type": "object",
+                "properties": {
+                    "keywords": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "enum": [
+                                "unknown",
+                                "negativeExact",
+                                "negativeBroad"
+                            ],
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Keywords that targeting specifications exist for",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Identifies keyword targeting for a line item",
                 "x-nullable": false
             },
             "ExternalCampaignAttributes": {
@@ -4180,119 +4287,11 @@
                 "description": "An object that represents the available options to set when editing a Retail Media Campaign",
                 "x-nullable": false
             },
-            "ExternalLineItemAttributes": {
-                "required": [
-                    "targetRetailerId",
-                    "name",
-                    "startDate"
-                ],
-                "type": "object",
-                "properties": {
-                    "targetRetailerId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "status": {
-                        "enum": [
-                            "unknown",
-                            "active",
-                            "scheduled",
-                            "draft",
-                            "paused",
-                            "budgetHit",
-                            "ended",
-                            "archived",
-                            "noFunds"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "targetBid": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "isAutoDailyPacing": {
-                        "type": "boolean",
-                        "default": false,
-                        "x-nullable": false
-                    },
-                    "name": {
-                        "maxLength": 255,
-                        "minLength": 0,
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "startDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "endDate": {
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "maxBid": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "budget": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "monthlyPacing": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "dailyPacing": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "bidStrategy": {
-                        "enum": [
-                            "unknown",
-                            "conversion",
-                            "clicks",
-                            "revenue"
-                        ],
-                        "type": "string",
-                        "default": "conversion",
-                        "x-nullable": false
-                    }
-                },
-                "description": "The attributes of a Retail Media Line Item",
-                "x-nullable": false
-            },
-            "ExternalEditableLineItemAttributes": {
+            "ExternalPreferredLineItemUpdateModel": {
                 "required": [
                     "name",
                     "startDate",
-                    "targetBid",
-                    "isAutoDailyPacing",
+                    "endDate",
                     "status"
                 ],
                 "type": "object",
@@ -4312,28 +4311,182 @@
                         "format": "date"
                     },
                     "endDate": {
+                        "required": [
+                            "true"
+                        ],
                         "type": "string",
                         "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
                         "format": "date"
+                    },
+                    "status": {
+                        "enum": [
+                            "unknown",
+                            "active",
+                            "scheduled",
+                            "draft",
+                            "paused",
+                            "budgetHit",
+                            "ended",
+                            "archived",
+                            "noFunds"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "pacing": {
+                        "enum": [
+                            "unknown",
+                            "standard",
+                            "accelerated"
+                        ],
+                        "type": "string",
+                        "default": "accelerated",
+                        "x-nullable": false
+                    },
+                    "capping": {
+                        "$ref": "#/components/schemas/ExternalLineItemCapping"
+                    }
+                },
+                "description": "Model used to update a preferred line item",
+                "x-nullable": false
+            },
+            "ExternalPreferredLineItemCreateModel": {
+                "required": [
+                    "name",
+                    "startDate",
+                    "endDate",
+                    "pacing",
+                    "targetRetailerId"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "startDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "status": {
+                        "enum": [
+                            "unknown",
+                            "active",
+                            "scheduled",
+                            "draft",
+                            "paused",
+                            "budgetHit",
+                            "ended",
+                            "archived",
+                            "noFunds"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "pacing": {
+                        "enum": [
+                            "unknown",
+                            "standard",
+                            "accelerated"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "capping": {
+                        "$ref": "#/components/schemas/ExternalLineItemCapping"
+                    },
+                    "targetRetailerId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budget": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    }
+                },
+                "description": "Model used to create a preferred line item",
+                "x-nullable": false
+            },
+            "ExternalAuctionLineItemUpdateModel": {
+                "required": [
+                    "name",
+                    "startDate",
+                    "status",
+                    "targetBid",
+                    "isAutoDailyPacing"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "startDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "status": {
+                        "enum": [
+                            "unknown",
+                            "active",
+                            "scheduled",
+                            "draft",
+                            "paused",
+                            "budgetHit",
+                            "ended",
+                            "archived",
+                            "noFunds"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "budget": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
                     },
                     "targetBid": {
                         "required": [
                             "false"
                         ],
                         "type": "number",
-                        "description": "The greater value between RMP default of $0.3 or a retailer-specific value - varies by retailer",
                         "format": "decimal",
                         "x-nullable": true
                     },
                     "maxBid": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "budget": {
                         "required": [
                             "false"
                         ],
@@ -4371,6 +4524,37 @@
                         "type": "string",
                         "default": "conversion",
                         "x-nullable": false
+                    }
+                },
+                "description": "Model to update a retail media auction line item",
+                "x-nullable": false
+            },
+            "ExternalAuctionLineItemCreateModel": {
+                "required": [
+                    "name",
+                    "startDate",
+                    "targetRetailerId"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "startDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
                     },
                     "status": {
                         "enum": [
@@ -4386,9 +4570,95 @@
                         ],
                         "type": "string",
                         "x-nullable": false
+                    },
+                    "targetRetailerId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budget": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "targetBid": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "maxBid": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "monthlyPacing": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "dailyPacing": {
+                        "required": [
+                            "false"
+                        ],
+                        "type": "number",
+                        "format": "decimal",
+                        "x-nullable": true
+                    },
+                    "isAutoDailyPacing": {
+                        "type": "boolean",
+                        "default": false,
+                        "x-nullable": false
+                    },
+                    "bidStrategy": {
+                        "enum": [
+                            "unknown",
+                            "conversion",
+                            "clicks",
+                            "revenue"
+                        ],
+                        "type": "string",
+                        "default": "conversion",
+                        "x-nullable": false
                     }
                 },
-                "description": "The mutable attributes of a Retail Media Line Item",
+                "description": "Model to create a retail media auction line item",
+                "x-nullable": false
+            },
+            "ExternalLineItemCapping": {
+                "required": [
+                    "type",
+                    "count"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "enum": [
+                            "unknown",
+                            "day",
+                            "session"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int32",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Frequency capping for a preferred line item",
                 "x-nullable": false
             },
             "EnvelopeReportStatus": {
