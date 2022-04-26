@@ -18,7 +18,7 @@ public class GatewayApiTest {
 
     private static String clientId = System.getenv("TEST_CLIENT_ID");
     private static String clientSecret = System.getenv("TEST_CLIENT_SECRET");
-    private static String applicationId = System.getenv("TEST_APPLICATION_ID");
+    private static String applicationId = Integer.parseInt(System.getenv("TEST_APPLICATION_ID"));
 
     @Before
     public void setUp() {
@@ -43,7 +43,7 @@ public class GatewayApiTest {
         assertEquals(200, httpResponse.getStatusCode());
 
         ApplicationSummaryModelResponse response = httpResponse.getData();
-        assertEquals(applicationId, response.getData().getId());
+        assertEquals(applicationId, response.getData().getAttributes().getApplicationId());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class GatewayApiTest {
         assertEquals(200, httpResponse.getStatusCode());
 
         ApplicationSummaryModelResponse response = httpResponse.getData();
-        assertEquals(applicationId, response.getData().getId());
+        assertEquals(applicationId, response.getData().getAttributes().getApplicationId());
     }
 
     @Test
