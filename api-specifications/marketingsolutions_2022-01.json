@@ -1252,6 +1252,27 @@
                 }
             }
         },
+        "/2022-01/sample/basic-fall-forward": {
+            "get": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get the response for specified example.",
+                "operationId": "GetFallForwardExample",
+                "responses": {
+                    "200": {
+                        "description": "Return response for basic fall forward.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/2022-01/statistics/report": {
             "post": {
                 "tags": [
@@ -3391,21 +3412,29 @@
                 "description": "campaign spend limit model"
             },
             "NillableDateTime": {
+                "required": [
+                    "value"
+                ],
                 "type": "object",
                 "properties": {
                     "value": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "x-nullable": true
                     }
                 },
                 "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
             },
             "NillableDecimal": {
+                "required": [
+                    "value"
+                ],
                 "type": "object",
                 "properties": {
                     "value": {
                         "type": "number",
-                        "format": "double"
+                        "format": "double",
+                        "x-nullable": true
                     }
                 },
                 "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
@@ -3492,10 +3521,18 @@
                 "description": "ad set frequency capping model"
             },
             "NillableAdSetTargetingRule": {
+                "required": [
+                    "value"
+                ],
                 "type": "object",
                 "properties": {
                     "value": {
-                        "$ref": "#/components/schemas/AdSetTargetingRule"
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AdSetTargetingRule"
+                            }
+                        ],
+                        "x-nullable": true
                     }
                 },
                 "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."

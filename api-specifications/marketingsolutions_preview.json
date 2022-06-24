@@ -778,77 +778,6 @@
             }
         },
         "/preview/marketing-solutions/ad-sets": {
-            "post": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Create the specified ad set",
-                "operationId": "CreateAdSet",
-                "requestBody": {
-                    "description": "the ad sets to create",
-                    "content": {
-                        "application/json-patch+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateAdSetRequest"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateAdSetRequest"
-                            }
-                        },
-                        "text/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateAdSetRequest"
-                            }
-                        },
-                        "application/*+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateAdSetRequest"
-                            }
-                        }
-                    },
-                    "x-bodyName": "adSet"
-                },
-                "responses": {
-                    "201": {
-                        "description": "The ad set that has been created and errors / warnings",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseReadAdSet"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseReadAdSet"
-                                }
-                            },
-                            "text/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseReadAdSet"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "text/plain": {},
-                            "application/json": {},
-                            "text/json": {}
-                        }
-                    },
-                    "401": {
-                        "description": "The API client is not properly authenticated.",
-                        "content": {
-                            "text/plain": {},
-                            "application/json": {},
-                            "text/json": {}
-                        }
-                    }
-                }
-            },
             "patch": {
                 "tags": [
                     "Campaign"
@@ -4809,18 +4738,18 @@
                 }
             }
         },
-        "/preview/product-sets/partner/{partner-id}": {
+        "/preview/product-sets/dataset/{dataset-id}": {
             "get": {
                 "tags": [
                     "Reco"
                 ],
-                "description": "Fetch product sets of a given partner",
+                "description": "Fetch product sets of a given dataset",
                 "operationId": "FetchProductSets",
                 "parameters": [
                     {
-                        "name": "partner-id",
+                        "name": "dataset-id",
                         "in": "path",
-                        "description": "The ID of the partner that should be used for product set retrieval",
+                        "description": "The ID of the dataset that should be used for product set retrieval",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9441,15 +9370,6 @@
                 },
                 "description": "request payload of the search endpoint"
             },
-            "CreateAdSetRequest": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/CreateAdSetResource"
-                    }
-                },
-                "description": "Data model for an input resources"
-            },
             "RequestsPatchAdSet": {
                 "type": "object",
                 "properties": {
@@ -9739,20 +9659,6 @@
                 },
                 "description": "filter on ad set ids"
             },
-            "CreateAdSetResource": {
-                "type": "object",
-                "properties": {
-                    "attributes": {
-                        "$ref": "#/components/schemas/CreateAdSet"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity",
-                        "example": "AdSet"
-                    }
-                },
-                "description": "Data model for a Resource"
-            },
             "WriteModelPatchAdSet": {
                 "type": "object",
                 "properties": {
@@ -9978,51 +9884,6 @@
                 },
                 "description": "campaign read model"
             },
-            "CreateAdSet": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Name of the ad set"
-                    },
-                    "datasetId": {
-                        "type": "string",
-                        "description": "Dataset id of this ad set"
-                    },
-                    "campaignId": {
-                        "type": "string",
-                        "description": "Campaign id this ad set belongs to"
-                    },
-                    "schedule": {
-                        "$ref": "#/components/schemas/CreateAdSetSchedule"
-                    },
-                    "bidding": {
-                        "$ref": "#/components/schemas/CreateAdSetBidding"
-                    },
-                    "targeting": {
-                        "$ref": "#/components/schemas/CreateAdSetTargeting"
-                    },
-                    "budget": {
-                        "$ref": "#/components/schemas/CreateAdSetBudget"
-                    },
-                    "audienceConfiguration": {
-                        "$ref": "#/components/schemas/CreateAdSetAudienceConfiguration"
-                    },
-                    "trackingCode": {
-                        "type": "string",
-                        "description": "The click tracking code associated to this Ad Set."
-                    },
-                    "mediaType": {
-                        "enum": [
-                            "display",
-                            "video"
-                        ],
-                        "type": "string",
-                        "description": "Media type for the ad set"
-                    }
-                },
-                "description": "ad set create model"
-            },
             "PatchAdSet": {
                 "type": "object",
                 "properties": {
@@ -10076,17 +9937,26 @@
                     },
                     "advertiserId": {
                         "type": "string",
-                        "description": "advertiser id this campaign belongs to"
+                        "description": "Advertiser id this campaign belongs to"
                     },
                     "objective": {
                         "type": "string",
                         "description": "Campaign's marketing objective"
                     },
+                    "goal": {
+                        "enum": [
+                            "Unspecified",
+                            "Acquisition",
+                            "Retention"
+                        ],
+                        "type": "string",
+                        "description": "Goal for the marketing campaign"
+                    },
                     "spendLimit": {
                         "$ref": "#/components/schemas/CreateCampaignSpendLimit"
                     }
                 },
-                "description": "campaign create model"
+                "description": "Campaign create model"
             },
             "PatchCampaign": {
                 "type": "object",
@@ -10264,150 +10134,6 @@
                 },
                 "description": "campaign spend limit model"
             },
-            "CreateAdSetSchedule": {
-                "type": "object",
-                "properties": {
-                    "startDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "endDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "description": "ad set schedule create model"
-            },
-            "CreateAdSetBidding": {
-                "type": "object",
-                "properties": {
-                    "bidAmount": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "bidStrategy": {
-                        "enum": [
-                            "actions",
-                            "clicks",
-                            "conversions",
-                            "displays",
-                            "installs",
-                            "revenue",
-                            "storeConversions",
-                            "value",
-                            "viewedImpressions",
-                            "Visits",
-                            "completedVideoViews"
-                        ],
-                        "type": "string"
-                    },
-                    "costController": {
-                        "enum": [
-                            "COS",
-                            "CPC",
-                            "CPI",
-                            "CPM",
-                            "CPO",
-                            "CPSV",
-                            "CPV",
-                            "dailyBudget"
-                        ],
-                        "type": "string"
-                    }
-                },
-                "description": "ad set bidding create model"
-            },
-            "CreateAdSetTargeting": {
-                "type": "object",
-                "properties": {
-                    "deliveryLimitations": {
-                        "$ref": "#/components/schemas/AdSetDeliveryLimitations"
-                    },
-                    "geoLocation": {
-                        "$ref": "#/components/schemas/CreateAdSetGeoLocation"
-                    },
-                    "frequencyCapping": {
-                        "$ref": "#/components/schemas/AdSetFrequencyCapping"
-                    }
-                },
-                "description": "Targeting configuration of the ad set"
-            },
-            "CreateAdSetBudget": {
-                "type": "object",
-                "properties": {
-                    "budgetStrategy": {
-                        "enum": [
-                            "capped",
-                            "uncapped"
-                        ],
-                        "type": "string"
-                    },
-                    "budgetRenewal": {
-                        "enum": [
-                            "undefined",
-                            "daily",
-                            "monthly",
-                            "lifetime"
-                        ],
-                        "type": "string"
-                    },
-                    "budgetDeliverySmoothing": {
-                        "enum": [
-                            "accelerated",
-                            "standard"
-                        ],
-                        "type": "string"
-                    },
-                    "budgetDeliveryWeek": {
-                        "enum": [
-                            "undefined",
-                            "mondayToSunday",
-                            "tuesdayToMonday",
-                            "wednesdayToTuesday",
-                            "thursdayToWednesday",
-                            "fridayToThursday",
-                            "saturdayToFriday",
-                            "sundayToSaturday"
-                        ],
-                        "type": "string"
-                    },
-                    "budgetAmount": {
-                        "type": "number",
-                        "format": "double"
-                    }
-                },
-                "description": "ad set budget create model"
-            },
-            "CreateAdSetAudienceConfiguration": {
-                "type": "object",
-                "properties": {
-                    "minDaysSinceLastVisit": {
-                        "type": "integer",
-                        "description": "The minimum days since last visit on the advertiser web site for being part of this audience, if not null",
-                        "format": "int32"
-                    },
-                    "maxDaysSinceLastVisit": {
-                        "type": "integer",
-                        "description": "The maximum days since last visit on the advertiser web site for being part of this audience, if not null",
-                        "format": "int32"
-                    },
-                    "excludedAudienceIds": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The list of audience ids that define who CANNOT be targeted by the ad set. So far, only contact list are supported here"
-                    },
-                    "audienceWebsiteVisitor": {
-                        "$ref": "#/components/schemas/AudienceWebsiteVisitor"
-                    },
-                    "audienceCustom": {
-                        "$ref": "#/components/schemas/AudienceCustom"
-                    }
-                },
-                "description": "ad set audience create model"
-            },
             "PatchAdSetScheduling": {
                 "type": "object",
                 "properties": {
@@ -10535,21 +10261,29 @@
                 "description": "campaign spend limit model"
             },
             "NillableDateTime": {
+                "required": [
+                    "value"
+                ],
                 "type": "object",
                 "properties": {
                     "value": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "x-nullable": true
                     }
                 },
                 "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
             },
             "NillableDecimal": {
+                "required": [
+                    "value"
+                ],
                 "type": "object",
                 "properties": {
                     "value": {
                         "type": "number",
-                        "format": "double"
+                        "format": "double",
+                        "x-nullable": true
                     }
                 },
                 "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
@@ -10635,78 +10369,19 @@
                 },
                 "description": "ad set frequency capping model"
             },
-            "CreateAdSetGeoLocation": {
-                "type": "object",
-                "properties": {
-                    "countries": {
-                        "$ref": "#/components/schemas/AdSetTargetingRule"
-                    },
-                    "subdivisions": {
-                        "$ref": "#/components/schemas/AdSetTargetingRule"
-                    },
-                    "zipCodes": {
-                        "$ref": "#/components/schemas/AdSetTargetingRule"
-                    }
-                },
-                "description": "Geolocation configuration of the ad set"
-            },
-            "AudienceWebsiteVisitor": {
-                "type": "object",
-                "properties": {
-                    "visitorTypes": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "enum": [
-                                "nonVisitor",
-                                "homePageVisitor",
-                                "visitor",
-                                "customer"
-                            ],
-                            "type": "string"
-                        },
-                        "description": "the interaction required on the advertiser web site during the interval defined by daysSinceLastVistXXX fields for being part of the audience"
-                    }
-                },
-                "description": "website visitor audience configuration of the ad set"
-            },
-            "AudienceCustom": {
-                "type": "object",
-                "properties": {
-                    "audienceName": {
-                        "type": "string",
-                        "description": "the name of the custom audience that will be created for this ad set"
-                    },
-                    "includedAudienceIds": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The list of audience ids that define who can be targeted by the ad set"
-                    },
-                    "visitorTypes": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "enum": [
-                                "nonVisitor",
-                                "homePageVisitor",
-                                "visitor",
-                                "customer"
-                            ],
-                            "type": "string"
-                        },
-                        "description": "the interaction required on the advertiser web site during the interval defined by daysSinceLastVistXXX fields for being part of the audience"
-                    }
-                },
-                "description": "custom audience configuration of the ad set"
-            },
             "NillableAdSetTargetingRule": {
+                "required": [
+                    "value"
+                ],
                 "type": "object",
                 "properties": {
                     "value": {
-                        "$ref": "#/components/schemas/AdSetTargetingRule"
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AdSetTargetingRule"
+                            }
+                        ],
+                        "x-nullable": true
                     }
                 },
                 "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
@@ -14321,7 +13996,7 @@
                     "data": {
                         "type": "CreateProductSetRequest",
                         "attributes": {
-                            "partnerId": "0",
+                            "datasetId": "0",
                             "name": "My Product Set",
                             "isDraft": true,
                             "rules": [
@@ -14367,9 +14042,9 @@
             "ProductSet": {
                 "type": "object",
                 "properties": {
-                    "partnerId": {
+                    "datasetId": {
                         "type": "string",
-                        "description": "The partner to which the product set belong"
+                        "description": "The dataset to which the product set belong"
                     },
                     "name": {
                         "type": "string",
@@ -14417,7 +14092,7 @@
             "CreateProductSetRequest": {
                 "type": "object",
                 "properties": {
-                    "partnerId": {
+                    "datasetId": {
                         "type": "string"
                     },
                     "name": {
