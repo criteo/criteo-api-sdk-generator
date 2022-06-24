@@ -441,7 +441,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CreateRetailMediaAudienceRequest"
+                                "$ref": "#/components/schemas/CreateAudienceRequest"
                             }
                         }
                     },
@@ -3481,38 +3481,39 @@
                 "description": "Response for page of audiences by given account"
             },
             "CreateRetailMediaAudienceResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/CreateRetailMediaAudience"
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonError"
-                        },
-                        "description": "errors",
-                        "readOnly": true
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonWarning"
-                        },
-                        "description": "warnings",
-                        "readOnly": true
-                    }
-                },
-                "description": "Response of CreateAudienceRequest"
-            },
-            "CreateRetailMediaAudienceRequest": {
                 "required": [
                     "data"
                 ],
                 "type": "object",
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/CreateRetailMediaAudienceBody"
+                        "$ref": "#/components/schemas/RetailMediaAudience"
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommonError"
+                        },
+                        "x-nullable": false
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommonWarning"
+                        },
+                        "x-nullable": false
+                    }
+                },
+                "description": "Response of CreateAudienceRequest"
+            },
+            "CreateAudienceRequest": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CreateAudienceBody"
                     }
                 },
                 "description": "Request to create an audience"
@@ -3520,63 +3521,29 @@
             "RetailMediaAudience": {
                 "required": [
                     "attributes",
-                    "audienceType",
                     "id",
                     "type"
                 ],
                 "type": "object",
                 "properties": {
-                    "audienceType": {
-                        "enum": [
-                            "customerList",
-                            "userBehavior"
-                        ],
+                    "type": {
                         "type": "string",
-                        "description": "Type of the audience",
-                        "example": "customerList"
+                        "description": "the name of the entity type",
+                        "example": "RetailMediaAudience"
                     },
                     "id": {
                         "type": "string",
                         "description": "Unique ID of this audience.",
+                        "format": "int64",
                         "example": "314159"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Name of the entity i.e. RetailMediaAudienceSummary",
-                        "example": "RetailMediaAudienceSummary"
                     },
                     "attributes": {
                         "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
                     }
                 },
-                "description": "All the information about a retail media audience"
+                "description": "Retail Media audience"
             },
-            "CreateRetailMediaAudience": {
-                "required": [
-                    "attributes",
-                    "id",
-                    "type"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "description": "the name of the entity type",
-                        "example": "RetailMediaAudience"
-                    },
-                    "id": {
-                        "type": "integer",
-                        "description": "Unique ID of this audience.",
-                        "format": "int64",
-                        "example": 314159
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/CreateRetailMediaAudienceAttributes"
-                    }
-                },
-                "description": "Retail Media audience used in audience creation"
-            },
-            "CreateRetailMediaAudienceBody": {
+            "CreateAudienceBody": {
                 "required": [
                     "attributes",
                     "type"
@@ -3589,38 +3556,12 @@
                         "example": "RetailMediaAudience"
                     },
                     "attributes": {
-                        "$ref": "#/components/schemas/CreateRetailMediaAudienceAttributes"
+                        "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
                     }
                 },
-                "description": "Request body of CreateRetailMediaAudienceRequest"
+                "description": "Request body of CreateAudienceRequest"
             },
             "RetailMediaAudienceAttributes": {
-                "required": [
-                    "name",
-                    "retailerId"
-                ],
-                "type": "object",
-                "properties": {
-                    "retailerId": {
-                        "type": "string",
-                        "description": "ID of the retailer associated with this audience",
-                        "example": "68004146450571264"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Name of the audience.",
-                        "example": "Test audience"
-                    },
-                    "userBehaviorDetails": {
-                        "$ref": "#/components/schemas/UserBehaviorDetails"
-                    },
-                    "customerListDetails": {
-                        "$ref": "#/components/schemas/CustomerListDetails"
-                    }
-                },
-                "description": "Fields of a retail media audience"
-            },
-            "CreateRetailMediaAudienceAttributes": {
                 "required": [
                     "lookbackWindow",
                     "name",
@@ -3675,78 +3616,10 @@
                     },
                     "name": {
                         "type": "string",
-                        "description": "Name of the audience.",
-                        "example": "Test audience"
+                        "description": "name"
                     }
                 },
                 "description": "Parameters needed to create an audience"
-            },
-            "UserBehaviorDetails": {
-                "required": [
-                    "lookbackWindow",
-                    "targetIds",
-                    "targetType",
-                    "userType"
-                ],
-                "type": "object",
-                "properties": {
-                    "targetType": {
-                        "enum": [
-                            "brand",
-                            "category"
-                        ],
-                        "type": "string",
-                        "description": "Type of target",
-                        "example": "category"
-                    },
-                    "targetIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "ist of ids for the target type"
-                    },
-                    "lookbackWindow": {
-                        "enum": [
-                            "P7D",
-                            "P14D",
-                            "P30D",
-                            "P45D",
-                            "P60D",
-                            "P90D",
-                            "P120D",
-                            "P150D",
-                            "P180D"
-                        ],
-                        "type": "string",
-                        "description": "Length of lookback window",
-                        "example": "P7D"
-                    },
-                    "userType": {
-                        "enum": [
-                            "viewer",
-                            "buyer"
-                        ],
-                        "type": "string",
-                        "description": "Type of the user",
-                        "example": "viewer"
-                    }
-                },
-                "description": "Details about a user behavior retail media audience"
-            },
-            "CustomerListDetails": {
-                "required": [
-                    "size"
-                ],
-                "type": "object",
-                "properties": {
-                    "size": {
-                        "type": "string",
-                        "description": "Number of users in the customer list audience.",
-                        "example": "34212"
-                    }
-                },
-                "description": "Details of a customer list audience"
             },
             "JsonApiSingleResponseOfCatalogStatus": {
                 "required": [
