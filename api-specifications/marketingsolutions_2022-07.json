@@ -3,7 +3,7 @@
     "info": {
         "title": "Criteo API",
         "description": "Criteo publicly exposed API",
-        "version": "2021-07"
+        "version": "2022-07"
     },
     "servers": [
         {
@@ -11,7 +11,7 @@
         }
     ],
     "paths": {
-        "/2021-07/audiences": {
+        "/2022-07/audiences": {
             "get": {
                 "tags": [
                     "Audience"
@@ -183,7 +183,7 @@
                 }
             }
         },
-        "/2021-07/audiences/{audience-id}/contactlist": {
+        "/2022-07/audiences/{audience-id}/contactlist": {
             "delete": {
                 "tags": [
                     "Audience"
@@ -386,7 +386,7 @@
                 }
             ]
         },
-        "/2021-07/audiences/{audience-id}": {
+        "/2022-07/audiences/{audience-id}": {
             "delete": {
                 "tags": [
                     "Audience"
@@ -578,7 +578,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/ad-sets/{adSetId}": {
+        "/2022-07/marketing-solutions/ad-sets/{adSetId}": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -636,7 +636,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/ad-sets/search": {
+        "/2022-07/marketing-solutions/ad-sets/search": {
             "post": {
                 "tags": [
                     "Campaign"
@@ -716,7 +716,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/ad-sets": {
+        "/2022-07/marketing-solutions/ad-sets": {
             "patch": {
                 "tags": [
                     "Campaign"
@@ -789,7 +789,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/ad-sets/start": {
+        "/2022-07/marketing-solutions/ad-sets/start": {
             "post": {
                 "tags": [
                     "Campaign"
@@ -862,7 +862,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/ad-sets/stop": {
+        "/2022-07/marketing-solutions/ad-sets/stop": {
             "post": {
                 "tags": [
                     "Campaign"
@@ -935,7 +935,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/campaigns/{campaign-id}": {
+        "/2022-07/marketing-solutions/campaigns/{campaign-id}": {
             "get": {
                 "tags": [
                     "Campaign"
@@ -993,7 +993,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/campaigns/search": {
+        "/2022-07/marketing-solutions/campaigns/search": {
             "post": {
                 "tags": [
                     "Campaign"
@@ -1074,7 +1074,7 @@
                 }
             }
         },
-        "/2021-07/marketing-solutions/campaigns": {
+        "/2022-07/marketing-solutions/campaigns": {
             "patch": {
                 "tags": [
                     "Campaign"
@@ -1126,6 +1126,316 @@
                                     "$ref": "#/components/schemas/PatchResultCampaignListResponse"
                                 }
                             }
+                        }
+                    },
+                    "401": {
+                        "description": "The API client is not properly authenticated.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "403": {
+                        "description": "The API client is not authorized to access this resource or the resource does not exist.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/marketing-solutions/ad-sets/{ad-set-id}/display-multipliers": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Get the Display Multipliers for all valid Categories associated to an Ad Set",
+                "operationId": "GetDisplayMultipliers",
+                "parameters": [
+                    {
+                        "name": "ad-set-id",
+                        "in": "path",
+                        "description": "Id of the Ad Set",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Display Multipliers for all valid Categories associated to an Ad Set.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdSetDisplayMultiplierListResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdSetDisplayMultiplierListResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdSetDisplayMultiplierListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "The API client is not properly authenticated.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "403": {
+                        "description": "The API client is not authorized to access this resource or the resource does not exist.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Patch Display Multipliers for one or more Categories in a single request. Partial success policy is followed.",
+                "operationId": "PatchDisplayMultipliers",
+                "parameters": [
+                    {
+                        "name": "ad-set-id",
+                        "in": "path",
+                        "description": "Id of the Ad Set",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
+                            }
+                        }
+                    },
+                    "x-bodyName": "displayMultipliersToUpdate"
+                },
+                "responses": {
+                    "200": {
+                        "description": "List of updated Display Multipliers for given Categories associated to an Ad Set.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultListResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultListResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "The API client is not properly authenticated.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "403": {
+                        "description": "The API client is not authorized to access this resource or the resource does not exist.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/marketing-solutions/ad-sets/{ad-set-id}/category-bids": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Get the Category Bids for all valid Categories associated to an Ad Set",
+                "operationId": "GetCategoryBidList",
+                "parameters": [
+                    {
+                        "name": "ad-set-id",
+                        "in": "path",
+                        "description": "Id of the Ad Set",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Category Bids for all valid Categories associated to an Ad Set.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdSetCategoryBidListResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdSetCategoryBidListResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdSetCategoryBidListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "The API client is not properly authenticated.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    },
+                    "403": {
+                        "description": "The API client is not authorized to access this resource or the resource does not exist.",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Patch Category Bids for one or more Categories in a single request. Partial success policy is followed.",
+                "operationId": "PatchCategoryBidList",
+                "parameters": [
+                    {
+                        "name": "ad-set-id",
+                        "in": "path",
+                        "description": "Id of the Ad Set",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
+                            }
+                        }
+                    },
+                    "x-bodyName": "categoryBidsToUpdate"
+                },
+                "responses": {
+                    "200": {
+                        "description": "List of updated Category Bids for given Categories associated to an Ad Set.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatchAdSetCategoryBidResultListResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatchAdSetCategoryBidResultListResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatchAdSetCategoryBidResultListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
                         }
                     },
                     "401": {
@@ -1252,7 +1562,197 @@
                 }
             }
         },
-        "/2021-07/statistics/report": {
+        "/2022-07/sample/hello-world": {
+            "put": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "�Update an existing Hello world message",
+                "operationId": "ApiHello-worldPut",
+                "requestBody": {
+                    "description": "You can add a parameter description by using the 'param' block",
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        }
+                    },
+                    "x-bodyName": "request"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {},
+                            "application/json": {},
+                            "text/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "You can add a route description by using the 'remarks' block",
+                "operationId": "ApiHello-worldGet",
+                "parameters": [
+                    {
+                        "name": "i-d",
+                        "in": "query",
+                        "description": "You can add a parameter description by using the 'param' block",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "You can add a route description by using the 'remarks' block",
+                "operationId": "ApiHello-worldPost",
+                "requestBody": {
+                    "description": "You can add a parameter description by using the 'param' block",
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HelloWorldMessageRequest"
+                            }
+                        }
+                    },
+                    "x-bodyName": "request"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloWorldMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/sample/basic-fall-forward": {
+            "get": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get the response for specified example.",
+                "operationId": "GetFallForwardExample",
+                "responses": {
+                    "200": {
+                        "description": "Return response for basic fall forward.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/statistics/report": {
             "post": {
                 "tags": [
                     "Analytics"
@@ -1376,7 +1876,7 @@
                 }
             }
         },
-        "/2021-07/transactions/report": {
+        "/2022-07/transactions/report": {
             "post": {
                 "tags": [
                     "Analytics"
@@ -1500,7 +2000,7 @@
                 }
             }
         },
-        "/2021-07/log-level/advertisers/{advertiser-id}/report": {
+        "/2022-07/log-level/advertisers/{advertiser-id}/report": {
             "post": {
                 "tags": [
                     "Analytics"
@@ -1650,7 +2150,131 @@
                 }
             }
         },
-        "/2021-07/advertisers/me": {
+        "/2022-07/placements/report": {
+            "post": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Your ads are placed in different domains (publishers) and environments (websites and apps). Thanks to the placements endpoint, you can analyse the performances for each publisher, comparing displays, clicks and sales generated.",
+                "operationId": "GetPlacementsReport",
+                "requestBody": {
+                    "content": {
+                        "application/json-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                            }
+                        }
+                    },
+                    "x-bodyName": "dataMessage"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "byte"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "byte"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "byte"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                },
+                                "example": {
+                                    "errors": [
+                                        {
+                                            "traceId": "00000000-0000-0000-d390-b9c1a03a6663",
+                                            "traceIdentifier": "1234e1717d88aa8a",
+                                            "type": "validation",
+                                            "code": "required-field",
+                                            "instance": "/report",
+                                            "title": "Start date and end date are required."
+                                        }
+                                    ]
+                                }
+                            },
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                },
+                                "example": {
+                                    "errors": [
+                                        {
+                                            "traceId": "00000000-0000-0000-d390-b9c1a03a6663",
+                                            "traceIdentifier": "1234e1717d88aa8a",
+                                            "type": "access-control",
+                                            "code": "insufficient-advertiser-permission",
+                                            "instance": "/report",
+                                            "title": "Insufficient advertiser permission.",
+                                            "detail": "You do not have the rights to report on this advertiser."
+                                        }
+                                    ]
+                                }
+                            },
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/advertisers/me": {
             "get": {
                 "tags": [
                     "Advertiser"
@@ -2629,6 +3253,122 @@
                 },
                 "description": "List of output resources"
             },
+            "AdSetDisplayMultiplierListResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AdSetDisplayMultiplierResource"
+                        }
+                    },
+                    "warnings": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    },
+                    "errors": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    }
+                },
+                "description": "Data model for a list of response resources"
+            },
+            "PatchAdSetDisplayMultiplierResultListResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultResource"
+                        }
+                    },
+                    "warnings": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    },
+                    "errors": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    }
+                },
+                "description": "Data model for a list of response resources"
+            },
+            "AdSetCategoryBidListResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AdSetCategoryBidResource"
+                        }
+                    },
+                    "warnings": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    },
+                    "errors": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    }
+                },
+                "description": "Data model for a list of response resources"
+            },
+            "PatchAdSetCategoryBidResultListResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatchAdSetCategoryBidResultResource"
+                        }
+                    },
+                    "warnings": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    },
+                    "errors": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true
+                    }
+                },
+                "description": "Data model for a list of response resources"
+            },
             "RequestAdSetSearch": {
                 "type": "object",
                 "properties": {
@@ -2685,6 +3425,32 @@
                     }
                 },
                 "description": "List of input resources"
+            },
+            "PatchAdSetDisplayMultiplierListRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResource"
+                        }
+                    }
+                },
+                "description": "Data model for a list of input resources"
+            },
+            "PatchAdSetCategoryBidListRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatchAdSetCategoryBidResource"
+                        }
+                    }
+                },
+                "description": "Data model for a list of input resources"
             },
             "ReadModelReadAdSet": {
                 "type": "object",
@@ -2799,6 +3565,72 @@
                 },
                 "description": "read model data for resources"
             },
+            "AdSetDisplayMultiplierResource": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/AdSetDisplayMultiplier"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity",
+                        "example": "AdSetDisplayMultiplier"
+                    }
+                },
+                "description": "Data model for a Resource"
+            },
+            "PatchAdSetDisplayMultiplierResultResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity",
+                        "example": "AdSetDisplayMultiplier"
+                    }
+                },
+                "description": "Data model for a Resource"
+            },
+            "AdSetCategoryBidResource": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/AdSetCategoryBid"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity",
+                        "example": "AdSetCategoryBid"
+                    }
+                },
+                "description": "Data model for a Resource"
+            },
+            "PatchAdSetCategoryBidResultResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity",
+                        "example": "AdSetCategoryBid"
+                    }
+                },
+                "description": "Data model for a Resource"
+            },
             "AdSetSearchFilter": {
                 "type": "object",
                 "properties": {
@@ -2899,6 +3731,42 @@
                 },
                 "description": "write model data for resources"
             },
+            "PatchAdSetDisplayMultiplierResource": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/PatchAdSetDisplayMultiplier"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity",
+                        "example": "AdSetDisplayMultiplier"
+                    }
+                },
+                "description": "Data model for a Resource"
+            },
+            "PatchAdSetCategoryBidResource": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/PatchAdSetCategoryBid"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity",
+                        "example": "AdSetCategoryBid"
+                    }
+                },
+                "description": "Data model for a Resource"
+            },
             "ReadAdSet": {
                 "type": "object",
                 "properties": {
@@ -2971,6 +3839,36 @@
                 },
                 "description": "campaign read model"
             },
+            "AdSetDisplayMultiplier": {
+                "type": "object",
+                "properties": {
+                    "categoryName": {
+                        "type": "string",
+                        "description": "The name of the Category to which the given for which the Display Multiplier has been applied."
+                    },
+                    "displayMultiplier": {
+                        "type": "number",
+                        "description": "The Display Multiplier applied to the given Category associated to an Ad Set.",
+                        "format": "double"
+                    }
+                },
+                "description": "Display Multiplier information about a Category for a given Ad Set."
+            },
+            "AdSetCategoryBid": {
+                "type": "object",
+                "properties": {
+                    "categoryName": {
+                        "type": "string",
+                        "description": "The name of the Category to which the Category Bid has been applied."
+                    },
+                    "bidAmount": {
+                        "type": "number",
+                        "description": "The Bid amount applied to the given Category associated to an Ad Set.",
+                        "format": "double"
+                    }
+                },
+                "description": "Category Bid information about a Category for a given Ad Set."
+            },
             "PatchAdSet": {
                 "type": "object",
                 "properties": {
@@ -3001,6 +3899,28 @@
                     }
                 },
                 "description": "campaign patch model"
+            },
+            "PatchAdSetDisplayMultiplier": {
+                "type": "object",
+                "properties": {
+                    "displayMultiplier": {
+                        "type": "number",
+                        "description": "Any positive decimal value. To remove the impact of the Display Multiplier set it to 1.",
+                        "format": "double"
+                    }
+                },
+                "description": "Display Multiplier to update for a given combination of Ad Set and Category."
+            },
+            "PatchAdSetCategoryBid": {
+                "type": "object",
+                "properties": {
+                    "bidAmount": {
+                        "type": "number",
+                        "description": "positive decimal value match bid constraints",
+                        "format": "double"
+                    }
+                },
+                "description": "Category Bid to update for a given combination of Ad Set and Category."
             },
             "ReadAdSetSchedule": {
                 "type": "object",
@@ -3453,6 +4373,32 @@
                     }
                 }
             },
+            "HelloWorldMessageResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "description": "Hello world response"
+            },
+            "HelloWorldMessageRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "description": "Hello world request"
+            },
             "ErrorMessage": {
                 "type": "object",
                 "properties": {
@@ -3718,6 +4664,52 @@
                     "endDate": "2022-01-01T00:00:00.0000000+01:00"
                 }
             },
+            "PlacementsReportQueryDataMessage": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PlacementsReportQueryEntityMessage"
+                        }
+                    }
+                },
+                "description": "Contains queries for Placements report",
+                "example": {
+                    "data": [
+                        {
+                            "type": "PlacementReport",
+                            "attributes": {
+                                "advertiserIds": "123,456,789",
+                                "campaignIds": "111,222,333,444",
+                                "adsetIds": "135,246,357,468",
+                                "environment": "web",
+                                "placement": "MyPlacement",
+                                "dimensions": [
+                                    "AdsetId",
+                                    "AdvertiserId",
+                                    "Placement"
+                                ],
+                                "metrics": [
+                                    "clicks",
+                                    "displays",
+                                    "cost"
+                                ],
+                                "currency": "EUR",
+                                "disclosed": false,
+                                "format": "csv",
+                                "timezone": "Europe/Paris",
+                                "startDate": "2021-12-29T00:00:00.0000000+01:00",
+                                "endDate": "2021-12-29T00:00:00.0000000+01:00"
+                            }
+                        }
+                    ]
+                }
+            },
             "TransparencyReportEntityMessage": {
                 "required": [
                     "type",
@@ -3747,6 +4739,22 @@
                     },
                     "attributes": {
                         "$ref": "#/components/schemas/TransactionsReportQueryMessage"
+                    }
+                },
+                "description": "Contains a query for Transaction report and its type"
+            },
+            "PlacementsReportQueryEntityMessage": {
+                "required": [
+                    "type",
+                    "attributes"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/PlacementsReportQueryMessage"
                     }
                 },
                 "description": "Contains a query for Transaction report and its type"
@@ -3818,6 +4826,94 @@
                     }
                 },
                 "description": "This is the message defining the query for Transaction report"
+            },
+            "PlacementsReportQueryMessage": {
+                "required": [
+                    "dimensions",
+                    "metrics",
+                    "currency",
+                    "format",
+                    "startDate",
+                    "endDate"
+                ],
+                "type": "object",
+                "properties": {
+                    "advertiserIds": {
+                        "type": "string",
+                        "description": "The comma-separated list of advertiser ids."
+                    },
+                    "campaignIds": {
+                        "type": "string",
+                        "description": "The comma-separated list of campaign ids."
+                    },
+                    "adsetIds": {
+                        "type": "string",
+                        "description": "The comma-separated list of adSet ids."
+                    },
+                    "environment": {
+                        "type": "string",
+                        "description": "Type of environment: Web, Android or iOS."
+                    },
+                    "placement": {
+                        "type": "string",
+                        "description": "Filter the value of the placement"
+                    },
+                    "dimensions": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "enum": [
+                                "AdsetId",
+                                "AdvertiserId",
+                                "Placement",
+                                "Environment",
+                                "AdsetName",
+                                "AdvertiserName",
+                                "CampaignId",
+                                "CampaignName"
+                            ],
+                            "type": "string"
+                        },
+                        "description": "The dimensions for the report."
+                    },
+                    "metrics": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The list of metrics to report."
+                    },
+                    "currency": {
+                        "type": "string",
+                        "description": "The currency used for the report. ISO 4217 code (three-letter capitals)."
+                    },
+                    "disclosed": {
+                        "type": "boolean",
+                        "description": "Returns disclosed or undisclosed placements.",
+                        "default": true
+                    },
+                    "format": {
+                        "type": "string",
+                        "description": "The file format of the generated report: csv, xml, excel or json."
+                    },
+                    "timezone": {
+                        "type": "string",
+                        "description": "The timezone used for the report. Timezone Database format (Tz).",
+                        "default": "UTC"
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "description": "Start date of the report. Date component of ISO 8061 format, any time or timezone component is ignored.",
+                        "format": "date-time"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "description": "End date of the report. Date component of ISO 8061 format, any time or timezone component is ignored.",
+                        "format": "date-time"
+                    }
+                },
+                "description": "This is the message defining the query for Placements report"
             },
             "TransparencyReportFile": {
                 "required": [
