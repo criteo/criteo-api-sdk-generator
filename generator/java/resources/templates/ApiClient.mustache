@@ -66,38 +66,19 @@ import {{invokerPackage}}.model.AccessTokenModel;
 public class ApiClient {
 
     private String basePath = "{{{basePath}}}";
-    protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>({{#servers}}{{#-first}}Arrays.asList(
-    {{/-first}}    new ServerConfiguration(
-          "{{{url}}}",
-          "{{{description}}}{{^description}}No description provided{{/description}}",
-          new HashMap<String, ServerVariable>(){{#variables}}{{#-first}} {{
-    {{/-first}}        put("{{{name}}}", new ServerVariable(
-              "{{{description}}}{{^description}}No description provided{{/description}}",
-              "{{{defaultValue}}}",
-              new HashSet<String>(
-              {{#enumValues}}
-              {{#-first}}
-                  Arrays.asList(
-              {{/-first}}
-                  "{{{.}}}"{{^-last}},{{/-last}}
-              {{#-last}}
-                  )
-              {{/-last}}
-              {{/enumValues}}
-              )
-            ));
-          {{#-last}}
-          }}{{/-last}}{{/variables}}
-              ){{^-last}},{{/-last}}
-        {{#-last}}
-    ){{/-last}}{{/servers}});
-    protected Integer serverIndex = 0;
+    protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>();
+    protected Integer serverIndex = null;
     protected Map<String, String> serverVariables = null;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private Map<String, String> defaultCookieMap = new HashMap<String, String>();
     private String tempFolderPath = null;
 
+{{#hasOAuthMethods}}
+    private String clientId;
+    private String clientSecret;
+    private Map<String, String> authParameters;
+{{/hasOAuthMethods}}
     private Map<String, Authentication> authentications;
     private TokenInfo tokenInfo;
 
@@ -130,8 +111,6 @@ public class ApiClient {
         {{#isOAuth}}authentications.put("{{name}}", new OAuth());{{/isOAuth}}
     {{/authMethods}}
         authentications.put("CriteoHttpBasicAuth", new HttpBasicAuth());
-        // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
     }
 
     {{#hasOAuthMethods}}
@@ -143,41 +122,56 @@ public class ApiClient {
     public ApiClient(String clientId) {
         this(clientId, null, null);
     }
-    
+
     /*
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID and additional parameters
      */
     public ApiClient(String clientId, Map<String, String> parameters) {
         this(clientId, null, parameters);
     }
-    
+
     /*
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
      */
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
-{{#hasOAuthMethods}}
-        RetryingOAuth retryingOAuth = new RetryingOAuth("{{tokenUrl}}", clientId, OAuthFlow.{{flow}}, clientSecret, parameters);
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.authParameters = parameters;
+
+        RetryingOAuth retryingOAuth = createDefaultRetryingOAuth();
         authentications.put("{{name}}", retryingOAuth);
         HttpBasicAuth httpBasicAuth = new HttpBasicAuth();
         httpBasicAuth.setPassword(clientSecret);
         httpBasicAuth.setUsername(clientId);
         authentications.put("CriteoHttpBasicAuth", httpBasicAuth);
-        
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(getProgressInterceptor());
         builder.interceptors().add(retryingOAuth);
         httpClient = builder.build();
-        
+
         verifyingSsl = true;
         json = new JSON();
         // Set default User-Agent.
         setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{apiVersion}}}/java{{/httpUserAgent}}");
-{{/hasOAuthMethods}}
-
-        // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
     }
-            
+
+    private RetryingOAuth createDefaultRetryingOAuth() {
+        String oauthTokenUrl = StringUtil.join(new String[]{basePath, "oauth2/token"}, "/");
+        RetryingOAuth retryingOAuth = new RetryingOAuth(oauthTokenUrl, clientId, OAuthFlow.{{flow}}, clientSecret, authParameters);
+        return retryingOAuth;
+    }
+
+    private void resetRetryingOAuth() {
+        Authentication formerOAuth = authentications.get("{{name}}");
+        if (formerOAuth instanceof RetryingOAuth) {
+            RetryingOAuth newOauth = createDefaultRetryingOAuth();
+            authentications.replace("{{name}}", newOauth);
+            httpClient.interceptors().remove(formerOAuth);
+            httpClient.interceptors().add(newOauth);
+        }
+    }
+
     {{/-first}}
     {{/oauthMethods}}
     {{/hasOAuthMethods}}
@@ -190,14 +184,14 @@ public class ApiClient {
         // Enable gzip request compression
         httpClient.interceptors().add(new GzipRequestInterceptor());
         {{/useGzipFeature}}
-        
+
         verifyingSsl = true;
-        
+
         json = new JSON();
-        
+
         // Set default User-Agent.
         setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{apiVersion}}}/java{{/httpUserAgent}}");
-        
+
         authentications = new HashMap<String, Authentication>();
     }
 
@@ -213,11 +207,17 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g {{{basePath}}}
+     * NOTE: It is recommended to call this method before setAccessToken, setBearerToken, setApiKey or getAuthentication(s)
+     * as it may reset the authentication configuration (by setting a new oauth token base url).
+     *
+     * @param basePath Base path of the URL (e.g {{{basePath}}} )
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+{{#hasOAuthMethods}}
+        resetRetryingOAuth();
+{{/hasOAuthMethods}}
         return this;
     }
 
@@ -400,7 +400,8 @@ public class ApiClient {
      * @return Map of authentication objects
      */
     public Map<String, Authentication> getAuthentications() {
-        return authentications;
+        // Prevent the authentications from being modified.
+        return Collections.unmodifiableMap(authentications);
     }
 
     {{#hasHttpBearerMethods}}
@@ -434,9 +435,16 @@ public class ApiClient {
     /**
      * Helper method to set username for the first HTTP basic authentication.
      *
+     * NOTE: It is recommended to call this method before setAccessToken, setBearerToken, setApiKey or getAuthentication(s)
+     * as it may reset the authentication configuration (by setting a new oauth token base url).
+     *
      * @param username Username
      */
     public void setUsername(String username) {
+{{#hasOAuthMethods}}
+        this.clientId = username;
+        resetRetryingOAuth();
+{{/hasOAuthMethods}}
         for (Authentication auth : authentications.values()) {
             if (auth instanceof HttpBasicAuth) {
                 ((HttpBasicAuth) auth).setUsername(username);
@@ -449,9 +457,16 @@ public class ApiClient {
     /**
      * Helper method to set password for the first HTTP basic authentication.
      *
+     * NOTE: It is recommended to call this method before setAccessToken, setBearerToken, setApiKey or getAuthentication(s)
+     * as it may reset the authentication configuration (by setting a new oauth token base url).
+     *
      * @param password Password
      */
     public void setPassword(String password) {
+{{#hasOAuthMethods}}
+        this.clientSecret = password;
+        resetRetryingOAuth();
+{{/hasOAuthMethods}}
         for (Authentication auth : authentications.values()) {
             if (auth instanceof HttpBasicAuth) {
                 ((HttpBasicAuth) auth).setPassword(password);
