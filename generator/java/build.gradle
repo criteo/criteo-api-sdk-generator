@@ -71,6 +71,7 @@ task generateClient(type: GradleBuild) {
             configOptions = [
                     groupId                  : 'com.criteo',
                     apiPackage               : "${namespaceBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
+                    modelPackage             : "${namespaceBase}.model".toString(),
                     artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     artifactId               : "criteo-api-${criteoService}-sdk".toString(), // criteo-api-marketingsolutions-sdk
                     artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110 
@@ -83,11 +84,9 @@ task generateClient(type: GradleBuild) {
                     hideGenerationTimestamp  : 'true',
                     licenseName              : 'Apache License, version 2.0',
                     licenseUrl               : 'https://www.apache.org/licenses/LICENSE-2.0.txt',
-                    modelPackage             : "${namespaceBase}.model".toString(),
                     scmConnection            : "scm:git:git://github.com/criteo/criteo-api-${language}-sdk.git".toString(),
                     scmDeveloperConnection   : "scm:git:ssh://github.com:criteo/criteo-api-${language}-sdk.git".toString(),
                     scmUrl                   : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
-		    packageVersion           : "${artifactVersion}".toString(), // 2021.10.0.211110 
             ]
         }
         def copyLicense = task("copyLicense_" + technologyStack + "_" + parsedApiName, type: Copy) {
