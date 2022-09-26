@@ -2372,7 +2372,7 @@
                     "Campaign"
                 ],
                 "description": "Gets the preferred line item for the given line item id",
-                "operationId": "GetApiV2ExternalPreferredLineItemByLineItemId",
+                "operationId": "LineItemsApi_GetApi202110ExternalPreferredLineItemByLineItemId",
                 "parameters": [
                     {
                         "name": "line-item-id",
@@ -2391,7 +2391,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                    "$ref": "#/components/schemas/PreferredLineItem202110Response"
                                 }
                             }
                         }
@@ -2401,7 +2401,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                    "$ref": "#/components/schemas/PreferredLineItem202110Response"
                                 }
                             }
                         }
@@ -4866,6 +4866,32 @@
                 "description": "Data model for a paged list of response resources",
                 "x-nullable": false
             },
+            "PreferredLineItem202110Response": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfPreferredLineItem202110"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
             "PreferredLineItemResponse": {
                 "type": "object",
                 "properties": {
@@ -4956,32 +4982,6 @@
                     }
                 },
                 "description": "Data model for a paged list of response resources",
-                "x-nullable": false
-            },
-            "PreferredLineItem202110Response": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ResourceOfPreferredLineItem202110"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for response resource",
                 "x-nullable": false
             },
             "Balance202110PagedListResponse": {
@@ -5348,6 +5348,24 @@
                 "description": "Data model for a Resource",
                 "x-nullable": false
             },
+            "ResourceOfPreferredLineItem202110": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalPreferredLineItem202110"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
             "ResourceOfPreferredLineItem": {
                 "type": "object",
                 "properties": {
@@ -5379,24 +5397,6 @@
                     },
                     "attributes": {
                         "$ref": "#/components/schemas/ExternalPromotedProduct202110"
-                    }
-                },
-                "description": "Data model for a Resource",
-                "x-nullable": false
-            },
-            "ResourceOfPreferredLineItem202110": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalPreferredLineItem202110"
                     }
                 },
                 "description": "Data model for a Resource",
@@ -6101,6 +6101,118 @@
                 "description": "A common line item to hold line item information shared between preferred and auction line items",
                 "x-nullable": false
             },
+            "ExternalPreferredLineItem202110": {
+                "required": [
+                    "name",
+                    "startDate",
+                    "endDate",
+                    "status",
+                    "pacing",
+                    "page",
+                    "targetRetailerId",
+                    "budget",
+                    "campaignId",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "startDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string",
+                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "status": {
+                        "enum": [
+                            "unknown",
+                            "active",
+                            "scheduled",
+                            "draft",
+                            "paused",
+                            "budgetHit",
+                            "ended",
+                            "archived",
+                            "noFunds"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "pacing": {
+                        "enum": [
+                            "unknown",
+                            "standard",
+                            "accelerated"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "capping": {
+                        "$ref": "#/components/schemas/ExternalLineItemCapping202110"
+                    },
+                    "page": {
+                        "$ref": "#/components/schemas/ExternalLineItemPage202110"
+                    },
+                    "targetRetailerId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budget": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "campaignId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": false
+                    },
+                    "budgetSpent": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "budgetRemaining": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "creativeId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": true
+                    }
+                },
+                "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
+                "x-nullable": false
+            },
             "ExternalPreferredLineItem": {
                 "required": [
                     "name",
@@ -6223,118 +6335,6 @@
                     }
                 },
                 "description": "identifies a promoted product",
-                "x-nullable": false
-            },
-            "ExternalPreferredLineItem202110": {
-                "required": [
-                    "name",
-                    "startDate",
-                    "endDate",
-                    "status",
-                    "pacing",
-                    "page",
-                    "targetRetailerId",
-                    "budget",
-                    "campaignId",
-                    "createdAt",
-                    "updatedAt"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "maxLength": 255,
-                        "minLength": 0,
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "startDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "endDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "status": {
-                        "enum": [
-                            "unknown",
-                            "active",
-                            "scheduled",
-                            "draft",
-                            "paused",
-                            "budgetHit",
-                            "ended",
-                            "archived",
-                            "noFunds"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "pacing": {
-                        "enum": [
-                            "unknown",
-                            "standard",
-                            "accelerated"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "capping": {
-                        "$ref": "#/components/schemas/ExternalLineItemCapping202110"
-                    },
-                    "page": {
-                        "$ref": "#/components/schemas/ExternalLineItemPage202110"
-                    },
-                    "targetRetailerId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "budget": {
-                        "type": "number",
-                        "format": "double",
-                        "x-nullable": false
-                    },
-                    "campaignId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "budgetSpent": {
-                        "type": "number",
-                        "format": "double",
-                        "x-nullable": false
-                    },
-                    "budgetRemaining": {
-                        "type": "number",
-                        "format": "double",
-                        "x-nullable": false
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "x-nullable": false
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "x-nullable": false
-                    },
-                    "creativeId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": true
-                    }
-                },
-                "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
                 "x-nullable": false
             },
             "ExternalBalance202110": {
@@ -7029,31 +7029,6 @@
                 "description": "Model used to create a preferred line item",
                 "x-nullable": false
             },
-            "ExternalLineItemCapping": {
-                "required": [
-                    "type",
-                    "count"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "enum": [
-                            "unknown",
-                            "day",
-                            "session"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Frequency capping for a preferred line item",
-                "x-nullable": false
-            },
             "ExternalLineItemCapping202110": {
                 "required": [
                     "type",
@@ -7116,6 +7091,31 @@
                     }
                 },
                 "description": "Page information for a preferred line item",
+                "x-nullable": false
+            },
+            "ExternalLineItemCapping": {
+                "required": [
+                    "type",
+                    "count"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "enum": [
+                            "unknown",
+                            "day",
+                            "session"
+                        ],
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int32",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Frequency capping for a preferred line item",
                 "x-nullable": false
             },
             "ExternalLineItemPageCategory202110": {
