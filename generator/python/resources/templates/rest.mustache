@@ -133,7 +133,7 @@ class RESTClientObject(object):
 
         if not no_auth:
             access_token = self.refresh_token(headers)
-            headers['Authorization'] = 'Bearer ' + ('' if access_token is None else access_token)
+            headers['Authorization'] = 'Bearer ' + (access_token or '')
 
         timeout = None
         if _request_timeout:
@@ -290,14 +290,14 @@ class RESTClientObject(object):
         missing_credentials = self.client_id is None or self.client_id == '' \
                               or self.client_secret is None or self.client_secret == ''
 
-        if self.token is not None and not self.token.is_valid_enough():
+        if self.token and not self.token.is_valid_enough():
             self.token = None
 
         if self.token is None:
-            if not missing_credentials:
-                self.token = self.call_auth_endpoint(headers)
-            else:
+            if missing_credentials:
                 return self.access_token
+
+            self.token = self.call_auth_endpoint(headers)
 
         return self.token.access_token
 
