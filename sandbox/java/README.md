@@ -9,4 +9,4 @@
 1. To get some examples, see API documentations (e.g. CatalogApi.md, AdvertiserApi.md, etc.)
 2. To compile again the source, without having to install all the sources again, run `mvn compile`
 3. To (re)install dependencies: `mvn install`
-4. The command may slitly differ on IOS/Linux environment
+4. The command may slightly differ on IOS/Linux environment
