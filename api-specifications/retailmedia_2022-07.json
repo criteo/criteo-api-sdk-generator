@@ -331,6 +331,54 @@
                 }
             }
         },
+        "/2022-07/retail-media/assets": {
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Creates an asset",
+                "operationId": "CreateAsset",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "AssetFile"
+                                ],
+                                "properties": {
+                                    "AssetFile": {
+                                        "type": "file",
+                                        "description": "The asset binary content"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/2022-07/retail-media/accounts/{accountId}/audiences": {
             "get": {
                 "tags": [
@@ -671,6 +719,49 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Create a creative for an account",
+                "operationId": "CreativesApi_PostApi202207ExternalAccountCreativesByAccountId",
+                "parameters": [
+                    {
+                        "name": "account-id",
+                        "in": "path",
+                        "description": "External account id to create a creative for",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The creative to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreativeCreateModel202207"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "creative"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Creatives created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Creative202207Response"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/2022-07/retail-media/categories": {
@@ -782,6 +873,187 @@
                         "description": "A non-request input based error occurred in the server.",
                         "content": {
                             "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/retail-media/retailers/{retailer-id}/templates": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Get retailer creative templates",
+                "operationId": "CreativesApi_GetApi202207ExternalRetailerTemplatesByRetailerId",
+                "parameters": [
+                    {
+                        "name": "retailer-id",
+                        "in": "path",
+                        "description": "External retailer id to retrieve creative templates for",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Templates found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TemplateListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/retail-media/retailers/{retailer-id}/templates/{template-id}": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Gets the template for the specified retailer id and template id",
+                "operationId": "CreativesApi_GetApi202207ExternalRetailerByRetailerId}Templates{templateId",
+                "parameters": [
+                    {
+                        "name": "retailer-id",
+                        "in": "path",
+                        "description": "Retailer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "template-id",
+                        "in": "path",
+                        "description": "Template Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template found for the retailer",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TemplateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/2022-07/retail-media/accounts/{account-id}/creatives/{creative-id}": {
+            "put": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Update a creative",
+                "operationId": "CreativesApi_PutApi202207ExternalAccountByAccountId}Creatives{creativeId",
+                "parameters": [
+                    {
+                        "name": "account-id",
+                        "in": "path",
+                        "description": "External account id containing the creative",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "creative-id",
+                        "in": "path",
+                        "description": "Creative to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The creative to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreativeUpdateModel202207"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "creative"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Creative202207Response"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Creative updated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Get the specified creative",
+                "operationId": "CreativesApi_GetApi202207ExternalAccountByAccountId}Creatives{creativeId",
+                "parameters": [
+                    {
+                        "name": "account-id",
+                        "in": "path",
+                        "description": "External account id to retrieve creatives for",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "creative-id",
+                        "in": "path",
+                        "description": "Creative to get",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creatives found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Creative202207Response"
+                                }
+                            }
                         }
                     }
                 }
@@ -2413,7 +2685,7 @@
                     "Campaign"
                 ],
                 "description": "Updates the preferred line item for the given line item id",
-                "operationId": "PutApiV2ExternalPreferredLineItemByLineItemId",
+                "operationId": "LineItemsApi_PutApi202110ExternalPreferredLineItemByLineItemId",
                 "parameters": [
                     {
                         "name": "line-item-id",
@@ -2431,7 +2703,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PreferredLineItemUpdateModelRequest"
+                                "$ref": "#/components/schemas/PreferredLineItemUpdateModel202110Request"
                             }
                         }
                     },
@@ -2444,7 +2716,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                    "$ref": "#/components/schemas/PreferredLineItem202110Response"
                                 }
                             }
                         }
@@ -2454,7 +2726,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                    "$ref": "#/components/schemas/PreferredLineItem202110Response"
                                 }
                             }
                         }
@@ -2962,54 +3234,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BalanceCampaign202110PagedListResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/2022-07/retail-media/assets": {
-            "post": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Creates an asset",
-                "operationId": "CreateAsset",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "AssetFile"
-                                ],
-                                "properties": {
-                                    "AssetFile": {
-                                        "type": "file",
-                                        "description": "The asset binary content"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Success",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AssetResponse"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AssetResponse"
-                                }
-                            },
-                            "text/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AssetResponse"
                                 }
                             }
                         }
@@ -3605,6 +3829,66 @@
                 "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
                 "x-nullable": false
             },
+            "AssetResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/AssetResource"
+                    },
+                    "warnings": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommonProblem"
+                        },
+                        "readOnly": true
+                    },
+                    "errors": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommonProblem"
+                        },
+                        "readOnly": true
+                    }
+                },
+                "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
+            },
+            "AssetResource": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/Asset"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                },
+                "description": "A class that represents an entity in a guild compliant way"
+            },
+            "Asset": {
+                "required": [
+                    "fileExtension"
+                ],
+                "type": "object",
+                "properties": {
+                    "fileExtension": {
+                        "type": "string",
+                        "description": "The file extension that is asset is representing. Example: jpg, png, gif or pdf."
+                    },
+                    "fileLocation": {
+                        "type": "string",
+                        "description": "A url pointing towards the static file the asset represents."
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives."
+            },
             "GetPageOfAudiencesByAccountIdResponse": {
                 "required": [
                     "data",
@@ -3983,6 +4267,32 @@
                 "description": "Data model for a list of response resources",
                 "x-nullable": false
             },
+            "Creative202207Response": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfCreative202207"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
             "Category202204ListResponse": {
                 "type": "object",
                 "properties": {
@@ -4040,6 +4350,62 @@
                 "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID",
                 "x-nullable": false
             },
+            "TemplateListResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceOfTemplate"
+                        },
+                        "x-nullable": false
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a list of response resources",
+                "x-nullable": false
+            },
+            "TemplateResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfTemplate"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
             "JsonApiRequestOfCatalogRequest": {
                 "type": "object",
                 "properties": {
@@ -4048,6 +4414,94 @@
                     }
                 },
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
+                "x-nullable": false
+            },
+            "CreativeCreateModel202207": {
+                "required": [
+                    "name",
+                    "retailerId",
+                    "templateId",
+                    "templateVariableValues"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the creative",
+                        "x-nullable": false
+                    },
+                    "brandId": {
+                        "type": "integer",
+                        "description": "The brand associated to the creative",
+                        "format": "int64",
+                        "x-nullable": false
+                    },
+                    "retailerId": {
+                        "type": "integer",
+                        "description": "The retailer associated to the creative",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "templateId": {
+                        "type": "integer",
+                        "description": "The creative template used for this creative",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "templateVariableValues": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TemplateVariableValue"
+                        },
+                        "description": "The template chosen values",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Create model of a creative",
+                "x-nullable": false
+            },
+            "CreativeUpdateModel202207": {
+                "required": [
+                    "name",
+                    "retailerId",
+                    "templateId",
+                    "templateVariableValues"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the creative",
+                        "x-nullable": false
+                    },
+                    "brandId": {
+                        "type": "integer",
+                        "description": "The brand associated to the creative",
+                        "format": "int64",
+                        "x-nullable": false
+                    },
+                    "retailerId": {
+                        "type": "integer",
+                        "description": "The retailer associated to the creative",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "templateId": {
+                        "type": "integer",
+                        "description": "The creative template used for this creative",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "templateVariableValues": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TemplateVariableValue"
+                        },
+                        "description": "The template chosen values",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Update model of a creative",
                 "x-nullable": false
             },
             "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
@@ -4152,11 +4606,47 @@
                 "description": "Data model for common error or warning",
                 "x-nullable": false
             },
+            "ResourceOfCreative202207": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/Creative202207"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
             "ResourceOfCategory202204": {
                 "type": "object",
                 "properties": {
                     "attributes": {
                         "$ref": "#/components/schemas/Category202204"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ResourceOfTemplate": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/Template"
                     },
                     "id": {
                         "type": "string",
@@ -4185,6 +4675,36 @@
                     }
                 },
                 "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
+                "x-nullable": false
+            },
+            "TemplateVariableValue": {
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The id of the template variable the value is applied to",
+                        "x-nullable": false
+                    },
+                    "textVariableValue": {
+                        "$ref": "#/components/schemas/TextVariableValue"
+                    },
+                    "choiceVariableValue": {
+                        "$ref": "#/components/schemas/ChoiceVariableValue"
+                    },
+                    "colorVariableValue": {
+                        "$ref": "#/components/schemas/ColorVariableValue"
+                    },
+                    "filesVariableValue": {
+                        "$ref": "#/components/schemas/FilesVariableValue"
+                    },
+                    "hyperlinkVariableValue": {
+                        "$ref": "#/components/schemas/HyperlinkVariableValue"
+                    }
+                },
+                "description": "A value for a variable in a creative template.",
                 "x-nullable": false
             },
             "ExternalCatalogStatus": {
@@ -4297,6 +4817,204 @@
                 "description": "Metadata and usage info of a preferred deals creative",
                 "x-nullable": false
             },
+            "Creative202207": {
+                "required": [
+                    "name",
+                    "status",
+                    "retailerId",
+                    "creativeFormatType",
+                    "environments",
+                    "templateVariableValues"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name",
+                        "x-nullable": false
+                    },
+                    "status": {
+                        "enum": [
+                            "Ready",
+                            "In_Use",
+                            "Archived",
+                            "Deleted"
+                        ],
+                        "type": "string",
+                        "description": "Creative Status",
+                        "x-nullable": false
+                    },
+                    "brandId": {
+                        "type": "integer",
+                        "description": "Brand Id",
+                        "format": "int64",
+                        "x-nullable": true
+                    },
+                    "retailerId": {
+                        "type": "integer",
+                        "description": "Retailer Id",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "associatedLineItemIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Associated Line Item Ids",
+                        "x-nullable": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "Updated at time",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "creativeFormatType": {
+                        "enum": [
+                            "Unknown",
+                            "FlagShip",
+                            "Showcase",
+                            "SponsoredProducts",
+                            "Butterfly",
+                            "BundleBoost",
+                            "IAB",
+                            "CUSTOM",
+                            "DisplayPanel",
+                            "DigitalShelfTalker"
+                        ],
+                        "type": "string",
+                        "description": "Creative format type",
+                        "x-nullable": false
+                    },
+                    "environments": {
+                        "type": "array",
+                        "items": {
+                            "enum": [
+                                "Web",
+                                "Mobile",
+                                "App"
+                            ],
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Environment type (e.g. mobile, web, app)",
+                        "x-nullable": false
+                    },
+                    "templateVariableValues": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TemplateVariableValue"
+                        },
+                        "description": "The template chosen values",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A creative entity",
+                "x-nullable": false
+            },
+            "Template": {
+                "required": [
+                    "creativeFormat",
+                    "name",
+                    "retailerId",
+                    "skuCollectionMin",
+                    "skuPerCollectionMin",
+                    "allCollectionsMandatory",
+                    "createdAt",
+                    "updatedAt",
+                    "sections"
+                ],
+                "type": "object",
+                "properties": {
+                    "creativeFormat": {
+                        "enum": [
+                            "Unknown",
+                            "FlagShip",
+                            "Showcase",
+                            "SponsoredProducts",
+                            "Butterfly",
+                            "BundleBoost",
+                            "IAB",
+                            "CUSTOM",
+                            "DisplayPanel",
+                            "DigitalShelfTalker"
+                        ],
+                        "type": "string",
+                        "description": "The kind of creative this template can be used to build.",
+                        "x-nullable": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the template",
+                        "x-nullable": false
+                    },
+                    "retailerId": {
+                        "type": "integer",
+                        "description": "The retailer associated to the template",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "skuCollectionMin": {
+                        "type": "integer",
+                        "description": "TODO: what is it ?",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "skuCollectionMax": {
+                        "type": "integer",
+                        "description": "TODO: what is it ?",
+                        "format": "int32",
+                        "x-nullable": true
+                    },
+                    "skuPerCollectionMin": {
+                        "type": "integer",
+                        "description": "TODO: what is it ?",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "skuPerCollectionMax": {
+                        "type": "integer",
+                        "description": "TODO: what is it ?",
+                        "format": "int32",
+                        "x-nullable": true
+                    },
+                    "displayableSkusMax": {
+                        "type": "integer",
+                        "description": "TODO: what is it ?",
+                        "format": "int32",
+                        "x-nullable": true
+                    },
+                    "allCollectionsMandatory": {
+                        "type": "boolean",
+                        "description": "TODO: what is it ?",
+                        "x-nullable": false
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "The time at which the template was created",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "The time at which the template was updated",
+                        "format": "date-time",
+                        "x-nullable": false
+                    },
+                    "sections": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Section"
+                        },
+                        "description": "The sections holding various template variables",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A template for creating creatives.",
+                "x-nullable": false
+            },
             "ExternalCatalogRequest": {
                 "type": "object",
                 "properties": {
@@ -4318,6 +5036,268 @@
                     }
                 },
                 "description": "A request for a catalog under the specified format. Currently \"json-newline\" is supported.",
+                "x-nullable": false
+            },
+            "TextVariableValue": {
+                "required": [
+                    "text"
+                ],
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "The displayed text",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A value of a template text variable",
+                "x-nullable": false
+            },
+            "ChoiceVariableValue": {
+                "required": [
+                    "chosenOptions"
+                ],
+                "type": "object",
+                "properties": {
+                    "chosenOptions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "The chosen options",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A value of a template choice variable (among different accepted options)",
+                "x-nullable": false
+            },
+            "ColorVariableValue": {
+                "required": [
+                    "color"
+                ],
+                "type": "object",
+                "properties": {
+                    "color": {
+                        "pattern": "^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$",
+                        "type": "string",
+                        "description": "The displayed color (HEX format)",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A value of a template color variable",
+                "x-nullable": false
+            },
+            "FilesVariableValue": {
+                "required": [
+                    "assetIds"
+                ],
+                "type": "object",
+                "properties": {
+                    "assetIds": {
+                        "minLength": 1,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "The assets representing the images to be displayed",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A value of a template file variable (one or several files), like images in a creative",
+                "x-nullable": false
+            },
+            "HyperlinkVariableValue": {
+                "required": [
+                    "url"
+                ],
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "The url to redirect to",
+                        "x-nullable": false
+                    }
+                },
+                "description": "A value of a template hyperlink variable",
+                "x-nullable": false
+            },
+            "Section": {
+                "required": [
+                    "title",
+                    "templateVariables"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "templateVariables": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TemplateVariable"
+                        },
+                        "x-nullable": false
+                    }
+                },
+                "description": "Section object that hold template variables",
+                "x-nullable": false
+            },
+            "TemplateVariable": {
+                "required": [
+                    "id",
+                    "required",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The id of the variable",
+                        "x-nullable": false
+                    },
+                    "required": {
+                        "type": "boolean",
+                        "description": "Whether the variable is required",
+                        "x-nullable": false
+                    },
+                    "type": {
+                        "enum": [
+                            "Text",
+                            "Choice",
+                            "Color",
+                            "Files",
+                            "Hyperlink"
+                        ],
+                        "type": "string",
+                        "description": "The type of the variable",
+                        "x-nullable": false
+                    },
+                    "choiceVariableSpecification": {
+                        "$ref": "#/components/schemas/ChoiceVariableSpecification"
+                    },
+                    "textVariableSpecification": {
+                        "$ref": "#/components/schemas/TextVariableSpecification"
+                    },
+                    "filesVariablesSpecification": {
+                        "$ref": "#/components/schemas/FilesVariablesSpecification"
+                    }
+                },
+                "description": "A variable in a creative template",
+                "x-nullable": false
+            },
+            "ChoiceVariableSpecification": {
+                "required": [
+                    "options"
+                ],
+                "type": "object",
+                "properties": {
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChoiceOption"
+                        },
+                        "description": "The available options",
+                        "x-nullable": false
+                    },
+                    "maxSelected": {
+                        "type": "integer",
+                        "description": "The maximum number of selectable options",
+                        "format": "int32",
+                        "x-nullable": true
+                    },
+                    "minSelected": {
+                        "type": "integer",
+                        "description": "The minimum number of selectable options",
+                        "format": "int32",
+                        "x-nullable": true
+                    }
+                },
+                "description": "Specification of choice variable",
+                "x-nullable": false
+            },
+            "TextVariableSpecification": {
+                "type": "object",
+                "properties": {
+                    "maxChars": {
+                        "type": "integer",
+                        "description": "The maximum amount of characters accepted for the text",
+                        "format": "int32",
+                        "x-nullable": true
+                    }
+                },
+                "description": "Specification of a text variable",
+                "x-nullable": false
+            },
+            "FilesVariablesSpecification": {
+                "required": [
+                    "extensions",
+                    "minFiles"
+                ],
+                "type": "object",
+                "properties": {
+                    "extensions": {
+                        "type": "array",
+                        "items": {
+                            "enum": [
+                                "Unknown",
+                                "Jpeg",
+                                "Png",
+                                "Gif",
+                                "Pdf"
+                            ],
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "The accepted file extensions",
+                        "x-nullable": false
+                    },
+                    "maxBytes": {
+                        "type": "integer",
+                        "description": "The maximum amount of bytes per file",
+                        "format": "int32",
+                        "x-nullable": true
+                    },
+                    "minFiles": {
+                        "type": "integer",
+                        "description": "The minimum amount of files requires",
+                        "format": "int32",
+                        "x-nullable": true
+                    },
+                    "maxFile": {
+                        "type": "integer",
+                        "description": "The maximum amount of files required",
+                        "format": "int32",
+                        "x-nullable": true
+                    }
+                },
+                "description": "Specification of a file variable",
+                "x-nullable": false
+            },
+            "ChoiceOption": {
+                "required": [
+                    "dependentVariables",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "dependentVariables": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TemplateVariable"
+                        },
+                        "description": "Template variables unblocked when the option is chosen",
+                        "x-nullable": false
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The id of the option",
+                        "x-nullable": false
+                    }
+                },
+                "description": "An option given in a choice",
                 "x-nullable": false
             },
             "EnvelopeReportStatus": {
@@ -4892,32 +5872,6 @@
                 "description": "Data model for response resource",
                 "x-nullable": false
             },
-            "PreferredLineItemResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ResourceOfPreferredLineItem"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for response resource",
-                "x-nullable": false
-            },
             "PromotedProduct202110PagedListResponse": {
                 "type": "object",
                 "properties": {
@@ -5050,31 +6004,6 @@
                 "description": "Data model for a paged list of response resources",
                 "x-nullable": false
             },
-            "AssetResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/AssetResource"
-                    },
-                    "warnings": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonProblem"
-                        },
-                        "readOnly": true
-                    },
-                    "errors": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonProblem"
-                        },
-                        "readOnly": true
-                    }
-                },
-                "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
-            },
             "KeywordTarget202110Request": {
                 "type": "object",
                 "properties": {
@@ -5199,11 +6128,11 @@
                 "description": "Data model for an input resource",
                 "x-nullable": false
             },
-            "PreferredLineItemUpdateModelRequest": {
+            "PreferredLineItemUpdateModel202110Request": {
                 "type": "object",
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/ResourceOfPreferredLineItemUpdateModel"
+                        "$ref": "#/components/schemas/ResourceOfPreferredLineItemUpdateModel202110"
                     }
                 },
                 "description": "Data model for an input resource",
@@ -5366,24 +6295,6 @@
                 "description": "Data model for a Resource",
                 "x-nullable": false
             },
-            "ResourceOfPreferredLineItem": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalPreferredLineItem"
-                    }
-                },
-                "description": "Data model for a Resource",
-                "x-nullable": false
-            },
             "ResourceOfPromotedProduct202110": {
                 "type": "object",
                 "properties": {
@@ -5437,21 +6348,6 @@
                 },
                 "description": "A class that represents an entity in a guild compliant way",
                 "x-nullable": false
-            },
-            "AssetResource": {
-                "type": "object",
-                "properties": {
-                    "attributes": {
-                        "$ref": "#/components/schemas/Asset"
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string"
-                    }
-                },
-                "description": "A class that represents an entity in a guild compliant way"
             },
             "ValueTypeResourceOfStoreIdsUpdateModel202110": {
                 "type": "object",
@@ -5567,7 +6463,7 @@
                 "description": "Data model for a Resource",
                 "x-nullable": false
             },
-            "ResourceOfPreferredLineItemUpdateModel": {
+            "ResourceOfPreferredLineItemUpdateModel202110": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -5579,7 +6475,7 @@
                         "description": "Canonical type name of the entity"
                     },
                     "attributes": {
-                        "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModel"
+                        "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModel202110"
                     }
                 },
                 "description": "Data model for a Resource",
@@ -6213,115 +7109,6 @@
                 "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
                 "x-nullable": false
             },
-            "ExternalPreferredLineItem": {
-                "required": [
-                    "name",
-                    "startDate",
-                    "endDate",
-                    "status",
-                    "pacing",
-                    "targetRetailerId",
-                    "campaignId",
-                    "budgetRemaining",
-                    "createdAt",
-                    "updatedAt"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "maxLength": 255,
-                        "minLength": 0,
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "startDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "endDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "status": {
-                        "enum": [
-                            "unknown",
-                            "active",
-                            "scheduled",
-                            "draft",
-                            "paused",
-                            "budgetHit",
-                            "ended",
-                            "archived",
-                            "noFunds"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "pacing": {
-                        "enum": [
-                            "unknown",
-                            "standard",
-                            "accelerated"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "capping": {
-                        "$ref": "#/components/schemas/ExternalLineItemCapping"
-                    },
-                    "targetRetailerId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "budget": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "campaignId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "budgetSpent": {
-                        "type": "number",
-                        "format": "double",
-                        "x-nullable": false
-                    },
-                    "budgetRemaining": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "x-nullable": false
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "x-nullable": false
-                    }
-                },
-                "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
-                "x-nullable": false
-            },
             "ExternalPromotedProduct202110": {
                 "type": "object",
                 "properties": {
@@ -6430,31 +7217,6 @@
                 "type": "object",
                 "description": "Campaigns related to the balance",
                 "x-nullable": false
-            },
-            "Asset": {
-                "required": [
-                    "fileExtension"
-                ],
-                "type": "object",
-                "properties": {
-                    "fileExtension": {
-                        "type": "string",
-                        "description": "The file extension that is asset is representing. Example: jpg, png, gif or pdf."
-                    },
-                    "fileLocation": {
-                        "type": "string",
-                        "description": "A url pointing towards the static file the asset represents."
-                    },
-                    "id": {
-                        "type": "string"
-                    }
-                },
-                "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives.",
-                "x-criteo-canonical": {
-                    "infoType": "entity",
-                    "name": "RetailMediaAsset",
-                    "version": "202110"
-                }
             },
             "ExternalStoreIdsUpdateModel202110": {
                 "required": [
@@ -6883,7 +7645,7 @@
                 "description": "Model to update a retail media auction line item",
                 "x-nullable": false
             },
-            "ExternalPreferredLineItemUpdateModel": {
+            "ExternalPreferredLineItemUpdateModel202110": {
                 "required": [
                     "name",
                     "startDate",
@@ -6940,7 +7702,20 @@
                         "x-nullable": false
                     },
                     "capping": {
-                        "$ref": "#/components/schemas/ExternalLineItemCapping"
+                        "$ref": "#/components/schemas/ExternalLineItemCapping202110"
+                    },
+                    "page": {
+                        "$ref": "#/components/schemas/ExternalLineItemPage202110"
+                    },
+                    "budget": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "creativeId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": true
                     }
                 },
                 "description": "Model used to update a preferred line item",
@@ -7091,31 +7866,6 @@
                     }
                 },
                 "description": "Page information for a preferred line item",
-                "x-nullable": false
-            },
-            "ExternalLineItemCapping": {
-                "required": [
-                    "type",
-                    "count"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "enum": [
-                            "unknown",
-                            "day",
-                            "session"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Frequency capping for a preferred line item",
                 "x-nullable": false
             },
             "ExternalLineItemPageCategory202110": {

@@ -673,6 +673,196 @@
                 }
             }
         },
+        "/2021-10/retail-media/reports/campaigns": {
+            "post": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Request a campaign report",
+                "operationId": "requestCampaignReport",
+                "requestBody": {
+                    "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the campaign id to select\n      \"ids\": Array[string], //the campaign ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EnvelopeReportRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the status of the report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnvelopeReportStatus"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequest"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Authorization or token invalid"
+                    },
+                    "403": {
+                        "description": "Must have access to RetailMedia accounts"
+                    }
+                }
+            }
+        },
+        "/2021-10/retail-media/reports/line-items": {
+            "post": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Request a line item report",
+                "operationId": "requestLineItemReport",
+                "requestBody": {
+                    "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the line item id to select\n      \"ids: Array[string] // the line item ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EnvelopeReportRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the status of the report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnvelopeReportStatus"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequest"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Authorization or token invalid"
+                    },
+                    "403": {
+                        "description": "Must have access to RetailMedia accounts"
+                    }
+                }
+            }
+        },
+        "/2021-10/retail-media/reports/{reportId}/output": {
+            "get": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Request the report output",
+                "operationId": "getReportOutput",
+                "parameters": [
+                    {
+                        "name": "reportId",
+                        "in": "path",
+                        "description": "report id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ee439121-13e3-4734-9f67-c504dd921a41"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The output",
+                        "headers": {
+                            "Content-Disposition": {
+                                "description": "Returns a filename for the output",
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "inline; filename=data_<reportId>.csv"
+                            }
+                        },
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Authorization or token invalid"
+                    },
+                    "403": {
+                        "description": "Must have access to RetailMedia accounts"
+                    },
+                    "404": {
+                        "description": "ReportId not found"
+                    }
+                }
+            }
+        },
+        "/2021-10/retail-media/reports/{reportId}/status": {
+            "get": {
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get the status of the report",
+                "operationId": "getReportStatus",
+                "parameters": [
+                    {
+                        "name": "reportId",
+                        "in": "path",
+                        "description": "report id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ee439121-13e3-4734-9f67-c504dd921a41"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the status of the report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnvelopeReportStatus"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Authorization or token invalid"
+                    },
+                    "403": {
+                        "description": "Must have access to RetailMedia accounts"
+                    },
+                    "404": {
+                        "description": "ReportId not found"
+                    }
+                }
+            }
+        },
         "/2021-10/retail-media/accounts/{accountId}/campaigns": {
             "get": {
                 "tags": [
@@ -1814,196 +2004,6 @@
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/2021-10/retail-media/reports/campaigns": {
-            "post": {
-                "tags": [
-                    "Analytics"
-                ],
-                "description": "Request a campaign report",
-                "operationId": "requestCampaignReport",
-                "requestBody": {
-                    "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the campaign id to select\n      \"ids\": Array[string], //the campaign ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EnvelopeReportRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Returns the status of the report",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EnvelopeReportStatus"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Missing Authorization or token invalid"
-                    },
-                    "403": {
-                        "description": "Must have access to RetailMedia accounts"
-                    }
-                }
-            }
-        },
-        "/2021-10/retail-media/reports/line-items": {
-            "post": {
-                "tags": [
-                    "Analytics"
-                ],
-                "description": "Request a line item report",
-                "operationId": "requestLineItemReport",
-                "requestBody": {
-                    "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the line item id to select\n      \"ids: Array[string] // the line item ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EnvelopeReportRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Returns the status of the report",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EnvelopeReportStatus"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Missing Authorization or token invalid"
-                    },
-                    "403": {
-                        "description": "Must have access to RetailMedia accounts"
-                    }
-                }
-            }
-        },
-        "/2021-10/retail-media/reports/{reportId}/output": {
-            "get": {
-                "tags": [
-                    "Analytics"
-                ],
-                "description": "Request the report output",
-                "operationId": "getReportOutput",
-                "parameters": [
-                    {
-                        "name": "reportId",
-                        "in": "path",
-                        "description": "report id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "ee439121-13e3-4734-9f67-c504dd921a41"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "The output",
-                        "headers": {
-                            "Content-Disposition": {
-                                "description": "Returns a filename for the output",
-                                "required": true,
-                                "schema": {
-                                    "type": "string"
-                                },
-                                "example": "inline; filename=data_<reportId>.csv"
-                            }
-                        },
-                        "content": {
-                            "application/octet-stream": {
-                                "schema": {
-                                    "type": "integer"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Missing Authorization or token invalid"
-                    },
-                    "403": {
-                        "description": "Must have access to RetailMedia accounts"
-                    },
-                    "404": {
-                        "description": "ReportId not found"
-                    }
-                }
-            }
-        },
-        "/2021-10/retail-media/reports/{reportId}/status": {
-            "get": {
-                "tags": [
-                    "Analytics"
-                ],
-                "description": "Get the status of the report",
-                "operationId": "getReportStatus",
-                "parameters": [
-                    {
-                        "name": "reportId",
-                        "in": "path",
-                        "description": "report id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "ee439121-13e3-4734-9f67-c504dd921a41"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Returns the status of the report",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EnvelopeReportStatus"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Missing Authorization or token invalid"
-                    },
-                    "403": {
-                        "description": "Must have access to RetailMedia accounts"
-                    },
-                    "404": {
-                        "description": "ReportId not found"
                     }
                 }
             }
@@ -4083,6 +4083,269 @@
                 "description": "A request for a catalog under the specified format. Currently \"json-newline\" is supported.",
                 "x-nullable": false
             },
+            "EnvelopeReportStatus": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ReportStatus"
+                    }
+                },
+                "description": "Standard response envelope"
+            },
+            "BadRequest": {
+                "type": "object",
+                "properties": {
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Error"
+                        },
+                        "description": "The errors"
+                    }
+                },
+                "description": "Bad request errors"
+            },
+            "EnvelopeReportRequest": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ReportRequest"
+                    }
+                },
+                "description": "Standard response envelope"
+            },
+            "ReportStatus": {
+                "required": [
+                    "type",
+                    "id",
+                    "attributes"
+                ],
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/ReportStatusAttributes"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The reportId"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Always \"RetailMediaReportStatus\""
+                    }
+                },
+                "description": "Report Status"
+            },
+            "Error": {
+                "required": [
+                    "code",
+                    "type",
+                    "traceId",
+                    "instance"
+                ],
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/MapString"
+                    },
+                    "stackTrace": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology e.g. .Net, Scala, etc"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
+                    },
+                    "traceId": {
+                        "type": "string",
+                        "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
+                    },
+                    "type": {
+                        "enum": [
+                            "access-control",
+                            "authentication",
+                            "authorization",
+                            "availability",
+                            "deprecation",
+                            "quota",
+                            "validation"
+                        ],
+                        "type": "string",
+                        "description": "Type should be: \"validation\", \"unavailable, \"violation\", \"permission\", ..."
+                    }
+                },
+                "description": "Error"
+            },
+            "ReportRequest": {
+                "required": [
+                    "type",
+                    "attributes"
+                ],
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/ReportRequestAttributes"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Always \"RetailMediaReportRequest\""
+                    }
+                },
+                "description": "Report Request"
+            },
+            "ReportStatusAttributes": {
+                "required": [
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "createdAt": {
+                        "type": "string",
+                        "description": "Timestamp when the report started to execute",
+                        "format": "date-time"
+                    },
+                    "expiresAt": {
+                        "type": "string",
+                        "description": "Timestamp when the cached report will expire",
+                        "format": "date-time"
+                    },
+                    "fileSizeBytes": {
+                        "type": "integer",
+                        "description": "Total size of file, only populated on success",
+                        "format": "int64"
+                    },
+                    "md5Checksum": {
+                        "type": "string",
+                        "description": "The MD5 checksum of the content, only populated on success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Failure message, only populated on failure"
+                    },
+                    "rowCount": {
+                        "type": "integer",
+                        "description": "Rows of data in report, only populated on success",
+                        "format": "int64"
+                    },
+                    "status": {
+                        "enum": [
+                            "pending",
+                            "success",
+                            "failure",
+                            "expired"
+                        ],
+                        "type": "string",
+                        "description": "One of \"pending\", \"success\", \"failure\", or \"expired\""
+                    }
+                },
+                "description": "Report Status Attributes"
+            },
+            "MapString": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string"
+                },
+                "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)."
+            },
+            "ReportRequestAttributes": {
+                "required": [
+                    "reportType",
+                    "startDate",
+                    "endDate"
+                ],
+                "type": "object",
+                "properties": {
+                    "clickAttributionWindow": {
+                        "enum": [
+                            "7D",
+                            "14D",
+                            "30D"
+                        ],
+                        "type": "string",
+                        "description": "Defaults to value from campaign or one of \"7D\", \"14D\", or \"30D\". If specified, viewAttributionWindow must also be specified"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "description": "YYYY-MM-DD, must not be before startDate and not more than 100 days later",
+                        "format": "date"
+                    },
+                    "format": {
+                        "enum": [
+                            "csv",
+                            "json",
+                            "json-compact",
+                            "json-newline"
+                        ],
+                        "type": "string",
+                        "description": "One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\"",
+                        "default": "json"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The id of the campaign or line item.  Either 'id' or 'ids' must be specified, but not both"
+                    },
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The ids of the campaigns or line items.  Either 'id' or 'ids' must be specified, but not both"
+                    },
+                    "reportType": {
+                        "enum": [
+                            "summary",
+                            "keyword",
+                            "pageType",
+                            "productCategory",
+                            "product",
+                            "attributedTransactions"
+                        ],
+                        "type": "string",
+                        "description": "One of \"summary\", \"keyword\", \"pageType\", \"productCategory\", \"product\", or \"attributedTransactions\""
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "format": "date"
+                    },
+                    "timeZone": {
+                        "type": "string"
+                    },
+                    "viewAttributionWindow": {
+                        "enum": [
+                            "none",
+                            "1D",
+                            "7D",
+                            "14D",
+                            "30D"
+                        ],
+                        "type": "string",
+                        "description": "Defaults to value from campaign or one of \"none\", \"1D\", \"7D\", \"14D\", or \"30D\". If specified, must be less than clickAttributionWindow, which must also be specified."
+                    }
+                },
+                "description": "Report Request Attributes"
+            },
             "JsonApiPageResponseOfCampaign": {
                 "required": [
                     "data"
@@ -4420,6 +4683,110 @@
                 "description": "Data model for a paged list of response resources",
                 "x-nullable": false
             },
+            "KeywordTarget202110Response": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfKeywordTarget202110"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a value type resource outcome",
+                "x-nullable": false
+            },
+            "StoreTarget202110Response": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfStoreTarget202110"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a value type resource outcome",
+                "x-nullable": false
+            },
+            "AddToBasketTarget202110Response": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfAddToBasketTarget202110"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a value type resource outcome",
+                "x-nullable": false
+            },
+            "AudienceTarget202110Response": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfAudienceTarget202110"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a value type resource outcome",
+                "x-nullable": false
+            },
             "ExternalPostCampaign": {
                 "type": "object",
                 "properties": {
@@ -4506,6 +4873,76 @@
                     }
                 },
                 "description": "A class implementing the request of the Criteo API as described in API Guild Guidelines with a collection of entities as body\r\nhttps://criteo.atlassian.net/wiki/spaces/GUA/pages/1564541212/Response+Body+Guidelines",
+                "x-nullable": false
+            },
+            "KeywordTarget202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfKeywordTarget202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
+                "x-nullable": false
+            },
+            "StoreTarget202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfStoreTarget202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
+                "x-nullable": false
+            },
+            "StoreIdsUpdateModel202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfStoreIdsUpdateModel202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
+                "x-nullable": false
+            },
+            "AddToBasketTarget202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfAddToBasketTarget202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
+                "x-nullable": false
+            },
+            "AddToBasketIdsUpdateModel202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfAddToBasketIdsUpdateModel202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
+                "x-nullable": false
+            },
+            "AudienceTarget202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfAudienceTarget202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
+                "x-nullable": false
+            },
+            "AudienceIdsUpdateModel202110Request": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ValueTypeResourceOfAudienceIdsUpdateModel202110"
+                    }
+                },
+                "description": "Data model for a value type input resource",
                 "x-nullable": false
             },
             "JsonApiBodyWithIdOfInt64AndCampaignAndCampaign": {
@@ -4639,6 +5076,62 @@
                 "description": "A class that represents an entity in a guild compliant way",
                 "x-nullable": false
             },
+            "ValueTypeResourceOfKeywordTarget202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalKeywordTarget202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
+                "x-nullable": false
+            },
+            "ValueTypeResourceOfStoreTarget202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalStoreTarget202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
+                "x-nullable": false
+            },
+            "ValueTypeResourceOfAddToBasketTarget202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAddToBasketTarget202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
+                "x-nullable": false
+            },
+            "ValueTypeResourceOfAudienceTarget202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAudienceTarget202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
+                "x-nullable": false
+            },
             "JsonApiBodyWithoutIdOfCampaignAttributesAndCampaign": {
                 "required": [
                     "type"
@@ -4741,6 +5234,48 @@
                     }
                 },
                 "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ValueTypeResourceOfStoreIdsUpdateModel202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalStoreIdsUpdateModel202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
+                "x-nullable": false
+            },
+            "ValueTypeResourceOfAddToBasketIdsUpdateModel202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAddToBasketIdsUpdateModel202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
+                "x-nullable": false
+            },
+            "ValueTypeResourceOfAudienceIdsUpdateModel202110": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalAudienceIdsUpdateModel202110"
+                    }
+                },
+                "description": "Data model for a value type resource",
                 "x-nullable": false
             },
             "ExternalCampaign": {
@@ -5344,6 +5879,128 @@
                 "description": "Campaigns related to the balance",
                 "x-nullable": false
             },
+            "ExternalKeywordTarget202110": {
+                "required": [
+                    "keywords"
+                ],
+                "type": "object",
+                "properties": {
+                    "keywords": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "enum": [
+                                "unknown",
+                                "negativeExact",
+                                "negativeBroad"
+                            ],
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Keywords that targeting specifications exist for",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Identifies keyword targeting for a line item",
+                "x-nullable": false
+            },
+            "ExternalStoreTarget202110": {
+                "required": [
+                    "scope",
+                    "storeIds"
+                ],
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "enum": [
+                            "unknown",
+                            "include",
+                            "exclude"
+                        ],
+                        "type": "string",
+                        "description": "Scope of the store target",
+                        "x-nullable": false
+                    },
+                    "storeIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Store ids that should be targeted",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Identifies store targeting for a line item",
+                "x-nullable": false
+            },
+            "ExternalAddToBasketTarget202110": {
+                "required": [
+                    "scope"
+                ],
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "enum": [
+                            "unknown",
+                            "include",
+                            "exclude"
+                        ],
+                        "type": "string",
+                        "description": "Scope of the add to basket target",
+                        "x-nullable": false
+                    },
+                    "productIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Product ids that add to basket should target",
+                        "x-nullable": false
+                    },
+                    "categoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Category ids that add to basket should target",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Identifies add to basket targeting for a line item",
+                "x-nullable": false
+            },
+            "ExternalAudienceTarget202110": {
+                "required": [
+                    "scope",
+                    "audienceIds"
+                ],
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "enum": [
+                            "unknown",
+                            "include",
+                            "exclude"
+                        ],
+                        "type": "string",
+                        "description": "Scope of the audience target",
+                        "x-nullable": false
+                    },
+                    "audienceIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "long-id"
+                        },
+                        "description": "Audience ids that should be targeted",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Identifies audience targeting for a line item",
+                "x-nullable": false
+            },
             "ExternalCampaignAttributes": {
                 "required": [
                     "name"
@@ -5867,6 +6524,69 @@
                 "description": "Model used to create a preferred line item",
                 "x-nullable": false
             },
+            "ExternalStoreIdsUpdateModel202110": {
+                "required": [
+                    "storeIds"
+                ],
+                "type": "object",
+                "properties": {
+                    "storeIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Store ids that should be targeted",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Update model for updating store target ids",
+                "x-nullable": false
+            },
+            "ExternalAddToBasketIdsUpdateModel202110": {
+                "type": "object",
+                "properties": {
+                    "productIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Product ids that add to basket should target",
+                        "x-nullable": false
+                    },
+                    "categoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "Category ids that add to basket should target",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Update model for updating add to basket target ids",
+                "x-nullable": false
+            },
+            "ExternalAudienceIdsUpdateModel202110": {
+                "required": [
+                    "audienceIds"
+                ],
+                "type": "object",
+                "properties": {
+                    "audienceIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "long-id"
+                        },
+                        "description": "Audience ids that should be targeted",
+                        "x-nullable": false
+                    }
+                },
+                "description": "Update model for updating audience target ids",
+                "x-nullable": false
+            },
             "ExternalLineItemCapping202110": {
                 "required": [
                     "type",
@@ -5948,726 +6668,6 @@
                     }
                 },
                 "description": "Category information for a preferred line item page",
-                "x-nullable": false
-            },
-            "EnvelopeReportStatus": {
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ReportStatus"
-                    }
-                },
-                "description": "Standard response envelope"
-            },
-            "BadRequest": {
-                "type": "object",
-                "properties": {
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Error"
-                        },
-                        "description": "The errors"
-                    }
-                },
-                "description": "Bad request errors"
-            },
-            "EnvelopeReportRequest": {
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ReportRequest"
-                    }
-                },
-                "description": "Standard response envelope"
-            },
-            "ReportStatus": {
-                "required": [
-                    "type",
-                    "id",
-                    "attributes"
-                ],
-                "type": "object",
-                "properties": {
-                    "attributes": {
-                        "$ref": "#/components/schemas/ReportStatusAttributes"
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "The reportId"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Always \"RetailMediaReportStatus\""
-                    }
-                },
-                "description": "Report Status"
-            },
-            "Error": {
-                "required": [
-                    "code",
-                    "type",
-                    "traceId",
-                    "instance"
-                ],
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "type": "string",
-                        "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
-                    },
-                    "detail": {
-                        "type": "string",
-                        "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
-                    },
-                    "instance": {
-                        "type": "string",
-                        "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
-                    },
-                    "source": {
-                        "$ref": "#/components/schemas/MapString"
-                    },
-                    "stackTrace": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology e.g. .Net, Scala, etc"
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
-                    },
-                    "traceId": {
-                        "type": "string",
-                        "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
-                    },
-                    "type": {
-                        "enum": [
-                            "access-control",
-                            "authentication",
-                            "authorization",
-                            "availability",
-                            "deprecation",
-                            "quota",
-                            "validation"
-                        ],
-                        "type": "string",
-                        "description": "Type should be: \"validation\", \"unavailable, \"violation\", \"permission\", ..."
-                    }
-                },
-                "description": "Error"
-            },
-            "ReportRequest": {
-                "required": [
-                    "type",
-                    "attributes"
-                ],
-                "type": "object",
-                "properties": {
-                    "attributes": {
-                        "$ref": "#/components/schemas/ReportRequestAttributes"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Always \"RetailMediaReportRequest\""
-                    }
-                },
-                "description": "Report Request"
-            },
-            "ReportStatusAttributes": {
-                "required": [
-                    "status"
-                ],
-                "type": "object",
-                "properties": {
-                    "createdAt": {
-                        "type": "string",
-                        "description": "Timestamp when the report started to execute",
-                        "format": "date-time"
-                    },
-                    "expiresAt": {
-                        "type": "string",
-                        "description": "Timestamp when the cached report will expire",
-                        "format": "date-time"
-                    },
-                    "fileSizeBytes": {
-                        "type": "integer",
-                        "description": "Total size of file, only populated on success",
-                        "format": "int64"
-                    },
-                    "md5Checksum": {
-                        "type": "string",
-                        "description": "The MD5 checksum of the content, only populated on success"
-                    },
-                    "message": {
-                        "type": "string",
-                        "description": "Failure message, only populated on failure"
-                    },
-                    "rowCount": {
-                        "type": "integer",
-                        "description": "Rows of data in report, only populated on success",
-                        "format": "int64"
-                    },
-                    "status": {
-                        "enum": [
-                            "pending",
-                            "success",
-                            "failure",
-                            "expired"
-                        ],
-                        "type": "string",
-                        "description": "One of \"pending\", \"success\", \"failure\", or \"expired\""
-                    }
-                },
-                "description": "Report Status Attributes"
-            },
-            "MapString": {
-                "type": "object",
-                "additionalProperties": {
-                    "type": "string"
-                },
-                "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)."
-            },
-            "ReportRequestAttributes": {
-                "required": [
-                    "reportType",
-                    "startDate",
-                    "endDate"
-                ],
-                "type": "object",
-                "properties": {
-                    "clickAttributionWindow": {
-                        "enum": [
-                            "7D",
-                            "14D",
-                            "30D"
-                        ],
-                        "type": "string",
-                        "description": "Defaults to value from campaign or one of \"7D\", \"14D\", or \"30D\". If specified, viewAttributionWindow must also be specified"
-                    },
-                    "endDate": {
-                        "type": "string",
-                        "description": "YYYY-MM-DD, must not be before startDate and not more than 100 days later",
-                        "format": "date"
-                    },
-                    "format": {
-                        "enum": [
-                            "csv",
-                            "json",
-                            "json-compact",
-                            "json-newline"
-                        ],
-                        "type": "string",
-                        "description": "One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\"",
-                        "default": "json"
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "The id of the campaign or line item.  Either 'id' or 'ids' must be specified, but not both"
-                    },
-                    "ids": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The ids of the campaigns or line items.  Either 'id' or 'ids' must be specified, but not both"
-                    },
-                    "reportType": {
-                        "enum": [
-                            "summary",
-                            "keyword",
-                            "pageType",
-                            "productCategory",
-                            "product",
-                            "attributedTransactions"
-                        ],
-                        "type": "string",
-                        "description": "One of \"summary\", \"keyword\", \"pageType\", \"productCategory\", \"product\", or \"attributedTransactions\""
-                    },
-                    "startDate": {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "timeZone": {
-                        "type": "string"
-                    },
-                    "viewAttributionWindow": {
-                        "enum": [
-                            "none",
-                            "1D",
-                            "7D",
-                            "14D",
-                            "30D"
-                        ],
-                        "type": "string",
-                        "description": "Defaults to value from campaign or one of \"none\", \"1D\", \"7D\", \"14D\", or \"30D\". If specified, must be less than clickAttributionWindow, which must also be specified."
-                    }
-                },
-                "description": "Report Request Attributes"
-            },
-            "KeywordTarget202110Response": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfKeywordTarget202110"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for a value type resource outcome",
-                "x-nullable": false
-            },
-            "StoreTarget202110Response": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfStoreTarget202110"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for a value type resource outcome",
-                "x-nullable": false
-            },
-            "AddToBasketTarget202110Response": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfAddToBasketTarget202110"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for a value type resource outcome",
-                "x-nullable": false
-            },
-            "AudienceTarget202110Response": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfAudienceTarget202110"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for a value type resource outcome",
-                "x-nullable": false
-            },
-            "KeywordTarget202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfKeywordTarget202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "StoreTarget202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfStoreTarget202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "StoreIdsUpdateModel202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfStoreIdsUpdateModel202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "AddToBasketTarget202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfAddToBasketTarget202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "AddToBasketIdsUpdateModel202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfAddToBasketIdsUpdateModel202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "AudienceTarget202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfAudienceTarget202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "AudienceIdsUpdateModel202110Request": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ValueTypeResourceOfAudienceIdsUpdateModel202110"
-                    }
-                },
-                "description": "Data model for a value type input resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfKeywordTarget202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalKeywordTarget202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfStoreTarget202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalStoreTarget202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfAddToBasketTarget202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalAddToBasketTarget202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfAudienceTarget202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalAudienceTarget202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfStoreIdsUpdateModel202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalStoreIdsUpdateModel202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfAddToBasketIdsUpdateModel202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalAddToBasketIdsUpdateModel202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ValueTypeResourceOfAudienceIdsUpdateModel202110": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalAudienceIdsUpdateModel202110"
-                    }
-                },
-                "description": "Data model for a value type resource",
-                "x-nullable": false
-            },
-            "ExternalKeywordTarget202110": {
-                "required": [
-                    "keywords"
-                ],
-                "type": "object",
-                "properties": {
-                    "keywords": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "enum": [
-                                "unknown",
-                                "negativeExact",
-                                "negativeBroad"
-                            ],
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Keywords that targeting specifications exist for",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Identifies keyword targeting for a line item",
-                "x-nullable": false
-            },
-            "ExternalStoreTarget202110": {
-                "required": [
-                    "scope",
-                    "storeIds"
-                ],
-                "type": "object",
-                "properties": {
-                    "scope": {
-                        "enum": [
-                            "unknown",
-                            "include",
-                            "exclude"
-                        ],
-                        "type": "string",
-                        "description": "Scope of the store target",
-                        "x-nullable": false
-                    },
-                    "storeIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Store ids that should be targeted",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Identifies store targeting for a line item",
-                "x-nullable": false
-            },
-            "ExternalAddToBasketTarget202110": {
-                "required": [
-                    "scope"
-                ],
-                "type": "object",
-                "properties": {
-                    "scope": {
-                        "enum": [
-                            "unknown",
-                            "include",
-                            "exclude"
-                        ],
-                        "type": "string",
-                        "description": "Scope of the add to basket target",
-                        "x-nullable": false
-                    },
-                    "productIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Product ids that add to basket should target",
-                        "x-nullable": false
-                    },
-                    "categoryIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Category ids that add to basket should target",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Identifies add to basket targeting for a line item",
-                "x-nullable": false
-            },
-            "ExternalAudienceTarget202110": {
-                "required": [
-                    "scope",
-                    "audienceIds"
-                ],
-                "type": "object",
-                "properties": {
-                    "scope": {
-                        "enum": [
-                            "unknown",
-                            "include",
-                            "exclude"
-                        ],
-                        "type": "string",
-                        "description": "Scope of the audience target",
-                        "x-nullable": false
-                    },
-                    "audienceIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "format": "long-id"
-                        },
-                        "description": "Audience ids that should be targeted",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Identifies audience targeting for a line item",
-                "x-nullable": false
-            },
-            "ExternalStoreIdsUpdateModel202110": {
-                "required": [
-                    "storeIds"
-                ],
-                "type": "object",
-                "properties": {
-                    "storeIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Store ids that should be targeted",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Update model for updating store target ids",
-                "x-nullable": false
-            },
-            "ExternalAddToBasketIdsUpdateModel202110": {
-                "type": "object",
-                "properties": {
-                    "productIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Product ids that add to basket should target",
-                        "x-nullable": false
-                    },
-                    "categoryIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "x-nullable": false
-                        },
-                        "description": "Category ids that add to basket should target",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Update model for updating add to basket target ids",
-                "x-nullable": false
-            },
-            "ExternalAudienceIdsUpdateModel202110": {
-                "required": [
-                    "audienceIds"
-                ],
-                "type": "object",
-                "properties": {
-                    "audienceIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "format": "long-id"
-                        },
-                        "description": "Audience ids that should be targeted",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Update model for updating audience target ids",
                 "x-nullable": false
             }
         },

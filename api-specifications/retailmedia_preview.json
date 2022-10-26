@@ -1767,6 +1767,214 @@
                     }
                 }
             }
+        },
+        "/preview/retail-media/line-items/{line-item-id}/product-buttons/{product-button-id}": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Get a single product button",
+                "operationId": "ProductButtons_GetApi202210ExternalLineItemProductButtonsByLineItemIdProductButtonId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "Long external id of the associated line item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "product-button-id",
+                        "in": "path",
+                        "description": "Sequential id of the product button",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductButtonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Update a product button",
+                "operationId": "ProductButtons_PutApi202210ExternalLineItemProductButtonsByLineItemIdProductButtonId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "Long external id of the associated line item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "product-button-id",
+                        "in": "path",
+                        "description": "Sequential id of the product button",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details of the updated product button",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductButtonRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "productButton"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductButtonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Delete a product button",
+                "operationId": "ProductButtons_DeleteApi202210ExternalLineItemProductButtonsByLineItemIdProductButtonId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "Long external id of the associated line item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "product-button-id",
+                        "in": "path",
+                        "description": "Sequential id of the product button",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/preview/retail-media/line-items/{line-item-id}/product-buttons": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Get all the product buttons associated with a line item",
+                "operationId": "ProductButtons_GetApi202210ExternalLineItemProductButtonsByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "Long external id of the associated line item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductButtonListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/preview/retail-media/line-items/{line-item-id}/product-buttons/create": {
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Append new product buttons to a line item",
+                "operationId": "ProductButtons_PostApi202210ExternalLineItemProductButtonsCreateByLineItemId",
+                "parameters": [
+                    {
+                        "name": "line-item-id",
+                        "in": "path",
+                        "description": "Long external id of the associated line item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "List of product buttons to append to the specified line item",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductButtonListRequest"
+                            }
+                        }
+                    },
+                    "x-nullable": false,
+                    "x-bodyName": "productButtons"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductButtonListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -4799,6 +5007,205 @@
                     }
                 },
                 "description": "Report Request Attributes"
+            },
+            "ProductButtonResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfProductButtonResponse"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for response resource",
+                "x-nullable": false
+            },
+            "ProductButtonListResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceOfProductButtonResponse"
+                        },
+                        "x-nullable": false
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        },
+                        "readOnly": true,
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a list of response resources",
+                "x-nullable": false
+            },
+            "ProductButtonRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ResourceOfProductButtonRequest"
+                    }
+                },
+                "description": "Data model for an input resource",
+                "x-nullable": false
+            },
+            "ProductButtonListRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceOfProductButtonRequest"
+                        },
+                        "x-nullable": false
+                    }
+                },
+                "description": "Data model for a list of input resources",
+                "x-nullable": false
+            },
+            "ResourceOfProductButtonResponse": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalProductButtonResponse"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    }
+                },
+                "description": "Data model for an output resource",
+                "x-nullable": false
+            },
+            "ResourceOfProductButtonRequest": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/ExternalProductButtonRequest"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Id of the entity"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Canonical type name of the entity"
+                    }
+                },
+                "description": "Data model for a Resource",
+                "x-nullable": false
+            },
+            "ExternalProductButtonResponse": {
+                "required": [
+                    "name",
+                    "backgroundImage",
+                    "rank",
+                    "isMandatory",
+                    "skus"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the Product Button",
+                        "x-nullable": false
+                    },
+                    "backgroundImage": {
+                        "type": "string",
+                        "description": "URL of the background image",
+                        "x-nullable": false
+                    },
+                    "rank": {
+                        "type": "integer",
+                        "description": "Rank of the Product Button",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "isMandatory": {
+                        "type": "integer",
+                        "description": "If the Product Button is Mandatory",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "skus": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "List of skus on the Product Button",
+                        "x-nullable": false
+                    }
+                },
+                "description": "The Product Button entity used for output",
+                "x-nullable": false
+            },
+            "ExternalProductButtonRequest": {
+                "required": [
+                    "name",
+                    "backgroundImage",
+                    "isMandatory",
+                    "skus"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the Product Button",
+                        "x-nullable": false
+                    },
+                    "backgroundImage": {
+                        "type": "string",
+                        "description": "URL of the background image",
+                        "x-nullable": false
+                    },
+                    "isMandatory": {
+                        "type": "integer",
+                        "description": "If the Product Button is Mandatory",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    "skus": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "x-nullable": false
+                        },
+                        "description": "List of skus on the Product Button",
+                        "x-nullable": false
+                    }
+                },
+                "description": "The Product Button entity used for input",
+                "x-nullable": false
             }
         },
         "securitySchemes": {

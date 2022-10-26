@@ -331,6 +331,54 @@
                 }
             }
         },
+        "/2022-04/retail-media/assets": {
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "description": "Creates an asset",
+                "operationId": "CreateAsset",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "AssetFile"
+                                ],
+                                "properties": {
+                                    "AssetFile": {
+                                        "type": "file",
+                                        "description": "The asset binary content"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/2022-04/retail-media/accounts/{accountId}/audiences": {
             "get": {
                 "tags": [
@@ -2413,7 +2461,7 @@
                     "Campaign"
                 ],
                 "description": "Updates the preferred line item for the given line item id",
-                "operationId": "PutApiV2ExternalPreferredLineItemByLineItemId",
+                "operationId": "LineItemsApi_PutApi202110ExternalPreferredLineItemByLineItemId",
                 "parameters": [
                     {
                         "name": "line-item-id",
@@ -2431,7 +2479,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PreferredLineItemUpdateModelRequest"
+                                "$ref": "#/components/schemas/PreferredLineItemUpdateModel202110Request"
                             }
                         }
                     },
@@ -2444,7 +2492,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                    "$ref": "#/components/schemas/PreferredLineItem202110Response"
                                 }
                             }
                         }
@@ -2454,7 +2502,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PreferredLineItemResponse"
+                                    "$ref": "#/components/schemas/PreferredLineItem202110Response"
                                 }
                             }
                         }
@@ -2962,54 +3010,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BalanceCampaign202110PagedListResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/2022-04/retail-media/assets": {
-            "post": {
-                "tags": [
-                    "Campaign"
-                ],
-                "description": "Creates an asset",
-                "operationId": "CreateAsset",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "AssetFile"
-                                ],
-                                "properties": {
-                                    "AssetFile": {
-                                        "type": "file",
-                                        "description": "The asset binary content"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Success",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AssetResponse"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AssetResponse"
-                                }
-                            },
-                            "text/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AssetResponse"
                                 }
                             }
                         }
@@ -3604,6 +3604,66 @@
                 },
                 "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
                 "x-nullable": false
+            },
+            "AssetResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/AssetResource"
+                    },
+                    "warnings": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommonProblem"
+                        },
+                        "readOnly": true
+                    },
+                    "errors": {
+                        "uniqueItems": false,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommonProblem"
+                        },
+                        "readOnly": true
+                    }
+                },
+                "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
+            },
+            "AssetResource": {
+                "type": "object",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/Asset"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                },
+                "description": "A class that represents an entity in a guild compliant way"
+            },
+            "Asset": {
+                "required": [
+                    "fileExtension"
+                ],
+                "type": "object",
+                "properties": {
+                    "fileExtension": {
+                        "type": "string",
+                        "description": "The file extension that is asset is representing. Example: jpg, png, gif or pdf."
+                    },
+                    "fileLocation": {
+                        "type": "string",
+                        "description": "A url pointing towards the static file the asset represents."
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives."
             },
             "GetPageOfAudiencesByAccountIdResponse": {
                 "required": [
@@ -4892,32 +4952,6 @@
                 "description": "Data model for response resource",
                 "x-nullable": false
             },
-            "PreferredLineItemResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ResourceOfPreferredLineItem"
-                    },
-                    "warnings": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProblemDetails"
-                        },
-                        "readOnly": true,
-                        "x-nullable": false
-                    }
-                },
-                "description": "Data model for response resource",
-                "x-nullable": false
-            },
             "PromotedProduct202110PagedListResponse": {
                 "type": "object",
                 "properties": {
@@ -5050,31 +5084,6 @@
                 "description": "Data model for a paged list of response resources",
                 "x-nullable": false
             },
-            "AssetResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/AssetResource"
-                    },
-                    "warnings": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonProblem"
-                        },
-                        "readOnly": true
-                    },
-                    "errors": {
-                        "uniqueItems": false,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommonProblem"
-                        },
-                        "readOnly": true
-                    }
-                },
-                "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
-            },
             "KeywordTarget202110Request": {
                 "type": "object",
                 "properties": {
@@ -5199,11 +5208,11 @@
                 "description": "Data model for an input resource",
                 "x-nullable": false
             },
-            "PreferredLineItemUpdateModelRequest": {
+            "PreferredLineItemUpdateModel202110Request": {
                 "type": "object",
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/ResourceOfPreferredLineItemUpdateModel"
+                        "$ref": "#/components/schemas/ResourceOfPreferredLineItemUpdateModel202110"
                     }
                 },
                 "description": "Data model for an input resource",
@@ -5366,24 +5375,6 @@
                 "description": "Data model for a Resource",
                 "x-nullable": false
             },
-            "ResourceOfPreferredLineItem": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Id of the entity"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Canonical type name of the entity"
-                    },
-                    "attributes": {
-                        "$ref": "#/components/schemas/ExternalPreferredLineItem"
-                    }
-                },
-                "description": "Data model for a Resource",
-                "x-nullable": false
-            },
             "ResourceOfPromotedProduct202110": {
                 "type": "object",
                 "properties": {
@@ -5437,21 +5428,6 @@
                 },
                 "description": "A class that represents an entity in a guild compliant way",
                 "x-nullable": false
-            },
-            "AssetResource": {
-                "type": "object",
-                "properties": {
-                    "attributes": {
-                        "$ref": "#/components/schemas/Asset"
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string"
-                    }
-                },
-                "description": "A class that represents an entity in a guild compliant way"
             },
             "ValueTypeResourceOfStoreIdsUpdateModel202110": {
                 "type": "object",
@@ -5567,7 +5543,7 @@
                 "description": "Data model for a Resource",
                 "x-nullable": false
             },
-            "ResourceOfPreferredLineItemUpdateModel": {
+            "ResourceOfPreferredLineItemUpdateModel202110": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -5579,7 +5555,7 @@
                         "description": "Canonical type name of the entity"
                     },
                     "attributes": {
-                        "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModel"
+                        "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModel202110"
                     }
                 },
                 "description": "Data model for a Resource",
@@ -6213,115 +6189,6 @@
                 "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
                 "x-nullable": false
             },
-            "ExternalPreferredLineItem": {
-                "required": [
-                    "name",
-                    "startDate",
-                    "endDate",
-                    "status",
-                    "pacing",
-                    "targetRetailerId",
-                    "campaignId",
-                    "budgetRemaining",
-                    "createdAt",
-                    "updatedAt"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "maxLength": 255,
-                        "minLength": 0,
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "startDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "endDate": {
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string",
-                        "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-                        "format": "date"
-                    },
-                    "status": {
-                        "enum": [
-                            "unknown",
-                            "active",
-                            "scheduled",
-                            "draft",
-                            "paused",
-                            "budgetHit",
-                            "ended",
-                            "archived",
-                            "noFunds"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "pacing": {
-                        "enum": [
-                            "unknown",
-                            "standard",
-                            "accelerated"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "capping": {
-                        "$ref": "#/components/schemas/ExternalLineItemCapping"
-                    },
-                    "targetRetailerId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "budget": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "campaignId": {
-                        "type": "string",
-                        "format": "long-id",
-                        "x-nullable": false
-                    },
-                    "budgetSpent": {
-                        "type": "number",
-                        "format": "double",
-                        "x-nullable": false
-                    },
-                    "budgetRemaining": {
-                        "required": [
-                            "false"
-                        ],
-                        "type": "number",
-                        "format": "decimal",
-                        "x-nullable": true
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "x-nullable": false
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "x-nullable": false
-                    }
-                },
-                "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
-                "x-nullable": false
-            },
             "ExternalPromotedProduct202110": {
                 "type": "object",
                 "properties": {
@@ -6430,31 +6297,6 @@
                 "type": "object",
                 "description": "Campaigns related to the balance",
                 "x-nullable": false
-            },
-            "Asset": {
-                "required": [
-                    "fileExtension"
-                ],
-                "type": "object",
-                "properties": {
-                    "fileExtension": {
-                        "type": "string",
-                        "description": "The file extension that is asset is representing. Example: jpg, png, gif or pdf."
-                    },
-                    "fileLocation": {
-                        "type": "string",
-                        "description": "A url pointing towards the static file the asset represents."
-                    },
-                    "id": {
-                        "type": "string"
-                    }
-                },
-                "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives.",
-                "x-criteo-canonical": {
-                    "infoType": "entity",
-                    "name": "RetailMediaAsset",
-                    "version": "202110"
-                }
             },
             "ExternalStoreIdsUpdateModel202110": {
                 "required": [
@@ -6883,7 +6725,7 @@
                 "description": "Model to update a retail media auction line item",
                 "x-nullable": false
             },
-            "ExternalPreferredLineItemUpdateModel": {
+            "ExternalPreferredLineItemUpdateModel202110": {
                 "required": [
                     "name",
                     "startDate",
@@ -6940,7 +6782,20 @@
                         "x-nullable": false
                     },
                     "capping": {
-                        "$ref": "#/components/schemas/ExternalLineItemCapping"
+                        "$ref": "#/components/schemas/ExternalLineItemCapping202110"
+                    },
+                    "page": {
+                        "$ref": "#/components/schemas/ExternalLineItemPage202110"
+                    },
+                    "budget": {
+                        "type": "number",
+                        "format": "double",
+                        "x-nullable": false
+                    },
+                    "creativeId": {
+                        "type": "string",
+                        "format": "long-id",
+                        "x-nullable": true
                     }
                 },
                 "description": "Model used to update a preferred line item",
@@ -7091,31 +6946,6 @@
                     }
                 },
                 "description": "Page information for a preferred line item",
-                "x-nullable": false
-            },
-            "ExternalLineItemCapping": {
-                "required": [
-                    "type",
-                    "count"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "enum": [
-                            "unknown",
-                            "day",
-                            "session"
-                        ],
-                        "type": "string",
-                        "x-nullable": false
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32",
-                        "x-nullable": false
-                    }
-                },
-                "description": "Frequency capping for a preferred line item",
                 "x-nullable": false
             },
             "ExternalLineItemPageCategory202110": {
