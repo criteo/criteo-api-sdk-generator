@@ -45,7 +45,7 @@ if DEBUG:
 	requests_log.setLevel(logging.DEBUG)
 	requests_log.propagate = True
 
-
+# prod and preprod are supplied through the environment variables (See README for more details)
 def get_workspace_data():
 	workspace_response = requests.get(GET_ALL_WORKSPACE_URL, headers=HEADER)
 	if workspace_response.status_code != 200:
@@ -53,6 +53,7 @@ def get_workspace_data():
 	workspace_response_json = workspace_response.json()
 	return workspace_response_json
 
+# the output from OpenApiToPostman needs to be wrapped to conform to the final postman spec
 def prepare_collection_data(read_collection_data, name):
 	collection_wrapper = {}
 	read_collection_data_json = json.loads(read_collection_data)
@@ -83,8 +84,8 @@ def create_collection(collection_name_to_update, file):
 				raise ValueError("Could not create Postman collections: "+str(collections_response.status_code))
 			f.close()
 
+#OpenApiToPostman can't work with absolute paths which is why we have to pass the root dir to the class
 def prepare_postman_specs_data():
-	
 	source_files = [f'{ROOT_SOURCE_SPECS_DIR}/{f}' for f in os.listdir(ROOT_SOURCE_SPECS_DIR) if os.path.isfile(f'{ROOT_SOURCE_SPECS_DIR}/{f}') and f'{ROOT_SOURCE_SPECS_DIR}/{f}'.endswith('json')]
 	postman_converter_instance = OpenApiToPostman(_filelist=source_files,_root_postman_specs_dir=ROOT_POSTMAN_SPECS_DIR)
 	postman_specification_files = postman_converter_instance.clean_convert_to_collection()
@@ -94,15 +95,25 @@ def prepare_postman_specs_data():
 
 
 def main():
+
+	"""
+	All postman specs that have been successfully converted from api-specification 
+	folder will be pushed into the target workspace. 
+	Pay attention to:
+	- solutions_naming_map. It contains a mapping between Postman
+	  collection names and Criteo services names to form a standard name. 
+	  It will need to be updated when CMAX is released in GA.
+	- If we don't find a collection with the standard name in the current 
+	  workspace and we see the spec in the local folder we will create 
+	  a new collection
+
+	"""
+
 	try:
-		# get all collections from the workspace
 
 		postman_specification_files = prepare_postman_specs_data()
-
 		solutions_naming_map = dict({CriteoService.marketingsolutions:"MS API", CriteoService.retailmedia:"RM API"})
-		
 		workspace_response_json = get_workspace_data()
-
 		for file in postman_specification_files:
 			create_flag = False
 			print('Updating/Creating collection: '+file)
