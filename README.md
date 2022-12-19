@@ -1,13 +1,16 @@
 [![Generate Java Sources](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_java_sources.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_java_sources.yml)
 [![Generate PHP Sources](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_php_sources.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_php_sources.yml)
 [![Generate Python Sources](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_python_sources.yml)
+[![Generate Postman Collections](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_and_push_postman.yml/badge.svg)](https://github.com/criteo/criteo-api-sdk-generator/actions/workflows/generate_and_push_postman.yml)
 
 # Criteo API - Clients
 
 This project generates code for the client libraries for [Criteo's API](https://developers.criteo.com/)
 * **Java**: the SDKs are available on the [criteo/criteo-api-java-sdk](https://github.com/criteo/criteo-api-java-sdk) repository and MavenCentral ([criteo-api-retailmedia-sdk](https://search.maven.org/artifact/com.criteo/criteo-api-retailmedia-sdk) and [criteo-api-marketingsolutions-sdk](https://search.maven.org/artifact/com.criteo/criteo-api-marketingsolutions-sdk))
 * **Python**: the SDKs are available on the [criteo/criteo-api-python-sdk](https://github.com/criteo/criteo-api-python-sdk) repository and on Pypi ([criteo-api-retailmedia-sdk](https://pypi.org/project/criteo-api-retailmedia-sdk/) and [criteo-api-marketingsolutions-sdk](https://pypi.org/project/criteo-api-marketingsolutions-sdk/))
-* **PHP**: the SDKs are available on the [criteo/criteo-api-retailmedia-php-sdk](https://github.com/criteo/criteo-api-retailmedia-php-sdk) and [criteo/criteo-api-marketingsolutions-php-sdk](https://github.com/criteo/criteo-api-marketingsolutions-php-sdk) repositories and on Packagist ([criteo-api-retailmedia-sdk](https://packagist.org/packages/criteo/criteo-api-retailmedia-sdk) and [criteo-api-marketingsolutions-sdk](https://packagist.org/packages/criteo/criteo-api-marketingsolutions-sdk))
+* **PHP**: the SDKs are available on the [criteo/criteo-api-retailmedia-php-sdk](https://github.com/criteo/criteo-api-retailmedia-php-sdk) and [criteo/criteo-api-marketingsolutions-php-sdk](https://github.com/criteo/criteo-api-marketingsolutions-php-sdk) repositories and on Packagist ([criteo-api-retailmedia-sdk](https://packagist.org/packages/criteo/criteo-api-retailmedia-sdk) and [criteo-api-marketingsolutions-sdk](https://packagist.org/packages/criteo/criteo-api-marketingsolutions-sdk)).
+
+In addition it generates Postman API documentation and publishes it [to the Criteo's Postman space](https://www.postman.com/realcriteo). If you are a user looking for more information about Criteo API on Postman please check [this guide](https://developers.criteo.com/marketing-solutions/docs/use-postman-with-the-criteo-marketing-solutions-api).
 
 ## Generate the clients
 
@@ -59,9 +62,24 @@ Each time a push is done, three separate actions for each of the languages are f
 - Generate Java Sources
 - Generate PHP Sources
 - Generate Python Sources
-Each of them generated output for every language.
+Each of workflows generates output for a respective language.
+Postman collections are generated only within Github Actions. 
+Postman generation workflow doesn't save artifacts, but instead publishes them
+directly  to the Criteo space on Postman. 
+If you would like to run Postman workflow generation locally you can also use
+[nektos/act](https://github.com/nektos/act) to ease automation and testing.
+
+To generate the Postman generation GitHub Action locally make sure Docker is installed and run:
+
+```bash 
+act -W .github/workflows/generate_and_push_postman.yml
+```
+
 There is also Generate All Sources action that is runnable on demand from Actions tab.
-After running a workflow artefact will be generated and available for download.
+
+After running a workflow:
+* artefacts will be generated and available for download.
+* Postman collections will be generated and published.
 
 ## Disclaimer
 
