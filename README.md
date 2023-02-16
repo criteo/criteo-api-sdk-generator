@@ -58,14 +58,24 @@ Otherwise some changes will not be applied by openapi-generator.
 
 
 ## Github Actions
-Each time a push is done, three separate actions for each of the languages are fired -
+Each time a push is done, three separate actions for each of the languages are fired :
 - Generate Java Sources
 - Generate PHP Sources
 - Generate Python Sources
+
 Each of workflows generates output for a respective language.
+
+There is also Generate All Sources action that is runnable on demand from Actions tab.
+
+After running a workflow:
+* artefacts will be generated and available for download.
+* Postman collections will be generated and published.
+
+### Postman collections
 Postman collections are generated only within Github Actions. 
-Postman generation workflow doesn't save artifacts, but instead publishes them
-directly  to the Criteo space on Postman. 
+
+The Postman generation workflow doesn't save artifacts, but instead publishes them
+directly  to the Criteo space on Postman.
 If you would like to run Postman workflow generation locally you can also use
 [nektos/act](https://github.com/nektos/act) to ease automation and testing.
 
@@ -75,11 +85,6 @@ To generate the Postman generation GitHub Action locally make sure Docker is ins
 act -W .github/workflows/generate_and_push_postman.yml
 ```
 
-There is also Generate All Sources action that is runnable on demand from Actions tab.
-
-After running a workflow:
-* artefacts will be generated and available for download.
-* Postman collections will be generated and published.
 
 ## Disclaimer
 
