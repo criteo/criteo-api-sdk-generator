@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:5.2.1"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:6.3.0"
     }
 }
 
@@ -62,7 +62,7 @@ task generateClient(type: GradleBuild) {
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
  
         def generateTask = task("openApiGenerate_" + language + "_" + parsedApiName, type: GenerateTask.class) {
-                generatorName = "python"
+                generatorName = "python-prior"
                 configFile = "$projectDir/generatorConfiguration.yaml".toString()
                 templateDir = "$resourcesDir/templates/".toString()
                 inputSpec = specPath
@@ -80,7 +80,7 @@ task generateClient(type: GradleBuild) {
                         packageName             : "${namespaceBase}".toString(),
                         packageUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
                         packageVersion          : "${artifactVersion}".toString(), // v2021_10.1.211109
-			projectName		: "criteo-api-${criteoService}-sdk".toString(),
+			            projectName		        : "criteo-api-${criteoService}-sdk".toString(),
                 ]
         }
 
