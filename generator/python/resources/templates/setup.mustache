@@ -1,12 +1,11 @@
-{{>partial_header}}
+# coding: utf-8
 
 from setuptools import setup, find_packages  # noqa: H301
 
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
 {{#apiInfo}}
-{{#apis}}
-{{#-last}}
+{{^hasMore}}
 # To install the library, run the following
 #
 # python setup.py install
@@ -14,21 +13,7 @@ VERSION = "{{packageVersion}}"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = [
-  "urllib3 >= 1.25.3",
-  "python-dateutil",
-{{#asyncio}}
-  "aiohttp >= 3.0.0",
-{{/asyncio}}
-{{#tornado}}
-  "tornado>=4.2,<5",
-{{/tornado}}
-{{#hasHttpSignatureMethods}}
-  "pem>=19.3.0",
-  "pycryptodome>=3.9.0",
-{{/hasHttpSignatureMethods}}
-]
-
+REQUIRES = ["urllib3 >= 1.25.3", "python-dateutil"]
 
 AUTHOR='Criteo'
 README_CONTENT_TYPE='text/markdown'
@@ -65,15 +50,13 @@ setup(
     name=NAME,
     version=VERSION,
     description="Criteo API SDK",
-    author=AUTHOR,
     author_email="{{infoEmail}}",
+    author=AUTHOR,
     url="{{packageUrl}}",
     keywords=[AUTHOR, "OpenAPI-Generator", "Criteo API SDK"],
-    python_requires="{{{generatorLanguageVersion}}}",
     install_requires=REQUIRES,
-    packages=find_packages(exclude=["test", "tests"]),
+    packages=find_packages(),
     include_package_data=True,
-    {{#licenseInfo}}license="{{.}}",
     long_description_content_type=README_CONTENT_TYPE,
     long_description=PACKAGE_LONG_DESCRIPTION,
     classifiers=[
@@ -84,7 +67,7 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries",
     ],
+    python_requires="{{{generatorLanguageVersion}}}",
 )
-{{/-last}}
-{{/apis}}
+{{/hasMore}}
 {{/apiInfo}}
