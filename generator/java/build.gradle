@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:5.2.1"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:6.3.0"
     }
 }
 
@@ -59,9 +59,16 @@ task generateClient(type: GradleBuild) {
        
         namespaceBase = "com." + namespaceBase; // 'com' is Java-specific => exmaple: com.criteo.api.marketingsolutions.v2021_10
 
+        // useful when you want templates to be part of the SDK generated
+        def sdkMainDir = 'src/main/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
+        def file = new File("$projectDir/generatorConfiguration.yaml")
+        def configFileForCriteoServiceVersion = new File("$projectDir/${criteoService}-${versionInNamespace}.yaml")
+        def configContent = file.text.replace('sdkFolder', sdkMainDir)
+        configFileForCriteoServiceVersion.text = configContent
+
         def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "$language".toString()
-            configFile = "$projectDir/generatorConfiguration.yaml".toString()
+            configFile = "$projectDir/${criteoService}-${versionInNamespace}.yaml".toString()
             templateDir = "$resourcesDir/templates/".toString()
             inputSpec = specPath
             outputDir = clientOutputDirPerVersion
@@ -87,6 +94,7 @@ task generateClient(type: GradleBuild) {
                     scmConnection            : "scm:git:git://github.com/criteo/criteo-api-${language}-sdk.git".toString(),
                     scmDeveloperConnection   : "scm:git:ssh://github.com:criteo/criteo-api-${language}-sdk.git".toString(),
                     scmUrl                   : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
+                    disallowAdditionalPropertiesIfNotPresent : 'false',
             ]
         }
         def copyLicense = task("copyLicense_" + technologyStack + "_" + parsedApiName, type: Copy) {
