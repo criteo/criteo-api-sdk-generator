@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import java.lang.*;
 
 import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiClientBuilder;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.ApiResponse;
@@ -26,9 +27,7 @@ public class GatewayApiTest {
         assertNotNull(clientSecret);
         assertNotNull(applicationId);
 
-        client = Configuration.getDefaultApiClient();
-        client.setUsername(clientId);
-        client.setPassword(clientSecret);
+        ApiClient client = ApiClientBuilder.ForClientCredentials(clientId, clientSecret);
     }
  
     @Test
