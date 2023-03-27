@@ -1,3 +1,4 @@
+import os
 from shared.utils import run_command, assert_environment_variable, get_logger
 
 class JavaSdkTestAction:
@@ -7,6 +8,10 @@ class JavaSdkTestAction:
 
   def execute(self, sdk_name):
     self.logger.info(f'Starting testing SDK {sdk_name}...')
+    self.logger.info("tempGT: varenv: " + str(len(os.environ.get("TEST_CLIENT_ID"))))
+    self.logger.info("tempGT: varenv: " + str(len(os.environ.get("TEST_CLIENT_SECRET"))))
+    self.logger.info("tempGT: varenv from util method: " + str(len(assert_environment_variable("TEST_CLIENT_ID"))))
+    self.logger.info("tempGT: varenv from util method: " + str(len(assert_environment_variable("TEST_CLIENT_SECRET"))))
 
     self.logger.info('Installing dependencies...')
     run_command('mvn install', error_template=self.java_error_template)

@@ -1,5 +1,6 @@
 import sys, getopt
 from os import path
+import os
 
 from shared.clients.fs_client import FsClient
 from shared.clients.os_client import OsClient
@@ -31,6 +32,8 @@ def run_tests(language):
     action.execute(sdk_name)
 
 def main():
+  print("tempGT: varenv in main: " + str(len(os.environ.get("TEST_CLIENT_ID"))))
+  print("tempGT: varenv in main: " + str(len(os.environ.get("TEST_CLIENT_SECRET"))))
   try:
     opts, _ = getopt.getopt(sys.argv[1:], "hl:", ["help","language="])
   except getopt.GetoptError:

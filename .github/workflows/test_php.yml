@@ -43,6 +43,14 @@ jobs:
         run: ./gradlew :generator:php:generateClient
         shell: bash
 
+      - name: Test get secrets
+        run: echo $TEST_CLIENT_ID | wc -c
+        env:
+          TEST_CLIENT_ID: ${{ secrets.SDK_TEST_CLIENT_ID }}
+          TEST_CLIENT_SECRET: ${{ secrets.SDK_TEST_CLIENT_SECRET }}
+          TEST_APPLICATION_ID: ${{ secrets.SDK_TEST_APPLICATION_ID }}
+        shell: bash
+
       - name: Test SDKs
         run: python ./scripts/test_sdk.py --language php
         env:

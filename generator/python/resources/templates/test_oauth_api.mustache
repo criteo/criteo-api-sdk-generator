@@ -17,9 +17,11 @@ class TestOAuthApi:
     self.client = ApiClient(Configuration(username=self.client_id, password=self.client_secret))
 
   def test_environment_variables(self):
+    #print("tempGT: " + str(len(self.client_id)))
     assert len(self.client_id) > 0, "Environment variable \"TEST_CLIENT_ID\" not found."
     assert len(self.client_secret) > 0, "Environment variable \"TEST_CLIENT_SECRET\" not found."
     assert len(self.application_id) > 0, "Environment variable \"TEST_APPLICATION_ID\" not found."
+    #assert 1 > 2, "break the test for troublshooting purposes"
 
   def test_get_token_should_succeed_with_valid_credentials(self):
     # Arrange

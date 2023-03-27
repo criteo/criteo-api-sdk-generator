@@ -1,7 +1,7 @@
 import os
 
 from shared.clients.fs_client import IFsClient
-from shared.utils import get_logger
+from shared.utils import run_command, assert_environment_variable, get_logger
 
 class PhpSdkTestAction:
   def __init__(self, fs_client: IFsClient):
@@ -10,6 +10,10 @@ class PhpSdkTestAction:
 
   def execute(self, sdk_name):
     self.logger.info(f'Starting testing SDK {sdk_name}...')
+    self.logger.info("tempGT: varenv: " + str(len(os.environ.get("TEST_CLIENT_ID"))))
+    self.logger.info("tempGT: varenv: " + str(len(os.environ.get("TEST_CLIENT_SECRET"))))
+    self.logger.info("tempGT: varenv from util method: " + str(len(assert_environment_variable("TEST_CLIENT_ID"))))
+    self.logger.info("tempGT: varenv from util method: " + str(len(assert_environment_variable("TEST_CLIENT_SECRET"))))
 
     self.logger.info('Installing dependencies...')
     exit_code = os.system('composer install')
