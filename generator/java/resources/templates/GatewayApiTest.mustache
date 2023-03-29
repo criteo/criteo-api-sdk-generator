@@ -1,8 +1,7 @@
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.*;
 
@@ -21,13 +20,13 @@ public class GatewayApiTest {
     private static String clientSecret = System.getenv("TEST_CLIENT_SECRET");
     private static Integer applicationId = Integer.parseInt(System.getenv("TEST_APPLICATION_ID"));
 
-    @Before
+    @BeforeEach
     public void setUp() {
         assertNotNull(clientId);
         assertNotNull(clientSecret);
         assertNotNull(applicationId);
 
-        ApiClient client = ApiClientBuilder.ForClientCredentials(clientId, clientSecret);
+        client = ApiClientBuilder.ForClientCredentials(clientId, clientSecret);
     }
  
     @Test
@@ -68,9 +67,9 @@ public class GatewayApiTest {
         GatewayApi api = new GatewayApi(new ApiClient());
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        ApiException exception = assertThrows(ApiException.class, () -> {
             api.getCurrentApplication();
         });
-        assertEquals("username or password is not present.", exception.getMessage());
+        assertTrue(exception.getMessage().contains("must be authenticated"));
     }
 }
