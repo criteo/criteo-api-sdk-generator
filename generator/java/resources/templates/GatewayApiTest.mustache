@@ -67,9 +67,9 @@ public class GatewayApiTest {
         GatewayApi api = new GatewayApi(new ApiClient());
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        ApiException exception = assertThrows(ApiException.class, () -> {
             api.getCurrentApplication();
         });
-        assertEquals("username or password is not present.", exception.getMessage());
+        assertTrue(exception.getMessage().contains("must be authenticated"));
     }
 }
