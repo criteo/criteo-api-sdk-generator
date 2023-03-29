@@ -12,8 +12,8 @@ public class App {
     public static void main(String[] args) {
         
         // Configure OAuth2, two options:
-        // 1. Set your credentials within the ApiClient, refresh token mechanism IS handled for you 💚
-        String clientId = "YOUR_CIENT_ID";
+        // 1. Use ApiClientBuilder to create the ApiClient with the credentials you want, refresh token mechanism IS handled for you 💚
+        String clientId = "YOUR_CLIENT_ID";
         String clientSecret = "YOUR_CLIENT_SECRET";
         ApiClient defaultClient = ApiClientBuilder.ForClientCredentials(clientId, clientSecret);
 
