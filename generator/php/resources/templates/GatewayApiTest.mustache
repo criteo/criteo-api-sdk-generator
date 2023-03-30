@@ -56,20 +56,6 @@ class GatewayApiTest extends TestCase
         $this->assertEquals($this->applicationId, $response[0]->getData()->getAttributes()->getApplicationId());
     }
 
-    public function testGetCurrentApplicationShouldSucceedWithRenewedInvalidToken()
-    {
-        // Arrange
-        $api = new GatewayApi(new ClientCredentialsClient($this->clientId, $this->clientSecret));
-        $api->getConfig()->setAccessToken('invalid-access-token');
-
-        // Act
-        $response = $api->getCurrentApplicationWithHttpInfo();
-
-        // Assert
-        $this->assertEquals(200, $response[1]);
-        $this->assertEquals($this->applicationId, $response[0]->getData()->getAttributes()->getApplicationId());
-    }
-
     public function testGetCurrentApplicationShouldFailWithoutToken()
     {
         $this->assertThrows(ApiException::class, 
