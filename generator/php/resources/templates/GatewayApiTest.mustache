@@ -56,6 +56,19 @@ class GatewayApiTest extends TestCase
         $this->assertEquals($this->applicationId, $response[0]->getData()->getAttributes()->getApplicationId());
     }
 
+    public function testGetCurrentApplicationAsyncShouldSucceedWithValidToken()
+    {
+        // Arrange
+        $api = new GatewayApi(new ClientCredentialsClient($this->clientId, $this->clientSecret));
+
+        // Act
+        $response = $api->getCurrentApplicationAsyncWithHttpInfo()->wait();
+
+        // Assert
+        $this->assertEquals(200, $response[1]);
+        $this->assertEquals($this->applicationId, $response[0]->getData()->getAttributes()->getApplicationId());
+    }
+
     public function testGetCurrentApplicationShouldFailWithoutToken()
     {
         $this->assertThrows(ApiException::class, 
