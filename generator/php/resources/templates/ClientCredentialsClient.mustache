@@ -59,13 +59,8 @@ class ClientCredentialsClient implements \GuzzleHttp\ClientInterface
      */
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
-        $requiresAuthentication = $request->getHeader(AUTHORIZATION) != null;
-        if (!$requiresAuthentication) {
-            return $this->client->send($request, $options);
-        } else {
-            $requestWithUpdatedAuthorizationHeader = $this->refreshToken($request);
-            return $this->client->send($requestWithUpdatedAuthorizationHeader, $options);
-        }
+        $requestWithUpdatedAuthorizationHeader = $this->refreshToken($request);
+        return $this->client->send($requestWithUpdatedAuthorizationHeader, $options);
     }
 
     /**
@@ -80,13 +75,8 @@ class ClientCredentialsClient implements \GuzzleHttp\ClientInterface
      */
     public function sendAsync(RequestInterface $request, array $options = []): PromiseInterface
     {
-        $requireAuthentication = $request->getHeader(AUTHORIZATION) != null;
-        if (!$requireAuthentication) {
-            return $this->client->sendAsync($request, $options);
-        } else {
-            $requestWithUpdatedAuthorizationHeader = $this->refreshToken($request);
-            return $this->client->sendAsync($requestWithUpdatedAuthorizationHeader, $options);
-        }
+        $requestWithUpdatedAuthorizationHeader = $this->refreshToken($request);
+        return $this->client->sendAsync($requestWithUpdatedAuthorizationHeader, $options);
     }
 
     /**
