@@ -93,4 +93,24 @@ class GatewayApiTest extends TestCase
             }
         );
     }
+
+    public function testGetCurrentApplicationShouldFailWithInvalidCredentials(){
+        $this->assertThrows(ApiException::class, 
+            function() {
+                // Arrange
+                $api = new GatewayApi(new ClientCredentialsClient("wrongClient", "wrongSecret12345678"));
+
+                // Act
+                $api->getCurrentApplicationWithHttpInfo();
+            },
+            function($exception) {
+                $body = json_decode((string) $exception->getResponseBody());
+            
+                // Assert
+                $this->assertEquals(401, $exception->getCode());
+                $this->assertEquals('invalid_client', $body->error);
+                $this->assertStringContainsString('client_id doesn\'t exist or the client_secret is invalid', $body->error_description);
+            }
+        );
+    }
 }
