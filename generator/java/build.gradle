@@ -34,9 +34,9 @@ task cleanPreviousJavaBuild(type: Delete) {
 task generateClient(type: GradleBuild) {
     group 'Criteo'
     description "Generate the {language.toUpperCase()} client using openapi-generator and custom templates".toString()
-	
+
     def taskList = [];
-    
+
 	rootProject.swaggerSourceList.each {
         def jsonFile = file(it.path);
         def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
@@ -44,30 +44,31 @@ task generateClient(type: GradleBuild) {
         def parsedApiName = it.getName().replace(".json", "").toLowerCase();
         def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
         def criteoApiVersion = apiVersionFromName.replace('-', '_');
-        
+
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
         def isPreviewVersion = criteoApiVersion == 'preview';
-  
+
         def versionInNamespace =  criteoApiVersion
         if (versionInNamespace.matches("[0-9].*"))
              versionInNamespace= "v" + versionInNamespace
-        
+
         def namespaceBase = "${criteoPackage}.${criteoService}.${versionInNamespace}".replace('.', nameSeparator).toString(); // example : criteo.api.marketingsolutions.v2021_10
 
         def artifactVersion = isPreviewVersion ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
-       
+
         namespaceBase = "com." + namespaceBase; // 'com' is Java-specific => example: com.criteo.api.marketingsolutions.v2021_10
 
         // useful when you want templates to be part of the SDK generated
         def sdkMainDir = 'src/main/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
+        def sdkTestDir = 'src/test/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
 
         def createConfig  = task("createConfig_${technologyStack}_" + parsedApiName) {
             mkdir "$buildDir"
             def file = new File("$projectDir/generatorConfiguration.yaml")
             def configFileForCriteoServiceVersion = new File("$buildDir/${criteoService}-${versionInNamespace}.yaml")
-            def configContent = file.text.replace('sdkFolder', sdkMainDir)
+            def configContent = file.text.replace('sdkFolder', sdkMainDir).replace('testFolder', sdkTestDir)
             configFileForCriteoServiceVersion.text = configContent
         }
         createConfig.dependsOn(cleanPreviousJavaBuild.name)
@@ -87,7 +88,7 @@ task generateClient(type: GradleBuild) {
                     modelPackage             : "${namespaceBase}.model".toString(),
                     artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     artifactId               : "criteo-api-${criteoService}-sdk".toString(), // criteo-api-marketingsolutions-sdk
-                    artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110 
+                    artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110
                     artifactUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
                     dateLibrary              : technologyStack.toString(),
                     developerName            : 'Criteo',
@@ -102,6 +103,9 @@ task generateClient(type: GradleBuild) {
                     scmUrl                   : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
                     disallowAdditionalPropertiesIfNotPresent : 'false',
             ]
+            additionalProperties = [
+                        sdkTestDir        : "${sdkTestDir}",
+                    ]
         }
         generateTask.dependsOn(createConfig.name)
 

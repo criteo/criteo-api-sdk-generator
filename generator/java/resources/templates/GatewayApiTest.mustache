@@ -1,3 +1,5 @@
+package {{invokerPackage}};
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,8 +10,9 @@ import java.lang.*;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiClientBuilder;
 import {{invokerPackage}}.ApiException;
-import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.ApiResponse;
+import {{invokerPackage}}.Configuration;
+import {{invokerPackage}}.ExampleApplication;
 import {{apiPackage}}.GatewayApi;
 import {{modelPackage}}.ApplicationSummaryModelResponse;
 
@@ -27,6 +30,12 @@ public class GatewayApiTest {
         assertNotNull(applicationId);
 
         client = ApiClientBuilder.ForClientCredentials(clientId, clientSecret);
+    }
+
+    @Test
+    public void testExampleWorks() throws ApiException {
+        // Act
+        ExampleApplication.CallTheApplicationEndpoint(clientId, clientSecret);
     }
  
     @Test
