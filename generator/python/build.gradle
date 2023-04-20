@@ -41,11 +41,11 @@ task generateClient(type: GradleBuild) {
 
     def taskList = ['cleanPreviousDist'];
 
-	rootProject.swaggerSourceList.each {
+    rootProject.swaggerSourceList.each {
         def jsonFile = file(it.path);
         def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
 
-		def parsedApiName = it.getName().replace(".json", "").toLowerCase();
+        def parsedApiName = it.getName().replace(".json", "").toLowerCase();
         def taskSuffix = language + "_" + parsedApiName
         def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
         def criteoApiVersion = apiVersionFromName.replace('-', '_');
@@ -62,38 +62,38 @@ task generateClient(type: GradleBuild) {
         
         def artifactVersion = isPreviewVersion ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
-		
-		def createConfig  = task("createConfig_" + taskSuffix, type: Copy)
-		{
-			mustRunAfter cleanPreviousDist
+
+        def createConfig  = task("createConfig_" + taskSuffix, type: Copy)
+       {
+            mustRunAfter cleanPreviousDist
             from "${projectDir}/generatorConfiguration.yaml"
             into "${buildDir}"
             rename  {filename -> namespaceBase + ".yaml" }
             filter { line -> line.replaceAll('%sdkFolder%', namespaceBase) }
         }
- 
+
         def generateTask = task("openApiGenerate_" + taskSuffix, type: GenerateTask.class) {
-			generatorName = "python-prior"
-			configFile = "${buildDir}/${namespaceBase}.yaml"
-			templateDir = "$resourcesDir/templates/".toString()
-			inputSpec = specPath
-			outputDir = clientOutputDirPerVersion
-			removeOperationIdPrefix = true
-			generateApiTests = false
-			generateModelTests = false
-			configOptions = [
-					groupId                 : 'criteo',
-					apiVersion              : "${artifactVersion}".toString(),
-					artifactId              : "criteo-api-${criteoService}-sdk".toString(),
-					description             : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
-					hideGenerationTimestamp : 'true',
-					invokerPackage          : 'Criteo\\SDK',
-					packageName             : "${namespaceBase}".toString(),
-					packageUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
-					packageVersion          : "${artifactVersion}".toString(), // v2021_10.1.211109
-					projectName             : "criteo-api-${criteoService}-sdk".toString(),
-			]
-			mustRunAfter createConfig
+            generatorName = "python-prior"
+            configFile = "${buildDir}/${namespaceBase}.yaml"
+            templateDir = "$resourcesDir/templates/".toString()
+            inputSpec = specPath
+            outputDir = clientOutputDirPerVersion
+            removeOperationIdPrefix = true
+            generateApiTests = false
+            generateModelTests = false
+            configOptions = [
+                    groupId                 : 'criteo',
+                    apiVersion              : "${artifactVersion}".toString(),
+                    artifactId              : "criteo-api-${criteoService}-sdk".toString(),
+                    description             : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
+                    hideGenerationTimestamp : 'true',
+                    invokerPackage          : 'Criteo\\SDK',
+                    packageName             : "${namespaceBase}".toString(),
+                    packageUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
+                    packageVersion          : "${artifactVersion}".toString(), // v2021_10.1.211109
+                    projectName             : "criteo-api-${criteoService}-sdk".toString(),
+            ]
+            mustRunAfter createConfig
         }
 
         def copyLicense = task("copyLicense_" + taskSuffix, type: Copy) {
