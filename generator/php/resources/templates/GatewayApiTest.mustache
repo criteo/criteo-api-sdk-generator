@@ -5,6 +5,7 @@ use {{invokerPackage}}\Api\GatewayApi;
 use {{invokerPackage}}\ClientCredentialsClient;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\ObjectSerializer;
+use {{invokerPackage}}\test\ExampleApplication;
 use Jchook\AssertThrows\AssertThrows;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +31,7 @@ class GatewayApiTest extends TestCase
     function __construct()
     {
         parent::__construct();
-        
+
         $this->clientId = $_SERVER["TEST_CLIENT_ID"];
         $this->clientSecret = $_SERVER["TEST_CLIENT_SECRET"];
         $this->applicationId = (int) $_SERVER["TEST_APPLICATION_ID"];
@@ -41,6 +42,12 @@ class GatewayApiTest extends TestCase
         $this->assertNotNull($this->clientId);
         $this->assertNotNull($this->clientSecret);
         $this->assertNotNull($this->applicationId);
+    }
+
+    public function testExampleWorks()
+    {
+        $example = new ExampleApplication();
+        $example->CallTheApplicationEndpoint($this->clientId, $this->clientSecret);
     }
 
     public function testGetCurrentApplicationShouldSucceedWithValidToken()
@@ -71,7 +78,7 @@ class GatewayApiTest extends TestCase
 
     public function testGetCurrentApplicationShouldFailWithoutToken()
     {
-        $this->assertThrows(ApiException::class, 
+        $this->assertThrows(ApiException::class,
             function() {
                 // Arrange
                 $api = new GatewayApi();
@@ -95,7 +102,7 @@ class GatewayApiTest extends TestCase
     }
 
     public function testGetCurrentApplicationShouldFailWithInvalidCredentials(){
-        $this->assertThrows(ApiException::class, 
+        $this->assertThrows(ApiException::class,
             function() {
                 // Arrange
                 $api = new GatewayApi(new ClientCredentialsClient("wrongClient", "wrongSecret12345678"));
@@ -105,7 +112,7 @@ class GatewayApiTest extends TestCase
             },
             function($exception) {
                 $body = json_decode((string) $exception->getResponseBody());
-            
+
                 // Assert
                 $this->assertEquals(401, $exception->getCode());
                 $this->assertEquals('invalid_client', $body->error);
