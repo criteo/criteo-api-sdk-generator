@@ -5,22 +5,15 @@ import sys
 from pprint import pprint
 
 from {{packageName}}.api.advertiser_api import AdvertiserApi 
-
-from {{packageName}} import Configuration, ApiClient
+from {{packageName}} import ApiClientBuilder
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        raise ValueError("You need to specify the CLIENT_ID and the CLIENT_SECRET")
+        raise ValueError("You need to provide 2 arguments : CLIENT_ID and CLIENT_SECRET")
+    
+    client = ApiClientBuilder.WithClientCredentials(clientId=sys.argv[1], clientSecret=sys.argv[2])
 
-    configuration = Configuration(username=sys.argv[1], password=sys.argv[2])
-
-    # Enable/Disable debug httplib and criteo_marketing packages
-    # logging.basicConfig(level=logging.DEBUG)
-    # configuration.debug = True
-
-    client = ApiClient(configuration)
-
-    # Reuse the same client to benefit from the configuration in order to automatically refresh expired token
+    # Reuse the same client to benefit automatically from token refresh
     api = AdvertiserApi(client)
 
     portfolio_response = api.api_portfolio_get()
