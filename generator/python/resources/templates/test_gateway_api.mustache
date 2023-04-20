@@ -4,6 +4,7 @@ import os
 from {{packageName}}.api.gateway_api import GatewayApi
 from {{packageName}}.api_client_builder import ApiClientBuilder
 from {{packageName}}.rest import ApiException
+from example_application import ExampleApplication
 
 class TestGatewayApi:
   @pytest.fixture(autouse=True)
@@ -18,6 +19,11 @@ class TestGatewayApi:
     assert len(self.client_id) > 0, "Environment variable \"TEST_CLIENT_ID\" not found."
     assert len(self.client_secret) > 0, "Environment variable \"TEST_CLIENT_SECRET\" not found."
     assert self.application_id > 0, "Environment variable \"TEST_APPLICATION_ID\" not found."
+
+  def test_example_works(self):
+    # Arrange
+    exampleApplication = ExampleApplication()
+    exampleApplication.call_then_application_endpoint(self.client_id, self.client_secret)
 
   def test_get_current_application_should_succeed_with_valid_token(self):
     # Arrange
