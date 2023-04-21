@@ -93,7 +93,7 @@ class RetryingAuthorizationCode(RetryingOAuth):
 
     def refresh_token(self, client : ApiClient, headers, parameters_dict= {}):  
         params = dict(parameters_dict, **{
-            'authorization_code' : self.authorization_code,
+            'code' : self.authorization_code,
             'redirect_uri' : self.redirect_uri
         })
         return super().refresh_token(client, headers, params)
