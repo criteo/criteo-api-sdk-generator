@@ -1,25 +1,19 @@
 import time
-import criteo_api_marketingsolutions_v2022_07
+import criteo_api_marketingsolutions_v2022_07 import ApiClientBuilder
 from criteo_api_marketingsolutions_v2022_07.api import advertiser_api
 from criteo_api_marketingsolutions_v2022_07.model.get_portfolio_response import GetPortfolioResponse
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://api.criteo.com
-# See configuration.py for a list of all supported configuration parameters.
-configuration = criteo_api_marketingsolutions_v2022_07.Configuration(
     host = "https://api.criteo.com"
-)
 
-# Configure OAuth2, two options:
-# 1. Set your credentials within the ApiClient, refresh token mechanism IS handled for you 💚
-configuration.username = 'YOUR_CLIENT_ID'
-configuration.password = 'YOUR_CLIENT_SECRET'
-
-# Set your access token manually, refresh token mechanism IS NOT handled by the client
-# configuration.access_token = 'YOUT_TOKEN'
+# Configure OAuth2 with client credentials
+# refresh token mechanism IS handled for you 💚
+clientId = 'YOUR_CLIENT_ID'
+clientSecret = 'YOUR_CLIENT_SECRET'
 
 # Enter a context with an instance of the API client
-with criteo_api_marketingsolutions_v2022_07.ApiClient(configuration) as api_client:
+with criteo_api_marketingsolutions_v2022_07.ApiClientBuilder.WithClientCredentials(clientId, clientSecret, host) as api_client:
     # Create an instance of the API class
     api_instance = advertiser_api.AdvertiserApi(api_client)
 

@@ -1,5 +1,6 @@
 from {{packageName}}.rest import RESTClientObject
 from {{packageName}}.criteo_auth import *
+from {{packageName}} import flow_constants
 
 
 class CriteoRESTClientObject(RESTClientObject):
@@ -12,11 +13,11 @@ class CriteoRESTClientObject(RESTClientObject):
         client_secret = configuration.password
 
         grant_type = additional_parameters.get('flow', 'client_credentials')
-        if grant_type == 'authorization_code' :
+        if grant_type == flow_constants.AUTHORIZATION_CODE_FLOW :
             self.authorization = RetryingAuthorizationCode(
                 client_id,
                 client_secret, 
-                additional_parameters.get('autorization_code',''),
+                additional_parameters.get('authorization_code',''),
                 additional_parameters.get('redirect_uri','')
             )
         else:
