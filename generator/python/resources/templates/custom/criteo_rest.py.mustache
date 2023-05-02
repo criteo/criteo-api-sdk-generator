@@ -20,6 +20,12 @@ class CriteoRESTClientObject(RESTClientObject):
                 additional_parameters.get('authorization_code',''),
                 additional_parameters.get('redirect_uri','')
             )
+        elif grant_type == flow_constants.REFRESH_TOKEN_FLOW :
+             self.authorization = RetryingRefreshToken(
+                  client_id,
+                  client_secret,
+                  additional_parameters.get('refresh_token', '')
+             )
         else:
             self.authorization = RetryingClientCredentials(
                 client_id,

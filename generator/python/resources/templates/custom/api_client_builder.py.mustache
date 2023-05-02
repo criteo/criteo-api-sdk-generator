@@ -25,3 +25,13 @@ class ApiClientBuilder :
         }
         
         return CriteoApiClient(configuration = configuration, additional_parameters = additional_parameters)
+
+    @staticmethod
+    def WithRefreshToken(clientId, clientSecret, refreshToken):
+        configuration = Configuration(username=clientId, password=clientSecret)
+        additional_parameters = {
+            'flow' : flow_constants.REFRESH_TOKEN_FLOW,
+            'refresh_token': refreshToken
+        }
+
+        return CriteoApiClient(configuration = configuration, additional_parameters = additional_parameters)
