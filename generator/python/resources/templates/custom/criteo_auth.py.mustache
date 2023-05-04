@@ -35,6 +35,8 @@ class RetryingOAuth(object):
     def get_token(self, client : ApiClient, headers) -> str:    
         if self.token and not self.token.has_expired():
             self.token = None
+            if self.grant_type == flow_constants.AUTHORIZATION_CODE_FLOW:
+                self.grant_type = flow_constants.REFRESH_TOKEN_FLOW
 
         if self.token is None:
             self.refresh_token(client, headers)
@@ -52,6 +54,9 @@ class RetryingOAuth(object):
             'grant_type' : self.grant_type 
             })
         try:
+            if self.grant_type == flow_constants.REFRESH_TOKEN_FLOW:
+                params['refresh_token'] = self.refreshToken
+
             response = client.request('POST', oauth_url,
                                     headers=new_headers,
                                     query_params=[],
