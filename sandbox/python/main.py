@@ -1,11 +1,10 @@
-import time
-import criteo_api_marketingsolutions_v2022_07 import ApiClientBuilder
+import criteo_api_marketingsolutions_v2022_07
 from criteo_api_marketingsolutions_v2022_07.api import advertiser_api
 from criteo_api_marketingsolutions_v2022_07.model.get_portfolio_response import GetPortfolioResponse
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://api.criteo.com
-    host = "https://api.criteo.com"
+host = "https://api.criteo.com"
 
 # Configure OAuth2 with client credentials
 # refresh token mechanism IS handled for you 💚
