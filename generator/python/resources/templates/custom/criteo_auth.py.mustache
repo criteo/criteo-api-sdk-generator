@@ -29,6 +29,7 @@ class RetryingOAuth(object):
         self.client_id = client_id
         self.client_secret = client_secret
         self.token = None
+        self.refreshToken = None
 
     def get_token(self, client : ApiClient, headers) -> str:    
         if self.token and not self.token.has_expired():
@@ -61,10 +62,14 @@ class RetryingOAuth(object):
             data = json.loads(response.data)
             self.token = Token('Bearer '+ (data['access_token'] or ''),
                RetryingOAuth.compute_expiration_date(data['expires_in']))
-
+            self.refreshToken = data['refresh_token']
+            
             return self.token
         except ApiException as e:
             raise self._enrich_exception_message(e, oauth_url)
+
+    def get_refresh_token(self):
+        return self.refreshToken
 
     def _enrich_exception_message(self, e, url):
         try:
@@ -101,10 +106,10 @@ class RetryingRefreshToken(RetryingOAuth):
 
     def __init__(self, client_id, client_secret, refresh_token):
         super().__init__('refresh_token', client_id, client_secret)
-        self.refresh_token = refresh_token
+        self.refreshToken = refresh_token
 
     def refresh_token(self, client: ApiClient, headers, parameters_dict = {}):
         params = dict(parameters_dict, **{
-            'refresh_token' : self.refresh_token
+            'refresh_token' : self.refreshToken
         })
         return super().refresh_token(client, headers,params)
