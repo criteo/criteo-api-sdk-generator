@@ -193,7 +193,7 @@ class OAuthClient{
         $this->config = $config ?: new Configuration();
     }
 
-    public function getToken($grant_type, $client_id, $client_secret, )
+    public function getToken($grant_type, $client_id, $client_secret)
     {
         $request = $this->getTokenRequest($grant_type, $client_id, $client_secret);
         $response = $this->client->send($request, []);                   
