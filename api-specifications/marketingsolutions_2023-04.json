@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Criteo API",
-    "description": "Criteo publicly exposed API",
+    "description": "Criteo API - MarketingSolutions",
     "version": "2023-04"
   },
   "servers": [
@@ -282,7 +282,7 @@
                   "data": {
                     "type": "ContactlistAmendment",
                     "attributes": {
-                      "contactListId": "12",
+                      "contactListId": 12,
                       "operation": "add",
                       "requestDate": "2018-12-10T10:00:50.0000000+00:00",
                       "identifierType": "madid",
@@ -2596,9 +2596,8 @@
             "type": "object",
             "properties": {
               "contactListId": {
-                "type": "string",
-                "description": "the affected user list id",
-                "format": "int32"
+                "type": "integer",
+                "description": "the affected user list id"
               },
               "operation": {
                 "type": "string",
@@ -2701,7 +2700,8 @@
                   "email",
                   "madid",
                   "identityLink",
-                  "gum"
+                  "gum",
+                  "customerid"
                 ],
                 "type": "string",
                 "description": "What type of identifiers are used"
@@ -2716,10 +2716,6 @@
               "gumCallerId": {
                 "type": "integer",
                 "description": "The Gum caller id of the advertiser patching identifiers of type Gum"
-              },
-              "internalIdentifiers": {
-                "type": "boolean",
-                "description": "The flag to indicate if identifiers are external or internal"
               }
             },
             "description": "the name of the entity type"
@@ -4130,12 +4126,15 @@
         "description": "ad set frequency capping model"
       },
       "NillableAdSetTargetingRule": {
+        "required": [
+          "value"
+        ],
         "type": "object",
         "properties": {
           "value": {
             "allOf": [
               {
-            "$ref": "#/components/schemas/AdSetTargetingRule"
+                "$ref": "#/components/schemas/AdSetTargetingRule"
               }
             ],
             "nullable": true,
@@ -4146,7 +4145,6 @@
       },
       "AdSetTargetingRule": {
         "type": "object",
-        "nullable" : true,
         "properties": {
           "operand": {
             "enum": [
@@ -4376,8 +4374,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2022-08-29T00:00:00.0000000+00:00",
-                "endDate": "2022-08-29T00:00:00.0000000+00:00"
+                "startDate": "2023-04-03T00:00:00.0000000+00:00",
+                "endDate": "2023-04-03T00:00:00.0000000+00:00"
               }
             }
           ]
@@ -4409,8 +4407,8 @@
         "description": "This is the message defining the query for Transparency report",
         "example": {
           "shouldDisplayProductIds": false,
-          "startDate": "2022-08-29T00:00:00.0000000+00:00",
-          "endDate": "2022-09-01T00:00:00.0000000+00:00"
+          "startDate": "2023-04-03T00:00:00.0000000+00:00",
+          "endDate": "2023-04-06T00:00:00.0000000+00:00"
         }
       },
       "PlacementsReportQueryDataMessage": {
