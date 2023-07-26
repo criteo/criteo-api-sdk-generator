@@ -72,6 +72,8 @@ task generateClient(type: GradleBuild) {
             filter { line -> line.replaceAll('%sdkFolder%', namespaceBase) }
         }
 
+        def existingTask = taskList.findByName(createConfig.name)
+
         def generateTask = task("openApiGenerate_" + taskSuffix, type: GenerateTask.class) {
             generatorName = "python-prior"
             configFile = "${buildDir}/${namespaceBase}.yaml"
@@ -117,7 +119,9 @@ task generateClient(type: GradleBuild) {
 
         taskList << generateTask.name
         taskList << copyLicense.name
-        taskList << createConfig.name
+        if(!existingTask){
+            taskList << createConfig.name
+        }
         taskList << removeUnwantedFiles.name
     }
 
