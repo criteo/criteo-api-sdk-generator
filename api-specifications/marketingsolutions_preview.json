@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Criteo API",
-    "description": "Criteo publicly exposed API",
+    "description": "Criteo API - MarketingSolutions",
     "version": "Preview"
   },
   "servers": [
@@ -41,7 +41,7 @@
                   "data": {
                     "type": "ContactlistAmendment",
                     "attributes": {
-                      "contactListId": "12",
+                      "contactListId": 12,
                       "operation": "add",
                       "requestDate": "2018-12-10T10:00:50.0000000+00:00",
                       "identifierType": "madid",
@@ -206,7 +206,7 @@
           "Audience"
         ],
         "description": "Returns the statistics of a contact list segment.",
-        "operationId": "getContactListStatistics",
+        "operationId": "getAudienceSegmentContactListStatistics",
         "parameters": [
           {
             "name": "audience-segment-id",
@@ -288,7 +288,7 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int32"
             }
           }
@@ -316,13 +316,14 @@
                   "data": {
                     "type": "ContactlistAmendment",
                     "attributes": {
-                      "operation": "",
+                      "contactListId": 12,
+                      "operation": "add",
                       "requestDate": "2018-12-10T10:00:50.0000000+00:00",
-                      "identifierType": "",
-                      "nbValidIdentifiers": 0,
-                      "nbInvalidIdentifiers": 0,
+                      "identifierType": "madid",
+                      "nbValidIdentifiers": 7343,
+                      "nbInvalidIdentifiers": 13,
                       "sampleInvalidIdentifiers": [
-                        ""
+                        "InvalidIdentifier"
                       ]
                     }
                   },
@@ -379,8 +380,11 @@
             "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
             "style": "form",
             "schema": {
+              "maximum": 100,
+              "minimum": 0,
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 50
             }
           },
           {
@@ -390,7 +394,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             }
           }
         ],
@@ -418,6 +423,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -499,6 +505,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -580,6 +587,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -661,6 +669,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -750,6 +759,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -831,6 +841,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -895,8 +906,11 @@
             "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
             "style": "form",
             "schema": {
+              "maximum": 100,
+              "minimum": 0,
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 50
             }
           },
           {
@@ -906,7 +920,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             }
           }
         ],
@@ -934,6 +949,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1015,6 +1031,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1096,6 +1113,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1152,7 +1170,7 @@
           "Audience"
         ],
         "description": "Delete the segments associated to the given audience IDs.",
-        "operationId": "bulkDeleteAudienceSegment",
+        "operationId": "bulkDeleteAudienceSegments",
         "requestBody": {
           "description": "Segment delete request.",
           "content": {
@@ -1177,6 +1195,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1258,6 +1277,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1339,6 +1359,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1395,7 +1416,7 @@
           "Audience"
         ],
         "description": "Returns a list with all available in-market interests that can be used to define an in-market segment. These in-market interests correspond to the Google product taxonomy.",
-        "operationId": "getInMarketInterests",
+        "operationId": "getAudienceSegmentsInMarketInterests",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -1464,7 +1485,7 @@
           "Audience"
         ],
         "description": "Returns a list with all available in-market brands that can be used to define an in-market segment.",
-        "operationId": "getInMarketBrands",
+        "operationId": "getAudienceSegmentsInMarketBrands",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -1570,6 +1591,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -1861,6 +1883,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "adSet"
         },
         "responses": {
@@ -2534,6 +2557,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "marketingCampaign"
         },
         "responses": {
@@ -2653,7 +2677,7 @@
           "Creative"
         ],
         "description": "Get the list of self-services Creatives for a given advertiser",
-        "operationId": "GetCreatives",
+        "operationId": "GetAdvertiserCreatives",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -2738,7 +2762,7 @@
           "Creative"
         ],
         "description": "Create a Creative",
-        "operationId": "CreateCreative",
+        "operationId": "CreateAdvertiserCreative",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -2774,6 +2798,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -2829,7 +2854,7 @@
         "tags": [
           "Creative"
         ],
-        "description": "Get a Creative with its id",
+        "description": "Get a Creative from its id",
         "operationId": "GetCreative",
         "parameters": [
           {
@@ -2931,6 +2956,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -3019,8 +3045,8 @@
         "tags": [
           "Creative"
         ],
-        "description": "Get the preview of a specific Creative",
-        "operationId": "GetCreativePreviewPost",
+        "description": "Generate a preview of a specific Creative",
+        "operationId": "GenerateCreativePreview",
         "parameters": [
           {
             "name": "id",
@@ -3099,7 +3125,7 @@
           "Creative"
         ],
         "description": "Get the list of self-services Ads for a given advertiser",
-        "operationId": "GetAds",
+        "operationId": "GetAdvertiserAds",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3184,7 +3210,7 @@
           "Creative"
         ],
         "description": "Create an Ad",
-        "operationId": "CreateAd",
+        "operationId": "CreateAdvertiserAd",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3220,6 +3246,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -3275,7 +3302,7 @@
         "tags": [
           "Creative"
         ],
-        "description": "Get an Ad with its id",
+        "description": "Get an Ad from its id",
         "operationId": "GetAd",
         "parameters": [
           {
@@ -3378,7 +3405,7 @@
           "Creative"
         ],
         "description": "Get the list of self-services Coupons for a given advertiser",
-        "operationId": "GetCoupons",
+        "operationId": "GetAdvertiserCoupons",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3455,7 +3482,7 @@
           "Creative"
         ],
         "description": "Create a Coupon",
-        "operationId": "CreateCoupon",
+        "operationId": "CreateAdvertiserCoupon",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3491,6 +3518,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -3538,8 +3566,8 @@
         "tags": [
           "Creative"
         ],
-        "description": "Get a Coupon with its id",
-        "operationId": "GetCoupon",
+        "description": "Get a Coupon from its id",
+        "operationId": "GetAdvertiserCoupon",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3606,7 +3634,7 @@
           "Creative"
         ],
         "description": "Edit a specific Coupon",
-        "operationId": "EditCoupon",
+        "operationId": "EditAdvertiserCoupon",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3652,6 +3680,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -3682,14 +3711,6 @@
               "application/json": { },
               "text/json": { }
             }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
         }
       },
@@ -3698,7 +3719,7 @@
           "Creative"
         ],
         "description": "Delete a Coupon",
-        "operationId": "DeleteCoupon",
+        "operationId": "DeleteAdvertiserCoupon",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3740,7 +3761,7 @@
           "Creative"
         ],
         "description": "Get the preview of a specific Coupon",
-        "operationId": "GetCouponPreview",
+        "operationId": "GetAdvertiserCouponPreview",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -3829,7 +3850,7 @@
           "Creative"
         ],
         "description": "Get the list of Coupon supported sizes",
-        "operationId": "GetCouponSupportedSizes",
+        "operationId": "GetAdvertiserCouponSupportedSizes",
         "parameters": [
           {
             "name": "advertiser-id",
@@ -4594,12 +4615,15 @@
                 "example": {
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
                       "type": "validation",
                       "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required."
+                      "instance": "",
+                      "title": "Start date and end date are required.",
+                      "detail": "",
+                      "source": { },
+                      "stackTrace": ""
                     }
                   ]
                 }
@@ -4641,13 +4665,15 @@
                 "example": {
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
-                      "instance": "/report",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser."
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "",
+                      "title": "Start date and end date are required.",
+                      "detail": "",
+                      "source": { },
+                      "stackTrace": ""
                     }
                   ]
                 }
@@ -4745,6 +4771,7 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
                       "type": "validation",
                       "code": "required-field",
@@ -4779,12 +4806,13 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser.",
+                      "title": "Start date and end date are required.",
+                      "detail": "",
                       "source": { },
                       "stackTrace": ""
                     }
@@ -4869,6 +4897,7 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
                       "type": "validation",
                       "code": "required-field",
@@ -4903,12 +4932,13 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser.",
+                      "title": "Start date and end date are required.",
+                      "detail": "",
                       "source": { },
                       "stackTrace": ""
                     }
@@ -4993,6 +5023,7 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
                       "type": "validation",
                       "code": "required-field",
@@ -5027,12 +5058,13 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser.",
+                      "title": "Start date and end date are required.",
+                      "detail": "",
                       "source": { },
                       "stackTrace": ""
                     }
@@ -5117,6 +5149,7 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
                       "type": "validation",
                       "code": "required-field",
@@ -5151,12 +5184,13 @@
                 "example": {
                   "errors": [
                     {
+                      "traceId": "1234e1717d88aa8a",
                       "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser.",
+                      "title": "Start date and end date are required.",
+                      "detail": "",
                       "source": { },
                       "stackTrace": ""
                     }
@@ -10128,8 +10162,7 @@
                     }
                   ]
                 }
-              ],
-              "internalIdentifiers": false
+              ]
             }
           }
         }
@@ -10152,9 +10185,8 @@
             "type": "object",
             "properties": {
               "contactListId": {
-                "type": "string",
-                "description": "the affected user list id",
-                "format": "int32"
+                "type": "integer",
+                "description": "the affected user list id"
               },
               "operation": {
                 "type": "string",
@@ -10354,7 +10386,8 @@
                   "email",
                   "madid",
                   "identityLink",
-                  "gum"
+                  "gum",
+                  "customerid"
                 ],
                 "type": "string",
                 "description": "What type of identifiers are used"
@@ -10369,10 +10402,6 @@
               "gumCallerId": {
                 "type": "integer",
                 "description": "The Gum caller id of the advertiser patching identifiers of type Gum"
-              },
-              "internalIdentifiers": {
-                "type": "boolean",
-                "description": "The flag to indicate if identifiers are external or internal"
               }
             },
             "description": "the name of the entity type"
@@ -10413,7 +10442,8 @@
                   "email",
                   "madid",
                   "identityLink",
-                  "gum"
+                  "gum",
+                  "customerid"
                 ],
                 "type": "string",
                 "description": "What type of identifiers are used",
@@ -10429,11 +10459,6 @@
               "gumCallerId": {
                 "type": "object",
                 "description": "The Gum caller id of the advertiser patching identifiers of type Gum",
-                "readOnly": true
-              },
-              "internalIdentifiers": {
-                "type": "boolean",
-                "description": "The flag to indicate if identifiers are external or internal",
                 "readOnly": true
               }
             },
@@ -10612,14 +10637,12 @@
             "$ref": "#/components/schemas/AudienceSearchMetadataV1"
           },
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10627,7 +10650,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10641,14 +10663,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10656,7 +10676,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10670,14 +10689,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceIdEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10685,7 +10702,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10699,14 +10715,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSizeEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10714,7 +10728,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10731,7 +10744,6 @@
             "$ref": "#/components/schemas/AudienceSizeEstimationV1Resource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10739,7 +10751,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10756,14 +10767,12 @@
             "$ref": "#/components/schemas/AudienceSegmentSearchMetadataV1"
           },
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10771,7 +10780,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10785,14 +10793,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10800,7 +10806,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10814,14 +10819,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentIdEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10829,7 +10832,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10843,14 +10845,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentSizeEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10858,7 +10858,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10875,7 +10874,6 @@
             "$ref": "#/components/schemas/AudienceSegmentSizeEstimationV1Resource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10883,7 +10881,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10897,14 +10894,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InMarketAudienceSegmentInterestEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10912,7 +10907,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10926,14 +10920,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InMarketAudienceSegmentBrandEntityV1Resource"
             }
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10941,7 +10933,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10958,7 +10949,6 @@
             "$ref": "#/components/schemas/ContactListStatisticsEntityV1Resource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10966,7 +10956,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10983,7 +10972,6 @@
             "$ref": "#/components/schemas/AdSetAudienceLinkEntityV1Resource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10991,7 +10979,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -11014,7 +11001,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceCreateEntityV1Resource"
@@ -11027,7 +11013,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceUpdateEntityV1Resource"
@@ -11040,7 +11025,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceDeleteEntityV1Resource"
@@ -11053,7 +11037,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceComputeSizeEntityV1Resource"
@@ -11084,7 +11067,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentCreateEntityV1Resource"
@@ -11097,7 +11079,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentUpdateEntityV1Resource"
@@ -11110,7 +11091,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentDeleteEntityV1Resource"
@@ -11123,7 +11103,6 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentComputeSizeEntityV1Resource"
@@ -11139,7 +11118,7 @@
             "$ref": "#/components/schemas/AudienceSegmentSizeEstimationEntityV1Resource"
           }
         },
-        "description": "Input to estimate the size of an audience segment."
+        "description": "Input to estimate the size of an audience segment.."
       },
       "AdSetAudienceLinkInputEntityV1": {
         "type": "object",
@@ -11590,7 +11569,7 @@
       },
       "AudienceIdEntityV1": {
         "type": "object",
-        "description": "Audience entity only with its ID",
+        "description": "Audience entity with only its ID",
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "Audience",
@@ -11803,7 +11782,6 @@
         "type": "object",
         "properties": {
           "audienceIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -11811,7 +11789,6 @@
             "description": "List of audience ids"
           },
           "advertiserIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -11819,7 +11796,6 @@
             "description": "List of advertiser ids"
           },
           "audienceSegmentIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -11827,7 +11803,6 @@
             "description": "List of segment ids (linked to the result audiences)"
           },
           "adSetIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -11838,6 +11813,11 @@
         "description": "Available filters to perform a search on segments. If present, the filters are AND'ed together when applied."
       },
       "AudienceCreateEntityV1": {
+        "required": [
+          "advertiserId",
+          "algebra",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -11898,6 +11878,10 @@
         }
       },
       "AudienceEstimateSizeEntityV1": {
+        "required": [
+          "advertiserId",
+          "algebra"
+        ],
         "type": "object",
         "properties": {
           "advertiserId": {
@@ -11914,7 +11898,6 @@
         "type": "object",
         "properties": {
           "audienceSegmentIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -11922,7 +11905,6 @@
             "description": "List of segment ids"
           },
           "advertiserIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -11930,7 +11912,6 @@
             "description": "List of advertiser ids"
           },
           "audienceSegmentTypes": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -11951,6 +11932,10 @@
         "description": "Available filters to perform a search on audience segments. If present, the filters are AND'ed together when applied."
       },
       "AudienceSegmentCreateEntityV1": {
+        "required": [
+          "advertiserId",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -11990,7 +11975,8 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the segment"
           },
           "description": {
             "$ref": "#/components/schemas/NillableString"
@@ -12006,6 +11992,9 @@
           },
           "lookalike": {
             "$ref": "#/components/schemas/LookalikeUpdateV1"
+          },
+          "prospecting": {
+            "$ref": "#/components/schemas/ProspectingUpdateV1"
           }
         },
         "description": "Set of rules that defines specific people to target.",
@@ -12034,6 +12023,9 @@
         }
       },
       "AudienceSegmentSizeEstimationEntityV1": {
+        "required": [
+          "advertiserId"
+        ],
         "type": "object",
         "properties": {
           "advertiserId": {
@@ -12053,14 +12045,12 @@
         "type": "object",
         "properties": {
           "and": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AlgebraNodeV1"
             }
           },
           "or": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AlgebraNodeV1"
@@ -12141,6 +12131,27 @@
       },
       "ProspectingV1": {
         "type": "object",
+        "properties": {
+          "daysSinceLastVisitMin": {
+            "type": "integer",
+            "description": "When non buyers are included, include users who visited your website before this number of days",
+            "format": "int32"
+          },
+          "daysSinceLastVisitMax": {
+            "type": "integer",
+            "description": "When non buyers are included, include users who visited your website after this number of days",
+            "format": "int32"
+          },
+          "usersType": {
+            "enum": [
+              "Unknown",
+              "Prospects",
+              "ProspectsOrNonBuyers"
+            ],
+            "type": "string",
+            "description": "Type of users to target"
+          }
+        },
         "description": "Settings to target prospecting users to website visitors."
       },
       "ContactListV1": {
@@ -12157,7 +12168,6 @@
         "type": "object",
         "properties": {
           "pointsOfInterest": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PointOfInterestV1"
@@ -12224,14 +12234,17 @@
               "Buyers",
               "NonBuyers"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Types of visitors."
           },
           "daysSinceLastVisitMin": {
             "type": "integer",
+            "description": "Minimum number of days since last visit to partner.",
             "format": "int32"
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
+            "description": "Maximum number of days since last visit to partner.",
             "format": "int32"
           }
         },
@@ -12263,10 +12276,14 @@
         "description": "Placeholder object for string value  for which \"null\" is a valid business value"
       },
       "InMarketCreateV1": {
+        "required": [
+          "country"
+        ],
         "type": "object",
         "properties": {
           "country": {
-            "type": "string"
+            "type": "string",
+            "description": "Reach people of a specific country"
           },
           "buyingPower": {
             "uniqueItems": true,
@@ -12279,28 +12296,32 @@
                 "VeryHigh"
               ],
               "type": "string"
-            }
+            },
+            "description": "Reach people who frequently purchase high price range items to lower price range items"
           },
           "gender": {
             "enum": [
               "Male",
               "Female"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Reach people who’ve shown interest in products made for a specific gender"
           },
           "interestIds": {
             "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Reach new people based on their interests"
           },
           "brandIds": {
             "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Choose the brands your segment might be interested in"
           },
           "priceRange": {
             "uniqueItems": true,
@@ -12312,13 +12333,37 @@
                 "High"
               ],
               "type": "string"
-            }
+            },
+            "description": "Reach people who’ve shown interest in products within a specific price range"
           }
         },
         "description": "Settings to target users based on high shopping intents and demographics."
       },
       "ProspectingCreateV1": {
+        "required": [
+          "usersType"
+        ],
         "type": "object",
+        "properties": {
+          "daysSinceLastVisitMin": {
+            "type": "integer",
+            "description": "When non buyers are included, include users who visited your website before this number of days",
+            "format": "int32"
+          },
+          "daysSinceLastVisitMax": {
+            "type": "integer",
+            "description": "When non buyers are included, include users who visited your website after this number of days",
+            "format": "int32"
+          },
+          "usersType": {
+            "enum": [
+              "Prospects",
+              "ProspectsOrNonBuyers"
+            ],
+            "type": "string",
+            "description": "Type of users to target"
+          }
+        },
         "description": "Settings to target prospecting users to website visitors."
       },
       "ContactListCreateV1": {
@@ -12326,23 +12371,33 @@
         "description": "Settings to target users with your contact lists."
       },
       "LocationCreateV1": {
+        "required": [
+          "pointsOfInterest",
+          "radiusInKm"
+        ],
         "type": "object",
         "properties": {
           "pointsOfInterest": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PointOfInterestV1"
-            }
+            },
+            "description": "Reach users which have been historically located in the given coordinates"
           },
           "radiusInKm": {
             "type": "integer",
+            "description": "The expected maximum distance in kilometers between a user and a point of interest",
             "format": "int32"
           }
         },
         "description": "Settings to target users based on their location."
       },
       "RetargetingCreateV1": {
+        "required": [
+          "daysSinceLastVisitMax",
+          "daysSinceLastVisitMin",
+          "visitorsType"
+        ],
         "type": "object",
         "properties": {
           "visitorsType": {
@@ -12351,27 +12406,35 @@
               "Buyers",
               "NonBuyers"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Types of visitors."
           },
           "daysSinceLastVisitMin": {
             "type": "integer",
+            "description": "Minimum number of days since last visit to partner.",
             "format": "int32"
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
+            "description": "Maximum number of days since last visit to partner.",
             "format": "int32"
           }
         },
         "description": "Settings to target users based on its type and days since last visit."
       },
       "LookalikeCreateV1": {
+        "required": [
+          "seedSegmentId"
+        ],
         "type": "object",
         "properties": {
           "seedSegmentId": {
-            "type": "string"
+            "type": "string",
+            "description": "Segment from which the Lookalike segment will be generated"
           },
           "targetSize": {
             "type": "integer",
+            "description": "Desired size of the generated Lookalike segment",
             "format": "int64"
           }
         },
@@ -12381,7 +12444,8 @@
         "type": "object",
         "properties": {
           "country": {
-            "type": "string"
+            "type": "string",
+            "description": "Reach people of a specific country"
           },
           "buyingPower": {
             "uniqueItems": true,
@@ -12394,7 +12458,8 @@
                 "VeryHigh"
               ],
               "type": "string"
-            }
+            },
+            "description": "Reach people who frequently purchase high price range items to lower price range items"
           },
           "gender": {
             "$ref": "#/components/schemas/NillableGenderV1"
@@ -12404,14 +12469,16 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Reach new people based on their interests"
           },
           "brandIds": {
             "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Choose the brands your segment might be interested in"
           },
           "priceRange": {
             "uniqueItems": true,
@@ -12423,7 +12490,8 @@
                 "High"
               ],
               "type": "string"
-            }
+            },
+            "description": "Reach people who’ve shown interest in products within a specific price range"
           }
         },
         "description": "Settings to target users based on high shopping intents and demographics."
@@ -12432,11 +12500,11 @@
         "type": "object",
         "properties": {
           "pointsOfInterest": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PointOfInterestV1"
-            }
+            },
+            "description": "Reach users which have been historically located in the given coordinates"
           },
           "radiusInKm": {
             "type": "integer",
@@ -12447,7 +12515,8 @@
             "enum": [
               "PointOfInterest"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "The kind of Location audience"
           }
         },
         "description": "Settings to target users based on their location."
@@ -12461,14 +12530,17 @@
               "Buyers",
               "NonBuyers"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Types of visitors."
           },
           "daysSinceLastVisitMin": {
             "type": "integer",
+            "description": "Minimum number of days since last visit to partner.",
             "format": "int32"
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
+            "description": "Maximum number of days since last visit to partner.",
             "format": "int32"
           }
         },
@@ -12479,12 +12551,36 @@
         "properties": {
           "targetSize": {
             "type": "integer",
+            "description": "Desired size of the generated Lookalike segment",
             "format": "int64"
           }
         },
         "description": "Settings to target users that behave like a given seed segment"
       },
+      "ProspectingUpdateV1": {
+        "type": "object",
+        "properties": {
+          "daysSinceLastVisitMin": {
+            "$ref": "#/components/schemas/NillableInt32"
+          },
+          "daysSinceLastVisitMax": {
+            "$ref": "#/components/schemas/NillableInt32"
+          },
+          "usersType": {
+            "enum": [
+              "Prospects",
+              "ProspectsOrNonBuyers"
+            ],
+            "type": "string",
+            "description": "Type of users to target"
+          }
+        },
+        "description": "Settings to target prospecting users to website visitors."
+      },
       "InMarketSizeEstimationV1": {
+        "required": [
+          "country"
+        ],
         "type": "object",
         "properties": {
           "country": {
@@ -12540,10 +12636,13 @@
         "description": "Settings to target users based on high shopping intents and demographics."
       },
       "LocationSizeEstimationV1": {
+        "required": [
+          "pointsOfInterest",
+          "radiusInKm"
+        ],
         "type": "object",
         "properties": {
           "pointsOfInterest": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PointOfInterestV1"
@@ -12586,6 +12685,17 @@
             ],
             "type": "string",
             "description": "The value. If missing or null the value is set to \"null\""
+          }
+        },
+        "description": "Placeholder object for value for which \"null\" is a valid business value"
+      },
+      "NillableInt32": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "description": "The value. If missing or null the value is set to \"null\"",
+            "format": "int32"
           }
         },
         "description": "Placeholder object for value for which \"null\" is a valid business value"
@@ -13593,6 +13703,18 @@
         "description": "ad set patch model"
       },
       "CreateAdSet": {
+        "required": [
+          "bidding",
+          "budget",
+          "campaignId",
+          "datasetId",
+          "mediaType",
+          "name",
+          "objective",
+          "schedule",
+          "targeting",
+          "trackingCode"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -13674,6 +13796,12 @@
         "description": "Category Bid to update for a given combination of Ad Set and Category."
       },
       "CreateCampaign": {
+        "required": [
+          "advertiserId",
+          "goal",
+          "name",
+          "spendLimit"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -14070,6 +14198,9 @@
         "description": "ad set budget patch model"
       },
       "CreateAdSetSchedule": {
+        "required": [
+          "startDate"
+        ],
         "type": "object",
         "properties": {
           "startDate": {
@@ -14084,6 +14215,9 @@
         "description": "ad set schedule create model"
       },
       "CreateAdSetBidding": {
+        "required": [
+          "costController"
+        ],
         "type": "object",
         "properties": {
           "bidAmount": {
@@ -14109,6 +14243,9 @@
         "description": "ad set bidding create model"
       },
       "CreateAdSetTargeting": {
+        "required": [
+          "frequencyCapping"
+        ],
         "type": "object",
         "properties": {
           "deliveryLimitations": {
@@ -14124,6 +14261,9 @@
         "description": "Targeting configuration of the ad set"
       },
       "CreateAdSetBudget": {
+        "required": [
+          "budgetStrategy"
+        ],
         "type": "object",
         "properties": {
           "budgetStrategy": {
@@ -14170,6 +14310,9 @@
         "description": "ad set budget create model"
       },
       "CreateCampaignSpendLimit": {
+        "required": [
+          "spendLimitType"
+        ],
         "type": "object",
         "properties": {
           "spendLimitType": {
@@ -15032,7 +15175,9 @@
       },
       "CreativeWrite": {
         "required": [
-          "name"
+          "name",
+          "format",
+          "datasetId"
         ],
         "type": "object",
         "properties": {
@@ -15045,6 +15190,12 @@
             "description": "The description of the creative"
           },
           "format": {
+            "enum": [
+              "Image",
+              "HtmlTag",
+              "Dynamic",
+              "Adaptive"
+            ],
             "type": "string",
             "description": "The format of the creative\r\nYou can use \"Image\", \" HtmlTag\", \"Dynamic\" or \"Adaptive\""
           },
@@ -15093,6 +15244,10 @@
             "description": "The id of the Ad Set bound to this Ad"
           },
           "inventoryType": {
+            "enum": [
+              "Display",
+              "Native"
+            ],
             "type": "string",
             "description": "The inventory the Ad to be created or updated belongs to. Possible values are \"Display\" and \"Native\". This is optional since this doesn't make sense for every creative type but will throw an error if not set for a dynamic creative."
           },
@@ -15146,6 +15301,10 @@
             "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format"
           },
           "format": {
+            "enum": [
+              "FullFrame",
+              "LogoZone"
+            ],
             "type": "string",
             "description": "Format of the Coupon, it can have two values: \"FullFrame\" or \"LogoZone\""
           },
@@ -15158,16 +15317,22 @@
             "description": "List of slides containing the images as a base-64 encoded string"
           },
           "showEvery": {
+            "maximum": 10,
+            "minimum": 1,
             "type": "integer",
             "description": "Show the Coupon every N seconds (between 1 and 10)",
             "format": "int32"
           },
           "showDuration": {
+            "maximum": 5,
+            "minimum": 1,
             "type": "integer",
             "description": "Show Coupon for a duration of N seconds (between 1 and 5)",
             "format": "int32"
           },
           "rotationsNumber": {
+            "maximum": 10,
+            "minimum": 1,
             "type": "integer",
             "description": "Number of rotations for the Coupons (from 1 to 10 times)",
             "format": "int32"
@@ -15390,9 +15555,14 @@
         "description": "Slide containing the image URLs"
       },
       "ImageWriteAttributes": {
+        "required": [
+          "base64Strings",
+          "landingPageUrl"
+        ],
         "type": "object",
         "properties": {
           "base64Strings": {
+            "minItems": 1,
             "uniqueItems": false,
             "type": "array",
             "items": {
@@ -15409,6 +15579,9 @@
         "description": "The attributes specific to create or update an Image creative"
       },
       "HtmlTagWriteAttributes": {
+        "required": [
+          "tags"
+        ],
         "type": "object",
         "properties": {
           "tags": {
@@ -15423,6 +15596,14 @@
         "description": "The attributes specific to create or update a HtmlTag creative"
       },
       "DynamicWriteAttributes": {
+        "required": [
+          "bodyTextColor",
+          "callsToAction",
+          "creativeBackgrounColor",
+          "logoBase64String",
+          "pricesColor",
+          "productImageDisplay"
+        ],
         "type": "object",
         "properties": {
           "logoBase64String": {
@@ -15431,21 +15612,22 @@
           },
           "creativeBackgroundColor": {
             "type": "string",
-            "description": "Color of the creative's background\r\nValid hexadecimal color (e.g. \"AB00FF\")"
+            "description": "Color of the creative's background\r\nValid hexadecimal RGB color (e.g. \"AB00FF\")"
           },
           "bodyTextColor": {
             "type": "string",
-            "description": "Color of the creative's body text\r\nValid hexadecimal color (e.g. \"AB00FF\")"
+            "description": "Color of the creative's body text\r\nValid hexadecimal RGB color (e.g. \"AB00FF\")"
           },
           "pricesColor": {
             "type": "string",
-            "description": "Color of the creative's prices\r\nValid hexadecimal color (e.g. \"AB00FF\")"
+            "description": "Color of the creative's prices\r\nValid hexadecimal RGB color (e.g. \"AB00FF\")"
           },
           "primaryFont": {
             "type": "string",
             "description": "Font of the primary font\r\nValid supported font like \"Arial\""
           },
           "callsToAction": {
+            "minItems": 1,
             "uniqueItems": false,
             "type": "array",
             "items": {
@@ -15454,6 +15636,10 @@
             "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as “Buy now” or “Go!”."
           },
           "productImageDisplay": {
+            "enum": [
+              "ShowFullImage",
+              "ZoomOnImage"
+            ],
             "type": "string",
             "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping."
           }
@@ -15475,9 +15661,15 @@
         "type": "object",
         "properties": {
           "layouts": {
+            "minItems": 1,
             "uniqueItems": false,
             "type": "array",
             "items": {
+              "enum": [
+                "Editorial",
+                "Montage",
+                "InBannerVideo"
+              ],
               "type": "string"
             },
             "description": "The Adaptive layouts that are enabled.\r\nIt can contain any of the following values: \"Editorial\", “Montage“, \"InBannerVideo\"."
@@ -15503,6 +15695,7 @@
             "description": "Font of the description\r\nValid supported font like \"Arial\""
           },
           "callsToAction": {
+            "minItems": 1,
             "uniqueItems": false,
             "type": "array",
             "items": {
@@ -15522,6 +15715,10 @@
             "description": "Multiple image sets, each image set consists of multiple images as a base-64 encoded string and a headline text."
           },
           "imageDisplay": {
+            "enum": [
+              "ShowFullImage",
+              "ZoomOnImage"
+            ],
             "type": "string",
             "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your image set should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether it should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping."
           },
@@ -15698,6 +15895,7 @@
         "type": "object",
         "properties": {
           "imageBase64Strings": {
+            "minItems": 1,
             "uniqueItems": false,
             "type": "array",
             "items": {
@@ -15984,8 +16182,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2022-08-29T00:00:00.0000000+00:00",
-                "endDate": "2022-08-29T00:00:00.0000000+00:00"
+                "startDate": "2023-04-03T00:00:00.0000000+00:00",
+                "endDate": "2023-04-03T00:00:00.0000000+00:00"
               }
             }
           ]
@@ -16063,8 +16261,8 @@
         "description": "This is the message defining the query for Transparency report",
         "example": {
           "shouldDisplayProductIds": false,
-          "startDate": "2022-08-29T00:00:00.0000000+00:00",
-          "endDate": "2022-09-01T00:00:00.0000000+00:00"
+          "startDate": "2023-04-03T00:00:00.0000000+00:00",
+          "endDate": "2023-04-06T00:00:00.0000000+00:00"
         }
       },
       "GenerateCategoriesReportRequest": {
@@ -16094,8 +16292,8 @@
               "shouldDisplayDomainDimension": true,
               "format": "csv",
               "timezone": "Europe/Paris",
-              "startDate": "2022-08-29T00:00:00.0000000+00:00",
-              "endDate": "2022-08-29T00:00:00.0000000+00:00"
+              "startDate": "2023-04-03T00:00:00.0000000+00:00",
+              "endDate": "2023-04-03T00:00:00.0000000+00:00"
             }
           }
         }
@@ -16180,8 +16378,8 @@
           "data": {
             "type": "CreativesReport",
             "attributes": {
-              "startDate": "2022-08-29T00:00:00.0000000+00:00",
-              "endDate": "2022-09-01T00:00:00.0000000+00:00",
+              "startDate": "2023-04-03T00:00:00.0000000+00:00",
+              "endDate": "2023-04-06T00:00:00.0000000+00:00",
               "advertiserIds": [
                 "6666",
                 "7777"
@@ -16254,8 +16452,8 @@
           "data": {
             "type": "StatisticsReport",
             "attributes": {
-              "startDate": "2022-08-29T00:00:00.0000000+00:00",
-              "endDate": "2022-09-01T00:00:00.0000000+00:00",
+              "startDate": "2023-04-03T00:00:00.0000000+00:00",
+              "endDate": "2023-04-06T00:00:00.0000000+00:00",
               "advertiserIds": [
                 "11111"
               ],
@@ -16326,8 +16524,8 @@
           "data": {
             "type": "AudiencePerformanceReport",
             "attributes": {
-              "startDate": "2022-09-20T00:00:00.0000000+02:00",
-              "endDate": "2022-09-23T00:00:00.0000000+02:00",
+              "startDate": "2023-04-03T00:00:00.0000000+00:00",
+              "endDate": "2023-04-06T00:00:00.0000000+00:00",
               "advertiserId": "11111",
               "timezone": "Europe/Paris",
               "dimension": "Top30BrandsByClicks",
@@ -17144,7 +17342,14 @@
                 "MediaType",
                 "AdFormat",
                 "DisplaySize",
-                "VideoPlayerRatio"
+                "VideoPlayerRatio",
+                "Country",
+                "Region",
+                "PostalCode",
+                "UserBehavior",
+                "Environment",
+                "AdChannel",
+                "AdSocialNetwork"
               ],
               "type": "string"
             },
@@ -17371,7 +17576,55 @@
                 "InvalidClicks",
                 "InvalidDisplays",
                 "ResultType",
-                "CostPerQualifiedVisit"
+                "CostPerQualifiedVisit",
+                "CostPerVisitPV1D",
+                "VisitsPV1D",
+                "AssistsPc30dClientAttribution",
+                "AssistsAllPc30dClientAttribution",
+                "AssistsClientAttribution",
+                "AssistsAllClientAttribution",
+                "AssistsPc30d",
+                "AssistsAllPc30d",
+                "AssistsPc1d",
+                "AssistsAllPc1d",
+                "AssistsPc7d",
+                "AssistsAllPc7d",
+                "AssistsPc7dPv24",
+                "AssistsAllPc7dPv24",
+                "AssistsPc7dPv24h",
+                "AssistsAllPc7dPv24h",
+                "AssistsPv24h",
+                "AssistsAllPv24h",
+                "AssistsPc30Pv24",
+                "AssistsAllPc30Pv24",
+                "AssistsPc30dPv24h",
+                "AssistsAllPc30dPv24h",
+                "AssistsPiPc",
+                "AssistsPiPv",
+                "AssistsPiPcPv",
+                "AssistsSalesRatioPc30dClientAttribution",
+                "AssistsSalesRatioAllPc30dClientAttribution",
+                "AssistsSalesRatioClientAttribution",
+                "AssistsSalesRatioAllClientAttribution",
+                "AssistsSalesRatioPc30d",
+                "AssistsSalesRatioAllPc30d",
+                "AssistsSalesRatioPc1d",
+                "AssistsSalesRatioAllPc1d",
+                "AssistsSalesRatioPc7d",
+                "AssistsSalesRatioAllPc7d",
+                "AssistsSalesRatioPc7dPv24",
+                "AssistsSalesRatioAllPc7dPv24",
+                "AssistsSalesRatioPc7dPv24h",
+                "AssistsSalesRatioAllPc7dPv24h",
+                "AssistsSalesRatioPv24h",
+                "AssistsSalesRatioAllPv24h",
+                "AssistsSalesRatioPc30Pv24",
+                "AssistsSalesRatioAllPc30Pv24",
+                "AssistsSalesRatioPc30dPv24h",
+                "AssistsSalesRatioAllPc30dPv24h",
+                "AssistsSalesRatioPiPc",
+                "AssistsSalesRatioPiPv",
+                "AssistsSalesRatioPiPcPv"
               ],
               "type": "string"
             },
@@ -17485,7 +17738,7 @@
             "items": {
               "type": "string"
             },
-            "description": "The list of Audiences ids. If empty, all the Audiences will be fetched"
+            "description": "The list of Audiences ids. If empty, all the Audiences will be fetched."
           },
           "segmentsIds": {
             "uniqueItems": false,
@@ -17493,7 +17746,7 @@
             "items": {
               "type": "string"
             },
-            "description": "The list of Segments ids. If empty, all the segments will be fetched"
+            "description": "The list of Segments ids. If empty, all the segments will be fetched."
           }
         },
         "description": "Request attributes for async audience performance report"
@@ -17582,7 +17835,20 @@
               "MediaType",
               "AdFormat",
               "DisplaySize",
-              "VideoPlayerRatio"
+              "VideoPlayerRatio",
+              "Top30BrandsByDisplays",
+              "Top30BrandsByClicks",
+              "Top30BrandsBySales",
+              "Top30InterestsByDisplays",
+              "Top30InterestsByClicks",
+              "Top30InterestsBySales",
+              "Country",
+              "Region",
+              "PostalCode",
+              "UserBehavior",
+              "Environment",
+              "AdChannel",
+              "AdSocialNetwork"
             ],
             "type": "string"
           },
@@ -18197,7 +18463,7 @@
             "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CriteoApiErrorV2"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty"
           },
@@ -18222,7 +18488,7 @@
             "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CriteoApiErrorV2"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty"
           },
@@ -18252,7 +18518,7 @@
             "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CriteoApiErrorV2"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty"
           },
@@ -18282,7 +18548,7 @@
             "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CriteoApiErrorV2"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty"
           },
@@ -18298,43 +18564,24 @@
         "description": "Get datasets response."
       },
       "AdvertiserCreationRequest": {
-        "required": [
-          "type"
-        ],
         "type": "object",
         "properties": {
-          "type": {
-            "enum": [
-              "campaign",
-              "adset",
-              "ad",
-              "advertiser",
-              "agency",
-              "agencyAdvertiserLink",
-              "AgencyAdvertiserTransferRequest",
-              "publisher",
-              "address",
-              "client",
-              "contact",
-              "industry"
-            ],
-            "type": "string",
-            "description": "A string containing the entity type",
-            "example": "campaign"
-          },
           "data": {
-            "$ref": "#/components/schemas/AdvertiserCreationInput"
+            "$ref": "#/components/schemas/ValueResourceOfAdvertiserCreationInput"
           }
         },
         "description": "Advertiser Creation Request",
         "example": {
-          "type": "advertiser",
           "data": {
-            "accountName": "AdvertiserName",
-            "websiteUrl": "http://website_URL.com",
-            "countryIsoCode": "RO",
-            "currencyIsoCode": "EUR",
-            "industryId": "200006"
+            "type": "advertiser",
+            "attributes": {
+              "agencyId": "agencyId",
+              "accountName": "AdvertiserName",
+              "websiteUrl": "http://website_URL.com",
+              "countryIsoCode": "RO",
+              "currencyIsoCode": "EUR",
+              "industryId": "200006"
+            }
           }
         }
       },
@@ -18526,65 +18773,6 @@
         },
         "description": "Generic Criteo API successful data model"
       },
-      "CriteoApiErrorV2": {
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "The correlation ID provided by the gateway"
-          },
-          "type": {
-            "enum": [
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "description": "A machine-readable code specifying error category",
-            "example": "access-control"
-          },
-          "code": {
-            "enum": [
-              "internal-error",
-              "deprecated-field",
-              "endpoint-deprecated",
-              "required-field",
-              "invalid-date-format",
-              "invalid",
-              "invalid-ranged",
-              "invalid-timespan",
-              "permission-denied"
-            ],
-            "type": "string",
-            "description": "A machine-readable error code string in kabab-case. Unique across Criteo",
-            "example": "internal-error"
-          },
-          "instance": {
-            "type": "string",
-            "description": "A URI reference that identifies the specific occurrence of the problem"
-          },
-          "title": {
-            "type": "string",
-            "description": "A short, human-readable remarks of the problem type."
-          },
-          "detail": {
-            "type": "string",
-            "description": "A human-readable explanation specific to this occurrence of the problem."
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)."
-          }
-        },
-        "description": "Criteo API response error"
-      },
       "CriteoApiWarningV2": {
         "type": "object",
         "properties": {
@@ -18677,8 +18865,39 @@
         },
         "description": "Generic Criteo API successful data model"
       },
+      "ValueResourceOfAdvertiserCreationInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/AdvertiserCreationInput"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "PortfolioMessage": {
+        "type": "object",
+        "properties": {
+          "advertiserName": {
+            "type": "string"
+          }
+        },
+        "description": "Class with elementary info about advertiser"
+      },
+      "Dataset": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "description": "Information about a dataset"
+      },
       "AdvertiserCreationInput": {
         "required": [
+          "agencyId",
           "accountName",
           "websiteUrl",
           "countryIsoCode",
@@ -18687,6 +18906,10 @@
         ],
         "type": "object",
         "properties": {
+          "agencyId": {
+            "type": "string",
+            "description": "ID of the agency requesting the advertiser creation"
+          },
           "accountName": {
             "type": "string",
             "description": "The Account Name; This will not be in fact the Advertiser name"
@@ -18708,25 +18931,7 @@
             "description": "Industry ID"
           }
         },
-        "description": "Infomation for creating an advertiser"
-      },
-      "PortfolioMessage": {
-        "type": "object",
-        "properties": {
-          "advertiserName": {
-            "type": "string"
-          }
-        },
-        "description": "Class with elementary info about advertiser"
-      },
-      "Dataset": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "description": "Information about a dataset"
+        "description": "Information for creating an advertiser"
       },
       "FailResponse": {
         "required": [
@@ -18884,6 +19089,7 @@
           "outOfStock",
           "startDate",
           "total",
+          "variant",
           "updated"
         ],
         "type": "object",
@@ -18903,14 +19109,19 @@
             "description": "The number of total products at endDate moment",
             "format": "int64"
           },
+          "variant": {
+            "type": "integer",
+            "description": "The number of total variant products at endDate moment",
+            "format": "int64"
+          },
           "displayable": {
             "type": "integer",
-            "description": "The number of displayable products at endDate moment",
+            "description": "The number of total displayable products at endDate moment",
             "format": "int64"
           },
           "nonDisplayable": {
             "type": "integer",
-            "description": "The number of non displayable products at endDate moment",
+            "description": "The number of total non-displayable products at endDate moment",
             "format": "int64"
           },
           "added": {
@@ -19912,6 +20123,7 @@
           },
           "field": {
             "enum": [
+              "OBSOLETE_Extradata",
               "Category1",
               "Category2",
               "Category3",
@@ -20212,6 +20424,15 @@
           "userId": {
             "type": "string",
             "description": "Used to retrieve user events from Criteo trackers. Optional if UserEvents are passed."
+          },
+          "identityType": {
+            "enum": [
+              "CtoBundle",
+              "Idfa",
+              "Gaid"
+            ],
+            "type": "string",
+            "description": "Type of the user identifier (cto_bundle, Idfa, Gaid...)\r\nOptional if UserId is not set or if its type is cto_bundle"
           },
           "userEvents": {
             "type": "array",
@@ -20615,12 +20836,20 @@
         "type": "object",
         "properties": {
           "type": {
+            "enum": [
+              "DOMAIN",
+              "BUNDLE"
+            ],
             "type": "string",
-            "description": "Can be either domain or bundle"
+            "description": "Can be either DOMAIN or BUNDLE"
           },
           "mode": {
+            "enum": [
+              "BLOCKLIST",
+              "ALLOWLIST"
+            ],
             "type": "string",
-            "description": "Can be either blocklist or allowlist"
+            "description": "Can be either BLOCKLIST or ALLOWLIST"
           },
           "data": {
             "uniqueItems": true,

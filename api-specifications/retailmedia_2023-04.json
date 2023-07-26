@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Criteo API",
-    "description": "Criteo publicly exposed API",
+    "description": "Criteo API - RetailMedia",
     "version": "2023-04"
   },
   "servers": [
@@ -388,9 +388,10 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
-            "x-example": "68004146450571264"
+            "x-example": 68004146450571264
           }
         ],
         "requestBody": {
@@ -463,9 +464,10 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
-            "x-example": "68004146450571264"
+            "x-example": 68004146450571264
           },
           {
             "name": "limitToId",
@@ -560,9 +562,10 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
-            "x-example": "68004146450571264"
+            "x-example": 68004146450571264
           }
         ],
         "requestBody": {
@@ -1541,7 +1544,7 @@
         "description": "Request a campaign report",
         "operationId": "requestCampaignReport",
         "requestBody": {
-          "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the campaign id to select\n      \"ids\": Array[string], //the campaign ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
+          "description": "Envelope of the request",
           "content": {
             "application/json": {
               "schema": {
@@ -1589,7 +1592,7 @@
         "description": "Request a line item report",
         "operationId": "requestLineItemReport",
         "requestBody": {
-          "description": "// Body of the request\n{\n  \"data\": {\n    \"type\": \"RetailMediaReportRequest\",\n    \"attributes\": {\n      \"reportType\": string, // the name of the report being requested\n      //only one of \"id\" or \"ids\" can be provided for a request\n      \"id\": string, // the line item id to select\n      \"ids: Array[string] // the line item ids to select\n      \"startDate\": string, // YYYY-MM-DD format\n      \"endDate\": string, // YYYY-MM-DD format\n      \"timeZone\": string, // examples: 'Europe/London', 'Asia/Tokyo', 'America/New_York'\n      // both attribution windows must be specified when one is specified\n      \"clickAttributionWindow\": \"7D\", \"14D\", or \"30D\"  // optional. defaults to campaign's click attribution window\n      \"viewAttributionWindow\": \"none\", \"1D\", \"7D\", \"14D\", \"30D\" // optional. defaults to campaign's view attribution window\n      \"format\": One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\" // output format, defaults to json-compact\n    }\n  }\n}",
+          "description": "Envelope of the request",
           "content": {
             "application/json": {
               "schema": {
@@ -1645,8 +1648,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "example": "ee439121-13e3-4734-9f67-c504dd921a41"
+            }
           }
         ],
         "responses": {
@@ -1658,14 +1660,13 @@
                 "required": true,
                 "schema": {
                   "type": "string"
-                },
-                "example": "inline; filename=data_<reportId>.csv"
+                }
               }
             },
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "integer"
+                  "type": "string"
                 }
               }
             }
@@ -1698,8 +1699,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "example": "ee439121-13e3-4734-9f67-c504dd921a41"
+            }
           }
         ],
         "responses": {
@@ -4859,21 +4859,24 @@
           "brandIds": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
             "description": "The brands to target"
           },
           "categoryIds": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             },
             "description": "The categories to target"
           },
           "retailerId": {
-            "type": "string",
+            "type": "integer",
             "description": "ID of the retailer associated with this audience",
-            "example": "68004146450571264"
+            "format": "int64",
+            "example": 6841
           },
           "name": {
             "type": "string",
@@ -4891,9 +4894,10 @@
         "type": "object",
         "properties": {
           "retailerId": {
-            "type": "string",
+            "type": "integer",
             "description": "ID of the retailer associated with this audience",
-            "example": "68004146450571264"
+            "format": "int64",
+            "example": 6041
           },
           "name": {
             "type": "string",
@@ -4918,9 +4922,10 @@
         "type": "object",
         "properties": {
           "retailerId": {
-            "type": "string",
+            "type": "integer",
             "description": "ID of the retailer associated with this audience",
-            "example": "68004146450571264"
+            "format": "int64",
+            "example": 6041
           },
           "userBehaviorDetails": {
             "$ref": "#/components/schemas/UserBehaviorDetailsV2"
@@ -5051,14 +5056,16 @@
           "categoryIds": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             },
             "description": "The categories to target"
           },
           "brandIds": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
             "description": "The brands to target"
           },
@@ -6923,6 +6930,9 @@
             ],
             "type": "string",
             "description": "One of \"summary\", \"keyword\", \"pageType\", \"productCategory\", \"product\", or \"attributedTransactions\""
+          },
+          "revenueType": {
+            "type": "string"
           },
           "startDate": {
             "type": "string",
