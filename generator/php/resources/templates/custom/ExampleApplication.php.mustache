@@ -16,7 +16,7 @@ class ExampleApplication
         //The Gateway API regroups common technical endpoints that exists for all versions
         //You can find the other endpoints in the other *Api
         //You can reuse the same client with several Apis, but be careful, as they will then use the same token and credentials
-        $api = new GatewayApi(client);
+        $api = new GatewayApi($client);
 
         try {
             //Perform the call to the application introspection endpoint
