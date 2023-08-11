@@ -8,6 +8,7 @@ use {{invokerPackage}}\ObjectSerializer;
 use {{invokerPackage}}\test\ExampleApplication;
 use Jchook\AssertThrows\AssertThrows;
 use PHPUnit\Framework\TestCase;
+require_once dirname(__FILE__) . '/../ExampleApplication.php';
 
 class GatewayApiTest extends TestCase
 {
@@ -46,8 +47,10 @@ class GatewayApiTest extends TestCase
 
     public function testExampleWorks()
     {
-        $example = new ExampleApplication();
+        $example = new \ExampleApplication();
         $example->CallTheApplicationEndpoint($this->clientId, $this->clientSecret);
+
+        $this->expectNotToPerformAssertions(); // To avoid having a warning saying we did not assert anything
     }
 
     public function testGetCurrentApplicationShouldSucceedWithValidToken()
