@@ -8,9 +8,10 @@ on:
           description: latest stable API version (ex 2023-07)
 
 jobs:
-  build:
+  update-oas:
     runs-on: ubuntu-latest
-
+    env:
+      branch_name: update-oas-$(date --rfc-3339=date)
     steps:
       - uses: actions/checkout@v2
 
@@ -26,12 +27,12 @@ jobs:
         run: |
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot]@users.noreply.github.com"
-          git checkout -b update-oas
+          git checkout -b $branch_name
           git add *
           git commit -m "Update OAS up to ${{ github.event.inputs.latest-version }}"
-          git push origin update-oas:update-oas-$(date --rfc-3339=date)
+          git push origin $branch_name
 
       - name: Create pull request on main
-        run: gh pr create --base main --head update-oas --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --body "Update OAS up to ${{ github.event.inputs.latest-version }}"
+        run: gh pr create --base origin/main --head origin/$branch_name --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --body "Update OAS up to ${{ github.event.inputs.latest-version }}"
         env:
           GH_TOKEN: ${{ github.token }}
