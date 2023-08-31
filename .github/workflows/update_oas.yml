@@ -29,7 +29,7 @@ jobs:
           git checkout -b update-oas
           git add *
           git commit -m "Update OAS up to ${{ github.event.inputs.latest-version }}"
-          git push --set-upstream origin update-oas-$(date --rfc-3339=date)
+          git push origin update-oas:update-oas-$(date --rfc-3339=date)
 
       - name: Create pull request on main
         run: gh pr create --base main --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --body "Update OAS up to ${{ github.event.inputs.latest-version }}"
