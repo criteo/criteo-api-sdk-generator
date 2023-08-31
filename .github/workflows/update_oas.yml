@@ -29,8 +29,9 @@ jobs:
           git checkout -b update-oas-$(date --rfc-3339=date)
           git add *
           git commit -m "Update OAS up to ${{ github.event.inputs.latest-version }}"
+          git push
 
       - name: Create pull request on main
-        run: gh pr create --base main --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --body "Update OAS up to ${{ github.event.inputs.latest-version }}" --head
+        run: gh pr create --base main --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --body "Update OAS up to ${{ github.event.inputs.latest-version }}"
         env:
           GH_TOKEN: ${{ github.token }}
