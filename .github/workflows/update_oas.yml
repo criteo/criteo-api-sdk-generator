@@ -1,0 +1,34 @@
+name: Update OAS
+
+on:
+  workflow_dispatch:
+    inputs:
+        latest-version:
+          type: string
+          description: latest stable API version (ex 2023-07)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: update OAS
+        run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r ${{ github.event.inputs.latest-version }}
+
+      - name: Create new branch and commit files
+        run: |
+          git config --global user.name "update-oas-bot"
+          git config --global user.email "update-oas-bot]@users.noreply.github.com"
+          git checkout -b update-oas-$(date --rfc-3339=date)
+          git add *
+          git commit -m "Update OAS up to ${{ github.event.inputs.latest-version }}"
+
+      - name: Create pull request on main
+        run: gh pr create --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --base main

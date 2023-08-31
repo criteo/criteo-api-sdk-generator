@@ -55,11 +55,10 @@ def remove_out_of_support_specifications(specification_folder, reference_version
     specification_path.unlink()
 
 
-def download_specification(version, api_service, specification_folder, configuration_service):
+def download_specification(version, api_service, specification_folder, gateway_service):
     folder_path = Path(specification_folder)
     target_file = folder_path / f"{api_service.lower()}_{version}{SPECIFICATION_EXTENSION}"
-    params = urllib.parse.urlencode({'criteoService': api_service})
-    specification_url = f"{configuration_service}/v1/exam-oas/version/{version}?{params}"
+    specification_url = f"{gateway_service}/{version.lower()}/{api_service.lower()}/open-api-specifications.json"
     try:
         f = urllib.request.urlopen(specification_url)
         if target_file.exists():
@@ -71,24 +70,24 @@ def download_specification(version, api_service, specification_folder, configura
         raise e
 
 
-def update_previous_specifications(specification_folder, configuration_service):
+def update_previous_specifications(specification_folder, gateway_service):
   folder_path = Path(specification_folder)
   for specification_path in folder_path.glob(f"*{SPECIFICATION_EXTENSION}"):
     api_service_lower, version = _get_service_version_from_specification_filepath(specification_path)
     api_service_candidates = [
-      candidate_service 
-      for candidate_service in ALL_API_SERVICES 
+      candidate_service
+      for candidate_service in ALL_API_SERVICES
       if candidate_service.lower() == api_service_lower]
     if not api_service_candidates:
       raise RuntimeError(f"Cannot recognize the API service associated to {specification_path} ({api_service_lower} is unknown)")
     api_service = api_service_candidates[0]
-    download_specification(version, api_service, specification_folder, configuration_service)
+    download_specification(version, api_service, specification_folder, gateway_service)
 
 
 def main():
     help_msg = f'{__doc__}\n{__file__} -r <version to release> -s <path to specification folder> -c <URL to the configuration service>'
     try:
-        opts, _ = getopt.getopt(sys.argv[1:], "hvr:s:c:", ["help", "verbose", "release=", "specification_folder=", "configuration_service="])
+        opts, _ = getopt.getopt(sys.argv[1:], "hvr:s:g:", ["help", "verbose", "release=", "specification_folder=", "gateway_service="])
     except getopt.GetoptError:
         LOGGER.error(f'Invalid call: [help] {help_msg}')
         sys.exit(2)
@@ -103,19 +102,19 @@ def main():
             release = value
         elif option in ('-s', '--specification_folder'):
             specification_folder = value
-        elif option in ('-c', '--configuration_service'):
-            configuration_service = value
+        elif option in ('-g', '--gateway_service'):
+            gateway_service = value
         else:
             raise Exception(f'Unsupported command line option ({option}={value}).')
 
     LOGGER.info("Removing obsolete versions")
     remove_out_of_support_specifications(specification_folder, release, NUM_YEARS_TO_KEEP)
     LOGGER.info("Updating previous relevant versions")
-    update_previous_specifications(specification_folder, configuration_service)
+    update_previous_specifications(specification_folder, gateway_service)
     LOGGER.info("Downloading the newest specifications")
     for api_service in ALL_API_SERVICES:
         LOGGER.info(f"Getting new specifications for {api_service}/{release}")
-        download_specification(release, api_service, specification_folder, configuration_service)
+        download_specification(release, api_service, specification_folder, gateway_service)
 
 
 if __name__ == '__main__':
