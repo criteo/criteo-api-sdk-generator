@@ -16,13 +16,13 @@
         "tags": [
           "Audience"
         ],
-        "description": "Add/remove users to or from an audience",
+        "description": "Add/remove identifiers to or from a contact list.",
         "operationId": "modifyAudienceUsersWithAttributes",
         "parameters": [
           {
             "name": "audience-id",
             "in": "path",
-            "description": "The id of the audience to amend",
+            "description": "The id of the contact list audience-segment to amend",
             "required": true,
             "style": "simple",
             "schema": {
@@ -82,7 +82,7 @@
         "tags": [
           "Audience"
         ],
-        "description": "Delete all identifiers from a Contact List Audience Segment",
+        "description": "Delete all identifiers from a contact list audience-segment.",
         "operationId": "deleteContactListIdentifiers",
         "responses": {
           "200": {
@@ -150,7 +150,7 @@
         "tags": [
           "Audience"
         ],
-        "description": "Add/remove identifiers to or from an Contact List Audience Segment",
+        "description": "Add/remove identifiers to or from a contact list audience-segment.",
         "operationId": "updateContactListIdentifiers",
         "requestBody": {
           "content": {
@@ -329,7 +329,7 @@
         {
           "name": "audience-segment-id",
           "in": "path",
-          "description": "The ID of the Audience Segment to amend",
+          "description": "The id of the contact list audience-segment to amend",
           "required": true,
           "style": "simple",
           "schema": {
@@ -6922,57 +6922,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/product-sets/preview": {
-      "post": {
-        "tags": [
-          "Reco"
-        ],
-        "description": "Display a preview of product set rules",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductSetStatisticsQuery"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "body"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OkResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Authorization Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PreviewFailResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PreviewFailResponse"
                 }
               }
             }
@@ -20392,7 +20341,28 @@
           },
           "sellerId": {
             "type": "string",
-            "description": "The ID of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
+            "description": "Deprecated field. It should be replaced by externalSellerId. The external ID of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
+            "nullable": true
+          },
+          "externalSellerId": {
+            "type": "string",
+            "description": "The external id of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
+            "nullable": true
+          },
+          "externalSellerName": {
+            "type": "string",
+            "description": "The external name of the seller (case sensitive and 750 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
+            "nullable": true
+          },
+          "numberOfReviews": {
+            "type": "integer",
+            "description": "The number of reviews for the product. This information is required by the Criteo Offsite Ads.",
+            "format": "int32",
+            "nullable": true
+          },
+          "productRating": {
+            "type": "string",
+            "description": "The rating of the product. This information is required by the Criteo Offsite Ads.",
             "nullable": true
           }
         },
@@ -20888,245 +20858,6 @@
         },
         "description": "Encapsulate a product rule"
       },
-      "OkResponse": {
-        "required": [
-          "data",
-          "warnings"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ProductSetStatistics"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PreviewWarning"
-            },
-            "description": "List of warnings"
-          }
-        },
-        "description": "Successful server response."
-      },
-      "PreviewFailResponse": {
-        "required": [
-          "errors",
-          "warnings"
-        ],
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PreviewError"
-            },
-            "description": "List of errors"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PreviewWarning"
-            },
-            "description": "List of warnings"
-          }
-        },
-        "description": "Error server response."
-      },
-      "ProductSetStatisticsQuery": {
-        "required": [
-          "productSampleCount",
-          "productSet"
-        ],
-        "type": "object",
-        "properties": {
-          "productSet": {
-            "$ref": "#/components/schemas/ProductSetPreview"
-          },
-          "productSampleCount": {
-            "type": "integer",
-            "description": "The size of the products sample",
-            "format": "int32",
-            "example": 5
-          }
-        },
-        "description": "ProductSet statistics preview request"
-      },
-      "ProductSetStatistics": {
-        "required": [
-          "productCount",
-          "sampleProducts",
-          "totalProductCount"
-        ],
-        "type": "object",
-        "properties": {
-          "productCount": {
-            "type": "integer",
-            "description": "Number of products in the product set",
-            "format": "int64"
-          },
-          "totalProductCount": {
-            "type": "integer",
-            "description": "Number of products in the partner's catalog",
-            "format": "int64"
-          },
-          "sampleProducts": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "A sample of products (hashed external id) contained in the product set"
-          }
-        },
-        "description": "ProductSet statistics preview response"
-      },
-      "PreviewWarning": {
-        "required": [
-          "code",
-          "detail",
-          "instance",
-          "title",
-          "traceId",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "The MACHINE-READABLE correlation ID provided by the gateway"
-          },
-          "type": {
-            "type": "string",
-            "description": "A MACHINE-READABLE code specifying error category. This information is used on client side to focus on certain type of error, to either retry some processing or display only certain type of errors."
-          },
-          "code": {
-            "type": "string",
-            "description": "A MACHINE-READABLE error code string in kebab-case. Unique across Criteo"
-          },
-          "instance": {
-            "type": "string",
-            "description": "A MACHINE-READABLE URI reference that identifies the specific occurrence of the problem. This could be useful when we want to the return the API Endpoint identifying the exact resource related to the error."
-          },
-          "title": {
-            "type": "string",
-            "description": "A short, HUMAN-READABLE summary of the problem type. It should not change from occurrence to occurrence of the problem, except for purposes of localization."
-          },
-          "detail": {
-            "type": "string",
-            "description": "A HUMAN-READABLE detailed explanation specific to this occurrence of the problem. This should not be more that 1 paragraph"
-          }
-        },
-        "description": "Warning descriptor."
-      },
-      "PreviewError": {
-        "required": [
-          "code",
-          "detail",
-          "instance",
-          "title",
-          "traceId",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "The MACHINE-READABLE correlation ID provided by the gateway"
-          },
-          "type": {
-            "type": "string",
-            "description": "A MACHINE-READABLE code specifying error category. This information is used on client side to focus on certain type of error, to either retry some processing or display only certain type of errors."
-          },
-          "code": {
-            "type": "string",
-            "description": "A MACHINE-READABLE error code string in kebab-case. Unique across Criteo"
-          },
-          "instance": {
-            "type": "string",
-            "description": "A MACHINE-READABLE URI reference that identifies the specific occurrence of the problem. This could be useful when we want to the return the API Endpoint identifying the exact resource related to the error."
-          },
-          "title": {
-            "type": "string",
-            "description": "A short, HUMAN-READABLE summary of the problem type. It should not change from occurrence to occurrence of the problem, except for purposes of localization."
-          },
-          "detail": {
-            "type": "string",
-            "description": "A HUMAN-READABLE detailed explanation specific to this occurrence of the problem. This should not be more that 1 paragraph"
-          }
-        },
-        "description": "Error descriptor."
-      },
-      "ProductSetPreview": {
-        "required": [
-          "partnerId",
-          "rules"
-        ],
-        "type": "object",
-        "properties": {
-          "partnerId": {
-            "type": "integer",
-            "description": "PartnerId",
-            "format": "int32",
-            "example": 123
-          },
-          "rules": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Rules"
-            },
-            "description": "ProductSet rules"
-          }
-        },
-        "description": "ProductSet preview schema"
-      },
-      "Rules": {
-        "required": [
-          "field",
-          "operator"
-        ],
-        "type": "object",
-        "properties": {
-          "field": {
-            "enum": [
-              "Brand",
-              "Category1",
-              "Category2",
-              "Category3",
-              "CustomLabel0",
-              "CustomLabel1",
-              "CustomLabel2",
-              "CustomLabel3",
-              "CustomLabel4",
-              "ExternalItemId",
-              "RetailPrice",
-              "SalePrice"
-            ],
-            "type": "string",
-            "example": "Brand"
-          },
-          "operator": {
-            "enum": [
-              "Between",
-              "EqualTo",
-              "GreaterThan",
-              "IsIn",
-              "IsNotIn",
-              "LessThan",
-              "NotBetween",
-              "NotEqualTo"
-            ],
-            "type": "string",
-            "example": "IsIn"
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "description": "ProductSet rule"
-      },
       "OnSiteRecoResponse": {
         "type": "object",
         "properties": {
@@ -21164,7 +20895,7 @@
           },
           "userId": {
             "type": "string",
-            "description": "Used to retrieve user events from Criteo trackers. Optional if UserEvents are passed.",
+            "description": "Used to retrieve user events from Criteo trackers.",
             "nullable": true
           },
           "identityType": {
@@ -21174,15 +20905,7 @@
               "Gaid"
             ],
             "type": "string",
-            "description": "Type of the user identifier (cto_bundle, Idfa, Gaid...)\r\nOptional if UserId is not set or if its type is cto_bundle",
-            "nullable": true
-          },
-          "userEvents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserEvent"
-            },
-            "description": "Used to perform a recommendation without relying on events stored for a UserId. Optional if UserId is passed.",
+            "description": "Type of the user identifier (CtoBundle, Idfa, Gaid...)\r\nOptional if its type is CtoBundle",
             "nullable": true
           },
           "adSetId": {
@@ -21239,6 +20962,12 @@
             "format": "double",
             "nullable": true
           },
+          "retailprice": {
+            "type": "number",
+            "description": "Product retail price.",
+            "format": "double",
+            "nullable": true
+          },
           "googleCategory": {
             "type": "string",
             "description": "Product google category.",
@@ -21246,38 +20975,6 @@
           }
         },
         "description": "Represents a recommended product."
-      },
-      "UserEvent": {
-        "required": [
-          "productExternalId",
-          "type",
-          "dateTime"
-        ],
-        "type": "object",
-        "properties": {
-          "productExternalId": {
-            "type": "string",
-            "description": "Product external id."
-          },
-          "type": {
-            "enum": [
-              0,
-              1,
-              2,
-              3,
-              4
-            ],
-            "type": "integer",
-            "description": "Event type e.g. page view, sale...",
-            "format": "int32"
-          },
-          "dateTime": {
-            "type": "string",
-            "description": "Event date (format : 2012-04-23T18:25:43.511Z)",
-            "format": "date-time"
-          }
-        },
-        "description": "Represents an event where user has interacted with a product."
       },
       "TargetType": {
         "enum": [

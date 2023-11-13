@@ -1541,28 +1541,28 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Return an async Campaign Report",
-        "operationId": "GenerateAsyncCampaignReport",
+        "description": "Return an asynchronous Campaigns Report",
+        "operationId": "GenerateAsyncCampaignsReport",
         "requestBody": {
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncCampaignReportRequest"
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncCampaignReportRequest"
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncCampaignReportRequest"
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncCampaignReportRequest"
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
               }
             }
           },
@@ -1638,28 +1638,28 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Return an async Line Item Report",
+        "description": "Returns an asynchronous Line Items Report",
         "operationId": "GenerateAsyncLineItemsReport",
         "requestBody": {
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncLineItemReportRequest"
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncLineItemReportRequest"
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncLineItemReportRequest"
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncLineItemReportRequest"
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
               }
             }
           },
@@ -1735,7 +1735,7 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Return the output of an async report",
+        "description": "Returns the output of an async report",
         "operationId": "GetAsyncExportOutput",
         "parameters": [
           {
@@ -1818,7 +1818,7 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Return the status of an async report",
+        "description": "Returns the status of an async report",
         "operationId": "GetAsyncExportStatus",
         "parameters": [
           {
@@ -6995,20 +6995,20 @@
         },
         "description": "The outcome of an API call."
       },
-      "AsyncCampaignReportRequest": {
+      "AsyncCampaignsReportRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/AsyncCampaignReportResource"
+            "$ref": "#/components/schemas/AsyncCampaignsReportResource"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
-      "AsyncLineItemReportRequest": {
+      "AsyncLineItemsReportRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/AsyncLineItemReportResource"
+            "$ref": "#/components/schemas/AsyncLineItemsReportResource"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
@@ -7030,7 +7030,7 @@
         },
         "description": "A class that represents a domain entity exposed by an API"
       },
-      "AsyncCampaignReportResource": {
+      "AsyncCampaignsReportResource": {
         "type": "object",
         "properties": {
           "type": {
@@ -7038,12 +7038,12 @@
             "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/AsyncCampaignReport"
+            "$ref": "#/components/schemas/AsyncCampaignsReport"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
-      "AsyncLineItemReportResource": {
+      "AsyncLineItemsReportResource": {
         "type": "object",
         "properties": {
           "type": {
@@ -7051,7 +7051,7 @@
             "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/AsyncLineItemReport"
+            "$ref": "#/components/schemas/AsyncLineItemsReport"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
@@ -7105,7 +7105,7 @@
           "infoType": "entity"
         }
       },
-      "AsyncCampaignReport": {
+      "AsyncCampaignsReport": {
         "required": [
           "endDate",
           "startDate"
@@ -7128,10 +7128,13 @@
                 "cpm",
                 "roas",
                 "uniqueVisitors",
-                "frequency"
+                "frequency",
+                "assistedUnits",
+                "assistedSales"
               ],
               "type": "string"
             },
+            "description": "List of metrics to report on",
             "nullable": true
           },
           "dimensions": {
@@ -7139,6 +7142,7 @@
             "items": {
               "enum": [
                 "date",
+                "hour",
                 "campaignId",
                 "campaignName",
                 "campaignTypeName",
@@ -7148,11 +7152,61 @@
                 "brandId",
                 "brandName",
                 "pageTypeName",
+                "environment",
                 "keyword",
-                "salesChannel"
+                "salesChannel",
+                "retailerId",
+                "retailerName"
               ],
               "type": "string"
             },
+            "description": "List of dimensions to report on",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "nullable": true
+          },
+          "salesChannel": {
+            "enum": [
+              "offline",
+              "online"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "nullable": true
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Format of the output",
+            "default": "json-compact",
+            "nullable": true
+          },
+          "reportType": {
+            "enum": [
+              "summary",
+              "pageType",
+              "keyword",
+              "productCategory",
+              "product",
+              "attributedTransactions",
+              "environment",
+              "servedCategory"
+            ],
+            "type": "string",
+            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "default": "summary",
             "nullable": true
           },
           "clickAttributionWindow": {
@@ -7163,6 +7217,8 @@
               "none"
             ],
             "type": "string",
+            "description": "Click attribution window",
+            "default": "none",
             "nullable": true
           },
           "viewAttributionWindow": {
@@ -7174,56 +7230,8 @@
               "none"
             ],
             "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "timezone": {
-            "type": "string",
-            "nullable": true
-          },
-          "campaignType": {
-            "enum": [
-              "sponsoredProducts",
-              "onSiteDisplays"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "salesChannel": {
-            "enum": [
-              "offline",
-              "online"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "format": {
-            "enum": [
-              "json",
-              "json-compact",
-              "json-newline",
-              "csv"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "reportType": {
-            "enum": [
-              "summary",
-              "pageType",
-              "keyword",
-              "productCategory",
-              "product",
-              "attributedTransactions"
-            ],
-            "type": "string",
+            "description": "View attribution window",
+            "default": "none",
             "nullable": true
           },
           "ids": {
@@ -7231,16 +7239,34 @@
             "items": {
               "type": "string"
             },
+            "description": "Ids to report on",
             "nullable": true
           },
           "id": {
             "type": "string",
+            "description": "Id to report on",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC",
             "nullable": true
           }
         },
         "description": "Campaign report body request"
       },
-      "AsyncLineItemReport": {
+      "AsyncLineItemsReport": {
         "required": [
           "endDate",
           "startDate"
@@ -7268,6 +7294,7 @@
               ],
               "type": "string"
             },
+            "description": "List of metrics to report on",
             "nullable": true
           },
           "dimensions": {
@@ -7275,6 +7302,7 @@
             "items": {
               "enum": [
                 "date",
+                "hour",
                 "campaignId",
                 "campaignName",
                 "campaignTypeName",
@@ -7289,10 +7317,58 @@
                 "retailerName",
                 "keyword",
                 "pageTypeName",
-                "salesChannel"
+                "salesChannel",
+                "environment"
               ],
               "type": "string"
             },
+            "description": "List of dimensions to report on",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "nullable": true
+          },
+          "salesChannel": {
+            "enum": [
+              "offline",
+              "online"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "nullable": true
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Format of the output",
+            "default": "json-compact",
+            "nullable": true
+          },
+          "reportType": {
+            "enum": [
+              "summary",
+              "pageType",
+              "keyword",
+              "productCategory",
+              "product",
+              "attributedTransactions",
+              "environment",
+              "servedCategory"
+            ],
+            "type": "string",
+            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "default": "summary",
             "nullable": true
           },
           "clickAttributionWindow": {
@@ -7303,6 +7379,8 @@
               "none"
             ],
             "type": "string",
+            "description": "Click attribution window",
+            "default": "none",
             "nullable": true
           },
           "viewAttributionWindow": {
@@ -7314,56 +7392,8 @@
               "none"
             ],
             "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "timezone": {
-            "type": "string",
-            "nullable": true
-          },
-          "campaignType": {
-            "enum": [
-              "sponsoredProducts",
-              "onSiteDisplays"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "salesChannel": {
-            "enum": [
-              "offline",
-              "online"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "format": {
-            "enum": [
-              "json",
-              "json-compact",
-              "json-newline",
-              "csv"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "reportType": {
-            "enum": [
-              "summary",
-              "pageType",
-              "keyword",
-              "productCategory",
-              "product",
-              "attributedTransactions"
-            ],
-            "type": "string",
+            "description": "View attribution window",
+            "default": "none",
             "nullable": true
           },
           "ids": {
@@ -7371,14 +7401,32 @@
             "items": {
               "type": "string"
             },
+            "description": "Ids to report on",
             "nullable": true
           },
           "id": {
             "type": "string",
+            "description": "Id to report on",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC",
             "nullable": true
           }
         },
-        "description": "Line Item report body request"
+        "description": "Line Items report body request"
       },
       "Balance202110PagedListResponse": {
         "type": "object",
@@ -8444,7 +8492,6 @@
           "spent",
           "remaining",
           "startDate",
-          "endDate",
           "status",
           "createdAt",
           "updatedAt"
@@ -8496,12 +8543,15 @@
             ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
+            "format": "date",
+            "x-nullable": false
           },
           "endDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
+            "format": "date",
+            "nullable": true,
+            "x-nullable": true
           },
           "status": {
             "enum": [
