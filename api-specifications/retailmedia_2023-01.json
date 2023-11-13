@@ -1185,45 +1185,94 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Request a campaign report",
-        "operationId": "requestCampaignReport",
+        "description": "Return an asynchronous Campaigns Report",
+        "operationId": "GenerateAsyncCampaignsReport",
         "requestBody": {
-          "description": "Envelope of the request",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
+              }
+            },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EnvelopeReportRequest"
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
               }
             }
           },
-          "required": true
+          "required": true,
+          "x-bodyName": "request"
         },
         "responses": {
           "200": {
-            "description": "Returns the status of the report",
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EnvelopeReportStatus"
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request",
+            "description": "Bad Request",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
                 }
               }
             }
           },
-          "401": {
-            "description": "Missing Authorization or token invalid"
-          },
           "403": {
-            "description": "Must have access to RetailMedia accounts"
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
           }
         }
       }
@@ -1233,45 +1282,94 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Request a line item report",
-        "operationId": "requestLineItemReport",
+        "description": "Returns an asynchronous Line Items Report",
+        "operationId": "GenerateAsyncLineItemsReport",
         "requestBody": {
-          "description": "Envelope of the request",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
+              }
+            },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EnvelopeReportRequest"
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
               }
             }
           },
-          "required": true
+          "required": true,
+          "x-bodyName": "request"
         },
         "responses": {
           "200": {
-            "description": "Returns the status of the report",
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EnvelopeReportStatus"
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request",
+            "description": "Bad Request",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
                 }
               }
             }
           },
-          "401": {
-            "description": "Missing Authorization or token invalid"
-          },
           "403": {
-            "description": "Must have access to RetailMedia accounts"
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
           }
         }
       }
@@ -1281,13 +1379,13 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Request the report output",
-        "operationId": "getReportOutput",
+        "description": "Returns the output of an async report",
+        "operationId": "GetAsyncExportOutput",
         "parameters": [
           {
             "name": "reportId",
             "in": "path",
-            "description": "report id",
+            "description": "The ID of the report to retrieve",
             "required": true,
             "style": "simple",
             "schema": {
@@ -1297,32 +1395,64 @@
         ],
         "responses": {
           "200": {
-            "description": "The output",
-            "headers": {
-              "Content-Disposition": {
-                "description": "Returns a filename for the output",
-                "required": true,
+            "description": "Success",
+            "content": {
+              "text/plain": {
                 "schema": {
                   "type": "string"
                 }
-              }
-            },
-            "content": {
-              "application/octet-stream": {
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "type": "string"
                 }
               }
             }
           },
-          "401": {
-            "description": "Missing Authorization or token invalid"
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Must have access to RetailMedia accounts"
-          },
-          "404": {
-            "description": "ReportId not found"
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
           }
         }
       }
@@ -1332,13 +1462,13 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Get the status of the report",
-        "operationId": "getReportStatus",
+        "description": "Returns the status of an async report",
+        "operationId": "GetAsyncExportStatus",
         "parameters": [
           {
             "name": "reportId",
             "in": "path",
-            "description": "report id",
+            "description": "The ID of the report to retrieve",
             "required": true,
             "style": "simple",
             "schema": {
@@ -1348,23 +1478,64 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns the status of the report",
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EnvelopeReportStatus"
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
                 }
               }
             }
           },
-          "401": {
-            "description": "Missing Authorization or token invalid"
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Must have access to RetailMedia accounts"
-          },
-          "404": {
-            "description": "ReportId not found"
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
           }
         }
       }
@@ -5900,181 +6071,117 @@
         "description": "An option given in a choice",
         "x-nullable": false
       },
-      "EnvelopeReportStatus": {
-        "required": [
-          "data"
-        ],
+      "AsyncReportResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ReportStatus"
-          }
-        },
-        "description": "Standard response envelope"
-      },
-      "BadRequest": {
-        "type": "object",
-        "properties": {
+            "$ref": "#/components/schemas/StatusResponseResource"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
           "errors": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/CommonProblem"
             },
-            "description": "The errors",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           }
         },
-        "description": "Bad request errors"
+        "description": "Async Report response format"
       },
-      "EnvelopeReportRequest": {
-        "required": [
-          "data"
-        ],
+      "ReportOutcome": {
+        "type": "object",
+        "properties": {
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "The outcome of an API call."
+      },
+      "AsyncCampaignsReportRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ReportRequest"
+            "$ref": "#/components/schemas/AsyncCampaignsReportResource"
           }
         },
-        "description": "Standard response envelope"
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
-      "ReportStatus": {
-        "required": [
-          "type",
-          "id",
-          "attributes"
-        ],
+      "AsyncLineItemsReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncLineItemsReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "StatusResponseResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ReportStatusAttributes"
+            "$ref": "#/components/schemas/StatusResponse"
           },
           "id": {
             "type": "string",
-            "description": "The reportId"
+            "nullable": true
           },
           "type": {
             "type": "string",
-            "description": "Always \"RetailMediaReportStatus\""
+            "nullable": true
           }
         },
-        "description": "Report Status"
+        "description": "A class that represents a domain entity exposed by an API"
       },
-      "Error": {
-        "required": [
-          "code",
-          "type",
-          "traceId",
-          "instance"
-        ],
+      "AsyncCampaignsReportResource": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
-          },
-          "detail": {
-            "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
-          },
-          "source": {
-            "$ref": "#/components/schemas/MapString"
-          },
-          "stackTrace": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology e.g. .Net, Scala, etc",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "nullable": true
-          },
-          "traceId": {
-            "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
-          },
           "type": {
-            "enum": [
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
             "type": "string",
-            "description": "Type should be: \"validation\", \"unavailable, \"violation\", \"permission\", ..."
-          }
-        },
-        "description": "Error"
-      },
-      "ReportRequest": {
-        "required": [
-          "type",
-          "attributes"
-        ],
-        "type": "object",
-        "properties": {
+            "nullable": true
+          },
           "attributes": {
-            "$ref": "#/components/schemas/ReportRequestAttributes"
-          },
-          "type": {
-            "type": "string",
-            "description": "Always \"RetailMediaReportRequest\""
+            "$ref": "#/components/schemas/AsyncCampaignsReport"
           }
         },
-        "description": "Report Request"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
-      "ReportStatusAttributes": {
-        "required": [
-          "status"
-        ],
+      "AsyncLineItemsReportResource": {
         "type": "object",
         "properties": {
-          "createdAt": {
+          "type": {
             "type": "string",
-            "description": "Timestamp when the report started to execute",
-            "format": "date-time",
             "nullable": true
           },
-          "expiresAt": {
-            "type": "string",
-            "description": "Timestamp when the cached report will expire",
-            "format": "date-time",
-            "nullable": true
-          },
-          "fileSizeBytes": {
-            "type": "integer",
-            "description": "Total size of file, only populated on success",
-            "format": "int64",
-            "nullable": true
-          },
-          "md5Checksum": {
-            "type": "string",
-            "description": "The MD5 checksum of the content, only populated on success",
-            "nullable": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Failure message, only populated on failure",
-            "nullable": true
-          },
-          "rowCount": {
-            "type": "integer",
-            "description": "Rows of data in report, only populated on success",
-            "format": "int64",
-            "nullable": true
-          },
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncLineItemsReport"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "StatusResponse": {
+        "type": "object",
+        "properties": {
           "status": {
             "enum": [
               "pending",
@@ -6083,56 +6190,171 @@
               "expired"
             ],
             "type": "string",
-            "description": "One of \"pending\", \"success\", \"failure\", or \"expired\""
-          }
-        },
-        "description": "Report Status Attributes"
-      },
-      "MapString": {
-        "type": "object",
-        "additionalProperties": {
-          "type": "string"
-        },
-        "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)."
-      },
-      "ReportRequestAttributes": {
-        "required": [
-          "reportType",
-          "startDate",
-          "endDate"
-        ],
-        "type": "object",
-        "properties": {
-          "clickAttributionWindow": {
-            "enum": [
-              "7D",
-              "14D",
-              "30D"
-            ],
-            "type": "string",
-            "description": "Defaults to value from campaign or one of \"7D\", \"14D\", or \"30D\". If specified, viewAttributionWindow must also be specified",
             "nullable": true
           },
-          "endDate": {
-            "type": "string",
-            "description": "YYYY-MM-DD, must not be before startDate and not more than 100 days later",
-            "format": "date"
+          "rowCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
-          "format": {
-            "enum": [
-              "csv",
-              "json",
-              "json-compact",
-              "json-newline"
-            ],
+          "fileSizeBytes": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "md5CheckSum": {
             "type": "string",
-            "description": "One of \"json\" (default),\"json-compact\",\"json-newline\" or \"csv\"",
-            "default": "json",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
             "nullable": true
           },
           "id": {
             "type": "string",
-            "description": "The id of the campaign or line item.  Either 'id' or 'ids' must be specified, but not both",
+            "nullable": true
+          }
+        },
+        "description": "Status of an async report request",
+        "x-criteo-canonical": {
+          "infoType": "entity"
+        }
+      },
+      "AsyncCampaignsReport": {
+        "required": [
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "spend",
+                "attributedSales",
+                "attributedUnits",
+                "attributedOrders",
+                "ctr",
+                "cpc",
+                "cpo",
+                "cpm",
+                "roas",
+                "uniqueVisitors",
+                "frequency",
+                "assistedUnits",
+                "assistedSales"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on",
+            "nullable": true
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "campaignId",
+                "campaignName",
+                "campaignTypeName",
+                "advProductCategory",
+                "advProductId",
+                "advProductName",
+                "brandId",
+                "brandName",
+                "pageTypeName",
+                "environment",
+                "keyword",
+                "salesChannel",
+                "retailerId",
+                "retailerName"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "nullable": true
+          },
+          "salesChannel": {
+            "enum": [
+              "offline",
+              "online"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "nullable": true
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Format of the output",
+            "default": "json-compact",
+            "nullable": true
+          },
+          "reportType": {
+            "enum": [
+              "summary",
+              "pageType",
+              "keyword",
+              "productCategory",
+              "product",
+              "attributedTransactions",
+              "environment",
+              "servedCategory"
+            ],
+            "type": "string",
+            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "default": "summary",
+            "nullable": true
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "7D",
+              "14D",
+              "30D",
+              "none"
+            ],
+            "type": "string",
+            "description": "Click attribution window",
+            "default": "none",
+            "nullable": true
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "1D",
+              "7D",
+              "14D",
+              "30D",
+              "none"
+            ],
+            "type": "string",
+            "description": "View attribution window",
+            "default": "none",
             "nullable": true
           },
           "ids": {
@@ -6140,48 +6362,194 @@
             "items": {
               "type": "string"
             },
-            "description": "The ids of the campaigns or line items.  Either 'id' or 'ids' must be specified, but not both",
+            "description": "Ids to report on",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Id to report on",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC",
+            "nullable": true
+          }
+        },
+        "description": "Campaign report body request"
+      },
+      "AsyncLineItemsReport": {
+        "required": [
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "spend",
+                "attributedSales",
+                "attributedUnits",
+                "attributedOrders",
+                "ctr",
+                "cpc",
+                "cpo",
+                "roas",
+                "assistedUnits",
+                "assistedSales",
+                "uniqueVisitors",
+                "frequency"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on",
+            "nullable": true
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "campaignId",
+                "campaignName",
+                "campaignTypeName",
+                "advProductCategory",
+                "advProductId",
+                "advProductName",
+                "brandId",
+                "brandName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName",
+                "keyword",
+                "pageTypeName",
+                "salesChannel",
+                "environment"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "nullable": true
+          },
+          "salesChannel": {
+            "enum": [
+              "offline",
+              "online"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "nullable": true
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Format of the output",
+            "default": "json-compact",
             "nullable": true
           },
           "reportType": {
             "enum": [
               "summary",
-              "keyword",
               "pageType",
+              "keyword",
               "productCategory",
               "product",
-              "attributedTransactions"
+              "attributedTransactions",
+              "environment",
+              "servedCategory"
             ],
             "type": "string",
-            "description": "One of \"summary\", \"keyword\", \"pageType\", \"productCategory\", \"product\", or \"attributedTransactions\""
-          },
-          "revenueType": {
-            "type": "string",
+            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "default": "summary",
             "nullable": true
           },
-          "startDate": {
+          "clickAttributionWindow": {
+            "enum": [
+              "7D",
+              "14D",
+              "30D",
+              "none"
+            ],
             "type": "string",
-            "description": "YYYY-MM-DD",
-            "format": "date"
-          },
-          "timeZone": {
-            "type": "string",
+            "description": "Click attribution window",
+            "default": "none",
             "nullable": true
           },
           "viewAttributionWindow": {
             "enum": [
-              "none",
               "1D",
               "7D",
               "14D",
-              "30D"
+              "30D",
+              "none"
             ],
             "type": "string",
-            "description": "Defaults to value from campaign or one of \"none\", \"1D\", \"7D\", \"14D\", or \"30D\". If specified, must be less than clickAttributionWindow, which must also be specified.",
+            "description": "View attribution window",
+            "default": "none",
+            "nullable": true
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Ids to report on",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Id to report on",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC",
             "nullable": true
           }
         },
-        "description": "Report Request Attributes"
+        "description": "Line Items report body request"
       },
       "Balance202110PagedListResponse": {
         "type": "object",
@@ -7247,7 +7615,6 @@
           "spent",
           "remaining",
           "startDate",
-          "endDate",
           "status",
           "createdAt",
           "updatedAt"
@@ -7299,12 +7666,15 @@
             ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
+            "format": "date",
+            "x-nullable": false
           },
           "endDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
+            "format": "date",
+            "nullable": true,
+            "x-nullable": true
           },
           "status": {
             "enum": [
