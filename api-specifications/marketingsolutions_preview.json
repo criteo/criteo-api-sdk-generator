@@ -1681,17 +1681,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseAdSetId"
+                  "$ref": "#/components/schemas/ResponsesAdSetId"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseAdSetId"
+                  "$ref": "#/components/schemas/ResponsesAdSetId"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseAdSetId"
+                  "$ref": "#/components/schemas/ResponsesAdSetId"
                 }
               }
             }
@@ -1848,16 +1848,16 @@
               "text/json": { }
             }
           },
-          "401": {
-            "description": "The API client is not properly authenticated.",
+          "403": {
+            "description": "The API client is not authorized to access this resource or the resource does not exist.",
             "content": {
               "text/plain": { },
               "application/json": { },
               "text/json": { }
             }
           },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
+          "401": {
+            "description": "The API client is not properly authenticated.",
             "content": {
               "text/plain": { },
               "application/json": { },
@@ -2112,16 +2112,16 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "The API client is not properly authenticated.",
             "content": {
               "text/plain": { },
               "application/json": { },
               "text/json": { }
             }
           },
-          "401": {
-            "description": "The API client is not properly authenticated.",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": { },
               "application/json": { },
@@ -2202,16 +2202,16 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "The API client is not properly authenticated.",
             "content": {
               "text/plain": { },
               "application/json": { },
               "text/json": { }
             }
           },
-          "401": {
-            "description": "The API client is not properly authenticated.",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": { },
               "application/json": { },
@@ -2269,16 +2269,16 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "The API client is not properly authenticated.",
             "content": {
               "text/plain": { },
               "application/json": { },
               "text/json": { }
             }
           },
-          "401": {
-            "description": "The API client is not properly authenticated.",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": { },
               "application/json": { },
@@ -2359,16 +2359,16 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "The API client is not properly authenticated.",
             "content": {
               "text/plain": { },
               "application/json": { },
               "text/json": { }
             }
           },
-          "401": {
-            "description": "The API client is not properly authenticated.",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": { },
               "application/json": { },
@@ -2593,16 +2593,16 @@
               "text/json": { }
             }
           },
-          "401": {
-            "description": "The API client is not properly authenticated.",
+          "403": {
+            "description": "Forbidden",
             "content": {
               "text/plain": { },
               "application/json": { },
               "text/json": { }
             }
           },
-          "403": {
-            "description": "Forbidden",
+          "401": {
+            "description": "The API client is not properly authenticated.",
             "content": {
               "text/plain": { },
               "application/json": { },
@@ -4933,26 +4933,6 @@
         "responses": {
           "200": {
             "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MarketingSolutionsReportStatusResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MarketingSolutionsReportStatusResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MarketingSolutionsReportStatusResponse"
-                }
-              }
-            }
-          },
-          "303": {
-            "description": "Redirect",
             "content": {
               "text/plain": {
                 "schema": {
@@ -12869,32 +12849,38 @@
         },
         "description": "Placeholder object for value for which \"null\" is a valid business value"
       },
-      "ResponseAdSetId": {
+      "ResponsesAdSetId": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ReadModelAdSetId"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadModelAdSetId"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
-        "description": "output resource"
+        "description": "List of output resources"
       },
       "ResponseReadAdSet": {
         "type": "object",
@@ -12903,22 +12889,22 @@
             "$ref": "#/components/schemas/ReadModelReadAdSet"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "output resource"
@@ -12927,64 +12913,31 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ReadModelReadAdSetV23Q1"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "List of output resources"
-      },
-      "ResponsesAdSetId": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReadModelAdSetId"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "List of output resources"
@@ -12996,22 +12949,22 @@
             "$ref": "#/components/schemas/ReadModelReadAdSetV23Q1"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "output resource"
@@ -13020,30 +12973,30 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AdSetCategoryBidResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of response resources"
@@ -13052,30 +13005,30 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PatchAdSetCategoryBidResultResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of response resources"
@@ -13084,30 +13037,30 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AdSetDisplayMultiplierResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of response resources"
@@ -13116,30 +13069,30 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of response resources"
@@ -13148,31 +13101,31 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PatchResultCampaignReadResource"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "List of output resources"
@@ -13184,22 +13137,22 @@
             "$ref": "#/components/schemas/CampaignV23Q1Resource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for response resource"
@@ -13208,30 +13161,30 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CampaignV23Q1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of response resources"
@@ -13240,12 +13193,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/WriteModelPatchAdSet"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "List of input resources"
@@ -13272,12 +13225,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/WriteModelAdSetId"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "List of input resources"
@@ -13286,12 +13239,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PatchAdSetCategoryBidResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of input resources"
@@ -13300,12 +13253,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "Data model for a list of input resources"
@@ -13314,12 +13267,12 @@
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PatchCampaignWriteResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "List of input resources"
@@ -13349,73 +13302,18 @@
             "type": "string",
             "description": "Id of the entity",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "nullable": true,
             "readOnly": true,
-            "example": "AdSetId"
+            "example": "AdSetId",
+            "x-nullable": true
           }
         },
         "description": "read model data for resources"
-      },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "The request correlation ID this problem comes from.",
-            "nullable": true
-          },
-          "traceIdentifier": {
-            "type": "string",
-            "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
-            "nullable": true
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "stackTrace": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "description": "Data model for common error or warning"
       },
       "ReadModelReadAdSet": {
         "type": "object",
@@ -13424,13 +13322,15 @@
             "type": "string",
             "description": "Id of the entity",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "nullable": true,
             "readOnly": true,
-            "example": "ReadAdSet"
+            "example": "ReadAdSet",
+            "x-nullable": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ReadAdSet"
@@ -13445,13 +13345,15 @@
             "type": "string",
             "description": "Id of the entity",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "nullable": true,
             "readOnly": true,
-            "example": "ReadAdSetV23Q1"
+            "example": "ReadAdSetV23Q1",
+            "x-nullable": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ReadAdSetV23Q1"
@@ -13540,13 +13442,15 @@
             "type": "string",
             "description": "Id of the entity",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "nullable": true,
             "readOnly": true,
-            "example": "Campaign"
+            "example": "Campaign",
+            "x-nullable": true
           }
         },
         "description": "read model data for resources"
@@ -13577,13 +13481,15 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "PatchAdSet"
+            "example": "PatchAdSet",
+            "x-nullable": true
           },
           "attributes": {
             "$ref": "#/components/schemas/PatchAdSet"
@@ -13610,31 +13516,28 @@
         "type": "object",
         "properties": {
           "adSetIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Ad set ids to filter on",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "advertiserIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Advertiser ids which ad sets belongs to (indirectly via their marketing campaign)",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "campaignIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Campaign ids to filter on",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "filter on ad set ids"
@@ -13645,13 +13548,15 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "AdSetId"
+            "example": "AdSetId",
+            "x-nullable": true
           }
         },
         "description": "write model data for resources"
@@ -13702,13 +13607,15 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "Campaign"
+            "example": "Campaign",
+            "x-nullable": true
           },
           "attributes": {
             "$ref": "#/components/schemas/PatchCampaign"
@@ -13735,22 +13642,20 @@
         "type": "object",
         "properties": {
           "campaignIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Campaign ids to filter on",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "advertiserIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Advertiser ids to which campaigns are linked to",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "filters on campaign"
@@ -13760,23 +13665,23 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser id of the campaign this ad set belongs to",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "datasetId": {
             "type": "string",
-            "description": "Dataset id of this ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "campaignId": {
             "type": "string",
-            "description": "Campaign id this ad set belongs to",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "destinationEnvironment": {
             "enum": [
@@ -13785,7 +13690,6 @@
               "app"
             ],
             "type": "string",
-            "description": "The environment that an ad click will lead a user to",
             "nullable": true
           },
           "schedule": {
@@ -13806,8 +13710,8 @@
               "video"
             ],
             "type": "string",
-            "description": "Media type for the ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set read model"
@@ -13817,23 +13721,23 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser id of the campaign this ad set belongs to",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "datasetId": {
             "type": "string",
-            "description": "Dataset id of this ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "campaignId": {
             "type": "string",
-            "description": "Campaign id this ad set belongs to",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "destinationEnvironment": {
             "enum": [
@@ -13842,7 +13746,6 @@
               "app"
             ],
             "type": "string",
-            "description": "The environment that an ad click will lead a user to",
             "nullable": true
           },
           "objective": {
@@ -13860,7 +13763,6 @@
               "videoViews"
             ],
             "type": "string",
-            "description": "Objective of the ad set",
             "nullable": true
           },
           "schedule": {
@@ -13881,8 +13783,17 @@
               "video"
             ],
             "type": "string",
-            "description": "Media type of the ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
+          },
+          "videoChannel": {
+            "enum": [
+              "olv",
+              "ctv"
+            ],
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set read model"
@@ -13893,7 +13804,8 @@
           "categoryName": {
             "type": "string",
             "description": "The name of the Category to which the Category Bid has been applied.",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "bidAmount": {
             "type": "number",
@@ -13910,7 +13822,8 @@
           "categoryName": {
             "type": "string",
             "description": "The name of the Category to which the given for which the Display Multiplier has been applied.",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "displayMultiplier": {
             "type": "number",
@@ -13926,13 +13839,13 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the campaign",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser id of the campaign",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "spendLimit": {
             "$ref": "#/components/schemas/CampaignSpendLimitV23Q1"
@@ -13944,7 +13857,6 @@
               "retention"
             ],
             "type": "string",
-            "description": "Goal of the campaign",
             "nullable": true
           }
         },
@@ -13955,8 +13867,8 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the ad set",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "scheduling": {
             "$ref": "#/components/schemas/PatchAdSetScheduling"
@@ -13990,15 +13902,21 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the ad set"
+            "description": "Name of the ad set",
+            "nullable": true,
+            "x-nullable": true
           },
           "datasetId": {
             "type": "string",
-            "description": "Dataset id of this ad set"
+            "description": "Dataset id of this ad set",
+            "nullable": true,
+            "x-nullable": true
           },
           "campaignId": {
             "type": "string",
-            "description": "Campaign id this ad set belongs to"
+            "description": "Campaign id this ad set belongs to",
+            "nullable": true,
+            "x-nullable": true
           },
           "objective": {
             "enum": [
@@ -14031,7 +13949,9 @@
           },
           "trackingCode": {
             "type": "string",
-            "description": "The click tracking code associated to this Ad Set."
+            "description": "The click tracking code associated to this Ad Set.",
+            "nullable": true,
+            "x-nullable": true
           },
           "mediaType": {
             "enum": [
@@ -14088,11 +14008,15 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the campaign"
+            "description": "Name of the campaign",
+            "nullable": true,
+            "x-nullable": true
           },
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser id this campaign belongs to"
+            "description": "Advertiser id this campaign belongs to",
+            "nullable": true,
+            "x-nullable": true
           },
           "goal": {
             "enum": [
@@ -14124,7 +14048,6 @@
               "off"
             ],
             "type": "string",
-            "description": "Activation status of the ad set, i.e. whether the consumer wants it to deliver",
             "nullable": true
           },
           "deliveryStatus": {
@@ -14141,7 +14064,6 @@
               "archived"
             ],
             "type": "string",
-            "description": "Delivery status of the delivery of the ad set, i.e. whether the ad set is delivering",
             "nullable": true
           }
         },
@@ -14213,7 +14135,6 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your budget is capped or not",
             "nullable": true
           },
           "budgetRenewal": {
@@ -14224,7 +14145,6 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the budget renewal",
             "nullable": true
           },
           "budgetDeliverySmoothing": {
@@ -14233,8 +14153,8 @@
               "standard"
             ],
             "type": "string",
-            "description": "The pace at which the budget can be spent",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "budgetDeliveryWeek": {
             "enum": [
@@ -14248,7 +14168,6 @@
               "sundayToSaturday"
             ],
             "type": "string",
-            "description": "The delivery week for the budget",
             "nullable": true
           },
           "budgetAmount": {
@@ -14272,7 +14191,6 @@
               "off"
             ],
             "type": "string",
-            "description": "Activation status of the ad set, i.e. whether the consumer wants it to deliver",
             "nullable": true
           },
           "deliveryStatus": {
@@ -14289,7 +14207,6 @@
               "archived"
             ],
             "type": "string",
-            "description": "Delivery status of the delivery of the ad set, i.e. whether the ad set is delivering",
             "nullable": true
           }
         },
@@ -14344,7 +14261,6 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your budget is capped or not",
             "nullable": true
           },
           "budgetRenewal": {
@@ -14355,7 +14271,6 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the budget renewal",
             "nullable": true
           },
           "budgetDeliverySmoothing": {
@@ -14364,8 +14279,8 @@
               "standard"
             ],
             "type": "string",
-            "description": "The pace at which the budget can be spent",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "budgetDeliveryWeek": {
             "enum": [
@@ -14379,7 +14294,6 @@
               "sundayToSaturday"
             ],
             "type": "string",
-            "description": "The delivery week for the budget",
             "nullable": true
           },
           "budgetAmount": {
@@ -14397,7 +14311,6 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your spend limit is capped or not",
             "nullable": true
           },
           "spendLimitRenewal": {
@@ -14408,7 +14321,6 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the spend limit renewal",
             "nullable": true
           },
           "spendLimitAmount": {
@@ -14447,8 +14359,8 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your budget is capped or not",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "budgetRenewal": {
             "enum": [
@@ -14458,8 +14370,8 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the budget renewal",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "budgetDeliverySmoothing": {
             "enum": [
@@ -14467,8 +14379,8 @@
               "standard"
             ],
             "type": "string",
-            "description": "The pace at which the budget can be spent",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "budgetDeliveryWeek": {
             "enum": [
@@ -14482,8 +14394,8 @@
               "sundayToSaturday"
             ],
             "type": "string",
-            "description": "The delivery week for the budget",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "budgetAmount": {
             "$ref": "#/components/schemas/NillableDecimal"
@@ -14504,7 +14416,8 @@
           "endDate": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set schedule create model"
@@ -14519,7 +14432,8 @@
             "type": "number",
             "description": "Decimal value target relating to the `bidStrategy` specified. May be `null` for strategies that do not require a target value. At most 4 decimals are supported. Additional decimals are rounded.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "costController": {
             "enum": [
@@ -14604,7 +14518,8 @@
           "budgetAmount": {
             "type": "number",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set budget create model"
@@ -14618,8 +14533,8 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your spend limit is capped or not",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "spendLimitRenewal": {
             "enum": [
@@ -14629,8 +14544,8 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the spend limit renewal",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "spendLimitAmount": {
             "$ref": "#/components/schemas/NillableDecimal"
@@ -14667,15 +14582,13 @@
             "type": "number",
             "description": "The amount of the spend limit. null if spendLimitType is uncapped.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "campaign spend limit create model"
       },
       "NillableDateTime": {
-        "required": [
-          "value"
-        ],
         "type": "object",
         "properties": {
           "value": {
@@ -14688,9 +14601,6 @@
         "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
       },
       "NillableDecimal": {
-        "required": [
-          "value"
-        ],
         "type": "object",
         "properties": {
           "value": {
@@ -14700,13 +14610,14 @@
             "x-nullable": true
           }
         },
-        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true,
+        "x-nullable": true
       },
       "AdSetDeliveryLimitations": {
         "type": "object",
         "properties": {
           "environments": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -14715,11 +14626,10 @@
               ],
               "type": "string"
             },
-            "description": "List of environments which the ad set should target",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "devices": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -14730,11 +14640,10 @@
               ],
               "type": "string"
             },
-            "description": "List of devices which the ad set should target",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "operatingSystems": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -14744,8 +14653,8 @@
               ],
               "type": "string"
             },
-            "description": "List of operating systems which the ad set should target",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set delivery limitations model"
@@ -14776,12 +14685,10 @@
               "advanced"
             ],
             "type": "string",
-            "description": "Period on which impression limitation is calculated",
             "nullable": true
           },
           "maximumImpressions": {
             "type": "integer",
-            "description": "Maximum impressions for the specified period",
             "format": "int32",
             "nullable": true
           }
@@ -14792,7 +14699,6 @@
         "type": "object",
         "properties": {
           "environments": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -14801,11 +14707,10 @@
               ],
               "type": "string"
             },
-            "description": "List of environments which the ad set should target",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "devices": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -14816,11 +14721,10 @@
               ],
               "type": "string"
             },
-            "description": "List of devices which the ad set should target",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "operatingSystems": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -14830,8 +14734,8 @@
               ],
               "type": "string"
             },
-            "description": "List of operating systems which the ad set should target",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set delivery limitations model"
@@ -14862,12 +14766,10 @@
               "advanced"
             ],
             "type": "string",
-            "description": "Period on which impression limitation is calculated",
             "nullable": true
           },
           "maximumImpressions": {
             "type": "integer",
-            "description": "Maximum impressions for the specified period",
             "format": "int32",
             "nullable": true
           }
@@ -14890,12 +14792,10 @@
         "description": "Geolocation configuration of the ad set"
       },
       "NillableAdSetTargetingRule": {
-        "required": [
-          "value"
-        ],
         "type": "object",
         "properties": {
           "value": {
+            "type": "object",
             "allOf": [
               {
                 "$ref": "#/components/schemas/AdSetTargetingRule"
@@ -14911,7 +14811,14 @@
         "type": "object",
         "properties": {
           "value": {
-            "$ref": "#/components/schemas/AdSetTargetingRuleV23Q1"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdSetTargetingRuleV23Q1"
+              }
+            ],
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
@@ -14926,17 +14833,15 @@
               "notIn"
             ],
             "type": "string",
-            "description": "Operand which states how the values should be applied",
             "nullable": true
           },
           "values": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "List of values to apply",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set targeting rule model"
@@ -14951,17 +14856,15 @@
               "notIn"
             ],
             "type": "string",
-            "description": "Operand which states how the values should be applied",
             "nullable": true
           },
           "values": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "List of values to apply",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set targeting rule model"
@@ -16972,6 +16875,69 @@
             }
           ]
         }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from.",
+            "nullable": true
+          },
+          "traceIdentifier": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "The problem's category.",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "description": "A machine-readable error code, expressed as a string value.",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that identifies the specific occurrence of the problem.",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "A short human-readable description of the problem type",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem",
+            "nullable": true
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Common problem object."
       },
       "TransparencyReportEntityMessage": {
         "required": [

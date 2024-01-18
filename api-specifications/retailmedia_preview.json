@@ -11,6 +11,57 @@
     }
   ],
   "paths": {
+    "/preview/retail-media/accounts/{accountId}/grant-consent": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Grant consent to a business application on behalf of a Private Market demand account",
+        "operationId": "GrantConsent",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The demand account ID on which to grant consent",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantConsentInput"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantConsentInput"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantConsentInput"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantConsentInput"
+              }
+            }
+          },
+          "x-bodyName": "grantConsentInput"
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/preview/retail-media/me": {
       "get": {
         "tags": [
@@ -421,6 +472,208 @@
                   "$ref": "#/components/schemas/CommonStatusCodeResponse"
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/test/accounts/{accountId}/audiences": {
+      "get": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Get a page of Audiences. (deprecated Public API)",
+        "operationId": "LegacyGetAudienceV1",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of the account to which this audience belongs.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limitToId",
+            "in": "query",
+            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of audiences for the supplied account or shared by related retailers.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/test/v2/accounts/{accountId}/audiences": {
+      "get": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Get a page of Audiences. (deprecated Public API)",
+        "operationId": "LegacyGetAudienceV2",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of the account to which this audience belongs.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limitToId",
+            "in": "query",
+            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of audiences for the supplied account or shared by related retailers.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           }
         }
@@ -2285,6 +2538,266 @@
         }
       }
     },
+    "/preview/retail-media/account-management/accounts/{accountId}/brands": {
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "replace the brands for an account",
+        "operationId": "UpdateBrands",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "the account id to update",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "brands to associate to account",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfInt64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/account-management/accounts/{accountId}/create-brand-account": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Creates a new child Demand Brand Account for the provided parent private market account",
+        "operationId": "CreatePrivateMarketDemandBrandAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "Account Id for the parent private market account",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Initial creation and configuration options for the new account",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaBrandAccountCreation"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaBrandAccountCreation"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaBrandAccountCreation"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaBrandAccountCreation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcomeOfRetailMediaAccount"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/account-management/accounts/{accountId}/create-seller-account": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Creates a new child Demand Seller Account for the provided parent private market account",
+        "operationId": "CreatePrivateMarketDemandSellerAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "Account Id for the parent private market account",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Initial creation and configuration options for the new account",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaSellerAccountCreation"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaSellerAccountCreation"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaSellerAccountCreation"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetailMediaSellerAccountCreation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcomeOfRetailMediaAccount"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/account-management/accounts/{accountId}/sellers": {
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "replace the sellers assoiated with an account",
+        "operationId": "UpdateSellers",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "the account id to update",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "sellers to associate",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RetailMediaSeller"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RetailMediaSeller"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RetailMediaSeller"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RetailMediaSeller"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfRetailMediaSeller"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/preview/retail-media/campaigns/{campaignId}/campaign-budget-overrides": {
       "get": {
         "tags": [
@@ -2910,6 +3423,48 @@
   },
   "components": {
     "schemas": {
+      "GrantConsentInput": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/GrantConsentModelValueResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "GrantConsentModelValueResource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/GrantConsentModel"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "GrantConsentModel": {
+        "required": [
+          "callbackUrl",
+          "clientId"
+        ],
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "callbackUrl": {
+            "type": "string"
+          },
+          "callbackState": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "An object that represents the required (ClientId and CallbackUrl) and optional (CallbackState) parameters when granting consents on behalf of a Private Market demand account."
+      },
       "ApplicationSummaryModelResponse": {
         "type": "object",
         "properties": {
@@ -3847,6 +4402,317 @@
           }
         },
         "description": "Inclusive and exclusive segments of a user behavior audience "
+      },
+      "RmLegacyAudienceGetEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Audience definition of people of interest for a marketer."
+      },
+      "RmLegacyAudienceGetEntityV2ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2Resource"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+      },
+      "RmLegacyAudienceGetEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "audienceType": {
+            "enum": [
+              "customerList",
+              "userBehavior"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Audience definition of people of interest for a marketer."
+      },
+      "RmLegacyAudienceGetEntityV2Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmLegacyAudienceGetEntityV1": {
+        "required": [
+          "name",
+          "retailerId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the audience"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "ID of the retailer associated with this audience"
+          },
+          "userBehaviorDetails": {
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV1"
+          },
+          "customerListDetails": {
+            "$ref": "#/components/schemas/RmLegacySegmentCustomerList"
+          }
+        },
+        "description": "Audience definition of people of interest for a marketer.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSummary",
+          "version": "v1"
+        }
+      },
+      "RmLegacyAudienceGetEntityV2": {
+        "required": [
+          "name",
+          "retailerId"
+        ],
+        "type": "object",
+        "properties": {
+          "retailerId": {
+            "type": "integer",
+            "description": "ID of the retailer associated with this audience",
+            "format": "int64"
+          },
+          "userBehaviorDetails": {
+            "$ref": "#/components/schemas/RmLegacyAudienceUserBehaviorDetailsV2"
+          },
+          "customerListDetails": {
+            "$ref": "#/components/schemas/RmLegacySegmentCustomerList"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the audience"
+          }
+        },
+        "description": "Audience definition of people of interest for a marketer",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        }
+      },
+      "RmLegacySegmentUserBehaviorV1": {
+        "required": [
+          "lookbackWindow",
+          "userType"
+        ],
+        "type": "object",
+        "properties": {
+          "userType": {
+            "enum": [
+              "viewer",
+              "buyer",
+              "addToCarter"
+            ],
+            "type": "string",
+            "description": "Type of shopper activity used to generate the audience."
+          },
+          "lookbackWindow": {
+            "enum": [
+              "P7D",
+              "P14D",
+              "P30D",
+              "P45D",
+              "P60D",
+              "P90D",
+              "P120D",
+              "P150D",
+              "P180D"
+            ],
+            "type": "string",
+            "description": "Length of lookback window"
+          },
+          "targetType": {
+            "enum": [
+              "brand",
+              "category"
+            ],
+            "type": "string",
+            "description": "Type of target",
+            "nullable": true
+          },
+          "targetIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The categories to target",
+            "nullable": true
+          }
+        },
+        "description": "Audience definition of people based on what they visited"
+      },
+      "RmLegacySegmentCustomerList": {
+        "required": [
+          "isShared",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "string",
+            "description": "Number of users in the customer list audience."
+          },
+          "isShared": {
+            "type": "boolean",
+            "description": "Indicate if the audience is shared."
+          }
+        },
+        "description": "Audience definition of people based on a customer list"
+      },
+      "RmLegacyAudienceUserBehaviorDetailsV2": {
+        "required": [
+          "inclusiveSegment"
+        ],
+        "type": "object",
+        "properties": {
+          "inclusiveSegment": {
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
+          },
+          "exclusiveSegment": {
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
+          }
+        },
+        "description": "User Behavior Details."
+      },
+      "RmLegacySegmentUserBehaviorV2": {
+        "required": [
+          "lookbackWindow",
+          "userAction"
+        ],
+        "type": "object",
+        "properties": {
+          "userAction": {
+            "enum": [
+              "buy",
+              "view",
+              "addToCart"
+            ],
+            "type": "string",
+            "description": "Type of shopper activity used to generate the audience."
+          },
+          "lookbackWindow": {
+            "enum": [
+              "P7D",
+              "P14D",
+              "P30D",
+              "P45D",
+              "P60D",
+              "P90D",
+              "P120D",
+              "P150D",
+              "P180D"
+            ],
+            "type": "string",
+            "description": "Length of lookback window"
+          },
+          "categoryIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "The categories to target",
+            "nullable": true
+          },
+          "brandIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "The brands to target",
+            "nullable": true
+          },
+          "minPrice": {
+            "type": "number",
+            "description": "The min price of targeted skus.",
+            "format": "double",
+            "nullable": true
+          },
+          "maxPrice": {
+            "type": "number",
+            "description": "The max price of targeted skus.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "Audience definition of people based on what they visited"
       },
       "RetailMediaExternalv1KeywordsModelResponse": {
         "type": "object",
@@ -7448,6 +8314,92 @@
         },
         "description": "Line Items report body request"
       },
+      "ValueResourceCollectionOutcomeOfInt64": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfInt64"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several values."
+      },
+      "ResourceOutcomeOfRetailMediaAccount": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfRetailMediaAccount"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
+      "ValueResourceCollectionOutcomeOfRetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfRetailMediaSeller"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several values."
+      },
       "ValueResourceOutcomeOfCampaignBudgetOverrides": {
         "type": "object",
         "properties": {
@@ -7556,6 +8508,47 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
+      "RetailMediaBrandAccountCreation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "the name of the account, must be unique across all accounts",
+            "nullable": true
+          },
+          "brands": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "list of brands to link to the new account",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "the initial set up and configuration options for a new private market demand brand account"
+      },
+      "RetailMediaSellerAccountCreation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "the name of the account, must be unique across all accounts",
+            "nullable": true
+          },
+          "sellers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetailMediaSeller"
+            },
+            "description": "list of sellers to associate to the new account",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "the initial set up and configuration options for a new private market demand brand account"
+      },
       "ValueResourceInputOfCampaignBudgetOverrides": {
         "type": "object",
         "properties": {
@@ -7588,6 +8581,73 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "RetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "sellerId": {
+            "type": "string",
+            "description": "the seller id",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "integer",
+            "description": "the retailer id",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "used to define the exact seller linked with an account"
+      },
+      "ValueResourceOfInt64": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "ResourceOfRetailMediaAccount": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RetailMediaAccount"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of this resource.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A class that represents a domain entity exposed by an API."
+      },
+      "ValueResourceOfRetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/RetailMediaSeller"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
       "ValueResourceOfCampaignBudgetOverrides": {
         "type": "object",
@@ -7679,6 +8739,63 @@
         },
         "additionalProperties": false,
         "description": "defines the type product Id to search and list of ids to be searched for"
+      },
+      "RetailMediaAccount": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "account name",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Unknown",
+              "Supply",
+              "Demand"
+            ],
+            "type": "string",
+            "description": "Type for the account",
+            "nullable": true
+          },
+          "subType": {
+            "enum": [
+              "Unknown",
+              "Brand",
+              "Seller"
+            ],
+            "type": "string",
+            "description": "subtype for the account",
+            "nullable": true
+          },
+          "countryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "list of countries associated with the account",
+            "nullable": true
+          },
+          "currencyId": {
+            "type": "integer",
+            "description": "the currency for the account",
+            "format": "int32",
+            "nullable": true
+          },
+          "parentAccountLabel": {
+            "type": "string",
+            "description": "parent account label for the account",
+            "nullable": true
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "the timezone for the account",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The details for a newly created account"
       },
       "CampaignBudgetOverrides": {
         "required": [
