@@ -1609,6 +1609,121 @@
         }
       }
     },
+    "/2023-01/retail-media/accounts/{account-id}/campaigns": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Get all the editable and creatable campaign attributes including all types of budgets for each campaigns in relation to the account id, limited by the campaign ids.",
+        "operationId": "Campaigns_GetApi202301ExternalAccountCampaignsByAccountId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account to request the campaign for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "limitToId",
+            "in": "query",
+            "description": "The ids that you would like to limit your result set to",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "The 0 indexed page index you would like to receive given the page size",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The maximum number of items you would like to receive in this request",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfCampaignV202301"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Create a campaign and assign budgets for the given account id with creatable campaign attributes given in request body constrained by business validation. The validation error includes details and source of errors. Pacing can be adjusted and affected by the status of the campaign and the days left on the campaign if auto daily pacing is enabled.",
+        "operationId": "Campaigns_PostApi202301ExternalAccountCampaignsByAccountId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account to request the campaign for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "description": "Creatable campaign attributes",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCampaignV202301"
+              }
+            }
+          },
+          "x-nullable": false,
+          "x-bodyName": "campaign"
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCampaignV202301"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/2023-01/retail-media/accounts/{account-id}/line-items": {
       "get": {
         "tags": [
@@ -1699,121 +1814,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CommonLineItemPagedListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2023-01/retail-media/accounts/{accountId}/campaigns": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Get all the editable and creatable campaign attributes including all types of budgets for each campaigns in relation to the account id, limited by the campaign ids.",
-        "operationId": "Campaigns_GetApi202301ExternalAccountCampaignsByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "The account to request the campaign for.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "The ids that you would like to limit your result set to",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "The 0 indexed page index you would like to receive given the page size",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of items you would like to receive in this request",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 25
-            },
-            "x-nullable": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonApiPageResponseOfCampaignV202301"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Create a campaign and assign budgets for the given account id with creatable campaign attributes given in request body constrained by business validation. The validation error includes details and source of errors. Pacing can be adjusted and affected by the status of the campaign and the days left on the campaign if auto daily pacing is enabled.",
-        "operationId": "Campaigns_PostApi202301ExternalAccountCampaignsByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "The account to request the campaign for.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          }
-        ],
-        "requestBody": {
-          "description": "Creatable campaign attributes",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostCampaignV202301"
-              }
-            }
-          },
-          "x-nullable": false,
-          "x-bodyName": "campaign"
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCampaignV202301"
                 }
               }
             }
@@ -6584,39 +6584,6 @@
         "description": "Data model for a paged list of response resources",
         "x-nullable": false
       },
-      "CommonLineItemPagedListResponse": {
-        "type": "object",
-        "properties": {
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfCommonLineItem"
-            },
-            "x-nullable": false
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true,
-            "x-nullable": false
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true,
-            "x-nullable": false
-          }
-        },
-        "description": "Data model for a paged list of response resources",
-        "x-nullable": false
-      },
       "JsonApiPageResponseOfCampaignV202301": {
         "required": [
           "metadata",
@@ -6677,6 +6644,39 @@
           }
         },
         "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
+        "x-nullable": false
+      },
+      "CommonLineItemPagedListResponse": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/PageMetadata"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceOfCommonLineItem"
+            },
+            "x-nullable": false
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "readOnly": true,
+            "x-nullable": false
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "readOnly": true,
+            "x-nullable": false
+          }
+        },
+        "description": "Data model for a paged list of response resources",
         "x-nullable": false
       },
       "AuctionLineItemResponse": {
@@ -7234,26 +7234,6 @@
         "description": "A class that represents an entity in a guild compliant way",
         "x-nullable": false
       },
-      "ResourceOfCommonLineItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalCommonLineItem"
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-nullable": false
-      },
       "JsonApiBodyWithIdOfInt64AndCampaignV202301AndCampaignV202301": {
         "required": [
           "id",
@@ -7275,6 +7255,26 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+        "x-nullable": false
+      },
+      "ResourceOfCommonLineItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalCommonLineItem"
+          }
+        },
+        "description": "Data model for a Resource",
         "x-nullable": false
       },
       "ResourceOfAuctionLineItem": {
@@ -7700,110 +7700,6 @@
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
         "x-nullable": false
       },
-      "ExternalCommonLineItem": {
-        "required": [
-          "name",
-          "type",
-          "startDate",
-          "targetRetailerId",
-          "campaignId",
-          "budgetRemaining",
-          "createdAt",
-          "updatedAt"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "x-nullable": false
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "auction",
-              "preferred"
-            ],
-            "type": "string",
-            "x-nullable": false
-          },
-          "startDate": {
-            "required": [
-              "true"
-            ],
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date",
-            "nullable": true
-          },
-          "status": {
-            "enum": [
-              "unknown",
-              "active",
-              "scheduled",
-              "draft",
-              "paused",
-              "budgetHit",
-              "ended",
-              "archived",
-              "noFunds"
-            ],
-            "type": "string",
-            "x-nullable": false
-          },
-          "targetRetailerId": {
-            "type": "string",
-            "format": "long-id",
-            "x-nullable": false
-          },
-          "budget": {
-            "required": [
-              "false"
-            ],
-            "type": "number",
-            "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
-          },
-          "campaignId": {
-            "type": "string",
-            "format": "long-id",
-            "x-nullable": false
-          },
-          "budgetSpent": {
-            "type": "number",
-            "format": "double",
-            "x-nullable": false
-          },
-          "budgetRemaining": {
-            "required": [
-              "false"
-            ],
-            "type": "number",
-            "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "x-nullable": false
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "x-nullable": false
-          }
-        },
-        "description": "A common line item to hold line item information shared between preferred and auction line items",
-        "x-nullable": false
-      },
       "CampaignV202301": {
         "required": [
           "accountId",
@@ -7986,6 +7882,110 @@
           }
         },
         "description": "A Retail Media Campaign used to represent an advertiser's marketing objective",
+        "x-nullable": false
+      },
+      "ExternalCommonLineItem": {
+        "required": [
+          "name",
+          "type",
+          "startDate",
+          "targetRetailerId",
+          "campaignId",
+          "budgetRemaining",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "x-nullable": false
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "auction",
+              "preferred"
+            ],
+            "type": "string",
+            "x-nullable": false
+          },
+          "startDate": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "scheduled",
+              "draft",
+              "paused",
+              "budgetHit",
+              "ended",
+              "archived",
+              "noFunds"
+            ],
+            "type": "string",
+            "x-nullable": false
+          },
+          "targetRetailerId": {
+            "type": "string",
+            "format": "long-id",
+            "x-nullable": false
+          },
+          "budget": {
+            "required": [
+              "false"
+            ],
+            "type": "number",
+            "format": "decimal",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "campaignId": {
+            "type": "string",
+            "format": "long-id",
+            "x-nullable": false
+          },
+          "budgetSpent": {
+            "type": "number",
+            "format": "double",
+            "x-nullable": false
+          },
+          "budgetRemaining": {
+            "required": [
+              "false"
+            ],
+            "type": "number",
+            "format": "decimal",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "x-nullable": false
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "x-nullable": false
+          }
+        },
+        "description": "A common line item to hold line item information shared between preferred and auction line items",
         "x-nullable": false
       },
       "ExternalAuctionLineItem": {
