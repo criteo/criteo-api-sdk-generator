@@ -290,198 +290,6 @@
         "tags": [
           "Audience"
         ],
-        "description": "Get a page of audiences for a given account ID",
-        "operationId": "AudienceApi_GetAudiencesByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "External account ID which owns audience.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-example": "68004146450571264"
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-example": 25
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-example": 0
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A page of audiences for the supplied account.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPageOfAudiencesByAccountIdResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Missing or invalid account ID.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "404": {
-            "description": "The audience was not found.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "406": {
-            "description": "The Accept header must contain application/json.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "415": {
-            "description": "The Content-Type header must be application/json if present.",
-            "content": {
-              "application/json": { }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/v2/accounts/{accountId}/audiences": {
-      "get": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Get a page of audiences for a given account ID",
-        "operationId": "GetRetailMediaAudienceV2ListByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "External account ID which owns audience.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "x-example": 68004146450571264
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-example": 25
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-example": 0
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A page of audiences for the supplied account.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaAudienceV2ListResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Missing or invalid account ID. - OR - You do not have permission to access this account.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "406": {
-            "description": "The Accept header must contain application/json.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "415": {
-            "description": "The Content-Type header must be application/json if present.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/test/accounts/{accountId}/audiences": {
-      "get": {
-        "tags": [
-          "Audience"
-        ],
         "description": "Get a page of Audiences. (deprecated Public API)",
         "operationId": "LegacyGetAudienceV1",
         "parameters": [
@@ -578,7 +386,7 @@
         }
       }
     },
-    "/preview/retail-media/test/v2/accounts/{accountId}/audiences": {
+    "/preview/retail-media/v2/accounts/{accountId}/audiences": {
       "get": {
         "tags": [
           "Audience"
@@ -3987,6 +3795,10 @@
           "timeZone": {
             "type": "string",
             "x-nullable": false
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "description": "A Retail Media Account used to launch campaigns and line items",
@@ -4036,373 +3848,6 @@
         "description": "A Retail Media Retailer used to represent a selection of products from multiple brands",
         "x-nullable": false
       },
-      "GetPageOfAudiencesByAccountIdResponse": {
-        "required": [
-          "data",
-          "metadata"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RetailMediaAudience"
-            },
-            "description": "data",
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonError"
-            },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonWarning"
-            },
-            "description": "warnings",
-            "nullable": true,
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        },
-        "description": "Response for page of audiences by given account"
-      },
-      "RetailMediaAudienceV2ListResponse": {
-        "required": [
-          "data",
-          "metadata"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RetailMediaAudienceV2"
-            },
-            "description": "data",
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "warnings",
-            "nullable": true,
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        },
-        "description": "Array of Audiences Returned as Part of Get RetailMedia Audience Request"
-      },
-      "CommonStatusCodeResponse": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "warnings",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "Commonly Returned Problem Response"
-      },
-      "RetailMediaAudience": {
-        "required": [
-          "attributes",
-          "audienceType",
-          "id",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "audienceType": {
-            "enum": [
-              "customerList",
-              "userBehavior"
-            ],
-            "type": "string",
-            "description": "Type of the audience",
-            "example": "customerList"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique ID of this audience.",
-            "example": "314159"
-          },
-          "type": {
-            "type": "string",
-            "description": "Name of the entity i.e. RetailMediaAudienceSummary",
-            "example": "RetailMediaAudienceSummary"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
-          }
-        },
-        "description": "All the information about a retail media audience"
-      },
-      "RetailMediaAudienceV2": {
-        "required": [
-          "attributes",
-          "id",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "type": {
-            "enum": [
-              "customerList",
-              "userBehavior"
-            ],
-            "type": "string",
-            "description": "Type of the audience",
-            "example": "customerList"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique ID of this audience.",
-            "example": "314159"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaAudienceV2Attributes"
-          }
-        },
-        "description": "Retail Media audience returned by the Get RetailMedia Audience"
-      },
-      "RetailMediaAudienceAttributes": {
-        "required": [
-          "name",
-          "retailerId"
-        ],
-        "type": "object",
-        "properties": {
-          "retailerId": {
-            "type": "string",
-            "description": "ID of the retailer associated with this audience",
-            "example": "68004146450571264"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the audience.",
-            "example": "Test audience"
-          },
-          "userBehaviorDetails": {
-            "$ref": "#/components/schemas/UserBehaviorDetails"
-          },
-          "customerListDetails": {
-            "$ref": "#/components/schemas/CustomerListDetails"
-          }
-        },
-        "description": "Fields of a retail media audience"
-      },
-      "RetailMediaAudienceV2Attributes": {
-        "required": [
-          "name",
-          "retailerId"
-        ],
-        "type": "object",
-        "properties": {
-          "retailerId": {
-            "type": "integer",
-            "description": "ID of the retailer associated with this audience",
-            "format": "int64",
-            "example": 6041
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the audience.",
-            "example": "Test audience"
-          },
-          "userBehaviorDetails": {
-            "$ref": "#/components/schemas/UserBehaviorDetailsV2"
-          },
-          "customerListDetails": {
-            "$ref": "#/components/schemas/CustomerListDetails"
-          }
-        },
-        "description": "Properties of the returned Audience"
-      },
-      "UserBehaviorDetails": {
-        "required": [
-          "lookbackWindow",
-          "targetIds",
-          "targetType",
-          "userType"
-        ],
-        "type": "object",
-        "properties": {
-          "targetType": {
-            "enum": [
-              "brand",
-              "category"
-            ],
-            "type": "string",
-            "description": "Type of target",
-            "example": "category"
-          },
-          "targetIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "ist of ids for the target type"
-          },
-          "lookbackWindow": {
-            "enum": [
-              "P7D",
-              "P14D",
-              "P30D",
-              "P45D",
-              "P60D",
-              "P90D",
-              "P120D",
-              "P150D",
-              "P180D"
-            ],
-            "type": "string",
-            "description": "Length of lookback window",
-            "example": "P7D"
-          },
-          "userType": {
-            "enum": [
-              "viewer",
-              "buyer"
-            ],
-            "type": "string",
-            "description": "Type of the user",
-            "example": "viewer"
-          }
-        },
-        "description": "Details about a user behavior retail media audience"
-      },
-      "CustomerListDetails": {
-        "required": [
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "size": {
-            "type": "string",
-            "description": "Number of users in the customer list audience.",
-            "example": "34212"
-          }
-        },
-        "description": "Details of a customer list audience"
-      },
-      "UserBehaviorDetailsV2": {
-        "required": [
-          "inclusiveSegment"
-        ],
-        "type": "object",
-        "properties": {
-          "inclusiveSegment": {
-            "$ref": "#/components/schemas/CreateUserBehaviorSegmentV2"
-          },
-          "exclusiveSegment": {
-            "$ref": "#/components/schemas/CreateUserBehaviorSegmentV2"
-          }
-        },
-        "description": "Details about a user behavior retail media audience"
-      },
-      "CreateUserBehaviorSegmentV2": {
-        "required": [
-          "lookbackWindow",
-          "userAction"
-        ],
-        "type": "object",
-        "properties": {
-          "userAction": {
-            "enum": [
-              "buy",
-              "view",
-              "addToCart"
-            ],
-            "type": "string",
-            "description": "Type of shopper activity used to generate the audience.",
-            "example": "buy"
-          },
-          "lookbackWindow": {
-            "enum": [
-              "P7D",
-              "P14D",
-              "P30D",
-              "P45D",
-              "P60D",
-              "P90D",
-              "P120D",
-              "P150D",
-              "P180D"
-            ],
-            "type": "string",
-            "description": "Length of lookback window",
-            "example": "P7D"
-          },
-          "categoryIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "description": "The categories to target",
-            "nullable": true
-          },
-          "brandIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "description": "The brands to target",
-            "nullable": true
-          },
-          "minPrice": {
-            "type": "number",
-            "description": "The min price of targeted skus.",
-            "format": "double",
-            "nullable": true,
-            "readOnly": true
-          },
-          "maxPrice": {
-            "type": "number",
-            "description": "The max price of targeted skus.",
-            "format": "double",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "Inclusive and exclusive segments of a user behavior audience "
-      },
       "RmLegacyAudienceGetEntityV1ListResponse": {
         "type": "object",
         "properties": {
@@ -4430,7 +3875,7 @@
             "readOnly": true
           }
         },
-        "description": "Audience definition of people of interest for a marketer."
+        "description": "List of responses"
       },
       "RmLegacyAudienceGetEntityV2ListResponse": {
         "type": "object",
@@ -4484,7 +3929,7 @@
             "nullable": true
           }
         },
-        "description": "Audience definition of people of interest for a marketer."
+        "description": "Legacy resource"
       },
       "RmLegacyAudienceGetEntityV2Resource": {
         "type": "object",
@@ -4541,9 +3986,8 @@
         "type": "object",
         "properties": {
           "retailerId": {
-            "type": "integer",
-            "description": "ID of the retailer associated with this audience",
-            "format": "int64"
+            "type": "string",
+            "description": "ID of the retailer associated with this audience"
           },
           "userBehaviorDetails": {
             "$ref": "#/components/schemas/RmLegacyAudienceUserBehaviorDetailsV2"
@@ -8516,6 +7960,11 @@
             "description": "the name of the account, must be unique across all accounts",
             "nullable": true
           },
+          "companyName": {
+            "type": "string",
+            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
+            "nullable": true
+          },
           "brands": {
             "type": "array",
             "items": {
@@ -8535,6 +7984,11 @@
           "name": {
             "type": "string",
             "description": "the name of the account, must be unique across all accounts",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
             "nullable": true
           },
           "sellers": {
@@ -8746,6 +8200,11 @@
           "name": {
             "type": "string",
             "description": "account name",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
             "nullable": true
           },
           "type": {

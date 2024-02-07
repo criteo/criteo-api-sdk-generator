@@ -288,98 +288,8 @@
         "tags": [
           "Audience"
         ],
-        "description": "Get a page of audiences for a given account ID",
-        "operationId": "AudienceApi_GetAudiencesByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "External account ID which owns audience.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-example": "68004146450571264"
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-example": 25
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-example": 0
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A page of audiences for the supplied account.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPageOfAudiencesByAccountIdResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Missing or invalid account ID.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "404": {
-            "description": "The audience was not found.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "406": {
-            "description": "The Accept header must contain application/json.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "415": {
-            "description": "The Content-Type header must be application/json if present.",
-            "content": {
-              "application/json": { }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Create an audience for a given account ID",
-        "operationId": "AudienceApi_CreateAudience",
+        "description": "Get a page of Audiences. (deprecated Public API)",
+        "operationId": "LegacyGetAudienceV1",
         "parameters": [
           {
             "name": "accountId",
@@ -390,84 +300,7 @@
             "schema": {
               "type": "integer",
               "format": "int64"
-            },
-            "x-example": 68004146450571264
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateRetailMediaAudienceRequest"
-              }
             }
-          },
-          "required": true,
-          "x-bodyName": "body"
-        },
-        "responses": {
-          "201": {
-            "description": "The audience that was just created.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateRetailMediaAudienceResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Missing or invalid account ID. - OR - Missing or invalid retailerID field. - OR - Missing or invalid name field. Name should be less than 255 characters. - OR - Missing or invalid userType field. Valid values are: 'buy', 'view'. - OR - The retailerTaxonomyIds is not a valid list of IDs or may contain more than 100 elements. - OR - Missing or invalid lookbackDays field.  Valid values are: 7, 14,  30, 45, 60, 90, 120, 150 or 180. - OR - Exactly one of retailerTaxonomyIds or globalBrandIds must be specified, but not both. - OR - The retailer is invalid because it is not live - OR - The globalBrandIds is not a valid list of IDs or may contain more than 100 elements.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "404": {
-            "description": "The audience was not found. - OR - You do not have permission to access these global brands.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "406": {
-            "description": "The Accept header must contain application/json.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "409": {
-            "description": "An audience name should be unique per account.",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "415": {
-            "description": "The Content-Type header must be application/json if present.",
-            "content": {
-              "application/json": { }
-            }
-          }
-        }
-      }
-    },
-    "/2023-01/retail-media/v2/accounts/{accountId}/audiences": {
-      "get": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Get a page of audiences for a given account ID",
-        "operationId": "GetRetailMediaAudienceV2ListByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "External account ID which owns audience.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "x-example": 68004146450571264
           },
           {
             "name": "limitToId",
@@ -478,72 +311,74 @@
               "type": "array",
               "items": {
                 "type": "integer",
-                "format": "int64"
+                "format": "int32"
               }
             }
           },
           {
             "name": "pageSize",
             "in": "query",
-            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page",
+            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page.",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-example": 25
+            }
           },
           {
             "name": "pageIndex",
             "in": "query",
-            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed",
+            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed.",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-example": 0
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "A page of audiences for the supplied account.",
+            "description": "A page of audiences for the supplied account or shared by related retailers.",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaAudienceV2ListResponse"
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
                 }
               }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           },
           "403": {
-            "description": "Missing or invalid account ID. - OR - You do not have permission to access this account.",
+            "description": "The API client is not authorized to access this resource.",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "406": {
-            "description": "The Accept header must contain application/json.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "415": {
-            "description": "The Content-Type header must be application/json if present.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           }
         }
@@ -552,8 +387,8 @@
         "tags": [
           "Audience"
         ],
-        "description": "Create an audience for a given account ID",
-        "operationId": "CreateRetailMediaAudienceV2",
+        "description": "Create an Audience (deprecated Public API)",
+        "operationId": "LegacyCreateAudienceV1",
         "parameters": [
           {
             "name": "accountId",
@@ -564,15 +399,30 @@
             "schema": {
               "type": "integer",
               "format": "int64"
-            },
-            "x-example": 68004146450571264
+            }
           }
         ],
         "requestBody": {
+          "description": "Audience creation request.",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV1"
+              }
+            },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRetailMediaAudienceV2Request"
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV1"
               }
             }
           },
@@ -580,67 +430,263 @@
           "x-bodyName": "body"
         },
         "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1Response"
+                }
+              }
+            }
+          },
           "201": {
             "description": "The audience that was just created.",
             "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/2023-01/retail-media/v2/accounts/{accountId}/audiences": {
+      "get": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Get a page of Audiences. (deprecated Public API)",
+        "operationId": "LegacyGetAudienceV2",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of the account to which this audience belongs.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limitToId",
+            "in": "query",
+            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of audiences for the supplied account or shared by related retailers.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaAudienceV2Response"
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Missing or invalid retailerID field. - OR - Missing or invalid name field. Name should be less than 255 characters. - OR - Missing or invalid userType field. Valid values are: 'buyer', 'viewer'. - OR - The brandIds is not a valid list of IDs or may contain more than 100 elements. - OR - The categoryIds is not a valid list of IDs or may contain more than 100 elements. - OR - Missing or invalid lookbackWindow field. Valid values are: P7D, P14D, P30D, P45D, P60D, P90D, P120D, P150D or P180D. - OR - Exactly one of categoryIds or brandIds must be specified, but not both. - OR - The retailer is invalid because it is not live - OR - Missing or invalid userAction field. Valid values are: 'buy', 'view', 'addToCart'.",
+            "description": "Bad request",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           },
           "403": {
-            "description": "Missing or invalid account ID.",
+            "description": "The API client is not authorized to access this resource.",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "406": {
-            "description": "The Accept header must contain application/json.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "An audience name should be unique per account.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
-            }
-          },
-          "415": {
-            "description": "The Content-Type header must be application/json if present.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonStatusCodeResponse"
-                }
-              }
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Create an Audience (deprecated Public API)",
+        "operationId": "LegacyUpdateAudienceV2",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of the account to which this audience belongs.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Audience creation request.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV2"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV2"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV2"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmLegacyAudienceCreateInputEntityV2"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "body"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2Response"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "The audience that was just created.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        },
+        "deprecated": true
       }
     },
     "/2023-01/retail-media/accounts/{account-id}/creatives": {
@@ -672,156 +718,6 @@
                   "$ref": "#/components/schemas/Creative202110ListResponse"
                 }
               }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Create a creative for an account",
-        "operationId": "CreativesApi_PostApi202207ExternalAccountCreativesByAccountId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "External account id to create a creative for",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          }
-        ],
-        "requestBody": {
-          "description": "The creative to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreativeCreateModel202207"
-              }
-            }
-          },
-          "x-nullable": false,
-          "x-bodyName": "creative"
-        },
-        "responses": {
-          "201": {
-            "description": "Creatives created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Creative202207Response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2023-01/retail-media/accounts/{account-id}/creatives/{creative-id}": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Get the specified creative",
-        "operationId": "CreativesApi_GetApi202207ExternalAccountByAccountId}Creatives{creativeId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "External account id to retrieve creatives for",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "creative-id",
-            "in": "path",
-            "description": "Creative to get",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Creatives found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Creative202207Response"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Update a creative",
-        "operationId": "CreativesApi_PutApi202207ExternalAccountByAccountId}Creatives{creativeId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "External account id containing the creative",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "creative-id",
-            "in": "path",
-            "description": "Creative to update",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            },
-            "x-nullable": false
-          }
-        ],
-        "requestBody": {
-          "description": "The creative to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreativeUpdateModel202207"
-              }
-            }
-          },
-          "x-nullable": false,
-          "x-bodyName": "creative"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Creative202207Response"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Creative updated",
-            "content": {
-              "application/json": { }
             }
           }
         }
@@ -4201,6 +4097,10 @@
           "timeZone": {
             "type": "string",
             "x-nullable": false
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "description": "A Retail Media Account used to launch campaigns and line items",
@@ -4316,85 +4216,22 @@
         },
         "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives."
       },
-      "GetPageOfAudiencesByAccountIdResponse": {
-        "required": [
-          "data",
-          "metadata"
-        ],
+      "RmLegacyAudienceGetEntityV1ListResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaAudience"
+              "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1Resource"
             },
-            "description": "data",
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonError"
-            },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "warnings": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CommonWarning"
+              "$ref": "#/components/schemas/CommonProblem"
             },
-            "description": "warnings",
             "nullable": true,
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        },
-        "description": "Response for page of audiences by given account"
-      },
-      "CreateRetailMediaAudienceResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudience"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonError"
-            },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonWarning"
-            },
-            "description": "warnings",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "Response of CreateAudienceRequest"
-      },
-      "RetailMediaAudienceV2ListResponse": {
-        "required": [
-          "data",
-          "metadata"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RetailMediaAudienceV2"
-            },
-            "description": "data",
             "readOnly": true
           },
           "errors": {
@@ -4402,275 +4239,218 @@
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "warnings",
-            "nullable": true,
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        },
-        "description": "Array of Audiences Returned as Part of Get RetailMedia Audience Request"
-      },
-      "CommonStatusCodeResponse": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "errors",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "warnings",
             "nullable": true,
             "readOnly": true
           }
         },
-        "description": "Commonly Returned Problem Response"
+        "description": "List of responses"
       },
-      "RetailMediaAudienceV2Response": {
+      "RmLegacyAudienceCreateEntityV1Response": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceV2"
+            "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1Resource"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "description": "errors",
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
+      },
+      "RmLegacyAudienceGetEntityV2ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2Resource"
+            },
+            "nullable": true
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "description": "warnings",
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
             "nullable": true,
             "readOnly": true
           }
         },
-        "description": "Response of CreateAudienceRequestV2"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities"
       },
-      "CreateRetailMediaAudienceRequest": {
-        "required": [
-          "data"
-        ],
+      "RmLegacyAudienceCreateEntityV2Response": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceBody"
+            "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2Resource"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
-        "description": "Request to create an audience"
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
       },
-      "CreateRetailMediaAudienceV2Request": {
-        "required": [
-          "data"
-        ],
+      "RmLegacyAudienceCreateInputEntityV1": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceV2Data"
+            "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1Resource"
           }
         },
-        "description": "Request to create an audience"
+        "description": "Input to create audience."
       },
-      "RetailMediaAudience": {
-        "required": [
-          "attributes",
-          "audienceType",
-          "id",
-          "type"
-        ],
+      "RmLegacyAudienceCreateInputEntityV2": {
         "type": "object",
         "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2Resource"
+          }
+        },
+        "description": "Input to create audience."
+      },
+      "RmLegacyAudienceGetEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "audienceType": {
             "enum": [
               "customerList",
               "userBehavior"
             ],
             "type": "string",
-            "description": "Type of the audience",
-            "example": "customerList"
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Legacy resource"
+      },
+      "RmLegacyAudienceCreateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1"
           },
           "id": {
             "type": "string",
-            "description": "Unique ID of this audience.",
-            "example": "314159"
+            "description": "Id of the entity",
+            "nullable": true
           },
           "type": {
             "type": "string",
-            "description": "Name of the entity i.e. RetailMediaAudienceSummary",
-            "example": "RetailMediaAudienceSummary"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaAudienceAttributes"
+            "nullable": true
           }
         },
-        "description": "All the information about a retail media audience"
+        "description": "A class that represents a domain entity exposed by an API"
       },
-      "CreateRetailMediaAudience": {
-        "required": [
-          "attributes",
-          "id",
-          "type"
-        ],
+      "RmLegacyAudienceGetEntityV2Resource": {
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "description": "the name of the entity type",
-            "example": "RetailMediaAudience"
-          },
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of this audience.",
-            "format": "int64",
-            "example": 314159
-          },
           "attributes": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceAttributes"
-          }
-        },
-        "description": "Retail Media audience used in audience creation"
-      },
-      "RetailMediaAudienceV2": {
-        "required": [
-          "attributes",
-          "id",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "type": {
-            "enum": [
-              "customerList",
-              "userBehavior"
-            ],
-            "type": "string",
-            "description": "Type of the audience",
-            "example": "customerList"
+            "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2"
           },
           "id": {
             "type": "string",
-            "description": "Unique ID of this audience.",
-            "example": "314159"
+            "description": "Id of the entity",
+            "nullable": true
           },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaAudienceV2Attributes"
-          }
-        },
-        "description": "Retail Media audience returned by the Get RetailMedia Audience"
-      },
-      "CreateRetailMediaAudienceV2": {
-        "required": [
-          "attributes",
-          "id",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
           "type": {
             "type": "string",
-            "description": "the name of the entity type",
-            "example": "RetailMediaAudience"
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmLegacyAudienceCreateEntityV2Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2"
           },
           "id": {
-            "type": "integer",
-            "description": "Unique ID of this audience.",
-            "format": "int64",
-            "example": 314159
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
           },
-          "attributes": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceV2Attributes"
-          }
-        },
-        "description": "Retail Media audience used in audience creation"
-      },
-      "CreateRetailMediaAudienceBody": {
-        "required": [
-          "attributes",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
           "type": {
             "type": "string",
-            "description": "the name of the entity type",
-            "example": "RetailMediaAudience"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceAttributes"
+            "nullable": true
           }
         },
-        "description": "Request body of CreateRetailMediaAudienceRequest"
+        "description": "A class that represents a domain entity exposed by an API"
       },
-      "CreateRetailMediaAudienceV2Data": {
-        "required": [
-          "attributes",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "the name of the entity type",
-            "example": "RetailMediaAudience"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/CreateRetailMediaAudienceV2Attributes"
-          }
-        },
-        "description": "Request body of CreateRetailMediaAudienceV2Request"
-      },
-      "RetailMediaAudienceAttributes": {
+      "RmLegacyAudienceGetEntityV1": {
         "required": [
           "name",
           "retailerId"
         ],
         "type": "object",
         "properties": {
-          "retailerId": {
-            "type": "string",
-            "description": "ID of the retailer associated with this audience",
-            "example": "68004146450571264"
-          },
           "name": {
             "type": "string",
-            "description": "Name of the audience.",
-            "example": "Test audience"
+            "description": "Name of the audience"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "ID of the retailer associated with this audience"
           },
           "userBehaviorDetails": {
-            "$ref": "#/components/schemas/UserBehaviorDetails"
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV1"
           },
           "customerListDetails": {
-            "$ref": "#/components/schemas/CustomerListDetails"
+            "$ref": "#/components/schemas/RmLegacySegmentCustomerList"
           }
         },
-        "description": "Fields of a retail media audience"
+        "description": "Audience definition of people of interest for a marketer.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSummary",
+          "version": "v1"
+        }
       },
-      "CreateRetailMediaAudienceAttributes": {
+      "RmLegacyAudienceCreateEntityV1": {
         "required": [
           "lookbackWindow",
           "name",
@@ -4682,11 +4462,11 @@
           "userType": {
             "enum": [
               "viewer",
-              "buyer"
+              "buyer",
+              "addToCarter"
             ],
             "type": "string",
-            "description": "Type of the user",
-            "example": "viewer"
+            "description": "Type of the user"
           },
           "lookbackWindow": {
             "enum": [
@@ -4701,10 +4481,10 @@
               "P180D"
             ],
             "type": "string",
-            "description": "Length of lookback window",
-            "example": "P7D"
+            "description": "Length of lookback window"
           },
           "brandIds": {
+            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "integer",
@@ -4714,6 +4494,7 @@
             "nullable": true
           },
           "categoryIds": {
+            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "integer",
@@ -4725,18 +4506,21 @@
           "retailerId": {
             "type": "integer",
             "description": "ID of the retailer associated with this audience",
-            "format": "int64",
-            "example": 6841
+            "format": "int64"
           },
           "name": {
             "type": "string",
-            "description": "Name of the audience.",
-            "example": "Test audience"
+            "description": "Name of the audience"
           }
         },
-        "description": "Parameters needed to create an audience"
+        "description": "Audience definition",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        }
       },
-      "RetailMediaAudienceV2Attributes": {
+      "RmLegacyAudienceGetEntityV2": {
         "required": [
           "name",
           "retailerId"
@@ -4744,26 +4528,28 @@
         "type": "object",
         "properties": {
           "retailerId": {
-            "type": "integer",
-            "description": "ID of the retailer associated with this audience",
-            "format": "int64",
-            "example": 6041
+            "type": "string",
+            "description": "ID of the retailer associated with this audience"
+          },
+          "userBehaviorDetails": {
+            "$ref": "#/components/schemas/RmLegacyAudienceUserBehaviorDetailsV2"
+          },
+          "customerListDetails": {
+            "$ref": "#/components/schemas/RmLegacySegmentCustomerList"
           },
           "name": {
             "type": "string",
-            "description": "Name of the audience.",
-            "example": "Test audience"
-          },
-          "userBehaviorDetails": {
-            "$ref": "#/components/schemas/UserBehaviorDetailsV2"
-          },
-          "customerListDetails": {
-            "$ref": "#/components/schemas/CustomerListDetails"
+            "description": "Name of the audience"
           }
         },
-        "description": "Properties of the returned Audience"
+        "description": "Audience definition of people of interest for a marketer",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        }
       },
-      "CreateRetailMediaAudienceV2Attributes": {
+      "RmLegacyAudienceCreateEntityV2": {
         "required": [
           "name",
           "retailerId",
@@ -4774,44 +4560,38 @@
           "retailerId": {
             "type": "integer",
             "description": "ID of the retailer associated with this audience",
-            "format": "int64",
-            "example": 6041
+            "format": "int64"
           },
           "userBehaviorDetails": {
-            "$ref": "#/components/schemas/UserBehaviorDetailsV2"
+            "$ref": "#/components/schemas/RmLegacyAudienceUserBehaviorCreateV2"
           },
           "name": {
             "type": "string",
-            "description": "Name of the audience.",
-            "example": "Test audience"
+            "description": "Name of the audience"
           }
         },
-        "description": "Parameters needed to create an audience"
+        "description": "Audience definition",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        }
       },
-      "UserBehaviorDetails": {
+      "RmLegacySegmentUserBehaviorV1": {
         "required": [
           "lookbackWindow",
-          "targetIds",
-          "targetType",
           "userType"
         ],
         "type": "object",
         "properties": {
-          "targetType": {
+          "userType": {
             "enum": [
-              "brand",
-              "category"
+              "viewer",
+              "buyer",
+              "addToCarter"
             ],
             "type": "string",
-            "description": "Type of target",
-            "example": "category"
-          },
-          "targetIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "ist of ids for the target type"
+            "description": "Type of shopper activity used to generate the audience."
           },
           "lookbackWindow": {
             "enum": [
@@ -4826,51 +4606,78 @@
               "P180D"
             ],
             "type": "string",
-            "description": "Length of lookback window",
-            "example": "P7D"
+            "description": "Length of lookback window"
           },
-          "userType": {
+          "targetType": {
             "enum": [
-              "viewer",
-              "buyer"
+              "brand",
+              "category"
             ],
             "type": "string",
-            "description": "Type of the user",
-            "example": "viewer"
+            "description": "Type of target",
+            "nullable": true
+          },
+          "targetIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The categories to target",
+            "nullable": true
           }
         },
-        "description": "Details about a user behavior retail media audience"
+        "description": "Audience definition of people based on what they visited"
       },
-      "CustomerListDetails": {
+      "RmLegacySegmentCustomerList": {
         "required": [
+          "isShared",
           "size"
         ],
         "type": "object",
         "properties": {
           "size": {
             "type": "string",
-            "description": "Number of users in the customer list audience.",
-            "example": "34212"
+            "description": "Number of users in the customer list audience."
+          },
+          "isShared": {
+            "type": "boolean",
+            "description": "Indicate if the audience is shared."
           }
         },
-        "description": "Details of a customer list audience"
+        "description": "Audience definition of people based on a customer list"
       },
-      "UserBehaviorDetailsV2": {
+      "RmLegacyAudienceUserBehaviorDetailsV2": {
         "required": [
           "inclusiveSegment"
         ],
         "type": "object",
         "properties": {
           "inclusiveSegment": {
-            "$ref": "#/components/schemas/CreateUserBehaviorSegmentV2"
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
           },
           "exclusiveSegment": {
-            "$ref": "#/components/schemas/CreateUserBehaviorSegmentV2"
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
           }
         },
-        "description": "Details about a user behavior retail media audience"
+        "description": "User Behavior Details."
       },
-      "CreateUserBehaviorSegmentV2": {
+      "RmLegacyAudienceUserBehaviorCreateV2": {
+        "required": [
+          "inclusiveSegment"
+        ],
+        "type": "object",
+        "properties": {
+          "inclusiveSegment": {
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorCreateV2"
+          },
+          "exclusiveSegment": {
+            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorCreateV2"
+          }
+        },
+        "description": "User Behavior to include and optionally exclude."
+      },
+      "RmLegacySegmentUserBehaviorV2": {
         "required": [
           "lookbackWindow",
           "userAction"
@@ -4884,8 +4691,7 @@
               "addToCart"
             ],
             "type": "string",
-            "description": "Type of shopper activity used to generate the audience.",
-            "example": "buy"
+            "description": "Type of shopper activity used to generate the audience."
           },
           "lookbackWindow": {
             "enum": [
@@ -4900,10 +4706,10 @@
               "P180D"
             ],
             "type": "string",
-            "description": "Length of lookback window",
-            "example": "P7D"
+            "description": "Length of lookback window"
           },
           "categoryIds": {
+            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "integer",
@@ -4913,6 +4719,7 @@
             "nullable": true
           },
           "brandIds": {
+            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "integer",
@@ -4925,18 +4732,70 @@
             "type": "number",
             "description": "The min price of targeted skus.",
             "format": "double",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "maxPrice": {
             "type": "number",
             "description": "The max price of targeted skus.",
             "format": "double",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           }
         },
-        "description": "Inclusive and exclusive segments of a user behavior audience "
+        "description": "Audience definition of people based on what they visited"
+      },
+      "RmLegacySegmentUserBehaviorCreateV2": {
+        "required": [
+          "lookbackWindow",
+          "userAction"
+        ],
+        "type": "object",
+        "properties": {
+          "userAction": {
+            "enum": [
+              "buy",
+              "view",
+              "addToCart"
+            ],
+            "type": "string",
+            "description": "Type of shopper activity used to generate the audience."
+          },
+          "lookbackWindow": {
+            "enum": [
+              "P7D",
+              "P14D",
+              "P30D",
+              "P45D",
+              "P60D",
+              "P90D",
+              "P120D",
+              "P150D",
+              "P180D"
+            ],
+            "type": "string",
+            "description": "Length of lookback window"
+          },
+          "categoryIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "The categories to target",
+            "nullable": true
+          },
+          "brandIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "The brands to target",
+            "nullable": true
+          }
+        },
+        "description": "User Behavior Details."
       },
       "Creative202110ListResponse": {
         "type": "object",
@@ -4966,32 +4825,6 @@
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false
-      },
-      "Creative202207Response": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfCreative202207"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true,
-            "x-nullable": false
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true,
-            "x-nullable": false
-          }
-        },
-        "description": "Data model for response resource",
         "x-nullable": false
       },
       "JsonApiSingleResponseOfCatalogStatus": {
@@ -5150,94 +4983,6 @@
         "description": "Wraps a list of valid pages for a retailer",
         "x-nullable": false
       },
-      "CreativeCreateModel202207": {
-        "required": [
-          "name",
-          "retailerId",
-          "templateId",
-          "templateVariableValues"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the creative",
-            "x-nullable": false
-          },
-          "brandId": {
-            "type": "integer",
-            "description": "The brand associated to the creative",
-            "format": "int64",
-            "x-nullable": false
-          },
-          "retailerId": {
-            "type": "integer",
-            "description": "The retailer associated to the creative",
-            "format": "int32",
-            "x-nullable": false
-          },
-          "templateId": {
-            "type": "integer",
-            "description": "The creative template used for this creative",
-            "format": "int32",
-            "x-nullable": false
-          },
-          "templateVariableValues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TemplateVariableValue"
-            },
-            "description": "The template chosen values",
-            "x-nullable": false
-          }
-        },
-        "description": "Create model of a creative",
-        "x-nullable": false
-      },
-      "CreativeUpdateModel202207": {
-        "required": [
-          "name",
-          "retailerId",
-          "templateId",
-          "templateVariableValues"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the creative",
-            "x-nullable": false
-          },
-          "brandId": {
-            "type": "integer",
-            "description": "The brand associated to the creative",
-            "format": "int64",
-            "x-nullable": false
-          },
-          "retailerId": {
-            "type": "integer",
-            "description": "The retailer associated to the creative",
-            "format": "int32",
-            "x-nullable": false
-          },
-          "templateId": {
-            "type": "integer",
-            "description": "The creative template used for this creative",
-            "format": "int32",
-            "x-nullable": false
-          },
-          "templateVariableValues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TemplateVariableValue"
-            },
-            "description": "The template chosen values",
-            "x-nullable": false
-          }
-        },
-        "description": "Update model of a creative",
-        "x-nullable": false
-      },
       "JsonApiRequestOfCatalogRequest": {
         "type": "object",
         "properties": {
@@ -5334,26 +5079,6 @@
         "description": "Data model for common error or warning",
         "x-nullable": false
       },
-      "ResourceOfCreative202207": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/Creative202207"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-nullable": false
-      },
       "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
         "required": [
           "id",
@@ -5415,36 +5140,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
-      },
-      "TemplateVariableValue": {
-        "required": [
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The id of the template variable the value is applied to",
-            "x-nullable": false
-          },
-          "textVariableValue": {
-            "$ref": "#/components/schemas/TextVariableValue"
-          },
-          "choiceVariableValue": {
-            "$ref": "#/components/schemas/ChoiceVariableValue"
-          },
-          "colorVariableValue": {
-            "$ref": "#/components/schemas/ColorVariableValue"
-          },
-          "filesVariableValue": {
-            "$ref": "#/components/schemas/FilesVariableValue"
-          },
-          "hyperlinkVariableValue": {
-            "$ref": "#/components/schemas/HyperlinkVariableValue"
-          }
-        },
-        "description": "A value for a variable in a creative template.",
         "x-nullable": false
       },
       "JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequest": {
@@ -5512,104 +5207,6 @@
           }
         },
         "description": "Metadata and usage info of a preferred deals creative",
-        "x-nullable": false
-      },
-      "Creative202207": {
-        "required": [
-          "name",
-          "status",
-          "retailerId",
-          "creativeFormatType",
-          "environments",
-          "templateVariableValues"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name",
-            "x-nullable": false
-          },
-          "status": {
-            "enum": [
-              "Ready",
-              "In_Use",
-              "Archived",
-              "Deleted"
-            ],
-            "type": "string",
-            "description": "Creative Status",
-            "x-nullable": false
-          },
-          "brandId": {
-            "type": "integer",
-            "description": "Brand Id",
-            "format": "int64",
-            "nullable": true,
-            "x-nullable": true
-          },
-          "retailerId": {
-            "type": "integer",
-            "description": "Retailer Id",
-            "format": "int32",
-            "x-nullable": false
-          },
-          "associatedLineItemIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "description": "Associated Line Item Ids",
-            "x-nullable": false
-          },
-          "updatedAt": {
-            "type": "string",
-            "description": "Updated at time",
-            "format": "date-time",
-            "x-nullable": false
-          },
-          "creativeFormatType": {
-            "enum": [
-              "Unknown",
-              "FlagShip",
-              "Showcase",
-              "SponsoredProducts",
-              "Butterfly",
-              "BundleBoost",
-              "IAB",
-              "CUSTOM",
-              "DisplayPanel",
-              "DigitalShelfTalker"
-            ],
-            "type": "string",
-            "description": "Creative format type",
-            "x-nullable": false
-          },
-          "environments": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "Web",
-                "Mobile",
-                "App"
-              ],
-              "type": "string",
-              "x-nullable": false
-            },
-            "description": "Environment type (e.g. mobile, web, app)",
-            "x-nullable": false
-          },
-          "templateVariableValues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TemplateVariableValue"
-            },
-            "description": "The template chosen values",
-            "x-nullable": false
-          }
-        },
-        "description": "A creative entity",
         "x-nullable": false
       },
       "ExternalCatalogStatus": {
@@ -5778,91 +5375,6 @@
           }
         },
         "description": "A template for creating creatives.",
-        "x-nullable": false
-      },
-      "TextVariableValue": {
-        "required": [
-          "text"
-        ],
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "description": "The displayed text",
-            "x-nullable": false
-          }
-        },
-        "description": "A value of a template text variable",
-        "x-nullable": false
-      },
-      "ChoiceVariableValue": {
-        "required": [
-          "chosenOptions"
-        ],
-        "type": "object",
-        "properties": {
-          "chosenOptions": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "description": "The chosen options",
-            "x-nullable": false
-          }
-        },
-        "description": "A value of a template choice variable (among different accepted options)",
-        "x-nullable": false
-      },
-      "ColorVariableValue": {
-        "required": [
-          "color"
-        ],
-        "type": "object",
-        "properties": {
-          "color": {
-            "pattern": "^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$",
-            "type": "string",
-            "description": "The displayed color (HEX format)",
-            "x-nullable": false
-          }
-        },
-        "description": "A value of a template color variable",
-        "x-nullable": false
-      },
-      "FilesVariableValue": {
-        "required": [
-          "assetIds"
-        ],
-        "type": "object",
-        "properties": {
-          "assetIds": {
-            "minLength": 1,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "description": "The assets representing the images to be displayed",
-            "x-nullable": false
-          }
-        },
-        "description": "A value of a template file variable (one or several files), like images in a creative",
-        "x-nullable": false
-      },
-      "HyperlinkVariableValue": {
-        "required": [
-          "url"
-        ],
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
-            "description": "The url to redirect to",
-            "x-nullable": false
-          }
-        },
-        "description": "A value of a template hyperlink variable",
         "x-nullable": false
       },
       "ExternalCatalogRequest": {
@@ -7879,6 +7391,11 @@
             "type": "string",
             "nullable": true,
             "x-nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "A Retail Media Campaign used to represent an advertiser's marketing objective",
@@ -8558,6 +8075,11 @@
             "type": "string",
             "nullable": true,
             "x-nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "An object that represents the available options to set when creating a Retail Media Campaign",
@@ -8969,6 +8491,11 @@
               "sameSkuCategory",
               "sameSkuCategoryBrand"
             ],
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "companyName": {
             "type": "string",
             "nullable": true,
             "x-nullable": true
