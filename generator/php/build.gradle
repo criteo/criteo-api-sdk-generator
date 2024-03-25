@@ -40,9 +40,6 @@ task generateClient(type: GradleBuild) {
     def taskList = ['cleanPreviousDist'];
 
 	rootProject.swaggerSourceList.each {
-        def jsonFile = file(it.path);
-        def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
-
         def parsedApiName = it.getName().replace(".json", "").toLowerCase();
         def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
         def criteoApiVersion = apiVersionFromName.replace('-', '_');
