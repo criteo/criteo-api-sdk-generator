@@ -18,7 +18,7 @@ ext {
     jar.enabled = false
 }
 
-def clientOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/python".toString()
+def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/python"
 def resourcesDir = "$projectDir/resources".toString()
 def buildDir = "$projectDir/build"
 def criteoPackage = project.properties["package.name.base"]
@@ -42,9 +42,6 @@ task generateClient(type: GradleBuild) {
     def taskList = ['cleanPreviousDist'];
 
     rootProject.swaggerSourceList.each {
-        def jsonFile = file(it.path);
-        def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
-
         def parsedApiName = it.getName().replace(".json", "").toLowerCase();
         def taskSuffix = language + "_" + parsedApiName
         def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');

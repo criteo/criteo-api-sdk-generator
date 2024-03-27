@@ -13,7 +13,7 @@ buildscript {
 
 apply plugin: 'org.openapi.generator'
 
-def clientOutputDir = "$projectDir/../../$rootProject.gereratedClientsDirName/java".toString()
+def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/java"
 def buildDir = "$projectDir/build";
 def resourcesDir = "$projectDir/resources".toString()
 def criteoPackage = project.properties["package.name.base"]
@@ -38,9 +38,6 @@ task generateClient(type: GradleBuild) {
     def taskList = [];
 
 	rootProject.swaggerSourceList.each {
-        def jsonFile = file(it.path);
-        def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text);
-
         def parsedApiName = it.getName().replace(".json", "").toLowerCase();
         def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
         def criteoApiVersion = apiVersionFromName.replace('-', '_');
