@@ -14161,7 +14161,10 @@
             "nullable": true
           },
           "budgetAmount": {
-            "$ref": "#/components/schemas/NillableDecimal"
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "ad set budget read model"
@@ -15433,7 +15436,6 @@
           "landingPageUrl": {
             "type": "string",
             "description": "Web redirection of the landing page url",
-            "format": "uri",
             "nullable": true
           }
         },
@@ -19601,7 +19603,7 @@
           },
           "itemGroupId": {
             "type": "string",
-            "description": "The itemGroupId of the product to delete. To be defined when the method is delete and the product is a variant.",
+            "description": "Deprecated (providing this information is no more needed, this field will be removed in next release). The itemGroupId of the product to delete. To be defined when the method is delete and the product is a variant.",
             "nullable": true
           },
           "product": {
@@ -19665,7 +19667,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "A unique identifier for the item. Aka Product ID."
+            "description": "A unique identifier for the item. Aka Product ID. Don’t use casing to make IDs unique."
           },
           "offerId": {
             "type": "string",
@@ -19751,7 +19753,7 @@
           },
           "itemGroupId": {
             "type": "string",
-            "description": "Shared identifier for all variants of the same product. RECOMMENDED.",
+            "description": "Shared identifier for all variants of the same product. RECOMMENDED. Don’t use casing to make IDs unique. (50 characters max)",
             "nullable": true
           },
           "material": {
@@ -19997,6 +19999,14 @@
             "description": "Categories of the item (formatted as in products data specification).",
             "nullable": true
           },
+          "productTypeKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Category keys of the item (formatted as in productTypes).",
+            "nullable": true
+          },
           "ageGroup": {
             "type": "string",
             "description": "Target age group of the item.",
@@ -20054,7 +20064,7 @@
           },
           "sellerId": {
             "type": "string",
-            "description": "Deprecated field. It should be replaced by externalSellerId. The external ID of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
+            "description": "(Deprecated Field) The external ID of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
             "nullable": true
           },
           "externalSellerId": {
@@ -20064,18 +20074,18 @@
           },
           "externalSellerName": {
             "type": "string",
-            "description": "The external name of the seller (case sensitive and 750 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
+            "description": "The external name of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads.",
             "nullable": true
           },
           "numberOfReviews": {
             "type": "integer",
-            "description": "The number of reviews for the product. This information is required by the Criteo Offsite Ads.",
+            "description": "The number of customer reviews for the product",
             "format": "int32",
             "nullable": true
           },
           "productRating": {
             "type": "string",
-            "description": "The rating of the product. This information is required by the Criteo Offsite Ads.",
+            "description": "The product rating for the product",
             "nullable": true
           }
         },
@@ -20651,7 +20661,12 @@
           },
           "clickUrl": {
             "type": "string",
-            "description": "Url leading to product details page and also used to track user click.",
+            "description": "Url leading to product details page and also used to track user click. It's relying on the default product URL field in the catalog.",
+            "nullable": true
+          },
+          "alternativeClickUrl": {
+            "type": "string",
+            "description": "Url leading to product details page and also used to track user click. It's relying on a custom product URL field in the catalog.",
             "nullable": true
           },
           "imageUrl": {
