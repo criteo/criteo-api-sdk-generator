@@ -700,7 +700,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "ID of the line item",
             "required": true,
             "style": "simple",
             "schema": {
@@ -712,19 +712,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1KeywordsModelResponse"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1KeywordsModelResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1KeywordsModelResponse"
+                  "$ref": "#/components/schemas/KeywordsModelResponse"
                 }
               }
             }
@@ -732,9 +722,11 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           }
         }
@@ -745,13 +737,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Add or Remove keywords from the associated line item in bulk",
+        "description": "Add or Remove keywords from the line item in bulk",
         "operationId": "AddRemoveKeywords",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "ID of the line item",
             "required": true,
             "style": "simple",
             "schema": {
@@ -760,33 +752,21 @@
           }
         ],
         "requestBody": {
-          "description": "Object containing keywords to be added or removed",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RetailMediaExternalv1AddRemoveKeywordsModelRequest"
+                "$ref": "#/components/schemas/AddRemoveKeywordsModelRequest"
               }
             }
-          },
-          "x-bodyName": "keywords"
+          }
         },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ResourceOutcome"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ResourceOutcome"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ResourceOutcome"
+                  "$ref": "#/components/schemas/ResourceOutcome"
                 }
               }
             }
@@ -794,9 +774,11 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           }
         }
@@ -813,7 +795,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "ID of the line item",
             "required": true,
             "style": "simple",
             "schema": {
@@ -822,33 +804,21 @@
           }
         ],
         "requestBody": {
-          "description": "Object containing a list of bid overrides for associated keywords",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RetailMediaExternalv1SetBidsModelRequest"
+                "$ref": "#/components/schemas/SetBidsModelRequest"
               }
             }
-          },
-          "x-bodyName": "keywords"
+          }
         },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ResourceOutcome"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ResourceOutcome"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ResourceOutcome"
+                  "$ref": "#/components/schemas/ResourceOutcome"
                 }
               }
             }
@@ -856,9 +826,11 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           }
         }
@@ -869,13 +841,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Fetch the status of a proposal to modify a Preferred Deal Line Item.",
+        "description": "Includes the state of the proposal, the status of the booking and approval, as well as any comments explaining why it might have been rejected.",
         "operationId": "FetchProposal",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The external id of a line item.",
+            "description": "ID of the line item",
             "required": true,
             "style": "simple",
             "schema": {
@@ -887,19 +859,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResponse"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResponse"
+                  "$ref": "#/components/schemas/ProposalStatusModelResponse"
                 }
               }
             }
@@ -907,25 +869,21 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           },
           "403": {
             "description": "Forbidden",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           }
         }
@@ -936,13 +894,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Submit a proposal to modify a Preferred Deal Line Item for review.",
+        "description": "Only the components of the Line Item that are in a valid state will be reviewed.",
         "operationId": "SubmitProposal",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The external id of a line item.",
+            "description": "ID of the line item",
             "required": true,
             "style": "simple",
             "schema": {
@@ -954,19 +912,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResponse"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResponse"
+                  "$ref": "#/components/schemas/ProposalStatusModelResponse"
                 }
               }
             }
@@ -974,25 +922,21 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           },
           "403": {
             "description": "Forbidden",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
             }
           }
         }
@@ -4749,7 +4693,7 @@
             "readOnly": true
           }
         },
-        "description": "List of responses"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata"
       },
       "RmLegacyAudienceCreateEntityV1Response": {
         "type": "object",
@@ -4871,7 +4815,7 @@
             "nullable": true
           }
         },
-        "description": "Legacy resource"
+        "description": "A class that represents a domain entity exposed by an API"
       },
       "RmLegacyAudienceCreateEntityV1Resource": {
         "type": "object",
@@ -5303,106 +5247,102 @@
         },
         "description": "User Behavior Details."
       },
-      "RetailMediaExternalv1KeywordsModelResponse": {
+      "KeywordsModelResponse": {
         "type": "object",
         "properties": {
-          "data": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1KeywordsModelResource"
-          },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1ProblemDetails"
+              "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
             "readOnly": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1ProblemDetails"
+              "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
             "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/KeywordsModelResource"
           }
         },
-        "description": "Response object containing keywords associated with a line item"
+        "additionalProperties": false,
+        "description": "Response object containing keywords associated with a line item."
       },
-      "RetailMediaExternalv1ResourceOutcome": {
+      "ResourceOutcome": {
         "type": "object",
         "properties": {
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1ProblemDetails"
+              "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
             "readOnly": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1ProblemDetails"
+              "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
             "readOnly": true
           }
         },
-        "description": "A response object containing errors or warnings if required"
+        "additionalProperties": false,
+        "description": "Outcome object containing errors and warnings."
       },
-      "RetailMediaExternalv1ProposalStatusModelResponse": {
+      "ProposalStatusModelResponse": {
         "type": "object",
         "properties": {
-          "data": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModelResource"
-          },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1ProblemDetails"
+              "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
             "readOnly": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1ProblemDetails"
+              "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
             "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProposalStatusModelResource"
           }
         },
-        "description": "Wrapper for the proposal status resource"
+        "additionalProperties": false,
+        "description": "Response object containing the state of a proposal in the context of a line item."
       },
-      "RetailMediaExternalv1AddRemoveKeywordsModelRequest": {
+      "AddRemoveKeywordsModelRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1AddRemoveKeywordsModelResource"
+            "$ref": "#/components/schemas/AddRemoveKeywordsModelResource"
           }
         },
+        "additionalProperties": false,
         "description": "Request object to add or remove keywords from a line item"
       },
-      "RetailMediaExternalv1SetBidsModelRequest": {
+      "SetBidsModelRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1SetBidsModelResource"
+            "$ref": "#/components/schemas/SetBidsModelResource"
           }
         },
-        "description": "Request to set bid overrides for specified keywords on a line item"
+        "additionalProperties": false,
+        "description": "Request object to set bid overrides for keywords associated with a line item"
       },
-      "RetailMediaExternalv1KeywordsModelResource": {
-        "required": [
-          "type"
-        ],
+      "KeywordsModelResource": {
         "type": "object",
         "properties": {
           "id": {
@@ -5410,23 +5350,57 @@
             "nullable": true
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1KeywordsModel"
+            "$ref": "#/components/schemas/KeywordsModel"
           }
         },
-        "description": "Resource wrapper of associated keywords with a line item"
+        "additionalProperties": false,
+        "description": "Resource object containing keywords associated with a line item."
       },
-      "RetailMediaExternalv1ProblemDetails": {
+      "RmcaCommonProblem": {
         "type": "object",
         "properties": {
-          "traceIdentifier": {
+          "traceId": {
             "type": "string",
+            "description": "The request correlation ID this problem comes from.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "The problem's category.",
             "nullable": true
           },
           "code": {
             "type": "string",
+            "description": "A machine-readable  error code, expressed as a string value.",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that identifies the specific occurrence of the problem.",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "A short human-readable description of the problem type",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem",
             "nullable": true
           },
           "source": {
@@ -5434,43 +5408,24 @@
             "additionalProperties": {
               "type": "string"
             },
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
             "nullable": true
           },
           "stackTrace": {
             "type": "string",
             "nullable": true
           },
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
           "status": {
             "type": "integer",
+            "description": "The problem's HTTP Status code.",
             "format": "int32",
             "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
           }
         },
-        "additionalProperties": {
-          "type": "object"
-        },
-        "description": "Datamodel for common errors and warnings"
+        "additionalProperties": { },
+        "description": "Common problem object."
       },
-      "RetailMediaExternalv1ProposalStatusModelResource": {
-        "required": [
-          "type"
-        ],
+      "ProposalStatusModelResource": {
         "type": "object",
         "properties": {
           "id": {
@@ -5478,18 +5433,17 @@
             "nullable": true
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1ProposalStatusModel"
+            "$ref": "#/components/schemas/ProposalStatusModel"
           }
         },
-        "description": "Wrapper for the proposal status"
+        "additionalProperties": false,
+        "description": "Resource object containing the state of a proposal in the context of a line item."
       },
-      "RetailMediaExternalv1AddRemoveKeywordsModelResource": {
-        "required": [
-          "type"
-        ],
+      "AddRemoveKeywordsModelResource": {
         "type": "object",
         "properties": {
           "id": {
@@ -5497,18 +5451,17 @@
             "nullable": true
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1AddRemoveKeywordsModel"
+            "$ref": "#/components/schemas/AddRemoveKeywordsModel"
           }
         },
-        "description": "Resource wrapper the keyword add and remove datamodel"
+        "additionalProperties": false,
+        "description": "Resource object containing keywords to be added or removed from a line item"
       },
-      "RetailMediaExternalv1SetBidsModelResource": {
-        "required": [
-          "type"
-        ],
+      "SetBidsModelResource": {
         "type": "object",
         "properties": {
           "id": {
@@ -5516,22 +5469,27 @@
             "nullable": true
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1SetBidsModel"
+            "$ref": "#/components/schemas/SetBidsModel"
           }
         },
-        "description": "Wrapper of the Set Bids datamodel"
+        "additionalProperties": false,
+        "description": "Resource object containing keywords and their associated bid overrides"
       },
-      "RetailMediaExternalv1KeywordsModel": {
+      "KeywordsModel": {
         "type": "object",
         "properties": {
           "keywords": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1KeywordDataModel"
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/KeywordDataModel"
+            },
+            "nullable": true
           },
           "rank": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -5539,43 +5497,20 @@
             "nullable": true
           }
         },
-        "description": "Datamodel representing keywords associated with a line item"
+        "additionalProperties": false,
+        "description": "The keywords associated with a line item."
       },
-      "RetailMediaExternalv1ProposalStatusModel": {
-        "required": [
-          "negotiationState",
-          "bookingStatus",
-          "runnableStatus"
-        ],
+      "ProposalStatusModel": {
         "type": "object",
         "properties": {
           "negotiationState": {
-            "enum": [
-              "Invalid",
-              "Modified",
-              "Submitted",
-              "Reviewed",
-              "Approved"
-            ],
-            "type": "string"
+            "$ref": "#/components/schemas/NegotiationStateModel"
           },
           "bookingStatus": {
-            "enum": [
-              "NotSubmitted",
-              "Submitted",
-              "Rejected",
-              "Approved"
-            ],
-            "type": "string"
+            "$ref": "#/components/schemas/ApprovalStatusModel"
           },
           "runnableStatus": {
-            "enum": [
-              "NotSubmitted",
-              "Submitted",
-              "Rejected",
-              "Approved"
-            ],
-            "type": "string"
+            "$ref": "#/components/schemas/ApprovalStatusModel"
           },
           "comment": {
             "type": "string",
@@ -5592,59 +5527,45 @@
             "nullable": true
           }
         },
-        "description": "The proposal status includes the state of the proposal, the status of the booking and approval, as well as any comments explaining why it might have been rejected."
+        "additionalProperties": false,
+        "description": "The state of a proposal in the context of a line item."
       },
-      "RetailMediaExternalv1AddRemoveKeywordsModel": {
+      "AddRemoveKeywordsModel": {
         "type": "object",
         "properties": {
           "keywords": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1AddRemoveKeywordModel"
+              "$ref": "#/components/schemas/AddRemoveKeywordModel"
             },
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Data model containing keywords to be added or removed from a line item"
       },
-      "RetailMediaExternalv1SetBidsModel": {
+      "SetBidsModel": {
         "type": "object",
         "properties": {
           "keywords": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RetailMediaExternalv1SetBidModel"
+              "$ref": "#/components/schemas/SetBidModel"
             },
             "nullable": true
           }
         },
-        "description": "Data model containing keywords and bid overrides to associate to them"
+        "additionalProperties": false,
+        "description": "Data model containing keywords and their associated bid overrides"
       },
-      "RetailMediaExternalv1KeywordDataModel": {
+      "KeywordDataModel": {
         "type": "object",
         "properties": {
           "reviewState": {
-            "enum": [
-              "InReview",
-              "Recommended",
-              "Approved",
-              "AutoApproved",
-              "Rejected",
-              "AutoRejected"
-            ],
-            "type": "string",
-            "nullable": true
+            "$ref": "#/components/schemas/ReviewStateModel"
           },
           "matchType": {
-            "enum": [
-              "PositiveExactMatch",
-              "NegativeExactMatch",
-              "NegativeBroadMatch"
-            ],
-            "type": "string",
-            "nullable": true
+            "$ref": "#/components/schemas/MatchTypeModel"
           },
           "bid": {
             "type": "number",
@@ -5652,7 +5573,7 @@
             "nullable": true
           },
           "inputKeywords": {
-            "$ref": "#/components/schemas/RetailMediaExternalv1InputKeywordsModel"
+            "$ref": "#/components/schemas/InputKeywordsModel"
           },
           "createdAt": {
             "type": "string",
@@ -5665,9 +5586,31 @@
             "nullable": true
           }
         },
-        "description": "Details for a specific keyword"
+        "additionalProperties": false,
+        "description": "A single keyword and associated bid override"
       },
-      "RetailMediaExternalv1AddRemoveKeywordModel": {
+      "NegotiationStateModel": {
+        "enum": [
+          "Invalid",
+          "Modified",
+          "Submitted",
+          "Reviewed",
+          "Approved"
+        ],
+        "type": "string",
+        "description": "The state of a negotiation in the context of a line item."
+      },
+      "ApprovalStatusModel": {
+        "enum": [
+          "NotSubmitted",
+          "Submitted",
+          "Rejected",
+          "Approved"
+        ],
+        "type": "string",
+        "description": "The status of a booking or runnable in the context of a line item."
+      },
+      "AddRemoveKeywordModel": {
         "type": "object",
         "properties": {
           "phrase": {
@@ -5677,22 +5620,17 @@
             "nullable": true
           },
           "matchType": {
-            "enum": [
-              "PositiveExactMatch",
-              "NegativeExactMatch",
-              "NegativeBroadMatch"
-            ],
-            "type": "string",
-            "nullable": true
+            "$ref": "#/components/schemas/MatchTypeModel"
           },
           "isDeleted": {
             "type": "boolean",
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A single keyword to be added or removed"
       },
-      "RetailMediaExternalv1SetBidModel": {
+      "SetBidModel": {
         "type": "object",
         "properties": {
           "phrase": {
@@ -5707,13 +5645,34 @@
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A single keyword and associated bid override"
       },
-      "RetailMediaExternalv1InputKeywordsModel": {
+      "ReviewStateModel": {
+        "enum": [
+          "InReview",
+          "Recommended",
+          "Approved",
+          "AutoApproved",
+          "Rejected",
+          "AutoRejected"
+        ],
+        "type": "string",
+        "description": "The state of a keyword in the context of a line item."
+      },
+      "MatchTypeModel": {
+        "enum": [
+          "PositiveExactMatch",
+          "NegativeExactMatch",
+          "NegativeBroadMatch"
+        ],
+        "type": "string",
+        "description": "The match type of a keyword."
+      },
+      "InputKeywordsModel": {
         "type": "object",
         "properties": {
           "negativeBroad": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -5721,7 +5680,6 @@
             "nullable": true
           },
           "negativeExact": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -5729,7 +5687,6 @@
             "nullable": true
           },
           "positiveExact": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -5737,7 +5694,8 @@
             "nullable": true
           }
         },
-        "description": "Input values associated with a keyword"
+        "additionalProperties": false,
+        "description": "The keywords to be added or removed from a line item."
       },
       "Creative202110ListResponse": {
         "type": "object",
@@ -7136,20 +7094,24 @@
           },
           "campaignType": {
             "enum": [
+              "all",
               "sponsoredProducts",
               "onSiteDisplays"
             ],
             "type": "string",
             "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "default": "all",
             "nullable": true
           },
           "salesChannel": {
             "enum": [
+              "all",
               "offline",
               "online"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
+            "default": "all",
             "nullable": true
           },
           "format": {
@@ -7182,10 +7144,10 @@
           },
           "clickAttributionWindow": {
             "enum": [
+              "none",
               "7D",
               "14D",
-              "30D",
-              "none"
+              "30D"
             ],
             "type": "string",
             "description": "Click attribution window",
@@ -7194,11 +7156,11 @@
           },
           "viewAttributionWindow": {
             "enum": [
+              "none",
               "1D",
               "7D",
               "14D",
-              "30D",
-              "none"
+              "30D"
             ],
             "type": "string",
             "description": "View attribution window",
@@ -7216,19 +7178,20 @@
                 "campaignId",
                 "campaignName",
                 "campaignTypeName",
-                "advProductCategory",
-                "advProductId",
-                "advProductName",
-                "brandId",
-                "brandName",
                 "lineItemId",
                 "lineItemName",
                 "retailerId",
                 "retailerName",
-                "keyword",
-                "pageTypeName",
+                "brandId",
+                "brandName",
+                "advProductCategory",
+                "advProductId",
+                "advProductName",
                 "salesChannel",
-                "environment"
+                "environment",
+                "pageTypeName",
+                "keyword",
+                "searchTerm"
               ],
               "type": "string"
             },
@@ -7252,6 +7215,14 @@
                 "cpo",
                 "cpm",
                 "roas",
+                "videoViews",
+                "videosStarted",
+                "videosPlayedTo25",
+                "videosPlayedTo50",
+                "videosPlayedTo75",
+                "videosPlayedTo100",
+                "videoPlayingRate",
+                "videoCompletionRate",
                 "uniqueVisitors",
                 "frequency"
               ],
@@ -7301,20 +7272,24 @@
           },
           "campaignType": {
             "enum": [
+              "all",
               "sponsoredProducts",
               "onSiteDisplays"
             ],
             "type": "string",
             "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "default": "all",
             "nullable": true
           },
           "salesChannel": {
             "enum": [
+              "all",
               "offline",
               "online"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
+            "default": "all",
             "nullable": true
           },
           "format": {
@@ -7347,10 +7322,10 @@
           },
           "clickAttributionWindow": {
             "enum": [
+              "none",
               "7D",
               "14D",
-              "30D",
-              "none"
+              "30D"
             ],
             "type": "string",
             "description": "Click attribution window",
@@ -7359,11 +7334,11 @@
           },
           "viewAttributionWindow": {
             "enum": [
+              "none",
               "1D",
               "7D",
               "14D",
-              "30D",
-              "none"
+              "30D"
             ],
             "type": "string",
             "description": "View attribution window",
@@ -7381,19 +7356,20 @@
                 "campaignId",
                 "campaignName",
                 "campaignTypeName",
-                "advProductCategory",
-                "advProductId",
-                "advProductName",
-                "brandId",
-                "brandName",
                 "lineItemId",
                 "lineItemName",
                 "retailerId",
                 "retailerName",
-                "keyword",
-                "pageTypeName",
+                "brandId",
+                "brandName",
+                "advProductCategory",
+                "advProductId",
+                "advProductName",
                 "salesChannel",
-                "environment"
+                "environment",
+                "pageTypeName",
+                "keyword",
+                "searchTerm"
               ],
               "type": "string"
             },
@@ -7417,6 +7393,14 @@
                 "cpo",
                 "cpm",
                 "roas",
+                "videoViews",
+                "videosStarted",
+                "videosPlayedTo25",
+                "videosPlayedTo50",
+                "videosPlayedTo75",
+                "videosPlayedTo100",
+                "videoPlayingRate",
+                "videoCompletionRate",
                 "uniqueVisitors",
                 "frequency"
               ],
