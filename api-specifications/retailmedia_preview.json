@@ -16,6 +16,7 @@
         "tags": [
           "Accounts"
         ],
+        "summary": "",
         "description": "Grant consent to a business application on behalf of a Private Market demand account",
         "operationId": "GrantConsent",
         "parameters": [
@@ -442,7 +443,7 @@
     "/preview/retail-media/accounts": {
       "get": {
         "tags": [
-          "Campaign"
+          "Accounts"
         ],
         "description": "Gets page of account objects that the current user can access",
         "operationId": "AccountsApi_GetApiV1ExternalAccounts",
@@ -467,7 +468,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             },
             "x-nullable": false
           },
@@ -478,7 +480,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             },
             "x-nullable": false
           }
@@ -487,7 +490,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
                 }
@@ -536,7 +549,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             },
             "x-nullable": false
           },
@@ -547,7 +561,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             },
             "x-nullable": false
           }
@@ -556,7 +571,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
                 }
@@ -605,7 +630,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             },
             "x-nullable": false
           },
@@ -616,7 +642,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             },
             "x-nullable": false
           }
@@ -625,11 +652,498 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
+                }
+              },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
                 }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
+                }
               }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audience-segments": {
+      "patch": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Updates the properties of all segments with a valid configuration, and returns the full segments. For those that cannot be updated, one or multiple errors are returned.",
+        "operationId": "BulkUpdateV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Segment Update request",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkUpdateInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkUpdateInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkUpdateInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkUpdateInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audience-segments/create": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Creates all segments with a valid configuration, and returns the full segments. For those that cannot be created, one or multiple errors are returned.",
+        "operationId": "BulkCreateV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Segment creation parameter",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkCreateInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkCreateInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkCreateInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkCreateInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audience-segments/delete": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Delete the segments associated to the given audience IDs.",
+        "operationId": "BulkDeleteV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Segment delete request.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkDeleteInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkDeleteInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkDeleteInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentBulkDeleteInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audience-segments/search": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Search segments based on the provided filters.( by ids or retailer ids)",
+        "operationId": "SearchV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
+            "style": "form",
+            "schema": {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The (zero-based) offset into the collection. The default is 0.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Segment creation parameter",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentSearchInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentSearchInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentSearchInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentSearchInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1RmAudienceSegmentSearchMetadataV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1RmAudienceSegmentSearchMetadataV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentEntityV1RmAudienceSegmentSearchMetadataV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audience-segments/{audience-segment-id}/contact-list": {
+      "get": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Returns the statistics of a contact list segment.",
+        "operationId": "GetContactListStatisticsV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "audience-segment-id",
+            "in": "path",
+            "description": "Segment Id.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmContactListStatisticsEntityV1Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmContactListStatisticsEntityV1Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmContactListStatisticsEntityV1Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           }
         }
@@ -1620,6 +2134,80 @@
               "text/plain": { },
               "application/json": { },
               "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{accountId}/catalogs/sellers": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Create a request for a Catalog available to the indicated account.",
+        "operationId": "Catalog_PostApiV1ExternalAccountCatalogsSellersByAccountId",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account to request the catalog for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonApiRequestOfSellerCatalogRequest"
+              }
+            }
+          },
+          "x-bodyName": "body"
+        },
+        "responses": {
+          "200": {
+            "description": "Catalog request successfully created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                }
+              }
             }
           }
         }
@@ -2874,288 +3462,67 @@
         }
       }
     },
-    "/preview/retail-media/account-management/accounts/{accountId}/brands/add": {
-      "post": {
+    "/preview/retail-media/balances/{balanceId}/history": {
+      "get": {
         "tags": [
-          "Accounts"
+          "Balance"
         ],
-        "description": "Add brands to an account",
-        "operationId": "AddBrands",
+        "description": "Gets the balance's historical change data.",
+        "operationId": "GetBalanceHistory",
         "parameters": [
           {
-            "name": "accountId",
+            "name": "balanceId",
             "in": "path",
-            "description": "the account id to update",
+            "description": "Balance id.",
             "required": true,
             "style": "simple",
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "requestBody": {
-          "description": "brands to associate to account",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The (zero-based) starting offset in the collection.",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of elements to be returned.",
+            "style": "form",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "limitToChangeTypes",
+            "in": "query",
+            "description": "Comma separated change types string that will be queried.",
+            "style": "form",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrands"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/account-management/accounts/{accountId}/brands/remove": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "Remove a brand from an account",
-        "operationId": "RemoveBrands",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "the account id to update",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrands"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/account-management/accounts/{accountId}/create-brand-account": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "Creates a new child Demand Brand Account for the provided parent private market account",
-        "operationId": "CreatePrivateMarketDemandBrandAccount",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "Account Id for the parent private market account",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Initial creation and configuration options for the new account",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrandAccountCreation"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrandAccountCreation"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrandAccountCreation"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrandAccountCreation"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfRetailMediaAccount"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/account-management/accounts/{accountId}/create-seller-account": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "Creates a new child Demand Seller Account for the provided parent private market account",
-        "operationId": "CreatePrivateMarketDemandSellerAccount",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "Account Id for the parent private market account",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Initial creation and configuration options for the new account",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaSellerAccountCreation"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaSellerAccountCreation"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaSellerAccountCreation"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaSellerAccountCreation"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfRetailMediaAccount"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/account-management/accounts/{accountId}/sellers": {
-      "put": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "replace the sellers assoiated with an account",
-        "operationId": "UpdateSellers",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "the account id to update",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "sellers to associate",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceCollectionInputOfRetailMediaSeller"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceCollectionInputOfRetailMediaSeller"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceCollectionInputOfRetailMediaSeller"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceCollectionInputOfRetailMediaSeller"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfRetailMediaSeller"
+                  "$ref": "#/components/schemas/PageOfBalanceHistoryChangeDataCaptureV1"
                 }
               }
             }
@@ -3238,7 +3605,8 @@
                 "$ref": "#/components/schemas/ValueResourceInputOfCampaignBudgetOverrides"
               }
             }
-          }
+          },
+          "x-bodyName": "campaignBudgetOverridesInput"
         },
         "responses": {
           "201": {
@@ -3336,7 +3704,8 @@
                 "$ref": "#/components/schemas/SkuSearchRequest"
               }
             }
-          }
+          },
+          "x-bodyName": "skuSearchRequest"
         },
         "responses": {
           "200": {
@@ -3358,7 +3727,7 @@
           "Campaign"
         ],
         "description": "Gets the balance's historical data change capture.",
-        "operationId": "GetInsertionOrderHistoryChangeDataCapture",
+        "operationId": "GetInsertionOrderHistoryChangeDataCaptureV2",
         "parameters": [
           {
             "name": "insertionOrderId",
@@ -3412,7 +3781,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageOfInsertionOrderHistoryChangeDataCapture"
+                  "$ref": "#/components/schemas/PageOfInsertionOrderHistoryChangeDataCaptureV2"
                 }
               }
             }
@@ -3526,7 +3895,8 @@
                 "$ref": "#/components/schemas/ValueResourceInputOfLineItemBudgetOverrides"
               }
             }
-          }
+          },
+          "x-bodyName": "lineItemBudgetOverridesInput"
         },
         "responses": {
           "201": {
@@ -3535,6 +3905,402 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueResourceOutcomeOfLineItemBudgetOverrides"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/balances": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Gets page of balance objects for the given account id",
+        "operationId": "GetApiV2ExternalAccountBalancesByAccountId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account to get balances for",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "limitToId",
+            "in": "query",
+            "description": "The ids that you would like to limit your result set to",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "The 0 indexed page index you would like to receive given the page size",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The maximum number of items you would like to receive in this request",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResourceCollectionOutcomeOfBalanceResponseV2"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResourceCollectionOutcomeOfBalanceResponseV2"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResourceCollectionOutcomeOfBalanceResponseV2"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Create balance for the given account id",
+        "operationId": "PostApiV2ExternalAccountBalancesByAccountId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account to create balances for",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "description": "An object that represents the available options to set when creating a Retail Media Balance",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBalanceV2Request"
+              }
+            }
+          },
+          "required": true,
+          "x-nullable": false,
+          "x-bodyName": "createBalance"
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/balances/{balance-id}": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Get a balance for the given account id and balance id",
+        "operationId": "GetApiV2ExternalAccountByAccountId}Balances{balanceId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account of the balance",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Modify a balance for the given account id",
+        "operationId": "PatchApiV2ExternalAccountByAccountId}Balances{balanceId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account of the balance",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to change the dates",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "description": "An object that represents the available options to modify a balance.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBalanceModelV2Request"
+              }
+            }
+          },
+          "required": true,
+          "x-nullable": false,
+          "x-bodyName": "updateBalanceModel"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/balances/{balance-id}/add-funds": {
+      "post": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Add funds to a balance for the given account id",
+        "operationId": "PostApiV2ExternalAccountAddFundsByAccountId}Balances{balanceId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account of the balance",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to add funds to",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "description": "An object that represents the available options of adding funds to a balance.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddFundsToBalanceV2Request"
+              }
+            }
+          },
+          "required": true,
+          "x-nullable": false,
+          "x-bodyName": "addFundsToBalance"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/balances/{balance-id}/change-dates": {
+      "post": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Change dates of a balance for the given account id",
+        "operationId": "PostApiV2ExternalAccountChangeDatesByAccountId}Balances{balanceId",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account of the balance",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to change the dates",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "description": "An object that represents the available options to modify schedule of a balance.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeDatesOfBalanceV2Request"
+              }
+            }
+          },
+          "required": true,
+          "x-nullable": false,
+          "x-bodyName": "changeDatesOfBalance"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponseV2Response"
                 }
               }
             }
@@ -4098,7 +4864,7 @@
             "$ref": "#/components/schemas/GrantConsentModelValueResource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+        "description": "An object that encapsulates GrantConsentModel"
       },
       "GrantConsentModelValueResource": {
         "type": "object",
@@ -4111,7 +4877,7 @@
             "$ref": "#/components/schemas/GrantConsentModel"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "GrantConsentModel": {
         "required": [
@@ -4131,7 +4897,7 @@
             "nullable": true
           }
         },
-        "description": "An object that represents the required (ClientId and CallbackUrl) and optional (CallbackState) parameters when granting consents on behalf of a Private Market demand account."
+        "description": "An object that represents the required (ClientId and CallbackUrl) and optional (CallbackState) parameters when granting consents on behalf of a Private Market demand account"
       },
       "RetailMediaContactlistOperation": {
         "required": [
@@ -4407,12 +5173,12 @@
               },
               "identifierType": {
                 "enum": [
-                  "email",
-                  "madid",
-                  "identityLink",
-                  "gum",
-                  "customerid",
-                  "phoneNumber"
+                  "Email",
+                  "UserIdentifier",
+                  "IdentityLink",
+                  "Gum",
+                  "CustomerId",
+                  "PhoneNumber"
                 ],
                 "type": "string",
                 "description": "What type of identifiers are used",
@@ -4438,7 +5204,6 @@
             "$ref": "#/components/schemas/ApplicationSummaryModelResource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -4447,7 +5212,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -4456,7 +5220,7 @@
             "readOnly": true
           }
         },
-        "description": "Response of ApplicationSummaryModel"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "ApplicationSummaryModelResource": {
         "type": "object",
@@ -4469,7 +5233,7 @@
             "$ref": "#/components/schemas/ApplicationSummaryModel"
           }
         },
-        "description": "A class that represents a ValueType in a guild compliant way"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "CommonProblem": {
         "type": "object",
@@ -4501,7 +5265,7 @@
           },
           "code": {
             "type": "string",
-            "description": "A machine-readable  error code, expressed as a string value.",
+            "description": "A machine-readable error code, expressed as a string value.",
             "nullable": true
           },
           "instance": {
@@ -4532,7 +5296,7 @@
             "nullable": true
           }
         },
-        "description": "Common problem object. Can be specialized as needed."
+        "description": "Common problem object."
       },
       "ApplicationSummaryModel": {
         "type": "object",
@@ -4560,7 +5324,7 @@
             "nullable": true
           }
         },
-        "description": "Model of ApplicationSummary"
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients"
       },
       "BatchAcceptedResponse": {
         "required": [
@@ -5509,6 +6273,7 @@
       },
       "JsonApiPageResponseOfAccount": {
         "required": [
+          "metadata",
           "data"
         ],
         "type": "object",
@@ -5538,11 +6303,11 @@
             "x-nullable": false
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
       },
       "JsonApiPageResponseOfBrand": {
         "required": [
+          "metadata",
           "data"
         ],
         "type": "object",
@@ -5572,11 +6337,11 @@
             "x-nullable": false
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
       },
       "JsonApiPageResponseOfRetailer": {
         "required": [
+          "metadata",
           "data"
         ],
         "type": "object",
@@ -5606,8 +6371,7 @@
             "x-nullable": false
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
       },
       "PageMetadata": {
         "required": [
@@ -5647,8 +6411,7 @@
             "x-nullable": false
           }
         },
-        "description": "Metadata related to the current request",
-        "x-nullable": false
+        "description": "Metadata related to the current request"
       },
       "CommonError": {
         "type": "object",
@@ -5708,8 +6471,7 @@
             "x-nullable": false
           }
         },
-        "description": "A JSON:API Common error structure",
-        "x-nullable": false
+        "description": "A JSON:API Common error structure"
       },
       "CommonWarning": {
         "type": "object",
@@ -5769,8 +6531,7 @@
             "x-nullable": false
           }
         },
-        "description": "A JSON:API Base common warning",
-        "x-nullable": false
+        "description": "A JSON:API Base common warning"
       },
       "JsonApiBodyWithIdOfInt64AndAccountAndAccount": {
         "required": [
@@ -5792,8 +6553,7 @@
             "$ref": "#/components/schemas/ExternalAccount"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
       "JsonApiBodyWithIdOfInt64AndBrandAndBrand": {
         "required": [
@@ -5815,8 +6575,7 @@
             "$ref": "#/components/schemas/ExternalBrand"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
       "JsonApiBodyWithIdOfInt64AndRetailerAndRetailer": {
         "required": [
@@ -5838,8 +6597,7 @@
             "$ref": "#/components/schemas/ExternalRetailer"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
       "ExternalAccount": {
         "required": [
@@ -5880,8 +6638,7 @@
           "countries": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
             "x-nullable": false
           },
@@ -5901,11 +6658,11 @@
           },
           "companyName": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
-        "description": "A Retail Media Account used to launch campaigns and line items",
-        "x-nullable": false
+        "description": "A Retail Media Account used to launch campaigns and line items"
       },
       "ExternalBrand": {
         "required": [
@@ -5920,8 +6677,7 @@
             "x-nullable": false
           }
         },
-        "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
-        "x-nullable": false
+        "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name"
       },
       "ExternalRetailer": {
         "required": [
@@ -5942,14 +6698,127 @@
                 "auction",
                 "preferred"
               ],
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
             "x-nullable": false
           }
         },
-        "description": "A Retail Media Retailer used to represent a selection of products from multiple brands",
-        "x-nullable": false
+        "description": "A Retail Media Retailer used to represent a selection of products from multiple brands"
+      },
+      "RmAudienceSegmentEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+      },
+      "RmAudienceSegmentIdEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+      },
+      "RmAudienceSegmentEntityV1RmAudienceSegmentSearchMetadataV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/RmAudienceSegmentSearchMetadataV1"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata"
+      },
+      "RmContactListStatisticsEntityV1Response": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmContactListStatisticsEntityV1Resource"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
       },
       "RmLegacyAudienceGetEntityV1ListResponse": {
         "type": "object",
@@ -6009,6 +6878,132 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities"
       },
+      "RmAudienceSegmentBulkUpdateInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentUpdateEntityV1Resource"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Input to update one or more segments."
+      },
+      "RmAudienceSegmentBulkCreateInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentCreateEntityV1Resource"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Input to create one or more audience segments."
+      },
+      "RmAudienceSegmentBulkDeleteInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentDeleteEntityV1Resource"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Input to delete one or more segments."
+      },
+      "RmAudienceSegmentSearchInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceSegmentSearchEntityV1Resource"
+          }
+        },
+        "description": "Audience segment search parameter"
+      },
+      "RmAudienceSegmentEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmAudienceSegmentIdEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmAudienceSegmentSearchMetadataV1": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "description": "Total number of items",
+            "format": "int32",
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max item of the current page",
+            "format": "int32",
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Number of item to skip",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "Metadata for the audience segment search response."
+      },
+      "RmContactListStatisticsEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmContactListStatisticsEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
       "RmLegacyAudienceGetEntityV1Resource": {
         "type": "object",
         "properties": {
@@ -6051,6 +7046,174 @@
           }
         },
         "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmAudienceSegmentUpdateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentUpdateEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmAudienceSegmentCreateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentCreateEntityV1"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "RmAudienceSegmentDeleteEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentDeleteEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "RmAudienceSegmentSearchEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentSearchEntityV1"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "RmAudienceSegmentEntityV1": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "Account associated to the segment",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the segment",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the segment",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer  associated to the segment",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Unknown",
+              "ContactList"
+            ],
+            "type": "string",
+            "description": "Type of segment (read-only)",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp in UTC of segment creation (read-only)",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp in UTC of segment update (read-only)",
+            "format": "date-time",
+            "nullable": true
+          },
+          "contactList": {
+            "$ref": "#/components/schemas/RmContactListV1"
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "Onsite",
+                "Offsite"
+              ],
+              "type": "string"
+            },
+            "description": "Channels associated to the segment (read-only)",
+            "nullable": true
+          }
+        },
+        "description": "Set of rules that defines specific people to target.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "RmAudienceSegmentIdEntityV1": {
+        "type": "object",
+        "description": "Audience Segment entity only with its ID",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "RmContactListStatisticsEntityV1": {
+        "type": "object",
+        "properties": {
+          "numberOfIdentifiers": {
+            "type": "integer",
+            "description": "Number of identifiers in the contact list.",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberOfMatches": {
+            "type": "integer",
+            "description": "Number of matched identifiers in the contact list.",
+            "format": "int32",
+            "nullable": true
+          },
+          "matchRate": {
+            "type": "number",
+            "description": "Percentage of matched identifiers in the contact list.\r\nCan differ from matches/identifiers depending on the contact list type.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "Contact list statistics.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "ContactListStatistics",
+          "version": "v1"
+        }
       },
       "RmLegacyAudienceGetEntityV1": {
         "required": [
@@ -6109,6 +7272,106 @@
           "name": "RetailMediaAudience",
           "version": "v1"
         }
+      },
+      "RmAudienceSegmentUpdateEntityV1": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the segment",
+            "nullable": true
+          },
+          "description": {
+            "$ref": "#/components/schemas/NillableString"
+          },
+          "contactList": {
+            "$ref": "#/components/schemas/RmContactListUpdateV1"
+          }
+        },
+        "description": "Set of rules that defines specific people to target.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "RmAudienceSegmentCreateEntityV1": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the segment",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the segment",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer  associated to the segment",
+            "nullable": true
+          },
+          "contactList": {
+            "$ref": "#/components/schemas/RmContactListCreateV1"
+          }
+        },
+        "description": "Set of rules that defines specific people to target."
+      },
+      "RmAudienceSegmentDeleteEntityV1": {
+        "type": "object",
+        "description": "Segment to delete",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "RmAudienceSegmentSearchEntityV1": {
+        "type": "object",
+        "properties": {
+          "audienceSegmentIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of segment ids",
+            "nullable": true
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of retailer ids",
+            "nullable": true
+          }
+        },
+        "description": "Available filters to perform a search on audience segments. If present, the filters are AND'ed together when applied."
+      },
+      "RmContactListV1": {
+        "type": "object",
+        "properties": {
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "Is the segment read-only",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Unknown",
+              "Email",
+              "UserIdentifier",
+              "IdentityLink",
+              "CustomerId"
+            ],
+            "type": "string",
+            "description": "Indicates contact list type",
+            "nullable": true
+          }
+        },
+        "description": "Settings to target users with your contact lists."
       },
       "RmLegacySegmentUserBehaviorV1": {
         "required": [
@@ -6194,6 +7457,38 @@
           }
         },
         "description": "User Behavior Details."
+      },
+      "NillableString": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "The string's value. If missing or null the string's value is set to \"null\"",
+            "nullable": true
+          }
+        },
+        "description": "Placeholder object for string value  for which \"null\" is a valid business value"
+      },
+      "RmContactListUpdateV1": {
+        "type": "object",
+        "description": "Settings to update the contact list of the segment"
+      },
+      "RmContactListCreateV1": {
+        "type": "object",
+        "properties": {
+          "identifierType": {
+            "enum": [
+              "Email",
+              "UserIdentifier",
+              "IdentityLink",
+              "CustomerId"
+            ],
+            "type": "string",
+            "description": "Indicates contact list type",
+            "nullable": true
+          }
+        },
+        "description": "Settings to target users with your contact lists."
       },
       "RmLegacySegmentUserBehaviorV2": {
         "required": [
@@ -6912,6 +8207,33 @@
         "description": "A top-level object that encapsulates a Criteo API response for several entities",
         "x-nullable": true
       },
+      "JsonApiSingleResponseOfCatalogStatus": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonError"
+            },
+            "x-nullable": false
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonWarning"
+            },
+            "x-nullable": false
+          }
+        },
+        "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
+        "x-nullable": false
+      },
       "SkuDataPreviewListResponse": {
         "type": "object",
         "properties": {
@@ -7194,6 +8516,16 @@
         "description": "Update model of a creative",
         "x-nullable": false
       },
+      "JsonApiRequestOfSellerCatalogRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfSellerCatalogRequestAndSellerCatalogRequest"
+          }
+        },
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
+        "x-nullable": true
+      },
       "SkuSearchRequestPreviewRequest": {
         "type": "object",
         "properties": {
@@ -7243,6 +8575,29 @@
         },
         "description": "A class that represents a domain entity exposed by an API",
         "x-nullable": true
+      },
+      "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "long-id",
+            "x-nullable": false
+          },
+          "type": {
+            "type": "string",
+            "x-nullable": false
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalCatalogStatus"
+          }
+        },
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+        "x-nullable": false
       },
       "ResourceOfSkuDataPreview": {
         "type": "object",
@@ -7482,6 +8837,22 @@
         "description": "A value for a variable in a creative template.",
         "x-nullable": false
       },
+      "JsonApiBodyWithoutIdOfSellerCatalogRequestAndSellerCatalogRequest": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/SellerCatalogRequest"
+          }
+        },
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
+        "x-nullable": false
+      },
       "ResourceOfSkuSearchRequestPreview": {
         "type": "object",
         "properties": {
@@ -7643,10 +9014,75 @@
         "description": "A creative entity",
         "x-nullable": false
       },
+      "ExternalCatalogStatus": {
+        "required": [
+          "status",
+          "currency",
+          "rowCount",
+          "fileSizeBytes",
+          "md5Checksum",
+          "createdAt",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "unknown",
+              "pending",
+              "success",
+              "failure",
+              "expired"
+            ],
+            "type": "string",
+            "description": "An enumeration of the status of the catalog.",
+            "x-nullable": false
+          },
+          "currency": {
+            "type": "string",
+            "description": "An ISO4217 representation of the currency products are listed under in this catalog.",
+            "x-nullable": false
+          },
+          "rowCount": {
+            "type": "integer",
+            "description": "An indication of the number of products contained in this catalog. Available when\r\nthis catalog reaches a success status.",
+            "format": "int32",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "fileSizeBytes": {
+            "type": "integer",
+            "description": "The size of this catalog in bytes. Available when this catalog reaches a success status.",
+            "format": "int32",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "md5Checksum": {
+            "type": "string",
+            "description": "An MD5 checksum of the catalog for use in confirming complete and uncorrupted retrieval.\r\nAvailable when this catalog reaches a success status.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "The time this catalog was created. Represented as a UTC ISO8601 string.",
+            "format": "date-time",
+            "x-nullable": false
+          },
+          "message": {
+            "type": "string",
+            "description": "An optional information message intended for developer consumption.",
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "The status of an asynchronous request to generate a catalog",
+        "x-nullable": false
+      },
       "SkuDataPreview": {
         "required": [
           "skuKey",
-          "id",
+          "categoryId",
           "brandId",
           "brandName",
           "retailerId",
@@ -7783,7 +9219,7 @@
       },
       "SkuSlimDataPreview": {
         "required": [
-          "id",
+          "categoryId",
           "globalBrandId",
           "globalBrandName",
           "price",
@@ -7879,7 +9315,6 @@
       },
       "SkuSlimDataV2": {
         "required": [
-          "id",
           "price",
           "isInStock",
           "updatedAt"
@@ -8160,6 +9595,21 @@
         "description": "A value of a template video variable",
         "x-nullable": false
       },
+      "SellerCatalogRequest": {
+        "type": "object",
+        "properties": {
+          "sellers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SellerIdentifier"
+            },
+            "description": "A list of sellers to restict the catalog to.",
+            "nullable": true
+          }
+        },
+        "description": "Used to requst a catalog of seller SKUs",
+        "x-nullable": true
+      },
       "SkuSearchRequestPreview": {
         "required": [
           "queryString",
@@ -8381,6 +9831,25 @@
           }
         },
         "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID",
+        "x-nullable": false
+      },
+      "SellerIdentifier": {
+        "required": [
+          "retailerId",
+          "sellerId"
+        ],
+        "type": "object",
+        "properties": {
+          "retailerId": {
+            "type": "string",
+            "description": "The retailer Id that the seller operates under"
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "The id for the seller based on the corresponding retailer"
+          }
+        },
+        "description": "Identifies a Unique Seller",
         "x-nullable": false
       },
       "AsyncReportResponse": {
@@ -8887,6 +10356,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -9065,6 +10536,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -9243,6 +10716,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -9550,6 +11025,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -9723,6 +11200,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -9783,75 +11262,25 @@
         },
         "description": "Line Items report body request"
       },
-      "ValueResourceOfRetailMediaBrands": {
+      "PageOfBalanceHistoryChangeDataCaptureV1": {
+        "required": [
+          "data",
+          "meta"
+        ],
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
+          "meta": {
+            "$ref": "#/components/schemas/Metadata"
           },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaBrands"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
-      "ResourceOutcomeOfRetailMediaAccount": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfRetailMediaAccount"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
-      },
-      "ValueResourceCollectionOutcomeOfRetailMediaSeller": {
-        "type": "object",
-        "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ValueResourceOfRetailMediaSeller"
-            },
-            "nullable": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
+              "$ref": "#/components/schemas/BalanceHistoryChangeDataCaptureV1"
+            }
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several values."
+        "description": "A wrapper class to return a single page of items with metadata."
       },
       "ValueResourceOutcomeOfCampaignBudgetOverrides": {
         "type": "object",
@@ -9909,7 +11338,7 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities."
       },
-      "PageOfInsertionOrderHistoryChangeDataCapture": {
+      "PageOfInsertionOrderHistoryChangeDataCaptureV2": {
         "required": [
           "data",
           "meta"
@@ -9922,7 +11351,7 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/InsertionOrderHistoryChangeDataCapture"
+              "$ref": "#/components/schemas/InsertionOrderHistoryChangeDataCaptureV2"
             }
           }
         },
@@ -9981,50 +11410,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
-      "ValueResourceInputOfRetailMediaBrands": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrands"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
-      },
-      "ValueResourceInputOfRetailMediaBrandAccountCreation": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrandAccountCreation"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
-      },
-      "ValueResourceInputOfRetailMediaSellerAccountCreation": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfRetailMediaSellerAccountCreation"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
-      },
-      "ValueResourceCollectionInputOfRetailMediaSeller": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ValueResourceOfRetailMediaSeller"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for several values."
-      },
       "ValueResourceInputOfCampaignBudgetOverrides": {
         "type": "object",
         "properties": {
@@ -10058,53 +11443,78 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
-      "RetailMediaBrands": {
+      "Metadata": {
+        "required": [
+          "limit",
+          "offset"
+        ],
         "type": "object",
         "properties": {
-          "brandIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
+          "count": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The (zero-based) starting offset in the collection.",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of elements to be returned.",
+            "format": "int32"
           }
         },
         "additionalProperties": false,
-        "description": "A collection of brand ids"
+        "description": "Metadata related to the current request."
       },
-      "ResourceOfRetailMediaAccount": {
+      "BalanceHistoryChangeDataCaptureV1": {
+        "required": [
+          "changeDetails",
+          "changeType",
+          "dateOfModification",
+          "modifiedByUser"
+        ],
         "type": "object",
         "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaAccount"
-          },
-          "id": {
+          "dateOfModification": {
             "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
+            "description": "Date when data change has occured.",
+            "format": "date-time"
           },
-          "type": {
+          "modifiedByUser": {
             "type": "string",
+            "description": "Username who modified the insertion order."
+          },
+          "changeType": {
+            "enum": [
+              "BalanceCreated",
+              "BalanceAdded",
+              "BalanceRemoved",
+              "BalanceUncapped",
+              "BalanceCapped",
+              "EndDate",
+              "StartDate",
+              "BalanceName",
+              "PoNumber",
+              "ValueAdd",
+              "Unknown"
+            ],
+            "type": "string",
+            "description": "Represent the type of change states of the history."
+          },
+          "changeDetails": {
+            "$ref": "#/components/schemas/ChangeDetailsV1"
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo associate with the insertion order modification.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API."
-      },
-      "ValueResourceOfRetailMediaSeller": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaSeller"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+        "description": "Data model represents the data change capture of balance history."
       },
       "ValueResourceOfCampaignBudgetOverrides": {
         "type": "object",
@@ -10139,33 +11549,7 @@
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API."
       },
-      "Metadata": {
-        "required": [
-          "limit",
-          "offset"
-        ],
-        "type": "object",
-        "properties": {
-          "count": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "offset": {
-            "type": "integer",
-            "description": "The (zero-based) starting offset in the collection.",
-            "format": "int32"
-          },
-          "limit": {
-            "type": "integer",
-            "description": "The number of elements to be returned.",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Metadata related to the current request."
-      },
-      "InsertionOrderHistoryChangeDataCapture": {
+      "InsertionOrderHistoryChangeDataCaptureV2": {
         "required": [
           "changeDetails",
           "changeType",
@@ -10181,7 +11565,7 @@
           },
           "modifiedByUser": {
             "type": "string",
-            "description": "User name who modified the insertion order."
+            "description": "Username who modified the insertion order."
           },
           "changeType": {
             "enum": [
@@ -10195,13 +11579,13 @@
               "BalanceName",
               "PoNumber",
               "ValueAdd",
-              "SalesforceId"
+              "Unknown"
             ],
             "type": "string",
             "description": "Represent the type of change states of the history."
           },
           "changeDetails": {
-            "$ref": "#/components/schemas/ChangeDetails"
+            "$ref": "#/components/schemas/ChangeDetailsV2"
           },
           "memo": {
             "type": "string",
@@ -10240,34 +11624,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
-      "ValueResourceOfRetailMediaBrandAccountCreation": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaBrandAccountCreation"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
-      "ValueResourceOfRetailMediaSellerAccountCreation": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaSellerAccountCreation"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
       "SkuSearchRequestBody": {
         "required": [
           "productIdType",
@@ -10298,83 +11654,32 @@
         "additionalProperties": false,
         "description": "defines the type product Id to search and list of ids to be searched for"
       },
-      "RetailMediaAccount": {
+      "ChangeDetailsV1": {
+        "required": [
+          "changeValue",
+          "currentValue",
+          "previousValue"
+        ],
         "type": "object",
         "properties": {
-          "name": {
+          "previousValue": {
             "type": "string",
-            "description": "account name",
+            "description": "Previous value of a property of the insertion order.",
             "nullable": true
           },
-          "companyName": {
+          "currentValue": {
             "type": "string",
-            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
+            "description": "Current value of a property of the insertion order.",
             "nullable": true
           },
-          "type": {
-            "enum": [
-              "Unknown",
-              "Supply",
-              "Demand"
-            ],
+          "changeValue": {
             "type": "string",
-            "description": "Type for the account",
-            "nullable": true
-          },
-          "subType": {
-            "enum": [
-              "Unknown",
-              "Brand",
-              "Seller"
-            ],
-            "type": "string",
-            "description": "subtype for the account",
-            "nullable": true
-          },
-          "countryIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "list of countries associated with the account",
-            "nullable": true
-          },
-          "currencyId": {
-            "type": "string",
-            "description": "the currency for the account",
-            "nullable": true
-          },
-          "parentAccountLabel": {
-            "type": "string",
-            "description": "parent account label for the account",
-            "nullable": true
-          },
-          "timeZone": {
-            "type": "string",
-            "description": "the timezone for the account",
+            "description": "Change detail of a property of the insertion order.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "The details for a newly created account"
-      },
-      "RetailMediaSeller": {
-        "type": "object",
-        "properties": {
-          "sellerId": {
-            "type": "string",
-            "description": "the seller id",
-            "nullable": true
-          },
-          "retailerId": {
-            "type": "integer",
-            "description": "the retailer id",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "used to define the exact seller linked with an account"
+        "description": "Change details of a property of the balance."
       },
       "CampaignBudgetOverrides": {
         "required": [
@@ -10485,7 +11790,7 @@
         "additionalProperties": false,
         "description": "Data model for response resource"
       },
-      "ChangeDetails": {
+      "ChangeDetailsV2": {
         "required": [
           "changeValue",
           "currentValue",
@@ -10559,57 +11864,6 @@
         },
         "additionalProperties": false,
         "description": "Line item budget overrides including Monthly and Daily budget overrides."
-      },
-      "RetailMediaBrandAccountCreation": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "the name of the account, must be unique across all accounts",
-            "nullable": true
-          },
-          "companyName": {
-            "type": "string",
-            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
-            "nullable": true
-          },
-          "brands": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "description": "list of brands to link to the new account",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "the initial set up and configuration options for a new private market demand brand account"
-      },
-      "RetailMediaSellerAccountCreation": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "the name of the account, must be unique across all accounts",
-            "nullable": true
-          },
-          "companyName": {
-            "type": "string",
-            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
-            "nullable": true
-          },
-          "sellers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RetailMediaSeller"
-            },
-            "description": "list of sellers to associate to the new account",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "the initial set up and configuration options for a new private market demand brand account"
       },
       "CampaignMonthlyBudgetOverride": {
         "required": [
@@ -10839,6 +12093,64 @@
         "additionalProperties": false,
         "description": "Keywords submitted by the user binned by type after some cleanup has been performed"
       },
+      "PagedResourceCollectionOutcomeOfBalanceResponseV2": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/PageMetadata"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
+            },
+            "x-nullable": false
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true,
+            "x-nullable": false
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true,
+            "x-nullable": false
+          }
+        },
+        "description": "Data model for a paged list of response resources"
+      },
+      "BalanceResponseV2Response": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true,
+            "x-nullable": false
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true,
+            "x-nullable": false
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "x-nullable": true
+      },
       "PreferredLineItemV2PagedListResponse": {
         "type": "object",
         "properties": {
@@ -10981,6 +12293,42 @@
         "description": "Data model for a list of response resources",
         "x-nullable": false
       },
+      "CreateBalanceV2Request": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfCreateBalanceV2"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
+      },
+      "UpdateBalanceModelV2Request": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfUpdateBalanceModelV2"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
+      },
+      "AddFundsToBalanceV2Request": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfAddFundsToBalanceV2"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
+      },
+      "ChangeDatesOfBalanceV2Request": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfChangeDatesOfBalanceV2"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
+      },
       "PreferredLineItemCreateModelV2Request": {
         "type": "object",
         "properties": {
@@ -11034,6 +12382,25 @@
         },
         "description": "Data model for an input resource",
         "x-nullable": false
+      },
+      "ResourceOfBalanceResponseV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceResponseV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
       },
       "ResourceOfPreferredLineItemV2": {
         "type": "object",
@@ -11116,6 +12483,82 @@
         "description": "Data model for an output resource",
         "x-nullable": false
       },
+      "ResourceOfCreateBalanceV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreateBalanceV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "ResourceOfUpdateBalanceModelV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/UpdateBalanceModelV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "ResourceOfAddFundsToBalanceV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AddFundsToBalanceV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "ResourceOfChangeDatesOfBalanceV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ChangeDatesOfBalanceV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
       "InputResourceOfPreferredLineItemCreateModelV2": {
         "type": "object",
         "properties": {
@@ -11170,6 +12613,122 @@
         "description": "Data model for a Resource",
         "x-nullable": false
       },
+      "BalanceResponseV2": {
+        "required": [
+          "name",
+          "startDate",
+          "balanceType",
+          "spendType",
+          "privateMarketBillingType"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the balance.",
+            "x-nullable": false
+          },
+          "poNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "deposited": {
+            "type": "number",
+            "description": "Amount of billable funds allotted to the balance.",
+            "format": "decimal",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "spent": {
+            "type": "number",
+            "description": "Amount of spent funds of the balance.",
+            "format": "decimal",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "remaining": {
+            "type": "number",
+            "description": "Amount of remaining funds of the balance.",
+            "format": "decimal",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD.",
+            "x-nullable": false
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "scheduled",
+              "active",
+              "ended"
+            ],
+            "type": "string",
+            "description": "Status of the balance.",
+            "x-nullable": false
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation time of the balance.",
+            "format": "date-time",
+            "x-nullable": false
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Update time of the balance.",
+            "format": "date-time",
+            "x-nullable": false
+          },
+          "balanceType": {
+            "enum": [
+              "unknown",
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Type of the balance.",
+            "x-nullable": false
+          },
+          "spendType": {
+            "enum": [
+              "Onsite",
+              "Offsite",
+              "OffsiteAwareness"
+            ],
+            "type": "string",
+            "description": "Spend Type of the balance.",
+            "x-nullable": false
+          },
+          "privateMarketBillingType": {
+            "enum": [
+              "notApplicable",
+              "billByRetailer",
+              "billByCriteo",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Billing type for Private Market of the balance.",
+            "x-nullable": false
+          }
+        },
+        "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account"
+      },
       "ExternalPreferredLineItemV2": {
         "required": [
           "name",
@@ -11190,17 +12749,11 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
           },
           "endDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -11404,6 +12957,145 @@
         "description": "The Product Button entity used for output",
         "x-nullable": false
       },
+      "CreateBalanceV2": {
+        "required": [
+          "name",
+          "startDate",
+          "spendType"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the balance.",
+            "x-nullable": false
+          },
+          "poNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true
+          },
+          "deposited": {
+            "type": "number",
+            "description": "Amount of billable funds allotted to the balance.",
+            "format": "decimal",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD.",
+            "x-nullable": false
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true
+          },
+          "spendType": {
+            "enum": [
+              "Onsite",
+              "Offsite",
+              "OffsiteAwareness"
+            ],
+            "type": "string",
+            "description": "Type of the balance spend.",
+            "x-nullable": false
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo",
+            "nullable": true
+          }
+        },
+        "description": "An object that represents the available options to set when creating a Retail Media Balance"
+      },
+      "UpdateBalanceModelV2": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the balance.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "poNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "An object that represents the available options to set when updating a Retail Media Balance."
+      },
+      "AddFundsToBalanceV2": {
+        "required": [
+          "deltaAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "deltaAmount": {
+            "type": "number",
+            "description": "Amount of billable funds to be added / decreased allotted to the balance.",
+            "format": "decimal",
+            "x-nullable": false
+          },
+          "poNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo",
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "An object that represents the available options of adding funds to a balance."
+      },
+      "ChangeDatesOfBalanceV2": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "An object that represents the available options to modify schedule of a balance."
+      },
       "ExternalPreferredLineItemCreateModelV2": {
         "required": [
           "name",
@@ -11423,17 +13115,11 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
           },
           "endDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -11544,17 +13230,11 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
           },
           "endDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
