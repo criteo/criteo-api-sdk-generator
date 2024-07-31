@@ -6514,6 +6514,316 @@
         }
       }
     },
+    "/preview/ads/{ad-id}/product-filter": {
+      "delete": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Disable product filtering for a given ad",
+        "operationId": "DisableProductFiltering",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Fetch product filtering configuration for a given ad",
+        "operationId": "FetchProductFilteringConfig",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns the product filtering configuration if it exists, or empty data if it doesn't.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Enable product filtering for a given ad",
+        "operationId": "EnableProductFiltering",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfCreateProductFilterRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfCreateProductFilterRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfCreateProductFilterRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfCreateProductFilterRequest"
+              }
+            }
+          },
+          "x-bodyName": "createProductFilterRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfProductFilterConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/preview/product-sets": {
       "post": {
         "tags": [
@@ -6936,6 +7246,89 @@
           },
           "500": {
             "description": "Internal Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/product-sets/{product-set-id}/product-filters": {
+      "get": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Fetch product filtering usages for a given product set",
+        "operationId": "FetchProductFilteringUsages",
+        "parameters": [
+          {
+            "name": "product-set-id",
+            "in": "path",
+            "description": "ID of the product set",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfProductFilterConfig"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfProductFilterConfig"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfProductFilterConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Operation failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation failure",
             "content": {
               "text/plain": {
                 "schema": {
@@ -10381,7 +10774,8 @@
                   "madid",
                   "identityLink",
                   "gum",
-                  "customerid"
+                  "customerid",
+                  "phoneNumber"
                 ],
                 "type": "string",
                 "description": "What type of identifiers are used",
@@ -10439,7 +10833,8 @@
                   "madid",
                   "identityLink",
                   "gum",
-                  "customerid"
+                  "customerid",
+                  "phoneNumber"
                 ],
                 "type": "string",
                 "description": "What type of identifiers are used",
@@ -10521,7 +10916,6 @@
             "$ref": "#/components/schemas/ApplicationSummaryModelResource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10530,7 +10924,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -10539,7 +10932,7 @@
             "readOnly": true
           }
         },
-        "description": "Response of ApplicationSummaryModel"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "ApplicationSummaryModelResource": {
         "type": "object",
@@ -10552,7 +10945,7 @@
             "$ref": "#/components/schemas/ApplicationSummaryModel"
           }
         },
-        "description": "A class that represents a ValueType in a guild compliant way"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "CommonProblem": {
         "type": "object",
@@ -10584,7 +10977,7 @@
           },
           "code": {
             "type": "string",
-            "description": "A machine-readable  error code, expressed as a string value.",
+            "description": "A machine-readable error code, expressed as a string value.",
             "nullable": true
           },
           "instance": {
@@ -10615,7 +11008,7 @@
             "nullable": true
           }
         },
-        "description": "Common problem object. Can be specialized as needed."
+        "description": "Common problem object."
       },
       "ApplicationSummaryModel": {
         "type": "object",
@@ -10643,7 +11036,7 @@
             "nullable": true
           }
         },
-        "description": "Model of ApplicationSummary"
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients"
       },
       "AdSetAudienceLinkEntityV1Response": {
         "type": "object",
@@ -15678,7 +16071,6 @@
         "required": [
           "bodyTextColor",
           "callsToAction",
-          "creativeBackgrounColor",
           "logoBase64String",
           "pricesColor",
           "productImageDisplay"
@@ -20309,6 +20701,57 @@
         },
         "description": "Defines a custom attribute of a product."
       },
+      "ValueResourceOutcomeOfProductFilterConfig": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfProductFilterConfig"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "Outcome": {
+        "type": "object",
+        "properties": {
+          "warnings": {
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A class implementing the body of a response without data of the Criteo API as described in API Guild Guidelines"
+      },
       "ResourceOutcomeOfProductSet": {
         "type": "object",
         "properties": {
@@ -20335,30 +20778,6 @@
           }
         },
         "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
-      },
-      "Outcome": {
-        "type": "object",
-        "properties": {
-          "warnings": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "A class implementing the body of a response without data of the Criteo API as described in API Guild Guidelines"
       },
       "ResourceCollectionOutcomeOfProductSet": {
         "type": "object",
@@ -20392,6 +20811,47 @@
         },
         "description": "A class implementing the response  of the Criteo API as described in API Guild Guidelines with collection of entities as body"
       },
+      "ValueResourceCollectionOutcomeOfProductFilterConfig": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfProductFilterConfig"
+            },
+            "nullable": true,
+            "x-nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several values."
+      },
+      "ValueResourceInputOfCreateProductFilterRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfCreateProductFilterRequest"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
       "ValueResourceInputOfCreateProductSetRequest": {
         "type": "object",
         "properties": {
@@ -20420,6 +20880,20 @@
           }
         }
       },
+      "ValueResourceOfProductFilterConfig": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/ProductFilterConfig"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
       "ResourceOfProductSet": {
         "type": "object",
         "properties": {
@@ -20437,6 +20911,20 @@
         },
         "description": "A class that represents an entity in a guild compliant way"
       },
+      "ValueResourceOfCreateProductFilterRequest": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/CreateProductFilterRequest"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
       "ValueResourceOfCreateProductSetRequest": {
         "type": "object",
         "properties": {
@@ -20449,6 +20937,22 @@
           }
         },
         "description": "A class that represents a ValueType in a guild compliant way"
+      },
+      "ProductFilterConfig": {
+        "required": [
+          "adId",
+          "productSetId"
+        ],
+        "type": "object",
+        "properties": {
+          "adId": {
+            "type": "string"
+          },
+          "productSetId": {
+            "type": "string"
+          }
+        },
+        "description": "Entity to create a product filter configuration"
       },
       "ProductSet": {
         "type": "object",
@@ -20507,6 +21011,17 @@
           }
         },
         "description": "Encapsulate a group of product"
+      },
+      "CreateProductFilterRequest": {
+        "type": "object",
+        "properties": {
+          "productSetId": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "Encapsulate the parameters needed to enable product filtering"
       },
       "CreateProductSetRequest": {
         "type": "object",

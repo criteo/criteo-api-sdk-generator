@@ -41,7 +41,7 @@
     "/2023-10/retail-media/accounts": {
       "get": {
         "tags": [
-          "Campaign"
+          "Accounts"
         ],
         "description": "Gets page of account objects that the current user can access",
         "operationId": "AccountsApi_GetApiV1ExternalAccounts",
@@ -66,7 +66,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             },
             "x-nullable": false
           },
@@ -77,7 +78,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             },
             "x-nullable": false
           }
@@ -86,7 +88,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JsonApiPageResponseOfAccount"
                 }
@@ -135,7 +147,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             },
             "x-nullable": false
           },
@@ -146,7 +159,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             },
             "x-nullable": false
           }
@@ -155,7 +169,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JsonApiPageResponseOfBrand"
                 }
@@ -204,7 +228,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             },
             "x-nullable": false
           },
@@ -215,7 +240,8 @@
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             },
             "x-nullable": false
           }
@@ -224,7 +250,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JsonApiPageResponseOfRetailer"
                 }
@@ -1254,7 +1290,12 @@
           "400": {
             "description": "The indicated catalog is not available for retrieval, wait for a success status.",
             "content": {
-              "application/x-json-stream": { },
+              "application/x-json-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
               "application/json": { }
             }
           }
@@ -1991,7 +2032,7 @@
     "/2023-10/retail-media/accounts/{account-id}/balances": {
       "get": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Get page of balances for the given accountId.",
         "operationId": "Balances_GetApiV1ExternalAccountBalancesByAccountId",
@@ -2060,7 +2101,7 @@
       },
       "post": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Create balance for the given account id",
         "operationId": "Balances_PostApiV1ExternalAccountBalancesByAccountId",
@@ -2105,7 +2146,7 @@
     "/2023-10/retail-media/accounts/{account-id}/balances/{balanceId}": {
       "get": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Get a balance for the given account id and balance id",
         "operationId": "Balances_GetApiV1ExternalAccountByAccountIdAndBalanceId",
@@ -2148,7 +2189,7 @@
       },
       "patch": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Modify a balance for the given account id",
         "operationId": "Balances_PatchApiV1ExternalAccountByAccountIdAndBalanceId",
@@ -2204,7 +2245,7 @@
     "/2023-10/retail-media/accounts/{account-id}/balances/{balanceId}/add-funds": {
       "post": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Add funds to a balance for the given account id",
         "operationId": "Balances_PostApiV1ExternalAccountAddFundsByAccountIdAndBalanceId",
@@ -2260,7 +2301,7 @@
     "/2023-10/retail-media/accounts/{account-id}/balances/{balanceId}/change-dates": {
       "post": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Change dates of a balance for the given account id",
         "operationId": "Balances_PostApiV1ExternalAccountChangeDatesByAccountIdAndBalanceId",
@@ -2782,7 +2823,7 @@
     "/2023-10/retail-media/balances/{balance-id}/campaigns": {
       "get": {
         "tags": [
-          "Campaign"
+          "Balance"
         ],
         "description": "Gets page of campaigns for the given balanceId",
         "operationId": "BalancesApi_GetApi202110ExternalBalanceCampaignsByBalanceId",
@@ -4390,7 +4431,6 @@
             "$ref": "#/components/schemas/ApplicationSummaryModelResource"
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -4399,7 +4439,6 @@
             "readOnly": true
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -4408,7 +4447,7 @@
             "readOnly": true
           }
         },
-        "description": "Response of ApplicationSummaryModel"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "ApplicationSummaryModelResource": {
         "type": "object",
@@ -4421,7 +4460,7 @@
             "$ref": "#/components/schemas/ApplicationSummaryModel"
           }
         },
-        "description": "A class that represents a ValueType in a guild compliant way"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "CommonProblem": {
         "type": "object",
@@ -4453,7 +4492,7 @@
           },
           "code": {
             "type": "string",
-            "description": "A machine-readable  error code, expressed as a string value.",
+            "description": "A machine-readable error code, expressed as a string value.",
             "nullable": true
           },
           "instance": {
@@ -4484,7 +4523,7 @@
             "nullable": true
           }
         },
-        "description": "Common problem object. Can be specialized as needed."
+        "description": "Common problem object."
       },
       "ApplicationSummaryModel": {
         "type": "object",
@@ -4512,10 +4551,11 @@
             "nullable": true
           }
         },
-        "description": "Model of ApplicationSummary"
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients"
       },
       "JsonApiPageResponseOfAccount": {
         "required": [
+          "metadata",
           "data"
         ],
         "type": "object",
@@ -4545,11 +4585,11 @@
             "x-nullable": false
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
       },
       "JsonApiPageResponseOfBrand": {
         "required": [
+          "metadata",
           "data"
         ],
         "type": "object",
@@ -4579,11 +4619,11 @@
             "x-nullable": false
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
       },
       "JsonApiPageResponseOfRetailer": {
         "required": [
+          "metadata",
           "data"
         ],
         "type": "object",
@@ -4613,8 +4653,7 @@
             "x-nullable": false
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
       },
       "PageMetadata": {
         "required": [
@@ -4654,8 +4693,7 @@
             "x-nullable": false
           }
         },
-        "description": "Metadata related to the current request",
-        "x-nullable": false
+        "description": "Metadata related to the current request"
       },
       "CommonError": {
         "type": "object",
@@ -4715,8 +4753,7 @@
             "x-nullable": false
           }
         },
-        "description": "A JSON:API Common error structure",
-        "x-nullable": false
+        "description": "A JSON:API Common error structure"
       },
       "CommonWarning": {
         "type": "object",
@@ -4776,8 +4813,7 @@
             "x-nullable": false
           }
         },
-        "description": "A JSON:API Base common warning",
-        "x-nullable": false
+        "description": "A JSON:API Base common warning"
       },
       "JsonApiBodyWithIdOfInt64AndAccountAndAccount": {
         "required": [
@@ -4799,8 +4835,7 @@
             "$ref": "#/components/schemas/ExternalAccount"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
       "JsonApiBodyWithIdOfInt64AndBrandAndBrand": {
         "required": [
@@ -4822,8 +4857,7 @@
             "$ref": "#/components/schemas/ExternalBrand"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
       "JsonApiBodyWithIdOfInt64AndRetailerAndRetailer": {
         "required": [
@@ -4845,8 +4879,7 @@
             "$ref": "#/components/schemas/ExternalRetailer"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
       "ExternalAccount": {
         "required": [
@@ -4887,8 +4920,7 @@
           "countries": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
             "x-nullable": false
           },
@@ -4908,11 +4940,11 @@
           },
           "companyName": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
-        "description": "A Retail Media Account used to launch campaigns and line items",
-        "x-nullable": false
+        "description": "A Retail Media Account used to launch campaigns and line items"
       },
       "ExternalBrand": {
         "required": [
@@ -4927,8 +4959,7 @@
             "x-nullable": false
           }
         },
-        "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
-        "x-nullable": false
+        "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name"
       },
       "ExternalRetailer": {
         "required": [
@@ -4949,14 +4980,12 @@
                 "auction",
                 "preferred"
               ],
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
             "x-nullable": false
           }
         },
-        "description": "A Retail Media Retailer used to represent a selection of products from multiple brands",
-        "x-nullable": false
+        "description": "A Retail Media Retailer used to represent a selection of products from multiple brands"
       },
       "AssetResponse": {
         "type": "object",
@@ -7570,6 +7599,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -7748,6 +7779,8 @@
                 "salesChannel",
                 "environment",
                 "pageTypeName",
+                "pageCategory",
+                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm"
               ],
@@ -7820,12 +7853,12 @@
             "items": {
               "type": "string"
             },
-            "description": "Campaign ids to report on",
+            "description": "Supply account ids to report on",
             "nullable": true
           },
           "id": {
             "type": "string",
-            "description": "Campaign id to report on",
+            "description": "Supply account id to report on",
             "nullable": true
           },
           "reportType": {
@@ -7867,6 +7900,19 @@
             ],
             "type": "string",
             "description": "Filter on buy type: Auction, Preferred Deals or Sponsorship",
+            "nullable": true
+          },
+          "advertiserTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "retailer",
+                "brand",
+                "seller"
+              ],
+              "type": "string"
+            },
+            "description": "Filter on the type of advertiser: retailer, brand, seller",
             "nullable": true
           },
           "skuRelations": {
@@ -7952,6 +7998,7 @@
                 "accountId",
                 "accountName",
                 "accountTypeName",
+                "advertiserType",
                 "campaignId",
                 "campaignName",
                 "campaignTypeName",
@@ -7975,6 +8022,7 @@
                 "advProductName",
                 "advProductGtin",
                 "advProductMpn",
+                "buyType",
                 "soldBy",
                 "saleChannel",
                 "attributionSettings",
@@ -8022,6 +8070,7 @@
                 "transactions",
                 "assistedSales",
                 "assistedUnits",
+                "revenue",
                 "openAuctionRevenue",
                 "preferredDealsRevenue",
                 "ctr",
@@ -9282,7 +9331,8 @@
           "updatedAt",
           "balanceType",
           "salesForceId",
-          "spendType"
+          "spendType",
+          "privateMarketBillingType"
         ],
         "type": "object",
         "properties": {
@@ -9302,9 +9352,6 @@
             "x-nullable": false
           },
           "deposited": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "description": "Amount of billable funds allotted to the balance.",
             "format": "decimal",
@@ -9312,27 +9359,18 @@
             "x-nullable": true
           },
           "spent": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "remaining": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -9386,6 +9424,17 @@
             "type": "string",
             "description": "Spend Type of the balance.",
             "x-nullable": false
+          },
+          "privateMarketBillingType": {
+            "enum": [
+              "NotApplicable",
+              "BillByRetailer",
+              "BillByCriteo",
+              "Unknown"
+            ],
+            "type": "string",
+            "description": "Billing type for Private Market.",
+            "x-nullable": false
           }
         },
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
@@ -9420,18 +9469,12 @@
             "x-nullable": false
           },
           "budgetSpent": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "budgetRemaining": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9507,27 +9550,18 @@
             "x-nullable": false
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "monthlyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "dailyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9609,9 +9643,6 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -9643,9 +9674,6 @@
             "x-nullable": false
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9662,9 +9690,6 @@
             "x-nullable": false
           },
           "budgetRemaining": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9703,9 +9728,6 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -9717,36 +9739,24 @@
             "nullable": true
           },
           "maxBid": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "monthlyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "dailyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9784,9 +9794,6 @@
             "x-nullable": false
           },
           "targetBid": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9808,9 +9815,6 @@
             "x-nullable": false
           },
           "budgetRemaining": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -9882,17 +9886,11 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
           },
           "endDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -10023,9 +10021,6 @@
         "type": "object",
         "properties": {
           "bidOverride": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -10156,9 +10151,6 @@
             "x-nullable": false
           },
           "deposited": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "description": "Amount of billable funds allotted to the balance.",
             "format": "decimal",
@@ -10166,9 +10158,6 @@
             "x-nullable": true
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -10353,27 +10342,18 @@
             "x-nullable": false
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "monthlyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "dailyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -10443,9 +10423,6 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -10472,45 +10449,30 @@
             "x-nullable": false
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "targetBid": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "maxBid": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "monthlyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "dailyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -10550,9 +10512,6 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -10584,45 +10543,30 @@
             "x-nullable": false
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "targetBid": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "maxBid": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "monthlyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "dailyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -10667,17 +10611,11 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
           },
           "endDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
@@ -10750,27 +10688,18 @@
             "x-nullable": false
           },
           "budget": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "monthlyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
             "x-nullable": true
           },
           "dailyPacing": {
-            "required": [
-              "false"
-            ],
             "type": "number",
             "format": "decimal",
             "nullable": true,
@@ -10861,17 +10790,11 @@
             "x-nullable": false
           },
           "startDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
           },
           "endDate": {
-            "required": [
-              "true"
-            ],
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date"
