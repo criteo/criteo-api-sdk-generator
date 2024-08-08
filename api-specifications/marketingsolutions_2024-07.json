@@ -3869,64 +3869,77 @@
           }
         ],
         "requestBody": {
+          "description": "The query message.",
           "content": {
             "application/json-patch+json": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
+              },
+              "example": {
+                "shouldDisplayProductIds": false,
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
+              },
+              "example": {
+                "shouldDisplayProductIds": false,
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
+              },
+              "example": {
+                "shouldDisplayProductIds": false,
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
+              },
+              "example": {
+                "shouldDisplayProductIds": false,
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             }
-          },
-          "x-bodyName": "queryMessage"
+          }
         },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransparencyReportDataMessage"
-                },
-                "example": {
-                  "data": [
-                    {
-                      "type": "TransparencyReport",
-                      "attributes": {
-                        "advertiserId": "123",
-                        "tokenValidUntil": "2021-01-31T00:00:00.0000000+00:00",
-                        "files": [
-                          {
-                            "fileName": "report.csv",
-                            "url": "https://www.example.com/transparency"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransparencyReportDataMessage"
+                  "$ref": "#/components/schemas/TransparencyReportListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransparencyReportListResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransparencyReportDataMessage"
+                  "$ref": "#/components/schemas/TransparencyReportListResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransparencyReportListResponse"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransparencyReportListResponse"
                 }
               }
             }
@@ -3934,31 +3947,68 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
                       "type": "validation",
                       "code": "required-field",
                       "instance": "/report",
-                      "title": "Start date and end date are required."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -3966,32 +4016,68 @@
           "403": {
             "description": "Forbidden",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "/report",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -4010,26 +4096,25 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlacementsReportQueryDataMessage"
+                "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
             }
-          },
-          "x-bodyName": "dataMessage"
+          }
         },
         "responses": {
           "200": {
@@ -4038,37 +4123,31 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
-              "text/csv": {
+              "application/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               }
             }
@@ -4076,46 +4155,68 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
                       "type": "validation",
                       "code": "required-field",
                       "instance": "/report",
-                      "title": "Start date and end date are required."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
-              "text/csv": {
+              "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               },
               "text/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -4123,47 +4224,68 @@
           "403": {
             "description": "Forbidden",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "/report",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
-              "text/csv": {
+              "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               },
               "text/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -4183,25 +4305,208 @@
             "application/json-patch+json": {
               "schema": {
                 "$ref": "#/components/schemas/StatisticsReportQueryMessage"
+              },
+              "example": {
+                "advertiserIds": "123,456,789",
+                "adSetIds": [
+                  "12345",
+                  "54321"
+                ],
+                "adSetNames": [
+                  "myAdSet1",
+                  "myAdSet2"
+                ],
+                "adSetStatus": [
+                  "Active"
+                ],
+                "dimensions": [
+                  "CampaignId",
+                  "Campaign",
+                  "AdsetId",
+                  "Adset",
+                  "AdvertiserId",
+                  "Advertiser",
+                  "AdId",
+                  "Ad",
+                  "CouponId",
+                  "Coupon",
+                  "CategoryId",
+                  "Category",
+                  "Hour",
+                  "Day",
+                  "Week",
+                  "Month",
+                  "Year",
+                  "Os",
+                  "Device"
+                ],
+                "metrics": [
+                  "Clicks",
+                  "Displays",
+                  "Cpc",
+                  "Visits"
+                ],
+                "currency": "EUR",
+                "format": "csv",
+                "timezone": "Europe/Paris",
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/StatisticsReportQueryMessage"
+              },
+              "example": {
+                "advertiserIds": "123,456,789",
+                "adSetIds": [
+                  "12345",
+                  "54321"
+                ],
+                "adSetNames": [
+                  "myAdSet1",
+                  "myAdSet2"
+                ],
+                "adSetStatus": [
+                  "Active"
+                ],
+                "dimensions": [
+                  "CampaignId",
+                  "Campaign",
+                  "AdsetId",
+                  "Adset",
+                  "AdvertiserId",
+                  "Advertiser",
+                  "AdId",
+                  "Ad",
+                  "CouponId",
+                  "Coupon",
+                  "CategoryId",
+                  "Category",
+                  "Hour",
+                  "Day",
+                  "Week",
+                  "Month",
+                  "Year",
+                  "Os",
+                  "Device"
+                ],
+                "metrics": [
+                  "Clicks",
+                  "Displays",
+                  "Cpc",
+                  "Visits"
+                ],
+                "currency": "EUR",
+                "format": "csv",
+                "timezone": "Europe/Paris",
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/StatisticsReportQueryMessage"
+              },
+              "example": {
+                "advertiserIds": "123,456,789",
+                "adSetIds": [
+                  "12345",
+                  "54321"
+                ],
+                "adSetNames": [
+                  "myAdSet1",
+                  "myAdSet2"
+                ],
+                "adSetStatus": [
+                  "Active"
+                ],
+                "dimensions": [
+                  "CampaignId",
+                  "Campaign",
+                  "AdsetId",
+                  "Adset",
+                  "AdvertiserId",
+                  "Advertiser",
+                  "AdId",
+                  "Ad",
+                  "CouponId",
+                  "Coupon",
+                  "CategoryId",
+                  "Category",
+                  "Hour",
+                  "Day",
+                  "Week",
+                  "Month",
+                  "Year",
+                  "Os",
+                  "Device"
+                ],
+                "metrics": [
+                  "Clicks",
+                  "Displays",
+                  "Cpc",
+                  "Visits"
+                ],
+                "currency": "EUR",
+                "format": "csv",
+                "timezone": "Europe/Paris",
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/StatisticsReportQueryMessage"
+              },
+              "example": {
+                "advertiserIds": "123,456,789",
+                "adSetIds": [
+                  "12345",
+                  "54321"
+                ],
+                "adSetNames": [
+                  "myAdSet1",
+                  "myAdSet2"
+                ],
+                "adSetStatus": [
+                  "Active"
+                ],
+                "dimensions": [
+                  "CampaignId",
+                  "Campaign",
+                  "AdsetId",
+                  "Adset",
+                  "AdvertiserId",
+                  "Advertiser",
+                  "AdId",
+                  "Ad",
+                  "CouponId",
+                  "Coupon",
+                  "CategoryId",
+                  "Category",
+                  "Hour",
+                  "Day",
+                  "Week",
+                  "Month",
+                  "Year",
+                  "Os",
+                  "Device"
+                ],
+                "metrics": [
+                  "Clicks",
+                  "Displays",
+                  "Cpc",
+                  "Visits"
+                ],
+                "currency": "EUR",
+                "format": "csv",
+                "timezone": "Europe/Paris",
+                "startDate": "2024-04-24T00:00:00.0000000+02:00",
+                "endDate": "2024-04-27T00:00:00.0000000+02:00"
               }
             }
-          },
-          "x-bodyName": "reportQuery"
+          }
         },
         "responses": {
           "200": {
@@ -4210,37 +4515,37 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/csv": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               }
             }
@@ -4248,46 +4553,86 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
                       "type": "validation",
                       "code": "required-field",
                       "instance": "/report",
-                      "title": "Start date and end date are required."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/csv": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -4295,47 +4640,86 @@
           "403": {
             "description": "Forbidden",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "/report",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/csv": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -4354,26 +4738,25 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/TransactionsReportQueryDataMessage"
+                "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransactionsReportQueryDataMessage"
+                "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransactionsReportQueryDataMessage"
+                "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TransactionsReportQueryDataMessage"
+                "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
             }
-          },
-          "x-bodyName": "dataMessage"
+          }
         },
         "responses": {
           "200": {
@@ -4382,37 +4765,37 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/csv": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "text/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
                   "type": "string",
-                  "format": "binary"
+                  "format": "byte"
                 }
               }
             }
@@ -4420,46 +4803,86 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
                       "type": "validation",
                       "code": "required-field",
                       "instance": "/report",
-                      "title": "Start date and end date are required."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/csv": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -4467,47 +4890,86 @@
           "403": {
             "description": "Forbidden",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 },
                 "example": {
+                  "warnings": [ ],
                   "errors": [
                     {
-                      "traceId": "b7888125-dddb-c94e-9240-eb930c4ea146",
-                      "traceIdentifier": "1234e1717d88aa8a",
-                      "type": "access-control",
-                      "code": "insufficient-advertiser-permission",
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
                       "instance": "/report",
-                      "title": "Insufficient advertiser permission.",
-                      "detail": "You do not have the rights to report on this advertiser."
+                      "title": "Start date and end date are required.",
+                      "detail": ""
                     }
                   ]
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/csv": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
+                },
+                "example": {
+                  "warnings": [ ],
+                  "errors": [
+                    {
+                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
+                      "type": "validation",
+                      "code": "required-field",
+                      "instance": "/report",
+                      "title": "Start date and end date are required.",
+                      "detail": ""
+                    }
+                  ]
                 }
               },
               "text/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemsDetails"
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -10430,41 +10892,67 @@
         },
         "description": "Size entity containing width and height of the creative"
       },
-      "TransparencyReportDataMessage": {
-        "required": [
-          "data"
-        ],
+      "TransparencyReportListResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TransparencyReportEntityMessage"
-            }
-          }
-        },
-        "description": "This is the message defining the response for Transparency report"
-      },
-      "ProblemsDetails": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
+              "$ref": "#/components/schemas/TransparencyReportResource"
             },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
             "nullable": true,
             "readOnly": true
           }
         },
-        "description": "Common problems object"
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
+      },
+      "Outcome": {
+        "type": "object",
+        "properties": {
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The outcome of an API call."
       },
       "TransparencyQueryMessage": {
         "required": [
-          "startDate",
-          "endDate"
+          "endDate",
+          "startDate"
         ],
         "type": "object",
         "properties": {
@@ -10485,67 +10973,31 @@
             "format": "date-time"
           }
         },
-        "description": "This is the message defining the query for Transparency report",
-        "example": {
-          "shouldDisplayProductIds": false,
-          "startDate": "2023-04-03T00:00:00.0000000+00:00",
-          "endDate": "2023-04-06T00:00:00.0000000+00:00"
-        }
+        "additionalProperties": false,
+        "description": "This is the message defining the query for Transparency report"
       },
-      "PlacementsReportQueryDataMessage": {
-        "required": [
-          "data"
-        ],
+      "PlacementsReportQueryMessageListRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PlacementsReportQueryEntityMessage"
-            }
+              "$ref": "#/components/schemas/PlacementsReportQueryMessageResource"
+            },
+            "nullable": true
           }
         },
-        "description": "Contains queries for Placements report",
-        "example": {
-          "data": [
-            {
-              "type": "PlacementReport",
-              "attributes": {
-                "advertiserIds": "123,456,789",
-                "campaignIds": "111,222,333,444",
-                "adsetIds": "135,246,357,468",
-                "environment": "web",
-                "placement": "MyPlacement",
-                "dimensions": [
-                  "AdsetId",
-                  "AdvertiserId",
-                  "Placement"
-                ],
-                "metrics": [
-                  "clicks",
-                  "displays",
-                  "cost"
-                ],
-                "currency": "EUR",
-                "disclosed": false,
-                "format": "csv",
-                "timezone": "Europe/Paris",
-                "startDate": "2022-08-29T00:00:00.0000000+00:00",
-                "endDate": "2022-08-29T00:00:00.0000000+00:00"
-              }
-            }
-          ]
-        }
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for several value objects."
       },
       "StatisticsReportQueryMessage": {
         "required": [
-          "dimensions",
-          "metrics",
           "currency",
+          "dimensions",
+          "endDate",
           "format",
-          "startDate",
-          "endDate"
+          "metrics",
+          "startDate"
         ],
         "type": "object",
         "properties": {
@@ -10555,7 +11007,6 @@
             "nullable": true
           },
           "adSetIds": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -10564,7 +11015,6 @@
             "nullable": true
           },
           "adSetNames": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -10573,7 +11023,6 @@
             "nullable": true
           },
           "adSetStatus": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -10582,7 +11031,6 @@
             "nullable": true
           },
           "dimensions": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -10609,14 +11057,15 @@
                 "MarketingObjective",
                 "ChannelId",
                 "Channel",
-                "Goal"
+                "Goal",
+                "AdChannel",
+                "SocialPlatform"
               ],
               "type": "string"
             },
             "description": "The dimensions for the report."
           },
           "metrics": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -10648,203 +11097,73 @@
             "format": "date-time"
           }
         },
-        "description": "This is the message defining the query for Adset report",
-        "example": {
-          "advertiserIds": "123,456,789",
-          "adSetIds": [
-            "12345",
-            "54321"
-          ],
-          "adSetNames": [
-            "myAdSet1",
-            "myAdSet2"
-          ],
-          "adSetStatus": [
-            "Active"
-          ],
-          "dimensions": [
-            "CampaignId",
-            "Campaign",
-            "AdsetId",
-            "Adset",
-            "AdvertiserId",
-            "Advertiser",
-            "AdId",
-            "Ad",
-            "CouponId",
-            "Coupon",
-            "CategoryId",
-            "Category",
-            "Hour",
-            "Day",
-            "Week",
-            "Month",
-            "Year",
-            "Os",
-            "Device"
-          ],
-          "metrics": [
-            "Clicks",
-            "Displays",
-            "Cpc",
-            "Visits"
-          ],
-          "currency": "EUR",
-          "format": "csv",
-          "timezone": "Europe/Paris",
-          "startDate": "2022-08-29T00:00:00.0000000+00:00",
-          "endDate": "2022-09-01T00:00:00.0000000+00:00"
-        }
+        "additionalProperties": false,
+        "description": "This is the message defining the query for Adset report"
       },
-      "TransactionsReportQueryDataMessage": {
-        "required": [
-          "data"
-        ],
+      "TransactionsReportQueryMessageListRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TransactionsReportQueryEntityMessage"
-            }
+              "$ref": "#/components/schemas/TransactionsReportQueryMessageResource"
+            },
+            "nullable": true
           }
         },
-        "description": "Contains queries for Transactions report",
-        "example": {
-          "data": [
-            {
-              "type": "TransactionsReport",
-              "attributes": {
-                "advertiserIds": "123,456,789",
-                "eventType": "display",
-                "currency": "EUR",
-                "format": "csv",
-                "timezone": "Europe/Paris",
-                "startDate": "2023-04-03T00:00:00.0000000+00:00",
-                "endDate": "2023-04-03T00:00:00.0000000+00:00"
-              }
-            }
-          ]
-        }
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for several value objects."
       },
-      "TransparencyReportEntityMessage": {
-        "required": [
-          "type",
-          "attributes"
-        ],
+      "TransparencyReportResource": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "readOnly": true
+            "description": "Type of the resource.",
+            "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/TransparencyReportAttributes"
+            "$ref": "#/components/schemas/TransparencyReport"
           }
         },
-        "description": "This is the message defining the entity response for Transparency report"
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "The request correlation ID this problem comes from.",
-            "nullable": true
-          },
-          "traceIdentifier": {
-            "type": "string",
-            "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
-            "nullable": true
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "description": "The problem's category.",
-            "nullable": true
-          },
-          "code": {
-            "type": "string",
-            "description": "A machine-readable error code, expressed as a string value.",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "description": "A URI that identifies the specific occurrence of the problem.",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "description": "A short human-readable description of the problem type",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "description": "A human-readable explanation specific to this occurrence of the problem",
-            "nullable": true
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "nullable": true
-          },
-          "stackTrace": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "description": "Common problem object."
-      },
-      "PlacementsReportQueryEntityMessage": {
-        "required": [
-          "type",
-          "attributes"
-        ],
+      "PlacementsReportQueryMessageResource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
           },
           "attributes": {
             "$ref": "#/components/schemas/PlacementsReportQueryMessage"
           }
         },
-        "description": "Contains a query for Transaction report and its type"
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
-      "TransactionsReportQueryEntityMessage": {
-        "required": [
-          "type",
-          "attributes"
-        ],
+      "TransactionsReportQueryMessageResource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
           },
           "attributes": {
             "$ref": "#/components/schemas/TransactionsReportQueryMessage"
           }
         },
-        "description": "Contains a query for Transaction report and its type"
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
-      "TransparencyReportAttributes": {
+      "TransparencyReport": {
         "required": [
           "advertiserId",
-          "tokenValidUntil",
-          "files"
+          "files",
+          "tokenValidUntil"
         ],
         "type": "object",
         "properties": {
@@ -10856,24 +11175,24 @@
             "format": "date-time"
           },
           "files": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TransparencyReportFile"
             }
           }
         },
+        "additionalProperties": false,
         "description": "This is the message defining the attribute response for Transparency report"
       },
       "PlacementsReportQueryMessage": {
         "required": [
           "advertiserIds",
-          "dimensions",
-          "metrics",
           "currency",
+          "dimensions",
+          "endDate",
           "format",
-          "startDate",
-          "endDate"
+          "metrics",
+          "startDate"
         ],
         "type": "object",
         "properties": {
@@ -10902,7 +11221,6 @@
             "nullable": true
           },
           "dimensions": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "enum": [
@@ -10913,14 +11231,17 @@
                 "AdsetName",
                 "AdvertiserName",
                 "CampaignId",
-                "CampaignName"
+                "CampaignName",
+                "AdChannel",
+                "SocialPlatform",
+                "CategoryId",
+                "CategoryName"
               ],
               "type": "string"
             },
             "description": "The dimensions for the report."
           },
           "metrics": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "type": "string"
@@ -10958,14 +11279,15 @@
             "format": "date-time"
           }
         },
+        "additionalProperties": false,
         "description": "This is the message defining the query for Placements report"
       },
       "TransactionsReportQueryMessage": {
         "required": [
           "currency",
+          "endDate",
           "format",
-          "startDate",
-          "endDate"
+          "startDate"
         ],
         "type": "object",
         "properties": {
@@ -11004,6 +11326,7 @@
             "format": "date-time"
           }
         },
+        "additionalProperties": false,
         "description": "This is the message defining the query for Transaction report"
       },
       "TransparencyReportFile": {
@@ -11020,6 +11343,7 @@
             "type": "string"
           }
         },
+        "additionalProperties": false,
         "description": "This is the message defining the file response for Transparency report"
       },
       "GetPortfolioResponse": {
