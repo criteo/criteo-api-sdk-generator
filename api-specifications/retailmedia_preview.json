@@ -245,6 +245,70 @@
         }
       }
     },
+    "/preview/retail-media/chatbot-catalogs/{catalogid}/product-recommendations": {
+      "post": {
+        "tags": [
+          "OnSiteRecommendation"
+        ],
+        "description": "Ask a chatbot for a product recommendation",
+        "operationId": "chatbotProductRecommendations",
+        "parameters": [
+          {
+            "name": "catalogid",
+            "in": "path",
+            "description": "the identifier of the catalog to query",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "title": "catalogid",
+              "type": "integer",
+              "description": "the identifier of the catalog to query"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InbotDiscussionBodyModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageBodyModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/preview/retail-media/catalog/products/batch": {
       "post": {
         "tags": [
@@ -438,6 +502,65 @@
             }
           }
         }
+      }
+    },
+    "/preview/retail-media/account-management/accounts/{accountId}/private-market-child-accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Gets page of private market child accounts that are associated with the given account",
+        "operationId": "ExternalApiAccounts_GetApiExternalV1AccountPrivateMarketChildAccountsByAccountId",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The (zero-based) offset into the collection of accounts. The default is 0.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-nullable": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of accounts to be returned. The default is 25.",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailMediaAccount"
+                }
+              }
+            }
+          }
+        },
+        "x-source-method": "ExternalApiAccounts_GetPrivateMarketChildDemandAccountsV1"
       }
     },
     "/preview/retail-media/accounts": {
@@ -678,7 +801,7 @@
           "Audience"
         ],
         "description": "Updates the properties of all segments with a valid configuration, and returns the full segments. For those that cannot be updated, one or multiple errors are returned.",
-        "operationId": "BulkUpdateV1",
+        "operationId": "bulkUpdateAudienceSegments",
         "parameters": [
           {
             "name": "account-id",
@@ -772,7 +895,7 @@
           "Audience"
         ],
         "description": "Creates all segments with a valid configuration, and returns the full segments. For those that cannot be created, one or multiple errors are returned.",
-        "operationId": "BulkCreateV1",
+        "operationId": "bulkCreateAudienceSegments",
         "parameters": [
           {
             "name": "account-id",
@@ -866,7 +989,7 @@
           "Audience"
         ],
         "description": "Delete the segments associated to the given audience IDs.",
-        "operationId": "BulkDeleteV1",
+        "operationId": "bulkDeleteAudienceSegments",
         "parameters": [
           {
             "name": "account-id",
@@ -960,7 +1083,7 @@
           "Audience"
         ],
         "description": "Returns a list of segments that match the provided filters. If present, the filters are AND'ed together when applied.",
-        "operationId": "SearchV1",
+        "operationId": "searchAudienceSegments",
         "parameters": [
           {
             "name": "account-id",
@@ -1078,7 +1201,7 @@
           "Audience"
         ],
         "description": "Returns the statistics of a contact list segment.",
-        "operationId": "GetContactListStatisticsV1",
+        "operationId": "getAudienceSegmentContactListStatistics",
         "parameters": [
           {
             "name": "account-id",
@@ -1149,177 +1272,93 @@
         }
       }
     },
-    "/preview/retail-media/accounts/{accountId}/audiences": {
-      "get": {
+    "/preview/retail-media/accounts/{account-id}/audiences/search": {
+      "post": {
         "tags": [
           "Audience"
         ],
-        "description": "Get a page of Audiences. (deprecated Public API)",
-        "operationId": "LegacyGetAudienceV1",
+        "description": "Returns a list of audiences that match the provided filters. If present, the filters are AND'ed together when applied.",
+        "operationId": "searchAudiences",
         "parameters": [
           {
-            "name": "accountId",
+            "name": "account-id",
             "in": "path",
-            "description": "ID of the account to which this audience belongs.",
+            "description": "Account Id",
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           },
           {
-            "name": "limitToId",
+            "name": "limit",
             "in": "query",
-            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
+            "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
             "style": "form",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
-              }
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 50
             }
           },
           {
-            "name": "pageSize",
+            "name": "offset",
             "in": "query",
-            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page.",
+            "description": "The (zero-based) offset into the collection. The default is 0.",
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed.",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             }
           }
         ],
+        "requestBody": {
+          "description": "Audience search filters.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSearchInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSearchInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSearchInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSearchInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
         "responses": {
           "200": {
-            "description": "A page of audiences for the supplied account or shared by related retailers.",
+            "description": "Success or partial success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                  "$ref": "#/components/schemas/RmAudienceEntityV1RmAudienceSearchMetadataV1ListResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
+                  "$ref": "#/components/schemas/RmAudienceEntityV1RmAudienceSearchMetadataV1ListResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1ListResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/v2/accounts/{accountId}/audiences": {
-      "get": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Get a page of Audiences. (deprecated Public API)",
-        "operationId": "LegacyGetAudienceV2",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "ID of the account to which this audience belongs.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "Limits results to the entity IDs specified; parameter key is repeated, eg. limitToId=1&limitToId=2",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "Specifies the maximum number of entities returned in a single page; defaults to 25 entities per page.",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "Returns the specified page of results given a pageSize; pages are 0-indexed.",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A page of audiences for the supplied account or shared by related retailers.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2ListResponse"
+                  "$ref": "#/components/schemas/RmAudienceEntityV1RmAudienceSearchMetadataV1ListResponse"
                 }
               }
             }
@@ -2719,7 +2758,7 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Returns an asynchronous Accounts Report",
+        "description": "Returns an asynchronous Accounts Report\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncAccountsReport",
         "requestBody": {
           "content": {
@@ -2816,7 +2855,7 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Return an asynchronous Campaigns Report",
+        "description": "Return an asynchronous Campaigns Report\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncCampaignsReport",
         "requestBody": {
           "content": {
@@ -2913,7 +2952,7 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Returns an asynchronous Line Items Report",
+        "description": "Returns an asynchronous Line Items Report\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncLineItemsReport",
         "requestBody": {
           "content": {
@@ -3648,98 +3687,6 @@
         }
       }
     },
-    "/preview/retail-media/campaigns/{campaignId}/campaign-budget-overrides": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Get current campaign budget overrides by given external campaign id.",
-        "operationId": "GetCampaignBudgetOverrides",
-        "parameters": [
-          {
-            "name": "campaignId",
-            "in": "path",
-            "description": "External campaign id.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeOfCampaignBudgetOverrides"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Update campaign budget overrides by given external campaign id and new campaign budget overrides settings.",
-        "operationId": "UpdateCampaignBudgetOverrides",
-        "parameters": [
-          {
-            "name": "campaignId",
-            "in": "path",
-            "description": "External campaign id.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "New campaign budget overrides settings value resource input.",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfCampaignBudgetOverrides"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfCampaignBudgetOverrides"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfCampaignBudgetOverrides"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfCampaignBudgetOverrides"
-              }
-            }
-          },
-          "x-bodyName": "campaignBudgetOverridesInput"
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeOfCampaignBudgetOverrides"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/preview/retail-media/catalogs/sku/search/accounts/{accountId}/retailers/{retailerId}/by-id": {
       "post": {
         "tags": [
@@ -3933,96 +3880,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueResourceOutcomeOfRecommendedKeywordsResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/line-items/{lineItemId}/line-item-budget-overrides": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Gets a collection of monthly and daily budget overrides for the provided line item.",
-        "operationId": "GetLineItemBudgetOverrides",
-        "parameters": [
-          {
-            "name": "lineItemId",
-            "in": "path",
-            "description": "The line item id to get budget overrides for.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeOfLineItemBudgetOverrides"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Update line item budget overrides by given external line item id and new line item budget overrides settings.",
-        "operationId": "UpdateLineItemBudgetOverrides",
-        "parameters": [
-          {
-            "name": "lineItemId",
-            "in": "path",
-            "description": "Line item external id.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "New line item budget overrides settings value resource input.",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfLineItemBudgetOverrides"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfLineItemBudgetOverrides"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfLineItemBudgetOverrides"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfLineItemBudgetOverrides"
-              }
-            }
-          },
-          "x-bodyName": "lineItemBudgetOverridesInput"
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeOfLineItemBudgetOverrides"
                 }
               }
             }
@@ -5441,6 +5298,286 @@
         },
         "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients"
       },
+      "MessageBodyModel": {
+        "title": "MessageBodyModel",
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/MessageDataInstanceModel"
+          },
+          "errors": {
+            "title": "Errors",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageError"
+            },
+            "nullable": true
+          }
+        },
+        "description": "error message"
+      },
+      "HttpValidationError": {
+        "title": "HttpValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "nullable": true
+          }
+        },
+        "description": "http validation error"
+      },
+      "InbotDiscussionBodyModel": {
+        "title": "InbotDiscussionBodyModel",
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InbotDiscussionDataInstanceModel"
+          }
+        },
+        "description": "an API recommendation message"
+      },
+      "MessageDataInstanceModel": {
+        "title": "MessageDataInstanceModel",
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "default": "Message",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/Message"
+          }
+        },
+        "description": "an API answer message"
+      },
+      "MessageError": {
+        "title": "MessageError",
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "title": "Traceid",
+            "type": "string",
+            "description": "correlation ID, unique to each request",
+            "nullable": true
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "error category",
+            "nullable": true
+          },
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "description": "error code",
+            "nullable": true
+          },
+          "instance": {
+            "title": "Instance",
+            "type": "string",
+            "description": "specific occurrence of the problem",
+            "nullable": true
+          }
+        },
+        "description": "error message"
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "description": "validation error"
+      },
+      "InbotDiscussionDataInstanceModel": {
+        "title": "InbotDiscussionDataInstanceModel",
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "default": "InbotDiscussion",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/InbotDiscussion"
+          }
+        },
+        "description": "an API recommendation request"
+      },
+      "Message": {
+        "title": "Message",
+        "type": "object",
+        "properties": {
+          "userMessage": {
+            "title": "Usermessage",
+            "type": "string",
+            "description": "user prompt",
+            "nullable": true
+          },
+          "botMessage": {
+            "title": "Botmessage",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BotMessage"
+              }
+            ],
+            "description": "bot answer with recommendations",
+            "nullable": true
+          }
+        },
+        "description": "message of the discussion"
+      },
+      "InbotDiscussion": {
+        "title": "InbotDiscussion",
+        "type": "object",
+        "properties": {
+          "messages": {
+            "title": "Messages",
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "description": "ordered list of previous messages, alternating between user prompts and bot answers",
+            "nullable": true
+          }
+        },
+        "description": "discussion between the user and the chatbot"
+      },
+      "BotMessage": {
+        "title": "BotMessage",
+        "type": "object",
+        "properties": {
+          "opening": {
+            "title": "Opening",
+            "type": "string",
+            "description": "opening comment from the bot, introducing the list of recommended products if relevant.",
+            "nullable": true
+          },
+          "productRecos": {
+            "title": "Productrecos",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductRecommendation"
+            },
+            "description": "list of recommended products",
+            "nullable": true
+          },
+          "closing": {
+            "title": "Closing",
+            "type": "string",
+            "description": "closing remark from the bot",
+            "nullable": true
+          }
+        },
+        "description": "bot structured answer to the user prompt"
+      },
+      "ProductRecommendation": {
+        "title": "ProductRecommendation",
+        "required": [
+          "rationale"
+        ],
+        "type": "object",
+        "properties": {
+          "rationale": {
+            "title": "Rationale",
+            "type": "string",
+            "description": "reason for this recommendation, given by the bot"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "name of the product",
+            "nullable": true
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "description of the product",
+            "nullable": true
+          },
+          "imageUrl": {
+            "title": "Imageurl",
+            "maxLength": 65536,
+            "minLength": 1,
+            "type": "string",
+            "description": "url of the product image",
+            "format": "uri",
+            "nullable": true
+          },
+          "url": {
+            "title": "Url",
+            "maxLength": 65536,
+            "minLength": 1,
+            "type": "string",
+            "description": "url of the product on the retailer website",
+            "format": "uri",
+            "nullable": true
+          },
+          "brand": {
+            "title": "Brand",
+            "type": "string",
+            "description": "brand of the product",
+            "nullable": true
+          },
+          "price": {
+            "title": "Price",
+            "type": "number",
+            "description": "numerical value of the price of the product",
+            "nullable": true
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string",
+            "description": "currency of the price of the product",
+            "nullable": true
+          }
+        },
+        "description": "recommendation data for a product"
+      },
       "BatchAcceptedResponse": {
         "required": [
           "operationToken"
@@ -5485,7 +5622,9 @@
           "numberOfProductsInTheBatch",
           "numberOfProductsUpserted",
           "numberOfProductsWithErrors",
-          "status"
+          "numberOfProductsWithWarnings",
+          "status",
+          "warningDetails"
         ],
         "type": "object",
         "properties": {
@@ -5531,6 +5670,18 @@
               "$ref": "#/components/schemas/ReportDetailErrors"
             },
             "description": "The list of errors with details."
+          },
+          "numberOfProductsWithWarnings": {
+            "type": "integer",
+            "description": "The number of products with Warnings.",
+            "format": "int32"
+          },
+          "warningDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportDetailWarnings"
+            },
+            "description": "The list of Warnings with details."
           }
         },
         "description": "The report on a given operationToken is ready. The report is available for 4 days"
@@ -5647,6 +5798,25 @@
         },
         "description": "A list of errors on a batch operation."
       },
+      "ReportDetailWarnings": {
+        "required": [
+          "productId",
+          "warnings"
+        ],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportDetailWarning"
+            }
+          }
+        },
+        "description": "A list of warnings on a batch operation."
+      },
       "ProductsCustomBatchRequestEntry": {
         "required": [
           "merchantId",
@@ -5731,6 +5901,30 @@
           }
         },
         "description": "An error on a batch operation."
+      },
+      "ReportDetailWarning": {
+        "required": [
+          "isServerRelated",
+          "message",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "OverlargeBadgeUrl",
+              "InvalidBadgeUrl"
+            ],
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "isServerRelated": {
+            "type": "boolean"
+          }
+        },
+        "description": "A warning on a batch operation."
       },
       "Product": {
         "required": [
@@ -6164,6 +6358,11 @@
             "type": "string",
             "description": "The product rating for the product",
             "nullable": true
+          },
+          "badge": {
+            "type": "string",
+            "description": "URL of a badge image to display on the product.",
+            "nullable": true
           }
         },
         "description": "Defines a product to be inserted or updated."
@@ -6386,6 +6585,39 @@
         },
         "description": "Defines a custom attribute of a product."
       },
+      "EntityResourceCollectionOutcomeOfRetailMediaAccount": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfRetailMediaAccount"
+            },
+            "nullable": true,
+            "x-nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-nullable": true
+          }
+        },
+        "description": "A resource that represents collection of Retail Media account entities",
+        "x-nullable": true
+      },
       "JsonApiPageResponseOfAccount": {
         "required": [
           "metadata",
@@ -6487,6 +6719,26 @@
           }
         },
         "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
+      },
+      "EntityResourceOfRetailMediaAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalRetailMediaAccount"
+          }
+        },
+        "description": "A resource object that represents a single Retail Media account entity",
+        "x-nullable": true
       },
       "PageMetadata": {
         "required": [
@@ -6714,6 +6966,103 @@
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
       },
+      "ExternalRetailMediaAccount": {
+        "required": [
+          "type",
+          "subType"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "type": {
+            "enum": [
+              "Unknown",
+              "Supply",
+              "Demand"
+            ],
+            "type": "string",
+            "format": "string",
+            "x-ms-enum": {
+              "name": "AccountTypeEnum",
+              "modelAsString": false,
+              "values": [
+                0,
+                1,
+                2
+              ]
+            },
+            "x-enumNames": [
+              "Unknown",
+              "Supply",
+              "Demand"
+            ],
+            "x-nullable": false
+          },
+          "subType": {
+            "enum": [
+              "Unknown",
+              "Brand",
+              "Seller"
+            ],
+            "type": "string",
+            "format": "string",
+            "x-ms-enum": {
+              "name": "AccountSubtypeEnum",
+              "modelAsString": false,
+              "values": [
+                0,
+                1,
+                2
+              ]
+            },
+            "x-enumNames": [
+              "Unknown",
+              "Brand",
+              "Seller"
+            ],
+            "x-nullable": false
+          },
+          "countryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "x-nullable": true
+          },
+          "currencyId": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "parentAccountLabel": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "timeZone": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "A Retail Media account entity",
+        "x-nullable": true
+      },
       "ExternalAccount": {
         "required": [
           "name",
@@ -6772,6 +7121,11 @@
             "x-nullable": false
           },
           "companyName": {
+            "type": "string",
+            "nullable": true,
+            "x-nullable": true
+          },
+          "onBehalfCompanyName": {
             "type": "string",
             "nullable": true,
             "x-nullable": true
@@ -6935,13 +7289,16 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity"
       },
-      "RmLegacyAudienceGetEntityV1ListResponse": {
+      "RmAudienceEntityV1RmAudienceSearchMetadataV1ListResponse": {
         "type": "object",
         "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/RmAudienceSearchMetadataV1"
+          },
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1Resource"
+              "$ref": "#/components/schemas/RmAudienceEntityV1Resource"
             },
             "nullable": true
           },
@@ -6964,35 +7321,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata"
       },
-      "RmLegacyAudienceGetEntityV2ListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2Resource"
-            },
-            "nullable": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
-      },
       "RmAudienceSegmentBulkUpdateInputV1": {
         "type": "object",
         "properties": {
@@ -7004,7 +7332,7 @@
             "nullable": true
           }
         },
-        "description": "Input to update one or more segments."
+        "description": "A top-level object that encapsulates a Criteo API request for several entities."
       },
       "RmAudienceSegmentBulkCreateInputV1": {
         "type": "object",
@@ -7017,7 +7345,7 @@
             "nullable": true
           }
         },
-        "description": "Input to create one or more audience segments."
+        "description": "A top-level object that encapsulates a Criteo API request for several values."
       },
       "RmAudienceSegmentBulkDeleteInputV1": {
         "type": "object",
@@ -7030,7 +7358,7 @@
             "nullable": true
           }
         },
-        "description": "Input to delete one or more segments."
+        "description": "A top-level object that encapsulates a Criteo API request for several entities."
       },
       "RmAudienceSegmentSearchInputV1": {
         "type": "object",
@@ -7039,7 +7367,16 @@
             "$ref": "#/components/schemas/RmAudienceSegmentSearchEntityV1Resource"
           }
         },
-        "description": "Audience segment search parameter"
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "RmAudienceSearchInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceSearchEntityV1Resource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
       "RmAudienceSegmentEntityV1Resource": {
         "type": "object",
@@ -7119,36 +7456,35 @@
         },
         "description": "A class that represents a domain entity exposed by an API"
       },
-      "RmLegacyAudienceGetEntityV1Resource": {
+      "RmAudienceSearchMetadataV1": {
         "type": "object",
         "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1"
-          },
-          "id": {
-            "type": "string",
+          "totalItems": {
+            "type": "integer",
+            "description": "Total number of items",
+            "format": "int32",
             "nullable": true
           },
-          "audienceType": {
-            "enum": [
-              "customerList",
-              "userBehavior"
-            ],
-            "type": "string",
+          "limit": {
+            "type": "integer",
+            "description": "Max item of the current page",
+            "format": "int32",
             "nullable": true
           },
-          "type": {
-            "type": "string",
+          "offset": {
+            "type": "integer",
+            "description": "Number of item to skip",
+            "format": "int32",
             "nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "Metadata for the audience search response."
       },
-      "RmLegacyAudienceGetEntityV2Resource": {
+      "RmAudienceEntityV1Resource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2"
+            "$ref": "#/components/schemas/RmAudienceEntityV1"
           },
           "id": {
             "type": "string",
@@ -7224,6 +7560,19 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "RmAudienceSearchEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSearchEntityV1"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
       "RmAudienceSegmentEntityV1": {
         "type": "object",
         "properties": {
@@ -7251,7 +7600,7 @@
             "enum": [
               "Unknown",
               "ContactList",
-              "UserBehavior"
+              "Events"
             ],
             "type": "string",
             "description": "Type of segment (read-only)",
@@ -7277,8 +7626,8 @@
           "contactList": {
             "$ref": "#/components/schemas/RmContactListV1"
           },
-          "userBehavior": {
-            "$ref": "#/components/schemas/RmUserBehaviorV1"
+          "events": {
+            "$ref": "#/components/schemas/RmEventsV1"
           },
           "channels": {
             "type": "array",
@@ -7339,58 +7688,64 @@
           "version": "v1"
         }
       },
-      "RmLegacyAudienceGetEntityV1": {
-        "required": [
-          "name",
-          "retailerId"
-        ],
+      "RmAudienceEntityV1": {
         "type": "object",
         "properties": {
-          "name": {
+          "accountId": {
             "type": "string",
-            "description": "Name of the audience"
-          },
-          "retailerId": {
-            "type": "string",
-            "description": "ID of the retailer associated with this audience"
-          },
-          "userBehaviorDetails": {
-            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV1"
-          },
-          "customerListDetails": {
-            "$ref": "#/components/schemas/RmLegacySegmentCustomerList"
-          }
-        },
-        "description": "Audience definition of people of interest for a marketer.",
-        "x-criteo-canonical": {
-          "infoType": "entity",
-          "name": "RetailMediaAudienceSummary",
-          "version": "v1"
-        }
-      },
-      "RmLegacyAudienceGetEntityV2": {
-        "required": [
-          "name",
-          "retailerId"
-        ],
-        "type": "object",
-        "properties": {
-          "retailerId": {
-            "type": "string",
-            "description": "ID of the retailer associated with this audience"
-          },
-          "userBehaviorDetails": {
-            "$ref": "#/components/schemas/RmLegacyAudienceUserBehaviorDetailsV2"
-          },
-          "customerListDetails": {
-            "$ref": "#/components/schemas/RmLegacySegmentCustomerList"
+            "description": "Account associated to the audience",
+            "nullable": true
           },
           "name": {
             "type": "string",
-            "description": "Name of the audience"
+            "description": "Name of the audience",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the audience",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer  associated to the audience",
+            "nullable": true
+          },
+          "createdById": {
+            "type": "string",
+            "description": "User that created the audience",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp in UTC of audience creation (read-only)",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp in UTC of audience update (read-only)",
+            "format": "date-time",
+            "nullable": true
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "Onsite",
+                "Offsite"
+              ],
+              "type": "string"
+            },
+            "description": "Channels associated to the audience (read-only)",
+            "nullable": true
+          },
+          "algebra": {
+            "$ref": "#/components/schemas/RmAlgebraNodeV1"
           }
         },
-        "description": "Audience definition of people of interest for a marketer",
+        "description": "Audience of people of interest for a marketer.",
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "RetailMediaAudience",
@@ -7420,12 +7775,15 @@
         }
       },
       "RmAudienceSegmentCreateEntityV1": {
+        "required": [
+          "name",
+          "retailerId"
+        ],
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the segment",
-            "nullable": true
+            "description": "Name of the segment"
           },
           "description": {
             "type": "string",
@@ -7434,8 +7792,7 @@
           },
           "retailerId": {
             "type": "string",
-            "description": "Retailer  associated to the segment",
-            "nullable": true
+            "description": "Retailer  associated to the segment"
           },
           "contactList": {
             "$ref": "#/components/schemas/RmContactListCreateV1"
@@ -7477,7 +7834,7 @@
               "enum": [
                 "Unknown",
                 "ContactList",
-                "UserBehavior"
+                "Events"
               ],
               "type": "string"
             },
@@ -7487,6 +7844,36 @@
         },
         "description": "Available filters to perform a search on audience segments. If present, the filters are AND'ed together when applied."
       },
+      "RmAudienceSearchEntityV1": {
+        "type": "object",
+        "properties": {
+          "audienceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of audience ids",
+            "nullable": true
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of retailer ids",
+            "nullable": true
+          },
+          "audienceSegmentIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of segment ids (linked to the result audiences)",
+            "nullable": true
+          }
+        },
+        "description": "Available filters to perform a search on audiences. If present, the filters are AND'ed together when applied."
+      },
       "RmContactListV1": {
         "type": "object",
         "properties": {
@@ -7495,7 +7882,7 @@
             "description": "Is the segment read-only",
             "nullable": true
           },
-          "type": {
+          "identifierType": {
             "enum": [
               "Unknown",
               "Email",
@@ -7504,7 +7891,7 @@
               "CustomerId"
             ],
             "type": "string",
-            "description": "Indicates contact list type",
+            "description": "Indicates contact list identifier's type",
             "nullable": true
           },
           "sharingStatus": {
@@ -7521,7 +7908,7 @@
         },
         "description": "Settings to target users with your contact lists."
       },
-      "RmUserBehaviorV1": {
+      "RmEventsV1": {
         "type": "object",
         "properties": {
           "shopperActivity": {
@@ -7583,90 +7970,32 @@
         },
         "description": "Settings to target users based on their behavior"
       },
-      "RmLegacySegmentUserBehaviorV1": {
-        "required": [
-          "lookbackWindow",
-          "userType"
-        ],
+      "RmAlgebraNodeV1": {
         "type": "object",
         "properties": {
-          "userType": {
-            "enum": [
-              "viewer",
-              "buyer",
-              "addToCarter"
-            ],
-            "type": "string",
-            "description": "Type of shopper activity used to generate the audience."
-          },
-          "lookbackWindow": {
-            "enum": [
-              "P7D",
-              "P14D",
-              "P30D",
-              "P45D",
-              "P60D",
-              "P90D",
-              "P120D",
-              "P150D",
-              "P180D"
-            ],
-            "type": "string",
-            "description": "Length of lookback window"
-          },
-          "targetType": {
-            "enum": [
-              "brand",
-              "category"
-            ],
-            "type": "string",
-            "description": "Type of target",
-            "nullable": true
-          },
-          "targetIds": {
-            "uniqueItems": true,
+          "and": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/RmAlgebraNodeV1"
             },
-            "description": "The categories to target",
+            "nullable": true
+          },
+          "or": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAlgebraNodeV1"
+            },
+            "nullable": true
+          },
+          "not": {
+            "$ref": "#/components/schemas/RmAlgebraNodeV1"
+          },
+          "audienceSegmentId": {
+            "type": "string",
             "nullable": true
           }
         },
-        "description": "Audience definition of people based on what they visited"
-      },
-      "RmLegacySegmentCustomerList": {
-        "required": [
-          "isShared",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "size": {
-            "type": "string",
-            "description": "Number of users in the customer list audience."
-          },
-          "isShared": {
-            "type": "boolean",
-            "description": "Indicate if the audience is shared."
-          }
-        },
-        "description": "Audience definition of people based on a customer list"
-      },
-      "RmLegacyAudienceUserBehaviorDetailsV2": {
-        "required": [
-          "inclusiveSegment"
-        ],
-        "type": "object",
-        "properties": {
-          "inclusiveSegment": {
-            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
-          },
-          "exclusiveSegment": {
-            "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
-          }
-        },
-        "description": "User Behavior Details."
+        "description": "Node in the audience algebra definition."
       },
       "NillableString": {
         "type": "object",
@@ -7699,72 +8028,6 @@
           }
         },
         "description": "Settings to target users with your contact lists."
-      },
-      "RmLegacySegmentUserBehaviorV2": {
-        "required": [
-          "lookbackWindow",
-          "userAction"
-        ],
-        "type": "object",
-        "properties": {
-          "userAction": {
-            "enum": [
-              "buy",
-              "view",
-              "addToCart"
-            ],
-            "type": "string",
-            "description": "Type of shopper activity used to generate the audience."
-          },
-          "lookbackWindow": {
-            "enum": [
-              "P7D",
-              "P14D",
-              "P30D",
-              "P45D",
-              "P60D",
-              "P90D",
-              "P120D",
-              "P150D",
-              "P180D"
-            ],
-            "type": "string",
-            "description": "Length of lookback window"
-          },
-          "categoryIds": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "description": "The categories to target",
-            "nullable": true
-          },
-          "brandIds": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "description": "The brands to target",
-            "nullable": true
-          },
-          "minPrice": {
-            "type": "number",
-            "description": "The min price of targeted skus.",
-            "format": "double",
-            "nullable": true
-          },
-          "maxPrice": {
-            "type": "number",
-            "description": "The max price of targeted skus.",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "description": "Audience definition of people based on what they visited"
       },
       "KeywordsModelResponse": {
         "type": "object",
@@ -11550,32 +11813,6 @@
         "additionalProperties": false,
         "description": "A wrapper class to return a single page of items with metadata."
       },
-      "ValueResourceOutcomeOfCampaignBudgetOverrides": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfCampaignBudgetOverrides"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
       "ResourceCollectionOutcomeOfSkuSearchResult": {
         "type": "object",
         "properties": {
@@ -11652,32 +11889,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
-      "ValueResourceOutcomeOfLineItemBudgetOverrides": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfLineItemBudgetOverrides"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
       "ValueResourceInputOfRetailMediaSellerAccountCreation": {
         "type": "object",
         "properties": {
@@ -11702,16 +11913,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for several values."
       },
-      "ValueResourceInputOfCampaignBudgetOverrides": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfCampaignBudgetOverrides"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
-      },
       "SkuSearchRequest": {
         "required": [
           "data"
@@ -11724,16 +11925,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single entity."
-      },
-      "ValueResourceInputOfLineItemBudgetOverrides": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfLineItemBudgetOverrides"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
       "ResourceOfRetailMediaAccount": {
         "type": "object",
@@ -11841,20 +12032,6 @@
         "additionalProperties": false,
         "description": "Data model represents the data change capture of balance history."
       },
-      "ValueResourceOfCampaignBudgetOverrides": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/CampaignBudgetOverrides"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
       "ResourceOfSkuSearchResult": {
         "type": "object",
         "properties": {
@@ -11935,20 +12112,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
-      "ValueResourceOfLineItemBudgetOverrides": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/LineItemBudgetOverrides"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
-      },
       "ValueResourceOfRetailMediaSellerAccountCreation": {
         "type": "object",
         "properties": {
@@ -12003,7 +12166,12 @@
           },
           "companyName": {
             "type": "string",
-            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
+            "description": "Paying entity name of ads for the Digital Services Act",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "On behalf entity name of ads for the Digital Services Act",
             "nullable": true
           },
           "type": {
@@ -12097,31 +12265,6 @@
         },
         "additionalProperties": false,
         "description": "Change details of a property of the balance."
-      },
-      "CampaignBudgetOverrides": {
-        "required": [
-          "dailyBudgetOverrides",
-          "monthlyBudgetOverrides"
-        ],
-        "type": "object",
-        "properties": {
-          "monthlyBudgetOverrides": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CampaignMonthlyBudgetOverride"
-            },
-            "description": "Campaign budget override monthly part, chronological order restricted."
-          },
-          "dailyBudgetOverrides": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CampaignDailyBudgetOverride"
-            },
-            "description": "Campaign budget override daily part, chronological order restricted."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Campaign budget overrides including Monthly and Daily budget overrides."
       },
       "SkuSearchResult": {
         "type": "object",
@@ -12257,31 +12400,6 @@
         "additionalProperties": false,
         "description": "Response model for recommended keywords"
       },
-      "LineItemBudgetOverrides": {
-        "required": [
-          "dailyLineItemBudgetOverrides",
-          "monthlyLineItemBudgetOverrides"
-        ],
-        "type": "object",
-        "properties": {
-          "monthlyLineItemBudgetOverrides": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MonthlyLineItemBudegetOverride"
-            },
-            "description": "Line item budget override monthly part, chronological order restricted."
-          },
-          "dailyLineItemBudgetOverrides": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DailyLineItemBudgetOverride"
-            },
-            "description": "Line item budget override daily part, chronological order restricted."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Line item budget overrides including Monthly and Daily budget overrides."
-      },
       "RetailMediaSellerAccountCreation": {
         "type": "object",
         "properties": {
@@ -12292,7 +12410,12 @@
           },
           "companyName": {
             "type": "string",
-            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
+            "description": "Paying entity name of ads for the Digital Services Act",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "On behalf entity name of ads for the Digital Services Act",
             "nullable": true
           },
           "sellers": {
@@ -12306,78 +12429,6 @@
         },
         "additionalProperties": false,
         "description": "the initial set up and configuration options for a new private market demand brand account"
-      },
-      "CampaignMonthlyBudgetOverride": {
-        "required": [
-          "duration",
-          "maxMonthlySpend"
-        ],
-        "type": "object",
-        "properties": {
-          "startMonth": {
-            "type": "string",
-            "description": "Monthly budget override start month, format \"yyyy-MM\". If it is null, the StartMonth would be the following month of the last item in the override sequence.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "duration": {
-            "type": "string",
-            "description": "The number of MONTHs that the override is active from StartMonth, e.g. \"1M\". Must end with 'M' or 'm'."
-          },
-          "maxMonthlySpend": {
-            "type": "number",
-            "description": "Monthly budget override maximum monthly spend amount.",
-            "format": "double"
-          },
-          "status": {
-            "enum": [
-              "Expired",
-              "Active",
-              "Upcoming"
-            ],
-            "type": "string",
-            "description": "Monthly budget override computed status.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Campaign monthly budget override."
-      },
-      "CampaignDailyBudgetOverride": {
-        "required": [
-          "duration",
-          "maxDailySpend"
-        ],
-        "type": "object",
-        "properties": {
-          "startDate": {
-            "type": "string",
-            "description": "Daily budget override start date, format \"yyyy-MM-dd\". If it is null, the StartDate would be the following date of the last item in the override sequence.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "duration": {
-            "type": "string",
-            "description": "The number of DAYs that the override is active from StartDate, e.g. \"1D\". Must end with 'D' or 'd'."
-          },
-          "maxDailySpend": {
-            "type": "number",
-            "description": "Daily budget override maximum daily spend amount.",
-            "format": "double"
-          },
-          "status": {
-            "enum": [
-              "Expired",
-              "Active",
-              "Upcoming"
-            ],
-            "type": "string",
-            "description": "Daily budget override computed status.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Campaign daily budget override."
       },
       "Keywords": {
         "type": "object",
@@ -12431,78 +12482,6 @@
         },
         "additionalProperties": false,
         "description": "Data associated with a normalized keyword phrase"
-      },
-      "MonthlyLineItemBudegetOverride": {
-        "required": [
-          "duration",
-          "maxMonthlySpend"
-        ],
-        "type": "object",
-        "properties": {
-          "startMonth": {
-            "type": "string",
-            "description": "Monthly budget override start month, format \"yyyy-MM\". If it is null, the StartMonth would be the following month of the last item in the override sequence.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "duration": {
-            "type": "string",
-            "description": "The number of MONTHs that the override is active from StartMonth, e.g. \"1M\". Must end with 'M' or 'm'."
-          },
-          "maxMonthlySpend": {
-            "type": "number",
-            "description": "Monthly budget override maximum monthly spend amount.",
-            "format": "double"
-          },
-          "status": {
-            "enum": [
-              "Expired",
-              "Active",
-              "Upcoming"
-            ],
-            "type": "string",
-            "description": "Monthly budget override computed status.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The details for a monthly budget override"
-      },
-      "DailyLineItemBudgetOverride": {
-        "required": [
-          "duration"
-        ],
-        "type": "object",
-        "properties": {
-          "startDate": {
-            "type": "string",
-            "description": "Daily budget override start date, format \"yyyy-MM-dd\". If it is null, the StartDate would be the following date of the last item in the override sequence.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "duration": {
-            "type": "string",
-            "description": "The number of DAYs that the override is active from StartDate, e.g. \"1D\". Must end with 'D' or 'd'."
-          },
-          "maxDailySpend": {
-            "type": "number",
-            "description": "Daily budget override maximum daily spend amount.",
-            "format": "double",
-            "nullable": true
-          },
-          "status": {
-            "enum": [
-              "Expired",
-              "Active",
-              "Upcoming"
-            ],
-            "type": "string",
-            "description": "Daily budget override computed status.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The details for a daily budget override"
       },
       "InputKeywords": {
         "type": "object",

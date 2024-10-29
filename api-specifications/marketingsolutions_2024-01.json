@@ -11,13 +11,12 @@
     }
   ],
   "paths": {
-    "/2024-01/marketing-solutions/audience-segments/{audience-segment-id}/contact-list": {
+    "/2024-01/audiences/{audience-segment-id}/contactlist": {
       "delete": {
         "tags": [
           "Audience"
         ],
         "description": "Delete all identifiers from a contact list audience-segment.",
-        "operationId": "deleteContactListIdentifiers",
         "responses": {
           "200": {
             "description": "The Contact List was emptied",
@@ -85,7 +84,208 @@
           "Audience"
         ],
         "description": "Add/remove identifiers to or from a contact list audience-segment.",
-        "operationId": "updateContactListIdentifiers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactlistAmendmentRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "body"
+        },
+        "responses": {
+          "200": {
+            "description": "Summary of created request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifyAudienceResponse"
+                },
+                "example": {
+                  "data": {
+                    "type": "ContactlistAmendment",
+                    "attributes": {
+                      "contactListId": 12,
+                      "operation": "add",
+                      "requestDate": "2018-12-10T10:00:50.0000000+00:00",
+                      "identifierType": "madid",
+                      "nbValidIdentifiers": 7343,
+                      "nbInvalidIdentifiers": 13,
+                      "sampleInvalidIdentifiers": [
+                        "InvalidIdentifier"
+                      ]
+                    }
+                  },
+                  "errors": [ ],
+                  "warnings": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "deprecation",
+                      "code": "deprecated-field",
+                      "instance": "/audiences/314195",
+                      "title": "'nbValidIds' is deprecated",
+                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorCodeResponse"
+                },
+                "example": {
+                  "errors": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "validation",
+                      "code": "audience-invalid",
+                      "instance": "/audience/314159",
+                      "title": "Audience is invalid",
+                      "detail": "Audience is not found, please choose a valid audience"
+                    }
+                  ],
+                  "warnings": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "deprecation",
+                      "code": "deprecated-field",
+                      "instance": "/audiences/314195",
+                      "title": "'nbValidIds' is deprecated",
+                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Audience 123 not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorCodeResponse"
+                },
+                "example": {
+                  "errors": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "validation",
+                      "code": "audience-invalid",
+                      "instance": "/audience/314159",
+                      "title": "Audience is invalid",
+                      "detail": "Audience is not found, please choose a valid audience"
+                    }
+                  ],
+                  "warnings": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "deprecation",
+                      "code": "deprecated-field",
+                      "instance": "/audiences/314195",
+                      "title": "'nbValidIds' is deprecated",
+                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "audience-segment-id",
+          "in": "path",
+          "description": "The id of the contact list audience-segment to amend",
+          "required": true,
+          "style": "simple",
+          "schema": {
+            "type": "string",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "/2024-01/marketing-solutions/audience-segments/{audience-segment-id}/contact-list": {
+      "delete": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Delete all identifiers from a contact list audience-segment.",
+        "responses": {
+          "200": {
+            "description": "The Contact List was emptied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAudienceContactListResponse"
+                },
+                "example": {
+                  "data": {
+                    "id": "1",
+                    "type": "AudienceContactlist"
+                  },
+                  "errors": [ ],
+                  "warnings": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "deprecation",
+                      "code": "deprecated-field",
+                      "instance": "/audiences/314195",
+                      "title": "'nbValidIds' is deprecated",
+                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorCodeResponse"
+                },
+                "example": {
+                  "errors": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "validation",
+                      "code": "audience-invalid",
+                      "instance": "/audience/314159",
+                      "title": "Audience is invalid",
+                      "detail": "Audience is not found, please choose a valid audience"
+                    }
+                  ],
+                  "warnings": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "deprecation",
+                      "code": "deprecated-field",
+                      "instance": "/audiences/314195",
+                      "title": "'nbValidIds' is deprecated",
+                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Add/remove identifiers to or from a contact list audience-segment.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -4125,31 +4325,37 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               },
               "application/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
-              "text/xml": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -4517,37 +4723,37 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/csv": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -4767,37 +4973,37 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/csv": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "text/xml": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               },
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -5381,7 +5587,6 @@
                   "madid",
                   "identityLink",
                   "gum",
-                  "customerid",
                   "phoneNumber"
                 ],
                 "type": "string",
@@ -5393,7 +5598,7 @@
                 "items": {
                   "type": "string"
                 },
-                "description": "The users tos add or remove, each in the schema specified"
+                "description": "The users to add or remove, each in the schema specified"
               },
               "gumCallerId": {
                 "type": "integer",
