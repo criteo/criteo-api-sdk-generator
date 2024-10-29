@@ -128,22 +128,22 @@ def main():
 			else:
 				uid_to_update = collection_id_to_update_list[0]
 			if create_flag == False:
-				update_collection(uid_to_update,collection_name_to_update,file)
+				update_collection(uid_to_update, collection_name_to_update, file)
 			else:
 				create_collection(collection_name_to_update, file)
 
 	except OSError as err:
 	    print("File manipulation error:", err)
-	    sys.exit(0)
+	    sys.exit(1)
 	except requests.exceptions.ConnectionError as err:
 		print("Requests failure: e.g. DNS failure, refused connection", err)
-		sys.exit(0)
+		sys.exit(1)
 	except requests.exceptions.HTTPError as err:
 		print("Invalid HTTP response", err)
-		sys.exit(0)
+		sys.exit(1)
 	except Exception as err:
 	    print("Generic error or a network error:", err)
-	    sys.exit(0)
+	    sys.exit(1)
 
 
 
