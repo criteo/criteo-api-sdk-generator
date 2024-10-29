@@ -69,7 +69,7 @@ def update_collection(uid_to_update, collection_name_to_update, file):
 			JSON_collection_wrapper = prepare_collection_data(read_collection_data, collection_name_to_update)
 			collections_response = requests.put(COLLECTIONS_UPDATE_URL_CURR, headers=HEADER, data=JSON_collection_wrapper)
 			if collections_response.status_code != 200:
-				raise ValueError("Could not update Postman collections: " + collections_response.status_code)
+				raise ValueError(f"Could not update Postman collections: {collections_response.status_code}")
 			f.close()
 
 def create_collection(collection_name_to_update, file):
@@ -81,7 +81,7 @@ def create_collection(collection_name_to_update, file):
 			collections_response = requests.post(COLLECTIONS_UPDATE_URL_CURR, headers=HEADER, data=JSON_collection_wrapper)
 			if collections_response.status_code != 200:
 				collections_response.json()
-				raise ValueError("Could not create Postman collections: "+str(collections_response.status_code))
+				raise ValueError(f"Could not create Postman collections: {collections_response.status_code}")
 			f.close()
 
 #OpenApiToPostman can't work with absolute paths which is why we have to pass the root dir to the class
@@ -116,13 +116,13 @@ def main():
 		workspace_response_json = get_workspace_data()
 		for file in postman_specification_files:
 			create_flag = False
-			print('Updating/Creating collection: '+file)
+			print(f"Updating/Creating collection: {file}")
 			solution, version = os.path.basename(file).split('.')[0].split('_')
 			collection_name_to_update = f'{solutions_naming_map[solution]} {version}'
 			print(collection_name_to_update)
 			collection_id_to_update_list = [collection['uid'] for collection in workspace_response_json['collections'] if collection['name'].upper() == collection_name_to_update.upper()]
 			if len(collection_id_to_update_list) > 1:
-				raise ValueError("More than 1 collection with the identical name. Please make sure collection names are unique")
+				raise ValueError("More than 1 collection with an identical name. Please make sure collection names are unique")
 			elif len(collection_id_to_update_list) == 0:
 				create_flag = True
 			else:
@@ -130,7 +130,7 @@ def main():
 			if create_flag == False:
 				update_collection(uid_to_update,collection_name_to_update,file)
 			else:
-				create_collection(collection_name_to_update,file)
+				create_collection(collection_name_to_update, file)
 
 	except OSError as err:
 	    print("File manipulation error:", err)
@@ -141,7 +141,7 @@ def main():
 	except requests.exceptions.HTTPError as err:
 		print("Invalid HTTP response", err)
 		sys.exit(0)
-	except Exception as e:
+	except Exception as err:
 	    print("Generic error or a network error:", err)
 	    sys.exit(0)
 
