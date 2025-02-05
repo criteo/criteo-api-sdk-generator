@@ -295,16 +295,6 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HttpValidationError"
-                }
-              }
-            }
           }
         }
       }
@@ -2667,6 +2657,103 @@
         }
       }
     },
+    "/preview/retail-media/reports/fillrate": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Returns an asynchronous Fill Rate Report\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateAsyncFillRateReport",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncFillRateReportRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncFillRateReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncFillRateReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncFillRateReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportOutcome"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/preview/retail-media/reports/line-items": {
       "post": {
         "tags": [
@@ -4293,7 +4380,7 @@
     "/preview/retail-media/brands/search": {
       "post": {
         "tags": [
-          "Catalog"
+          "Campaign"
         ],
         "description": "Search for brands given a retailer ID and search term.",
         "operationId": "SearchBrandsByNameAsyncV1",
@@ -4667,53 +4754,38 @@
       },
       "RetailMediaContactlistAmendment": {
         "required": [
-          "attributes"
+          "identifiers",
+          "operation"
         ],
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "description": "User List",
-            "nullable": true,
-            "example": "AddRemoveContactlist"
-          },
-          "attributes": {
-            "required": [
-              "identifiers",
-              "operation"
+          "operation": {
+            "enum": [
+              "add",
+              "remove"
             ],
-            "type": "object",
-            "properties": {
-              "operation": {
-                "enum": [
-                  "add",
-                  "remove"
-                ],
-                "type": "string",
-                "description": "Whether to add or remove users"
-              },
-              "identifierType": {
-                "enum": [
-                  "Email",
-                  "UserIdentifier",
-                  "IdentityLink",
-                  "Gum",
-                  "CustomerId",
-                  "PhoneNumber"
-                ],
-                "type": "string",
-                "description": "What type of identifiers are used",
-                "nullable": true
-              },
-              "identifiers": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "The users to add or remove, each in the schema specified"
-              }
+            "type": "string",
+            "description": "Whether to add or remove users"
+          },
+          "identifierType": {
+            "enum": [
+              "Email",
+              "UserIdentifier",
+              "IdentityLink",
+              "Gum",
+              "CustomerId",
+              "PhoneNumber"
+            ],
+            "type": "string",
+            "description": "What type of identifiers are used",
+            "nullable": true
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "description": "Attributes of retail media contact list amendment"
+            "description": "The users to add or remove, each in the schema specified"
           }
         },
         "description": "Request data of retail media contact list amendment"
@@ -4865,21 +4937,6 @@
         },
         "description": "error message"
       },
-      "HttpValidationError": {
-        "title": "HttpValidationError",
-        "type": "object",
-        "properties": {
-          "detail": {
-            "title": "Detail",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
-            "nullable": true
-          }
-        },
-        "description": "http validation error"
-      },
       "InbotDiscussionBodyModel": {
         "title": "InbotDiscussionBodyModel",
         "required": [
@@ -4943,40 +5000,6 @@
         },
         "description": "error message"
       },
-      "ValidationError": {
-        "title": "ValidationError",
-        "required": [
-          "loc",
-          "msg",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "loc": {
-            "title": "Location",
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
-          },
-          "msg": {
-            "title": "Message",
-            "type": "string"
-          },
-          "type": {
-            "title": "Error Type",
-            "type": "string"
-          }
-        },
-        "description": "validation error"
-      },
       "InbotDiscussionDataInstanceModel": {
         "title": "InbotDiscussionDataInstanceModel",
         "required": [
@@ -5007,14 +5030,7 @@
             "nullable": true
           },
           "botMessage": {
-            "title": "Botmessage",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/BotMessage"
-              }
-            ],
-            "description": "bot answer with recommendations",
-            "nullable": true
+            "$ref": "#/components/schemas/BotMessage"
           }
         },
         "description": "message of the discussion"
@@ -9813,6 +9829,15 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
+      "AsyncFillRateReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncFillRateReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
       "AsyncLineItemsReportRequest": {
         "type": "object",
         "properties": {
@@ -9927,6 +9952,19 @@
           },
           "attributes": {
             "$ref": "#/components/schemas/AsyncCampaignsReport"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "AsyncFillRateReportResource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncFillRateReport"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
@@ -10305,6 +10343,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],
@@ -10531,6 +10573,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],
@@ -10557,6 +10603,103 @@
           }
         },
         "description": "Async Campaigns report body request"
+      },
+      "AsyncFillRateReport": {
+        "required": [
+          "dimensions",
+          "endDate",
+          "metrics",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "supplyAccountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Supply account ids to report on",
+            "nullable": true
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "retailerId",
+                "retailerName",
+                "placementId",
+                "placementName",
+                "pageTypeName",
+                "environment",
+                "servedCategory",
+                "retailerCategoryId",
+                "retailerCategoryName"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "pageViews",
+                "availablePlacements",
+                "unfilledPlacements",
+                "fillRate",
+                "placementImpressions",
+                "productImpressions",
+                "impressions",
+                "placementClicks",
+                "productClicks",
+                "clicks",
+                "placementImpressionsCTR",
+                "productImpressionsCTR",
+                "cpm",
+                "cpc",
+                "placementImpressionsRevenue",
+                "productClicksRevenue",
+                "totalRevenue",
+                "workingMedia",
+                "netRevenue",
+                "uniqueVisitors",
+                "frequency"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Format of the output",
+            "default": "json",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC",
+            "nullable": true
+          }
+        },
+        "description": "Async FillRate report body request"
       },
       "AsyncLineItemsReport": {
         "required": [
@@ -10757,6 +10900,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],

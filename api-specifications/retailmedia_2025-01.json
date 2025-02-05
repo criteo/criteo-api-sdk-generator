@@ -2114,71 +2114,6 @@
         }
       }
     },
-    "/2025-01/retail-media/retailers/{retailerId}/brands": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Gets the brands for the given retailer",
-        "operationId": "RetailerApi_GetApiV1ExternalRetailerBrandsByRetailerId",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer id for which brands should be fetched.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "sku-stock-type-filter",
-            "in": "query",
-            "description": "Filter to narrow down brands [first-party|third-party|first-and-third-party]. Defaults to first-and-third-party",
-            "style": "form",
-            "schema": {
-              "enum": [
-                "first-party",
-                "third-party",
-                "first-and-third-party"
-              ],
-              "type": "string"
-            },
-            "x-nullable": false
-          },
-          {
-            "name": "brand-type",
-            "in": "query",
-            "description": " Filter to narrow down brands [all|uc|retailer]. Defaults to uc",
-            "style": "form",
-            "schema": {
-              "enum": [
-                "all",
-                "uc",
-                "retailer"
-              ],
-              "type": "string"
-            },
-            "x-nullable": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Brands found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BrandPreviewListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/2025-01/retail-media/retailers/{retailerId}/pages": {
       "get": {
         "tags": [
@@ -3869,7 +3804,8 @@
                 "Auction",
                 "Preferred"
               ],
-              "type": "string"
+              "type": "string",
+              "nullable": true
             },
             "x-nullable": true
           },
@@ -5835,53 +5771,38 @@
       },
       "RetailMediaContactlistAmendment": {
         "required": [
-          "attributes"
+          "identifiers",
+          "operation"
         ],
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "description": "User List",
-            "nullable": true,
-            "example": "AddRemoveContactlist"
-          },
-          "attributes": {
-            "required": [
-              "identifiers",
-              "operation"
+          "operation": {
+            "enum": [
+              "add",
+              "remove"
             ],
-            "type": "object",
-            "properties": {
-              "operation": {
-                "enum": [
-                  "add",
-                  "remove"
-                ],
-                "type": "string",
-                "description": "Whether to add or remove users"
-              },
-              "identifierType": {
-                "enum": [
-                  "Email",
-                  "UserIdentifier",
-                  "IdentityLink",
-                  "Gum",
-                  "CustomerId",
-                  "PhoneNumber"
-                ],
-                "type": "string",
-                "description": "What type of identifiers are used",
-                "nullable": true
-              },
-              "identifiers": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "The users to add or remove, each in the schema specified"
-              }
+            "type": "string",
+            "description": "Whether to add or remove users"
+          },
+          "identifierType": {
+            "enum": [
+              "Email",
+              "UserIdentifier",
+              "IdentityLink",
+              "Gum",
+              "CustomerId",
+              "PhoneNumber"
+            ],
+            "type": "string",
+            "description": "What type of identifiers are used",
+            "nullable": true
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "description": "Attributes of retail media contact list amendment"
+            "description": "The users to add or remove, each in the schema specified"
           }
         },
         "description": "Request data of retail media contact list amendment"
@@ -6792,7 +6713,9 @@
               "enum": [
                 "unknown",
                 "auction",
-                "preferred"
+                "preferred",
+                "offsite",
+                "offsiteCpc"
               ],
               "type": "string"
             },
@@ -8368,36 +8291,6 @@
         "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID",
         "x-nullable": false
       },
-      "BrandPreviewListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBrandPreview"
-            },
-            "x-nullable": false
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true,
-            "x-nullable": false
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true,
-            "x-nullable": false
-          }
-        },
-        "description": "Data model for a list of response resources",
-        "x-nullable": false
-      },
       "ExternalRetailerPages202110": {
         "type": "object",
         "properties": {
@@ -8544,26 +8437,6 @@
         "description": "Data model for common error or warning",
         "x-nullable": false
       },
-      "ResourceOfBrandPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/BrandPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-nullable": false
-      },
       "JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequest": {
         "required": [
           "type"
@@ -8660,21 +8533,6 @@
           }
         },
         "description": "The status of an asynchronous request to generate a catalog",
-        "x-nullable": false
-      },
-      "BrandPreview": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Brand Name",
-            "x-nullable": false
-          }
-        },
-        "description": "Retail media brands",
         "x-nullable": false
       },
       "ExternalCatalogRequest": {
@@ -10195,6 +10053,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],
@@ -10421,6 +10283,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],
