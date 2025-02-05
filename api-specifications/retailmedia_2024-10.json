@@ -3645,7 +3645,8 @@
                 "Auction",
                 "Preferred"
               ],
-              "type": "string"
+              "type": "string",
+              "nullable": true
             },
             "x-nullable": true
           },
@@ -5569,53 +5570,38 @@
       },
       "RetailMediaContactlistAmendment": {
         "required": [
-          "attributes"
+          "identifiers",
+          "operation"
         ],
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "description": "User List",
-            "nullable": true,
-            "example": "AddRemoveContactlist"
-          },
-          "attributes": {
-            "required": [
-              "identifiers",
-              "operation"
+          "operation": {
+            "enum": [
+              "add",
+              "remove"
             ],
-            "type": "object",
-            "properties": {
-              "operation": {
-                "enum": [
-                  "add",
-                  "remove"
-                ],
-                "type": "string",
-                "description": "Whether to add or remove users"
-              },
-              "identifierType": {
-                "enum": [
-                  "Email",
-                  "UserIdentifier",
-                  "IdentityLink",
-                  "Gum",
-                  "CustomerId",
-                  "PhoneNumber"
-                ],
-                "type": "string",
-                "description": "What type of identifiers are used",
-                "nullable": true
-              },
-              "identifiers": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "The users to add or remove, each in the schema specified"
-              }
+            "type": "string",
+            "description": "Whether to add or remove users"
+          },
+          "identifierType": {
+            "enum": [
+              "Email",
+              "UserIdentifier",
+              "IdentityLink",
+              "Gum",
+              "CustomerId",
+              "PhoneNumber"
+            ],
+            "type": "string",
+            "description": "What type of identifiers are used",
+            "nullable": true
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "description": "Attributes of retail media contact list amendment"
+            "description": "The users to add or remove, each in the schema specified"
           }
         },
         "description": "Request data of retail media contact list amendment"
@@ -6526,7 +6512,9 @@
               "enum": [
                 "unknown",
                 "auction",
-                "preferred"
+                "preferred",
+                "offsite",
+                "offsiteCpc"
               ],
               "type": "string"
             },
@@ -9802,6 +9790,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],
@@ -10028,6 +10020,10 @@
                 "videoStartingRate",
                 "videoCPC",
                 "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
                 "frequency"
               ],
