@@ -14206,6 +14206,12 @@
             ],
             "type": "string",
             "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity (duplicate of the parent id).",
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "campaign read model"
@@ -14540,10 +14546,10 @@
           "lookbackWindow": {
             "enum": [
               "unknown",
-              "sameSession",
-              "twentyFourHours",
-              "sevenDays",
-              "thirtyDays"
+              "30M",
+              "24H",
+              "7D",
+              "30D"
             ],
             "type": "string",
             "description": "The lookback window. Optional, should be specified only for attribution methods PostClick and LastClick.",
@@ -14820,10 +14826,10 @@
           "lookbackWindow": {
             "enum": [
               "unknown",
-              "sameSession",
-              "twentyFourHours",
-              "sevenDays",
-              "thirtyDays"
+              "30M",
+              "24H",
+              "7D",
+              "30D"
             ],
             "type": "string",
             "description": "The lookback window. Optional, should be specified only for attribution methods PostClick and LastClick.",
@@ -15012,10 +15018,10 @@
           "value": {
             "enum": [
               "unknown",
-              "sameSession",
-              "twentyFourHours",
-              "sevenDays",
-              "thirtyDays"
+              "30M",
+              "24H",
+              "7D",
+              "30D"
             ],
             "type": "string",
             "nullable": true,
@@ -20776,17 +20782,31 @@
         "description": "Entity to create a product filter configuration"
       },
       "ProductSet": {
+        "required": [
+          "clientType",
+          "creationDate",
+          "datasetId",
+          "keepVariantProducts",
+          "minimumNumberOfProducts",
+          "name",
+          "numberOfProducts",
+          "rules",
+          "status"
+        ],
         "type": "object",
         "properties": {
           "datasetId": {
             "type": "string",
-            "description": "The dataset to which the product set belong",
-            "nullable": true
+            "description": "The dataset to which the product set belong"
           },
           "name": {
             "type": "string",
-            "description": "The name of the product set",
-            "nullable": true
+            "description": "The name of the product set"
+          },
+          "minimumNumberOfProducts": {
+            "type": "integer",
+            "description": "Minimum amount of products that should match the product set to consider it valid.\r\nGreater or equal than one.",
+            "format": "int32"
           },
           "status": {
             "enum": [
@@ -20798,37 +20818,42 @@
               "Deleted"
             ],
             "type": "string",
-            "description": "The status of the product set",
-            "nullable": true
-          },
-          "isEnabled": {
-            "type": "boolean",
-            "description": "True if the product set is active",
-            "nullable": true
+            "description": "The status of the product set"
           },
           "numberOfProducts": {
             "type": "integer",
-            "description": "The number of product matching the product set",
+            "description": "The number of product matching the product set.\r\nCan be null for newly created product set.",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           },
           "creationDate": {
             "type": "string",
-            "description": "Optional: The creation date of the product set (UTC time in ISO8601 format). Example: \"02/25/2022 14:51:26\"\r\nCan be null if the value doesn't exist.",
-            "nullable": true
+            "description": "The creation date of the product set (UTC time in ISO8601 format). Example: \"02/25/2022 14:51:26\".\r\nCan be null if the value isn't available."
           },
           "rules": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProductSetRule"
             },
-            "description": "The rules identifying the product belonging to the set",
-            "nullable": true
+            "description": "The rules identifying the product belonging to the set"
+          },
+          "clientType": {
+            "enum": [
+              "Unknown",
+              "CGrowth",
+              "CMax"
+            ],
+            "type": "string",
+            "description": "The client type of the product set"
+          },
+          "keepVariantProducts": {
+            "type": "boolean"
           },
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "Encapsulate a group of product"
