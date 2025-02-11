@@ -103,19 +103,17 @@
                   "$ref": "#/components/schemas/RetailMediaContactlistOperation"
                 },
                 "example": {
+                  "type": "AddRemoveContactlistResult",
                   "data": {
-                    "type": "AddRemoveContactlistResult",
-                    "attributes": {
-                      "contactListId": 568708742535471104,
-                      "operation": "add",
-                      "requestDate": "2018-12-10T10:00:50.0000000+00:00",
-                      "identifierType": "madid",
-                      "nbValidIdentifiers": 7343,
-                      "nbInvalidIdentifiers": 13,
-                      "sampleInvalidIdentifiers": [
-                        "InvalidIdentifier"
-                      ]
-                    }
+                    "contactListId": 568708742535471104,
+                    "operation": "add",
+                    "requestDate": "2018-12-10T10:00:50.0000000+00:00",
+                    "identifierType": "madid",
+                    "nbValidIdentifiers": 7343,
+                    "nbInvalidIdentifiers": 13,
+                    "sampleInvalidIdentifiers": [
+                      "InvalidIdentifier"
+                    ]
                   },
                   "errors": [
                     {
@@ -1469,6 +1467,16 @@
         "responses": {
           "204": {
             "description": "Promoted products appended to the line item"
+          },
+          "200": {
+            "description": "Promoted products appended to the line item with warnings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResourceOutcome"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid request body",
@@ -3347,17 +3355,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfRetailMediaSeller"
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfSellerSearchResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfRetailMediaSeller"
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfSellerSearchResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfRetailMediaSeller"
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfSellerSearchResult"
                 }
               }
             }
@@ -4518,6 +4526,12 @@
           "data": {
             "$ref": "#/components/schemas/RetailMediaContactlistOperationResponseAttributes"
           },
+          "type": {
+            "type": "string",
+            "description": "the name of the entity type",
+            "nullable": true,
+            "example": "AddRemoveContactlistResult"
+          },
           "errors": {
             "type": "array",
             "items": {
@@ -4569,68 +4583,53 @@
       },
       "RetailMediaContactlistOperationResponseAttributes": {
         "required": [
-          "attributes",
-          "type"
+          "contactListId",
+          "operation",
+          "requestDate"
         ],
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "description": "the name of the entity type",
-            "example": "AddRemoveContactlistResult"
+          "contactListId": {
+            "type": "integer",
+            "description": "The affected user list id",
+            "format": "int64"
           },
-          "attributes": {
-            "required": [
-              "contactListId",
-              "operation",
-              "requestDate"
-            ],
-            "type": "object",
-            "properties": {
-              "contactListId": {
-                "type": "integer",
-                "description": "The affected user list id",
-                "format": "int64"
-              },
-              "operation": {
-                "type": "string",
-                "description": "The action recorded"
-              },
-              "requestDate": {
-                "type": "string",
-                "description": "When the action was recorded",
-                "format": "date-time"
-              },
-              "identifierType": {
-                "type": "string",
-                "description": "The schema specified for of the identifiers",
-                "nullable": true
-              },
-              "nbInvalidIdentifiers": {
-                "type": "integer",
-                "description": "How many identifiers were invalid for the specified schema",
-                "format": "int32",
-                "nullable": true
-              },
-              "nbValidIdentifiers": {
-                "type": "integer",
-                "description": "How many identifiers were valid for the specified schema",
-                "format": "int32",
-                "nullable": true
-              },
-              "sampleInvalidIdentifiers": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "A sample of invalid identifiers if there is some",
-                "nullable": true
-              }
+          "operation": {
+            "type": "string",
+            "description": "The action recorded"
+          },
+          "requestDate": {
+            "type": "string",
+            "description": "When the action was recorded",
+            "format": "date-time"
+          },
+          "identifierType": {
+            "type": "string",
+            "description": "The schema specified for of the identifiers",
+            "nullable": true
+          },
+          "nbInvalidIdentifiers": {
+            "type": "integer",
+            "description": "How many identifiers were invalid for the specified schema",
+            "format": "int32",
+            "nullable": true
+          },
+          "nbValidIdentifiers": {
+            "type": "integer",
+            "description": "How many identifiers were valid for the specified schema",
+            "format": "int32",
+            "nullable": true
+          },
+          "sampleInvalidIdentifiers": {
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "description": "The attributes of Retaile Media contact list operation"
+            "description": "A sample of invalid identifiers if there is some",
+            "nullable": true
           }
         },
-        "description": "Response data of Retail Media contact list operation"
+        "description": "The attributes of Retail Media contact list operation"
       },
       "AudienceError": {
         "required": [
@@ -4754,38 +4753,53 @@
       },
       "RetailMediaContactlistAmendment": {
         "required": [
-          "identifiers",
-          "operation"
+          "attributes"
         ],
         "type": "object",
         "properties": {
-          "operation": {
-            "enum": [
-              "add",
-              "remove"
-            ],
+          "type": {
             "type": "string",
-            "description": "Whether to add or remove users"
+            "description": "User List",
+            "nullable": true,
+            "example": "AddRemoveContactlist"
           },
-          "identifierType": {
-            "enum": [
-              "Email",
-              "UserIdentifier",
-              "IdentityLink",
-              "Gum",
-              "CustomerId",
-              "PhoneNumber"
+          "attributes": {
+            "required": [
+              "identifiers",
+              "operation"
             ],
-            "type": "string",
-            "description": "What type of identifiers are used",
-            "nullable": true
-          },
-          "identifiers": {
-            "type": "array",
-            "items": {
-              "type": "string"
+            "type": "object",
+            "properties": {
+              "operation": {
+                "enum": [
+                  "add",
+                  "remove"
+                ],
+                "type": "string",
+                "description": "Whether to add or remove users"
+              },
+              "identifierType": {
+                "enum": [
+                  "Email",
+                  "UserIdentifier",
+                  "IdentityLink",
+                  "Gum",
+                  "CustomerId",
+                  "PhoneNumber"
+                ],
+                "type": "string",
+                "description": "What type of identifiers are used",
+                "nullable": true
+              },
+              "identifiers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "The users to add or remove, each in the schema specified"
+              }
             },
-            "description": "The users to add or remove, each in the schema specified"
+            "description": "Attributes of retail media contact list amendment"
           }
         },
         "description": "Request data of retail media contact list amendment"
@@ -7790,9 +7804,9 @@
       },
       "LineItemProductStatus": {
         "enum": [
-          "Unknown",
-          "Active",
-          "Paused"
+          "unknown",
+          "active",
+          "paused"
         ],
         "type": "string",
         "description": "The status of a promoted product in the context of the line item."
@@ -8608,7 +8622,8 @@
           "currency": {
             "type": "string",
             "description": "An ISO4217 representation of the currency products are listed under in this catalog.",
-            "x-nullable": false
+            "nullable": true,
+            "x-nullable": true
           },
           "rowCount": {
             "type": "integer",
@@ -11399,13 +11414,13 @@
         },
         "description": "Line Items report body request"
       },
-      "ValueResourceCollectionOutcomeOfRetailMediaSeller": {
+      "ValueResourceCollectionOutcomeOfSellerSearchResult": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ValueResourceOfRetailMediaSeller"
+              "$ref": "#/components/schemas/ValueResourceOfSellerSearchResult"
             },
             "nullable": true
           },
@@ -11512,7 +11527,7 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
-      "ValueResourceOfRetailMediaSeller": {
+      "ValueResourceOfSellerSearchResult": {
         "type": "object",
         "properties": {
           "type": {
@@ -11521,7 +11536,7 @@
             "nullable": true
           },
           "attributes": {
-            "$ref": "#/components/schemas/RetailMediaSeller"
+            "$ref": "#/components/schemas/SellerSearchResult"
           }
         },
         "additionalProperties": false,
@@ -11629,28 +11644,25 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "RetailMediaSeller": {
+      "SellerSearchResult": {
         "type": "object",
         "properties": {
-          "sellerId": {
+          "accountId": {
             "type": "string",
-            "description": "the seller id",
+            "description": "the id for the account",
             "nullable": true
           },
-          "retailerId": {
-            "type": "integer",
-            "description": "the retailer id",
-            "format": "int32",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "seller name",
+          "sellers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetailMediaSeller"
+            },
+            "description": "the details for mapped sellers for the account",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "used to define the exact seller linked with an account"
+        "description": "holds an AccountId and the mapped seller information for that account"
       },
       "ChangeDetailsV1": {
         "type": "object",
@@ -11720,6 +11732,29 @@
         },
         "additionalProperties": false,
         "description": "request body for the seller search endpoint"
+      },
+      "RetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "sellerId": {
+            "type": "string",
+            "description": "the seller id",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "integer",
+            "description": "the retailer id",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "seller name",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "used to define the exact seller linked with an account"
       },
       "Keywords": {
         "type": "object",
@@ -12449,10 +12484,10 @@
           },
           "privateMarketBillingType": {
             "enum": [
-              "NotApplicable",
-              "BillByRetailer",
-              "BillByCriteo",
-              "Unknown"
+              "notApplicable",
+              "billByRetailer",
+              "billByCriteo",
+              "unknown"
             ],
             "type": "string",
             "description": "Billing type for Private Market of the balance.",
