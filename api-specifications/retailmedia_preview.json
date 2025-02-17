@@ -4452,17 +4452,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBrandIdSearchResult"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBrandIdSearchResult"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBrandIdSearchResult"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata"
                 }
               }
             }
@@ -5219,35 +5219,35 @@
             "description": "The status of the operation.\nThe operation is completed when the status is one of (VALIDATED,VALIDATED_WITH_ERRORS,FAILED)"
           },
           "importRequestTimestamp": {
-            "type": "integer",
+            "type": "string",
             "description": "The date when the original batch request was sent.",
             "format": "int64",
             "nullable": true,
             "x-nullable": true
           },
           "numberOfProductsInTheBatch": {
-            "type": "integer",
+            "type": "string",
             "description": "The number of products present in the batch.",
             "format": "int32",
             "nullable": true,
             "x-nullable": true
           },
           "numberOfProductsUpserted": {
-            "type": "integer",
+            "type": "string",
             "description": "The number of products upserted.",
             "format": "int32",
             "nullable": true,
             "x-nullable": true
           },
           "numberOfProductsDeleted": {
-            "type": "integer",
+            "type": "string",
             "description": "The number of products deleted.",
             "format": "int32",
             "nullable": true,
             "x-nullable": true
           },
           "numberOfProductsWithErrors": {
-            "type": "integer",
+            "type": "string",
             "description": "The number of products with errors.",
             "format": "int32",
             "nullable": true,
@@ -5261,7 +5261,7 @@
             "description": "The list of errors with details."
           },
           "numberOfProductsWithWarnings": {
-            "type": "integer",
+            "type": "string",
             "description": "The number of products with Warnings.",
             "format": "int32",
             "nullable": true,
@@ -7464,7 +7464,7 @@
             "nullable": true,
             "readOnly": true
           },
-          "metadata": {
+          "meta": {
             "$ref": "#/components/schemas/ProductMetadata"
           },
           "data": {
@@ -13122,9 +13122,12 @@
         "description": "Category information for a preferred line item page",
         "x-nullable": false
       },
-      "EntityResourceCollectionOutcomeBrandIdSearchResult": {
+      "EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata": {
         "type": "object",
         "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/PagingOffsetLimitMetadata"
+          },
           "data": {
             "type": "array",
             "items": {
@@ -13152,7 +13155,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "ValueResourceInputBrandIdSearchRequest": {
         "type": "object",
@@ -13163,6 +13166,32 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+      },
+      "PagingOffsetLimitMetadata": {
+        "required": [
+          "limit",
+          "offset"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The (zero-based) starting offset in the collection.",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of elements to be returned.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Metadata for paging data."
       },
       "EntityResourceBrandIdSearchResult": {
         "type": "object",
@@ -13233,16 +13262,19 @@
         "description": "An object that represents the result from a brand ID search."
       },
       "BrandIdSearchRequest": {
+        "required": [
+          "retailerIds"
+        ],
         "type": "object",
         "properties": {
           "retailerIds": {
+            "minItems": 1,
             "type": "array",
             "items": {
               "type": "integer",
               "format": "int32"
             },
-            "description": "IDs of the retailers we want to limit the search to",
-            "nullable": true
+            "description": "IDs of the retailers we want to limit the search to"
           },
           "name": {
             "type": "string",
