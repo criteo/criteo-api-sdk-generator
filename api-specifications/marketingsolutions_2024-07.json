@@ -8990,6 +8990,9 @@
             "type": "string",
             "nullable": true
           },
+          "budgetAutomation": {
+            "$ref": "#/components/schemas/CampaignBudgetAutomationV23Q1"
+          },
           "id": {
             "type": "string",
             "description": "Id of the entity (duplicate of the parent id).",
@@ -9025,7 +9028,6 @@
       "CreateAdSetV24Q1": {
         "required": [
           "bidding",
-          "budget",
           "campaignId",
           "datasetId",
           "mediaType",
@@ -9330,6 +9332,40 @@
           }
         },
         "description": "campaign spend limit model"
+      },
+      "CampaignBudgetAutomationV23Q1": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "automatedBudgetConfiguration": {
+            "type": "object",
+            "properties": {
+              "adSetOptimizationObjective": {
+                "enum": [
+                  "customAction",
+                  "clicks",
+                  "conversions",
+                  "displays",
+                  "appPromotion",
+                  "revenue",
+                  "storeConversions",
+                  "value",
+                  "reach",
+                  "visits",
+                  "videoViews"
+                ],
+                "type": "string",
+                "nullable": true
+              }
+            },
+            "nullable": true,
+            "x-nullable": true
+          }
+        },
+        "description": "The campaign budget automation model"
       },
       "PatchAdSetSchedulingV24Q1": {
         "type": "object",
