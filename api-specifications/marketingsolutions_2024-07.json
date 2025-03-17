@@ -5308,7 +5308,8 @@
             }
           }
         },
-        "description": "Response of a contactlist deletion"
+        "description": "Response of a contactlist deletion",
+        "x-used-in-response": true
       },
       "ErrorCodeResponse": {
         "required": [
@@ -5327,10 +5328,12 @@
             "items": {
               "$ref": "#/components/schemas/AudienceWarning"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Definition of the error code"
+        "description": "Definition of the error code",
+        "x-used-in-response": true
       },
       "ModifyAudienceResponse": {
         "required": [
@@ -5356,7 +5359,8 @@
             }
           }
         },
-        "description": "Parameters to modify an audience"
+        "description": "Parameters to modify an audience",
+        "x-used-in-response": true
       },
       "ContactlistAmendmentRequest": {
         "required": [
@@ -5368,7 +5372,8 @@
             "$ref": "#/components/schemas/ContactlistAmendment"
           }
         },
-        "description": "Request for a contactlist amendment"
+        "description": "Request for a contactlist amendment",
+        "x-used-in-request": true
       },
       "BasicAudienceDefinition": {
         "required": [
@@ -5389,7 +5394,8 @@
             "$ref": "#/components/schemas/AudienceNameDescription"
           }
         },
-        "description": "Common definition of an audience"
+        "description": "Common definition of an audience",
+        "x-used-in-response": true
       },
       "AudienceError": {
         "required": [
@@ -5402,7 +5408,8 @@
           "traceId": {
             "type": "string",
             "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -5428,17 +5435,20 @@
           "title": {
             "type": "string",
             "description": "(RECOMMENDED) A short, human-readable summary of the problem type",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
             "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "array",
@@ -5446,10 +5456,12 @@
               "type": "string"
             },
             "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Definition of an audience error"
+        "description": "Definition of an audience error",
+        "x-used-in-response": true
       },
       "AudienceWarning": {
         "required": [
@@ -5463,7 +5475,8 @@
           "traceId": {
             "type": "string",
             "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -5489,7 +5502,8 @@
           "title": {
             "type": "string",
             "description": "(RECOMMENDED) A short, human-readable summary of the problem type",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
@@ -5498,7 +5512,8 @@
           "source": {
             "type": "object",
             "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "array",
@@ -5506,10 +5521,12 @@
               "type": "string"
             },
             "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Definition of the warning"
+        "description": "Definition of the warning",
+        "x-used-in-response": true
       },
       "ContactlistOperation": {
         "required": [
@@ -5531,7 +5548,8 @@
               "contactListId": {
                 "type": "integer",
                 "description": "the affected user list id",
-                "nullable": true
+                "nullable": true,
+                "x-optional-in-response": true
               },
               "operation": {
                 "type": "string",
@@ -5541,22 +5559,26 @@
                 "type": "string",
                 "description": "When the action was recorded",
                 "format": "date-time",
-                "nullable": true
+                "nullable": true,
+                "x-optional-in-response": true
               },
               "identifierType": {
                 "type": "string",
                 "description": "The schema specified for of the identifiers",
-                "nullable": true
+                "nullable": true,
+                "x-optional-in-response": true
               },
               "nbValidIdentifiers": {
                 "type": "integer",
                 "description": "How many identifiers were valid for the specified schema",
-                "nullable": true
+                "nullable": true,
+                "x-optional-in-response": true
               },
               "nbInvalidIdentifiers": {
                 "type": "integer",
                 "description": "How many identifiers were invalid for the specified schema",
-                "nullable": true
+                "nullable": true,
+                "x-optional-in-response": true
               },
               "sampleInvalidIdentifiers": {
                 "type": "array",
@@ -5564,13 +5586,15 @@
                   "type": "string"
                 },
                 "description": "A sample of invalid identifiers if there is some",
-                "nullable": true
+                "nullable": true,
+                "x-optional-in-response": true
               }
             },
             "description": "the contactlist operation attributes"
           }
         },
-        "description": "Response definition of a contactlist operation"
+        "description": "Response definition of a contactlist operation",
+        "x-used-in-response": true
       },
       "ContactlistAmendment": {
         "required": [
@@ -5608,8 +5632,7 @@
                   "phoneNumber"
                 ],
                 "type": "string",
-                "description": "What type of identifiers are used",
-                "nullable": true
+                "description": "What type of identifiers are used"
               },
               "identifiers": {
                 "type": "array",
@@ -5620,14 +5643,14 @@
               },
               "gumCallerId": {
                 "type": "integer",
-                "description": "The Gum caller id of the advertiser patching identifiers of type Gum",
-                "nullable": true
+                "description": "The Gum caller id of the advertiser patching identifiers of type Gum"
               }
             },
             "description": "the name of the entity type"
           }
         },
-        "description": "Parameters for the amendment of a contactlist"
+        "description": "Parameters for the amendment of a contactlist",
+        "x-used-in-request": true
       },
       "AudienceNameDescription": {
         "type": "object",
@@ -5635,15 +5658,20 @@
           "name": {
             "type": "string",
             "description": "The name to designate the audience by",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "description": {
             "type": "string",
             "description": "The description of the audience",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Description of an audience with name and detailed description"
+        "description": "Description of an audience with name and detailed description",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ApplicationSummaryModelResponse": {
         "type": "object",
@@ -5657,7 +5685,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5665,23 +5694,29 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-response": true
       },
       "ApplicationSummaryModelResource": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ApplicationSummaryModel"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CommonProblem": {
         "type": "object",
@@ -5689,12 +5724,14 @@
           "traceId": {
             "type": "string",
             "description": "The request correlation ID this problem comes from.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "traceIdentifier": {
             "type": "string",
             "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -5709,27 +5746,32 @@
             ],
             "type": "string",
             "description": "The problem's category.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "code": {
             "type": "string",
             "description": "A machine-readable error code, expressed as a string value.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "A URI that identifies the specific occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "A short human-readable description of the problem type",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "A human-readable explanation specific to this occurrence of the problem",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
@@ -5737,14 +5779,17 @@
               "type": "string"
             },
             "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Common problem object."
+        "description": "Common problem object.",
+        "x-used-in-response": true
       },
       "ApplicationSummaryModel": {
         "type": "object",
@@ -5752,27 +5797,35 @@
           "applicationId": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "name": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "organizationId": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "description": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "criteoService": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients"
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetAudienceLinkEntityV1Response": {
         "type": "object",
@@ -5786,7 +5839,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5794,10 +5848,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "x-used-in-response": true
       },
       "AudienceSegmentEntityV1ListResponse": {
         "type": "object",
@@ -5807,7 +5863,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5815,7 +5872,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5823,10 +5881,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceSegmentSizeEntityV1ListResponse": {
         "type": "object",
@@ -5836,7 +5896,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentSizeEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5844,7 +5905,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5852,10 +5914,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceSegmentIdEntityV1ListResponse": {
         "type": "object",
@@ -5865,7 +5929,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentIdEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5873,7 +5938,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5881,10 +5947,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceSegmentSizeEstimationV1Response": {
         "type": "object",
@@ -5898,7 +5966,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5906,10 +5975,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-response": true
       },
       "InMarketAudienceSegmentBrandEntityV1ListResponse": {
         "type": "object",
@@ -5919,7 +5990,8 @@
             "items": {
               "$ref": "#/components/schemas/InMarketAudienceSegmentBrandEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5927,7 +5999,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5935,10 +6008,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "InMarketAudienceSegmentInterestEntityV1ListResponse": {
         "type": "object",
@@ -5948,7 +6023,8 @@
             "items": {
               "$ref": "#/components/schemas/InMarketAudienceSegmentInterestEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5956,7 +6032,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5964,10 +6041,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceSegmentEntityV1AudienceSegmentSearchMetadataV1ListResponse": {
         "type": "object",
@@ -5980,7 +6059,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5988,7 +6068,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5996,10 +6077,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata",
+        "x-used-in-response": true
       },
       "ContactListStatisticsEntityV1Response": {
         "type": "object",
@@ -6013,7 +6096,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6021,10 +6105,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "x-used-in-response": true
       },
       "AudienceEntityV1ListResponse": {
         "type": "object",
@@ -6034,7 +6120,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6042,7 +6129,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6050,10 +6138,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceSizeEntityV1ListResponse": {
         "type": "object",
@@ -6063,7 +6153,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceSizeEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6071,7 +6162,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6079,10 +6171,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceIdEntityV1ListResponse": {
         "type": "object",
@@ -6092,7 +6186,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceIdEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6100,7 +6195,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6108,10 +6204,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "AudienceSizeEstimationV1Response": {
         "type": "object",
@@ -6125,7 +6223,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6133,10 +6232,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-response": true
       },
       "AudienceEntityV1AudienceSearchMetadataV1ListResponse": {
         "type": "object",
@@ -6149,7 +6250,8 @@
             "items": {
               "$ref": "#/components/schemas/AudienceEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6157,7 +6259,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6165,10 +6268,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata",
+        "x-used-in-response": true
       },
       "AdSetAudienceLinkInputEntityV1": {
         "type": "object",
@@ -6177,7 +6282,8 @@
             "$ref": "#/components/schemas/AdSetAudienceLinkEntityV1Resource"
           }
         },
-        "description": "Input to set audience ad set link."
+        "description": "Input to set audience ad set link.",
+        "x-used-in-request": true
       },
       "AudienceSegmentBulkUpdateInputV1": {
         "type": "object",
@@ -6186,11 +6292,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentUpdateEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to update one or more segments."
+        "description": "Input to update one or more segments.",
+        "x-used-in-request": true
       },
       "AudienceSegmentComputeSizesInputV1": {
         "type": "object",
@@ -6199,11 +6305,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentComputeSizeEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to retrieve the size of one or more segments."
+        "description": "Input to retrieve the size of one or more segments.",
+        "x-used-in-request": true
       },
       "AudienceSegmentBulkCreateInputV1": {
         "type": "object",
@@ -6212,11 +6318,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentCreateEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to create one or more audience segments."
+        "description": "Input to create one or more audience segments.",
+        "x-used-in-request": true
       },
       "AudienceSegmentBulkDeleteInputV1": {
         "type": "object",
@@ -6225,11 +6331,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceSegmentDeleteEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to delete one or more segments."
+        "description": "Input to delete one or more segments.",
+        "x-used-in-request": true
       },
       "AudienceSegmentEstimateSizeInputV1": {
         "type": "object",
@@ -6238,7 +6344,8 @@
             "$ref": "#/components/schemas/AudienceSegmentSizeEstimationEntityV1Resource"
           }
         },
-        "description": "Input to estimate the size of an audience segment.."
+        "description": "Input to estimate the size of an audience segment..",
+        "x-used-in-request": true
       },
       "AudienceSegmentSearchInputV1": {
         "type": "object",
@@ -6247,7 +6354,8 @@
             "$ref": "#/components/schemas/AudienceSegmentSearchEntityV1Resource"
           }
         },
-        "description": "Audience segment search parameter"
+        "description": "Audience segment search parameter",
+        "x-used-in-request": true
       },
       "AudienceBulkUpdateInputV1": {
         "type": "object",
@@ -6256,11 +6364,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceUpdateEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to update one or more audiences."
+        "description": "Input to update one or more audiences.",
+        "x-used-in-request": true
       },
       "AudienceComputeSizesInputV1": {
         "type": "object",
@@ -6269,11 +6377,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceComputeSizeEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to retrieve the size of one or more audiences."
+        "description": "Input to retrieve the size of one or more audiences.",
+        "x-used-in-request": true
       },
       "AudienceBulkCreateInputV1": {
         "type": "object",
@@ -6282,11 +6390,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceCreateEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to create one or more audiences."
+        "description": "Input to create one or more audiences.",
+        "x-used-in-request": true
       },
       "AudienceBulkDeleteInputV1": {
         "type": "object",
@@ -6295,11 +6403,11 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AudienceDeleteEntityV1Resource"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Input to delete one or more audiences."
+        "description": "Input to delete one or more audiences.",
+        "x-used-in-request": true
       },
       "AudienceEstimateSizeInputV1": {
         "type": "object",
@@ -6308,7 +6416,8 @@
             "$ref": "#/components/schemas/AudienceEstimateSizeEntityV1Resource"
           }
         },
-        "description": "Input to estimate the size of an audience."
+        "description": "Input to estimate the size of an audience.",
+        "x-used-in-request": true
       },
       "AudienceSearchInputV1": {
         "type": "object",
@@ -6317,7 +6426,8 @@
             "$ref": "#/components/schemas/AudienceSearchEntityV1Resource"
           }
         },
-        "description": "Audience search parameter"
+        "description": "Audience search parameter",
+        "x-used-in-request": true
       },
       "AdSetAudienceLinkEntityV1Resource": {
         "type": "object",
@@ -6328,14 +6438,20 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentEntityV1Resource": {
         "type": "object",
@@ -6346,14 +6462,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceSegmentSizeEntityV1Resource": {
         "type": "object",
@@ -6364,14 +6483,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceSegmentIdEntityV1Resource": {
         "type": "object",
@@ -6382,27 +6504,34 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceSegmentSizeEstimationV1Resource": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceSegmentSizeEstimationV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "InMarketAudienceSegmentBrandEntityV1Resource": {
         "type": "object",
@@ -6413,14 +6542,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "InMarketAudienceSegmentInterestEntityV1Resource": {
         "type": "object",
@@ -6431,14 +6563,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceSegmentSearchMetadataV1": {
         "type": "object",
@@ -6447,22 +6582,28 @@
             "type": "integer",
             "description": "Total number of items",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "limit": {
             "type": "integer",
             "description": "Max item of the current page",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "offset": {
             "type": "integer",
             "description": "Number of item to skip",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Metadata for the audience segment search response."
+        "description": "Metadata for the audience segment search response.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ContactListStatisticsEntityV1Resource": {
         "type": "object",
@@ -6473,14 +6614,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceEntityV1Resource": {
         "type": "object",
@@ -6491,14 +6637,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceSizeEntityV1Resource": {
         "type": "object",
@@ -6509,14 +6658,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceIdEntityV1Resource": {
         "type": "object",
@@ -6527,27 +6679,34 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "AudienceSizeEstimationV1Resource": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceSizeEstimationV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSearchMetadataV1": {
         "type": "object",
@@ -6556,22 +6715,28 @@
             "type": "integer",
             "description": "Total number of items",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "limit": {
             "type": "integer",
             "description": "Max item of the current page",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "offset": {
             "type": "integer",
             "description": "Number of item to skip",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Metadata for the audience search response."
+        "description": "Metadata for the audience search response.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentUpdateEntityV1Resource": {
         "type": "object",
@@ -6581,15 +6746,14 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "AudienceSegmentComputeSizeEntityV1Resource": {
         "type": "object",
@@ -6599,28 +6763,27 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "AudienceSegmentCreateEntityV1Resource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceSegmentCreateEntityV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AudienceSegmentDeleteEntityV1Resource": {
         "type": "object",
@@ -6630,41 +6793,40 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "AudienceSegmentSizeEstimationEntityV1Resource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceSegmentSizeEstimationEntityV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AudienceSegmentSearchEntityV1Resource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceSegmentSearchEntityV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AudienceUpdateEntityV1Resource": {
         "type": "object",
@@ -6674,15 +6836,14 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "AudienceComputeSizeEntityV1Resource": {
         "type": "object",
@@ -6692,28 +6853,27 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "AudienceCreateEntityV1Resource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceCreateEntityV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AudienceDeleteEntityV1Resource": {
         "type": "object",
@@ -6723,56 +6883,60 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "AudienceEstimateSizeEntityV1Resource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceEstimateSizeEntityV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AudienceSearchEntityV1Resource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AudienceSearchEntityV1"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AdSetAudienceLinkEntityV1": {
         "type": "object",
         "properties": {
           "audienceId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Link Audience with an ad set",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "AdSetAudience",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentEntityV1": {
         "type": "object",
@@ -6780,12 +6944,14 @@
           "name": {
             "type": "string",
             "description": "Name of the segment",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "description": {
             "type": "string",
             "description": "Description of the segment",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -6800,24 +6966,28 @@
             ],
             "type": "string",
             "description": "Type of segment (read-only)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "createdAt": {
             "type": "string",
             "description": "ISO-8601 timestamp in UTC of segment creation (read-only)",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "updatedAt": {
             "type": "string",
             "description": "ISO-8601 timestamp in UTC of segment update (read-only)",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "advertiserId": {
             "type": "string",
             "description": "Advertiser associated to the segment",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketV1"
@@ -6842,11 +7012,14 @@
           }
         },
         "description": "Set of rules that defines specific people to target.",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "AudienceSegment",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentSizeEntityV1": {
         "type": "object",
@@ -6854,24 +7027,31 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Set of rules that defines specific people to target.",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "AudienceSegmentSize",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentIdEntityV1": {
         "type": "object",
         "description": "Audience Segment entity only with its ID",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "AudienceSegment",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentSizeEstimationV1": {
         "type": "object",
@@ -6879,10 +7059,14 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Segment size estimation"
+        "description": "Segment size estimation",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "InMarketAudienceSegmentBrandEntityV1": {
         "type": "object",
@@ -6890,21 +7074,26 @@
           "name": {
             "type": "string",
             "description": "Name of the in-market segment brand",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "size": {
             "type": "integer",
             "description": "Size of the in-market segment brand",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "In-market segment brand entity",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "InMarketAudienceSegmentBrand",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "InMarketAudienceSegmentInterestEntityV1": {
         "type": "object",
@@ -6912,15 +7101,19 @@
           "parentId": {
             "type": "string",
             "description": "Id of the parent in-market segment interest",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "In-market segment interest entity",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "InMarketAudienceSegmentInterest",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ContactListStatisticsEntityV1": {
         "type": "object",
@@ -6929,27 +7122,33 @@
             "type": "integer",
             "description": "Number of identifiers in the contact list.",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "numberOfMatches": {
             "type": "integer",
             "description": "Number of matched identifiers in the contact list.",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "matchRate": {
             "type": "number",
             "description": "Percentage of matched identifiers in the contact list.\r\nCan differ from matches/identifiers depending on the contact list type.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Contact list statistics.",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "ContactListStatistics",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceEntityV1": {
         "type": "object",
@@ -6957,29 +7156,34 @@
           "name": {
             "type": "string",
             "description": "Name of the audience",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "description": {
             "type": "string",
             "description": "Description of the audience",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "createdAt": {
             "type": "string",
             "description": "ISO-8601 timestamp in UTC of audience creation (read-only)",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "updatedAt": {
             "type": "string",
             "description": "ISO-8601 timestamp in UTC of audience update (read-only)",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "advertiserId": {
             "type": "string",
             "description": "Advertiser associated to the audience",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "adSetIds": {
             "uniqueItems": true,
@@ -6988,18 +7192,22 @@
               "type": "string"
             },
             "description": "Ad sets associated to the audience",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "algebra": {
             "$ref": "#/components/schemas/AlgebraNodeV1"
           }
         },
         "description": "Audience of people of interest for a marketer.",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "Audience",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSizeEntityV1": {
         "type": "object",
@@ -7007,24 +7215,31 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Audience entity only with its size",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "AudienceSize",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceIdEntityV1": {
         "type": "object",
         "description": "Audience entity with only its ID",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "Audience",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSizeEstimationV1": {
         "type": "object",
@@ -7032,18 +7247,21 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Audience size estimation"
+        "description": "Audience size estimation",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AudienceSegmentUpdateEntityV1": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the segment",
-            "nullable": true
+            "description": "Name of the segment"
           },
           "description": {
             "$ref": "#/components/schemas/NillableString"
@@ -7069,7 +7287,8 @@
           "infoType": "entity",
           "name": "AudienceSegment",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true
       },
       "AudienceSegmentComputeSizeEntityV1": {
         "type": "object",
@@ -7078,7 +7297,8 @@
           "infoType": "entity",
           "name": "AudienceSegment",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true
       },
       "AudienceSegmentCreateEntityV1": {
         "required": [
@@ -7093,8 +7313,7 @@
           },
           "description": {
             "type": "string",
-            "description": "Description of the segment",
-            "nullable": true
+            "description": "Description of the segment"
           },
           "advertiserId": {
             "type": "string",
@@ -7119,7 +7338,8 @@
             "$ref": "#/components/schemas/LookalikeCreateV1"
           }
         },
-        "description": "Set of rules that defines specific people to target."
+        "description": "Set of rules that defines specific people to target.",
+        "x-used-in-request": true
       },
       "AudienceSegmentDeleteEntityV1": {
         "type": "object",
@@ -7128,7 +7348,8 @@
           "infoType": "entity",
           "name": "AudienceSegment",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true
       },
       "AudienceSegmentSizeEstimationEntityV1": {
         "required": [
@@ -7147,7 +7368,8 @@
             "$ref": "#/components/schemas/LocationSizeEstimationV1"
           }
         },
-        "description": "Set of rules that defines specific people to target."
+        "description": "Set of rules that defines specific people to target.",
+        "x-used-in-request": true
       },
       "AudienceSegmentSearchEntityV1": {
         "type": "object",
@@ -7157,16 +7379,14 @@
             "items": {
               "type": "string"
             },
-            "description": "List of segment ids",
-            "nullable": true
+            "description": "List of segment ids"
           },
           "advertiserIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "List of advertiser ids",
-            "nullable": true
+            "description": "List of advertiser ids"
           },
           "audienceSegmentTypes": {
             "type": "array",
@@ -7183,19 +7403,18 @@
               ],
               "type": "string"
             },
-            "description": "List of segment types",
-            "nullable": true
+            "description": "List of segment types"
           }
         },
-        "description": "Available filters to perform a search on audience segments. If present, the filters are AND'ed together when applied."
+        "description": "Available filters to perform a search on audience segments. If present, the filters are AND'ed together when applied.",
+        "x-used-in-request": true
       },
       "AudienceUpdateEntityV1": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the audience",
-            "nullable": true
+            "description": "Name of the audience"
           },
           "description": {
             "$ref": "#/components/schemas/NillableString"
@@ -7209,7 +7428,8 @@
           "infoType": "entity",
           "name": "Audience",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true
       },
       "AudienceComputeSizeEntityV1": {
         "type": "object",
@@ -7218,7 +7438,8 @@
           "infoType": "entity",
           "name": "Audience",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true
       },
       "AudienceCreateEntityV1": {
         "required": [
@@ -7234,8 +7455,7 @@
           },
           "description": {
             "type": "string",
-            "description": "Description of the audience",
-            "nullable": true
+            "description": "Description of the audience"
           },
           "advertiserId": {
             "type": "string",
@@ -7245,7 +7465,8 @@
             "$ref": "#/components/schemas/AlgebraNodeV1"
           }
         },
-        "description": "Audience of people of interest for a marketer."
+        "description": "Audience of people of interest for a marketer.",
+        "x-used-in-request": true
       },
       "AudienceDeleteEntityV1": {
         "type": "object",
@@ -7254,7 +7475,8 @@
           "infoType": "entity",
           "name": "Audience",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true
       },
       "AudienceEstimateSizeEntityV1": {
         "required": [
@@ -7271,7 +7493,8 @@
             "$ref": "#/components/schemas/AlgebraNodeV1"
           }
         },
-        "description": "Audience of people of interest for a marketer."
+        "description": "Audience of people of interest for a marketer.",
+        "x-used-in-request": true
       },
       "AudienceSearchEntityV1": {
         "type": "object",
@@ -7281,35 +7504,32 @@
             "items": {
               "type": "string"
             },
-            "description": "List of audience ids",
-            "nullable": true
+            "description": "List of audience ids"
           },
           "advertiserIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "List of advertiser ids",
-            "nullable": true
+            "description": "List of advertiser ids"
           },
           "audienceSegmentIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "List of segment ids (linked to the result audiences)",
-            "nullable": true
+            "description": "List of segment ids (linked to the result audiences)"
           },
           "adSetIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "List of AdSet ids",
-            "nullable": true
+            "description": "List of AdSet ids"
           }
         },
-        "description": "Available filters to perform a search on segments. If present, the filters are AND'ed together when applied."
+        "description": "Available filters to perform a search on segments. If present, the filters are AND'ed together when applied.",
+        "x-used-in-request": true
       },
       "InMarketV1": {
         "type": "object",
@@ -7317,7 +7537,8 @@
           "country": {
             "type": "string",
             "description": "Reach people of a specific country",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "buyingPower": {
             "uniqueItems": true,
@@ -7333,7 +7554,8 @@
               "type": "string"
             },
             "description": "Reach people who frequently purchase high price range items to lower price range items",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "gender": {
             "enum": [
@@ -7343,7 +7565,8 @@
             ],
             "type": "string",
             "description": "Reach people who’ve shown interest in products made for a specific gender",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "interestIds": {
             "uniqueItems": true,
@@ -7352,7 +7575,8 @@
               "type": "string"
             },
             "description": "Reach new people based on their interests",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "brandIds": {
             "uniqueItems": true,
@@ -7361,7 +7585,8 @@
               "type": "string"
             },
             "description": "Choose the brands your segment might be interested in",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "priceRange": {
             "uniqueItems": true,
@@ -7376,10 +7601,14 @@
               "type": "string"
             },
             "description": "Reach people who’ve shown interest in products within a specific price range",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings to target users based on high shopping intents and demographics."
+        "description": "Settings to target users based on high shopping intents and demographics.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ProspectingV1": {
         "type": "object",
@@ -7388,13 +7617,15 @@
             "type": "integer",
             "description": "When non buyers are included, include users who visited your website before this number of days",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
             "description": "When non buyers are included, include users who visited your website after this number of days",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "usersType": {
             "enum": [
@@ -7404,10 +7635,14 @@
             ],
             "type": "string",
             "description": "Type of users to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings to target prospecting users to website visitors."
+        "description": "Settings to target prospecting users to website visitors.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ContactListV1": {
         "type": "object",
@@ -7415,10 +7650,14 @@
           "isReadOnly": {
             "type": "boolean",
             "description": "Is the segment read-only",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings to target users with your contact lists."
+        "description": "Settings to target users with your contact lists.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "LocationV1": {
         "type": "object",
@@ -7429,13 +7668,15 @@
               "$ref": "#/components/schemas/PointOfInterestV1"
             },
             "description": "Reach users which have been historically located in the given coordinates",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "radiusInKm": {
             "type": "integer",
             "description": "The expected maximum distance in kilometers between a user and a point of interest",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "registryType": {
             "enum": [
@@ -7444,10 +7685,14 @@
             ],
             "type": "string",
             "description": "The kind of Location audience",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings to target users based on their location."
+        "description": "Settings to target users based on their location.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "BehavioralV1": {
         "required": [
@@ -7458,7 +7703,8 @@
           "country": {
             "type": "string",
             "description": "The users' country",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "category": {
             "enum": [
@@ -7475,16 +7721,21 @@
             "type": "string",
             "description": "Desired date when the behavioral will start",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "endDate": {
             "type": "string",
             "description": "Desired date when the behavioral will end",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings of a behavioral set of users provided by Criteo."
+        "description": "Settings of a behavioral set of users provided by Criteo.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RetargetingV1": {
         "type": "object",
@@ -7498,22 +7749,28 @@
             ],
             "type": "string",
             "description": "Types of visitors.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "daysSinceLastVisitMin": {
             "type": "integer",
             "description": "Minimum number of days since last visit to partner.",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
             "description": "Maximum number of days since last visit to partner.",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings to target users based on its type and days since last visit."
+        "description": "Settings to target users based on its type and days since last visit.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "LookalikeV1": {
         "type": "object",
@@ -7521,16 +7778,21 @@
           "seedSegmentId": {
             "type": "string",
             "description": "Segment from which the Lookalike segment will be generated",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "targetSize": {
             "type": "integer",
             "description": "Desired size of the generated Lookalike segment",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Settings to target users that behave like a given seed segment"
+        "description": "Settings to target users that behave like a given seed segment",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AlgebraNodeV1": {
         "type": "object",
@@ -7540,24 +7802,31 @@
             "items": {
               "$ref": "#/components/schemas/AlgebraNodeV1"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "or": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AlgebraNodeV1"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "not": {
             "$ref": "#/components/schemas/AlgebraNodeV1"
           },
           "audienceSegmentId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Node in the audience algebra definition."
+        "description": "Node in the audience algebra definition.",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "NillableString": {
         "type": "object",
@@ -7568,15 +7837,16 @@
             "nullable": true
           }
         },
-        "description": "Placeholder object for string value  for which \"null\" is a valid business value"
+        "description": "Placeholder object for string value  for which \"null\" is a valid business value",
+        "nullable": true,
+        "x-used-in-request": true
       },
       "InMarketUpdateV1": {
         "type": "object",
         "properties": {
           "country": {
             "type": "string",
-            "description": "Reach people of a specific country",
-            "nullable": true
+            "description": "Reach people of a specific country"
           },
           "buyingPower": {
             "uniqueItems": true,
@@ -7590,8 +7860,7 @@
               ],
               "type": "string"
             },
-            "description": "Reach people who frequently purchase high price range items to lower price range items",
-            "nullable": true
+            "description": "Reach people who frequently purchase high price range items to lower price range items"
           },
           "gender": {
             "$ref": "#/components/schemas/NillableGenderV1"
@@ -7602,8 +7871,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Reach new people based on their interests",
-            "nullable": true
+            "description": "Reach new people based on their interests"
           },
           "brandIds": {
             "uniqueItems": true,
@@ -7611,8 +7879,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Choose the brands your segment might be interested in",
-            "nullable": true
+            "description": "Choose the brands your segment might be interested in"
           },
           "priceRange": {
             "uniqueItems": true,
@@ -7625,11 +7892,11 @@
               ],
               "type": "string"
             },
-            "description": "Reach people who’ve shown interest in products within a specific price range",
-            "nullable": true
+            "description": "Reach people who’ve shown interest in products within a specific price range"
           }
         },
-        "description": "Settings to target users based on high shopping intents and demographics."
+        "description": "Settings to target users based on high shopping intents and demographics.",
+        "x-used-in-request": true
       },
       "LocationUpdateV1": {
         "type": "object",
@@ -7639,25 +7906,23 @@
             "items": {
               "$ref": "#/components/schemas/PointOfInterestV1"
             },
-            "description": "Reach users which have been historically located in the given coordinates",
-            "nullable": true
+            "description": "Reach users which have been historically located in the given coordinates"
           },
           "radiusInKm": {
             "type": "integer",
             "description": "Radius in kilometers",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "registryType": {
             "enum": [
               "PointOfInterest"
             ],
             "type": "string",
-            "description": "The kind of Location audience",
-            "nullable": true
+            "description": "The kind of Location audience"
           }
         },
-        "description": "Settings to target users based on their location."
+        "description": "Settings to target users based on their location.",
+        "x-used-in-request": true
       },
       "RetargetingUpdateV1": {
         "type": "object",
@@ -7669,23 +7934,21 @@
               "NonBuyers"
             ],
             "type": "string",
-            "description": "Types of visitors.",
-            "nullable": true
+            "description": "Types of visitors."
           },
           "daysSinceLastVisitMin": {
             "type": "integer",
             "description": "Minimum number of days since last visit to partner.",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
             "description": "Maximum number of days since last visit to partner.",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           }
         },
-        "description": "Settings to target users based on its type and days since last visit."
+        "description": "Settings to target users based on its type and days since last visit.",
+        "x-used-in-request": true
       },
       "LookalikeUpdateV1": {
         "type": "object",
@@ -7693,11 +7956,11 @@
           "targetSize": {
             "type": "integer",
             "description": "Desired size of the generated Lookalike segment",
-            "format": "int64",
-            "nullable": true
+            "format": "int64"
           }
         },
-        "description": "Settings to target users that behave like a given seed segment"
+        "description": "Settings to target users that behave like a given seed segment",
+        "x-used-in-request": true
       },
       "ProspectingUpdateV1": {
         "type": "object",
@@ -7714,11 +7977,11 @@
               "ProspectsOrNonBuyers"
             ],
             "type": "string",
-            "description": "Type of users to target",
-            "nullable": true
+            "description": "Type of users to target"
           }
         },
-        "description": "Settings to target prospecting users to website visitors."
+        "description": "Settings to target prospecting users to website visitors.",
+        "x-used-in-request": true
       },
       "InMarketCreateV1": {
         "required": [
@@ -7742,8 +8005,7 @@
               ],
               "type": "string"
             },
-            "description": "Reach people who frequently purchase high price range items to lower price range items",
-            "nullable": true
+            "description": "Reach people who frequently purchase high price range items to lower price range items"
           },
           "gender": {
             "enum": [
@@ -7751,8 +8013,7 @@
               "Female"
             ],
             "type": "string",
-            "description": "Reach people who’ve shown interest in products made for a specific gender",
-            "nullable": true
+            "description": "Reach people who’ve shown interest in products made for a specific gender"
           },
           "interestIds": {
             "uniqueItems": true,
@@ -7760,8 +8021,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Reach new people based on their interests",
-            "nullable": true
+            "description": "Reach new people based on their interests"
           },
           "brandIds": {
             "uniqueItems": true,
@@ -7769,8 +8029,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Choose the brands your segment might be interested in",
-            "nullable": true
+            "description": "Choose the brands your segment might be interested in"
           },
           "priceRange": {
             "uniqueItems": true,
@@ -7783,11 +8042,11 @@
               ],
               "type": "string"
             },
-            "description": "Reach people who’ve shown interest in products within a specific price range",
-            "nullable": true
+            "description": "Reach people who’ve shown interest in products within a specific price range"
           }
         },
-        "description": "Settings to target users based on high shopping intents and demographics."
+        "description": "Settings to target users based on high shopping intents and demographics.",
+        "x-used-in-request": true
       },
       "ProspectingCreateV1": {
         "required": [
@@ -7798,14 +8057,12 @@
           "daysSinceLastVisitMin": {
             "type": "integer",
             "description": "When non buyers are included, include users who visited your website before this number of days",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "daysSinceLastVisitMax": {
             "type": "integer",
             "description": "When non buyers are included, include users who visited your website after this number of days",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "usersType": {
             "enum": [
@@ -7816,11 +8073,13 @@
             "description": "Type of users to target"
           }
         },
-        "description": "Settings to target prospecting users to website visitors."
+        "description": "Settings to target prospecting users to website visitors.",
+        "x-used-in-request": true
       },
       "ContactListCreateV1": {
         "type": "object",
-        "description": "Settings to target users with your contact lists."
+        "description": "Settings to target users with your contact lists.",
+        "x-used-in-request": true
       },
       "LocationCreateV1": {
         "required": [
@@ -7842,7 +8101,8 @@
             "format": "int32"
           }
         },
-        "description": "Settings to target users based on their location."
+        "description": "Settings to target users based on their location.",
+        "x-used-in-request": true
       },
       "RetargetingCreateV1": {
         "required": [
@@ -7872,7 +8132,8 @@
             "format": "int32"
           }
         },
-        "description": "Settings to target users based on its type and days since last visit."
+        "description": "Settings to target users based on its type and days since last visit.",
+        "x-used-in-request": true
       },
       "LookalikeCreateV1": {
         "required": [
@@ -7887,11 +8148,11 @@
           "targetSize": {
             "type": "integer",
             "description": "Desired size of the generated Lookalike segment",
-            "format": "int64",
-            "nullable": true
+            "format": "int64"
           }
         },
-        "description": "Settings to target users close to a given seed segment."
+        "description": "Settings to target users close to a given seed segment.",
+        "x-used-in-request": true
       },
       "InMarketSizeEstimationV1": {
         "required": [
@@ -7913,32 +8174,28 @@
                 "VeryHigh"
               ],
               "type": "string"
-            },
-            "nullable": true
+            }
           },
           "gender": {
             "enum": [
               "Male",
               "Female"
             ],
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "interestIds": {
             "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "nullable": true
+            }
           },
           "brandIds": {
             "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "nullable": true
+            }
           },
           "priceRange": {
             "uniqueItems": true,
@@ -7950,11 +8207,11 @@
                 "High"
               ],
               "type": "string"
-            },
-            "nullable": true
+            }
           }
         },
-        "description": "Settings to target users based on high shopping intents and demographics."
+        "description": "Settings to target users based on high shopping intents and demographics.",
+        "x-used-in-request": true
       },
       "LocationSizeEstimationV1": {
         "required": [
@@ -7974,7 +8231,8 @@
             "format": "int32"
           }
         },
-        "description": "Settings to define your audience based on their location."
+        "description": "Settings to define your audience based on their location.",
+        "x-used-in-request": true
       },
       "PointOfInterestV1": {
         "type": "object",
@@ -7982,22 +8240,27 @@
           "name": {
             "type": "string",
             "description": "Name of the point of interest",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "latitude": {
             "type": "number",
             "description": "ISO-6709 latitude (rounded at 5 decimals)",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "longitude": {
             "type": "number",
             "description": "ISO-6709 longitude (rounded at 5 decimals)",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Named coordinate defined by its latitude and longitude.\r\nLatitude and Longitude are rounded at 5 decimals."
+        "description": "Named coordinate defined by its latitude and longitude.\r\nLatitude and Longitude are rounded at 5 decimals.",
+        "x-used-in-request": true,
+        "x-used-in-response": true
       },
       "NillableGenderV1": {
         "type": "object",
@@ -8012,7 +8275,9 @@
             "nullable": true
           }
         },
-        "description": "Placeholder object for value for which \"null\" is a valid business value"
+        "description": "Placeholder object for value for which \"null\" is a valid business value",
+        "nullable": true,
+        "x-used-in-request": true
       },
       "NillableInt32": {
         "type": "object",
@@ -8024,7 +8289,9 @@
             "nullable": true
           }
         },
-        "description": "Placeholder object for value for which \"null\" is a valid business value"
+        "description": "Placeholder object for value for which \"null\" is a valid business value",
+        "nullable": true,
+        "x-used-in-request": true
       },
       "ResponsesAdSetIdV24Q1": {
         "type": "object",
@@ -8057,7 +8324,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of output resources"
+        "description": "List of output resources",
+        "x-used-in-response": true
       },
       "ResponseReadAdSetV24Q1": {
         "type": "object",
@@ -8084,7 +8352,8 @@
             "x-nullable": true
           }
         },
-        "description": "output resource"
+        "description": "output resource",
+        "x-used-in-response": true
       },
       "ResponsesReadAdSetV24Q1": {
         "type": "object",
@@ -8117,7 +8386,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of output resources"
+        "description": "List of output resources",
+        "x-used-in-response": true
       },
       "ResponsesAdSetId": {
         "type": "object",
@@ -8150,7 +8420,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of output resources"
+        "description": "List of output resources",
+        "x-used-in-response": true
       },
       "AdSetCategoryBidListResponse": {
         "type": "object",
@@ -8182,7 +8453,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of response resources"
+        "description": "Data model for a list of response resources",
+        "x-used-in-response": true
       },
       "PatchAdSetCategoryBidResultListResponse": {
         "type": "object",
@@ -8214,7 +8486,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of response resources"
+        "description": "Data model for a list of response resources",
+        "x-used-in-response": true
       },
       "AdSetDisplayMultiplierListResponse": {
         "type": "object",
@@ -8246,7 +8519,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of response resources"
+        "description": "Data model for a list of response resources",
+        "x-used-in-response": true
       },
       "PatchAdSetDisplayMultiplierResultListResponse": {
         "type": "object",
@@ -8278,7 +8552,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of response resources"
+        "description": "Data model for a list of response resources",
+        "x-used-in-response": true
       },
       "PatchResultCampaignListResponse": {
         "type": "object",
@@ -8311,7 +8586,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of output resources"
+        "description": "List of output resources",
+        "x-used-in-response": true
       },
       "CampaignV23Q1Response": {
         "type": "object",
@@ -8338,7 +8614,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for response resource"
+        "description": "Data model for response resource",
+        "x-used-in-response": true
       },
       "CampaignV23Q1ListResponse": {
         "type": "object",
@@ -8370,7 +8647,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of response resources"
+        "description": "Data model for a list of response resources",
+        "x-used-in-response": true
       },
       "RequestsPatchAdSetV24Q1": {
         "type": "object",
@@ -8384,7 +8662,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of input resources"
+        "description": "List of input resources",
+        "x-used-in-request": true
       },
       "CreateAdSetV24Q1Request": {
         "type": "object",
@@ -8393,7 +8672,8 @@
             "$ref": "#/components/schemas/CreateAdSetV24Q1Resource"
           }
         },
-        "description": "Data model for an input resources"
+        "description": "Data model for an input resources",
+        "x-used-in-request": true
       },
       "AdSetSearchRequestV24Q1": {
         "type": "object",
@@ -8402,7 +8682,8 @@
             "$ref": "#/components/schemas/AdSetSearchFilterV24Q1"
           }
         },
-        "description": "request payload of the search endpoint"
+        "description": "request payload of the search endpoint",
+        "x-used-in-request": true
       },
       "RequestsAdSetId": {
         "type": "object",
@@ -8416,7 +8697,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of input resources"
+        "description": "List of input resources",
+        "x-used-in-request": true
       },
       "PatchAdSetCategoryBidListRequest": {
         "type": "object",
@@ -8430,7 +8712,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of input resources"
+        "description": "Data model for a list of input resources",
+        "x-used-in-request": true
       },
       "PatchAdSetDisplayMultiplierListRequest": {
         "type": "object",
@@ -8444,7 +8727,8 @@
             "x-nullable": true
           }
         },
-        "description": "Data model for a list of input resources"
+        "description": "Data model for a list of input resources",
+        "x-used-in-request": true
       },
       "PatchCampaignListRequest": {
         "type": "object",
@@ -8458,7 +8742,8 @@
             "x-nullable": true
           }
         },
-        "description": "List of input resources"
+        "description": "List of input resources",
+        "x-used-in-request": true
       },
       "CreateCampaignRequest": {
         "type": "object",
@@ -8467,7 +8752,8 @@
             "$ref": "#/components/schemas/CreateCampaignResource"
           }
         },
-        "description": "Data model for an input resources"
+        "description": "Data model for an input resources",
+        "x-used-in-request": true
       },
       "CampaignSearchRequestV23Q1": {
         "type": "object",
@@ -8476,7 +8762,8 @@
             "$ref": "#/components/schemas/CampaignSearchFiltersV23Q1"
           }
         },
-        "description": "request payload of the search endpoint"
+        "description": "request payload of the search endpoint",
+        "x-used-in-request": true
       },
       "ReadModelAdSetIdV24Q1": {
         "type": "object",
@@ -8499,7 +8786,8 @@
             "$ref": "#/components/schemas/AdSetIdV24Q1"
           }
         },
-        "description": "read model data for resources"
+        "description": "read model data for resources",
+        "x-used-in-response": true
       },
       "ReadModelReadAdSetV24Q1": {
         "type": "object",
@@ -8522,7 +8810,10 @@
             "$ref": "#/components/schemas/ReadAdSetV24Q1"
           }
         },
-        "description": "read model data for resources"
+        "description": "read model data for resources",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ReadModelAdSetId": {
         "type": "object",
@@ -8542,7 +8833,8 @@
             "x-nullable": true
           }
         },
-        "description": "read model data for resources"
+        "description": "read model data for resources",
+        "x-used-in-response": true
       },
       "AdSetCategoryBidResource": {
         "type": "object",
@@ -8553,16 +8845,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "AdSetCategoryBid"
+            "example": "AdSetCategoryBid",
+            "x-optional-in-response": true
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-response": true
       },
       "PatchAdSetCategoryBidResultResource": {
         "type": "object",
@@ -8570,16 +8865,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "AdSetCategoryBid"
+            "example": "AdSetCategoryBid",
+            "x-optional-in-response": true
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-response": true
       },
       "AdSetDisplayMultiplierResource": {
         "type": "object",
@@ -8590,16 +8888,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "AdSetDisplayMultiplier"
+            "example": "AdSetDisplayMultiplier",
+            "x-optional-in-response": true
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-response": true
       },
       "PatchAdSetDisplayMultiplierResultResource": {
         "type": "object",
@@ -8607,16 +8908,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "AdSetDisplayMultiplier"
+            "example": "AdSetDisplayMultiplier",
+            "x-optional-in-response": true
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-response": true
       },
       "PatchResultCampaignReadResource": {
         "type": "object",
@@ -8636,7 +8940,8 @@
             "x-nullable": true
           }
         },
-        "description": "read model data for resources"
+        "description": "read model data for resources",
+        "x-used-in-response": true
       },
       "CampaignV23Q1Resource": {
         "type": "object",
@@ -8647,16 +8952,21 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
             "nullable": true,
-            "example": "Campaign"
+            "example": "Campaign",
+            "x-optional-in-response": true
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "WriteModelPatchAdSetV24Q1": {
         "type": "object",
@@ -8678,7 +8988,8 @@
             "$ref": "#/components/schemas/PatchAdSetV24Q1"
           }
         },
-        "description": "write model data for resources"
+        "description": "write model data for resources",
+        "x-used-in-request": true
       },
       "CreateAdSetV24Q1Resource": {
         "type": "object",
@@ -8689,11 +9000,11 @@
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true,
             "example": "AdSet"
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-request": true
       },
       "AdSetSearchFilterV24Q1": {
         "type": "object",
@@ -8723,7 +9034,8 @@
             "x-nullable": true
           }
         },
-        "description": "filter on ad set ids"
+        "description": "filter on ad set ids",
+        "x-used-in-request": true
       },
       "WriteModelAdSetId": {
         "type": "object",
@@ -8742,7 +9054,8 @@
             "x-nullable": true
           }
         },
-        "description": "write model data for resources"
+        "description": "write model data for resources",
+        "x-used-in-request": true
       },
       "PatchAdSetCategoryBidResource": {
         "type": "object",
@@ -8752,17 +9065,16 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true,
             "example": "AdSetCategoryBid"
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-request": true
       },
       "PatchAdSetDisplayMultiplierResource": {
         "type": "object",
@@ -8772,17 +9084,16 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true,
             "example": "AdSetDisplayMultiplier"
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-request": true
       },
       "PatchCampaignWriteResource": {
         "type": "object",
@@ -8804,7 +9115,8 @@
             "$ref": "#/components/schemas/PatchCampaign"
           }
         },
-        "description": "write model data for resources"
+        "description": "write model data for resources",
+        "x-used-in-request": true
       },
       "CreateCampaignResource": {
         "type": "object",
@@ -8815,11 +9127,11 @@
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true,
             "example": "Campaign"
           }
         },
-        "description": "Data model for a Resource"
+        "description": "Data model for a Resource",
+        "x-used-in-request": true
       },
       "CampaignSearchFiltersV23Q1": {
         "type": "object",
@@ -8841,11 +9153,15 @@
             "x-nullable": true
           }
         },
-        "description": "filters on campaign"
+        "description": "filters on campaign",
+        "x-used-in-request": true
       },
       "AdSetIdV24Q1": {
         "type": "object",
-        "description": "ad set id model"
+        "description": "ad set id model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ReadAdSetV24Q1": {
         "type": "object",
@@ -8877,7 +9193,8 @@
               "app"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "objective": {
             "enum": [
@@ -8894,7 +9211,8 @@
               "videoViews"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "schedule": {
             "$ref": "#/components/schemas/ReadAdSetScheduleV24Q1"
@@ -8927,7 +9245,10 @@
             "x-nullable": true
           }
         },
-        "description": "ad set read model"
+        "description": "ad set read model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetCategoryBid": {
         "type": "object",
@@ -8942,10 +9263,14 @@
             "type": "number",
             "description": "The Bid amount applied to the given Category associated to an Ad Set. At most 4 decimals are supported. Additional decimals are rounded.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Category Bid information about a Category for a given Ad Set."
+        "description": "Category Bid information about a Category for a given Ad Set.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetDisplayMultiplier": {
         "type": "object",
@@ -8960,10 +9285,14 @@
             "type": "number",
             "description": "The Display Multiplier applied to the given Category associated to an Ad Set.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Display Multiplier information about a Category for a given Ad Set."
+        "description": "Display Multiplier information about a Category for a given Ad Set.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CampaignV23Q1": {
         "type": "object",
@@ -8988,7 +9317,8 @@
               "retention"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "budgetAutomation": {
             "$ref": "#/components/schemas/CampaignBudgetAutomationV23Q1"
@@ -9000,7 +9330,10 @@
             "x-nullable": true
           }
         },
-        "description": "campaign read model"
+        "description": "campaign read model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "PatchAdSetV24Q1": {
         "type": "object",
@@ -9023,7 +9356,8 @@
             "$ref": "#/components/schemas/PatchAdSetBudgetV24Q1"
           }
         },
-        "description": "ad set patch model"
+        "description": "ad set patch model",
+        "x-used-in-request": true
       },
       "CreateAdSetV24Q1": {
         "required": [
@@ -9101,7 +9435,8 @@
             "description": "Media type for the ad set"
           }
         },
-        "description": "ad set create model"
+        "description": "ad set create model",
+        "x-used-in-request": true
       },
       "PatchAdSetCategoryBid": {
         "type": "object",
@@ -9109,11 +9444,11 @@
           "bidAmount": {
             "type": "number",
             "description": "The Bid amount applied to the given Category associated to an Ad Set. At most 4 decimals are supported. Additional decimals are rounded.",
-            "format": "double",
-            "nullable": true
+            "format": "double"
           }
         },
-        "description": "Category Bid to update for a given combination of Ad Set and Category."
+        "description": "Category Bid to update for a given combination of Ad Set and Category.",
+        "x-used-in-request": true
       },
       "PatchAdSetDisplayMultiplier": {
         "type": "object",
@@ -9121,20 +9456,24 @@
           "displayMultiplier": {
             "type": "number",
             "description": "Any positive decimal value. To remove the impact of the Display Multiplier set it to 1. At most 4 decimals are supported. Additional decimals are rounded.",
-            "format": "double",
-            "nullable": true
+            "format": "double"
           }
         },
-        "description": "Display Multiplier to update for a given combination of Ad Set and Category."
+        "description": "Display Multiplier to update for a given combination of Ad Set and Category.",
+        "x-used-in-request": true
       },
       "PatchCampaign": {
         "type": "object",
         "properties": {
           "spendLimit": {
             "$ref": "#/components/schemas/PatchCampaignSpendLimit"
+          },
+          "budgetAutomation": {
+            "$ref": "#/components/schemas/PatchMarketingCampaignBudgetAutomation"
           }
         },
-        "description": "campaign patch model"
+        "description": "campaign patch model",
+        "x-used-in-request": true
       },
       "CreateCampaign": {
         "required": [
@@ -9168,9 +9507,13 @@
           },
           "spendLimit": {
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
+          },
+          "budgetAutomation": {
+            "$ref": "#/components/schemas/BudgetAutomation"
           }
         },
-        "description": "Campaign create model"
+        "description": "Campaign create model",
+        "x-used-in-request": true
       },
       "ReadAdSetScheduleV24Q1": {
         "type": "object",
@@ -9187,7 +9530,8 @@
               "off"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "deliveryStatus": {
             "enum": [
@@ -9203,10 +9547,14 @@
               "archived"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "ad set schedule read model"
+        "description": "ad set schedule read model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ReadAdSetBiddingV24Q1": {
         "type": "object",
@@ -9232,10 +9580,14 @@
             ],
             "type": "string",
             "description": "How spend is controlled",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "ad set bidding read model"
+        "description": "ad set bidding read model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetTargetingV24Q1": {
         "type": "object",
@@ -9250,7 +9602,11 @@
             "$ref": "#/components/schemas/AdSetFrequencyCappingV24Q1"
           }
         },
-        "description": "ad set targeting model"
+        "description": "ad set targeting model",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ReadAdSetBudgetV24Q1": {
         "type": "object",
@@ -9261,7 +9617,8 @@
               "uncapped"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "budgetRenewal": {
             "enum": [
@@ -9272,7 +9629,8 @@
               "weekly"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "budgetDeliverySmoothing": {
             "enum": [
@@ -9295,7 +9653,8 @@
               "sundayToSaturday"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "budgetAmount": {
             "type": "number",
@@ -9304,7 +9663,10 @@
             "x-nullable": true
           }
         },
-        "description": "ad set budget read model"
+        "description": "ad set budget read model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CampaignSpendLimitV23Q1": {
         "type": "object",
@@ -9315,7 +9677,8 @@
               "uncapped"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "spendLimitRenewal": {
             "enum": [
@@ -9325,47 +9688,34 @@
               "lifetime"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "spendLimitAmount": {
             "$ref": "#/components/schemas/NillableDecimal"
           }
         },
-        "description": "campaign spend limit model"
+        "description": "campaign spend limit model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CampaignBudgetAutomationV23Q1": {
         "type": "object",
         "properties": {
           "enabled": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "automatedBudgetConfiguration": {
-            "type": "object",
-            "properties": {
-              "adSetOptimizationObjective": {
-                "enum": [
-                  "customAction",
-                  "clicks",
-                  "conversions",
-                  "displays",
-                  "appPromotion",
-                  "revenue",
-                  "storeConversions",
-                  "value",
-                  "reach",
-                  "visits",
-                  "videoViews"
-                ],
-                "type": "string",
-                "nullable": true
-              }
-            },
-            "nullable": true,
-            "x-nullable": true
+            "$ref": "#/components/schemas/AutomatedBudgetConfigurationV23Q1"
           }
         },
-        "description": "The campaign budget automation model"
+        "description": "The campaign budget automation model",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "PatchAdSetSchedulingV24Q1": {
         "type": "object",
@@ -9377,7 +9727,8 @@
             "$ref": "#/components/schemas/NillableDateTime"
           }
         },
-        "description": "ad set schedule patch model"
+        "description": "ad set schedule patch model",
+        "x-used-in-request": true
       },
       "PatchAdSetBiddingV24Q1": {
         "type": "object",
@@ -9386,7 +9737,8 @@
             "$ref": "#/components/schemas/NillableDecimal"
           }
         },
-        "description": "ad set bidding patch model"
+        "description": "ad set bidding patch model",
+        "x-used-in-request": true
       },
       "PatchAdSetBudgetV24Q1": {
         "type": "object",
@@ -9440,7 +9792,8 @@
             "$ref": "#/components/schemas/NillableDecimal"
           }
         },
-        "description": "ad set budget patch model"
+        "description": "ad set budget patch model",
+        "x-used-in-request": true
       },
       "CreateAdSetScheduleV24Q1": {
         "required": [
@@ -9459,7 +9812,8 @@
             "x-nullable": true
           }
         },
-        "description": "ad set schedule create model"
+        "description": "ad set schedule create model",
+        "x-used-in-request": true
       },
       "CreateAdSetBiddingV24Q1": {
         "required": [
@@ -9490,7 +9844,8 @@
             "description": "How spend is controlled"
           }
         },
-        "description": "ad set bidding create model"
+        "description": "ad set bidding create model",
+        "x-used-in-request": true
       },
       "CreateAdSetTargetingV24Q1": {
         "required": [
@@ -9508,7 +9863,8 @@
             "$ref": "#/components/schemas/AdSetFrequencyCappingV24Q1"
           }
         },
-        "description": "Targeting configuration of the ad set"
+        "description": "Targeting configuration of the ad set",
+        "x-used-in-request": true
       },
       "CreateAdSetBudgetV24Q1": {
         "required": [
@@ -9531,16 +9887,14 @@
               "lifetime",
               "weekly"
             ],
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "budgetDeliverySmoothing": {
             "enum": [
               "accelerated",
               "standard"
             ],
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "budgetDeliveryWeek": {
             "enum": [
@@ -9553,8 +9907,7 @@
               "saturdayToFriday",
               "sundayToSaturday"
             ],
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "budgetAmount": {
             "type": "number",
@@ -9563,7 +9916,8 @@
             "x-nullable": true
           }
         },
-        "description": "ad set budget create model"
+        "description": "ad set budget create model",
+        "x-used-in-request": true
       },
       "PatchCampaignSpendLimit": {
         "type": "object",
@@ -9592,7 +9946,22 @@
             "$ref": "#/components/schemas/NillableDecimal"
           }
         },
-        "description": "campaign spend limit model"
+        "description": "campaign spend limit model",
+        "x-used-in-request": true
+      },
+      "PatchMarketingCampaignBudgetAutomation": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Budget automation for the marketing campaign enable"
+          },
+          "budgetConfiguration": {
+            "$ref": "#/components/schemas/BudgetAutomationConfiguration"
+          }
+        },
+        "description": "patch marketing campaign budet automation model",
+        "x-used-in-request": true
       },
       "CreateCampaignSpendLimit": {
         "required": [
@@ -9616,8 +9985,7 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the spend limit renewal",
-            "nullable": true
+            "description": "The pace of the spend limit renewal"
           },
           "spendLimitAmount": {
             "type": "number",
@@ -9627,7 +9995,21 @@
             "x-nullable": true
           }
         },
-        "description": "campaign spend limit create model"
+        "description": "campaign spend limit create model",
+        "x-used-in-request": true
+      },
+      "BudgetAutomation": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "automatedBudgetConfiguration": {
+            "$ref": "#/components/schemas/AutomatedBudgetConfiguration"
+          }
+        },
+        "description": "The campaign budget automation model",
+        "x-used-in-request": true
       },
       "NillableDateTime": {
         "type": "object",
@@ -9639,7 +10021,11 @@
             "x-nullable": true
           }
         },
-        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetDeliveryLimitationsV24Q1": {
         "type": "object",
@@ -9684,7 +10070,11 @@
             "x-nullable": true
           }
         },
-        "description": "ad set delivery limitations model"
+        "description": "ad set delivery limitations model",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetGeoLocationV24Q1": {
         "type": "object",
@@ -9699,7 +10089,11 @@
             "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q1"
           }
         },
-        "description": "ad set geolocation model"
+        "description": "ad set geolocation model",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetFrequencyCappingV24Q1": {
         "type": "object",
@@ -9712,17 +10106,21 @@
               "advanced"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "maximumImpressions": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "ad set frequency capping model",
         "nullable": true,
-        "x-nullable": true
+        "x-nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true
       },
       "NillableDecimal": {
         "type": "object",
@@ -9736,7 +10134,36 @@
         },
         "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
         "nullable": true,
-        "x-nullable": true
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "AutomatedBudgetConfigurationV23Q1": {
+        "type": "object",
+        "properties": {
+          "adSetOptimizationObjective": {
+            "enum": [
+              "customAction",
+              "clicks",
+              "conversions",
+              "displays",
+              "appPromotion",
+              "revenue",
+              "storeConversions",
+              "value",
+              "reach",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "The automated budget configuration model",
+        "nullable": true,
+        "x-nullable": true,
+        "x-used-in-response": true
       },
       "CreateAdSetGeoLocationV24Q1": {
         "type": "object",
@@ -9751,7 +10178,57 @@
             "$ref": "#/components/schemas/AdSetTargetingRuleV24Q1"
           }
         },
-        "description": "Geolocation configuration of the ad set"
+        "description": "Geolocation configuration of the ad set",
+        "x-used-in-request": true
+      },
+      "BudgetAutomationConfiguration": {
+        "type": "object",
+        "properties": {
+          "adSetObjectives": {
+            "enum": [
+              "customAction",
+              "clicks",
+              "conversions",
+              "displays",
+              "appPromotion",
+              "revenue",
+              "storeConversions",
+              "value",
+              "reach",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "The budget automation configuration model",
+        "x-used-in-request": true
+      },
+      "AutomatedBudgetConfiguration": {
+        "type": "object",
+        "properties": {
+          "objective": {
+            "enum": [
+              "customAction",
+              "clicks",
+              "conversions",
+              "displays",
+              "appPromotion",
+              "revenue",
+              "storeConversions",
+              "value",
+              "reach",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string",
+            "description": "Objective of the ad set"
+          }
+        },
+        "description": "The campaign automated budget configuration model",
+        "nullable": true,
+        "x-nullable": true,
+        "x-used-in-request": true
       },
       "NillableAdSetTargetingRuleV24Q1": {
         "type": "object",
@@ -9767,7 +10244,11 @@
             "x-nullable": true
           }
         },
-        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided."
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdSetTargetingRuleV24Q1": {
         "type": "object",
@@ -9778,8 +10259,7 @@
               "in",
               "notIn"
             ],
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "values": {
             "type": "array",
@@ -9790,7 +10270,8 @@
             "x-nullable": true
           }
         },
-        "description": "ad set targeting rule model"
+        "description": "ad set targeting rule model",
+        "x-used-in-request": true
       },
       "ResourceOutcomeOfAd": {
         "type": "object",
@@ -9817,7 +10298,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
+        "x-used-in-response": true
       },
       "ResourceCollectionOutcomeOfAd": {
         "type": "object",
@@ -9849,7 +10331,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+        "description": "A top-level object that encapsulates a Criteo API response for several entities.",
+        "x-used-in-response": true
       },
       "ResourceCollectionOutcomeOfCoupon": {
         "type": "object",
@@ -9881,7 +10364,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+        "description": "A top-level object that encapsulates a Criteo API response for several entities.",
+        "x-used-in-response": true
       },
       "ResourceOutcomeOfCoupon": {
         "type": "object",
@@ -9908,7 +10392,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
+        "x-used-in-response": true
       },
       "ResourceOutcomeOfCouponSupportedSizes": {
         "type": "object",
@@ -9935,7 +10420,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
+        "x-used-in-response": true
       },
       "ResourceCollectionOutcomeOfCreative": {
         "type": "object",
@@ -9967,7 +10453,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+        "description": "A top-level object that encapsulates a Criteo API response for several entities.",
+        "x-used-in-response": true
       },
       "ResourceOutcomeOfCreative": {
         "type": "object",
@@ -9994,7 +10481,8 @@
             "x-nullable": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
+        "x-used-in-response": true
       },
       "ResourceInputOfAdWrite": {
         "type": "object",
@@ -10003,7 +10491,8 @@
             "$ref": "#/components/schemas/ResourceOfAdWrite"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity.",
+        "x-used-in-request": true
       },
       "ResourceInputOfCreateCoupon": {
         "type": "object",
@@ -10012,7 +10501,8 @@
             "$ref": "#/components/schemas/ResourceOfCreateCoupon"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity.",
+        "x-used-in-request": true
       },
       "ResourceInputOfUpdateCoupon": {
         "type": "object",
@@ -10021,7 +10511,8 @@
             "$ref": "#/components/schemas/ResourceOfUpdateCoupon"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity.",
+        "x-used-in-request": true
       },
       "ResourceInputOfCreativeWrite": {
         "type": "object",
@@ -10030,7 +10521,8 @@
             "$ref": "#/components/schemas/ResourceOfCreativeWrite"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity.",
+        "x-used-in-request": true
       },
       "ResourceOfAd": {
         "type": "object",
@@ -10050,7 +10542,10 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ResourceOfCoupon": {
         "type": "object",
@@ -10070,7 +10565,10 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ResourceOfCouponSupportedSizes": {
         "type": "object",
@@ -10090,7 +10588,10 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ResourceOfCreative": {
         "type": "object",
@@ -10110,7 +10611,10 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ResourceOfAdWrite": {
         "type": "object",
@@ -10130,7 +10634,8 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "x-used-in-request": true
       },
       "ResourceOfCreateCoupon": {
         "type": "object",
@@ -10150,7 +10655,8 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "x-used-in-request": true
       },
       "ResourceOfUpdateCoupon": {
         "type": "object",
@@ -10170,7 +10676,8 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "x-used-in-request": true
       },
       "ResourceOfCreativeWrite": {
         "type": "object",
@@ -10190,7 +10697,8 @@
             "x-nullable": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API."
+        "description": "A class that represents a domain entity exposed by an API.",
+        "x-used-in-request": true
       },
       "Ad": {
         "type": "object",
@@ -10249,7 +10757,10 @@
             "x-nullable": true
           }
         },
-        "description": "An ad is the binding that connects a creative with an ad set"
+        "description": "An ad is the binding that connects a creative with an ad set",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "Coupon": {
         "type": "object",
@@ -10327,19 +10838,22 @@
             "type": "integer",
             "description": "Show the Coupon every N seconds (between 1 and 10)",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "showDuration": {
             "type": "integer",
             "description": "Show Coupon for a duration of N seconds (between 1 and 5)",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "rotationsNumber": {
             "type": "integer",
             "description": "Number of rotations for the Coupons (from 1 to 10 times)",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "id": {
             "type": "string",
@@ -10348,7 +10862,10 @@
             "x-nullable": true
           }
         },
-        "description": "Coupons are static images applied on ad set which can be displayed within an ad and link to a landing page."
+        "description": "Coupons are static images applied on ad set which can be displayed within an ad and link to a landing page.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CouponSupportedSizes": {
         "type": "object",
@@ -10372,7 +10889,10 @@
             "x-nullable": true
           }
         },
-        "description": "Entity containing the list of Coupon supported sizes"
+        "description": "Entity containing the list of Coupon supported sizes",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "Creative": {
         "required": [
@@ -10436,7 +10956,10 @@
             "x-nullable": true
           }
         },
-        "description": "A creative is a project with the necessary information to display a creative"
+        "description": "A creative is a project with the necessary information to display a creative",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdWrite": {
         "required": [
@@ -10486,7 +11009,8 @@
             "x-nullable": true
           }
         },
-        "description": "Entity to create or update an ad"
+        "description": "Entity to create or update an ad",
+        "x-used-in-request": true
       },
       "CreateCoupon": {
         "required": [
@@ -10567,7 +11091,8 @@
             "format": "int32"
           }
         },
-        "description": "Entity to create a Coupon"
+        "description": "Entity to create a Coupon",
+        "x-used-in-request": true
       },
       "UpdateCoupon": {
         "required": [
@@ -10586,7 +11111,8 @@
             "x-nullable": true
           }
         },
-        "description": "Entity to edit a Coupon"
+        "description": "Entity to edit a Coupon",
+        "x-used-in-request": true
       },
       "CreativeWrite": {
         "required": [
@@ -10633,7 +11159,8 @@
             "$ref": "#/components/schemas/AdaptiveWriteAttributes"
           }
         },
-        "description": "Entity to create or update a creative"
+        "description": "Entity to create or update a creative",
+        "x-used-in-request": true
       },
       "ImageSlide": {
         "type": "object",
@@ -10642,13 +11169,15 @@
             "type": "integer",
             "description": "Width of the Coupon slide",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "height": {
             "type": "integer",
             "description": "Height of the Coupon slide",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "slideUrls": {
             "type": "array",
@@ -10660,7 +11189,8 @@
             "x-nullable": true
           }
         },
-        "description": "Slide containing the image URLs"
+        "description": "Slide containing the image URLs",
+        "x-used-in-response": true
       },
       "ImageAttributes": {
         "type": "object",
@@ -10681,7 +11211,10 @@
             "x-nullable": true
           }
         },
-        "description": "The attributes specific to Image creatives"
+        "description": "The attributes specific to Image creatives",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "HtmlTagAttributes": {
         "type": "object",
@@ -10696,7 +11229,10 @@
             "x-nullable": true
           }
         },
-        "description": "The attributes specific to HtmlTag creatives"
+        "description": "The attributes specific to HtmlTag creatives",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "DynamicAttributes": {
         "type": "object",
@@ -10750,10 +11286,14 @@
             ],
             "type": "string",
             "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "The attributes specific to Dynamic creatives"
+        "description": "The attributes specific to Dynamic creatives",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AdaptiveAttributes": {
         "required": [
@@ -10848,7 +11388,10 @@
             "format": "uri"
           }
         },
-        "description": "The attributes specific to Adaptive creatives"
+        "description": "The attributes specific to Adaptive creatives",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CreateImageSlide": {
         "type": "object",
@@ -10856,14 +11399,12 @@
           "width": {
             "type": "integer",
             "description": "Width of the Coupon slide",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "height": {
             "type": "integer",
             "description": "Height of the Coupon slide",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "slideBase64Strings": {
             "type": "array",
@@ -10875,7 +11416,8 @@
             "x-nullable": true
           }
         },
-        "description": "Slide containing the images of the same size as a base-64 encoded string"
+        "description": "Slide containing the images of the same size as a base-64 encoded string",
+        "x-used-in-request": true
       },
       "ImageWriteAttributes": {
         "required": [
@@ -10898,7 +11440,8 @@
             "format": "uri"
           }
         },
-        "description": "The attributes specific to create or update an Image creative"
+        "description": "The attributes specific to create or update an Image creative",
+        "x-used-in-request": true
       },
       "HtmlTagWriteAttributes": {
         "required": [
@@ -10914,7 +11457,8 @@
             "description": "An array containing the html tags"
           }
         },
-        "description": "The attributes specific to create or update a HtmlTag creative"
+        "description": "The attributes specific to create or update a HtmlTag creative",
+        "x-used-in-request": true
       },
       "DynamicWriteAttributes": {
         "required": [
@@ -10967,7 +11511,8 @@
             "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping."
           }
         },
-        "description": "The attributes specific to create or update a Dynamic creative"
+        "description": "The attributes specific to create or update a Dynamic creative",
+        "x-used-in-request": true
       },
       "AdaptiveWriteAttributes": {
         "required": [
@@ -11061,7 +11606,8 @@
             "format": "uri"
           }
         },
-        "description": "The attributes specific to create or update an Adaptive creative"
+        "description": "The attributes specific to create or update an Adaptive creative",
+        "x-used-in-request": true
       },
       "Tag": {
         "type": "object",
@@ -11076,7 +11622,9 @@
             "$ref": "#/components/schemas/Size"
           }
         },
-        "description": "Entity specifying the html of the tag and its size"
+        "description": "Entity specifying the html of the tag and its size",
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ImageShape": {
         "required": [
@@ -11100,7 +11648,8 @@
             "format": "uri"
           }
         },
-        "description": "Entity containing the shape and url of the image"
+        "description": "Entity containing the shape and url of the image",
+        "x-used-in-response": true
       },
       "AdaptiveColors": {
         "required": [
@@ -11138,7 +11687,9 @@
             "description": "Color of the text of the CTA.\r\nA valid RGB24 color in hexadecimal (e.g. \"AB00FF\")."
           }
         },
-        "description": "Entity consists of the color aliases of the creative's elements"
+        "description": "Entity consists of the color aliases of the creative's elements",
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ImageSet": {
         "required": [
@@ -11160,7 +11711,8 @@
             "x-nullable": true
           }
         },
-        "description": "Entity consists of multiple images in different ratios and a headline text."
+        "description": "Entity consists of multiple images in different ratios and a headline text.",
+        "x-used-in-response": true
       },
       "VideoDetail": {
         "required": [
@@ -11190,7 +11742,8 @@
             "format": "uri"
           }
         },
-        "description": "Entity consists of the url of the video, its duration and its shape."
+        "description": "Entity consists of the url of the video, its duration and its shape.",
+        "x-used-in-response": true
       },
       "ImageSetBase64": {
         "required": [
@@ -11213,7 +11766,8 @@
             "x-nullable": true
           }
         },
-        "description": "Entity consists of multiple images in different ratios as a base-64 encoded and a headline text."
+        "description": "Entity consists of multiple images in different ratios as a base-64 encoded and a headline text.",
+        "x-used-in-request": true
       },
       "Size": {
         "type": "object",
@@ -11221,15 +11775,21 @@
           "width": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "height": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Size entity containing width and height of the creative"
+        "description": "Size entity containing width and height of the creative",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-used-in-request": true,
+        "x-optional-in-response": true
       },
       "TransparencyReportListResponse": {
         "type": "object",
@@ -11239,7 +11799,8 @@
             "items": {
               "$ref": "#/components/schemas/TransparencyReportResource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -11248,7 +11809,8 @@
             },
             "description": "Warnings that occured during this call.",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -11257,11 +11819,13 @@
             },
             "description": "Errors that occured during this call.",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects.",
+        "x-used-in-response": true
       },
       "Outcome": {
         "type": "object",
@@ -11273,7 +11837,8 @@
             },
             "description": "Warnings that occured during this call.",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -11282,11 +11847,13 @@
             },
             "description": "Errors that occured during this call.",
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "The outcome of an API call."
+        "description": "The outcome of an API call.",
+        "x-used-in-response": true
       },
       "TransparencyQueryMessage": {
         "required": [
@@ -11298,8 +11865,7 @@
           "shouldDisplayProductIds": {
             "type": "boolean",
             "description": "Specify if the product ids are displayed in the report.",
-            "default": false,
-            "nullable": true
+            "default": false
           },
           "startDate": {
             "type": "string",
@@ -11313,7 +11879,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "This is the message defining the query for Transparency report"
+        "description": "This is the message defining the query for Transparency report",
+        "x-used-in-request": true
       },
       "PlacementsReportQueryMessageListRequest": {
         "type": "object",
@@ -11327,7 +11894,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for several value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for several value objects.",
+        "x-used-in-request": true
       },
       "StatisticsReportQueryMessage": {
         "required": [
@@ -11437,7 +12005,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "This is the message defining the query for Adset report"
+        "description": "This is the message defining the query for Adset report",
+        "x-used-in-request": true
       },
       "TransactionsReportQueryMessageListRequest": {
         "type": "object",
@@ -11451,7 +12020,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for several value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for several value objects.",
+        "x-used-in-request": true
       },
       "TransparencyReportResource": {
         "type": "object",
@@ -11459,14 +12029,16 @@
           "type": {
             "type": "string",
             "description": "Type of the resource.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/TransparencyReport"
           }
         },
         "additionalProperties": false,
-        "description": "A value resource exposed by the API."
+        "description": "A value resource exposed by the API.",
+        "x-used-in-response": true
       },
       "PlacementsReportQueryMessageResource": {
         "type": "object",
@@ -11481,7 +12053,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A value resource exposed by the API."
+        "description": "A value resource exposed by the API.",
+        "x-used-in-request": true
       },
       "TransactionsReportQueryMessageResource": {
         "type": "object",
@@ -11496,7 +12069,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A value resource exposed by the API."
+        "description": "A value resource exposed by the API.",
+        "x-used-in-request": true
       },
       "TransparencyReport": {
         "required": [
@@ -11521,7 +12095,10 @@
           }
         },
         "additionalProperties": false,
-        "description": "This is the message defining the attribute response for Transparency report"
+        "description": "This is the message defining the attribute response for Transparency report",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "PlacementsReportQueryMessage": {
         "required": [
@@ -11594,8 +12171,7 @@
           "disclosed": {
             "type": "boolean",
             "description": "Returns disclosed or undisclosed placements.",
-            "default": true,
-            "nullable": true
+            "default": true
           },
           "format": {
             "type": "string",
@@ -11619,7 +12195,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "This is the message defining the query for Placements report"
+        "description": "This is the message defining the query for Placements report",
+        "x-used-in-request": true
       },
       "TransactionsReportQueryMessage": {
         "required": [
@@ -11666,7 +12243,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "This is the message defining the query for Transaction report"
+        "description": "This is the message defining the query for Transaction report",
+        "x-used-in-request": true
       },
       "TransparencyReportFile": {
         "required": [
@@ -11683,7 +12261,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "This is the message defining the file response for Transparency report"
+        "description": "This is the message defining the file response for Transparency report",
+        "x-used-in-response": true
       },
       "GetPortfolioResponse": {
         "type": "object",
@@ -11695,7 +12274,8 @@
               "$ref": "#/components/schemas/EntityOfPortfolioMessage"
             },
             "description": "The response�s primary data",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "uniqueItems": false,
@@ -11704,7 +12284,8 @@
               "$ref": "#/components/schemas/CriteoApiError"
             },
             "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "uniqueItems": false,
@@ -11713,10 +12294,12 @@
               "$ref": "#/components/schemas/CriteoApiWarning"
             },
             "description": "Warnings list returned by the Criteo API\r\nIn some situations the operations are successful but it may be useful to issue warnings to the API consumer.\r\nFor example the endpoint, entity or field is deprecated. Warnings are like compiler warnings, they indicate that problems may occur in the future.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Portfolio fetch Response"
+        "description": "Portfolio fetch Response",
+        "x-used-in-response": true
       },
       "EntityOfPortfolioMessage": {
         "type": "object",
@@ -11737,12 +12320,14 @@
             "type": "string",
             "description": "A string containing the entity type",
             "nullable": true,
-            "example": "campaign"
+            "example": "campaign",
+            "x-optional-in-response": true
           },
           "id": {
             "type": "string",
             "description": "A opaque string containing the unique Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/PortfolioMessage"
@@ -11750,10 +12335,12 @@
           "meta": {
             "type": "object",
             "description": "A meta object that contains application-specific metadata",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Generic Criteo API successful data model"
+        "description": "Generic Criteo API successful data model",
+        "x-used-in-response": true
       },
       "CriteoApiError": {
         "type": "object",
@@ -11761,7 +12348,8 @@
           "traceId": {
             "type": "string",
             "description": "The correlation ID provided by the gateway",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -11776,7 +12364,8 @@
             "type": "string",
             "description": "A machine-readable code specifying error category",
             "nullable": true,
-            "example": "access_control"
+            "example": "access_control",
+            "x-optional-in-response": true
           },
           "code": {
             "enum": [
@@ -11792,22 +12381,26 @@
             "type": "string",
             "description": "A machine-readable error code string in kabab-case. Unique across Criteo",
             "nullable": true,
-            "example": "internal-error"
+            "example": "internal-error",
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "A URI reference that identifies the specific occurrence of the problem",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "A short, human-readable remarks of the problem type.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "A human-readable explanation specific to this occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
@@ -11815,10 +12408,12 @@
               "type": "string"
             },
             "description": "A machine-readable structure to reference to the exact location(s) causing the error(s).",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Criteo API response error"
+        "description": "Criteo API response error",
+        "x-used-in-response": true
       },
       "CriteoApiWarning": {
         "type": "object",
@@ -11826,7 +12421,8 @@
           "traceId": {
             "type": "string",
             "description": "The correlation ID provided by the gateway",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -11841,7 +12437,8 @@
             "type": "string",
             "description": "A machine-readable code specifying error category",
             "nullable": true,
-            "example": "access_control"
+            "example": "access_control",
+            "x-optional-in-response": true
           },
           "code": {
             "enum": [
@@ -11857,35 +12454,44 @@
             "type": "string",
             "description": "A machine-readable error code string in kabab-case. Unique across Criteo",
             "nullable": true,
-            "example": "internal-error"
+            "example": "internal-error",
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "A URI reference that identifies the specific occurrence of the problem",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "A short, human-readable remarks of the problem type.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "A human-readable explanation specific to this occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Criteo API response warning"
+        "description": "Criteo API response warning",
+        "x-used-in-response": true
       },
       "PortfolioMessage": {
         "type": "object",
         "properties": {
           "advertiserName": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Class with elementary info about advertiser"
+        "description": "Class with elementary info about advertiser",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       }
     },
     "securitySchemes": {
