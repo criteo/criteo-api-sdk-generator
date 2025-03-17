@@ -56,8 +56,7 @@
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageIndex",
@@ -68,8 +67,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -80,8 +78,7 @@
               "type": "integer",
               "format": "int32",
               "default": 25
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -124,8 +121,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "limitToId",
@@ -137,8 +133,7 @@
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageIndex",
@@ -149,8 +144,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -161,8 +155,7 @@
               "type": "integer",
               "format": "int32",
               "default": 25
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -205,8 +198,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "limitToId",
@@ -218,8 +210,7 @@
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageIndex",
@@ -230,8 +221,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -242,8 +232,7 @@
               "type": "integer",
               "format": "int32",
               "default": 25
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -940,6 +929,18 @@
         "responses": {
           "200": {
             "description": "Catalog download initiated.",
+            "content": {
+              "application/x-json-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/json": { }
+            }
+          },
+          "204": {
+            "description": "Catalog has expired.",
             "content": {
               "application/x-json-stream": {
                 "schema": {
@@ -4564,7 +4565,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -4572,23 +4574,29 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-response": true
       },
       "ApplicationSummaryModelResource": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ApplicationSummaryModel"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "CommonProblem": {
         "type": "object",
@@ -4596,12 +4604,14 @@
           "traceId": {
             "type": "string",
             "description": "The request correlation ID this problem comes from.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "traceIdentifier": {
             "type": "string",
             "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -4616,27 +4626,32 @@
             ],
             "type": "string",
             "description": "The problem's category.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "code": {
             "type": "string",
             "description": "A machine-readable error code, expressed as a string value.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "A URI that identifies the specific occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "A short human-readable description of the problem type",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "A human-readable explanation specific to this occurrence of the problem",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
@@ -4644,14 +4659,17 @@
               "type": "string"
             },
             "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Common problem object."
+        "description": "Common problem object.",
+        "x-used-in-response": true
       },
       "ApplicationSummaryModel": {
         "type": "object",
@@ -4659,32 +4677,40 @@
           "applicationId": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "name": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "organizationId": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "description": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "criteoService": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients"
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "JsonApiPageResponseOfAccount": {
         "required": [
-          "metadata",
-          "data"
+          "data",
+          "metadata"
         ],
         "type": "object",
         "properties": {
@@ -4693,14 +4719,16 @@
             "items": {
               "$ref": "#/components/schemas/CommonError"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonWarning"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "metadata": {
             "$ref": "#/components/schemas/PageMetadata"
@@ -4709,16 +4737,17 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndAccountAndAccount"
-            },
-            "x-nullable": false
+            }
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
+        "additionalProperties": false,
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+        "x-used-in-response": true
       },
       "JsonApiPageResponseOfBrand": {
         "required": [
-          "metadata",
-          "data"
+          "data",
+          "metadata"
         ],
         "type": "object",
         "properties": {
@@ -4727,14 +4756,16 @@
             "items": {
               "$ref": "#/components/schemas/CommonError"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonWarning"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "metadata": {
             "$ref": "#/components/schemas/PageMetadata"
@@ -4743,16 +4774,17 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndBrandAndBrand"
-            },
-            "x-nullable": false
+            }
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
+        "additionalProperties": false,
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+        "x-used-in-response": true
       },
       "JsonApiPageResponseOfRetailer": {
         "required": [
-          "metadata",
-          "data"
+          "data",
+          "metadata"
         ],
         "type": "object",
         "properties": {
@@ -4761,14 +4793,16 @@
             "items": {
               "$ref": "#/components/schemas/CommonError"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonWarning"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "metadata": {
             "$ref": "#/components/schemas/PageMetadata"
@@ -4777,16 +4811,17 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndRetailerAndRetailer"
-            },
-            "x-nullable": false
+            }
           }
         },
-        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata"
+        "additionalProperties": false,
+        "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
+        "x-used-in-response": true
       },
       "PageMetadata": {
         "required": [
-          "currentPageSize",
-          "currentPageIndex"
+          "currentPageIndex",
+          "currentPageSize"
         ],
         "type": "object",
         "properties": {
@@ -4794,34 +4829,36 @@
             "type": "integer",
             "format": "int64",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "currentPageSize": {
             "type": "integer",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "currentPageIndex": {
             "type": "integer",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "totalPages": {
             "type": "integer",
             "format": "int64",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "nextPage": {
             "type": "string",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "previousPage": {
             "type": "string",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Metadata related to the current request"
+        "additionalProperties": false,
+        "description": "Metadata related to the current request",
+        "x-used-in-response": true
       },
       "CommonError": {
         "type": "object",
@@ -4829,7 +4866,8 @@
           "traceId": {
             "type": "string",
             "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -4844,44 +4882,52 @@
             ],
             "type": "string",
             "description": "(REQUIRED) The classification of the error.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "code": {
             "type": "string",
             "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
             "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
             "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "string",
             "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A JSON:API Common error structure"
+        "additionalProperties": false,
+        "description": "A JSON:API Common error structure",
+        "x-used-in-response": true
       },
       "CommonWarning": {
         "type": "object",
@@ -4889,7 +4935,8 @@
           "traceId": {
             "type": "string",
             "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -4904,44 +4951,52 @@
             ],
             "type": "string",
             "description": "(REQUIRED) The classification of the error.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "code": {
             "type": "string",
             "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
             "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
             "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "string",
             "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A JSON:API Base common warning"
+        "additionalProperties": false,
+        "description": "A JSON:API Base common warning",
+        "x-used-in-response": true
       },
       "JsonApiBodyWithIdOfInt64AndAccountAndAccount": {
         "required": [
@@ -4952,18 +5007,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "type": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalAccount"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
+        "additionalProperties": false,
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+        "x-used-in-response": true
       },
       "JsonApiBodyWithIdOfInt64AndBrandAndBrand": {
         "required": [
@@ -4974,18 +5029,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "type": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalBrand"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
+        "additionalProperties": false,
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+        "x-used-in-response": true
       },
       "JsonApiBodyWithIdOfInt64AndRetailerAndRetailer": {
         "required": [
@@ -4996,35 +5051,34 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "type": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalRetailer"
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties"
+        "additionalProperties": false,
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+        "x-used-in-response": true
       },
       "ExternalAccount": {
         "required": [
-          "name",
-          "type",
           "countries",
           "currency",
+          "name",
           "parentAccountLabel",
-          "timeZone"
+          "timeZone",
+          "type"
         ],
         "type": "object",
         "properties": {
           "name": {
             "maxLength": 510,
             "minLength": 0,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "type": {
             "enum": [
@@ -5032,8 +5086,7 @@
               "supply",
               "demand"
             ],
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "subtype": {
             "enum": [
@@ -5043,41 +5096,41 @@
             ],
             "type": "string",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "countries": {
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           "currency": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "parentAccountLabel": {
             "maxLength": 510,
             "minLength": 0,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "timeZone": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "companyName": {
             "type": "string",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "onBehalfCompanyName": {
             "type": "string",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           }
         },
-        "description": "A Retail Media Account used to launch campaigns and line items"
+        "additionalProperties": false,
+        "description": "A Retail Media Account used to launch campaigns and line items",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ExternalBrand": {
         "required": [
@@ -5088,11 +5141,14 @@
           "name": {
             "maxLength": 120,
             "minLength": 0,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           }
         },
-        "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name"
+        "additionalProperties": false,
+        "description": "A Retail Media Brand used to represent a collection of products sold under the same umbrella name",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ExternalRetailer": {
         "required": [
@@ -5102,8 +5158,7 @@
         "properties": {
           "name": {
             "maxLength": 100,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "campaignEligibilities": {
             "type": "array",
@@ -5117,10 +5172,15 @@
               ],
               "type": "string"
             },
-            "x-nullable": false
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A Retail Media Retailer used to represent a selection of products from multiple brands"
+        "additionalProperties": false,
+        "description": "A Retail Media Retailer used to represent a selection of products from multiple brands",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AssetResponse": {
         "type": "object",
@@ -5135,7 +5195,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "uniqueItems": false,
@@ -5144,10 +5205,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
+        "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body",
+        "x-used-in-response": true
       },
       "AssetResource": {
         "type": "object",
@@ -5157,14 +5220,19 @@
           },
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents an entity in a guild compliant way"
+        "description": "A class that represents an entity in a guild compliant way",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "Asset": {
         "required": [
@@ -5179,14 +5247,19 @@
           "fileLocation": {
             "type": "string",
             "description": "A url pointing towards the static file the asset represents.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives."
+        "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceGetEntityV1ListResponse": {
         "type": "object",
@@ -5196,7 +5269,8 @@
             "items": {
               "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV1Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5204,7 +5278,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5212,10 +5287,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "The outcome of an API call."
+        "description": "The outcome of an API call.",
+        "x-used-in-response": true
       },
       "RmLegacyAudienceCreateEntityV1Response": {
         "type": "object",
@@ -5229,7 +5306,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5237,10 +5315,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "x-used-in-response": true
       },
       "RmLegacyAudienceGetEntityV2ListResponse": {
         "type": "object",
@@ -5250,7 +5330,8 @@
             "items": {
               "$ref": "#/components/schemas/RmLegacyAudienceGetEntityV2Resource"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5258,7 +5339,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5266,10 +5348,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
       },
       "RmLegacyAudienceCreateEntityV2Response": {
         "type": "object",
@@ -5283,7 +5367,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -5291,10 +5376,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "x-used-in-response": true
       },
       "RmLegacyAudienceCreateInputEntityV1": {
         "type": "object",
@@ -5303,7 +5390,8 @@
             "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV1Resource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity.",
+        "x-used-in-request": true
       },
       "RmLegacyAudienceCreateInputEntityV2": {
         "type": "object",
@@ -5312,7 +5400,8 @@
             "$ref": "#/components/schemas/RmLegacyAudienceCreateEntityV2Resource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity.",
+        "x-used-in-request": true
       },
       "RmLegacyAudienceGetEntityV1Resource": {
         "type": "object",
@@ -5323,7 +5412,8 @@
           "id": {
             "type": "string",
             "description": "Unique identifier of this resource.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "audienceType": {
             "enum": [
@@ -5332,14 +5422,17 @@
             ],
             "type": "string",
             "description": "Type of the audience.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "RmLegacyAudienceCreateEntityV1Resource": {
         "type": "object",
@@ -5350,14 +5443,20 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceGetEntityV2Resource": {
         "type": "object",
@@ -5368,14 +5467,17 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
       },
       "RmLegacyAudienceCreateEntityV2Resource": {
         "type": "object",
@@ -5386,14 +5488,20 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceGetEntityV1": {
         "required": [
@@ -5418,11 +5526,14 @@
           }
         },
         "description": "Audience definition of people of interest for a marketer.",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "RetailMediaAudienceSummary",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceCreateEntityV1": {
         "required": [
@@ -5465,7 +5576,8 @@
               "format": "int64"
             },
             "description": "The brands to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "categoryIds": {
             "uniqueItems": true,
@@ -5475,7 +5587,8 @@
               "format": "int32"
             },
             "description": "The categories to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "retailerId": {
             "type": "integer",
@@ -5488,11 +5601,15 @@
           }
         },
         "description": "Audience definition",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "RetailMediaAudience",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceGetEntityV2": {
         "required": [
@@ -5517,11 +5634,14 @@
           }
         },
         "description": "Audience definition of people of interest for a marketer",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "RetailMediaAudience",
           "version": "v1"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceCreateEntityV2": {
         "required": [
@@ -5545,11 +5665,15 @@
           }
         },
         "description": "Audience definition",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity",
           "name": "RetailMediaAudience",
           "version": "v1"
-        }
+        },
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacySegmentUserBehaviorV1": {
         "required": [
@@ -5589,7 +5713,8 @@
             ],
             "type": "string",
             "description": "Type of target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "targetIds": {
             "uniqueItems": true,
@@ -5598,10 +5723,14 @@
               "type": "string"
             },
             "description": "The categories to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Audience definition of people based on what they visited"
+        "description": "Audience definition of people based on what they visited",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacySegmentCustomerList": {
         "required": [
@@ -5619,7 +5748,10 @@
             "description": "Indicate if the audience is shared."
           }
         },
-        "description": "Audience definition of people based on a customer list"
+        "description": "Audience definition of people based on a customer list",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceUserBehaviorDetailsV2": {
         "required": [
@@ -5634,7 +5766,10 @@
             "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorV2"
           }
         },
-        "description": "User Behavior Details."
+        "description": "User Behavior Details.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacyAudienceUserBehaviorCreateV2": {
         "required": [
@@ -5649,7 +5784,9 @@
             "$ref": "#/components/schemas/RmLegacySegmentUserBehaviorCreateV2"
           }
         },
-        "description": "User Behavior to include and optionally exclude."
+        "description": "User Behavior to include and optionally exclude.",
+        "x-used-in-request": true,
+        "x-used-in-response": true
       },
       "RmLegacySegmentUserBehaviorV2": {
         "required": [
@@ -5690,7 +5827,8 @@
               "format": "int32"
             },
             "description": "The categories to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "brandIds": {
             "uniqueItems": true,
@@ -5700,22 +5838,28 @@
               "format": "int64"
             },
             "description": "The brands to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "minPrice": {
             "type": "number",
             "description": "The min price of targeted skus.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "maxPrice": {
             "type": "number",
             "description": "The max price of targeted skus.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Audience definition of people based on what they visited"
+        "description": "Audience definition of people based on what they visited",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmLegacySegmentUserBehaviorCreateV2": {
         "required": [
@@ -5756,7 +5900,8 @@
               "format": "int32"
             },
             "description": "The categories to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "brandIds": {
             "uniqueItems": true,
@@ -5766,10 +5911,15 @@
               "format": "int64"
             },
             "description": "The brands to target",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "User Behavior Details."
+        "description": "User Behavior Details.",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "KeywordsModelResponse": {
         "type": "object",
@@ -5780,7 +5930,8 @@
               "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5788,14 +5939,16 @@
               "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "data": {
             "$ref": "#/components/schemas/KeywordsModelResource"
           }
         },
         "additionalProperties": false,
-        "description": "Response object containing keywords associated with a line item."
+        "description": "Response object containing keywords associated with a line item.",
+        "x-used-in-response": true
       },
       "ResourceOutcome": {
         "type": "object",
@@ -5806,7 +5959,8 @@
               "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -5814,11 +5968,13 @@
               "$ref": "#/components/schemas/RmcaCommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "Outcome object containing errors and warnings."
+        "description": "Outcome object containing errors and warnings.",
+        "x-used-in-response": true
       },
       "AddRemoveKeywordsModelRequest": {
         "type": "object",
@@ -5828,7 +5984,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Request object to add or remove keywords from a line item"
+        "description": "Request object to add or remove keywords from a line item",
+        "x-used-in-request": true
       },
       "SetBidsModelRequest": {
         "type": "object",
@@ -5838,25 +5995,31 @@
           }
         },
         "additionalProperties": false,
-        "description": "Request object to set bid overrides for keywords associated with a line item"
+        "description": "Request object to set bid overrides for keywords associated with a line item",
+        "x-used-in-request": true
       },
       "KeywordsModelResource": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/KeywordsModel"
           }
         },
         "additionalProperties": false,
-        "description": "Resource object containing keywords associated with a line item."
+        "description": "Resource object containing keywords associated with a line item.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "RmcaCommonProblem": {
         "type": "object",
@@ -5864,7 +6027,8 @@
           "traceId": {
             "type": "string",
             "description": "The request correlation ID this problem comes from.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -5879,27 +6043,32 @@
             ],
             "type": "string",
             "description": "The problem's category.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "code": {
             "type": "string",
             "description": "A machine-readable  error code, expressed as a string value.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "instance": {
             "type": "string",
             "description": "A URI that identifies the specific occurrence of the problem.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "title": {
             "type": "string",
             "description": "A short human-readable description of the problem type",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "detail": {
             "type": "string",
             "description": "A human-readable explanation specific to this occurrence of the problem",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "source": {
             "type": "object",
@@ -5907,21 +6076,25 @@
               "type": "string"
             },
             "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "stackTrace": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "status": {
             "type": "integer",
             "description": "The problem's HTTP Status code.",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": { },
-        "description": "Common problem object."
+        "description": "Common problem object.",
+        "x-used-in-response": true
       },
       "AddRemoveKeywordsModelResource": {
         "type": "object",
@@ -5939,7 +6112,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Resource object containing keywords to be added or removed from a line item"
+        "description": "Resource object containing keywords to be added or removed from a line item",
+        "x-used-in-request": true
       },
       "SetBidsModelResource": {
         "type": "object",
@@ -5957,7 +6131,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Resource object containing keywords and their associated bid overrides"
+        "description": "Resource object containing keywords and their associated bid overrides",
+        "x-used-in-request": true
       },
       "KeywordsModel": {
         "type": "object",
@@ -5967,18 +6142,23 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/KeywordDataModel"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "rank": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "The keywords associated with a line item."
+        "description": "The keywords associated with a line item.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AddRemoveKeywordsModel": {
         "type": "object",
@@ -5992,7 +6172,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Data model containing keywords to be added or removed from a line item"
+        "description": "Data model containing keywords to be added or removed from a line item",
+        "x-used-in-request": true
       },
       "SetBidsModel": {
         "type": "object",
@@ -6006,7 +6187,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Data model containing keywords and their associated bid overrides"
+        "description": "Data model containing keywords and their associated bid overrides",
+        "x-used-in-request": true
       },
       "KeywordDataModel": {
         "type": "object",
@@ -6027,13 +6209,11 @@
           },
           "createdAt": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           },
           "updatedAt": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           }
         },
         "additionalProperties": false,
@@ -6052,12 +6232,12 @@
             "$ref": "#/components/schemas/MatchTypeModel"
           },
           "isDeleted": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           }
         },
         "additionalProperties": false,
-        "description": "A single keyword to be added or removed"
+        "description": "A single keyword to be added or removed",
+        "x-used-in-request": true
       },
       "SetBidModel": {
         "type": "object",
@@ -6075,7 +6255,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A single keyword and associated bid override"
+        "description": "A single keyword and associated bid override",
+        "x-used-in-request": true
       },
       "ReviewStateModel": {
         "enum": [
@@ -6096,7 +6277,8 @@
           "NegativeBroadMatch"
         ],
         "type": "string",
-        "description": "The match type of a keyword."
+        "description": "The match type of a keyword.",
+        "x-used-in-request": true
       },
       "InputKeywordsModel": {
         "type": "object",
@@ -6151,7 +6333,8 @@
           }
         },
         "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "Category202204ListResponse": {
         "type": "object",
@@ -6181,7 +6364,8 @@
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "Category202204": {
         "required": [
@@ -6208,7 +6392,8 @@
           }
         },
         "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ExternalRetailerPages202110": {
         "type": "object",
@@ -6224,7 +6409,8 @@
           }
         },
         "description": "Wraps a list of valid pages for a retailer",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiRequestOfCatalogRequest": {
         "type": "object",
@@ -6234,7 +6420,8 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
         "required": [
@@ -6257,7 +6444,8 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ResourceOfCategory202204": {
         "type": "object",
@@ -6268,16 +6456,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ProblemDetails": {
         "type": "object",
@@ -6285,12 +6476,14 @@
           "traceId": {
             "type": "string",
             "description": "The request correlation ID this problem comes from.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "traceIdentifier": {
             "type": "string",
             "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "enum": [
@@ -6343,7 +6536,8 @@
           }
         },
         "description": "Data model for common error or warning",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiBodyWithoutIdOfCatalogRequestAndCatalogRequest": {
         "required": [
@@ -6360,7 +6554,8 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalCatalogStatus": {
         "required": [
@@ -6426,7 +6621,8 @@
           }
         },
         "description": "The status of an asynchronous request to generate a catalog",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ExternalCatalogRequest": {
         "type": "object",
@@ -6449,7 +6645,8 @@
           }
         },
         "description": "A request for a catalog under the specified format. Currently \"json-newline\" is supported.",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "Creative202110ListResponse": {
         "type": "object",
@@ -6459,7 +6656,8 @@
             "items": {
               "$ref": "#/components/schemas/ResourceOfCreative202110"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6467,7 +6665,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6475,12 +6674,14 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "Creative202210Response": {
         "type": "object",
@@ -6494,7 +6695,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6502,12 +6704,14 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "Creative202210ListResponse": {
         "type": "object",
@@ -6517,7 +6721,8 @@
             "items": {
               "$ref": "#/components/schemas/ResourceOfCreative202210"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6525,7 +6730,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6533,12 +6739,14 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "TemplateListResponse": {
         "type": "object",
@@ -6548,7 +6756,8 @@
             "items": {
               "$ref": "#/components/schemas/ResourceOfTemplate"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "warnings": {
             "type": "array",
@@ -6556,7 +6765,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6564,12 +6774,14 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "TemplateResponse": {
         "type": "object",
@@ -6583,7 +6795,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -6591,12 +6804,14 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "CreativeCreateModel202207": {
         "required": [
@@ -6636,7 +6851,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Create model of a creative"
+        "description": "Create model of a creative",
+        "x-used-in-request": true
       },
       "CreativeUpdateModel202207": {
         "required": [
@@ -6654,8 +6870,7 @@
           "brandId": {
             "type": "integer",
             "description": "The brand associated to the creative",
-            "format": "int64",
-            "nullable": true
+            "format": "int64"
           },
           "retailerId": {
             "type": "integer",
@@ -6676,7 +6891,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Update model of a creative"
+        "description": "Update model of a creative",
+        "x-used-in-request": true
       },
       "ResourceOfCreative202110": {
         "type": "object",
@@ -6687,17 +6903,20 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "ResourceOfCreative202210": {
         "type": "object",
@@ -6708,17 +6927,21 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ResourceOfTemplate": {
         "type": "object",
@@ -6729,17 +6952,21 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API.",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "TemplateVariableValue": {
         "required": [
@@ -6771,7 +6998,9 @@
           }
         },
         "additionalProperties": false,
-        "description": "A value for a variable in a creative template."
+        "description": "A value for a variable in a creative template.",
+        "x-used-in-request": true,
+        "x-used-in-response": true
       },
       "Creative202110": {
         "required": [
@@ -6797,7 +7026,8 @@
           "brandId": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "retailerId": {
             "type": "integer",
@@ -6808,16 +7038,21 @@
             "items": {
               "type": "string"
             },
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "Metadata and usage info of a preferred deals creative"
+        "description": "Metadata and usage info of a preferred deals creative",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "Creative202210": {
         "required": [
@@ -6852,7 +7087,8 @@
             "type": "integer",
             "description": "Brand Id",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "retailerId": {
             "type": "integer",
@@ -6879,13 +7115,15 @@
               "type": "string"
             },
             "description": "Associated Line Item Ids",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "updatedAt": {
             "type": "string",
             "description": "Updated at time",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "creativeFormatType": {
             "enum": [
@@ -6920,7 +7158,10 @@
           }
         },
         "additionalProperties": false,
-        "description": "A creative entity"
+        "description": "A creative entity",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "Template": {
         "required": [
@@ -6965,7 +7206,8 @@
             "type": "integer",
             "description": "Maximum number of skus in the collection",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "skuPerCollectionMin": {
             "type": "integer",
@@ -6976,13 +7218,15 @@
             "type": "integer",
             "description": "Maximum number of skus per collection",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "displayableSkusMax": {
             "type": "integer",
             "description": "Maximum number of displayable skus",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "allCollectionsMandatory": {
             "type": "boolean",
@@ -7007,7 +7251,10 @@
           }
         },
         "additionalProperties": false,
-        "description": "A template for creating creatives."
+        "description": "A template for creating creatives.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "TextVariableValue": {
         "type": "object",
@@ -7015,12 +7262,16 @@
           "text": {
             "type": "string",
             "description": "The displayed text",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A value of a template text variable",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ChoiceVariableValue": {
         "required": [
@@ -7037,7 +7288,11 @@
           }
         },
         "additionalProperties": false,
-        "description": "A value of a template choice variable (among different accepted options)"
+        "description": "A value of a template choice variable (among different accepted options)",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ColorVariableValue": {
         "type": "object",
@@ -7046,12 +7301,16 @@
             "pattern": "^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$",
             "type": "string",
             "description": "The displayed color (HEX format)",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A value of a template color variable",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "FilesVariableValue": {
         "required": [
@@ -7069,7 +7328,11 @@
           }
         },
         "additionalProperties": false,
-        "description": "A value of a template file variable (one or several files), like images in a creative"
+        "description": "A value of a template file variable (one or several files), like images in a creative",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "HyperlinkVariableValue": {
         "type": "object",
@@ -7077,12 +7340,16 @@
           "url": {
             "type": "string",
             "description": "The url to redirect to",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "A value of a template hyperlink variable",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "VideoVariableValue": {
         "required": [
@@ -7115,7 +7382,11 @@
           }
         },
         "additionalProperties": false,
-        "description": "A value of a template video variable"
+        "description": "A value of a template video variable",
+        "nullable": true,
+        "x-used-in-request": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "PageTypeEnvironment202210": {
         "type": "object",
@@ -7135,7 +7406,8 @@
             "type": "string",
             "description": "Creative PageType",
             "format": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "environments": {
             "type": "array",
@@ -7154,11 +7426,13 @@
               "format": "string"
             },
             "description": "List of environments per PageType",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "The PageType-Environment Tuples for creatives"
+        "description": "The PageType-Environment Tuples for creatives",
+        "x-used-in-response": true
       },
       "Section": {
         "required": [
@@ -7168,11 +7442,13 @@
         "properties": {
           "title": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "description": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "templateVariables": {
             "type": "array",
@@ -7183,7 +7459,8 @@
         },
         "additionalProperties": false,
         "description": "Section object that hold template variables",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true
       },
       "TemplateVariable": {
         "required": [
@@ -7224,7 +7501,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A variable in a creative template"
+        "description": "A variable in a creative template",
+        "x-used-in-response": true
       },
       "ChoiceVariableSpecification": {
         "required": [
@@ -7243,17 +7521,22 @@
             "type": "integer",
             "description": "The maximum number of selectable options",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "minSelected": {
             "type": "integer",
             "description": "The minimum number of selectable options",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "Specification of choice variable"
+        "description": "Specification of choice variable",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "TextVariableSpecification": {
         "type": "object",
@@ -7262,12 +7545,15 @@
             "type": "integer",
             "description": "The maximum amount of characters accepted for the text",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
         "description": "Specification of a text variable",
-        "nullable": true
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "FilesVariablesSpecification": {
         "required": [
@@ -7295,23 +7581,29 @@
             "type": "integer",
             "description": "The maximum amount of bytes per file",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "minFiles": {
             "type": "integer",
             "description": "The minimum amount of files requires",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "maxFile": {
             "type": "integer",
             "description": "The maximum amount of files required",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "Specification of a file variable"
+        "description": "Specification of a file variable",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ChoiceOption": {
         "required": [
@@ -7333,7 +7625,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "An option given in a choice"
+        "description": "An option given in a choice",
+        "x-used-in-response": true
       },
       "AsyncReportResponse": {
         "type": "object",
@@ -7347,7 +7640,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -7355,10 +7649,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "Async Report response format"
+        "description": "Async Report response format",
+        "x-used-in-response": true
       },
       "ReportOutcome": {
         "type": "object",
@@ -7369,7 +7665,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -7377,10 +7674,12 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "The outcome of an API call."
+        "description": "The outcome of an API call.",
+        "x-used-in-response": true
       },
       "AsyncCampaignsReportRequest": {
         "type": "object",
@@ -7389,7 +7688,8 @@
             "$ref": "#/components/schemas/AsyncCampaignsReportResource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+        "description": "A top-level object that encapsulates a Criteo API request for a single value",
+        "x-used-in-request": true
       },
       "AsyncLineItemsReportRequest": {
         "type": "object",
@@ -7398,7 +7698,8 @@
             "$ref": "#/components/schemas/AsyncLineItemsReportResource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+        "description": "A top-level object that encapsulates a Criteo API request for a single value",
+        "x-used-in-request": true
       },
       "AsyncRevenueReportRequest": {
         "type": "object",
@@ -7407,7 +7708,8 @@
             "$ref": "#/components/schemas/AsyncRevenueReportResource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+        "description": "A top-level object that encapsulates a Criteo API request for a single value",
+        "x-used-in-request": true
       },
       "StatusResponseResource": {
         "type": "object",
@@ -7417,53 +7719,58 @@
           },
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A class that represents a domain entity exposed by an API"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AsyncCampaignsReportResource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AsyncCampaignsReport"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AsyncLineItemsReportResource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AsyncLineItemsReport"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "AsyncRevenueReportResource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/AsyncRevenueReport"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
       },
       "StatusResponse": {
         "type": "object",
@@ -7476,43 +7783,54 @@
               "expired"
             ],
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "rowCount": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "fileSizeBytes": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "md5CheckSum": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "createdAt": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "expiresAt": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "message": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Status of an async report request",
+        "nullable": true,
         "x-criteo-canonical": {
           "infoType": "entity"
-        }
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "AsyncCampaignsReport": {
         "required": [
@@ -7526,13 +7844,11 @@
             "items": {
               "type": "string"
             },
-            "description": "Campaign ids to report on",
-            "nullable": true
+            "description": "Campaign ids to report on"
           },
           "id": {
             "type": "string",
-            "description": "Campaign id to report on",
-            "nullable": true
+            "description": "Campaign id to report on"
           },
           "searchTermTypes": {
             "type": "array",
@@ -7544,8 +7860,7 @@
               ],
               "type": "string"
             },
-            "description": "Filter on the type of search term type: unknown, searched, entered",
-            "nullable": true
+            "description": "Filter on the type of search term type: unknown, searched, entered"
           },
           "searchTermTargetings": {
             "type": "array",
@@ -7557,8 +7872,7 @@
               ],
               "type": "string"
             },
-            "description": "Filter on the type of search term targeting: unknown, automatic, manual",
-            "nullable": true
+            "description": "Filter on the type of search term targeting: unknown, automatic, manual"
           },
           "campaignType": {
             "enum": [
@@ -7568,8 +7882,7 @@
             ],
             "type": "string",
             "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
-            "default": "all",
-            "nullable": true
+            "default": "all"
           },
           "salesChannel": {
             "enum": [
@@ -7579,8 +7892,7 @@
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
-            "default": "all",
-            "nullable": true
+            "default": "all"
           },
           "format": {
             "enum": [
@@ -7591,8 +7903,7 @@
             ],
             "type": "string",
             "description": "Format of the output",
-            "default": "json-compact",
-            "nullable": true
+            "default": "json-compact"
           },
           "reportType": {
             "enum": [
@@ -7608,8 +7919,7 @@
             ],
             "type": "string",
             "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
-            "default": "summary",
-            "nullable": true
+            "default": "summary"
           },
           "clickAttributionWindow": {
             "enum": [
@@ -7620,8 +7930,7 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none",
-            "nullable": true
+            "default": "none"
           },
           "viewAttributionWindow": {
             "enum": [
@@ -7633,8 +7942,7 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none",
-            "nullable": true
+            "default": "none"
           },
           "dimensions": {
             "type": "array",
@@ -7675,8 +7983,7 @@
               ],
               "type": "string"
             },
-            "description": "List of dimensions to report on",
-            "nullable": true
+            "description": "List of dimensions to report on"
           },
           "metrics": {
             "type": "array",
@@ -7722,8 +8029,7 @@
               ],
               "type": "string"
             },
-            "description": "List of metrics to report on",
-            "nullable": true
+            "description": "List of metrics to report on"
           },
           "startDate": {
             "type": "string",
@@ -7738,11 +8044,11 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC",
-            "nullable": true
+            "default": "UTC"
           }
         },
-        "description": "Async Campaigns report body request"
+        "description": "Async Campaigns report body request",
+        "x-used-in-request": true
       },
       "AsyncLineItemsReport": {
         "required": [
@@ -7756,13 +8062,11 @@
             "items": {
               "type": "string"
             },
-            "description": "Line Item ids to report on",
-            "nullable": true
+            "description": "Line Item ids to report on"
           },
           "id": {
             "type": "string",
-            "description": "Line Item id to report on",
-            "nullable": true
+            "description": "Line Item id to report on"
           },
           "searchTermTypes": {
             "type": "array",
@@ -7774,8 +8078,7 @@
               ],
               "type": "string"
             },
-            "description": "Filter on the type of search term type: unknown, searched, entered",
-            "nullable": true
+            "description": "Filter on the type of search term type: unknown, searched, entered"
           },
           "searchTermTargetings": {
             "type": "array",
@@ -7787,8 +8090,7 @@
               ],
               "type": "string"
             },
-            "description": "Filter on the type of search term targeting: unknown, automatic, manual",
-            "nullable": true
+            "description": "Filter on the type of search term targeting: unknown, automatic, manual"
           },
           "campaignType": {
             "enum": [
@@ -7798,8 +8100,7 @@
             ],
             "type": "string",
             "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
-            "default": "all",
-            "nullable": true
+            "default": "all"
           },
           "salesChannel": {
             "enum": [
@@ -7809,8 +8110,7 @@
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
-            "default": "all",
-            "nullable": true
+            "default": "all"
           },
           "format": {
             "enum": [
@@ -7821,8 +8121,7 @@
             ],
             "type": "string",
             "description": "Format of the output",
-            "default": "json-compact",
-            "nullable": true
+            "default": "json-compact"
           },
           "reportType": {
             "enum": [
@@ -7838,8 +8137,7 @@
             ],
             "type": "string",
             "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
-            "default": "summary",
-            "nullable": true
+            "default": "summary"
           },
           "clickAttributionWindow": {
             "enum": [
@@ -7850,8 +8148,7 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none",
-            "nullable": true
+            "default": "none"
           },
           "viewAttributionWindow": {
             "enum": [
@@ -7863,8 +8160,7 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none",
-            "nullable": true
+            "default": "none"
           },
           "dimensions": {
             "type": "array",
@@ -7905,8 +8201,7 @@
               ],
               "type": "string"
             },
-            "description": "List of dimensions to report on",
-            "nullable": true
+            "description": "List of dimensions to report on"
           },
           "metrics": {
             "type": "array",
@@ -7952,8 +8247,7 @@
               ],
               "type": "string"
             },
-            "description": "List of metrics to report on",
-            "nullable": true
+            "description": "List of metrics to report on"
           },
           "startDate": {
             "type": "string",
@@ -7968,11 +8262,11 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC",
-            "nullable": true
+            "default": "UTC"
           }
         },
-        "description": "Async Line Items report body request"
+        "description": "Async Line Items report body request",
+        "x-used-in-request": true
       },
       "AsyncRevenueReport": {
         "required": [
@@ -7986,45 +8280,39 @@
             "items": {
               "type": "string"
             },
-            "description": "Supply account ids to report on",
-            "nullable": true
+            "description": "Supply account ids to report on"
           },
           "id": {
             "type": "string",
-            "description": "Supply account id to report on",
-            "nullable": true
+            "description": "Supply account id to report on"
           },
           "retailerIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Retailer ids to filter",
-            "nullable": true
+            "description": "Retailer ids to filter"
           },
           "accountIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Account ids to filter",
-            "nullable": true
+            "description": "Account ids to filter"
           },
           "campaignIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Campaign ids to filter",
-            "nullable": true
+            "description": "Campaign ids to filter"
           },
           "lineItemIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Line item ids to filter",
-            "nullable": true
+            "description": "Line item ids to filter"
           },
           "reportType": {
             "enum": [
@@ -8035,8 +8323,7 @@
               "brand"
             ],
             "type": "string",
-            "description": "Type of report",
-            "nullable": true
+            "description": "Type of report"
           },
           "revenueType": {
             "enum": [
@@ -8044,8 +8331,7 @@
               "preferred"
             ],
             "type": "string",
-            "description": "Type of revenue",
-            "nullable": true
+            "description": "Type of revenue"
           },
           "soldBy": {
             "enum": [
@@ -8054,8 +8340,7 @@
               "privateMarket"
             ],
             "type": "string",
-            "description": "Filter on the seller: Indirect Sold, Direct Sold or Private Market",
-            "nullable": true
+            "description": "Filter on the seller: Indirect Sold, Direct Sold or Private Market"
           },
           "buyType": {
             "enum": [
@@ -8064,8 +8349,7 @@
               "sponsorship"
             ],
             "type": "string",
-            "description": "Filter on buy type: Auction, Preferred Deals or Sponsorship",
-            "nullable": true
+            "description": "Filter on buy type: Auction, Preferred Deals or Sponsorship"
           },
           "advertiserTypes": {
             "type": "array",
@@ -8077,8 +8361,7 @@
               ],
               "type": "string"
             },
-            "description": "Filter on the type of advertiser: retailer, brand, seller",
-            "nullable": true
+            "description": "Filter on the type of advertiser: retailer, brand, seller"
           },
           "skuRelations": {
             "type": "array",
@@ -8092,8 +8375,7 @@
               ],
               "type": "string"
             },
-            "description": "Filter on sku relations: Same SKU, Same Parent SKU, Same Category, Same Brand or Same Seller",
-            "nullable": true
+            "description": "Filter on sku relations: Same SKU, Same Parent SKU, Same Category, Same Brand or Same Seller"
           },
           "format": {
             "enum": [
@@ -8104,8 +8386,7 @@
             ],
             "type": "string",
             "description": "Format of the output",
-            "default": "json",
-            "nullable": true
+            "default": "json"
           },
           "campaignType": {
             "enum": [
@@ -8115,8 +8396,7 @@
             ],
             "type": "string",
             "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
-            "default": "all",
-            "nullable": true
+            "default": "all"
           },
           "salesChannel": {
             "enum": [
@@ -8126,8 +8406,7 @@
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
-            "default": "all",
-            "nullable": true
+            "default": "all"
           },
           "clickAttributionWindow": {
             "enum": [
@@ -8138,8 +8417,7 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none",
-            "nullable": true
+            "default": "none"
           },
           "viewAttributionWindow": {
             "enum": [
@@ -8151,8 +8429,7 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none",
-            "nullable": true
+            "default": "none"
           },
           "dimensions": {
             "type": "array",
@@ -8216,8 +8493,7 @@
               ],
               "type": "string"
             },
-            "description": "List of dimensions to report on",
-            "nullable": true
+            "description": "List of dimensions to report on"
           },
           "metrics": {
             "type": "array",
@@ -8270,8 +8546,7 @@
               ],
               "type": "string"
             },
-            "description": "List of metrics to report on",
-            "nullable": true
+            "description": "List of metrics to report on"
           },
           "startDate": {
             "type": "string",
@@ -8286,11 +8561,11 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC",
-            "nullable": true
+            "default": "UTC"
           }
         },
-        "description": "Async Revenue report body request"
+        "description": "Async Revenue report body request",
+        "x-used-in-request": true
       },
       "ValueResourceOutcomeOfCampaignBudgetOverrides": {
         "type": "object",
@@ -8304,7 +8579,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -8312,11 +8588,13 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "x-used-in-response": true
       },
       "ValueResourceOutcomeOfLineItemBudgetOverrides": {
         "type": "object",
@@ -8330,7 +8608,8 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           },
           "errors": {
             "type": "array",
@@ -8338,11 +8617,13 @@
               "$ref": "#/components/schemas/CommonProblem"
             },
             "nullable": true,
-            "readOnly": true
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "x-used-in-response": true
       },
       "ValueResourceInputOfCampaignBudgetOverrides": {
         "type": "object",
@@ -8352,7 +8633,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value.",
+        "x-used-in-request": true
       },
       "ValueResourceInputOfLineItemBudgetOverrides": {
         "type": "object",
@@ -8362,35 +8644,46 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value.",
+        "x-used-in-request": true
       },
       "ValueResourceOfCampaignBudgetOverrides": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/CampaignBudgetOverrides"
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-used-in-request": true,
+        "x-optional-in-response": true
       },
       "ValueResourceOfLineItemBudgetOverrides": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/LineItemBudgetOverrides"
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-used-in-request": true,
+        "x-optional-in-response": true
       },
       "CampaignBudgetOverrides": {
         "required": [
@@ -8415,7 +8708,11 @@
           }
         },
         "additionalProperties": false,
-        "description": "Campaign budget overrides including Monthly and Daily budget overrides."
+        "description": "Campaign budget overrides including Monthly and Daily budget overrides.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-used-in-request": true,
+        "x-optional-in-response": true
       },
       "LineItemBudgetOverrides": {
         "required": [
@@ -8440,7 +8737,11 @@
           }
         },
         "additionalProperties": false,
-        "description": "Line item budget overrides including Monthly and Daily budget overrides."
+        "description": "Line item budget overrides including Monthly and Daily budget overrides.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-used-in-request": true,
+        "x-optional-in-response": true
       },
       "CampaignMonthlyBudgetOverride": {
         "required": [
@@ -8453,7 +8754,8 @@
             "type": "string",
             "description": "Monthly budget override start month, format \"yyyy-MM\". If it is null, the StartMonth would be the following month of the last item in the override sequence.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "duration": {
             "type": "string",
@@ -8472,11 +8774,14 @@
             ],
             "type": "string",
             "description": "Monthly budget override computed status.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "Campaign monthly budget override."
+        "description": "Campaign monthly budget override.",
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "CampaignDailyBudgetOverride": {
         "required": [
@@ -8489,7 +8794,8 @@
             "type": "string",
             "description": "Daily budget override start date, format \"yyyy-MM-dd\". If it is null, the StartDate would be the following date of the last item in the override sequence.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "duration": {
             "type": "string",
@@ -8508,11 +8814,14 @@
             ],
             "type": "string",
             "description": "Daily budget override computed status.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "Campaign daily budget override."
+        "description": "Campaign daily budget override.",
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "MonthlyLineItemBudegetOverride": {
         "required": [
@@ -8525,7 +8834,8 @@
             "type": "string",
             "description": "Monthly budget override start month, format \"yyyy-MM\". If it is null, the StartMonth would be the following month of the last item in the override sequence.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "duration": {
             "type": "string",
@@ -8544,11 +8854,14 @@
             ],
             "type": "string",
             "description": "Monthly budget override computed status.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "The details for a monthly budget override"
+        "description": "The details for a monthly budget override",
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "DailyLineItemBudgetOverride": {
         "required": [
@@ -8560,7 +8873,8 @@
             "type": "string",
             "description": "Daily budget override start date, format \"yyyy-MM-dd\". If it is null, the StartDate would be the following date of the last item in the override sequence.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "duration": {
             "type": "string",
@@ -8570,7 +8884,8 @@
             "type": "number",
             "description": "Daily budget override maximum daily spend amount.",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "status": {
             "enum": [
@@ -8580,11 +8895,14 @@
             ],
             "type": "string",
             "description": "Daily budget override computed status.",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "additionalProperties": false,
-        "description": "The details for a daily budget override"
+        "description": "The details for a daily budget override",
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "BalanceResponsePagedListResponse": {
         "type": "object",
@@ -8617,7 +8935,8 @@
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "BalanceResponse": {
         "type": "object",
@@ -8643,7 +8962,8 @@
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiPageResponseOfCampaignV202301": {
         "required": [
@@ -8678,7 +8998,8 @@
           }
         },
         "description": "A wrapper class to return a single page of <typeparamref name=\"T\" /> with metadata",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiSingleResponseOfCampaignV202301": {
         "required": [
@@ -8705,7 +9026,8 @@
           }
         },
         "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "CommonLineItemPagedListResponse": {
         "type": "object",
@@ -8738,7 +9060,8 @@
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "AuctionLineItemResponse": {
         "type": "object",
@@ -8764,7 +9087,8 @@
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "KeywordTarget202110Response": {
         "type": "object",
@@ -8790,7 +9114,8 @@
           }
         },
         "description": "Data model for a value type resource outcome",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "BalanceCampaign202110PagedListResponse": {
         "type": "object",
@@ -8823,7 +9148,8 @@
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "AuctionLineItemPagedListResponse": {
         "type": "object",
@@ -8856,7 +9182,8 @@
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "PreferredLineItem202110PagedListResponse": {
         "type": "object",
@@ -8889,7 +9216,8 @@
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "PreferredLineItem202110Response": {
         "type": "object",
@@ -8915,7 +9243,8 @@
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "CommonLineItemResponse": {
         "type": "object",
@@ -8941,7 +9270,8 @@
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiSingleResponseOfLineItemBidMultipliers": {
         "required": [
@@ -8968,7 +9298,8 @@
           }
         },
         "description": "Data model for the response of a line item bid multiplier",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "LineItemBidMultipliersResponse": {
         "type": "object",
@@ -8994,7 +9325,8 @@
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "PromotedProduct202110PagedListResponse": {
         "type": "object",
@@ -9027,7 +9359,8 @@
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "AddToBasketTarget202110Response": {
         "type": "object",
@@ -9053,7 +9386,8 @@
           }
         },
         "description": "Data model for a value type resource outcome",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "AudienceTarget202110Response": {
         "type": "object",
@@ -9079,7 +9413,8 @@
           }
         },
         "description": "Data model for a value type resource outcome",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "StoreTarget202110Response": {
         "type": "object",
@@ -9105,7 +9440,8 @@
           }
         },
         "description": "Data model for a value type resource outcome",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "CreateBalanceRequest": {
         "type": "object",
@@ -9115,7 +9451,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "UpdateBalanceModelRequest": {
         "type": "object",
@@ -9125,7 +9462,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AddFundsToBalanceRequest": {
         "type": "object",
@@ -9135,7 +9473,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ChangeDatesOfBalanceRequest": {
         "type": "object",
@@ -9145,7 +9484,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "PostCampaignV202301": {
         "type": "object",
@@ -9155,7 +9495,8 @@
           }
         },
         "description": "An object that represents the available options to set when creating a Retail Media Campaign",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AuctionLineItemUpdateModelRequest": {
         "type": "object",
@@ -9165,7 +9506,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "KeywordTarget202110Request": {
         "type": "object",
@@ -9175,7 +9517,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "BalanceCampaign202110ListRequest": {
         "type": "object",
@@ -9189,7 +9532,8 @@
           }
         },
         "description": "A class implementing the request of the Criteo API as described in API Guild Guidelines with a collection of entities as body\r\nhttps://criteo.atlassian.net/wiki/spaces/GUA/pages/1564541212/Response+Body+Guidelines",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AuctionLineItemCreateModelRequest": {
         "type": "object",
@@ -9199,7 +9543,8 @@
           }
         },
         "description": "Data model for a create input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "PreferredLineItemCreateModel202110Request": {
         "type": "object",
@@ -9209,7 +9554,8 @@
           }
         },
         "description": "Data model for a create input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "PutCampaignV202301": {
         "type": "object",
@@ -9219,7 +9565,8 @@
           }
         },
         "description": "An object that represents the available options to set when editing a Retail Media Campaign",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "LineItemBidMultipliersRequest": {
         "type": "object",
@@ -9229,7 +9576,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "PromotedProduct202110ListRequest": {
         "type": "object",
@@ -9243,7 +9591,8 @@
           }
         },
         "description": "Data model for a list of input resources",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "PreferredLineItemUpdateModel202110Request": {
         "type": "object",
@@ -9253,7 +9602,8 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AddToBasketTarget202110Request": {
         "type": "object",
@@ -9263,7 +9613,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AddToBasketIdsUpdateModel202110Request": {
         "type": "object",
@@ -9273,7 +9624,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AudienceTarget202110Request": {
         "type": "object",
@@ -9283,7 +9635,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "AudienceIdsUpdateModel202110Request": {
         "type": "object",
@@ -9293,7 +9646,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "StoreTarget202110Request": {
         "type": "object",
@@ -9303,7 +9657,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "StoreIdsUpdateModel202110Request": {
         "type": "object",
@@ -9313,7 +9668,8 @@
           }
         },
         "description": "Data model for a value type input resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ResourceOfBalanceResponse": {
         "type": "object",
@@ -9324,16 +9680,19 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiBodyWithIdOfInt64AndCampaignV202301AndCampaignV202301": {
         "required": [
@@ -9356,7 +9715,8 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ResourceOfCommonLineItem": {
         "type": "object",
@@ -9364,19 +9724,22 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalCommonLineItem"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ResourceOfAuctionLineItem": {
         "type": "object",
@@ -9384,19 +9747,22 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalAuctionLineItem"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ValueTypeResourceOfKeywordTarget202110": {
         "type": "object",
@@ -9410,7 +9776,9 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ResourceOfBalanceCampaign202110": {
         "type": "object",
@@ -9418,19 +9786,23 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalBalanceCampaign202110"
           }
         },
         "description": "A class that represents an entity in a guild compliant way",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ResourceOfPreferredLineItem202110": {
         "type": "object",
@@ -9438,19 +9810,22 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalPreferredLineItem202110"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "JsonApiBodyWithIdOfInt64AndLineItemBidMultipliersAndLineItemBidMultipliers": {
         "required": [
@@ -9473,7 +9848,8 @@
           }
         },
         "description": "Response object for line item bid multiplier calls",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ResourceOfLineItemBidMultipliers": {
         "type": "object",
@@ -9484,16 +9860,20 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true,
+        "x-used-in-response": true
       },
       "ResourceOfPromotedProduct202110": {
         "type": "object",
@@ -9501,19 +9881,23 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
             "description": "Canonical type name of the entity",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalPromotedProduct202110"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ValueTypeResourceOfAddToBasketTarget202110": {
         "type": "object",
@@ -9527,7 +9911,9 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ValueTypeResourceOfAudienceTarget202110": {
         "type": "object",
@@ -9541,7 +9927,9 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ValueTypeResourceOfStoreTarget202110": {
         "type": "object",
@@ -9555,7 +9943,9 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ResourceOfCreateBalance": {
         "type": "object",
@@ -9565,17 +9955,16 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
+            "description": "Canonical type name of the entity"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ResourceOfUpdateBalanceModel": {
         "type": "object",
@@ -9585,17 +9974,16 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
+            "description": "Canonical type name of the entity"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ResourceOfAddFundsToBalance": {
         "type": "object",
@@ -9605,17 +9993,16 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
+            "description": "Canonical type name of the entity"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ResourceOfChangeDatesOfBalance": {
         "type": "object",
@@ -9625,17 +10012,16 @@
           },
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
+            "description": "Canonical type name of the entity"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "JsonApiBodyWithoutIdOfCampaignAttributesV202301AndCampaignV202301": {
         "required": [
@@ -9652,27 +10038,27 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ResourceOfAuctionLineItemUpdateModel": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
+            "description": "Canonical type name of the entity"
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalAuctionLineItemUpdateModel"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "InputResourceOfAuctionLineItemCreateModel": {
         "type": "object",
@@ -9686,7 +10072,8 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "InputResourceOfPreferredLineItemCreateModel202110": {
         "type": "object",
@@ -9700,7 +10087,8 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "JsonApiBodyWithExternalIdOfEditableCampaignAttributesV202301AndCampaignV202301": {
         "required": [
@@ -9723,27 +10111,27 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ResourceOfPreferredLineItemUpdateModel202110": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
+            "description": "Id of the entity"
           },
           "type": {
             "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
+            "description": "Canonical type name of the entity"
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModel202110"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ValueTypeResourceOfAddToBasketIdsUpdateModel202110": {
         "type": "object",
@@ -9757,7 +10145,8 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ValueTypeResourceOfAudienceIdsUpdateModel202110": {
         "type": "object",
@@ -9771,7 +10160,8 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ValueTypeResourceOfStoreIdsUpdateModel202110": {
         "type": "object",
@@ -9785,7 +10175,8 @@
           }
         },
         "description": "Data model for a value type resource",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalBalanceResponse": {
         "required": [
@@ -9909,7 +10300,8 @@
           }
         },
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "CampaignV202301": {
         "required": [
@@ -10088,7 +10480,8 @@
           }
         },
         "description": "A Retail Media Campaign used to represent an advertiser's marketing objective",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ExternalCommonLineItem": {
         "required": [
@@ -10127,7 +10520,8 @@
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "status": {
             "enum": [
@@ -10183,7 +10577,8 @@
           }
         },
         "description": "A common line item to hold line item information shared between preferred and auction line items",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ExternalAuctionLineItem": {
         "required": [
@@ -10212,7 +10607,8 @@
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
             "format": "date",
-            "nullable": true
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "maxBid": {
             "type": "number",
@@ -10305,10 +10701,17 @@
             "type": "string",
             "format": "date-time",
             "x-nullable": false
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true,
+            "x-nullable": true
           }
         },
         "description": "A Retail Media Auction Line Item used to hold bid settings for one or many promoted products on a single retailer",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "ExternalKeywordTarget202110": {
         "required": [
@@ -10332,12 +10735,16 @@
           }
         },
         "description": "Identifies keyword targeting for a line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalBalanceCampaign202110": {
         "type": "object",
         "description": "Campaigns related to the balance",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalPreferredLineItem202110": {
         "required": [
@@ -10444,7 +10851,8 @@
           }
         },
         "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true
       },
       "LineItemBidMultipliers": {
         "type": "object",
@@ -10491,7 +10899,9 @@
           }
         },
         "description": "Data model representing bid multipliers on a line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalPromotedProduct202110": {
         "type": "object",
@@ -10504,7 +10914,9 @@
           }
         },
         "description": "identifies a promoted product",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalAddToBasketTarget202110": {
         "required": [
@@ -10542,7 +10954,9 @@
           }
         },
         "description": "Identifies add to basket targeting for a line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalAudienceTarget202110": {
         "required": [
@@ -10572,7 +10986,9 @@
           }
         },
         "description": "Identifies audience targeting for a line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalStoreTarget202110": {
         "required": [
@@ -10602,7 +11018,9 @@
           }
         },
         "description": "Identifies store targeting for a line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalCreateBalance": {
         "required": [
@@ -10665,7 +11083,8 @@
           }
         },
         "description": "An object that represents the available options to set when creating a Retail Media Balance",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalUpdateBalanceModel": {
         "type": "object",
@@ -10688,14 +11107,12 @@
           "startDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date",
-            "nullable": true
+            "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date",
-            "nullable": true
+            "format": "date"
           },
           "memo": {
             "type": "string",
@@ -10704,7 +11121,8 @@
           }
         },
         "description": "An object that represents the available options to set when updating a Retail Media Balance",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalAddFundsToBalance": {
         "required": [
@@ -10731,7 +11149,8 @@
           }
         },
         "description": "An object that represents the available options of adding funds to a balance.",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalChangeDatesOfBalance": {
         "required": [
@@ -10758,7 +11177,8 @@
           }
         },
         "description": "An object that represents the available options to modify schedule of a balance.",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "CampaignAttributesV202301": {
         "required": [
@@ -10885,7 +11305,8 @@
           }
         },
         "description": "An object that represents the available options to set when creating a Retail Media Campaign",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalAuctionLineItemUpdateModel": {
         "required": [
@@ -10911,8 +11332,7 @@
           "endDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date",
-            "nullable": true
+            "format": "date"
           },
           "status": {
             "enum": [
@@ -10976,7 +11396,8 @@
           }
         },
         "description": "Model to update a retail media auction line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalAuctionLineItemCreateModel": {
         "required": [
@@ -11000,8 +11421,7 @@
           "endDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date",
-            "nullable": true
+            "format": "date"
           },
           "status": {
             "enum": [
@@ -11071,7 +11491,8 @@
           }
         },
         "description": "Model to create a retail media auction line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalPreferredLineItemCreateModel202110": {
         "required": [
@@ -11149,7 +11570,8 @@
           }
         },
         "description": "Model used to create a preferred line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "EditableCampaignAttributesV202301": {
         "required": [
@@ -11258,7 +11680,8 @@
           }
         },
         "description": "An object that represents the available options to set when editing a Retail Media Campaign",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalPreferredLineItemUpdateModel202110": {
         "required": [
@@ -11329,7 +11752,8 @@
           }
         },
         "description": "Model used to update a preferred line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalAddToBasketIdsUpdateModel202110": {
         "type": "object",
@@ -11354,7 +11778,8 @@
           }
         },
         "description": "Update model for updating add to basket target ids",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalAudienceIdsUpdateModel202110": {
         "required": [
@@ -11373,7 +11798,8 @@
           }
         },
         "description": "Update model for updating audience target ids",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalStoreIdsUpdateModel202110": {
         "required": [
@@ -11392,7 +11818,8 @@
           }
         },
         "description": "Update model for updating store target ids",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-request": true
       },
       "ExternalLineItemCapping202110": {
         "required": [
@@ -11417,7 +11844,9 @@
           }
         },
         "description": "Frequency capping for a preferred line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalLineItemPage202110": {
         "required": [
@@ -11456,7 +11885,9 @@
           }
         },
         "description": "Page information for a preferred line item",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       },
       "ExternalLineItemPageCategory202110": {
         "required": [
@@ -11475,7 +11906,9 @@
           }
         },
         "description": "Category information for a preferred line item page",
-        "x-nullable": false
+        "x-nullable": false,
+        "x-used-in-response": true,
+        "x-used-in-request": true
       }
     },
     "securitySchemes": {
