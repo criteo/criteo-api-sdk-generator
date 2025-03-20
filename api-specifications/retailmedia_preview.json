@@ -1665,13 +1665,13 @@
         }
       }
     },
-    "/preview/retail-media/accounts/{accountId}/catalogs/sellers": {
+    "/preview/retail-media/accounts/{accountId}/brand-catalog-export": {
       "post": {
         "tags": [
           "Campaign"
         ],
         "description": "Create a request for a Catalog available to the indicated account.",
-        "operationId": "Catalog_PostApiV1ExternalAccountCatalogsSellersByAccountId",
+        "operationId": "Catalog_PostApiExternalV2AccountBrandCatalogExportByAccountId",
         "parameters": [
           {
             "name": "accountId",
@@ -1689,7 +1689,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/JsonApiRequestOfSellerCatalogRequest"
+                "$ref": "#/components/schemas/JsonApiRequestOfBrandCatalogRequestV2"
               }
             }
           },
@@ -1701,17 +1701,71 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{accountId}/seller-catalog-export": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Create a request for a Catalog available to the indicated account.",
+        "operationId": "Catalog_PostApiExternalV2AccountSellerCatalogExportByAccountId",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account to request the catalog for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonApiRequestOfSellerCatalogRequestV2"
+              }
+            }
+          },
+          "x-bodyName": "body"
+        },
+        "responses": {
+          "200": {
+            "description": "Catalog request successfully created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               }
             }
@@ -1721,17 +1775,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfCatalogStatus"
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               }
             }
@@ -2029,6 +2083,50 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SkuSlimDataV2ListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/catalogs/{catalogId}/status": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Check the status of a catalog request.",
+        "operationId": "Catalog_GetApiExternalV2CatalogStatusByCatalogId",
+        "parameters": [
+          {
+            "name": "catalogId",
+            "in": "path",
+            "description": "A catalog ID returned from an account catalog request.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalog request found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogStatusV2Response"
                 }
               }
             }
@@ -8260,32 +8358,34 @@
         "additionalProperties": false,
         "description": "The keywords to be added or removed from a line item."
       },
-      "JsonApiSingleResponseOfCatalogStatus": {
-        "required": [
-          "data"
-        ],
+      "CatalogStatusV2Response": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonError"
-            },
-            "x-nullable": false
+            "$ref": "#/components/schemas/ResourceOfCatalogStatusV2"
           },
           "warnings": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CommonWarning"
+              "$ref": "#/components/schemas/CommonProblem"
             },
-            "x-nullable": false
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
-        "x-nullable": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "nullable": true,
+        "x-nullable": true,
         "x-used-in-response": true
       },
       "SkuDataPreviewListResponse": {
@@ -8497,11 +8597,23 @@
         "x-nullable": false,
         "x-used-in-response": true
       },
-      "JsonApiRequestOfSellerCatalogRequest": {
+      "JsonApiRequestOfBrandCatalogRequestV2": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfSellerCatalogRequestAndSellerCatalogRequest"
+            "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfBrandCatalogRequestV2AndBrandCatalogRequestV2"
+          }
+        },
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
+        "nullable": true,
+        "x-nullable": true,
+        "x-used-in-request": true
+      },
+      "JsonApiRequestOfSellerCatalogRequestV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/JsonApiBodyWithoutIdOfSellerCatalogRequestV2AndSellerCatalogRequestV2"
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
@@ -8542,152 +8654,28 @@
         "x-nullable": false,
         "x-used-in-request": true
       },
-      "JsonApiBodyWithIdOfInt64AndCatalogStatusAndCatalogStatus": {
-        "required": [
-          "id",
-          "type"
-        ],
+      "ResourceOfCatalogStatusV2": {
         "type": "object",
         "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CatalogStatusV2"
+          },
           "id": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "description": "Id of the entity",
+            "nullable": true,
+            "x-optional-in-response": true
           },
           "type": {
             "type": "string",
-            "x-nullable": false
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalCatalogStatus"
+            "description": "Canonical type name of the entity",
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false,
-        "x-used-in-response": true
-      },
-      "CommonError": {
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "x-nullable": false
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "description": "(REQUIRED) The classification of the error.",
-            "x-nullable": false
-          },
-          "code": {
-            "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
-            "x-nullable": false
-          },
-          "instance": {
-            "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
-            "x-nullable": false
-          },
-          "title": {
-            "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "x-nullable": false
-          },
-          "detail": {
-            "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "x-nullable": false
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
-          },
-          "stackTrace": {
-            "type": "string",
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "x-nullable": false
-          }
-        },
-        "description": "A JSON:API Common error structure",
-        "x-nullable": false,
-        "x-used-in-response": true
-      },
-      "CommonWarning": {
-        "type": "object",
-        "properties": {
-          "traceId": {
-            "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "x-nullable": false
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "description": "(REQUIRED) The classification of the error.",
-            "x-nullable": false
-          },
-          "code": {
-            "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
-            "x-nullable": false
-          },
-          "instance": {
-            "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
-            "x-nullable": false
-          },
-          "title": {
-            "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "x-nullable": false
-          },
-          "detail": {
-            "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "x-nullable": false
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
-          },
-          "stackTrace": {
-            "type": "string",
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "x-nullable": false
-          }
-        },
-        "description": "A JSON:API Base common warning",
-        "x-nullable": false,
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true,
+        "x-nullable": true,
         "x-used-in-response": true
       },
       "ResourceOfSkuDataPreview": {
@@ -8920,7 +8908,7 @@
         "x-nullable": false,
         "x-used-in-response": true
       },
-      "JsonApiBodyWithoutIdOfSellerCatalogRequestAndSellerCatalogRequest": {
+      "JsonApiBodyWithoutIdOfBrandCatalogRequestV2AndBrandCatalogRequestV2": {
         "required": [
           "type"
         ],
@@ -8930,7 +8918,24 @@
             "type": "string"
           },
           "attributes": {
-            "$ref": "#/components/schemas/SellerCatalogRequest"
+            "$ref": "#/components/schemas/BrandCatalogRequestV2"
+          }
+        },
+        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
+        "x-nullable": false,
+        "x-used-in-request": true
+      },
+      "JsonApiBodyWithoutIdOfSellerCatalogRequestV2AndSellerCatalogRequestV2": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/SellerCatalogRequestV2"
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
@@ -8994,15 +8999,10 @@
         "x-nullable": false,
         "x-used-in-request": true
       },
-      "ExternalCatalogStatus": {
+      "CatalogStatusV2": {
         "required": [
           "status",
-          "currency",
-          "rowCount",
-          "fileSizeBytes",
-          "md5Checksum",
-          "createdAt",
-          "message"
+          "createdAt"
         ],
         "type": "object",
         "properties": {
@@ -9015,46 +9015,38 @@
               "expired"
             ],
             "type": "string",
-            "description": "An enumeration of the status of the catalog.",
-            "x-nullable": false
-          },
-          "currency": {
-            "type": "string",
-            "description": "An ISO4217 representation of the currency products are listed under in this catalog.",
-            "nullable": true,
-            "x-nullable": true
+            "description": "An enumeration of the status of the catalog."
           },
           "rowCount": {
             "type": "integer",
             "description": "An indication of the number of products contained in this catalog. Available when\r\nthis catalog reaches a success status.",
             "format": "int32",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "fileSizeBytes": {
             "type": "integer",
             "description": "The size of this catalog in bytes. Available when this catalog reaches a success status.",
             "format": "int32",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "md5Checksum": {
             "type": "string",
             "description": "An MD5 checksum of the catalog for use in confirming complete and uncorrupted retrieval.\r\nAvailable when this catalog reaches a success status.",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           },
           "createdAt": {
             "type": "string",
             "description": "The time this catalog was created. Represented as a UTC ISO8601 string.",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           },
           "message": {
             "type": "string",
             "description": "An optional information message intended for developer consumption.",
             "nullable": true,
-            "x-nullable": true
+            "x-optional-in-response": true
           }
         },
         "description": "The status of an asynchronous request to generate a catalog",
@@ -9495,18 +9487,86 @@
         "x-nullable": false,
         "x-used-in-response": true
       },
-      "SellerCatalogRequest": {
+      "BrandCatalogRequestV2": {
+        "type": "object",
+        "properties": {
+          "brandIdFilter": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The brand ids to filter the catalog by.",
+              "format": "long-id"
+            },
+            "description": "The brand ids to filter the catalog by."
+          },
+          "retailerIdFilter": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "The retailer ids to filter the catalog by."
+          },
+          "modifiedAfter": {
+            "type": "string",
+            "description": "Only products modified after this time will be returned.",
+            "format": "date-time"
+          },
+          "includeFields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "Description",
+                "ImageUrl",
+                "GlobalCategoryId",
+                "RetailerName",
+                "Category",
+                "BrandName"
+              ],
+              "type": "string"
+            },
+            "description": "Out of the optional fields, only the ones specified will be included in the catalog generated."
+          }
+        },
+        "description": "A request for a catalog under the specified format.",
+        "nullable": true,
+        "x-nullable": true,
+        "x-used-in-request": true
+      },
+      "SellerCatalogRequestV2": {
         "type": "object",
         "properties": {
           "sellers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SellerIdentifier"
+              "$ref": "#/components/schemas/SellerIdentifierV2"
             },
-            "description": "A list of sellers to restict the catalog to."
+            "description": "A list of sellers to restrict the catalog to."
+          },
+          "modifiedAfter": {
+            "type": "string",
+            "description": "Only products modified after this time will be returned.",
+            "format": "date-time"
+          },
+          "includeFields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "Description",
+                "ImageUrl",
+                "GlobalCategoryId",
+                "RetailerName",
+                "Category",
+                "BrandName"
+              ],
+              "type": "string"
+            },
+            "description": "Out of the optional fields, only the ones specified will be included in the catalog generated."
           }
         },
-        "description": "Used to requst a catalog of seller SKUs",
+        "description": "Used to request a catalog of seller SKUs",
         "nullable": true,
         "x-nullable": true,
         "x-used-in-request": true
@@ -9695,7 +9755,7 @@
         "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID",
         "x-nullable": false
       },
-      "SellerIdentifier": {
+      "SellerIdentifierV2": {
         "required": [
           "retailerId",
           "sellerId"
@@ -12879,6 +12939,130 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
+        "x-nullable": false,
+        "x-used-in-response": true
+      },
+      "CommonError": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string",
+            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
+            "x-nullable": false
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "(REQUIRED) The classification of the error.",
+            "x-nullable": false
+          },
+          "code": {
+            "type": "string",
+            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
+            "x-nullable": false
+          },
+          "instance": {
+            "type": "string",
+            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
+            "x-nullable": false
+          },
+          "title": {
+            "type": "string",
+            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
+            "x-nullable": false
+          },
+          "detail": {
+            "type": "string",
+            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
+            "x-nullable": false
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "x-nullable": false
+          },
+          "stackTrace": {
+            "type": "string",
+            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
+            "x-nullable": false
+          }
+        },
+        "description": "A JSON:API Common error structure",
+        "x-nullable": false,
+        "x-used-in-response": true
+      },
+      "CommonWarning": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string",
+            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
+            "x-nullable": false
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "(REQUIRED) The classification of the error.",
+            "x-nullable": false
+          },
+          "code": {
+            "type": "string",
+            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
+            "x-nullable": false
+          },
+          "instance": {
+            "type": "string",
+            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
+            "x-nullable": false
+          },
+          "title": {
+            "type": "string",
+            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
+            "x-nullable": false
+          },
+          "detail": {
+            "type": "string",
+            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
+            "x-nullable": false
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "x-nullable": false
+          },
+          "stackTrace": {
+            "type": "string",
+            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
+            "x-nullable": false
+          }
+        },
+        "description": "A JSON:API Base common warning",
         "x-nullable": false,
         "x-used-in-response": true
       },
