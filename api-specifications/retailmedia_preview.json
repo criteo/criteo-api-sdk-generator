@@ -1212,6 +1212,76 @@
         }
       }
     },
+    "/preview/retail-media/accounts/{account-id}/keywords/in-review-report": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Generate a list of reports for line items which contain one or more actionable keyword reviews",
+        "operationId": "InReviewReportV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account to generate a report for",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset for pagination",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items per page",
+            "style": "form",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeLineItemKeywordReviewReportAndMetadata"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeLineItemKeywordReviewReportAndMetadata"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeLineItemKeywordReviewReportAndMetadata"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/preview/retail-media/line-items/{id}/keywords": {
       "get": {
         "tags": [
@@ -1352,6 +1422,76 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcome"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/line-items/{line-item-id}/keywords/review": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Update the status of keyword reviews under a line item",
+        "operationId": "UpdateKeywordReviewsV1",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "The line item to update keyword review statuses for",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request object containing a list of Phrase-ReviewState pairs to update",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRetailMediaKeywordsReview"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRetailMediaKeywordsReview"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRetailMediaKeywordsReview"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRetailMediaKeywordsReview"
+              }
+            }
+          },
+          "x-bodyName": "keywordReviewSetStateRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeRetailMediaKeywordsReviewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeRetailMediaKeywordsReviewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeRetailMediaKeywordsReviewResult"
                 }
               }
             }
@@ -1681,8 +1821,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -1735,8 +1874,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -1812,8 +1950,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -1826,8 +1963,7 @@
               "type": "integer",
               "format": "int32",
               "default": 100
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -1838,10 +1974,8 @@
                 "uniqueItems": false,
                 "type": "array",
                 "items": {
-                  "type": "string",
-                  "x-nullable": false
-                },
-                "x-nullable": false
+                  "type": "string"
+                }
               }
             }
           },
@@ -1881,8 +2015,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -1895,8 +2028,7 @@
               "type": "integer",
               "format": "int32",
               "default": 100
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -1941,8 +2073,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "retailer-id",
@@ -1952,8 +2083,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "offset",
@@ -1964,8 +2094,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "limit",
@@ -1978,8 +2107,7 @@
               "type": "integer",
               "format": "int32",
               "default": 100
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -2023,8 +2151,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "retailer-id",
@@ -2034,8 +2161,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "offset",
@@ -2046,8 +2172,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "limit",
@@ -2060,8 +2185,7 @@
               "type": "integer",
               "format": "int32",
               "default": 100
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -2106,8 +2230,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -2150,8 +2273,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "fields",
@@ -2163,8 +2285,7 @@
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -2203,8 +2324,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -2244,8 +2364,7 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "sku-stock-type-filter",
@@ -2259,8 +2378,7 @@
                 "first-and-third-party"
               ],
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "brand-type",
@@ -2274,8 +2392,7 @@
                 "retailer"
               ],
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -2309,8 +2426,7 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "seller",
@@ -2320,8 +2436,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -3820,8 +3935,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "limitToId",
@@ -3833,8 +3947,7 @@
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageIndex",
@@ -3845,8 +3958,7 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -3857,8 +3969,7 @@
               "type": "integer",
               "format": "int32",
               "default": 25
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -3899,8 +4010,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -3956,8 +4066,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "balance-id",
@@ -3967,8 +4076,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4009,8 +4117,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "balance-id",
@@ -4020,8 +4127,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -4077,8 +4183,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "balance-id",
@@ -4088,8 +4193,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -4145,8 +4249,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "limitToId",
@@ -4158,8 +4261,7 @@
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageIndex",
@@ -4169,8 +4271,7 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "pageSize",
@@ -4180,8 +4281,7 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4222,8 +4322,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -4279,8 +4378,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4321,8 +4419,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -4376,8 +4473,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4410,8 +4506,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -4456,8 +4551,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "product-button-id",
@@ -4467,8 +4561,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4492,8 +4585,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "product-button-id",
@@ -4503,8 +4595,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4535,8 +4626,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           },
           {
             "name": "product-button-id",
@@ -4546,8 +4636,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -4592,8 +4681,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "responses": {
@@ -4634,8 +4722,7 @@
             "style": "simple",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": false
+            }
           }
         ],
         "requestBody": {
@@ -5591,36 +5678,31 @@
             "type": "string",
             "description": "The date when the original batch request was sent.",
             "format": "int64",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "numberOfProductsInTheBatch": {
             "type": "string",
             "description": "The number of products present in the batch.",
             "format": "int32",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "numberOfProductsUpserted": {
             "type": "string",
             "description": "The number of products upserted.",
             "format": "int32",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "numberOfProductsDeleted": {
             "type": "string",
             "description": "The number of products deleted.",
             "format": "int32",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "numberOfProductsWithErrors": {
             "type": "string",
             "description": "The number of products with errors.",
             "format": "int32",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "errorDetails": {
             "type": "array",
@@ -5633,8 +5715,7 @@
             "type": "string",
             "description": "The number of products with Warnings.",
             "format": "int32",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "warningDetails": {
             "type": "array",
@@ -7796,6 +7877,45 @@
         "description": "An object represents the minimum bid amount value of a sku.",
         "x-used-in-response": true
       },
+      "EntityResourceCollectionOutcomeLineItemKeywordReviewReportAndMetadata": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceLineItemKeywordReviewReport"
+            },
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata.",
+        "x-used-in-response": true
+      },
       "KeywordsModelResponse": {
         "type": "object",
         "properties": {
@@ -7849,6 +7969,37 @@
         },
         "additionalProperties": false,
         "description": "Outcome object containing errors and warnings.",
+        "x-used-in-response": true
+      },
+      "ValueResourceOutcomeRetailMediaKeywordsReviewResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceRetailMediaKeywordsReviewResult"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object.",
         "x-used-in-response": true
       },
       "PromotedProductResourceCollectionOutcome": {
@@ -7934,6 +8085,17 @@
         "description": "Request object to set bid overrides for keywords associated with a line item",
         "x-used-in-request": true
       },
+      "ValueResourceInputRetailMediaKeywordsReview": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceRetailMediaKeywordsReview"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
+        "x-used-in-request": true
+      },
       "PromotedProductResourceCollectionInput": {
         "type": "object",
         "properties": {
@@ -7947,6 +8109,29 @@
         "additionalProperties": false,
         "description": "Request object containing promoted products to be appended, deleted, paused or unpaused.",
         "x-used-in-request": true
+      },
+      "EntityResourceLineItemKeywordReviewReport": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemKeywordReviewReport"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "x-used-in-response": true
       },
       "KeywordsModelResource": {
         "type": "object",
@@ -8046,6 +8231,25 @@
         "description": "Common problem object.",
         "x-used-in-response": true
       },
+      "ValueResourceRetailMediaKeywordsReviewResult": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/RetailMediaKeywordsReviewResult"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
       "ProductMetadata": {
         "type": "object",
         "properties": {
@@ -8144,6 +8348,80 @@
         "description": "Resource object containing keywords and their associated bid overrides",
         "x-used-in-request": true
       },
+      "ValueResourceRetailMediaKeywordsReview": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/RetailMediaKeywordsReview"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "x-used-in-request": true
+      },
+      "LineItemKeywordReviewReport": {
+        "required": [
+          "accountId",
+          "accountName",
+          "campaignId",
+          "campaignName",
+          "countKeywords",
+          "lineItemId",
+          "lineItemName",
+          "retailerId",
+          "retailerName"
+        ],
+        "type": "object",
+        "properties": {
+          "lineItemId": {
+            "type": "string",
+            "description": "External ID of the line item that this report is for"
+          },
+          "lineItemName": {
+            "type": "string",
+            "description": "Name of the line item that this report is for"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer ID connected to the line item this report is for"
+          },
+          "retailerName": {
+            "type": "string",
+            "description": "Name of the retailer connected to the line item this report is for"
+          },
+          "campaignId": {
+            "type": "string",
+            "description": "External ID of the campaign containing the line item this report is for"
+          },
+          "campaignName": {
+            "type": "string",
+            "description": "Name of the campaign containing the line item this report is for"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "External ID of the account containing the campaign containing the line item this report is for"
+          },
+          "accountName": {
+            "type": "string",
+            "description": "Name of the account containing the campaign containing the line item this report is for"
+          },
+          "countKeywords": {
+            "type": "integer",
+            "description": "Number of PositiveExactMatch keywords on this line item that are in either \"InReview\" or \"Pending\" state",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reports on a line item which contains one or more actionable keyword reviews",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
       "KeywordsModel": {
         "type": "object",
         "properties": {
@@ -8166,6 +8444,27 @@
         },
         "additionalProperties": false,
         "description": "The keywords associated with a line item.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RetailMediaKeywordsReviewResult": {
+        "required": [
+          "keywords"
+        ],
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewSetState"
+            },
+            "description": "List of Phrase-ReviewState pairs describing keyword review updates which were performed"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response object for approval of keyword reviews, containing a list of Phrase-ReviewState pairs",
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
@@ -8227,6 +8526,25 @@
         "description": "Data model containing keywords and their associated bid overrides",
         "x-used-in-request": true
       },
+      "RetailMediaKeywordsReview": {
+        "required": [
+          "keywords"
+        ],
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewSetState"
+            },
+            "description": "List of Phrase-ReviewState pairs describing keyword review updates to perform"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request object for approval of keyword reviews, containing a list of Phrase-ReviewState pairs",
+        "x-used-in-request": true
+      },
       "KeywordDataModel": {
         "type": "object",
         "properties": {
@@ -8255,6 +8573,36 @@
         },
         "additionalProperties": false,
         "description": "A single keyword and associated bid override"
+      },
+      "ReviewSetState": {
+        "required": [
+          "phrase",
+          "reviewState"
+        ],
+        "type": "object",
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "description": "Normalized key phrase for keyword review to update"
+          },
+          "reviewState": {
+            "enum": [
+              "Unknown",
+              "InReview",
+              "Recommended",
+              "Approved",
+              "AutoApproved",
+              "Rejected",
+              "AutoRejected"
+            ],
+            "type": "string",
+            "description": "Keyword review state to set for a phrase"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A Phrase-ReviewState pair describing an update to a keyword review",
+        "x-used-in-request": true,
+        "x-used-in-response": true
       },
       "LineItemProductStatus": {
         "enum": [
@@ -8385,7 +8733,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-response": true
       },
       "SkuDataPreviewListResponse": {
@@ -8395,28 +8742,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfSkuDataPreview"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SkuSlimDataPreviewListResponse": {
@@ -8426,28 +8769,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfSkuSlimDataPreview"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SkuSlimDataV2ListResponse": {
@@ -8457,28 +8796,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfSkuSlimDataV2"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "CpcRateCardPreviewResponse": {
@@ -8492,20 +8827,17 @@
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "PlacementPreviewListResponse": {
@@ -8515,28 +8847,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfPlacementPreview"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "BrandPreviewListResponse": {
@@ -8546,28 +8874,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfBrandPreview"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SellerPreviewResponse": {
@@ -8581,20 +8905,17 @@
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for response resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "JsonApiRequestOfBrandCatalogRequestV2": {
@@ -8606,7 +8927,6 @@
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-request": true
       },
       "JsonApiRequestOfSellerCatalogRequestV2": {
@@ -8618,7 +8938,6 @@
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and Attributes properties",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-request": true
       },
       "SkuSearchRequestPreviewRequest": {
@@ -8629,7 +8948,6 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "SkuSearchRequestSlimPreviewRequest": {
@@ -8640,7 +8958,6 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "SkuSearchRequestSlimV2PreviewRequest": {
@@ -8651,7 +8968,6 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ResourceOfCatalogStatusV2": {
@@ -8675,7 +8991,6 @@
         },
         "description": "A class that represents a domain entity exposed by an API",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-response": true
       },
       "ResourceOfSkuDataPreview": {
@@ -8698,7 +9013,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ProblemDetails": {
@@ -8728,46 +9042,37 @@
               "validation"
             ],
             "type": "string",
-            "description": "The problem's category.",
-            "x-nullable": false
+            "description": "The problem's category."
           },
           "code": {
             "type": "string",
-            "description": "A machine-readable  error code, expressed as a string value.",
-            "x-nullable": false
+            "description": "A machine-readable  error code, expressed as a string value."
           },
           "instance": {
             "type": "string",
-            "description": "A URI that identifies the specific occurrence of the problem.",
-            "x-nullable": false
+            "description": "A URI that identifies the specific occurrence of the problem."
           },
           "title": {
             "type": "string",
-            "description": "A short human-readable description of the problem type",
-            "x-nullable": false
+            "description": "A short human-readable description of the problem type"
           },
           "detail": {
             "type": "string",
-            "description": "A human-readable explanation specific to this occurrence of the problem",
-            "x-nullable": false
+            "description": "A human-readable explanation specific to this occurrence of the problem"
           },
           "source": {
             "type": "object",
             "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)"
           },
           "stackTrace": {
             "type": "string",
-            "description": "Technical information, only used in non-prod environments",
-            "x-nullable": false
+            "description": "Technical information, only used in non-prod environments"
           }
         },
         "description": "Data model for common error or warning",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfSkuSlimDataPreview": {
@@ -8790,7 +9095,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfSkuSlimDataV2": {
@@ -8813,7 +9117,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfCpcRateCardPreview": {
@@ -8836,7 +9139,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfPlacementPreview": {
@@ -8859,7 +9161,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfBrandPreview": {
@@ -8882,7 +9183,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfSellerPreview": {
@@ -8905,7 +9205,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "JsonApiBodyWithoutIdOfBrandCatalogRequestV2AndBrandCatalogRequestV2": {
@@ -8922,7 +9221,6 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "JsonApiBodyWithoutIdOfSellerCatalogRequestV2AndSellerCatalogRequestV2": {
@@ -8939,7 +9237,6 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with Type, and\r\nAttributes properties",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ResourceOfSkuSearchRequestPreview": {
@@ -8958,7 +9255,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ResourceOfSkuSearchRequestSlimPreview": {
@@ -8977,7 +9273,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ResourceOfSkuSearchRequestSlimV2Preview": {
@@ -8996,7 +9291,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "CatalogStatusV2": {
@@ -9050,7 +9344,6 @@
           }
         },
         "description": "The status of an asynchronous request to generate a catalog",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SkuDataPreview": {
@@ -9069,136 +9362,113 @@
         "properties": {
           "skuKey": {
             "type": "string",
-            "description": "The product SKU Key.",
-            "x-nullable": false
+            "description": "The product SKU Key."
           },
           "name": {
             "maxLength": 1000,
             "minLength": 0,
             "type": "string",
-            "description": "A short product name.",
-            "x-nullable": false
+            "description": "A short product name."
           },
           "description": {
             "type": "string",
             "description": "A product description.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "categoryId": {
             "type": "string",
-            "description": "The category Id.",
-            "x-nullable": false
+            "description": "The category Id."
           },
           "category": {
             "maxLength": 1000,
             "minLength": 0,
             "type": "string",
             "description": "The full category breadcrumb in the retailers catalog.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "isSellerSku": {
             "type": "boolean",
-            "description": "An indication of if the sku is seller sku.",
-            "x-nullable": false
+            "description": "An indication of if the sku is seller sku."
           },
           "isBuybox": {
             "type": "boolean",
-            "description": "Whether the Sku is a Buybox Winner.",
-            "x-nullable": false
+            "description": "Whether the Sku is a Buybox Winner."
           },
           "sellerId": {
             "type": "string",
             "description": "The id of the seller.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "sellerName": {
             "type": "string",
             "description": "The name of the seller.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "brandId": {
             "type": "string",
-            "description": "The global brand id associated to the product.",
-            "x-nullable": false
+            "description": "The global brand id associated to the product."
           },
           "brandName": {
             "maxLength": 120,
             "minLength": 0,
             "type": "string",
-            "description": "The name of the global brand.",
-            "x-nullable": false
+            "description": "The name of the global brand."
           },
           "retailerId": {
             "type": "string",
-            "description": "The identifier for the retailer the product is listed by.",
-            "x-nullable": false
+            "description": "The identifier for the retailer the product is listed by."
           },
           "retailerName": {
             "maxLength": 100,
             "minLength": 0,
             "type": "string",
-            "description": "The retailer name.",
-            "x-nullable": false
+            "description": "The retailer name."
           },
           "price": {
             "type": "number",
             "description": "The price of the product on the retailer site.",
-            "format": "double",
-            "x-nullable": false
+            "format": "double"
           },
           "isInStock": {
             "type": "boolean",
-            "description": "An indication of if the retailer currently has the product in stock.",
-            "x-nullable": false
+            "description": "An indication of if the retailer currently has the product in stock."
           },
           "gtin": {
             "type": "string",
             "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "mpn": {
             "type": "string",
             "description": "The MPN for the product if available.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "modelNumber": {
             "type": "string",
             "description": "The Model Number for the product if available.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "parentId": {
             "type": "string",
             "description": "The ParentId for the product if available.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "imageUrl": {
             "type": "string",
-            "description": "An http image resource provided by the retailer.",
-            "x-nullable": false
+            "description": "An http image resource provided by the retailer."
           },
           "productPage": {
             "type": "string",
             "description": "The product page URL",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "updatedAt": {
             "type": "string",
             "description": "The last time this product was updated in the Retail Media Catalog. Represented as a UTC ISO8601 string.",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           }
         },
         "description": "Metadata and usage info of a sku search",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SkuSlimDataPreview": {
@@ -9216,86 +9486,71 @@
             "maxLength": 1000,
             "minLength": 0,
             "type": "string",
-            "description": "A short product name.",
-            "x-nullable": false
+            "description": "A short product name."
           },
           "categoryId": {
             "type": "string",
-            "description": "The category Id.",
-            "x-nullable": false
+            "description": "The category Id."
           },
           "globalCategoryId": {
             "type": "string",
-            "description": "The global category Id.",
-            "x-nullable": false
+            "description": "The global category Id."
           },
           "category": {
             "maxLength": 1000,
             "minLength": 0,
             "type": "string",
-            "description": "The full category breadcrumb in the retailers catalog.",
-            "x-nullable": false
+            "description": "The full category breadcrumb in the retailers catalog."
           },
           "globalBrandId": {
             "type": "string",
-            "description": "The global brand id associated to the product.",
-            "x-nullable": false
+            "description": "The global brand id associated to the product."
           },
           "globalBrandName": {
             "maxLength": 120,
             "minLength": 0,
             "type": "string",
-            "description": "The name of the global brand.",
-            "x-nullable": false
+            "description": "The name of the global brand."
           },
           "retailerBrandId": {
             "type": "string",
-            "description": "The retailer brand id associated to the product.",
-            "x-nullable": false
+            "description": "The retailer brand id associated to the product."
           },
           "retailerBrandName": {
             "maxLength": 120,
             "minLength": 0,
             "type": "string",
-            "description": "The name of the retailer brand.",
-            "x-nullable": false
+            "description": "The name of the retailer brand."
           },
           "price": {
             "type": "number",
             "description": "The price of the product on the retailer site. Can be omitted in certain circumstances",
             "format": "double",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "isInStock": {
             "type": "boolean",
-            "description": "An indication of if the retailer currently has the product in stock.",
-            "x-nullable": false
+            "description": "An indication of if the retailer currently has the product in stock."
           },
           "gtin": {
             "type": "string",
-            "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
-            "x-nullable": false
+            "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs."
           },
           "mpn": {
             "type": "string",
-            "description": "The MPN for the product if available.",
-            "x-nullable": false
+            "description": "The MPN for the product if available."
           },
           "imageUrl": {
             "type": "string",
-            "description": "An http image resource provided by the retailer.",
-            "x-nullable": false
+            "description": "An http image resource provided by the retailer."
           },
           "updatedAt": {
             "type": "string",
             "description": "The last time this product was updated in the Retail Media Catalog. Represented as a UTC ISO8601 string.",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           }
         },
         "description": "Slim  version of Sku Data model",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SkuSlimDataV2": {
@@ -9310,14 +9565,12 @@
             "maxLength": 1000,
             "minLength": 0,
             "type": "string",
-            "description": "A short product name.",
-            "x-nullable": false
+            "description": "A short product name."
           },
           "description": {
             "type": "string",
             "description": "A short description of the product.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "category": {
             "$ref": "#/components/schemas/Category"
@@ -9329,40 +9582,33 @@
             "type": "number",
             "description": "The price of the product on the retailer site. Can be omitted in certain circumstances",
             "format": "double",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "isInStock": {
             "type": "boolean",
-            "description": "An indication of if the retailer currently has the product in stock.",
-            "x-nullable": false
+            "description": "An indication of if the retailer currently has the product in stock."
           },
           "gtin": {
             "type": "string",
             "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "mpn": {
             "type": "string",
             "description": "The MPN for the product if available.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "imageUrl": {
             "type": "string",
-            "description": "An http image resource provided by the retailer.",
-            "x-nullable": false
+            "description": "An http image resource provided by the retailer."
           },
           "updatedAt": {
             "type": "string",
             "description": "The last time this product was updated in the Retail Media Catalog. Represented as a UTC ISO8601 string.",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           }
         },
         "description": "Slim  version of Sku Data model",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "CpcRateCardPreview": {
@@ -9374,19 +9620,16 @@
           "retailerMinimumCpcBid": {
             "type": "number",
             "description": "retailer minimum cpc bid",
-            "format": "double",
-            "x-nullable": false
+            "format": "double"
           },
           "categoryMinimumCpcBids": {
             "type": "object",
             "additionalProperties": {
               "type": "number",
-              "format": "double",
-              "x-nullable": false
+              "format": "double"
             },
             "description": "map of category id to minimum cpc bids",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "categories": {
             "type": "object",
@@ -9394,12 +9637,10 @@
               "$ref": "#/components/schemas/Category202204"
             },
             "description": "map of category id to category values",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "Represents all minimum cpc rates for a retailer and category id",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "PlacementPreview": {
@@ -9413,13 +9654,11 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the placement",
-            "x-nullable": false
+            "description": "Name of the placement"
           },
           "retailerId": {
             "type": "string",
-            "description": "Retailer Id",
-            "x-nullable": false
+            "description": "Retailer Id"
           },
           "pageType": {
             "enum": [
@@ -9435,8 +9674,7 @@
               "Deals"
             ],
             "type": "string",
-            "description": "Page Type",
-            "x-nullable": false
+            "description": "Page Type"
           },
           "pageEnvironmentType": {
             "enum": [
@@ -9450,12 +9688,10 @@
               "Android"
             ],
             "type": "string",
-            "description": "Page Environment",
-            "x-nullable": false
+            "description": "Page Environment"
           }
         },
         "description": "Ad Placement information on a page",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "BrandPreview": {
@@ -9466,12 +9702,10 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Brand Name",
-            "x-nullable": false
+            "description": "Brand Name"
           }
         },
         "description": "Retail media brands",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "SellerPreview": {
@@ -9479,12 +9713,10 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Seller Name",
-            "x-nullable": false
+            "description": "Seller Name"
           }
         },
         "description": "Retail media Seller Id and Name",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "BrandCatalogRequestV2": {
@@ -9531,7 +9763,6 @@
         },
         "description": "A request for a catalog under the specified format.",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-request": true
       },
       "SellerCatalogRequestV2": {
@@ -9568,7 +9799,6 @@
         },
         "description": "Used to request a catalog of seller SKUs",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-request": true
       },
       "SkuSearchRequestPreview": {
@@ -9580,23 +9810,19 @@
         "properties": {
           "queryString": {
             "type": "string",
-            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)",
-            "x-nullable": false
+            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)"
           },
           "retailerId": {
             "type": "string",
             "description": "Retailer Id",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "sellers": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "A list of seller names and/or seller Id's",
-            "x-nullable": false
+            "description": "A list of seller names and/or seller Id's"
           },
           "brandIds": {
             "type": "array",
@@ -9604,8 +9830,7 @@
               "type": "string",
               "format": "long-id"
             },
-            "description": "A list of brand Id's",
-            "x-nullable": false
+            "description": "A list of brand Id's"
           },
           "skuType": {
             "enum": [
@@ -9615,8 +9840,7 @@
             ],
             "type": "string",
             "description": "Enum to set isSellerSku field",
-            "default": "brand",
-            "x-nullable": false
+            "default": "brand"
           },
           "productIdType": {
             "enum": [
@@ -9629,21 +9853,17 @@
             ],
             "type": "string",
             "description": "Type of product Ids to search for(SkuKey, SkuId, Gtin, Mpn, Model, ParentId)",
-            "default": "skuKey",
-            "x-nullable": false
+            "default": "skuKey"
           },
           "productIds": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "A list of product Id's, if not passed ignore and search by QueryString",
-            "x-nullable": false
+            "description": "A list of product Id's, if not passed ignore and search by QueryString"
           }
         },
         "description": "A request for sku by sellers or brands.",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "SkuSearchRequestSlimPreview": {
@@ -9655,8 +9875,7 @@
         "properties": {
           "searchString": {
             "type": "string",
-            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)",
-            "x-nullable": false
+            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)"
           },
           "limitResultsToSkusWithBrandIds": {
             "type": "array",
@@ -9664,12 +9883,10 @@
               "type": "string",
               "format": "long-id"
             },
-            "description": "A list of brand Id's to limit the search results to",
-            "x-nullable": false
+            "description": "A list of brand Id's to limit the search results to"
           }
         },
         "description": "A request for sku by search text and brand ids.",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "SkuSearchRequestSlimV2Preview": {
@@ -9680,8 +9897,7 @@
         "properties": {
           "searchString": {
             "type": "string",
-            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)",
-            "x-nullable": false
+            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)"
           },
           "brandId": {
             "type": "array",
@@ -9689,12 +9905,10 @@
               "type": "string",
               "format": "long-id"
             },
-            "description": "A list of brand Id's to limit the search results to",
-            "x-nullable": false
+            "description": "A list of brand Id's to limit the search results to"
           }
         },
         "description": "A request for sku by search text and brand ids.",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "Category": {
@@ -9705,12 +9919,10 @@
             "minLength": 0,
             "type": "string",
             "description": "The full category breadcrumb in the retailers catalog.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "Retailer Category.",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "Brand": {
@@ -9720,12 +9932,10 @@
             "maxLength": 120,
             "minLength": 0,
             "type": "string",
-            "description": "The name of the brand.",
-            "x-nullable": false
+            "description": "The name of the brand."
           }
         },
         "description": "Brand of the product.",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "Category202204": {
@@ -9738,22 +9948,18 @@
         "properties": {
           "text": {
             "type": "string",
-            "description": "Category Text",
-            "x-nullable": false
+            "description": "Category Text"
           },
           "name": {
             "type": "string",
-            "description": "Category Name",
-            "x-nullable": false
+            "description": "Category Name"
           },
           "parentId": {
             "type": "string",
-            "description": "Category ParentId",
-            "x-nullable": false
+            "description": "Category ParentId"
           }
         },
-        "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID",
-        "x-nullable": false
+        "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID"
       },
       "SellerIdentifierV2": {
         "required": [
@@ -9772,7 +9978,6 @@
           }
         },
         "description": "Identifies a Unique Seller",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "Creative2Response": {
@@ -12454,10 +12659,10 @@
         "properties": {
           "status": {
             "enum": [
-              "Pending",
-              "Success",
-              "Failed",
-              "Expired"
+              "pending",
+              "success",
+              "failed",
+              "expired"
             ],
             "type": "string",
             "description": "Status of the report."
@@ -12540,24 +12745,21 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a paged list of response resources",
@@ -12574,21 +12776,18 @@
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-response": true
       },
       "PreferredLineItemV2PagedListResponse": {
@@ -12601,28 +12800,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfPreferredLineItemV2"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a paged list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "PreferredLineItemV2Response": {
@@ -12636,20 +12831,17 @@
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "JsonApiSingleResponseOfLineItemBidMultipliersV2": {
@@ -12679,7 +12871,6 @@
           }
         },
         "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "LineItemBidMultipliersV2Response": {
@@ -12709,7 +12900,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-response": true
       },
       "ProductButtonListResponse": {
@@ -12719,28 +12909,24 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfProductButtonResponse"
-            },
-            "x-nullable": false
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           },
           "errors": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProblemDetails"
             },
-            "readOnly": true,
-            "x-nullable": false
+            "readOnly": true
           }
         },
         "description": "Data model for a list of response resources",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "CreateBalanceV2Request": {
@@ -12781,7 +12967,6 @@
           }
         },
         "description": "Data model for a create input resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "LineItemBidMultipliersV2Request": {
@@ -12793,7 +12978,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single entity",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-request": true
       },
       "ProductButtonListRequest": {
@@ -12803,12 +12987,10 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ResourceOfProductButtonRequest"
-            },
-            "x-nullable": false
+            }
           }
         },
         "description": "Data model for a list of input resources",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ProductButtonRequest": {
@@ -12819,7 +13001,6 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "PreferredLineItemUpdateModelV2Request": {
@@ -12830,7 +13011,6 @@
           }
         },
         "description": "Data model for an input resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "PageMetadata": {
@@ -12843,38 +13023,31 @@
           "totalItemsAcrossAllPages": {
             "type": "integer",
             "format": "int64",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "currentPageSize": {
             "type": "integer",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "currentPageIndex": {
             "type": "integer",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "totalPages": {
             "type": "integer",
             "format": "int64",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "nextPage": {
             "type": "string",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "previousPage": {
             "type": "string",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "Metadata related to the current request",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfBalanceResponseV2": {
@@ -12922,7 +13095,6 @@
         },
         "description": "Data model for a Resource",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-response": true
       },
       "JsonApiBodyWithIdOfInt64AndLineItemBidMultipliersV2AndLineItemBidMultipliersV2": {
@@ -12939,7 +13111,6 @@
           }
         },
         "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "CommonError": {
@@ -12947,8 +13118,7 @@
         "properties": {
           "traceId": {
             "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "x-nullable": false
+            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
           },
           "type": {
             "enum": [
@@ -12962,46 +13132,37 @@
               "validation"
             ],
             "type": "string",
-            "description": "(REQUIRED) The classification of the error.",
-            "x-nullable": false
+            "description": "(REQUIRED) The classification of the error."
           },
           "code": {
             "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
-            "x-nullable": false
+            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
           },
           "instance": {
             "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
-            "x-nullable": false
+            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
           },
           "title": {
             "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "x-nullable": false
+            "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
           },
           "detail": {
             "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "x-nullable": false
+            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
           },
           "source": {
             "type": "object",
             "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
+            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)"
           },
           "stackTrace": {
             "type": "string",
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "x-nullable": false
+            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology"
           }
         },
         "description": "A JSON:API Common error structure",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "CommonWarning": {
@@ -13009,8 +13170,7 @@
         "properties": {
           "traceId": {
             "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
-            "x-nullable": false
+            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
           },
           "type": {
             "enum": [
@@ -13024,46 +13184,37 @@
               "validation"
             ],
             "type": "string",
-            "description": "(REQUIRED) The classification of the error.",
-            "x-nullable": false
+            "description": "(REQUIRED) The classification of the error."
           },
           "code": {
             "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case.",
-            "x-nullable": false
+            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
           },
           "instance": {
             "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem.",
-            "x-nullable": false
+            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
           },
           "title": {
             "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type.",
-            "x-nullable": false
+            "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
           },
           "detail": {
             "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem.",
-            "x-nullable": false
+            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
           },
           "source": {
             "type": "object",
             "additionalProperties": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
-            "x-nullable": false
+            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)"
           },
           "stackTrace": {
             "type": "string",
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
-            "x-nullable": false
+            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology"
           }
         },
         "description": "A JSON:API Base common warning",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfLineItemBidMultipliersV2": {
@@ -13087,7 +13238,6 @@
         },
         "description": "A class that represents a domain entity exposed by an API",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-request": true,
         "x-used-in-response": true
       },
@@ -13111,7 +13261,6 @@
           }
         },
         "description": "Data model for an output resource",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ResourceOfCreateBalanceV2": {
@@ -13172,15 +13321,13 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "attributes": {
             "$ref": "#/components/schemas/ExternalPreferredLineItemCreateModelV2"
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ResourceOfProductButtonRequest": {
@@ -13199,7 +13346,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ResourceOfPreferredLineItemUpdateModelV2": {
@@ -13218,7 +13364,6 @@
           }
         },
         "description": "Data model for a Resource",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "BalanceResponseV2": {
@@ -13233,54 +13378,46 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the balance.",
-            "x-nullable": false
+            "description": "Name of the balance."
           },
           "poNumber": {
             "type": "string",
             "description": "Purchase Order number.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "memo": {
             "type": "string",
             "description": "Memo.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "deposited": {
             "type": "number",
             "description": "Amount of billable funds allotted to the balance.",
             "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "spent": {
             "type": "number",
             "description": "Amount of spent funds of the balance.",
             "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "remaining": {
             "type": "number",
             "description": "Amount of remaining funds of the balance.",
             "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "startDate": {
             "type": "string",
             "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "format": "date",
-            "x-nullable": false
+            "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "End date of the balance in the format YYYY-MM-DD.",
             "format": "date",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "status": {
             "enum": [
@@ -13290,20 +13427,17 @@
               "ended"
             ],
             "type": "string",
-            "description": "Status of the balance.",
-            "x-nullable": false
+            "description": "Status of the balance."
           },
           "createdAt": {
             "type": "string",
             "description": "Creation time of the balance.",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           },
           "updatedAt": {
             "type": "string",
             "description": "Update time of the balance.",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           },
           "balanceType": {
             "enum": [
@@ -13312,8 +13446,7 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Type of the balance.",
-            "x-nullable": false
+            "description": "Type of the balance."
           },
           "spendType": {
             "enum": [
@@ -13322,8 +13455,7 @@
               "OffsiteAwareness"
             ],
             "type": "string",
-            "description": "Spend Type of the balance.",
-            "x-nullable": false
+            "description": "Spend Type of the balance."
           },
           "privateMarketBillingType": {
             "enum": [
@@ -13333,8 +13465,7 @@
               "unknown"
             ],
             "type": "string",
-            "description": "Billing type for Private Market of the balance.",
-            "x-nullable": false
+            "description": "Billing type for Private Market of the balance."
           }
         },
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
@@ -13358,8 +13489,7 @@
           "name": {
             "maxLength": 255,
             "minLength": 0,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "startDate": {
             "type": "string",
@@ -13384,8 +13514,7 @@
               "noFunds"
             ],
             "type": "string",
-            "description": "Line Item Status Enum",
-            "x-nullable": false
+            "description": "Line Item Status Enum"
           },
           "pacing": {
             "enum": [
@@ -13394,8 +13523,7 @@
               "accelerated"
             ],
             "type": "string",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "capping": {
             "$ref": "#/components/schemas/ExternalLineItemCappingV2"
@@ -13405,58 +13533,48 @@
           },
           "targetRetailerId": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "budget": {
             "type": "number",
             "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "campaignId": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "budgetSpent": {
             "type": "number",
             "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "budgetRemaining": {
             "type": "number",
             "format": "decimal",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "createdAt": {
             "type": "string",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           },
           "updatedAt": {
             "type": "string",
-            "format": "date-time",
-            "x-nullable": false
+            "format": "date-time"
           },
           "creativeId": {
             "type": "string",
             "description": "External creative Id",
             "format": "long-id",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "ExternalLineItemBidMultipliersV2": {
@@ -13542,13 +13660,11 @@
           "id": {
             "type": "string",
             "description": "Id of the entity",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "The Bid Multiplier Entity of a LineItem",
         "nullable": true,
-        "x-nullable": true,
         "x-used-in-response": true,
         "x-used-in-request": true
       },
@@ -13564,38 +13680,31 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the Product Button",
-            "x-nullable": false
+            "description": "Name of the Product Button"
           },
           "backgroundImage": {
             "type": "string",
-            "description": "URL of the background image",
-            "x-nullable": false
+            "description": "URL of the background image"
           },
           "rank": {
             "type": "integer",
             "description": "Rank of the Product Button",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "isMandatory": {
             "type": "integer",
             "description": "If the Product Button is Mandatory",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "skus": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "List of skus on the Product Button",
-            "x-nullable": false
+            "description": "List of skus on the Product Button"
           }
         },
         "description": "The Product Button entity used for output",
-        "x-nullable": false,
         "x-used-in-response": true
       },
       "CreateBalanceV2": {
@@ -13608,14 +13717,12 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the balance.",
-            "x-nullable": false
+            "description": "Name of the balance."
           },
           "poNumber": {
             "type": "string",
             "description": "Purchase Order number.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "deposited": {
             "type": "number",
@@ -13625,15 +13732,13 @@
           "startDate": {
             "type": "string",
             "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "format": "date",
-            "x-nullable": false
+            "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "End date of the balance in the format YYYY-MM-DD.",
             "format": "date",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "spendType": {
             "enum": [
@@ -13642,14 +13747,12 @@
               "OffsiteAwareness"
             ],
             "type": "string",
-            "description": "Type of the balance spend.",
-            "x-nullable": false
+            "description": "Type of the balance spend."
           },
           "memo": {
             "type": "string",
             "description": "Memo",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "An object that represents the available options to set when creating a Retail Media Balance",
@@ -13661,32 +13764,27 @@
           "name": {
             "type": "string",
             "description": "Name of the balance.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "poNumber": {
             "type": "string",
             "description": "Purchase Order number.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "startDate": {
             "type": "string",
             "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "endDate": {
             "type": "string",
             "description": "End date of the balance in the format YYYY-MM-DD.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "memo": {
             "type": "string",
             "description": "Memo.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "An object that represents the available options to set when updating a Retail Media Balance.",
@@ -13698,20 +13796,17 @@
           "startDate": {
             "type": "string",
             "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "endDate": {
             "type": "string",
             "description": "End date of the balance in the format YYYY-MM-DD.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "memo": {
             "type": "string",
             "description": "Memo.",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "An object that represents the available options to modify schedule of a balance.",
@@ -13732,8 +13827,7 @@
           "name": {
             "maxLength": 255,
             "minLength": 0,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "startDate": {
             "type": "string",
@@ -13758,8 +13852,7 @@
               "noFunds"
             ],
             "type": "string",
-            "description": "Line Item Status Enum",
-            "x-nullable": false
+            "description": "Line Item Status Enum"
           },
           "pacing": {
             "enum": [
@@ -13768,8 +13861,7 @@
               "accelerated"
             ],
             "type": "string",
-            "description": "Line Item Pacing Enum",
-            "x-nullable": false
+            "description": "Line Item Pacing Enum"
           },
           "capping": {
             "$ref": "#/components/schemas/ExternalLineItemCappingV2"
@@ -13779,23 +13871,19 @@
           },
           "targetRetailerId": {
             "type": "string",
-            "format": "long-id",
-            "x-nullable": false
+            "format": "long-id"
           },
           "budget": {
             "type": "number",
-            "format": "double",
-            "x-nullable": false
+            "format": "double"
           },
           "creativeId": {
             "type": "string",
             "format": "long-id",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "Model used to create a preferred line item",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ExternalProductButtonRequest": {
@@ -13809,32 +13897,26 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the Product Button",
-            "x-nullable": false
+            "description": "Name of the Product Button"
           },
           "backgroundImage": {
             "type": "string",
-            "description": "URL of the background image",
-            "x-nullable": false
+            "description": "URL of the background image"
           },
           "isMandatory": {
             "type": "integer",
             "description": "If the Product Button is Mandatory",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           },
           "skus": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
+              "type": "string"
             },
-            "description": "List of skus on the Product Button",
-            "x-nullable": false
+            "description": "List of skus on the Product Button"
           }
         },
         "description": "The Product Button entity used for input",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ExternalPreferredLineItemUpdateModelV2": {
@@ -13849,8 +13931,7 @@
           "name": {
             "maxLength": 255,
             "minLength": 0,
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "startDate": {
             "type": "string",
@@ -13875,8 +13956,7 @@
               "noFunds"
             ],
             "type": "string",
-            "description": "Line Item Status Enum",
-            "x-nullable": false
+            "description": "Line Item Status Enum"
           },
           "pacing": {
             "enum": [
@@ -13885,8 +13965,7 @@
               "accelerated"
             ],
             "type": "string",
-            "default": "accelerated",
-            "x-nullable": false
+            "default": "accelerated"
           },
           "capping": {
             "$ref": "#/components/schemas/ExternalLineItemCappingV2"
@@ -13896,18 +13975,15 @@
           },
           "budget": {
             "type": "number",
-            "format": "double",
-            "x-nullable": false
+            "format": "double"
           },
           "creativeId": {
             "type": "string",
             "format": "long-id",
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           }
         },
         "description": "Model used to update a preferred line item",
-        "x-nullable": false,
         "x-used-in-request": true
       },
       "ExternalLineItemCappingV2": {
@@ -13924,17 +14000,14 @@
               "session"
             ],
             "type": "string",
-            "description": "Line Item Capping Type Enum",
-            "x-nullable": false
+            "description": "Line Item Capping Type Enum"
           },
           "count": {
             "type": "integer",
-            "format": "int32",
-            "x-nullable": false
+            "format": "int32"
           }
         },
         "description": "Frequency Capping for a Preferred Line Item",
-        "x-nullable": false,
         "x-used-in-response": true,
         "x-used-in-request": true
       },
@@ -13961,28 +14034,23 @@
               "categoryMenu"
             ],
             "type": "string",
-            "description": "Page Type Enum",
-            "x-nullable": false
+            "description": "Page Type Enum"
           },
           "categories": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ExternalLineItemPageCategoryV2"
             },
-            "nullable": true,
-            "x-nullable": true
+            "nullable": true
           },
           "searchKeywords": {
             "type": "array",
             "items": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "x-nullable": false
+              "type": "string"
+            }
           }
         },
         "description": "Page information for a preferred line item",
-        "x-nullable": false,
         "x-used-in-response": true,
         "x-used-in-request": true
       },
@@ -13993,17 +14061,14 @@
         "type": "object",
         "properties": {
           "categoryId": {
-            "type": "string",
-            "x-nullable": false
+            "type": "string"
           },
           "includeChildren": {
             "type": "boolean",
-            "default": true,
-            "x-nullable": false
+            "default": true
           }
         },
         "description": "Category information for a preferred line item page",
-        "x-nullable": false,
         "x-used-in-response": true,
         "x-used-in-request": true
       },
