@@ -1362,58 +1362,6 @@
         }
       }
     },
-    "/preview/retail-media/accounts/{accountId}/grant-consent": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "summary": "",
-        "description": "Grant consent to a business application on behalf of a Private Market demand account",
-        "operationId": "GrantConsent",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "The demand account ID on which to grant consent",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GrantConsentInput"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GrantConsentInput"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GrantConsentInput"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GrantConsentInput"
-              }
-            }
-          },
-          "x-bodyName": "grantConsentInput"
-        },
-        "responses": {
-          "204": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/preview/retail-media/accounts/{accountId}/seller-catalog-export": {
       "post": {
         "tags": [
@@ -1571,7 +1519,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomePrivateMarketAccountFees"
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomePrivateMarketAccountFeesAndMetadata"
                 }
               }
             }
@@ -3021,39 +2969,6 @@
         }
       }
     },
-    "/preview/retail-media/line-items/{externalLineItemId}/keywords/recommended": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Retrieves a collection of recommended keywords for a line item",
-        "operationId": "GetRecommendedKeywords",
-        "parameters": [
-          {
-            "name": "externalLineItemId",
-            "in": "path",
-            "description": "The external line item identifier",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeOfRecommendedKeywordsResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/preview/retail-media/line-items/{id}/keywords": {
       "get": {
         "tags": [
@@ -3194,101 +3109,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcome"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/preview/retail-media/line-items/{line-item-id}/bid-multipliers": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Fetch all bid multipliers for a given line item",
-        "operationId": "GetApiV2ExternalLineItemBidMultipliersByLineItemId",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "External LineItemId for bid multiplier retrieval",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "BidMultipliers Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItemBidMultipliersV2"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItemBidMultipliersV2"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonApiSingleResponseOfLineItemBidMultipliersV2"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Updates the bid multipliers for a given line item",
-        "operationId": "PutApiV2ExternalLineItemBidMultipliersByLineItemId",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "External LineItemId for bid multiplier retrieval",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "New Bid Multipliers to be set",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LineItemBidMultipliersV2Request"
-              }
-            }
-          },
-          "x-bodyName": "request"
-        },
-        "responses": {
-          "200": {
-            "description": "BidMultipliers Updated",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/LineItemBidMultipliersV2Response"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LineItemBidMultipliersV2Response"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LineItemBidMultipliersV2Response"
                 }
               }
             }
@@ -4563,7 +4383,7 @@
         "tags": [
           "Analytics"
         ],
-        "description": "Returns an asynchronous Offsite Activity Report\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Offsite Report\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncOffsiteReport",
         "requestBody": {
           "content": {
@@ -5239,6 +5059,8 @@
         "type": "object",
         "properties": {
           "accountIds": {
+            "maxItems": 25,
+            "minItems": 1,
             "type": "array",
             "items": {
               "type": "string"
@@ -5448,7 +5270,7 @@
               "lineItem"
             ],
             "type": "string",
-            "description": "Level of aggregation, if no dimensions/metrics are provided, falls back to campaign aggregationLevel",
+            "description": "Level of aggregation, if no dimensions and metrics are provided, falls back to campaign aggregationLevel",
             "default": "campaign"
           },
           "campaignType": {
@@ -5588,14 +5410,14 @@
               "capout"
             ],
             "type": "string",
-            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
             "default": "summary"
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -5829,14 +5651,14 @@
               "capout"
             ],
             "type": "string",
-            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
             "default": "summary"
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -6191,14 +6013,14 @@
               "capout"
             ],
             "type": "string",
-            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
             "default": "summary"
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -6336,9 +6158,10 @@
             "items": {
               "type": "string"
             },
-            "description": "Filter creative ids"
+            "description": "Creative ids to filter"
           },
           "dimensions": {
+            "minItems": 1,
             "type": "array",
             "items": {
               "enum": [
@@ -6353,17 +6176,17 @@
                 "lineItemName",
                 "retailerId",
                 "retailerName",
-                "creativeId",
-                "creativeName",
                 "billingType",
-                "buyTypeName",
                 "environment",
                 "adFormatSize",
                 "ssp",
                 "publisher",
                 "inventoryType",
                 "mediaType",
-                "salesChannel"
+                "buyType",
+                "salesChannel",
+                "creativeId",
+                "creativeName"
               ],
               "type": "string"
             },
@@ -6392,17 +6215,19 @@
             },
             "description": "Line item ids to filter"
           },
-          "mediaTypes": {
+          "mediaType": {
             "enum": [
-              "all",
+              "unknown",
+              "video",
               "display",
-              "video"
+              "all"
             ],
             "type": "string",
-            "description": "Filter by media type",
+            "description": "Filter on the type of media: unknown, display, video",
             "default": "all"
           },
           "metrics": {
+            "minItems": 1,
             "type": "array",
             "items": {
               "enum": [
@@ -6427,8 +6252,8 @@
                 "videosPlayedTo50",
                 "videosPlayedTo75",
                 "videosPlayedTo100",
-                "startingRate",
-                "completionRate",
+                "videoStartingRate",
+                "videoCompletionRate",
                 "videoCPC",
                 "videoCPCV",
                 "visits",
@@ -6448,9 +6273,9 @@
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -6463,7 +6288,7 @@
           },
           "timezone": {
             "type": "string",
-            "description": "Time zone : see Criteo developer portal for supported time zones",
+            "description": "Time zone : see criteo developer portal for supported time zones",
             "default": "UTC"
           },
           "viewAttributionWindow": {
@@ -6982,7 +6807,6 @@
             "description": "IDs of the retailers we want to limit the search to"
           }
         },
-        "additionalProperties": false,
         "description": "An object that represents the request of BrandIdSearch endpoint.",
         "x-used-in-request": true
       },
@@ -7016,7 +6840,6 @@
             "description": "The retailer ids associated to the brand"
           }
         },
-        "additionalProperties": false,
         "description": "An object that represents the result from a brand ID search.",
         "nullable": true,
         "x-used-in-response": true,
@@ -7250,58 +7073,6 @@
         "x-used-in-response": true,
         "x-optional-in-response": true
       },
-      "CommonError": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
-          },
-          "detail": {
-            "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
-          },
-          "instance": {
-            "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)"
-          },
-          "stackTrace": {
-            "type": "string",
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology"
-          },
-          "title": {
-            "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
-          },
-          "traceId": {
-            "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "description": "(REQUIRED) The classification of the error."
-          }
-        },
-        "description": "A JSON:API Common error structure",
-        "x-used-in-response": true
-      },
       "CommonProblem": {
         "type": "object",
         "properties": {
@@ -7373,58 +7144,6 @@
           }
         },
         "description": "Common problem object.",
-        "x-used-in-response": true
-      },
-      "CommonWarning": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kabab-case."
-          },
-          "detail": {
-            "type": "string",
-            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem."
-          },
-          "instance": {
-            "type": "string",
-            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem."
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)"
-          },
-          "stackTrace": {
-            "type": "string",
-            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology"
-          },
-          "title": {
-            "type": "string",
-            "description": "(RECOMMENDED) A short, human-readable summary of the problem type."
-          },
-          "traceId": {
-            "type": "string",
-            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem."
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "access-control",
-              "authentication",
-              "authorization",
-              "availability",
-              "deprecation",
-              "quota",
-              "validation"
-            ],
-            "type": "string",
-            "description": "(REQUIRED) The classification of the error."
-          }
-        },
-        "description": "A JSON:API Base common warning",
         "x-used-in-response": true
       },
       "CpcMinBidsRequest": {
@@ -7903,7 +7622,6 @@
             "x-optional-in-response": true
           }
         },
-        "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "x-used-in-response": true
       },
@@ -7942,7 +7660,6 @@
             "x-optional-in-response": true
           }
         },
-        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata.",
         "x-used-in-response": true
       },
@@ -8302,97 +8019,6 @@
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
-      },
-      "ExternalLineItemBidMultipliersV2": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "number",
-            "description": "Categories Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "categoryMenu": {
-            "type": "number",
-            "description": "CategoryMenu Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "checkout": {
-            "type": "number",
-            "description": "Checkout Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "confirmation": {
-            "type": "number",
-            "description": "Confirmation Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "deals": {
-            "type": "number",
-            "description": "Deals Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "favorites": {
-            "type": "number",
-            "description": "Favorites Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "home": {
-            "type": "number",
-            "description": "Home Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "merchandising": {
-            "type": "number",
-            "description": "Merchandising Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "productDetail": {
-            "type": "number",
-            "description": "ProductDetail Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "search": {
-            "type": "number",
-            "description": "Search Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "searchBar": {
-            "type": "number",
-            "description": "SearchBar Page Type Bid Multiplier",
-            "format": "decimal",
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "description": "The Bid Multiplier Entity of a LineItem",
-        "nullable": true,
-        "x-used-in-response": true,
-        "x-used-in-request": true
       },
       "ExternalLineItemCappingV2": {
         "required": [
@@ -8917,49 +8543,6 @@
         "x-used-in-response": true,
         "x-optional-in-response": true
       },
-      "GrantConsentInput": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/GrantConsentModelValueResource"
-          }
-        },
-        "description": "An object that encapsulates GrantConsentModel",
-        "x-used-in-request": true
-      },
-      "GrantConsentModel": {
-        "required": [
-          "callbackUrl",
-          "clientId"
-        ],
-        "type": "object",
-        "properties": {
-          "callbackState": {
-            "type": "string"
-          },
-          "callbackUrl": {
-            "type": "string"
-          },
-          "clientId": {
-            "type": "string"
-          }
-        },
-        "description": "An object that represents the required (ClientId and CallbackUrl) and optional (CallbackState) parameters when granting consents on behalf of a Private Market demand account",
-        "x-used-in-request": true
-      },
-      "GrantConsentModelValueResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/GrantConsentModel"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value",
-        "x-used-in-request": true
-      },
       "HyperlinkVariableValue": {
         "type": "object",
         "properties": {
@@ -9027,37 +8610,6 @@
         "description": "an API recommendation request",
         "x-used-in-request": true
       },
-      "InputKeywords": {
-        "type": "object",
-        "properties": {
-          "negativeBroad": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The collection of supplied negative broad phrased",
-            "nullable": true
-          },
-          "negativeExact": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The collection of supplied negative exact phrase",
-            "nullable": true
-          },
-          "positiveExact": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The collection of supplied positive exact phrases",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Keywords submitted by the user binned by type after some cleanup has been performed"
-      },
       "InputKeywordsModel": {
         "type": "object",
         "properties": {
@@ -9114,51 +8666,6 @@
         "description": "Defines the installment of a product.",
         "x-used-in-request": true
       },
-      "JsonApiBodyWithIdOfInt64AndLineItemBidMultipliersV2AndLineItemBidMultipliersV2": {
-        "required": [
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalLineItemBidMultipliersV2"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "description": "A JSON:API wrapper class to format a <typeparamref name=\"TAttributes\" /> with external Id, Type, and\r\nAttributes properties",
-        "x-used-in-response": true
-      },
-      "JsonApiSingleResponseOfLineItemBidMultipliersV2": {
-        "required": [
-          "data"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/JsonApiBodyWithIdOfInt64AndLineItemBidMultipliersV2AndLineItemBidMultipliersV2"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonError"
-            },
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonWarning"
-            },
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "description": "A JSON:API wrapper class to add one JSON:API <typeparamref name=\"T\" /> within a data property",
-        "x-used-in-response": true
-      },
       "KeywordDataModel": {
         "type": "object",
         "properties": {
@@ -9187,55 +8694,6 @@
         },
         "additionalProperties": false,
         "description": "A single keyword and associated bid override"
-      },
-      "Keywords": {
-        "type": "object",
-        "properties": {
-          "bid": {
-            "type": "number",
-            "description": "The bid to use when a positive keyword matches the shopper search phrase",
-            "format": "double",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "The time at which this keyword was created in UTC",
-            "format": "date-time"
-          },
-          "inputKeywords": {
-            "$ref": "#/components/schemas/InputKeywords"
-          },
-          "matchType": {
-            "enum": [
-              "PositiveExactMatch",
-              "NegativeExactMatch",
-              "NegativeBroadMatch",
-              "Unknown"
-            ],
-            "type": "string",
-            "description": "The matching algorthim to be use when comparing this keyword with the shopper search phrase"
-          },
-          "reviewState": {
-            "enum": [
-              "InReview",
-              "Recommended",
-              "Approved",
-              "AutoApproved",
-              "Rejected",
-              "AutoRejected",
-              "Unkown"
-            ],
-            "type": "string",
-            "description": "Review status of the keyword"
-          },
-          "updatedAt": {
-            "type": "string",
-            "description": "The time at which the keyword was last modified in UTC",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Data associated with a normalized keyword phrase"
       },
       "KeywordsModel": {
         "type": "object",
@@ -9313,46 +8771,6 @@
         },
         "additionalProperties": false,
         "description": "Response object containing keywords associated with a line item.",
-        "x-used-in-response": true
-      },
-      "LineItemBidMultipliersV2Request": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfLineItemBidMultipliersV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity",
-        "nullable": true,
-        "x-used-in-request": true
-      },
-      "LineItemBidMultipliersV2Response": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfLineItemBidMultipliersV2"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true,
-            "x-optional-in-response": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true,
-            "x-optional-in-response": true
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
-        "nullable": true,
         "x-used-in-response": true
       },
       "LineItemKeywordReviewReport": {
@@ -9817,7 +9235,6 @@
             "format": "int32"
           }
         },
-        "additionalProperties": false,
         "description": "Metadata for paging data.",
         "nullable": true,
         "x-used-in-response": true,
@@ -11106,34 +10523,6 @@
         "description": "Outcome object containing promoted products.",
         "x-used-in-response": true
       },
-      "RecommendedKeywordsResult": {
-        "type": "object",
-        "properties": {
-          "keywords": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/Keywords"
-            },
-            "description": "Dictionary of keywords to their keyword models",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "recommendedKeywords": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Collection of recommended keywords",
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Response model for recommended keywords",
-        "nullable": true,
-        "x-used-in-response": true,
-        "x-optional-in-response": true
-      },
       "ReportDataResponseResource": {
         "type": "object",
         "properties": {
@@ -11528,30 +10917,6 @@
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
-      },
-      "ResourceOfLineItemBidMultipliersV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalLineItemBidMultipliersV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "description": "A class that represents a domain entity exposed by an API",
-        "nullable": true,
-        "x-used-in-request": true,
-        "x-used-in-response": true
       },
       "ResourceOfPlacementPreview": {
         "type": "object",
@@ -13742,7 +13107,8 @@
           },
           "gtin": {
             "type": "string",
-            "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs."
+            "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
+            "nullable": true
           },
           "imageUrl": {
             "type": "string",
@@ -13754,7 +13120,8 @@
           },
           "mpn": {
             "type": "string",
-            "description": "The MPN for the product if available."
+            "description": "The MPN for the product if available.",
+            "nullable": true
           },
           "name": {
             "maxLength": 1000,
@@ -14085,9 +13452,9 @@
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -14252,14 +13619,14 @@
               "servedCategory"
             ],
             "type": "string",
-            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
             "default": "summary"
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -14431,14 +13798,14 @@
               "servedCategory"
             ],
             "type": "string",
-            "description": "Type of report, if no dimensions/metrics are provided, falls back to summary reportType",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
             "default": "summary"
           },
           "salesChannel": {
             "enum": [
-              "all",
+              "online",
               "offline",
-              "online"
+              "all"
             ],
             "type": "string",
             "description": "Filter on specific sales channel: offline or online",
@@ -14649,7 +14016,6 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "x-used-in-request": true
       },
@@ -14689,7 +14055,7 @@
         "description": "A top-level object that encapsulates a Criteo API response for several value objects.",
         "x-used-in-response": true
       },
-      "ValueResourceCollectionOutcomePrivateMarketAccountFees": {
+      "ValueResourceCollectionOutcomePrivateMarketAccountFeesAndMetadata": {
         "type": "object",
         "properties": {
           "data": {
@@ -14710,6 +14076,9 @@
             "readOnly": true,
             "x-optional-in-response": true
           },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
           "warnings": {
             "type": "array",
             "items": {
@@ -14722,7 +14091,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several value objects.",
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata.",
         "x-used-in-response": true
       },
       "ValueResourceCpcMinBidsRequest": {
@@ -14789,7 +14158,6 @@
             "$ref": "#/components/schemas/ValueResourceBrandIdSearchRequest"
           }
         },
-        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
         "x-used-in-request": true
       },
@@ -14873,24 +14241,6 @@
         "description": "A value resource exposed by the API.",
         "nullable": true,
         "x-used-in-request": true
-      },
-      "ValueResourceOfRecommendedKeywordsResult": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RecommendedKeywordsResult"
-          },
-          "type": {
-            "type": "string",
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
-        "nullable": true,
-        "x-used-in-response": true,
-        "x-optional-in-response": true
       },
       "ValueResourceOfSellerCatalogRequestV2": {
         "type": "object",
@@ -15000,35 +14350,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value object.",
-        "x-used-in-response": true
-      },
-      "ValueResourceOutcomeOfRecommendedKeywordsResult": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfRecommendedKeywordsResult"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true,
-            "x-optional-in-response": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true,
-            "x-optional-in-response": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
         "x-used-in-response": true
       },
       "ValueResourceOutcomeRetailMediaKeywordsReviewResult": {
