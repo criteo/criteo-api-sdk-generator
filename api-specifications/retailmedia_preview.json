@@ -237,6 +237,100 @@
         }
       }
     },
+    "/preview/retail-media/accounts/{account-id}/audience-segments/compute-sizes": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Gets the size of all segments. An error is returned for those whose size calculation is not supported.",
+        "operationId": "computeAudienceSegmentsSizes",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentComputeSizesInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentComputeSizesInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentComputeSizesInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentComputeSizesInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentSizeEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentSizeEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentSizeEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
     "/preview/retail-media/accounts/{account-id}/audience-segments/create": {
       "post": {
         "tags": [
@@ -336,7 +430,7 @@
         "tags": [
           "Audience"
         ],
-        "description": "Delete the segments associated to the given audience IDs.",
+        "description": "Delete the segments associated to the given IDs.",
         "operationId": "bulkDeleteAudienceSegments",
         "parameters": [
           {
@@ -394,6 +488,100 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audience-segments/estimate-size": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Gets the size estimation of a non existent segment. An error is returned when size calculation is not supported.",
+        "operationId": "estimateAudienceSegmentSize",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentEstimateSizeInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentEstimateSizeInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentEstimateSizeInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceSegmentEstimateSizeInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentSizeEstimationV1Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentSizeEstimationV1Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentSizeEstimationV1Response"
                 }
               }
             }
@@ -512,6 +700,484 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RmAudienceSegmentEntityV1RmAudienceSegmentSearchMetadataV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audiences": {
+      "patch": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Updates the properties of all audiences with a valid configuration, and returns their IDs. For those that cannot be updated, one or multiple errors are returned.",
+        "operationId": "bulkUpdateAudience",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkUpdateInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkUpdateInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkUpdateInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkUpdateInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audiences/compute-sizes": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Gets the size of all audiences. An error is returned for those whose size calculation is not supported.",
+        "operationId": "computeAudiencesSizes",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceComputeSizesInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceComputeSizesInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceComputeSizesInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceComputeSizesInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSizeEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSizeEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSizeEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audiences/create": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Creates all audiences with a valid configuration, and returns their IDs. For those that cannot be created, one or multiple errors are returned.",
+        "operationId": "bulkCreateAudience",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Audience creation parameter",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkCreateInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkCreateInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkCreateInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkCreateInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audiences/delete": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Deletes the audiences associated to the given IDs.",
+        "operationId": "bulkDeleteAudiences",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkDeleteInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkDeleteInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkDeleteInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceBulkDeleteInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSegmentIdEntityV1ListResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/accounts/{account-id}/audiences/estimate-size": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Gets the size estimation of a non existent audience. An error is returned when size calculation is not supported.",
+        "operationId": "estimateAudienceSize",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Account Id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceEstimateSizeInputV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceEstimateSizeInputV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceEstimateSizeInputV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RmAudienceEstimateSizeInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSizeEstimationV1Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSizeEstimationV1Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RmAudienceSizeEstimationV1Response"
                 }
               }
             }
@@ -4918,6 +5584,102 @@
         }
       }
     },
+    "/preview/retail-media/retailers/{retailerId}/categories/search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Search a retailer categories by given text substring and category ids.",
+        "operationId": "CategoriesSearchV1",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit of the search result.",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset of the search result.",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "Retailer id.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request of categories search.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputCategoriesSearchRequestV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputCategoriesSearchRequestV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputCategoriesSearchRequestV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputCategoriesSearchRequestV1"
+              }
+            }
+          },
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCategory202204Metadata"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/preview/retail-media/retailers/{retailerId}/cpc-min-bids": {
       "post": {
         "tags": [
@@ -4981,6 +5743,140 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueResourceOutcomeCpcMinBidsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/retailers/{retailerId}/recommend-categories": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Endpoint to get recommended categories by given retailer id and sku id list.",
+        "operationId": "GetRecommendedCategories",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "Retailer id.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request of recommended categories.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRecommendedCategoriesRequestV1"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRecommendedCategoriesRequestV1"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRecommendedCategoriesRequestV1"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRecommendedCategoriesRequestV1"
+              }
+            }
+          },
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCategory202204"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview/retail-media/retailers/{retailerId}/recommend-keywords": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Recommend keywords by given retailer id and sku ids.",
+        "operationId": "RecommendedKeywords",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "Retailer id.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request of recommended keywords.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputRecommendedKeywordsRequestV1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeRecommendedKeywordsResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
@@ -6939,6 +7835,27 @@
         "description": "The status of an asynchronous request to generate a catalog",
         "x-used-in-response": true
       },
+      "CategoriesSearchRequestV1": {
+        "type": "object",
+        "properties": {
+          "categoryIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Categories search category ids criteria.",
+            "nullable": true
+          },
+          "textSubstring": {
+            "type": "string",
+            "description": "Categories search text substring criteria.",
+            "nullable": true
+          }
+        },
+        "description": "An object that represents the request of CategoriesSearch endpoint.",
+        "x-used-in-request": true
+      },
       "Category": {
         "type": "object",
         "properties": {
@@ -7625,6 +8542,28 @@
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "x-used-in-response": true
       },
+      "EntityResourceCategory202204": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/Category202204"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "x-used-in-response": true
+      },
       "EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata": {
         "type": "object",
         "properties": {
@@ -7648,6 +8587,79 @@
           },
           "metadata": {
             "$ref": "#/components/schemas/PagingOffsetLimitMetadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata.",
+        "x-used-in-response": true
+      },
+      "EntityResourceCollectionOutcomeCategory202204": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceCategory202204"
+            },
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities.",
+        "x-used-in-response": true
+      },
+      "EntityResourceCollectionOutcomeCategory202204Metadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceCategory202204"
+            },
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
           },
           "warnings": {
             "type": "array",
@@ -9031,6 +10043,20 @@
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
+      },
+      "NillableDecimal": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The value. If missing or null the value is set to \"null\"",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "Placeholder object for value for which \"null\" is a valid business value",
+        "nullable": true,
+        "x-used-in-request": true
       },
       "NillableString": {
         "type": "object",
@@ -10523,6 +11549,63 @@
         "description": "Outcome object containing promoted products.",
         "x-used-in-response": true
       },
+      "RecommendedCategoriesRequestV1": {
+        "required": [
+          "skuIds"
+        ],
+        "type": "object",
+        "properties": {
+          "skuIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Sku id list."
+          }
+        },
+        "description": "An object that represents the request of RecommendCategories endpoint.",
+        "x-used-in-request": true
+      },
+      "RecommendedKeywordsRequestV1": {
+        "required": [
+          "skuIds"
+        ],
+        "type": "object",
+        "properties": {
+          "skuIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Sku Id list that the recommended keywords generated on."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request model of RecommendedKeywords",
+        "x-used-in-request": true
+      },
+      "RecommendedKeywordsResponseV1": {
+        "required": [
+          "recommendedKeywords"
+        ],
+        "type": "object",
+        "properties": {
+          "recommendedKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Recommended keywords generated by given retailer Id and sku Ids."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model of Recommended Keywords",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
       "ReportDataResponseResource": {
         "type": "object",
         "properties": {
@@ -11500,8 +12583,161 @@
         },
         "description": "Node in the audience algebra definition.",
         "nullable": true,
+        "x-used-in-request": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
+      },
+      "RmAudienceBulkCreateInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceCreateEntityV1Resource"
+            }
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for several values.",
+        "x-used-in-request": true
+      },
+      "RmAudienceBulkDeleteInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceDeleteEntityV1Resource"
+            }
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for several entities.",
+        "x-used-in-request": true
+      },
+      "RmAudienceBulkUpdateInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceUpdateEntityV1Resource"
+            }
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for several entities.",
+        "x-used-in-request": true
+      },
+      "RmAudienceComputeSizesEntityV1": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "enum": [
+              "Unknown",
+              "Onsite",
+              "Offsite"
+            ],
+            "type": "string",
+            "description": "Channel to compute the sizes for."
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of ids of the segments whose size is requested."
+          }
+        },
+        "description": "Audience of people of interest for a marketer.",
+        "x-used-in-request": true
+      },
+      "RmAudienceComputeSizesEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceComputeSizesEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
+      },
+      "RmAudienceComputeSizesInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceComputeSizesEntityV1Resource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value.",
+        "x-used-in-request": true
+      },
+      "RmAudienceCreateEntityV1": {
+        "required": [
+          "algebra",
+          "name",
+          "retailerId"
+        ],
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/RmAlgebraNodeV1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the audience"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the audience"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer  associated to the audience"
+          }
+        },
+        "description": "Audience of people of interest for a marketer.",
+        "x-used-in-request": true
+      },
+      "RmAudienceCreateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceCreateEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
+      },
+      "RmAudienceDeleteEntityV1": {
+        "type": "object",
+        "description": "Audience to delete",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        },
+        "x-used-in-request": true
+      },
+      "RmAudienceDeleteEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceDeleteEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
       },
       "RmAudienceEntityV1": {
         "type": "object",
@@ -11578,6 +12814,39 @@
         "x-used-in-response": true,
         "x-optional-in-response": true
       },
+      "RmAudienceEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceEntityV1Resource"
+            },
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
+      },
       "RmAudienceEntityV1Resource": {
         "type": "object",
         "properties": {
@@ -11634,6 +12903,52 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata",
         "x-used-in-response": true
+      },
+      "RmAudienceEstimateSizeEntityV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/RmAlgebraNodeV1"
+          },
+          "channel": {
+            "enum": [
+              "Unknown",
+              "Onsite",
+              "Offsite"
+            ],
+            "type": "string",
+            "description": "Channel to estimate the size"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer id of the audience"
+          }
+        },
+        "description": "Audience of people of interest for a marketer.",
+        "x-used-in-request": true
+      },
+      "RmAudienceEstimateSizeEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceEstimateSizeEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
+      },
+      "RmAudienceEstimateSizeInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceEstimateSizeEntityV1Resource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value.",
+        "x-used-in-request": true
       },
       "RmAudienceSearchEntityV1": {
         "type": "object",
@@ -11755,6 +13070,52 @@
         "description": "A top-level object that encapsulates a Criteo API request for several entities.",
         "x-used-in-request": true
       },
+      "RmAudienceSegmentComputeSizeEntityV1": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "enum": [
+              "Unknown",
+              "Onsite",
+              "Offsite"
+            ],
+            "type": "string",
+            "description": "Channel to compute the sizes for."
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of ids of the segments whose size is requested."
+          }
+        },
+        "description": "Segment Ids and channel whose size was requested.",
+        "x-used-in-request": true
+      },
+      "RmAudienceSegmentComputeSizeEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentComputeSizeEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
+      },
+      "RmAudienceSegmentComputeSizesInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceSegmentComputeSizeEntityV1Resource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value.",
+        "x-used-in-request": true
+      },
       "RmAudienceSegmentCreateEntityV1": {
         "required": [
           "name",
@@ -11768,6 +13129,9 @@
           "description": {
             "type": "string",
             "description": "Description of the segment"
+          },
+          "events": {
+            "$ref": "#/components/schemas/RmEventsCreateV1"
           },
           "name": {
             "type": "string",
@@ -12000,6 +13364,52 @@
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata",
         "x-used-in-response": true
       },
+      "RmAudienceSegmentEstimateSizeEntityV1": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "enum": [
+              "Unknown",
+              "Onsite",
+              "Offsite"
+            ],
+            "type": "string",
+            "description": "Channel to estimate the size"
+          },
+          "events": {
+            "$ref": "#/components/schemas/RmEventsEstimationV1"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Retailer id of the segment"
+          }
+        },
+        "description": "Set of rules that defines specific people to target.",
+        "x-used-in-request": true
+      },
+      "RmAudienceSegmentEstimateSizeEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentEstimateSizeEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-request": true
+      },
+      "RmAudienceSegmentEstimateSizeInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceSegmentEstimateSizeEntityV1Resource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value.",
+        "x-used-in-request": true
+      },
       "RmAudienceSegmentIdEntityV1": {
         "type": "object",
         "description": "Audience Segment entity only with its ID",
@@ -12152,6 +13562,156 @@
         "x-used-in-response": true,
         "x-optional-in-response": true
       },
+      "RmAudienceSegmentSizeEntityV1": {
+        "type": "object",
+        "properties": {
+          "relativeSize": {
+            "type": "number",
+            "description": "Reach in number of users relative to the total users of a retailer (e.g. 0.5523 / 55.23% users)",
+            "format": "double",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "size": {
+            "type": "integer",
+            "description": "Reach in absolute number of users (e.g. 150,300 users). It's not present when the user lacks permissions\r\nto view it.",
+            "format": "int64",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "id and size of the segment",
+        "nullable": true,
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudienceSegment",
+          "version": "v1"
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RmAudienceSegmentSizeEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSegmentSizeEntityV1Resource"
+            },
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
+      },
+      "RmAudienceSegmentSizeEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentSizeEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
+      },
+      "RmAudienceSegmentSizeEstimationV1": {
+        "type": "object",
+        "properties": {
+          "relativeSize": {
+            "type": "number",
+            "description": "Reach in number of users relative to the total users of a retailer (e.g. 0.5523 / 55.23% users)",
+            "format": "double",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "size": {
+            "type": "integer",
+            "description": "Reach in absolute number of users (e.g. 150,300 users). It's not present when the user lacks permissions\r\nto view it.",
+            "format": "int64",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "Segment size estimation",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RmAudienceSegmentSizeEstimationV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSegmentSizeEstimationV1"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RmAudienceSegmentSizeEstimationV1Response": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceSegmentSizeEstimationV1Resource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-response": true
+      },
       "RmAudienceSegmentUpdateEntityV1": {
         "type": "object",
         "properties": {
@@ -12160,6 +13720,9 @@
           },
           "description": {
             "$ref": "#/components/schemas/NillableString"
+          },
+          "events": {
+            "$ref": "#/components/schemas/RmEventsUpdateV1"
           },
           "name": {
             "type": "string",
@@ -12179,6 +13742,195 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/RmAudienceSegmentUpdateEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-request": true
+      },
+      "RmAudienceSizeEntityV1": {
+        "type": "object",
+        "properties": {
+          "relativeSize": {
+            "type": "number",
+            "description": "Reach in number of users relative to the total users of a retailer (e.g. 0.5523 / 55.23% users)",
+            "format": "double",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "size": {
+            "type": "integer",
+            "description": "Reach in absolute number of users (e.g. 150,300 users). It's not present when the user lacks permissions\r\nto view it.",
+            "format": "int64",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "id and size of the audience",
+        "nullable": true,
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        },
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RmAudienceSizeEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RmAudienceSizeEntityV1Resource"
+            },
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "x-used-in-response": true
+      },
+      "RmAudienceSizeEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSizeEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API",
+        "x-used-in-response": true
+      },
+      "RmAudienceSizeEstimationV1": {
+        "type": "object",
+        "properties": {
+          "relativeSize": {
+            "type": "number",
+            "description": "Reach in number of users relative to the total users of a retailer (e.g. 0.5523 / 55.23% users)",
+            "format": "double",
+            "nullable": true,
+            "x-optional-in-response": true
+          },
+          "size": {
+            "type": "integer",
+            "description": "Reach in absolute number of users (e.g. 150,300 users). It's not present when the user lacks permissions\r\nto view it.",
+            "format": "int64",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "Audience size estimation",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RmAudienceSizeEstimationV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceSizeEstimationV1"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
+      },
+      "RmAudienceSizeEstimationV1Response": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RmAudienceSizeEstimationV1Resource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "x-used-in-response": true
+      },
+      "RmAudienceUpdateEntityV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/RmAlgebraNodeV1"
+          },
+          "description": {
+            "$ref": "#/components/schemas/NillableString"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the audience"
+          }
+        },
+        "description": "Audience of people of interest for a marketer.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAudience",
+          "version": "v1"
+        },
+        "x-used-in-request": true
+      },
+      "RmAudienceUpdateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RmAudienceUpdateEntityV1"
           },
           "id": {
             "type": "string",
@@ -12413,6 +14165,171 @@
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
+      },
+      "RmEventsCreateV1": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the brands your segment might be interested in"
+          },
+          "categoryIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the categories your segment might be interested in"
+          },
+          "lookbackDays": {
+            "enum": [
+              "Unknown",
+              "Last7Days",
+              "Last14Days",
+              "Last30Days",
+              "Last45Days",
+              "Last60Days",
+              "Last90Days",
+              "Last120Days",
+              "Last150Days",
+              "Last180Days"
+            ],
+            "type": "string",
+            "description": "Number of days of the lookback windows"
+          },
+          "maxPrice": {
+            "type": "number",
+            "description": "Reach people who’ve shown interest in products with a maximum price",
+            "format": "double"
+          },
+          "minPrice": {
+            "type": "number",
+            "description": "Reach people who’ve shown interest in products with a minimum price",
+            "format": "double"
+          },
+          "shopperActivity": {
+            "enum": [
+              "Unknown",
+              "View",
+              "Buy",
+              "AddToCart"
+            ],
+            "type": "string",
+            "description": "Types of shopper activity."
+          }
+        },
+        "description": "Settings to target users based on their behavior",
+        "x-used-in-request": true
+      },
+      "RmEventsEstimationV1": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categoryIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lookbackDays": {
+            "enum": [
+              "Unknown",
+              "Last7Days",
+              "Last14Days",
+              "Last30Days",
+              "Last45Days",
+              "Last60Days",
+              "Last90Days",
+              "Last120Days",
+              "Last150Days",
+              "Last180Days"
+            ],
+            "type": "string"
+          },
+          "maxPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "minPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "shopperActivity": {
+            "enum": [
+              "Unknown",
+              "View",
+              "Buy",
+              "AddToCart"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "Settings to target users based on the shopping events",
+        "x-used-in-request": true
+      },
+      "RmEventsUpdateV1": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the brands your segment might be interested in"
+          },
+          "categoryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the categories your segment might be interested in"
+          },
+          "lookbackDays": {
+            "enum": [
+              "Unknown",
+              "Last7Days",
+              "Last14Days",
+              "Last30Days",
+              "Last45Days",
+              "Last60Days",
+              "Last90Days",
+              "Last120Days",
+              "Last150Days",
+              "Last180Days"
+            ],
+            "type": "string",
+            "description": "Number of days of the lookback windows"
+          },
+          "maxPrice": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "minPrice": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "shopperActivity": {
+            "enum": [
+              "Unknown",
+              "View",
+              "Buy",
+              "AddToCart"
+            ],
+            "type": "string",
+            "description": "Types of shopper activity."
+          }
+        },
+        "description": "Settings to target users based on their behavior",
+        "x-used-in-request": true
       },
       "RmEventsV1": {
         "type": "object",
@@ -14019,6 +15936,21 @@
         "description": "A value resource exposed by the API.",
         "x-used-in-request": true
       },
+      "ValueResourceCategoriesSearchRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CategoriesSearchRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "description": "A value resource exposed by the API.",
+        "x-used-in-request": true
+      },
       "ValueResourceCollectionOutcomeOfSellerSearchResult": {
         "type": "object",
         "properties": {
@@ -14161,6 +16093,16 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
         "x-used-in-request": true
       },
+      "ValueResourceInputCategoriesSearchRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceCategoriesSearchRequestV1"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
+        "x-used-in-request": true
+      },
       "ValueResourceInputCpcMinBidsRequest": {
         "type": "object",
         "properties": {
@@ -14210,6 +16152,27 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourcePartnerBillingReportRequestV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
+        "x-used-in-request": true
+      },
+      "ValueResourceInputRecommendedCategoriesRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceRecommendedCategoriesRequestV1"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
+        "x-used-in-request": true
+      },
+      "ValueResourceInputRecommendedKeywordsRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceRecommendedKeywordsRequestV1"
           }
         },
         "additionalProperties": false,
@@ -14352,6 +16315,37 @@
         "description": "A top-level object that encapsulates a Criteo API response for a single value object.",
         "x-used-in-response": true
       },
+      "ValueResourceOutcomeRecommendedKeywordsResponseV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceRecommendedKeywordsResponseV1"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true,
+            "x-optional-in-response": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object.",
+        "x-used-in-response": true
+      },
       "ValueResourceOutcomeRetailMediaKeywordsReviewResult": {
         "type": "object",
         "properties": {
@@ -14415,6 +16409,56 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "x-used-in-response": true
+      },
+      "ValueResourceRecommendedCategoriesRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RecommendedCategoriesRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "description": "A value resource exposed by the API.",
+        "x-used-in-request": true
+      },
+      "ValueResourceRecommendedKeywordsRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RecommendedKeywordsRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "x-used-in-request": true
+      },
+      "ValueResourceRecommendedKeywordsResponseV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RecommendedKeywordsResponseV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true,
+            "x-optional-in-response": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true,
+        "x-used-in-response": true,
+        "x-optional-in-response": true
       },
       "ValueResourceRetailMediaKeywordsReview": {
         "type": "object",
