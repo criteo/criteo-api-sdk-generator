@@ -107,15 +107,19 @@ def main():
         else:
             raise Exception(f'Unsupported command line option ({option}={value}).')
 
-    LOGGER.info("Removing obsolete versions")
-    remove_out_of_support_specifications(specification_folder, release, NUM_YEARS_TO_KEEP)
-    LOGGER.info("Updating previous relevant versions")
-    update_previous_specifications(specification_folder, gateway_service)
-    LOGGER.info("Downloading the newest specifications")
-    for api_service in ALL_API_SERVICES:
-        LOGGER.info(f"Getting new specifications for {api_service}/{release}")
-        download_specification(release, api_service, specification_folder, gateway_service)
-
+    if release.lower() == "preview":
+      for api_service in ALL_API_SERVICES:
+          LOGGER.info(f"Getting new specifications for {api_service}/{release}")
+          download_specification(release, api_service, specification_folder, gateway_service)
+    else:
+      LOGGER.info("Removing obsolete versions")
+      remove_out_of_support_specifications(specification_folder, release, NUM_YEARS_TO_KEEP)
+      LOGGER.info("Updating previous relevant versions")
+      update_previous_specifications(specification_folder, gateway_service)
+      LOGGER.info("Downloading the newest specifications")
+      for api_service in ALL_API_SERVICES:
+          LOGGER.info(f"Getting new specifications for {api_service}/{release}")
+          download_specification(release, api_service, specification_folder, gateway_service)
 
 if __name__ == '__main__':
   main()
