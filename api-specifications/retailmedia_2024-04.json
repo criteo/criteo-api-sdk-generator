@@ -204,314 +204,6 @@
         }
       }
     },
-    "/2024-04/retail-media/accounts/{account-id}/balances": {
-      "get": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Get page of balances for the given accountId.",
-        "operationId": "Balances_GetApiV1ExternalAccountBalancesByAccountId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account to get page of balances for",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "The ids that you would like to limit your result set to",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "The 0 indexed page index you would like to receive given the page size",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of items you would like to receive in this request",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 25
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponsePagedListResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Create balance for the given account id",
-        "operationId": "Balances_PostApiV1ExternalAccountBalancesByAccountId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account to create balances for",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateBalanceRequest"
-              }
-            }
-          },
-          "x-bodyName": "createBalance"
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/accounts/{account-id}/balances/{balanceId}": {
-      "get": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Get a balance for the given account id and balance id",
-        "operationId": "Balances_GetApiV1ExternalAccountByAccountIdAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balanceId",
-            "in": "path",
-            "description": "The balance id",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Modify a balance for the given account id",
-        "operationId": "Balances_PatchApiV1ExternalAccountByAccountIdAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balanceId",
-            "in": "path",
-            "description": "The balance to change the dates",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBalanceModelRequest"
-              }
-            }
-          },
-          "x-bodyName": "updateBalanceModel"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/accounts/{account-id}/balances/{balanceId}/add-funds": {
-      "post": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Add funds to a balance for the given account id",
-        "operationId": "Balances_PostApiV1ExternalAccountAddFundsByAccountIdAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balanceId",
-            "in": "path",
-            "description": "The balance to add funds to",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddFundsToBalanceRequest"
-              }
-            }
-          },
-          "x-bodyName": "addFundsToBalance"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/accounts/{account-id}/balances/{balanceId}/change-dates": {
-      "post": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Change dates of a balance for the given account id",
-        "operationId": "Balances_PostApiV1ExternalAccountChangeDatesByAccountIdAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balanceId",
-            "in": "path",
-            "description": "The balance to change the dates",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeDatesOfBalanceRequest"
-              }
-            }
-          },
-          "x-bodyName": "changeDatesOfBalance"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/2024-04/retail-media/accounts/{account-id}/campaigns": {
       "get": {
         "tags": [
@@ -2458,74 +2150,6 @@
         }
       }
     },
-    "/2024-04/retail-media/insertion-order-history/{insertionOrderId}/change-data-capture": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Gets the balance's historical data change capture.",
-        "operationId": "GetInsertionOrderHistoryChangeDataCapture",
-        "parameters": [
-          {
-            "name": "insertionOrderId",
-            "in": "path",
-            "description": "External insertion order id.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The number of elements to be returned.",
-            "style": "form",
-            "schema": {
-              "maximum": 100,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 25
-            }
-          },
-          {
-            "name": "limitToChangeTypes",
-            "in": "query",
-            "description": "Comma separated change types string that will be queried.",
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "The (zero-based) starting offset in the collection.",
-            "style": "form",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageOfInsertionOrderHistoryChangeDataCapture"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/2024-04/retail-media/line-items/{id}/keywords": {
       "get": {
         "tags": [
@@ -2796,233 +2420,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/line-items/{line-item-id}/products": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "This endpoint gets the promoted products on the specified line item.",
-        "operationId": "PromotedProductsApi_GetApi202110ExternalLineItemProductsByLineItemId",
-        "parameters": [
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "The ids that you would like to limit your result set to",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "The line item to interact with",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "The 0 indexed page index you would like to receive given the page size",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of items you would like to receive in this request",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PromotedProduct202110PagedListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/line-items/{line-item-id}/products/append": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "This endpoint appends one or more products to promote on the specified line item.  The resulting state of the line item is returned.",
-        "operationId": "PromotedProductsApi_PostApi202110ExternalLineItemProductsAppendByLineItemId",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "The line item to interact with",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "the products to append to this line item",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PromotedProduct202110ListRequest"
-              }
-            }
-          },
-          "x-bodyName": "promotedProductsToAppend"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PromotedProduct202110PagedListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/line-items/{line-item-id}/products/delete": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "This endpoint removes one or more products from promotion on the specified line item.  The resulting state of the line item is returned.",
-        "operationId": "PromotedProductsApi_PostApi202110ExternalLineItemProductsDeleteByLineItemId",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "The line item to interact with",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PromotedProduct202110ListRequest"
-              }
-            }
-          },
-          "x-bodyName": "promotedProductsToRemove"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PromotedProduct202110PagedListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/line-items/{line-item-id}/products/pause": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "This endpoint pauses one or more promoted products on a specified line item.",
-        "operationId": "PromotedProducts_PostApi202110ExternalLineItemProductsPauseByLineItemId",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "The line item to interact with.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The products from which their IDs will be used to pause.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PromotedProduct202110ListRequest"
-              }
-            }
-          },
-          "x-bodyName": "promotedProductsToPause"
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/2024-04/retail-media/line-items/{line-item-id}/products/unpause": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "This endpoint unpauses one or more promoted products on a specified line item.",
-        "operationId": "PromotedProducts_PostApi202110ExternalLineItemProductsUnpauseByLineItemId",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "The line item to interact with.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The products from which their IDs will be used to unpause.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PromotedProduct202110ListRequest"
-              }
-            }
-          },
-          "x-bodyName": "promotedProductsToUnpause"
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
           }
         }
       }
@@ -4647,16 +4044,6 @@
   },
   "components": {
     "schemas": {
-      "AddFundsToBalanceRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfAddFundsToBalance"
-          }
-        },
-        "description": "Data model for an input resource",
-        "x-used-in-request": true
-      },
       "AddRemoveKeywordModel": {
         "type": "object",
         "properties": {
@@ -5919,60 +5306,6 @@
         "description": "Data model for a paged list of response resources",
         "x-used-in-response": true
       },
-      "BalanceResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfBalanceResponse"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for response resource",
-        "x-used-in-response": true
-      },
-      "BalanceResponsePagedListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBalanceResponse"
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a paged list of response resources",
-        "x-used-in-response": true
-      },
       "CampaignAttributesV202301": {
         "required": [
           "name",
@@ -6402,44 +5735,6 @@
         "description": "Data model for a list of response resources",
         "x-used-in-response": true
       },
-      "ChangeDatesOfBalanceRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfChangeDatesOfBalance"
-          }
-        },
-        "description": "Data model for an input resource",
-        "x-used-in-request": true
-      },
-      "ChangeDetails": {
-        "required": [
-          "changeValue",
-          "currentValue",
-          "previousValue"
-        ],
-        "type": "object",
-        "properties": {
-          "changeValue": {
-            "type": "string",
-            "description": "Change detail of a property of the insertion order.",
-            "nullable": true
-          },
-          "currentValue": {
-            "type": "string",
-            "description": "Current value of a property of the insertion order.",
-            "nullable": true
-          },
-          "previousValue": {
-            "type": "string",
-            "description": "Previous value of a property of the insertion order.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Change details of a property of the insertion order.",
-        "x-used-in-response": true
-      },
       "ChoiceOption": {
         "required": [
           "dependentVariables",
@@ -6800,16 +6095,6 @@
         "additionalProperties": false,
         "description": "A JSON:API Base common warning",
         "x-used-in-response": true
-      },
-      "CreateBalanceRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfCreateBalance"
-          }
-        },
-        "description": "Data model for an input resource",
-        "x-used-in-request": true
       },
       "Creative202110": {
         "required": [
@@ -7426,30 +6711,6 @@
         "x-used-in-response": true,
         "x-optional-in-response": true
       },
-      "ExternalAddFundsToBalance": {
-        "required": [
-          "deltaAmount",
-          "memo"
-        ],
-        "type": "object",
-        "properties": {
-          "deltaAmount": {
-            "type": "number",
-            "description": "Amount of billable funds to be added / decreased allotted to the balance.",
-            "format": "double"
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo"
-          },
-          "poNumber": {
-            "type": "string",
-            "description": "Purchase Order number."
-          }
-        },
-        "description": "An object that represents the available options of adding funds to a balance.",
-        "x-used-in-request": true
-      },
       "ExternalAddToBasketIdsUpdateModel202110": {
         "type": "object",
         "properties": {
@@ -7839,117 +7100,6 @@
         "x-used-in-response": true,
         "x-used-in-request": true
       },
-      "ExternalBalanceResponse": {
-        "required": [
-          "name",
-          "poNumber",
-          "memo",
-          "deposited",
-          "spent",
-          "remaining",
-          "startDate",
-          "endDate",
-          "status",
-          "createdAt",
-          "updatedAt",
-          "balanceType",
-          "salesForceId",
-          "spendType",
-          "privateMarketBillingType"
-        ],
-        "type": "object",
-        "properties": {
-          "balanceType": {
-            "enum": [
-              "unknown",
-              "capped",
-              "uncapped"
-            ],
-            "type": "string",
-            "description": "Type of the balance"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "deposited": {
-            "type": "number",
-            "description": "Amount of billable funds allotted to the balance.",
-            "format": "decimal",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the balance."
-          },
-          "poNumber": {
-            "type": "string",
-            "description": "Purchase Order number."
-          },
-          "privateMarketBillingType": {
-            "enum": [
-              "notApplicable",
-              "billByRetailer",
-              "billByCriteo",
-              "unknown"
-            ],
-            "type": "string",
-            "description": "Billing type for Private Market."
-          },
-          "remaining": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "salesForceId": {
-            "type": "string",
-            "description": "SalesForceId the balance is linked to."
-          },
-          "spendType": {
-            "enum": [
-              "Onsite",
-              "Offsite",
-              "OffsiteAwareness"
-            ],
-            "type": "string",
-            "description": "Spend Type of the balance."
-          },
-          "spent": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "status": {
-            "enum": [
-              "unknown",
-              "scheduled",
-              "active",
-              "ended"
-            ],
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
-        "x-used-in-response": true
-      },
       "ExternalBrand": {
         "required": [
           "name"
@@ -8048,32 +7198,6 @@
         "description": "The status of an asynchronous request to generate a catalog",
         "x-used-in-response": true
       },
-      "ExternalChangeDatesOfBalance": {
-        "required": [
-          "startDate",
-          "endDate",
-          "memo"
-        ],
-        "type": "object",
-        "properties": {
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo"
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          }
-        },
-        "description": "An object that represents the available options to modify schedule of a balance.",
-        "x-used-in-request": true
-      },
       "ExternalCommonLineItem": {
         "required": [
           "name",
@@ -8115,6 +7239,11 @@
             "format": "date",
             "nullable": true,
             "x-optional-in-response": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
           },
           "name": {
             "maxLength": 255,
@@ -8159,63 +7288,6 @@
         },
         "description": "A common line item to hold line item information shared between preferred and auction line items",
         "x-used-in-response": true
-      },
-      "ExternalCreateBalance": {
-        "required": [
-          "name",
-          "deposited",
-          "startDate",
-          "endDate",
-          "spendType",
-          "memo",
-          "salesForceId"
-        ],
-        "type": "object",
-        "properties": {
-          "deposited": {
-            "type": "number",
-            "description": "Amount of billable funds allotted to the balance.",
-            "format": "decimal",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the balance."
-          },
-          "poNumber": {
-            "type": "string",
-            "description": "Purchase Order number."
-          },
-          "salesForceId": {
-            "type": "string",
-            "description": "SalesForceId the balance is linked to."
-          },
-          "spendType": {
-            "enum": [
-              "Onsite",
-              "Offsite",
-              "OffsiteAwareness"
-            ],
-            "type": "string",
-            "description": "Type of the balance spend."
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          }
-        },
-        "description": "An object that represents the available options to set when creating a Retail Media Balance",
-        "x-used-in-request": true
       },
       "ExternalKeywordTarget202110": {
         "required": [
@@ -8294,7 +7366,9 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "nullable": true,
+            "x-optional-in-response": true
           }
         },
         "description": "Page information for a preferred line item",
@@ -8558,19 +7632,6 @@
         "description": "Model used to update a preferred line item",
         "x-used-in-request": true
       },
-      "ExternalPromotedProduct202110": {
-        "type": "object",
-        "properties": {
-          "bidOverride": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          }
-        },
-        "description": "identifies a promoted product",
-        "x-used-in-response": true,
-        "x-used-in-request": true
-      },
       "ExternalRetailer": {
         "required": [
           "name"
@@ -8792,39 +7853,6 @@
         "x-used-in-response": true,
         "x-used-in-request": true
       },
-      "ExternalUpdateBalanceModel": {
-        "type": "object",
-        "properties": {
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the balance."
-          },
-          "poNumber": {
-            "type": "string",
-            "description": "Purchase Order number."
-          },
-          "salesForceId": {
-            "type": "string",
-            "description": "SalesForceId the balance is linked to."
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          }
-        },
-        "description": "An object that represents the available options to set when updating a Retail Media Balance",
-        "x-used-in-request": true
-      },
       "FilesVariablesSpecification": {
         "required": [
           "extensions"
@@ -8967,55 +7995,6 @@
         },
         "description": "Data model for a Resource",
         "x-used-in-request": true
-      },
-      "InsertionOrderHistoryChangeDataCapture": {
-        "required": [
-          "changeDetails",
-          "changeType",
-          "dateOfModification",
-          "modifiedByUser"
-        ],
-        "type": "object",
-        "properties": {
-          "changeDetails": {
-            "$ref": "#/components/schemas/ChangeDetails"
-          },
-          "changeType": {
-            "enum": [
-              "BalanceCreated",
-              "BalanceAdded",
-              "BalanceRemoved",
-              "BalanceUncapped",
-              "BalanceCapped",
-              "EndDate",
-              "StartDate",
-              "BalanceName",
-              "PoNumber",
-              "ValueAdd",
-              "SalesforceId"
-            ],
-            "type": "string",
-            "description": "Represent the type of change states of the history."
-          },
-          "dateOfModification": {
-            "type": "string",
-            "description": "Date when data change has occured.",
-            "format": "date-time"
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo associate with the insertion order modification.",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "modifiedByUser": {
-            "type": "string",
-            "description": "User name who modified the insertion order."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Data model represents the data change capture of insertion order history.",
-        "x-used-in-response": true
       },
       "JsonApiBodyWithExternalIdOfEditableCampaignAttributesV202301AndCampaignV202301": {
         "required": [
@@ -9681,34 +8660,6 @@
         "description": "The match type of a keyword.",
         "x-used-in-request": true
       },
-      "Metadata": {
-        "required": [
-          "limit",
-          "offset"
-        ],
-        "type": "object",
-        "properties": {
-          "count": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "limit": {
-            "type": "integer",
-            "description": "The number of elements to be returned.",
-            "format": "int32"
-          },
-          "offset": {
-            "type": "integer",
-            "description": "The (zero-based) starting offset in the collection.",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Metadata related to the current request.",
-        "x-used-in-response": true
-      },
       "MonthlyLineItemBudegetOverride": {
         "required": [
           "duration",
@@ -9789,27 +8740,6 @@
         },
         "additionalProperties": false,
         "description": "Metadata related to the current request",
-        "x-used-in-response": true
-      },
-      "PageOfInsertionOrderHistoryChangeDataCapture": {
-        "required": [
-          "data",
-          "meta"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InsertionOrderHistoryChangeDataCapture"
-            }
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A wrapper class to return a single page of items with metadata for offset and limit based paging.",
         "x-used-in-response": true
       },
       "PageTypeEnvironment202210": {
@@ -10002,49 +8932,6 @@
         "description": "Data model for common error or warning",
         "x-used-in-response": true
       },
-      "PromotedProduct202110ListRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfPromotedProduct202110"
-            }
-          }
-        },
-        "description": "Data model for a list of input resources",
-        "x-used-in-request": true
-      },
-      "PromotedProduct202110PagedListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfPromotedProduct202110"
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a paged list of response resources",
-        "x-used-in-response": true
-      },
       "PutCampaignV202301": {
         "type": "object",
         "properties": {
@@ -10079,24 +8966,6 @@
         },
         "description": "The outcome of an API call.",
         "x-used-in-response": true
-      },
-      "ResourceOfAddFundsToBalance": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalAddFundsToBalance"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-used-in-request": true
       },
       "ResourceOfAuctionLineItem": {
         "type": "object",
@@ -10161,28 +9030,6 @@
         "x-used-in-response": true,
         "x-used-in-request": true
       },
-      "ResourceOfBalanceResponse": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalBalanceResponse"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-used-in-response": true
-      },
       "ResourceOfCategory202204": {
         "type": "object",
         "properties": {
@@ -10205,24 +9052,6 @@
         "description": "Data model for a Resource",
         "x-used-in-response": true
       },
-      "ResourceOfChangeDatesOfBalance": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalChangeDatesOfBalance"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-used-in-request": true
-      },
       "ResourceOfCommonLineItem": {
         "type": "object",
         "properties": {
@@ -10244,24 +9073,6 @@
         },
         "description": "Data model for a Resource",
         "x-used-in-response": true
-      },
-      "ResourceOfCreateBalance": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalCreateBalance"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-used-in-request": true
       },
       "ResourceOfCreative202110": {
         "type": "object",
@@ -10375,29 +9186,6 @@
         "description": "Data model for a Resource",
         "x-used-in-request": true
       },
-      "ResourceOfPromotedProduct202110": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalPromotedProduct202110"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true,
-            "x-optional-in-response": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true,
-            "x-optional-in-response": true
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-used-in-response": true,
-        "x-used-in-request": true
-      },
       "ResourceOfTemplate": {
         "type": "object",
         "properties": {
@@ -10422,24 +9210,6 @@
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
-      },
-      "ResourceOfUpdateBalanceModel": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalUpdateBalanceModel"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "Data model for a Resource",
-        "x-used-in-request": true
       },
       "ResourceOutcome": {
         "type": "object",
@@ -11768,16 +10538,6 @@
         "x-used-in-request": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
-      },
-      "UpdateBalanceModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfUpdateBalanceModel"
-          }
-        },
-        "description": "Data model for an input resource",
-        "x-used-in-request": true
       },
       "ValueResourceInputOfCampaignBudgetOverrides": {
         "type": "object",

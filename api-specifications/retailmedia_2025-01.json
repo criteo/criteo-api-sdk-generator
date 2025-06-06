@@ -558,7 +558,7 @@
         "tags": [
           "Audience"
         ],
-        "description": "Delete the segments associated to the given audience IDs.",
+        "description": "Delete the segments associated to the given IDs.",
         "operationId": "bulkDeleteAudienceSegments",
         "parameters": [
           {
@@ -9209,6 +9209,11 @@
             "nullable": true,
             "x-optional-in-response": true
           },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
           "name": {
             "maxLength": 255,
             "minLength": 0,
@@ -10981,6 +10986,20 @@
         "x-used-in-response": true,
         "x-used-in-request": true
       },
+      "NillableDecimal": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The value. If missing or null the value is set to \"null\"",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "Placeholder object for value for which \"null\" is a valid business value",
+        "nullable": true,
+        "x-used-in-request": true
+      },
       "NillableString": {
         "type": "object",
         "properties": {
@@ -12410,6 +12429,9 @@
             "type": "string",
             "description": "Description of the segment"
           },
+          "events": {
+            "$ref": "#/components/schemas/RmEventsCreateV1"
+          },
           "name": {
             "type": "string",
             "description": "Name of the segment"
@@ -12802,6 +12824,9 @@
           "description": {
             "$ref": "#/components/schemas/NillableString"
           },
+          "events": {
+            "$ref": "#/components/schemas/RmEventsUpdateV1"
+          },
           "name": {
             "type": "string",
             "description": "Name of the segment"
@@ -13054,6 +13079,118 @@
         "nullable": true,
         "x-used-in-response": true,
         "x-optional-in-response": true
+      },
+      "RmEventsCreateV1": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the brands your segment might be interested in"
+          },
+          "categoryIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the categories your segment might be interested in"
+          },
+          "lookbackDays": {
+            "enum": [
+              "Unknown",
+              "Last7Days",
+              "Last14Days",
+              "Last30Days",
+              "Last45Days",
+              "Last60Days",
+              "Last90Days",
+              "Last120Days",
+              "Last150Days",
+              "Last180Days"
+            ],
+            "type": "string",
+            "description": "Number of days of the lookback windows"
+          },
+          "maxPrice": {
+            "type": "number",
+            "description": "Reach people who’ve shown interest in products with a maximum price",
+            "format": "double"
+          },
+          "minPrice": {
+            "type": "number",
+            "description": "Reach people who’ve shown interest in products with a minimum price",
+            "format": "double"
+          },
+          "shopperActivity": {
+            "enum": [
+              "Unknown",
+              "View",
+              "Buy",
+              "AddToCart"
+            ],
+            "type": "string",
+            "description": "Types of shopper activity."
+          }
+        },
+        "description": "Settings to target users based on their behavior",
+        "x-used-in-request": true
+      },
+      "RmEventsUpdateV1": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the brands your segment might be interested in"
+          },
+          "categoryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Choose the categories your segment might be interested in"
+          },
+          "lookbackDays": {
+            "enum": [
+              "Unknown",
+              "Last7Days",
+              "Last14Days",
+              "Last30Days",
+              "Last45Days",
+              "Last60Days",
+              "Last90Days",
+              "Last120Days",
+              "Last150Days",
+              "Last180Days"
+            ],
+            "type": "string",
+            "description": "Number of days of the lookback windows"
+          },
+          "maxPrice": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "minPrice": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "shopperActivity": {
+            "enum": [
+              "Unknown",
+              "View",
+              "Buy",
+              "AddToCart"
+            ],
+            "type": "string",
+            "description": "Types of shopper activity."
+          }
+        },
+        "description": "Settings to target users based on their behavior",
+        "x-used-in-request": true
       },
       "RmEventsV1": {
         "type": "object",
