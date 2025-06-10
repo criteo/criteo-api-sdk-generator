@@ -1,0 +1,43 @@
+name: Autoupdate OAS for Preview
+
+on:
+  schedule:
+    - cron: "0 16 * * 1-4" # At 16:00 on every day-of-week from Monday through Thursday.
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-oas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: update OAS
+        run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r preview
+
+      - name: Close any existing pull request opened by "update-oas-bot"
+        run: gh pr list --state=open --label="oas auto-update" --json=id --jq '.[] | join("")' | xargs -I{} gh pr close {}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Create new branch and commit files
+        run: |
+          git config --global user.name "update-oas-bot"
+          git config --global user.email "update-oas-bot]@users.noreply.github.com"
+          git checkout -b update-oas-$(date --rfc-3339=date)
+          git add *
+          git commit -m "Update OAS for Preview"
+          git push origin update-oas-$(date --rfc-3339=date)
+
+      - name: Create pull request on main
+        run: gh pr create --base main --head update-oas-$(date --rfc-3339=date) --title "Update OAS for Preview" --body "Auto-update of OAS for Preview. This PR will be automatically closed during the next automatic update" --label "oas auto-update"
+        env:
+          GH_TOKEN: ${{ github.token }}
