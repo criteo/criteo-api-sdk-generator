@@ -57,8 +57,8 @@ def remove_out_of_support_specifications(specification_folder, reference_version
 
 def download_specification(version, api_service, specification_folder, gateway_service):
     folder_path = Path(specification_folder)
-    target_file = folder_path / f"{api_service.lower()}_{version}{SPECIFICATION_EXTENSION}"
-    specification_url = f"{gateway_service}/{version.lower()}/{api_service.lower()}/open-api-specifications.json"
+    target_file = folder_path / f"{api_service.lower()}_{version.lower()}{SPECIFICATION_EXTENSION}"
+    specification_url = f"{gateway_service}/{version}/{api_service.lower()}/open-api-specifications.json"
     try:
         f = urllib.request.urlopen(specification_url)
         if target_file.exists():
