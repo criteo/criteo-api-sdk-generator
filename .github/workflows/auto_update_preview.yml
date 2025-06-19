@@ -25,7 +25,7 @@ jobs:
         run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r Preview
 
       - name: Close any existing pull request opened by "update-oas-bot"
-        run: gh pr list --state=open --label="oas auto-update" --json=number --jq '.[] | join("")' | xargs -I{} gh pr close {}
+        run: gh pr list --state=open --label="oas auto-update" --json=number --jq '.[] | join("")' | xargs -I{} gh pr close --delete-branch {}
         env:
           GH_TOKEN: ${{ github.token }}
 
