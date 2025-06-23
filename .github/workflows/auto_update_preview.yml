@@ -23,6 +23,12 @@ jobs:
 
       - name: Update OAS
         run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r Preview
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add *
+          git diff --cached --exit-code || echo "::set-output name=has_changes::true"
 
       - name: Close any existing pull request opened by "update-oas-bot"
         run: gh pr list --state=open --label="oas auto-update" --json=number --jq '.[] | join("")' | xargs -I{} gh pr close --delete-branch {}
@@ -30,15 +36,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Create new branch and commit files
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot]@users.noreply.github.com"
           git checkout -b update-oas-$(date --rfc-3339=date)
-          git add *
           git commit -m "Update OAS for Preview"
           git push origin update-oas-$(date --rfc-3339=date)
 
       - name: Create pull request on main
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: gh pr create --base main --head update-oas-$(date --rfc-3339=date) --title "Update OAS for Preview" --body "Auto-update of OAS for Preview. This PR will be automatically closed during the next automatic update" --label "oas auto-update"
         env:
           GH_TOKEN: ${{ github.token }}
