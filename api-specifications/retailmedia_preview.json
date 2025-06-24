@@ -5816,7 +5816,7 @@
             "description": "Limit of the search result.",
             "style": "form",
             "schema": {
-              "maximum": 2147483647,
+              "maximum": 500,
               "minimum": 1,
               "type": "integer",
               "format": "int32",
@@ -6063,8 +6063,7 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -11946,11 +11945,12 @@
       },
       "RecommendedCategoriesRequestV1": {
         "required": [
-          "skuIds"
+          "productIds"
         ],
         "type": "object",
         "properties": {
-          "skuIds": {
+          "productIds": {
+            "maxItems": 1000,
             "minItems": 1,
             "type": "array",
             "items": {
@@ -11964,17 +11964,18 @@
       },
       "RecommendedKeywordsRequestV1": {
         "required": [
-          "skuIds"
+          "productIds"
         ],
         "type": "object",
         "properties": {
-          "skuIds": {
+          "productIds": {
+            "maxItems": 1000,
             "minItems": 1,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Sku Id list that the recommended keywords generated on."
+            "description": "Product Id list that the recommended keywords generated on."
           }
         },
         "additionalProperties": false,
