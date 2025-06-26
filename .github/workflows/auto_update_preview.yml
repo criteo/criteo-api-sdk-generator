@@ -50,26 +50,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Send success notification
+      - name: Send notification
         if: ${{ !env.ACT }} && steps.check_changes.outputs.has_changes == 'true'
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: criteo-api-sdk-generator
           SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: Autoupdate of OAS in Preview was successful. Please check opened PRs to validate the change, and publish the artifacts @apidx-interrupt.
+          SLACK_MESSAGE: Autoupdate of OAS in Preview. Please check opened PRs to validate the change, and publish the artifacts @apidx-interrupt.
           SLACK_USERNAME: sdk-generation-bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_FOOTER: 'Autoupdate of OAS in preview runs daily Monday to Tuesday'
-          SLACK_ICON_EMOJI: green_check_mark
-
-      - name: Send failure notification
-        if: ${{ failure() }} && ${{ !env.ACT }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: criteo-api-sdk-generator
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: Failure during autoupdate of OAS in Preview. 
-          SLACK_USERNAME: sdk-generation-bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_FOOTER: 'Autoupdate of OAS in preview runs daily Monday to Tuesday'
-          SLACK_ICON_EMOJI: x
+          SLACK_ICON_EMOJI: bell
+          SLACK_LINK_NAMES: true
