@@ -28,7 +28,11 @@ jobs:
         id: check_changes
         run: |
           git add *
-          git diff --cached --exit-code || echo "has_changes=true" >> $GITHUB_OUTPUT
+          if git diff --cached --exit-code; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Close any existing pull request opened by "update-oas-bot"
         run: gh pr list --state=open --label="oas auto-update" --json=number --jq '.[] | join("")' | xargs -I{} gh pr close --delete-branch {}
@@ -51,14 +55,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Send notification
-        if: ${{ !env.ACT }} && steps.check_changes.outputs.has_changes == 'true'
+        if: ${{ failure() }} || steps.check_changes.outputs.has_changes == 'true'
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: criteo-api-sdk-generator
           SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: Autoupdate of OAS in Preview. Please check opened PRs to validate the change, and publish the artifacts @apidx-interrupt.
+          SLACK_MESSAGE: 'Autoupdate of OAS in Preview. Please check <opened PRs|https://github.com/criteo/criteo-api-sdk-generator/pulls> to validate the change, and publish the artifacts <@S07BSM1MDN2>.'
           SLACK_USERNAME: sdk-generation-bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_FOOTER: 'Autoupdate of OAS in preview runs daily Monday to Tuesday'
           SLACK_ICON_EMOJI: bell
-          SLACK_LINK_NAMES: true
+          SLACK_LINK_NAMES: 'true'
+          MSG_MINIMAL: 'true'
+          SLACK_MESSAGE_ON_FAILURE: 'Autoupdate of OAS in Preview failure, check <action results|https://github.com/criteo/criteo-api-sdk-generator/actions>.'
