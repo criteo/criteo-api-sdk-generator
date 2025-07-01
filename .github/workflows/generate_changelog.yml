@@ -1,0 +1,170 @@
+name: Changelog generation
+
+on:
+  workflow_dispatch:
+    inputs:
+        latest-version:
+          type: string
+          description: latest stable API version (ex 2023-07)
+        previous-latest-version:
+          type: string
+          description: version preceeding the last stable API version, for comparison with latest-version 
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  TEMP_DIR: tmp-api-specifications
+  OUTPUT: /tmp/changelog.txt
+
+jobs:
+  fetch-latest-oas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Create temporary directory for updated OAS
+        run: |
+            mkdir -p $TEMP_DIR
+            echo "Created temporary directory: $TEMP_DIR"
+    
+      - name: Update OAS to the temporary folder
+        run: |
+            cp api-specifications/* $TEMP_DIR
+            python scripts/update_specification_files.py -s $TEMP_DIR -g https://api.criteo.com -r ${{ github.event.inputs.latest-version }}
+
+  incremental-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+        
+      - name: Check for changes 
+        id: check_changes
+        run: |
+          if diff -rq --exclude='.git*' api-specifications/ $TEMP_DIR/ > /dev/null 2>&1; then
+            echo "No OAS update, skipping changelog generation"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Found OAS update, will generate changelog"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate incremental changelog for every OAS
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+            find $TEMP_DIR/*\.json -type f | while read -r new_OAS_file; do
+                file_name="${new_OAS_file#$TEMP_DIR/}"
+                old_OAS_file="api-specifications/$file_name"
+                if [ -f "$old_OAS_file" ]; then
+                    echo "Comparing files for $file_name"
+                    echo "**$file_name**" >> $OUTPUT
+                    python scripts/prepare_changelog.py -f "$old_OAS_file" -t "$new_OAS_file" >> $OUTPUT
+                    changelog_exit_code=$?
+                    if [ $changelog_exit_code -eq 0 ]; then
+                        echo "Successfully generated incremental changelog for $file_name: $changelog_output"
+                    else
+                        echo "❌ Error generating incremental changelog for $file_name:" >> $OUTPUT
+                    fi
+                else
+                    echo "No matching old file to compare for $file_name"
+                fi
+            done
+
+      - name: Send initial Slack notification
+        if: steps.check_changes.outputs.has_changes == 'true'
+        id: initial_notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_CHANNEL: 'public-api-changelog'
+            SLACK_MESSAGE: 🔄 Generating incremental changelog...
+            SLACK_TITLE: Public API Changelog (incremental changes to each version)
+            SLACK_USERNAME: GitHub Actions
+            SLACK_ICON: new
+            SLACK_MESSAGE_ON_FAILURE: 'Failed to generate incremental changelogs'
+
+      - name: Send all changelogs in thread
+        if: steps.check_changes.outputs.has_changes == 'true'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_THREAD_TS: "${{ steps.initial_notification.outputs.ts }}"
+            SLACK_CHANNEL: public-api-changelog
+            SLACK_MESSAGE: cat $OUTPUT
+            SLACK_USERNAME: GitHub Actions
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_ICON_EMOJI: newspaper
+
+  version-upgrade-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Generate changelog between the two latest stable versions for each service
+        run: |
+            find $TEMP_DIR/*${github.event.inputs.latest-version}\.json -type f | while read -r new_OAS_file; do
+                file_name="${new_OAS_file#$TEMP_DIR/}"
+                old_OAS_file="api-specifications/$file_name"
+                if [ -f "$old_OAS_file" ]; then
+                    echo "Comparing files for $file_name"
+                    echo "**$file_name**" >> $OUTPUT
+                    python scripts/prepare_changelog.py -f "$old_OAS_file" -t "$new_OAS_file" >> $OUTPUT
+                    changelog_exit_code=$?
+                    if [ $changelog_exit_code -eq 0 ]; then
+                        echo "Successfully generated incremental changelog for $file_name: $changelog_output"
+                    else
+                        echo "❌ Error generating incremental changelog for $file_name:" >> $OUTPUT
+                    fi
+                else
+                    echo "No matching old file to compare for $file_name"
+                fi
+            done
+
+      - name: Send initial Slack notification
+        id: initial_notification
+        if: ${{ !env.ACT }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_CHANNEL: 'public-api-changelog'
+            SLACK_MESSAGE: 🔄 Generating version-upgrade changelog...
+            SLACK_TITLE: Public API Changelog (version upgrade changes for each API service)
+            SLACK_USERNAME: GitHub Actions
+            SLACK_ICON: new
+            SLACK_MESSAGE_ON_FAILURE: 'Failed to generate version-upgrade changelogs'
+
+      - name: Send all changelogs in thread
+        uses: rtCamp/action-slack-notify@v2
+        if: ${{ !env.ACT }}
+        env:
+            SLACK_THREAD_TS: "${{ steps.initial_notification.outputs.ts }}"
+            SLACK_CHANNEL: public-api-changelog
+            SLACK_MESSAGE: cat $OUTPUT
+            SLACK_USERNAME: GitHub Actions
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_ICON_EMOJI: newspaper
+            
+  cleanup-temp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup temporary directory and file
+        if: always() 
+        run: |
+            if [ -d "$TEMP_DIR" ]; then
+                rm -rf "$TEMP_DIR"
+            rm -f $OUTPUT
