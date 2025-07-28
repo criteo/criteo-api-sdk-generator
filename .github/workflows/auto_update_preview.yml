@@ -1,8 +1,8 @@
-name: Autoupdate OAS for Preview
+name: Weekly autoupdate OAS for Preview
 
 on:
   schedule:
-    - cron: "0 16 * * 1-4" # At 16:00 on every day-of-week from Monday through Thursday.
+    - cron: "0 16 * * 1" # At 16:00 on every Monday
   workflow_dispatch:
 
 permissions:
@@ -63,7 +63,7 @@ jobs:
           SLACK_MESSAGE: "Autoupdate of OAS in Preview. Please check <https://github.com/criteo/criteo-api-sdk-generator/pulls|opened PRs> to validate the change, and publish the artifacts <!subteam^S07BSM1MDN2>."
           SLACK_USERNAME: sdk-generation-bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_FOOTER: "Autoupdate of OAS in preview runs daily Monday to Tuesday"
+          SLACK_FOOTER: "Autoupdate of OAS in preview runs weekly on Monday"
           SLACK_ICON_EMOJI: bell
           SLACK_LINK_NAMES: "true"
           MSG_MINIMAL: "true"
