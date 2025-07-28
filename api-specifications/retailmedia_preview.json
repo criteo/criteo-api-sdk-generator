@@ -2297,103 +2297,6 @@
         }
       }
     },
-    "/preview/retail-media/accounts/sellers/search": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "Get the sellers mapped to provided accounts",
-        "operationId": "SearchSellers",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSellerSearch"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSellerSearch"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSellerSearch"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSellerSearch"
-              }
-            }
-          },
-          "x-bodyName": "searchDetails"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfSellerSearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfSellerSearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfSellerSearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/preview/retail-media/auction-line-items/{lineItemId}": {
       "get": {
         "tags": [
@@ -5898,76 +5801,6 @@
         }
       }
     },
-    "/preview/retail-media/retailers/{retailerId}/cpc-min-bids": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Get overall and individual minimum bid amount for given retailer id and sku id list.",
-        "operationId": "GetCpcMinBidsBySkuIdsV1",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "Retailer Id.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Cpc minimum bid amount request object.",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputCpcMinBidsRequest"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputCpcMinBidsRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputCpcMinBidsRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputCpcMinBidsRequest"
-              }
-            }
-          },
-          "x-bodyName": "cpcMinBidsRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeCpcMinBidsResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeCpcMinBidsResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeCpcMinBidsResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/preview/retail-media/retailers/{retailerId}/recommend-categories": {
       "post": {
         "tags": [
@@ -8220,47 +8053,6 @@
           }
         },
         "description": "Common problem object."
-      },
-      "CpcMinBidsRequest": {
-        "required": [
-          "skuIds"
-        ],
-        "type": "object",
-        "properties": {
-          "skuIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Sku id list for which minimum bid amounts are requested."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Cpc Min Bids request object."
-      },
-      "CpcMinBidsResponse": {
-        "required": [
-          "overallMinBid",
-          "skuMinBids"
-        ],
-        "type": "object",
-        "properties": {
-          "overallMinBid": {
-            "type": "number",
-            "description": "Overall minimum bid amount for the given list of sku ids.",
-            "format": "double"
-          },
-          "skuMinBids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkuMinBid"
-            },
-            "description": "Minimum bid amounts for each of the given list of sku ids."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Cpc Min Bids response object.",
-        "nullable": true
       },
       "CpcRateCardPreview": {
         "required": [
@@ -12458,29 +12250,6 @@
         "description": "Response object for approval of keyword reviews, containing a list of Phrase-ReviewState pairs",
         "nullable": true
       },
-      "RetailMediaSeller": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "seller name",
-            "nullable": true
-          },
-          "retailerId": {
-            "type": "integer",
-            "description": "the retailer id",
-            "format": "int32",
-            "nullable": true
-          },
-          "sellerId": {
-            "type": "string",
-            "description": "the seller id",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "used to define the exact seller linked with an account"
-      },
       "ReviewSetState": {
         "required": [
           "phrase",
@@ -14356,50 +14125,6 @@
         },
         "description": "Data model for response resource"
       },
-      "SellerSearch": {
-        "required": [
-          "accountIds"
-        ],
-        "type": "object",
-        "properties": {
-          "accountIds": {
-            "maxItems": 25,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "list of accounts to return seller information for. max length of 25"
-          },
-          "includeDetails": {
-            "type": "boolean",
-            "description": "whether to include additional fields beyond the sellerId and retailerId in the response.\r\nMay improve performance when set to false.",
-            "default": false
-          }
-        },
-        "additionalProperties": false,
-        "description": "request body for the seller search endpoint"
-      },
-      "SellerSearchResult": {
-        "type": "object",
-        "properties": {
-          "accountId": {
-            "type": "string",
-            "description": "the id for the account",
-            "nullable": true
-          },
-          "sellers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RetailMediaSeller"
-            },
-            "description": "the details for mapped sellers for the account",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "holds an AccountId and the mapped seller information for that account",
-        "nullable": true
-      },
       "SetBidModel": {
         "type": "object",
         "properties": {
@@ -14609,26 +14334,6 @@
           }
         },
         "description": "Data model for a list of response resources"
-      },
-      "SkuMinBid": {
-        "required": [
-          "minBid",
-          "skuId"
-        ],
-        "type": "object",
-        "properties": {
-          "minBid": {
-            "type": "number",
-            "description": "Minimum bid amount value.",
-            "format": "double"
-          },
-          "skuId": {
-            "type": "string",
-            "description": "Sku id."
-          }
-        },
-        "additionalProperties": false,
-        "description": "An object represents the minimum bid amount value of a sku."
       },
       "SkuSearchRequestPreview": {
         "required": [
@@ -15973,38 +15678,6 @@
         },
         "description": "A value resource exposed by the API."
       },
-      "ValueResourceCollectionOutcomeOfSellerSearchResult": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ValueResourceOfSellerSearchResult"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
-      },
       "ValueResourceCollectionOutcomePrivateMarketAccountFeesAndMetadata": {
         "type": "object",
         "properties": {
@@ -16039,37 +15712,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata."
-      },
-      "ValueResourceCpcMinBidsRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CpcMinBidsRequest"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceCpcMinBidsResponse": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CpcMinBidsResponse"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
       },
       "ValueResourceInputAccountFeesSearchRequest": {
         "type": "object",
@@ -16109,16 +15751,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
-      "ValueResourceInputCpcMinBidsRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceCpcMinBidsRequest"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
-      },
       "ValueResourceInputOfBrandCatalogRequestV2": {
         "type": "object",
         "properties": {
@@ -16138,16 +15770,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
         "nullable": true
-      },
-      "ValueResourceInputOfSellerSearch": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfSellerSearch"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
       "ValueResourceInputOfSponsoredProductsLineItemUpdateRequestModel": {
         "type": "object",
@@ -16226,36 +15848,6 @@
         "description": "A value resource exposed by the API.",
         "nullable": true
       },
-      "ValueResourceOfSellerSearch": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SellerSearch"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceOfSellerSearchResult": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SellerSearchResult"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
       "ValueResourceOfSponsoredProductsLineItemUpdateRequestModel": {
         "type": "object",
         "properties": {
@@ -16276,34 +15868,6 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceAccountFeesUpdateResult"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
-      },
-      "ValueResourceOutcomeCpcMinBidsResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceCpcMinBidsResponse"
           },
           "errors": {
             "type": "array",
