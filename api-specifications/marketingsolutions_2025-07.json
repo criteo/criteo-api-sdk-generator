@@ -3,7 +3,7 @@
   "info": {
     "title": "Criteo API",
     "description": "Criteo API - MarketingSolutions",
-    "version": "2024-04"
+    "version": "2025-07"
   },
   "servers": [
     {
@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/2024-04/advertisers/me": {
+    "/2025-07/advertisers/me": {
       "get": {
         "tags": [
           "Advertiser"
@@ -89,7 +89,7 @@
         }
       }
     },
-    "/2024-04/audiences/{audience-segment-id}/contactlist": {
+    "/2025-07/audiences/{audience-segment-id}/contactlist": {
       "delete": {
         "tags": [
           "Audience"
@@ -291,7 +291,7 @@
         }
       ]
     },
-    "/2024-04/log-level/advertisers/{advertiser-id}/report": {
+    "/2025-07/log-level/advertisers/{advertiser-id}/report": {
       "post": {
         "tags": [
           "Analytics"
@@ -528,7 +528,211 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/ad-sets/{ad-set-id}/audience": {
+    "/2025-07/marketing-solutions/ad-sets": {
+      "patch": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Patch a list of AdSets.",
+        "operationId": "PatchAdSetsV24Q3",
+        "requestBody": {
+          "description": "List of adsets to patch.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q3"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q3"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q3"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q3"
+              }
+            }
+          },
+          "x-bodyName": "adSets"
+        },
+        "responses": {
+          "200": {
+            "description": "List of patched adSets.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesAdSetIdV24Q3"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesAdSetIdV24Q3"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesAdSetIdV24Q3"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource or the resource does not exist.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Create the specified ad set",
+        "operationId": "CreateAdSetV24Q3",
+        "requestBody": {
+          "description": "the ad sets to create",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdSetV24Q3Request"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdSetV24Q3Request"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdSetV24Q3Request"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdSetV24Q3Request"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "adSet"
+        },
+        "responses": {
+          "201": {
+            "description": "The ad set that has been created and errors / warnings",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q3"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q3"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q3"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/2025-07/marketing-solutions/ad-sets/{ad-set-id}": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Get the data for the specified ad set",
+        "operationId": "GetAdSetV24Q3",
+        "parameters": [
+          {
+            "name": "ad-set-id",
+            "in": "path",
+            "description": "Id of the ad set",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "data for the ad set",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q3"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q3"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q3"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource or the resource does not exist.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/2025-07/marketing-solutions/ad-sets/{ad-set-id}/audience": {
       "put": {
         "tags": [
           "Campaign"
@@ -622,7 +826,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/ad-sets/{ad-set-id}/category-bids": {
+    "/2025-07/marketing-solutions/ad-sets/{ad-set-id}/category-bids": {
       "get": {
         "tags": [
           "Campaign"
@@ -779,7 +983,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/ad-sets/{ad-set-id}/display-multipliers": {
+    "/2025-07/marketing-solutions/ad-sets/{ad-set-id}/display-multipliers": {
       "get": {
         "tags": [
           "Campaign"
@@ -936,7 +1140,87 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/ad-sets/start": {
+    "/2025-07/marketing-solutions/ad-sets/search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Search for ad sets",
+        "operationId": "SearchAdSetsV24Q3",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdSetSearchRequestV24Q3"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdSetSearchRequestV24Q3"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdSetSearchRequestV24Q3"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdSetSearchRequestV24Q3"
+              }
+            }
+          },
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "data for the ad sets",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesReadAdSetV24Q3"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesReadAdSetV24Q3"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesReadAdSetV24Q3"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "401": {
+            "description": "The API client is not properly authenticated.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          },
+          "403": {
+            "description": "The API client is not authorized to access this resource or the resource does not exist.",
+            "content": {
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
+            }
+          }
+        }
+      }
+    },
+    "/2025-07/marketing-solutions/ad-sets/start": {
       "post": {
         "tags": [
           "Campaign"
@@ -1009,7 +1293,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/ad-sets/stop": {
+    "/2025-07/marketing-solutions/ad-sets/stop": {
       "post": {
         "tags": [
           "Campaign"
@@ -1082,7 +1366,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/ads/{id}": {
+    "/2025-07/marketing-solutions/ads/{id}": {
       "delete": {
         "tags": [
           "Creative"
@@ -1184,7 +1468,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/advertisers/{advertiser-id}/ads": {
+    "/2025-07/marketing-solutions/advertisers/{advertiser-id}/ads": {
       "get": {
         "tags": [
           "Creative"
@@ -1364,7 +1648,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/advertisers/{advertiser-id}/coupons": {
+    "/2025-07/marketing-solutions/advertisers/{advertiser-id}/coupons": {
       "get": {
         "tags": [
           "Creative"
@@ -1528,7 +1812,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/advertisers/{advertiser-id}/coupons-supported-sizes": {
+    "/2025-07/marketing-solutions/advertisers/{advertiser-id}/coupons-supported-sizes": {
       "get": {
         "tags": [
           "Creative"
@@ -1596,7 +1880,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}": {
+    "/2025-07/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}": {
       "delete": {
         "tags": [
           "Creative"
@@ -1798,7 +2082,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}/preview": {
+    "/2025-07/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}/preview": {
       "get": {
         "tags": [
           "Creative"
@@ -1887,7 +2171,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/advertisers/{advertiser-id}/creatives": {
+    "/2025-07/marketing-solutions/advertisers/{advertiser-id}/creatives": {
       "get": {
         "tags": [
           "Creative"
@@ -2067,7 +2351,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments": {
+    "/2025-07/marketing-solutions/audience-segments": {
       "patch": {
         "tags": [
           "Audience"
@@ -2149,7 +2433,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/{audience-segment-id}/contact-list": {
+    "/2025-07/marketing-solutions/audience-segments/{audience-segment-id}/contact-list": {
       "delete": {
         "tags": [
           "Audience"
@@ -2351,7 +2635,7 @@
         }
       ]
     },
-    "/2024-04/marketing-solutions/audience-segments/{audience-segment-id}/contact-list/statistics": {
+    "/2025-07/marketing-solutions/audience-segments/{audience-segment-id}/contact-list/statistics": {
       "get": {
         "tags": [
           "Audience"
@@ -2411,7 +2695,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/compute-sizes": {
+    "/2025-07/marketing-solutions/audience-segments/compute-sizes": {
       "post": {
         "tags": [
           "Audience"
@@ -2493,7 +2777,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/create": {
+    "/2025-07/marketing-solutions/audience-segments/create": {
       "post": {
         "tags": [
           "Audience"
@@ -2575,7 +2859,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/delete": {
+    "/2025-07/marketing-solutions/audience-segments/delete": {
       "post": {
         "tags": [
           "Audience"
@@ -2657,7 +2941,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/estimate-size": {
+    "/2025-07/marketing-solutions/audience-segments/estimate-size": {
       "post": {
         "tags": [
           "Audience"
@@ -2739,7 +3023,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/in-market-brands": {
+    "/2025-07/marketing-solutions/audience-segments/in-market-brands": {
       "get": {
         "tags": [
           "Audience"
@@ -2808,7 +3092,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/in-market-interests": {
+    "/2025-07/marketing-solutions/audience-segments/in-market-interests": {
       "get": {
         "tags": [
           "Audience"
@@ -2877,7 +3161,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audience-segments/search": {
+    "/2025-07/marketing-solutions/audience-segments/search": {
       "post": {
         "tags": [
           "Audience"
@@ -2985,7 +3269,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audiences": {
+    "/2025-07/marketing-solutions/audiences": {
       "patch": {
         "tags": [
           "Audience"
@@ -3067,7 +3351,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audiences/compute-sizes": {
+    "/2025-07/marketing-solutions/audiences/compute-sizes": {
       "post": {
         "tags": [
           "Audience"
@@ -3149,7 +3433,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audiences/create": {
+    "/2025-07/marketing-solutions/audiences/create": {
       "post": {
         "tags": [
           "Audience"
@@ -3231,7 +3515,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audiences/delete": {
+    "/2025-07/marketing-solutions/audiences/delete": {
       "post": {
         "tags": [
           "Audience"
@@ -3321,7 +3605,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audiences/estimate-size": {
+    "/2025-07/marketing-solutions/audiences/estimate-size": {
       "post": {
         "tags": [
           "Audience"
@@ -3403,7 +3687,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/audiences/search": {
+    "/2025-07/marketing-solutions/audiences/search": {
       "post": {
         "tags": [
           "Audience"
@@ -3511,7 +3795,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/campaigns": {
+    "/2025-07/marketing-solutions/campaigns": {
       "patch": {
         "tags": [
           "Campaign"
@@ -3656,7 +3940,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/campaigns/{campaign-id}": {
+    "/2025-07/marketing-solutions/campaigns/{campaign-id}": {
       "get": {
         "tags": [
           "Campaign"
@@ -3715,7 +3999,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/campaigns/search": {
+    "/2025-07/marketing-solutions/campaigns/search": {
       "post": {
         "tags": [
           "Campaign"
@@ -3796,7 +4080,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/creatives/{id}": {
+    "/2025-07/marketing-solutions/creatives/{id}": {
       "delete": {
         "tags": [
           "Creative"
@@ -3987,7 +4271,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/creatives/{id}/preview": {
+    "/2025-07/marketing-solutions/creatives/{id}/preview": {
       "post": {
         "tags": [
           "Creative"
@@ -4066,7 +4350,7 @@
         }
       }
     },
-    "/2024-04/marketing-solutions/me": {
+    "/2025-07/marketing-solutions/me": {
       "get": {
         "tags": [
           "Gateway"
@@ -4093,7 +4377,7 @@
         }
       }
     },
-    "/2024-04/placements/report": {
+    "/2025-07/placements/report": {
       "post": {
         "tags": [
           "Analytics"
@@ -4307,7 +4591,7 @@
         }
       }
     },
-    "/2024-04/statistics/report": {
+    "/2025-07/statistics/report": {
       "post": {
         "tags": [
           "Analytics"
@@ -4741,7 +5025,7 @@
         }
       }
     },
-    "/2024-04/transactions/report": {
+    "/2025-07/transactions/report": {
       "post": {
         "tags": [
           "Analytics"
@@ -5404,6 +5688,49 @@
         },
         "description": "Data model for a Resource"
       },
+      "AdSetDeliveryLimitationsV24Q3": {
+        "type": "object",
+        "properties": {
+          "devices": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "other",
+                "desktop",
+                "mobile",
+                "tablet"
+              ],
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "environments": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "web",
+                "inApp"
+              ],
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "operatingSystems": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "android",
+                "ios",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "description": "ad set delivery limitations model",
+        "nullable": true
+      },
       "AdSetDisplayMultiplier": {
         "type": "object",
         "properties": {
@@ -5470,6 +5797,128 @@
           }
         },
         "description": "Data model for a Resource"
+      },
+      "AdSetFrequencyCappingV24Q3": {
+        "type": "object",
+        "properties": {
+          "frequency": {
+            "enum": [
+              "hourly",
+              "daily",
+              "lifetime",
+              "advanced"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "maximumImpressions": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "ad set frequency capping model",
+        "nullable": true
+      },
+      "AdSetGeoLocationV24Q3": {
+        "type": "object",
+        "properties": {
+          "countries": {
+            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q3"
+          },
+          "subdivisions": {
+            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q3"
+          },
+          "zipCodes": {
+            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q3"
+          }
+        },
+        "description": "ad set geolocation model",
+        "nullable": true
+      },
+      "AdSetIdV24Q3": {
+        "type": "object",
+        "description": "ad set id model",
+        "nullable": true
+      },
+      "AdSetSearchFilterV24Q3": {
+        "type": "object",
+        "properties": {
+          "adSetIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "advertiserIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "description": "filter on ad set ids"
+      },
+      "AdSetSearchRequestV24Q3": {
+        "type": "object",
+        "properties": {
+          "filters": {
+            "$ref": "#/components/schemas/AdSetSearchFilterV24Q3"
+          }
+        },
+        "description": "request payload of the search endpoint"
+      },
+      "AdSetTargetingRuleV24Q3": {
+        "type": "object",
+        "properties": {
+          "operand": {
+            "enum": [
+              "undefined",
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "description": "ad set targeting rule model"
+      },
+      "AdSetTargetingV24Q3": {
+        "type": "object",
+        "properties": {
+          "deliveryLimitations": {
+            "$ref": "#/components/schemas/AdSetDeliveryLimitationsV24Q3"
+          },
+          "frequencyCapping": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/AdSetFrequencyCappingV24Q3"
+              }
+            },
+            "nullable": true
+          },
+          "geoLocation": {
+            "$ref": "#/components/schemas/AdSetGeoLocationV24Q3"
+          }
+        },
+        "description": "ad set targeting model",
+        "nullable": true
       },
       "AdWrite": {
         "required": [
@@ -7669,6 +8118,268 @@
         "description": "Entity containing the list of Coupon supported sizes",
         "nullable": true
       },
+      "CreateAdSetAttributionConfigurationV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributionMethod": {
+            "enum": [
+              "unknown",
+              "criteoAttribution",
+              "googleAnalyticsLastClick",
+              "googleAnalyticsDataDriven",
+              "lastClick",
+              "postClick"
+            ],
+            "type": "string",
+            "description": "The attribution method."
+          },
+          "lookbackWindow": {
+            "enum": [
+              "unknown",
+              "30M",
+              "24H",
+              "7D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "The lookback window. Optional, should be specified only for attribution methods PostClick and LastClick.",
+            "nullable": true
+          }
+        },
+        "description": "Create model for an ad set's attribution configuration."
+      },
+      "CreateAdSetBiddingV24Q3": {
+        "required": [
+          "costController"
+        ],
+        "type": "object",
+        "properties": {
+          "bidAmount": {
+            "type": "number",
+            "description": "Decimal value target relating to the `bidStrategy` specified. May be `null` for strategies that do not require a target value. At most 4 decimals are supported. Additional decimals are rounded.",
+            "format": "double",
+            "nullable": true
+          },
+          "costController": {
+            "enum": [
+              "COS",
+              "maxCPC",
+              "CPI",
+              "CPM",
+              "CPO",
+              "CPSV",
+              "CPV",
+              "dailyBudget",
+              "targetCPM"
+            ],
+            "type": "string",
+            "description": "How spend is controlled"
+          }
+        },
+        "description": "ad set bidding create model"
+      },
+      "CreateAdSetBudgetV24Q3": {
+        "required": [
+          "budgetStrategy"
+        ],
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string"
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string"
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string"
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "ad set budget create model"
+      },
+      "CreateAdSetGeoLocationV24Q3": {
+        "type": "object",
+        "properties": {
+          "countries": {
+            "$ref": "#/components/schemas/AdSetTargetingRuleV24Q3"
+          },
+          "subdivisions": {
+            "$ref": "#/components/schemas/AdSetTargetingRuleV24Q3"
+          },
+          "zipCodes": {
+            "$ref": "#/components/schemas/AdSetTargetingRuleV24Q3"
+          }
+        },
+        "description": "Geolocation configuration of the ad set"
+      },
+      "CreateAdSetScheduleV24Q3": {
+        "required": [
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "ad set schedule create model"
+      },
+      "CreateAdSetTargetingV24Q3": {
+        "required": [
+          "frequencyCapping"
+        ],
+        "type": "object",
+        "properties": {
+          "deliveryLimitations": {
+            "$ref": "#/components/schemas/AdSetDeliveryLimitationsV24Q3"
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/AdSetFrequencyCappingV24Q3"
+          },
+          "geoLocation": {
+            "$ref": "#/components/schemas/CreateAdSetGeoLocationV24Q3"
+          }
+        },
+        "description": "Targeting configuration of the ad set"
+      },
+      "CreateAdSetV24Q3": {
+        "required": [
+          "bidding",
+          "campaignId",
+          "datasetId",
+          "mediaType",
+          "name",
+          "objective",
+          "schedule",
+          "targeting",
+          "trackingCode"
+        ],
+        "type": "object",
+        "properties": {
+          "attributionConfiguration": {
+            "$ref": "#/components/schemas/CreateAdSetAttributionConfigurationV24Q3"
+          },
+          "bidding": {
+            "$ref": "#/components/schemas/CreateAdSetBiddingV24Q3"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/CreateAdSetBudgetV24Q3"
+          },
+          "campaignId": {
+            "type": "string",
+            "description": "Campaign id this ad set belongs to",
+            "nullable": true
+          },
+          "datasetId": {
+            "type": "string",
+            "description": "Dataset id of this ad set",
+            "nullable": true
+          },
+          "mediaType": {
+            "enum": [
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "description": "Media type for the ad set"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the ad set",
+            "nullable": true
+          },
+          "objective": {
+            "enum": [
+              "customAction",
+              "clicks",
+              "conversions",
+              "displays",
+              "appPromotion",
+              "revenue",
+              "storeConversions",
+              "value",
+              "reach",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string",
+            "description": "Objective of the ad set"
+          },
+          "schedule": {
+            "$ref": "#/components/schemas/CreateAdSetScheduleV24Q3"
+          },
+          "targeting": {
+            "$ref": "#/components/schemas/CreateAdSetTargetingV24Q3"
+          },
+          "trackingCode": {
+            "type": "string",
+            "description": "The click tracking code associated to this Ad Set.",
+            "nullable": true
+          }
+        },
+        "description": "ad set create model"
+      },
+      "CreateAdSetV24Q3Request": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CreateAdSetV24Q3Resource"
+          }
+        },
+        "description": "Data model for an input resources"
+      },
+      "CreateAdSetV24Q3Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreateAdSetV24Q3"
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "example": "AdSet"
+          }
+        },
+        "description": "Data model for a Resource"
+      },
       "CreateCampaign": {
         "required": [
           "advertiserId",
@@ -9035,6 +9746,34 @@
         },
         "description": "Parameters to modify an audience"
       },
+      "NillableAdSetTargetingRuleV24Q3": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdSetTargetingRuleV24Q3"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true
+      },
+      "NillableDateTime": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true
+      },
       "NillableDecimal": {
         "type": "object",
         "properties": {
@@ -9112,6 +9851,96 @@
         },
         "additionalProperties": false,
         "description": "The outcome of an API call."
+      },
+      "PatchAdSetAttributionConfigurationV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributionMethod": {
+            "enum": [
+              "unknown",
+              "criteoAttribution",
+              "googleAnalyticsLastClick",
+              "googleAnalyticsDataDriven",
+              "lastClick",
+              "postClick"
+            ],
+            "type": "string",
+            "description": "The attribution method.",
+            "nullable": true
+          },
+          "lookbackWindow": {
+            "enum": [
+              "unknown",
+              "30M",
+              "24H",
+              "7D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "The lookback window. Optional, should be specified only for attribution methods PostClick and LastClick.",
+            "nullable": true
+          }
+        },
+        "description": "Patch model for an ad set's attribution configuration."
+      },
+      "PatchAdSetBiddingV24Q3": {
+        "type": "object",
+        "properties": {
+          "bidAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          }
+        },
+        "description": "ad set bidding patch model"
+      },
+      "PatchAdSetBudgetV24Q3": {
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "ad set budget patch model"
       },
       "PatchAdSetCategoryBid": {
         "type": "object",
@@ -9288,6 +10117,43 @@
           }
         },
         "description": "Data model for a Resource"
+      },
+      "PatchAdSetSchedulingV24Q3": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "$ref": "#/components/schemas/NillableDateTime"
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/NillableDateTime"
+          }
+        },
+        "description": "ad set schedule patch model"
+      },
+      "PatchAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributionConfiguration": {
+            "$ref": "#/components/schemas/PatchAdSetAttributionConfigurationV24Q3"
+          },
+          "bidding": {
+            "$ref": "#/components/schemas/PatchAdSetBiddingV24Q3"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/PatchAdSetBudgetV24Q3"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduling": {
+            "$ref": "#/components/schemas/PatchAdSetSchedulingV24Q3"
+          },
+          "targeting": {
+            "$ref": "#/components/schemas/AdSetTargetingV24Q3"
+          }
+        },
+        "description": "ad set patch model"
       },
       "PatchCampaign": {
         "type": "object",
@@ -9658,6 +10524,237 @@
         "description": "Settings to target prospecting users to website visitors.",
         "nullable": true
       },
+      "ReadAdSetAttributionConfigurationV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributionMethod": {
+            "enum": [
+              "unknown",
+              "criteoAttribution",
+              "googleAnalyticsLastClick",
+              "googleAnalyticsDataDriven",
+              "lastClick",
+              "postClick"
+            ],
+            "type": "string",
+            "description": "The attribution method.",
+            "nullable": true
+          },
+          "lookbackWindow": {
+            "enum": [
+              "unknown",
+              "30M",
+              "24H",
+              "7D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "The lookback window. Optional, should be specified only for attribution methods PostClick and LastClick.",
+            "nullable": true
+          }
+        },
+        "description": "Read model for an ad set's attribution configuration.",
+        "nullable": true
+      },
+      "ReadAdSetBiddingV24Q3": {
+        "type": "object",
+        "properties": {
+          "bidAmount": {
+            "type": "number",
+            "description": "Decimal value target relating to the `adSetObjective` specified. May be `null` for objectives that do not require a target value. At most 4 decimals are supported. Additional decimals are rounded.",
+            "format": "double",
+            "nullable": true
+          },
+          "costController": {
+            "enum": [
+              "COS",
+              "maxCPC",
+              "CPI",
+              "CPM",
+              "CPO",
+              "CPSV",
+              "CPV",
+              "dailyBudget",
+              "targetCPM"
+            ],
+            "type": "string",
+            "description": "How spend is controlled",
+            "nullable": true
+          }
+        },
+        "description": "ad set bidding read model",
+        "nullable": true
+      },
+      "ReadAdSetBudgetV24Q3": {
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "ad set budget read model",
+        "nullable": true
+      },
+      "ReadAdSetScheduleV24Q3": {
+        "type": "object",
+        "properties": {
+          "activationStatus": {
+            "enum": [
+              "on",
+              "off"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "deliveryStatus": {
+            "enum": [
+              "draft",
+              "inactive",
+              "live",
+              "notLive",
+              "pausing",
+              "paused",
+              "scheduled",
+              "ended",
+              "notDelivering",
+              "archived"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "endDate": {
+            "$ref": "#/components/schemas/NillableDateTime"
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/NillableDateTime"
+          }
+        },
+        "description": "ad set schedule read model",
+        "nullable": true
+      },
+      "ReadAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributionConfiguration": {
+            "$ref": "#/components/schemas/ReadAdSetAttributionConfigurationV24Q3"
+          },
+          "bidding": {
+            "$ref": "#/components/schemas/ReadAdSetBiddingV24Q3"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/ReadAdSetBudgetV24Q3"
+          },
+          "campaignId": {
+            "type": "string",
+            "nullable": true
+          },
+          "datasetId": {
+            "type": "string",
+            "nullable": true
+          },
+          "destinationEnvironment": {
+            "enum": [
+              "undefined",
+              "web",
+              "app"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "mediaType": {
+            "enum": [
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "objective": {
+            "enum": [
+              "customAction",
+              "clicks",
+              "conversions",
+              "displays",
+              "appPromotion",
+              "revenue",
+              "storeConversions",
+              "value",
+              "reach",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "schedule": {
+            "$ref": "#/components/schemas/ReadAdSetScheduleV24Q3"
+          },
+          "targeting": {
+            "$ref": "#/components/schemas/AdSetTargetingV24Q3"
+          },
+          "videoChannel": {
+            "enum": [
+              "olv",
+              "ctv"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "ad set read model",
+        "nullable": true
+      },
       "ReadModelAdSetId": {
         "type": "object",
         "properties": {
@@ -9676,6 +10773,49 @@
         },
         "description": "read model data for resources"
       },
+      "ReadModelAdSetIdV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AdSetIdV24Q3"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true,
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true,
+            "example": "AdSetIdV24Q3"
+          }
+        },
+        "description": "read model data for resources"
+      },
+      "ReadModelReadAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ReadAdSetV24Q3"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true,
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true,
+            "example": "ReadAdSetV24Q3"
+          }
+        },
+        "description": "read model data for resources",
+        "nullable": true
+      },
       "RequestsAdSetId": {
         "type": "object",
         "properties": {
@@ -9683,6 +10823,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/WriteModelAdSetId"
+            },
+            "nullable": true
+          }
+        },
+        "description": "List of input resources"
+      },
+      "RequestsPatchAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WriteModelPatchAdSetV24Q3"
             },
             "nullable": true
           }
@@ -10060,6 +11213,31 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
+      "ResponseReadAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ReadModelReadAdSetV24Q3"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "output resource"
+      },
       "ResponsesAdSetId": {
         "type": "object",
         "properties": {
@@ -10067,6 +11245,66 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ReadModelAdSetId"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "List of output resources"
+      },
+      "ResponsesAdSetIdV24Q3": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadModelAdSetIdV24Q3"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "List of output resources"
+      },
+      "ResponsesReadAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadModelReadAdSetV24Q3"
             },
             "nullable": true,
             "readOnly": true
@@ -10569,6 +11807,26 @@
             "description": "Canonical type name of the entity",
             "nullable": true,
             "example": "AdSetId"
+          }
+        },
+        "description": "write model data for resources"
+      },
+      "WriteModelPatchAdSetV24Q3": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/PatchAdSetV24Q3"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true,
+            "example": "PatchAdSetV24Q3"
           }
         },
         "description": "write model data for resources"

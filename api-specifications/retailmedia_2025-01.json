@@ -3051,13 +3051,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Get current campaign budget overrides by given external campaign id.",
+        "description": "Get current campaign budget overrides by given campaign id.",
         "operationId": "GetCampaignBudgetOverrides",
         "parameters": [
           {
             "name": "campaignId",
             "in": "path",
-            "description": "External campaign id.",
+            "description": "Campaign id.",
             "required": true,
             "style": "simple",
             "schema": {
@@ -3083,13 +3083,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Update campaign budget overrides by given external campaign id and new campaign budget overrides settings.",
+        "description": "Update campaign budget overrides by given campaign id and new campaign budget overrides settings.",
         "operationId": "UpdateCampaignBudgetOverrides",
         "parameters": [
           {
             "name": "campaignId",
             "in": "path",
-            "description": "External campaign id.",
+            "description": "Campaign id.",
             "required": true,
             "style": "simple",
             "schema": {
@@ -3360,7 +3360,7 @@
           {
             "name": "externalLineItemId",
             "in": "path",
-            "description": "The external line item identifier",
+            "description": "The line item identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -3999,13 +3999,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Update line item budget overrides by given external line item id and new line item budget overrides settings.",
+        "description": "Update line item budget overrides by given line item id and new line item budget overrides settings.",
         "operationId": "UpdateLineItemBudgetOverrides",
         "parameters": [
           {
             "name": "lineItemId",
             "in": "path",
-            "description": "Line item external id.",
+            "description": "Line item id.",
             "required": true,
             "style": "simple",
             "schema": {
@@ -5598,14 +5598,15 @@
             "type": "string",
             "description": "A url pointing towards the static file the asset represents.",
             "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
           }
         },
         "description": "Handles pointing towards binary content that advertisers can use later on, for example in their creatives.",
-        "nullable": true
+        "nullable": true,
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "RetailMediaAsset",
+          "version": "202110"
+        }
       },
       "AssetResource": {
         "type": "object",
@@ -5622,7 +5623,7 @@
             "nullable": true
           }
         },
-        "description": "A class that represents an entity in a guild compliant way",
+        "description": "A class that represents a domain entity exposed by an API",
         "nullable": true
       },
       "AssetResponse": {
@@ -5632,7 +5633,6 @@
             "$ref": "#/components/schemas/AssetResource"
           },
           "errors": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -5641,7 +5641,6 @@
             "readOnly": true
           },
           "warnings": {
-            "uniqueItems": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CommonProblem"
@@ -5650,7 +5649,7 @@
             "readOnly": true
           }
         },
-        "description": "A class implementing the response of the Criteo API as described in API Guild Guidelines with a single entity as body"
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
       },
       "AsyncCampaignsReport": {
         "required": [
@@ -6313,7 +6312,8 @@
                 "taxonomy6Id",
                 "taxonomy6Name",
                 "taxonomy7Id",
-                "taxonomy7Name"
+                "taxonomy7Name",
+                "targetedKeywordType"
               ],
               "type": "string"
             },
@@ -6469,6 +6469,19 @@
             "type": "string",
             "description": "Start date",
             "format": "date-time"
+          },
+          "targetedKeywordTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "generic",
+                "branded",
+                "conquesting"
+              ],
+              "type": "string"
+            },
+            "description": "Filter on targeted keyword type: unknown, generic, branded, conquesting"
           },
           "timezone": {
             "type": "string",
@@ -12585,6 +12598,10 @@
         "nullable": true
       },
       "RmEventsCreateV1": {
+        "required": [
+          "lookbackDays",
+          "shopperActivity"
+        ],
         "type": "object",
         "properties": {
           "brandIds": {
