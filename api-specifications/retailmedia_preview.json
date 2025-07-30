@@ -2312,7 +2312,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -3080,7 +3081,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageOfSponsoredProductsLineItem"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfSponsoredProductsLineItemAndMetadata"
                 }
               }
             }
@@ -3110,29 +3111,29 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/SponsoredProductsLineItemCreateRequestModel"
+                "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SponsoredProductsLineItemCreateRequestModel"
+                "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SponsoredProductsLineItemCreateRequestModel"
+                "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SponsoredProductsLineItemCreateRequestModel"
+                "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
               }
             }
           },
           "x-bodyName": "lineItem"
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -8655,6 +8656,41 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
+      "EntityResourceCollectionOutcomeOfSponsoredProductsLineItemAndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfSponsoredProductsLineItem"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
       "EntityResourceLineItemKeywordReviewReport": {
         "type": "object",
         "properties": {
@@ -9459,27 +9495,25 @@
         "properties": {
           "dayOfWeek": {
             "enum": [
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Everyday",
-              "Weekdays",
-              "Weekends"
+              "sunday",
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "everyday",
+              "weekdays",
+              "weekends"
             ],
             "type": "string",
             "description": "Enum for the days of the week."
           },
           "endTime": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           },
           "startTime": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         "additionalProperties": false,
@@ -10071,26 +10105,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BalanceHistoryChangeDataCaptureV1"
-            }
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A wrapper class to return a single page of items with metadata for offset and limit based paging."
-      },
-      "PageOfSponsoredProductsLineItem": {
-        "required": [
-          "data",
-          "meta"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SponsoredProductsLineItem"
             }
           },
           "meta": {
@@ -14666,7 +14680,6 @@
           "budgetRemaining",
           "campaignId",
           "createdAt",
-          "externalLineItemId",
           "name",
           "startDate",
           "targetRetailerId",
@@ -14699,18 +14712,13 @@
             "format": "double",
             "nullable": true
           },
-          "buyType": {
-            "enum": [
-              "Unknown",
-              "Auction",
-              "Preferred"
-            ],
-            "type": "string",
-            "nullable": true
-          },
           "campaignId": {
             "type": "string",
-            "format": "int64"
+            "format": "long-id"
+          },
+          "conquestingAdstrategyEnabled": {
+            "type": "boolean",
+            "nullable": true
           },
           "createdAt": {
             "type": "string",
@@ -14721,14 +14729,14 @@
             "format": "double",
             "nullable": true
           },
+          "defensiveAdstrategyEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
           "endDate": {
             "type": "string",
             "format": "date-time",
             "nullable": true
-          },
-          "externalLineItemId": {
-            "type": "integer",
-            "format": "int64"
           },
           "flightSchedule": {
             "$ref": "#/components/schemas/FlightSchedule"
@@ -14751,6 +14759,10 @@
             "maxLength": 255,
             "minLength": 0,
             "type": "string"
+          },
+          "neutralAdstrategyEnabled": {
+            "type": "boolean",
+            "nullable": true
           },
           "startDate": {
             "type": "string",
@@ -14779,7 +14791,7 @@
           },
           "targetRetailerId": {
             "type": "string",
-            "format": "int64"
+            "format": "long-id"
           },
           "updatedAt": {
             "type": "string",
@@ -14813,9 +14825,17 @@
             "format": "double",
             "nullable": true
           },
+          "conquestingAdstrategyEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
           "dailyPacing": {
             "type": "number",
             "format": "double",
+            "nullable": true
+          },
+          "defensiveAdstrategyEnabled": {
+            "type": "boolean",
             "nullable": true
           },
           "endDate": {
@@ -14845,18 +14865,13 @@
             "minLength": 0,
             "type": "string"
           },
+          "neutralAdstrategyEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
           "startDate": {
             "type": "string",
             "format": "date-time"
-          },
-          "status": {
-            "enum": [
-              "Active",
-              "Paused",
-              "Draft"
-            ],
-            "type": "string",
-            "description": "Status of a line item."
           },
           "targetBid": {
             "type": "number",
@@ -14865,7 +14880,7 @@
           },
           "targetRetailerId": {
             "type": "string",
-            "format": "int64"
+            "format": "long-id"
           }
         },
         "additionalProperties": false,
@@ -15771,6 +15786,16 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
         "nullable": true
       },
+      "ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfSponsoredProductsLineItemCreateRequestModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+      },
       "ValueResourceInputOfSponsoredProductsLineItemUpdateRequestModel": {
         "type": "object",
         "properties": {
@@ -15847,6 +15872,21 @@
         },
         "description": "A value resource exposed by the API.",
         "nullable": true
+      },
+      "ValueResourceOfSponsoredProductsLineItemCreateRequestModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SponsoredProductsLineItemCreateRequestModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfSponsoredProductsLineItemUpdateRequestModel": {
         "type": "object",
