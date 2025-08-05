@@ -14,7 +14,48 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+      # Extract prefixes from all files in api-specifications directory
+      - name: Get all files and extract prefixes
+        id: extract_prefix
+        run: |
+          # Get all JSON files in api-specifications directory
+          FILES=$(find api-specifications -name "*.json" -type f)
+          
+          if [ -n "$FILES" ]; then
+            echo "Found files:"
+            echo "$FILES"
+            
+            # Extract prefixes from all files
+            PREFIXES=""
+            for file in $FILES; do
+              # Extract filename without path and extension
+              filename=$(basename "$file" .json)
+              # Extract prefix (everything before the first underscore)
+              raw_prefix=$(echo "$filename" | cut -d'_' -f1)
+              prefix=$(echo "$raw_prefix" | tr '[:lower:]' '[:upper:]')
+              echo "File: $file -> Raw prefix: '$raw_prefix' -> Uppercase prefix: '$prefix'"
+              
+              # Add to prefixes list if not already present
+              if [[ ! "$PREFIXES" =~ $prefix ]]; then
+                PREFIXES="$PREFIXES $prefix"
+              fi
+            done
+            
+            # Trim whitespace and use the first prefix for now
+            PREFIXES=$(echo "$PREFIXES" | xargs)
+            FIRST_PREFIX=$(echo "$PREFIXES" | cut -d' ' -f1)
+            
+            echo "prefixes=$PREFIXES" >> $GITHUB_OUTPUT
+            echo "prefix=$FIRST_PREFIX" >> $GITHUB_OUTPUT
+            echo "Found prefixes: $PREFIXES"
+            echo "Using prefix: $FIRST_PREFIX"
+          else
+            echo "No JSON files found in api-specifications directory"
+            echo "prefixes=" >> $GITHUB_OUTPUT
+            echo "prefix=DEFAULT" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
@@ -55,9 +96,9 @@ jobs:
       - name: Test SDKs
         run: python ./scripts/test_sdk.py --language php
         env:
-          TEST_CLIENT_ID: ${{ secrets.SDK_TEST_CLIENT_ID }}
-          TEST_CLIENT_SECRET: ${{ secrets.SDK_TEST_CLIENT_SECRET }}
-          TEST_APPLICATION_ID: ${{ secrets.SDK_TEST_APPLICATION_ID }}
+          ${{ format('TEST_CLIENT_ID_{0}', steps.extract_prefix.outputs.prefix) }}: ${{ secrets[format('SDK_TEST_CLIENT_ID_{0}', steps.extract_prefix.outputs.prefix)] }}
+          ${{ format('TEST_CLIENT_SECRET_{0}', steps.extract_prefix.outputs.prefix) }}: ${{ secrets[format('SDK_TEST_CLIENT_SECRET_{0}', steps.extract_prefix.outputs.prefix)] }}
+          ${{ format('TEST_APPLICATION_ID_{0}', steps.extract_prefix.outputs.prefix) }}: ${{ secrets[format('SDK_TEST_APPLICATION_ID_{0}', steps.extract_prefix.outputs.prefix)] }}
         shell: bash
 
       - name: Upload SDKs
