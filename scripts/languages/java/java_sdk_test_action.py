@@ -9,9 +9,12 @@ class JavaSdkTestAction:
     self.logger.info(f'Starting testing SDK {sdk_name}...')
     run_command('chmod u+x ./gradlew')
     run_command('./gradlew check', error_template=self.java_error_template, env={
-      'TEST_CLIENT_ID': assert_environment_variable('TEST_CLIENT_ID'),
-      'TEST_CLIENT_SECRET': assert_environment_variable('TEST_CLIENT_SECRET'),
-      'TEST_APPLICATION_ID': assert_environment_variable('TEST_APPLICATION_ID'),
+      'RETAILMEDIA_TEST_CLIENT_ID': assert_environment_variable('RETAILMEDIA_TEST_CLIENT_ID'),
+      'RETAILMEDIA_TEST_CLIENT_SECRET': assert_environment_variable('RETAILMEDIA_TEST_CLIENT_SECRET'),
+      'RETAILMEDIA_TEST_APPLICATION_ID': assert_environment_variable('RETAILMEDIA_TEST_APPLICATION_ID'),
+      'MARKETINGSOLUTIONS_TEST_CLIENT_SECRET': assert_environment_variable('MARKETINGSOLUTIONS_TEST_CLIENT_SECRET'),
+      'MARKETINGSOLUTIONS_TEST_CLIENT_ID': assert_environment_variable('MARKETINGSOLUTIONS_TEST_CLIENT_ID'),
+      'MARKETINGSOLUTIONS_TEST_APPLICATION_ID': assert_environment_variable('MARKETINGSOLUTIONS_TEST_APPLICATION_ID'),
     })
     self.logger.info('Gradle Check successful')
 
