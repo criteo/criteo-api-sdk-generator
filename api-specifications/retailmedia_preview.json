@@ -683,10 +683,10 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
+            "description": "The number of elements to be returned. The default is 50 and the maximum is 500.",
             "style": "form",
             "schema": {
-              "maximum": 100,
+              "maximum": 500,
               "minimum": 0,
               "type": "integer",
               "format": "int32",
@@ -1321,10 +1321,10 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
+            "description": "The number of elements to be returned. The default is 50 and the maximum is 500.",
             "style": "form",
             "schema": {
-              "maximum": 100,
+              "maximum": 500,
               "minimum": 0,
               "type": "integer",
               "format": "int32",
@@ -1431,7 +1431,7 @@
           "Balance"
         ],
         "description": "Gets page of balance objects for the given account id",
-        "operationId": "GetApiV2ExternalAccountBalancesByAccountId",
+        "operationId": "Balances_GetApiExternalV2AccountBalancesByAccountId",
         "parameters": [
           {
             "name": "account-id",
@@ -1461,6 +1461,8 @@
             "description": "The 0 indexed page index you would like to receive given the page size",
             "style": "form",
             "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
               "type": "integer",
               "format": "int32",
               "default": 0
@@ -1472,6 +1474,8 @@
             "description": "The maximum number of items you would like to receive in this request",
             "style": "form",
             "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
               "type": "integer",
               "format": "int32",
               "default": 25
@@ -1484,17 +1488,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResourceCollectionOutcomeOfBalanceResponseV2"
+                  "$ref": "#/components/schemas/BalanceResponseV2PagedListResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResourceCollectionOutcomeOfBalanceResponseV2"
+                  "$ref": "#/components/schemas/BalanceResponseV2PagedListResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResourceCollectionOutcomeOfBalanceResponseV2"
+                  "$ref": "#/components/schemas/BalanceResponseV2PagedListResponse"
                 }
               }
             }
@@ -1513,7 +1517,7 @@
           "Balance"
         ],
         "description": "Create balance for the given account id",
-        "operationId": "PostApiV2ExternalAccountBalancesByAccountId",
+        "operationId": "Balances_PostApiExternalV2AccountBalancesByAccountId",
         "parameters": [
           {
             "name": "account-id",
@@ -1535,28 +1539,15 @@
               }
             }
           },
-          "required": true,
           "x-bodyName": "createBalance"
         },
         "responses": {
           "201": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              }
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           }
         },
@@ -1575,7 +1566,7 @@
           "Balance"
         ],
         "description": "Get a balance for the given account id and balance id",
-        "operationId": "GetApiV2ExternalAccountByAccountId}Balances{balanceId",
+        "operationId": "Balances_GetApiExternalV2AccountByAccountId}Balances{balanceId",
         "parameters": [
           {
             "name": "account-id",
@@ -1633,7 +1624,7 @@
           "Balance"
         ],
         "description": "Modify a balance for the given account id",
-        "operationId": "PatchApiV2ExternalAccountByAccountId}Balances{balanceId",
+        "operationId": "Balances_PatchApiExternalV2AccountByAccountId}Balances{balanceId",
         "parameters": [
           {
             "name": "account-id",
@@ -1665,7 +1656,6 @@
               }
             }
           },
-          "required": true,
           "x-bodyName": "updateBalanceModel"
         },
         "responses": {
@@ -1705,7 +1695,7 @@
           "Balance"
         ],
         "description": "Change dates of a balance for the given account id",
-        "operationId": "PostApiV2ExternalAccountChangeDatesByAccountId}Balances{balanceId",
+        "operationId": "Balances_PostApiExternalV2AccountChangeDatesByAccountId}Balances{balanceId",
         "parameters": [
           {
             "name": "account-id",
@@ -1737,7 +1727,6 @@
               }
             }
           },
-          "required": true,
           "x-bodyName": "changeDatesOfBalance"
         },
         "responses": {
@@ -2543,7 +2532,7 @@
           {
             "name": "lineItemId",
             "in": "path",
-            "description": "The line item ID of the sponsored products line item.",
+            "description": "The external line item ID of the sponsored products line item.",
             "required": true,
             "style": "simple",
             "schema": {
@@ -2700,7 +2689,7 @@
         "security": [
           {
             "oauth": [
-              "MarketingSolutions_Audience_Manage"
+              "RetailMedia_Audience_Manage"
             ]
           }
         ]
@@ -2759,7 +2748,7 @@
         "security": [
           {
             "oauth": [
-              "MarketingSolutions_Audience_Manage"
+              "RetailMedia_Audience_Manage"
             ]
           }
         ]
@@ -3155,7 +3144,7 @@
           "Campaign"
         ],
         "description": "Gets page of preferred line item objects for the given campaign id",
-        "operationId": "GetApiV2ExternalCampaignPreferredLineItemsByCampaignId",
+        "operationId": "LineItems_GetApiExternalV2CampaignPreferredLineItemsByCampaignId",
         "parameters": [
           {
             "name": "campaign-id",
@@ -3185,8 +3174,11 @@
             "description": "The 0 indexed page index you would like to receive given the page size",
             "style": "form",
             "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             }
           },
           {
@@ -3195,8 +3187,11 @@
             "description": "The maximum number of items you would like to receive in this request",
             "style": "form",
             "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 25
             }
           }
         ],
@@ -3204,7 +3199,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2PagedListResponse"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2PagedListResponse"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2PagedListResponse"
                 }
@@ -3214,7 +3219,17 @@
           "400": {
             "description": "Bad Request",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2PagedListResponse"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2PagedListResponse"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2PagedListResponse"
                 }
@@ -3235,7 +3250,7 @@
           "Campaign"
         ],
         "description": "Creates a new preferred line item with the specified settings",
-        "operationId": "LineItemsApi_PostApi202110ExternalCampaignPreferredLineItemsByCampaignId",
+        "operationId": "LineItems_PostApiExternalV2CampaignPreferredLineItemsByCampaignId",
         "parameters": [
           {
             "name": "campaign-id",
@@ -3257,24 +3272,31 @@
               }
             }
           },
-          "required": true,
           "x-bodyName": "lineItem"
         },
         "responses": {
           "201": {
             "description": "Success",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
-                }
-              }
+              "text/plain": { },
+              "application/json": { },
+              "text/json": { }
             }
           },
           "400": {
             "description": "Bad Request",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2Response"
                 }
@@ -3413,7 +3435,7 @@
           "x-bodyName": "lineItem"
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -4181,13 +4203,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Get all the product buttons associated with a line item",
-        "operationId": "ProductButtons_GetApi202210ExternalLineItemProductButtonsByLineItemId",
+        "description": "Get LineItem Product Buttons",
+        "operationId": "ProductButtons_GetApiExternalV1LineItemProductButtonsByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "External LineItemId for productButton retrieval",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4197,11 +4219,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "ProductButtons found",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductButtonListResponse"
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
                 }
               }
             }
@@ -4221,13 +4253,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Delete a product button",
-        "operationId": "ProductButtons_DeleteApi202210ExternalLineItemProductButtonsByLineItemIdProductButtonId",
+        "description": "Delete Specific Product Button",
+        "operationId": "ProductButtons_DeleteApiExternalV1LineItemByLineItemId}ProductButtons{productButtonId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "External LineItemId for productButton delete",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4237,7 +4269,7 @@
           {
             "name": "product-button-id",
             "in": "path",
-            "description": "Sequential id of the product button",
+            "description": "productButtonId used for delete",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4247,7 +4279,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "ProductButton deleted",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4262,13 +4311,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Get a single product button",
-        "operationId": "ProductButtons_GetApi202210ExternalLineItemProductButtonsByLineItemIdProductButtonId",
+        "description": "Get Specific Product Button",
+        "operationId": "ProductButtons_GetApiExternalV1LineItemByLineItemId}ProductButtons{productButtonId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "External LineItemId for productButton retrieval",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4278,7 +4327,7 @@
           {
             "name": "product-button-id",
             "in": "path",
-            "description": "Sequential id of the product button",
+            "description": "productButtonId used for retrieval",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4288,11 +4337,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "ProductButton found",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductButtonListResponse"
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
                 }
               }
             }
@@ -4310,13 +4369,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Update a product button",
-        "operationId": "ProductButtons_PutApi202210ExternalLineItemProductButtonsByLineItemIdProductButtonId",
+        "description": "Update Specific Product Button",
+        "operationId": "ProductButtons_PutApiExternalV1LineItemByLineItemId}ProductButtons{productButtonId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "External LineItemId for productButton update",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4326,7 +4385,7 @@
           {
             "name": "product-button-id",
             "in": "path",
-            "description": "Sequential id of the product button",
+            "description": "productButtonId used for update",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4335,11 +4394,11 @@
           }
         ],
         "requestBody": {
-          "description": "Details of the updated product button",
+          "description": "Specific Product button update info",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductButtonRequest"
+                "$ref": "#/components/schemas/ProductButtonRequestRequest"
               }
             }
           },
@@ -4347,11 +4406,21 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "ProductButton updated",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductButtonListResponse"
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
                 }
               }
             }
@@ -4371,13 +4440,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Append new product buttons to a line item",
-        "operationId": "ProductButtons_PostApi202210ExternalLineItemProductButtonsCreateByLineItemId",
+        "description": "Add Specific Product Buttons",
+        "operationId": "ProductButtons_PostApiExternalV1LineItemProductButtonsCreateByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "Long external id of the associated line item",
+            "description": "External LineItemId for productButton retrieval",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4386,11 +4455,11 @@
           }
         ],
         "requestBody": {
-          "description": "List of product buttons to append to the specified line item",
+          "description": "List of Product Buttons to append",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductButtonListRequest"
+                "$ref": "#/components/schemas/ProductButtonRequestListRequest"
               }
             }
           },
@@ -4398,11 +4467,21 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "ProductButtons added",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductButtonListResponse"
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductButtonResponseListResponse"
                 }
               }
             }
@@ -4796,7 +4875,7 @@
           "Campaign"
         ],
         "description": "Gets the preferred line item for the given line item id",
-        "operationId": "GetApiV2ExternalPreferredLineItemByLineItemId",
+        "operationId": "LineItems_GetApiExternalV2PreferredLineItemByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
@@ -4813,7 +4892,17 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2Response"
                 }
@@ -4823,7 +4912,17 @@
           "400": {
             "description": "Bad Request",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2Response"
                 }
@@ -4844,7 +4943,7 @@
           "Campaign"
         ],
         "description": "Updates the preferred line item for the given line item id",
-        "operationId": "LineItemsApi_PutApi202110ExternalPreferredLineItemByLineItemId",
+        "operationId": "LineItems_PutApiExternalV2PreferredLineItemByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
@@ -4866,14 +4965,23 @@
               }
             }
           },
-          "required": true,
           "x-bodyName": "lineItem"
         },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2Response"
                 }
@@ -4883,7 +4991,17 @@
           "400": {
             "description": "Bad Request",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PreferredLineItemV2Response"
                 }
@@ -7910,13 +8028,12 @@
           "deposited": {
             "type": "number",
             "description": "Amount of billable funds allotted to the balance.",
-            "format": "decimal",
+            "format": "double",
             "nullable": true
           },
           "endDate": {
             "type": "string",
             "description": "End date of the balance in the format YYYY-MM-DD.",
-            "format": "date",
             "nullable": true
           },
           "memo": {
@@ -7946,7 +8063,7 @@
           "remaining": {
             "type": "number",
             "description": "Amount of remaining funds of the balance.",
-            "format": "decimal",
+            "format": "double",
             "nullable": true
           },
           "spendType": {
@@ -7961,13 +8078,12 @@
           "spent": {
             "type": "number",
             "description": "Amount of spent funds of the balance.",
-            "format": "decimal",
+            "format": "double",
             "nullable": true
           },
           "startDate": {
             "type": "string",
-            "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "format": "date"
+            "description": "Start date of the balance in the format YYYY-MM-DD."
           },
           "status": {
             "enum": [
@@ -7987,6 +8103,35 @@
         },
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
         "nullable": true
+      },
+      "BalanceResponseV2PagedListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PageMetadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          }
+        },
+        "description": "Data model for a paged list of response resources"
       },
       "BalanceResponseV2Response": {
         "type": "object",
@@ -8298,18 +8443,15 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "End date of the balance in the format YYYY-MM-DD.",
-            "nullable": true
+            "description": "End date of the balance in the format YYYY-MM-DD."
           },
           "memo": {
             "type": "string",
-            "description": "Memo.",
-            "nullable": true
+            "description": "Memo."
           },
           "startDate": {
             "type": "string",
-            "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "nullable": true
+            "description": "Start date of the balance in the format YYYY-MM-DD."
           }
         },
         "description": "An object that represents the available options to modify schedule of a balance."
@@ -8505,12 +8647,11 @@
           "deposited": {
             "type": "number",
             "description": "Amount of billable funds allotted to the balance.",
-            "format": "decimal"
+            "format": "double"
           },
           "endDate": {
             "type": "string",
             "description": "End date of the balance in the format YYYY-MM-DD.",
-            "format": "date",
             "nullable": true
           },
           "memo": {
@@ -8538,8 +8679,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "format": "date"
+            "description": "Start date of the balance in the format YYYY-MM-DD."
           }
         },
         "description": "An object that represents the available options to set when creating a Retail Media Balance"
@@ -9372,400 +9512,6 @@
         "description": "Metadata for an async report request: descriptions of the columns and number of rows returned",
         "nullable": true
       },
-      "ExternalLineItemCappingV2": {
-        "required": [
-          "type",
-          "count"
-        ],
-        "type": "object",
-        "properties": {
-          "count": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "type": {
-            "enum": [
-              "unknown",
-              "day",
-              "session"
-            ],
-            "type": "string",
-            "description": "Line Item Capping Type Enum"
-          }
-        },
-        "description": "Frequency Capping for a Preferred Line Item",
-        "nullable": true
-      },
-      "ExternalLineItemPageCategoryV2": {
-        "required": [
-          "categoryId"
-        ],
-        "type": "object",
-        "properties": {
-          "categoryId": {
-            "type": "string"
-          },
-          "includeChildren": {
-            "type": "boolean",
-            "default": true
-          }
-        },
-        "description": "Category information for a preferred line item page"
-      },
-      "ExternalLineItemPageV2": {
-        "required": [
-          "pageType"
-        ],
-        "type": "object",
-        "properties": {
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ExternalLineItemPageCategoryV2"
-            },
-            "nullable": true
-          },
-          "pageType": {
-            "enum": [
-              "unknown",
-              "search",
-              "home",
-              "browse",
-              "checkout",
-              "category",
-              "productDetail",
-              "confirmation",
-              "merchandising",
-              "deals",
-              "favorites",
-              "searchBar",
-              "categoryMenu"
-            ],
-            "type": "string",
-            "description": "Page Type Enum"
-          },
-          "searchKeywords": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "description": "Page information for a preferred line item"
-      },
-      "ExternalPreferredLineItemCreateModelV2": {
-        "required": [
-          "name",
-          "startDate",
-          "endDate",
-          "pacing",
-          "page",
-          "targetRetailerId",
-          "budget"
-        ],
-        "type": "object",
-        "properties": {
-          "budget": {
-            "type": "number",
-            "format": "double"
-          },
-          "capping": {
-            "$ref": "#/components/schemas/ExternalLineItemCappingV2"
-          },
-          "creativeId": {
-            "type": "string",
-            "format": "long-id",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "name": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "pacing": {
-            "enum": [
-              "unknown",
-              "standard",
-              "accelerated"
-            ],
-            "type": "string",
-            "description": "Line Item Pacing Enum"
-          },
-          "page": {
-            "$ref": "#/components/schemas/ExternalLineItemPageV2"
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "status": {
-            "enum": [
-              "unknown",
-              "active",
-              "scheduled",
-              "draft",
-              "paused",
-              "budgetHit",
-              "ended",
-              "archived",
-              "noFunds"
-            ],
-            "type": "string",
-            "description": "Line Item Status Enum"
-          },
-          "targetRetailerId": {
-            "type": "string",
-            "format": "long-id"
-          }
-        },
-        "description": "Model used to create a preferred line item"
-      },
-      "ExternalPreferredLineItemUpdateModelV2": {
-        "required": [
-          "name",
-          "startDate",
-          "endDate",
-          "status"
-        ],
-        "type": "object",
-        "properties": {
-          "budget": {
-            "type": "number",
-            "format": "double"
-          },
-          "capping": {
-            "$ref": "#/components/schemas/ExternalLineItemCappingV2"
-          },
-          "creativeId": {
-            "type": "string",
-            "format": "long-id",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "name": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "pacing": {
-            "enum": [
-              "unknown",
-              "standard",
-              "accelerated"
-            ],
-            "type": "string",
-            "default": "accelerated"
-          },
-          "page": {
-            "$ref": "#/components/schemas/ExternalLineItemPageV2"
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "status": {
-            "enum": [
-              "unknown",
-              "active",
-              "scheduled",
-              "draft",
-              "paused",
-              "budgetHit",
-              "ended",
-              "archived",
-              "noFunds"
-            ],
-            "type": "string",
-            "description": "Line Item Status Enum"
-          }
-        },
-        "description": "Model used to update a preferred line item"
-      },
-      "ExternalPreferredLineItemV2": {
-        "required": [
-          "name",
-          "startDate",
-          "endDate",
-          "status",
-          "targetRetailerId",
-          "campaignId",
-          "createdAt",
-          "updatedAt"
-        ],
-        "type": "object",
-        "properties": {
-          "budget": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "budgetRemaining": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "budgetSpent": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "campaignId": {
-            "type": "string",
-            "format": "long-id"
-          },
-          "capping": {
-            "$ref": "#/components/schemas/ExternalLineItemCappingV2"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "creativeId": {
-            "type": "string",
-            "description": "External creative Id",
-            "format": "long-id",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "name": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "pacing": {
-            "enum": [
-              "unknown",
-              "standard",
-              "accelerated"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "page": {
-            "$ref": "#/components/schemas/ExternalLineItemPageV2"
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
-          },
-          "status": {
-            "enum": [
-              "unknown",
-              "active",
-              "scheduled",
-              "draft",
-              "paused",
-              "budgetHit",
-              "ended",
-              "archived",
-              "noFunds"
-            ],
-            "type": "string",
-            "description": "Line Item Status Enum"
-          },
-          "targetRetailerId": {
-            "type": "string",
-            "format": "long-id"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer"
-      },
-      "ExternalProductButtonRequest": {
-        "required": [
-          "name",
-          "backgroundImage",
-          "isMandatory",
-          "skus"
-        ],
-        "type": "object",
-        "properties": {
-          "backgroundImage": {
-            "type": "string",
-            "description": "URL of the background image"
-          },
-          "isMandatory": {
-            "type": "integer",
-            "description": "If the Product Button is Mandatory",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the Product Button"
-          },
-          "skus": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of skus on the Product Button"
-          }
-        },
-        "description": "The Product Button entity used for input"
-      },
-      "ExternalProductButtonResponse": {
-        "required": [
-          "name",
-          "backgroundImage",
-          "rank",
-          "isMandatory",
-          "skus"
-        ],
-        "type": "object",
-        "properties": {
-          "backgroundImage": {
-            "type": "string",
-            "description": "URL of the background image"
-          },
-          "isMandatory": {
-            "type": "integer",
-            "description": "If the Product Button is Mandatory",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the Product Button"
-          },
-          "rank": {
-            "type": "integer",
-            "description": "Rank of the Product Button",
-            "format": "int32"
-          },
-          "skus": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of skus on the Product Button"
-          }
-        },
-        "description": "The Product Button entity used for output"
-      },
       "ExternalRetailMediaChildAccount": {
         "type": "object",
         "properties": {
@@ -9895,10 +9641,12 @@
             "description": "Enum for the days of the week."
           },
           "endTime": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "startTime": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false,
@@ -10012,7 +9760,7 @@
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ExternalPreferredLineItemCreateModelV2"
+            "$ref": "#/components/schemas/PreferredLineItemCreateModelV2"
           },
           "type": {
             "type": "string"
@@ -10130,6 +9878,29 @@
         "additionalProperties": false,
         "description": "Response object containing keywords associated with a line item."
       },
+      "LineItemCappingV2": {
+        "required": [
+          "type",
+          "count"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "day",
+              "session"
+            ],
+            "type": "string",
+            "description": "Line Item Capping Type Enum"
+          }
+        },
+        "description": "Frequency Capping for a Preferred Line Item"
+      },
       "LineItemKeywordReviewReport": {
         "required": [
           "accountId",
@@ -10184,6 +9955,65 @@
         },
         "additionalProperties": false,
         "description": "Reports on a line item which contains one or more actionable keyword reviews",
+        "nullable": true
+      },
+      "LineItemPageCategoryV2": {
+        "required": [
+          "categoryId"
+        ],
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "string"
+          },
+          "includeChildren": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "description": "Category information for a preferred line item page"
+      },
+      "LineItemPageV2": {
+        "required": [
+          "pageType"
+        ],
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemPageCategoryV2"
+            },
+            "nullable": true
+          },
+          "pageType": {
+            "enum": [
+              "unknown",
+              "search",
+              "home",
+              "browse",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchBar",
+              "categoryMenu"
+            ],
+            "type": "string",
+            "description": "Page Type Enum"
+          },
+          "searchKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Page information for a preferred line item",
         "nullable": true
       },
       "LineItemProductStatus": {
@@ -10414,35 +10244,6 @@
         "additionalProperties": false,
         "description": "The outcome of an API call."
       },
-      "PagedResourceCollectionOutcomeOfBalanceResponseV2": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a paged list of response resources"
-      },
       "PageMetadata": {
         "required": [
           "currentPageSize",
@@ -10477,7 +10278,8 @@
             "nullable": true
           }
         },
-        "description": "Metadata related to the current request"
+        "description": "Metadata related to the current request",
+        "nullable": true
       },
       "PageOfBalanceHistoryChangeDataCaptureV1": {
         "required": [
@@ -10729,6 +10531,78 @@
         },
         "description": "Data model for a list of response resources"
       },
+      "PreferredLineItemCreateModelV2": {
+        "required": [
+          "name",
+          "startDate",
+          "endDate",
+          "pacing",
+          "page",
+          "targetRetailerId",
+          "budget"
+        ],
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "number",
+            "format": "double"
+          },
+          "capping": {
+            "$ref": "#/components/schemas/LineItemCappingV2"
+          },
+          "creativeId": {
+            "type": "string",
+            "format": "long-id"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pacing": {
+            "enum": [
+              "unknown",
+              "standard",
+              "accelerated"
+            ],
+            "type": "string",
+            "description": "Line Item Pacing Enum"
+          },
+          "page": {
+            "$ref": "#/components/schemas/LineItemPageV2"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "scheduled",
+              "draft",
+              "paused",
+              "budgetHit",
+              "ended",
+              "archived",
+              "noFunds"
+            ],
+            "type": "string",
+            "description": "Line Item Status Enum"
+          },
+          "targetRetailerId": {
+            "type": "string",
+            "format": "long-id"
+          }
+        },
+        "description": "Model used to create a preferred line item"
+      },
       "PreferredLineItemCreateModelV2Request": {
         "type": "object",
         "properties": {
@@ -10738,6 +10612,71 @@
         },
         "description": "Data model for a create input resource"
       },
+      "PreferredLineItemUpdateModelV2": {
+        "required": [
+          "name",
+          "startDate",
+          "endDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "number",
+            "format": "double"
+          },
+          "capping": {
+            "$ref": "#/components/schemas/LineItemCappingV2"
+          },
+          "creativeId": {
+            "type": "string",
+            "format": "long-id"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pacing": {
+            "enum": [
+              "unknown",
+              "standard",
+              "accelerated"
+            ],
+            "type": "string",
+            "default": "accelerated"
+          },
+          "page": {
+            "$ref": "#/components/schemas/LineItemPageV2"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "scheduled",
+              "draft",
+              "paused",
+              "budgetHit",
+              "ended",
+              "archived",
+              "noFunds"
+            ],
+            "type": "string",
+            "description": "Line Item Status Enum"
+          }
+        },
+        "description": "Model used to update a preferred line item"
+      },
       "PreferredLineItemUpdateModelV2Request": {
         "type": "object",
         "properties": {
@@ -10745,7 +10684,103 @@
             "$ref": "#/components/schemas/ResourceOfPreferredLineItemUpdateModelV2"
           }
         },
-        "description": "Data model for an input resource"
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
+      },
+      "PreferredLineItemV2": {
+        "required": [
+          "name",
+          "startDate",
+          "endDate",
+          "status",
+          "targetRetailerId",
+          "budget",
+          "campaignId"
+        ],
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "number",
+            "format": "double"
+          },
+          "budgetRemaining": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetSpent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "campaignId": {
+            "type": "string",
+            "format": "long-id"
+          },
+          "capping": {
+            "$ref": "#/components/schemas/LineItemCappingV2"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "creativeId": {
+            "type": "string",
+            "description": "External creative Id",
+            "format": "long-id",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pacing": {
+            "enum": [
+              "unknown",
+              "standard",
+              "accelerated"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "page": {
+            "$ref": "#/components/schemas/LineItemPageV2"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
+            "format": "date"
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "scheduled",
+              "draft",
+              "paused",
+              "budgetHit",
+              "ended",
+              "archived",
+              "noFunds"
+            ],
+            "type": "string",
+            "description": "Line Item Status Enum"
+          },
+          "targetRetailerId": {
+            "type": "string",
+            "format": "long-id"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "A Retail Media Preferred Line Item used to hold bid settings for one or many promoted products on a single retailer"
       },
       "PreferredLineItemV2PagedListResponse": {
         "type": "object",
@@ -11279,7 +11314,39 @@
         },
         "description": "Defines a product to be inserted or updated."
       },
-      "ProductButtonListRequest": {
+      "ProductButtonRequest": {
+        "required": [
+          "name",
+          "backgroundImage",
+          "isMandatory",
+          "skus"
+        ],
+        "type": "object",
+        "properties": {
+          "backgroundImage": {
+            "type": "string",
+            "description": "URL of the background image"
+          },
+          "isMandatory": {
+            "type": "integer",
+            "description": "If the Product Button is Mandatory",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Product Button"
+          },
+          "skus": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of skus on the Product Button"
+          }
+        },
+        "description": "The Product Button entity used for Input"
+      },
+      "ProductButtonRequestListRequest": {
         "type": "object",
         "properties": {
           "data": {
@@ -11289,42 +11356,86 @@
             }
           }
         },
-        "description": "Data model for a list of input resources"
+        "description": "A top-level object that encapsulates a Criteo API request for several entities",
+        "nullable": true
       },
-      "ProductButtonListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfProductButtonResponse"
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetails"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a list of response resources"
-      },
-      "ProductButtonRequest": {
+      "ProductButtonRequestRequest": {
         "type": "object",
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ResourceOfProductButtonRequest"
           }
         },
-        "description": "Data model for an input resource"
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity",
+        "nullable": true
+      },
+      "ProductButtonResponse": {
+        "required": [
+          "name",
+          "backgroundImage",
+          "rank",
+          "isMandatory",
+          "skus"
+        ],
+        "type": "object",
+        "properties": {
+          "backgroundImage": {
+            "type": "string",
+            "description": "URL of the background image"
+          },
+          "isMandatory": {
+            "type": "integer",
+            "description": "If the Product Button is Mandatory",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Product Button"
+          },
+          "rank": {
+            "type": "integer",
+            "description": "Rank of the Product Button",
+            "format": "int32"
+          },
+          "skus": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of skus on the Product Button"
+          }
+        },
+        "description": "The Product Button entity"
+      },
+      "ProductButtonResponseListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceOfProductButtonResponse"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities",
+        "nullable": true
       },
       "ProductImporterError": {
         "required": [
@@ -12231,7 +12342,7 @@
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ExternalPreferredLineItemUpdateModelV2"
+            "$ref": "#/components/schemas/PreferredLineItemUpdateModelV2"
           },
           "id": {
             "type": "string",
@@ -12242,13 +12353,13 @@
             "description": "Canonical type name of the entity"
           }
         },
-        "description": "Data model for a Resource"
+        "description": "A class that represents a domain entity exposed by an API"
       },
       "ResourceOfPreferredLineItemV2": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ExternalPreferredLineItemV2"
+            "$ref": "#/components/schemas/PreferredLineItemV2"
           },
           "id": {
             "type": "string",
@@ -12261,14 +12372,14 @@
             "nullable": true
           }
         },
-        "description": "Data model for a Resource",
+        "description": "A class that represents a domain entity exposed by an API",
         "nullable": true
       },
       "ResourceOfProductButtonRequest": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ExternalProductButtonRequest"
+            "$ref": "#/components/schemas/ProductButtonRequest"
           },
           "id": {
             "type": "string",
@@ -12279,13 +12390,14 @@
             "description": "Canonical type name of the entity"
           }
         },
-        "description": "Data model for a Resource"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true
       },
       "ResourceOfProductButtonResponse": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ExternalProductButtonResponse"
+            "$ref": "#/components/schemas/ProductButtonResponse"
           },
           "id": {
             "type": "string",
@@ -12298,7 +12410,8 @@
             "nullable": true
           }
         },
-        "description": "Data model for an output resource"
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true
       },
       "ResourceOfSellerPreview": {
         "type": "object",
@@ -12681,7 +12794,7 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for several entities."
       },
-      "RmAudienceComputeSizesEntityV1": {
+      "RmAudienceComputeSizeEntityV1": {
         "required": [
           "channel",
           "ids"
@@ -12690,7 +12803,6 @@
         "properties": {
           "channel": {
             "enum": [
-              "Unknown",
               "Onsite",
               "Offsite"
             ],
@@ -12707,11 +12819,11 @@
         },
         "description": "Audience of people of interest for a marketer."
       },
-      "RmAudienceComputeSizesEntityV1Resource": {
+      "RmAudienceComputeSizeEntityV1Resource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/RmAudienceComputeSizesEntityV1"
+            "$ref": "#/components/schemas/RmAudienceComputeSizeEntityV1"
           },
           "type": {
             "type": "string"
@@ -12723,7 +12835,7 @@
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/RmAudienceComputeSizesEntityV1Resource"
+            "$ref": "#/components/schemas/RmAudienceComputeSizeEntityV1Resource"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value."
@@ -12948,7 +13060,6 @@
           },
           "channel": {
             "enum": [
-              "Unknown",
               "Onsite",
               "Offsite"
             ],
@@ -13101,7 +13212,6 @@
         "properties": {
           "channel": {
             "enum": [
-              "Unknown",
               "Onsite",
               "Offsite"
             ],
@@ -13371,7 +13481,6 @@
         "properties": {
           "channel": {
             "enum": [
-              "Unknown",
               "Onsite",
               "Offsite"
             ],
@@ -14098,7 +14207,6 @@
           },
           "lookbackDays": {
             "enum": [
-              "Unknown",
               "Last7Days",
               "Last14Days",
               "Last30Days",
@@ -14124,7 +14232,6 @@
           },
           "shopperActivity": {
             "enum": [
-              "Unknown",
               "View",
               "Buy",
               "AddToCart"
@@ -14158,7 +14265,6 @@
           },
           "lookbackDays": {
             "enum": [
-              "Unknown",
               "Last7Days",
               "Last14Days",
               "Last30Days",
@@ -14181,7 +14287,6 @@
           },
           "shopperActivity": {
             "enum": [
-              "Unknown",
               "View",
               "Buy",
               "AddToCart"
@@ -14210,7 +14315,6 @@
           },
           "lookbackDays": {
             "enum": [
-              "Unknown",
               "Last7Days",
               "Last14Days",
               "Last30Days",
@@ -14232,7 +14336,6 @@
           },
           "shopperActivity": {
             "enum": [
-              "Unknown",
               "View",
               "Buy",
               "AddToCart"
@@ -14749,10 +14852,10 @@
         "properties": {
           "bidStrategy": {
             "enum": [
-              "Unknown",
-              "Conversion",
-              "Clicks",
-              "Revenue"
+              "unknown",
+              "conversion",
+              "clicks",
+              "revenue"
             ],
             "type": "string",
             "nullable": true
@@ -14859,7 +14962,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A model representing a Sponsored Products Line Item.",
+        "description": "Model of a retail media auction line item.",
         "nullable": true
       },
       "SponsoredProductsLineItemCreateRequestModel": {
@@ -14872,13 +14975,13 @@
         "properties": {
           "bidStrategy": {
             "enum": [
-              "Unknown",
-              "Conversion",
-              "Clicks",
-              "Revenue"
+              "unknown",
+              "conversion",
+              "clicks",
+              "revenue"
             ],
             "type": "string",
-            "default": "Conversion"
+            "default": "conversion"
           },
           "budget": {
             "type": "number",
@@ -14958,13 +15061,13 @@
         "properties": {
           "bidStrategy": {
             "enum": [
-              "Unknown",
-              "Conversion",
-              "Clicks",
-              "Revenue"
+              "unknown",
+              "conversion",
+              "clicks",
+              "revenue"
             ],
             "type": "string",
-            "default": "Conversion"
+            "default": "conversion"
           },
           "budget": {
             "type": "number",
@@ -15008,9 +15111,9 @@
           },
           "status": {
             "enum": [
-              "Active",
-              "Paused",
-              "Draft"
+              "active",
+              "paused",
+              "draft"
             ],
             "type": "string",
             "description": "Status of a line item."
