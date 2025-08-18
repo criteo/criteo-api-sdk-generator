@@ -458,173 +458,6 @@
         ]
       }
     },
-    "/preview/advertisers": {
-      "post": {
-        "tags": [
-          "Advertiser"
-        ],
-        "description": "Create a new advertiser based on provided parameters. This could take up to 30 seconds.",
-        "operationId": "createAdvertiser",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdvertiserCreationRequest"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdvertiserCreationRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdvertiserCreationRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdvertiserCreationRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "advertiserCreation"
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                },
-                "example": {
-                  "data": {
-                    "type": "advertiser",
-                    "id": "73550"
-                  },
-                  "errors": [ ],
-                  "warnings": [ ]
-                }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "cb381a21702b247f",
-                      "type": "validation",
-                      "code": "invalid",
-                      "title": "Failed to create Advertiser",
-                      "detail": "Failed to create Advertiser"
-                    }
-                  ],
-                  "warnings": [ ]
-                }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedResponseV2"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "cb381a21702b247f",
-                      "type": "authentication",
-                      "code": "invalid",
-                      "title": "Permission Denied; This endpoint expects a user token",
-                      "detail": "Permission Denied; This endpoint expects a user token"
-                    }
-                  ],
-                  "warnings": [ ]
-                }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedResponseV2"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedResponseV2"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "cb381a21702b247f",
-                      "type": "availability",
-                      "code": "internal-error",
-                      "title": "Internal Server Error",
-                      "detail": "Internal Server Error"
-                    }
-                  ],
-                  "warnings": [ ]
-                }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdvertiserCreationResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [ ]
-          }
-        ]
-      }
-    },
     "/preview/advertisers/{advertiser-id}/ads": {
       "get": {
         "tags": [
@@ -12293,93 +12126,6 @@
         },
         "description": "Represents an API response message containing the usual outcome fields (warnings+errors), and a valueResource data,\r\ni.e. data is not an entity (no id). This can be used for association objects."
       },
-      "AdvertiserCreationInput": {
-        "required": [
-          "agencyId",
-          "accountName",
-          "websiteUrl",
-          "countryIsoCode",
-          "currencyIsoCode",
-          "industryId"
-        ],
-        "type": "object",
-        "properties": {
-          "accountName": {
-            "type": "string",
-            "description": "The Account Name; This will not be in fact the Advertiser name"
-          },
-          "agencyId": {
-            "type": "string",
-            "description": "ID of the agency requesting the advertiser creation"
-          },
-          "countryIsoCode": {
-            "type": "string",
-            "description": "Country ISO code"
-          },
-          "currencyIsoCode": {
-            "type": "string",
-            "description": "Currency ISO code"
-          },
-          "industryId": {
-            "type": "string",
-            "description": "Industry ID"
-          },
-          "websiteUrl": {
-            "type": "string",
-            "description": "Website url"
-          }
-        },
-        "description": "Information for creating an advertiser"
-      },
-      "AdvertiserCreationRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfAdvertiserCreationInput"
-          }
-        },
-        "description": "Advertiser Creation Request",
-        "example": {
-          "data": {
-            "type": "advertiser",
-            "attributes": {
-              "agencyId": "agencyId",
-              "accountName": "AdvertiserName",
-              "websiteUrl": "http://website_URL.com",
-              "countryIsoCode": "RO",
-              "currencyIsoCode": "EUR",
-              "industryId": "200006"
-            }
-          }
-        }
-      },
-      "AdvertiserCreationResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/EntityV2OfObject"
-          },
-          "errors": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty",
-            "nullable": true
-          },
-          "warnings": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CriteoApiWarningV2"
-            },
-            "description": "Warnings list returned by the Criteo API\r\nIn some situations the operations are successful but it may be useful to issue warnings to the API consumer.\r\nFor example the endpoint, entity or field is deprecated. Warnings are like compiler warnings, they indicate that problems may occur in the future.",
-            "nullable": true
-          }
-        },
-        "description": "Advertiser Creation Response"
-      },
       "AdvertiserDatasetListResponse": {
         "type": "object",
         "properties": {
@@ -15864,8 +15610,7 @@
             "example": "campaign"
           }
         },
-        "description": "Generic Criteo API successful data model",
-        "nullable": true
+        "description": "Generic Criteo API successful data model"
       },
       "EntityWrapperOfTargetingEntity": {
         "type": "object",
@@ -21685,33 +21430,6 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "UnauthorizedResponseV2": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/EntityV2OfObject"
-          },
-          "errors": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Error list returned by the Criteo API\r\nFor successful requests it is empty",
-            "nullable": true
-          },
-          "warnings": {
-            "uniqueItems": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CriteoApiWarningV2"
-            },
-            "description": "Warnings list returned by the Criteo API\r\nIn some situations the operations are successful but it may be useful to issue warnings to the API consumer.\r\nFor example the endpoint, entity or field is deprecated. Warnings are like compiler warnings, they indicate that problems may occur in the future.",
-            "nullable": true
-          }
-        },
-        "description": "Unauthorized Response"
-      },
       "UpdateCoupon": {
         "required": [
           "startDate"
@@ -21814,18 +21532,6 @@
             }
           }
         }
-      },
-      "ValueResourceOfAdvertiserCreationInput": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AdvertiserCreationInput"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "ValueResourceOfCreateProductFilterRequest": {
         "type": "object",
