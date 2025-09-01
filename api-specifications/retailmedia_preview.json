@@ -2548,18 +2548,14 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
         "requestBody": {
           "description": "An update request containing all details of the requested update.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemUpdateRequestModel"
-              }
-            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemUpdateRequestModel"
@@ -2575,8 +2571,7 @@
                 "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemUpdateRequestModel"
               }
             }
-          },
-          "x-bodyName": "sponsoredProductsLineItemUpdateRequest"
+          }
         },
         "responses": {
           "200": {
@@ -3290,9 +3285,21 @@
           "201": {
             "description": "Success",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredLineItemV2Response"
+                }
+              }
             }
           },
           "400": {
@@ -3423,11 +3430,6 @@
         "requestBody": {
           "description": "The line item settings to create a line item with",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
-              }
-            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
@@ -3443,8 +3445,7 @@
                 "$ref": "#/components/schemas/ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel"
               }
             }
-          },
-          "x-bodyName": "lineItem"
+          }
         },
         "responses": {
           "201": {
@@ -6321,6 +6322,351 @@
         ]
       }
     },
+    "/preview/retail-media/retailers/{retailerId}/offers/load": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "description": "Replace the offers for one or more SKUs with a snapshot of the new offers for each respective SKU",
+        "operationId": "OfferLoadV1",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "The retailer for which these offers will be loaded",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputLoadSkuOffersRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputLoadSkuOffersRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputLoadSkuOffersRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputLoadSkuOffersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Catalog_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/retailers/{retailerId}/offers/set-buy-box-winners": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "description": "Update the buy box winner for one or more SKUs",
+        "operationId": "OfferSetBbwV1",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "The retailer for which these buy box winners will be set",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputSetSkuBuyBoxWinnersRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputSetSkuBuyBoxWinnersRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputSetSkuBuyBoxWinnersRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputSetSkuBuyBoxWinnersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Catalog_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/retailers/{retailerId}/offers/update": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "description": "Update one or more offers by replacing each offer's price and availability with the given values",
+        "operationId": "OfferUpdateV1",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "The retailer for which these offers will be updated",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputUpdateOffersRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputUpdateOffersRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputUpdateOffersRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputUpdateOffersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Catalog_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/retailers/{retailerId}/recommend-categories": {
       "post": {
         "tags": [
@@ -6779,6 +7125,7 @@
                 "advProductId",
                 "advProductName",
                 "salesChannel",
+                "mediaType",
                 "environment",
                 "pageTypeName",
                 "pageCategory",
@@ -6815,6 +7162,17 @@
             "type": "string",
             "description": "Format of the output",
             "default": "json-compact"
+          },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "video",
+              "display",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on the type of media: unknown, display, video",
+            "default": "all"
           },
           "metrics": {
             "type": "array",
@@ -6856,7 +7214,10 @@
                 "newToBrandAttributedUnits",
                 "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
-                "frequency"
+                "frequency",
+                "winRate",
+                "sampledBidsWon",
+                "sampledBidsParticipated"
               ],
               "type": "string"
             },
@@ -7020,6 +7381,7 @@
                 "advProductId",
                 "advProductName",
                 "salesChannel",
+                "mediaType",
                 "environment",
                 "pageTypeName",
                 "pageCategory",
@@ -7068,6 +7430,17 @@
             },
             "description": "Campaign ids to report on"
           },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "video",
+              "display",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on the type of media: unknown, display, video",
+            "default": "all"
+          },
           "metrics": {
             "type": "array",
             "items": {
@@ -7108,7 +7481,10 @@
                 "newToBrandAttributedUnits",
                 "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
-                "frequency"
+                "frequency",
+                "winRate",
+                "sampledBidsWon",
+                "sampledBidsParticipated"
               ],
               "type": "string"
             },
@@ -7233,6 +7609,16 @@
         ],
         "type": "object",
         "properties": {
+          "adServerType": {
+            "enum": [
+              "all",
+              "gam",
+              "criteo"
+            ],
+            "type": "string",
+            "description": "Filter on the type of the ad server: criteo, gam, all",
+            "default": "all"
+          },
           "dimensions": {
             "minItems": 1,
             "type": "array",
@@ -7247,7 +7633,8 @@
                 "environment",
                 "servedCategory",
                 "retailerCategoryId",
-                "retailerCategoryName"
+                "retailerCategoryName",
+                "adServerType"
               ],
               "type": "string"
             },
@@ -7339,6 +7726,18 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "AsyncJobResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Indicates the successful receipt of an async request, containing the job ID",
+        "nullable": true
+      },
       "AsyncLineItemsReport": {
         "required": [
           "endDate",
@@ -7388,6 +7787,7 @@
                 "advProductId",
                 "advProductName",
                 "salesChannel",
+                "mediaType",
                 "environment",
                 "pageTypeName",
                 "pageCategory",
@@ -7436,6 +7836,17 @@
             },
             "description": "Line Item ids to report on"
           },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "video",
+              "display",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on the type of media: unknown, display, video",
+            "default": "all"
+          },
           "metrics": {
             "type": "array",
             "items": {
@@ -7476,7 +7887,10 @@
                 "newToBrandAttributedUnits",
                 "newToBrandAttributedUnitsRate",
                 "uniqueVisitors",
-                "frequency"
+                "frequency",
+                "winRate",
+                "sampledBidsWon",
+                "sampledBidsParticipated"
               ],
               "type": "string"
             },
@@ -7724,7 +8138,7 @@
             "items": {
               "enum": [
                 "audience",
-                "uniqueUsers",
+                "uniqueVisitors",
                 "reachRate",
                 "impressions",
                 "frequency",
@@ -7736,8 +8150,8 @@
                 "ecpm",
                 "cpm",
                 "spend",
-                "units",
-                "sales",
+                "attributedUnits",
+                "attributedSales",
                 "roas",
                 "videoStarts",
                 "videosPlayedTo25",
@@ -9909,7 +10323,8 @@
             "description": "Line Item Capping Type Enum"
           }
         },
-        "description": "Frequency Capping for a Preferred Line Item"
+        "description": "Frequency Capping for a Preferred Line Item",
+        "nullable": true
       },
       "LineItemKeywordReviewReport": {
         "required": [
@@ -10035,6 +10450,24 @@
         "type": "string",
         "description": "The status of a promoted product in the context of the line item.",
         "nullable": true
+      },
+      "LoadSkuOffersRequest": {
+        "required": [
+          "skuOfferLoads"
+        ],
+        "type": "object",
+        "properties": {
+          "skuOfferLoads": {
+            "maxItems": 5000,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkuOfferLoad"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The request passed by the caller of the Load endpoint"
       },
       "LoyaltyPoints": {
         "type": "object",
@@ -10228,6 +10661,74 @@
         },
         "description": "Placeholder object for string value  for which \"null\" is a valid business value",
         "nullable": true
+      },
+      "OfferLoad": {
+        "required": [
+          "availability",
+          "price",
+          "sellerId"
+        ],
+        "type": "object",
+        "properties": {
+          "availability": {
+            "enum": [
+              "OutOfStock",
+              "PreOrder",
+              "InStock",
+              "BackOrder"
+            ],
+            "type": "string"
+          },
+          "offerType": {
+            "enum": [
+              "Seller",
+              "Retailer"
+            ],
+            "type": "string",
+            "default": "Seller"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "sellerId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The state of a single offer which is being added for a SKU as part of a load operation"
+      },
+      "OfferUpdate": {
+        "required": [
+          "availability",
+          "price",
+          "sellerId",
+          "skuId"
+        ],
+        "type": "object",
+        "properties": {
+          "availability": {
+            "enum": [
+              "OutOfStock",
+              "PreOrder",
+              "InStock",
+              "BackOrder"
+            ],
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "sellerId": {
+            "type": "string"
+          },
+          "skuId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The state of a single offer after it is replaced as part of an Update operation"
       },
       "Outcome": {
         "type": "object",
@@ -14629,6 +15130,41 @@
         "additionalProperties": false,
         "description": "Resource object containing keywords and their associated bid overrides"
       },
+      "SetSkuBuyBoxWinnersRequest": {
+        "required": [
+          "skuBuyBoxWinners"
+        ],
+        "type": "object",
+        "properties": {
+          "skuBuyBoxWinners": {
+            "maxItems": 5000,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkuBuyBoxWinner"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The request passed by the caller of the SetBuyBoxWinners endpoint"
+      },
+      "SkuBuyBoxWinner": {
+        "required": [
+          "sellerId",
+          "skuId"
+        ],
+        "type": "object",
+        "properties": {
+          "sellerId": {
+            "type": "string"
+          },
+          "skuId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The new buy box winner for a SKU after it is updated as part of a SetBuyBoxWinner operation"
+      },
       "SkuDataPreview": {
         "required": [
           "skuKey",
@@ -14779,6 +15315,29 @@
         },
         "description": "Data model for a list of response resources"
       },
+      "SkuOfferLoad": {
+        "required": [
+          "offers",
+          "skuId"
+        ],
+        "type": "object",
+        "properties": {
+          "buyBoxWinner": {
+            "type": "string"
+          },
+          "offers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfferLoad"
+            }
+          },
+          "skuId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The new state of the offers for a SKU after a load operation"
+      },
       "SkuSearchRequestPreview": {
         "required": [
           "queryString",
@@ -14872,46 +15431,46 @@
               "revenue"
             ],
             "type": "string",
+            "description": "Optional field.",
             "nullable": true
           },
           "budget": {
             "type": "number",
+            "description": "The total budget allocated for this line item.",
             "format": "double",
             "nullable": true
           },
           "budgetRemaining": {
             "type": "number",
+            "description": "The amount of the budget that remains available.",
             "format": "double",
             "nullable": true
           },
           "budgetSpent": {
             "type": "number",
+            "description": "The amount of the budget that has been spent so far.",
             "format": "double",
             "nullable": true
           },
           "campaignId": {
             "type": "string",
+            "description": "The ID of the campaign this line item belongs to.",
             "format": "long-id"
-          },
-          "conquestingAdstrategyEnabled": {
-            "type": "boolean",
-            "nullable": true
           },
           "createdAt": {
             "type": "string",
+            "description": "The date and time when the line item was created.",
             "format": "date-time"
           },
           "dailyPacing": {
             "type": "number",
+            "description": "The daily pacing limit for budget spending.",
             "format": "double",
-            "nullable": true
-          },
-          "defensiveAdstrategyEnabled": {
-            "type": "boolean",
             "nullable": true
           },
           "endDate": {
             "type": "string",
+            "description": "The date and time when the line item stops running.",
             "format": "date-time",
             "nullable": true
           },
@@ -14920,29 +15479,41 @@
           },
           "isAutoDailyPacing": {
             "type": "boolean",
+            "description": "Indicates whether automatic daily pacing is enabled.",
+            "nullable": true
+          },
+          "keywordStrategy": {
+            "enum": [
+              "unknown",
+              "conquesting",
+              "genericAndBranded",
+              "genericBrandedAndConquesting"
+            ],
+            "type": "string",
+            "description": "The keyword targeting strategy for this line item.",
             "nullable": true
           },
           "maxBid": {
             "type": "number",
+            "description": "The maximum bid amount allowed for this line item.",
             "format": "double",
             "nullable": true
           },
           "monthlyPacing": {
             "type": "number",
+            "description": "The monthly pacing limit for budget spending.",
             "format": "double",
             "nullable": true
           },
           "name": {
             "maxLength": 255,
             "minLength": 0,
-            "type": "string"
-          },
-          "neutralAdstrategyEnabled": {
-            "type": "boolean",
-            "nullable": true
+            "type": "string",
+            "description": "The name of the line item."
           },
           "startDate": {
             "type": "string",
+            "description": "The date and time when the line item starts running.",
             "format": "date-time"
           },
           "status": {
@@ -14958,11 +15529,12 @@
               "noFunds"
             ],
             "type": "string",
-            "description": "Status of a line item.",
+            "description": "The current status of the line item.",
             "nullable": true
           },
           "targetBid": {
             "type": "number",
+            "description": "The target bid amount for the line item.",
             "format": "double",
             "nullable": true
           },
@@ -14972,6 +15544,7 @@
           },
           "updatedAt": {
             "type": "string",
+            "description": "The date and time when the line item was last updated.",
             "format": "date-time"
           }
         },
@@ -14995,28 +15568,24 @@
               "revenue"
             ],
             "type": "string",
+            "description": "The bidding strategy to use for this line item.\r\nDefault value is Conversion.",
             "default": "conversion"
           },
           "budget": {
             "type": "number",
+            "description": "The total budget allocated for this line item.",
             "format": "double",
-            "nullable": true
-          },
-          "conquestingAdstrategyEnabled": {
-            "type": "boolean",
             "nullable": true
           },
           "dailyPacing": {
             "type": "number",
+            "description": "The daily pacing limit for budget spending.",
             "format": "double",
-            "nullable": true
-          },
-          "defensiveAdstrategyEnabled": {
-            "type": "boolean",
             "nullable": true
           },
           "endDate": {
             "type": "string",
+            "description": "The date and time when the line item should stop running.",
             "format": "date-time",
             "nullable": true
           },
@@ -15025,38 +15594,51 @@
           },
           "isAutoDailyPacing": {
             "type": "boolean",
+            "description": "Indicates whether automatic daily pacing is enabled.\r\nDefault value is false.",
             "default": false
+          },
+          "keywordStrategy": {
+            "enum": [
+              "conquesting",
+              "genericAndBranded",
+              "genericBrandedAndConquesting"
+            ],
+            "type": "string",
+            "description": "The keyword targeting strategy for this line item.",
+            "nullable": true
           },
           "maxBid": {
             "type": "number",
+            "description": "The maximum bid amount allowed for this line item.",
             "format": "double",
             "nullable": true
           },
           "monthlyPacing": {
             "type": "number",
+            "description": "The monthly pacing limit for budget spending.",
             "format": "double",
             "nullable": true
           },
           "name": {
             "maxLength": 255,
             "minLength": 0,
-            "type": "string"
-          },
-          "neutralAdstrategyEnabled": {
-            "type": "boolean",
-            "nullable": true
+            "type": "string",
+            "description": "The name of the line item."
           },
           "startDate": {
             "type": "string",
+            "description": "The date and time when the line item should start running.",
             "format": "date-time"
           },
           "targetBid": {
             "type": "number",
+            "description": "The target bid amount for the line item.",
             "format": "double",
             "nullable": true
           },
           "targetRetailerId": {
             "type": "string",
+            "description": "The ID of the retailer to target for this line item.",
             "format": "long-id"
           }
         },
@@ -15298,6 +15880,17 @@
               "type": "string"
             },
             "description": "Line item ids to filter"
+          },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "video",
+              "display",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on the type of media: unknown, display, video",
+            "default": "all"
           },
           "metrics": {
             "type": "array",
@@ -15796,6 +16389,24 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single entity"
       },
+      "UpdateOffersRequest": {
+        "required": [
+          "offerUpdates"
+        ],
+        "type": "object",
+        "properties": {
+          "offerUpdates": {
+            "maxItems": 5000,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfferUpdate"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The request passed by the caller of the Update endpoint"
+      },
       "ValueResourceAccountFeesSearchRequest": {
         "type": "object",
         "properties": {
@@ -15831,6 +16442,22 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/AccountFeesUpdateResult"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "ValueResourceAsyncJobResponse": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncJobResponse"
           },
           "type": {
             "type": "string",
@@ -15943,6 +16570,16 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceInputLoadSkuOffersRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceLoadSkuOffersRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+      },
       "ValueResourceInputOfBrandCatalogRequestV2": {
         "type": "object",
         "properties": {
@@ -16022,6 +16659,41 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceInputSetSkuBuyBoxWinnersRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceSetSkuBuyBoxWinnersRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+      },
+      "ValueResourceInputUpdateOffersRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceUpdateOffersRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+      },
+      "ValueResourceLoadSkuOffersRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LoadSkuOffersRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "ValueResourceOfBrandCatalogRequestV2": {
         "type": "object",
         "properties": {
@@ -16085,6 +16757,34 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceAccountFeesUpdateResult"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
+      "ValueResourceOutcomeAsyncJobResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceAsyncJobResponse"
           },
           "errors": {
             "type": "array",
@@ -16269,6 +16969,36 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "nullable": true
+      },
+      "ValueResourceSetSkuBuyBoxWinnersRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SetSkuBuyBoxWinnersRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceUpdateOffersRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/UpdateOffersRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "VideoVariableValue": {
         "required": [
