@@ -17,6 +17,7 @@ VERSION="{{artifactVersion}}"
 
 ./gradlew clean build publishMavenJavaPublicationToMavenLocal -x test
 
+# Building the bundle according to doc: https://central.sonatype.org/publish/publish-portal-upload/
 POM_FILE=build/publications/mavenJava/{{artifactId}}-{{artifactVersion}}.pom
 mv build/publications/mavenJava/pom-default.xml "$POM_FILE"
 mv build/publications/mavenJava/pom-default.xml.asc "$POM_FILE".asc
@@ -41,8 +42,8 @@ pushd "$BUNDLE_DIR"
 BUNDLE=bundle-"$VERSION".tar.gz
 tar zcf "$BUNDLE" *
 
+# Related doc: https://central.sonatype.org/publish/publish-portal-api/
 TOKEN=$(echo -n "$SONATYPE_USERNAME:$SONATYPE_PASSWORD" | base64)
-
 curl \
   -H "Authorization: Bearer $TOKEN" \
   --form bundle=@"$BUNDLE" \
