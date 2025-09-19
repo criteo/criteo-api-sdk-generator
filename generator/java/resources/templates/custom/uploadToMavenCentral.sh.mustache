@@ -17,4 +17,27 @@ VERSION="{{artifactVersion}}"
 
 ./gradlew clean build publishMavenJavaPublicationToMavenLocal -x test
 
-# TODO: find out whether we need to do something to sign the artifacts
+POM_FILE=build/publications/mavenJava/{{artifactId}}-{{artifactVersion}}.pom
+mv build/publications/mavenJava/pom-default.xml "$POM_FILE"
+mv build/publications/mavenJava/pom-default.xml.asc "$POM_FILE".asc
+md5sum < "$POM_FILE" | cut -d' ' -f1 > "$POM_FILE".md5
+sha1sum < "$POM_FILE" | cut -d' ' -f1 > "$POM_FILE".sha1
+
+for JAR in build/libs/*jar; do
+  md5sum < "$JAR" | cut -d' ' -f1 > "$JAR".md5
+  sha1sum < "$JAR" | cut -d' ' -f1 > "$JAR".sha1
+done
+
+BUNDLE_DIR=temp_for_upload_to_mvn_central
+rm -rf $BUNDLE_DIR
+GROUPID_TO_PATH=$(echo -n "{{groupId}}" | tr ':' '/')
+FULL_BUNDLE_DIR="$BUNDLE_DIR/$GROUPID_TO_PATH/{{artifactVersion}}"
+mkdir -p "$FULL_BUNDLE_DIR"
+
+cp build/libs/* "$FULL_BUNDLE_DIR"
+cp "$POM_FILE"* "$FULL_BUNDLE_DIR"
+
+pushd "$BUNDLE_DIR"
+BUNDLE=bundle-"$VERSION".tar.gz
+tar zcf "$BUNDLE" *
+
