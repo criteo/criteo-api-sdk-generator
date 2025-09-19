@@ -3,18 +3,18 @@
 set -e
 
 # See https://central.sonatype.org/publish/generate-portal-token/ to generate it
-if [[ -z "$USER_NAME" ]]; then
-  echo error: empty USER_NAME
+if [[ -z "$SONATYPE_USERNAME" ]]; then
+  echo error: empty SONATYPE_USERNAME
   exit 1
 fi
 # See https://central.sonatype.org/publish/generate-portal-token/ to generate it
-if [[ -z "$PASSWORD" ]]; then
-  echo error: empty PASSWORD
+if [[ -z "$SONATYPE_PASSWORD" ]]; then
+  echo error: empty SONATYPE_PASSWORD
   exit 1
 fi
 
 VERSION="{{artifactVersion}}"
 
-gradle clean build publishMavenJavaPublicationToMavenLocal
+./gradlew clean build publishMavenJavaPublicationToMavenLocal -x test
 
 # TODO: find out whether we need to do something to sign the artifacts
