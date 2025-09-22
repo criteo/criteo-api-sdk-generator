@@ -1430,6 +1430,82 @@
         ]
       }
     },
+    "/preview/retail-media/accounts/{accountId}/retailers/search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Searches for retailers associated with the specified account based on provided search criteria",
+        "operationId": "SearchRetailersV1",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The external account identifier",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to return. Must be between 1 and 10. Default is 5.",
+            "style": "form",
+            "schema": {
+              "maximum": 10,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of items to skip before starting to collect the result set. Default is 0.",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The search request containing filtering parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfRetailerSearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailerResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/accounts/{accountId}/seller-catalog-export": {
       "post": {
         "tags": [
@@ -5169,7 +5245,12 @@
                 "productClicksRevenue",
                 "revenue",
                 "workingMedia",
-                "netRevenue"
+                "netRevenue",
+                "nonDeliverablePlacements",
+                "deliverablePlacements",
+                "placementsWithCandidates",
+                "coveredPlacements",
+                "coverageRate"
               ],
               "type": "string"
             },
@@ -6261,6 +6342,49 @@
         },
         "description": "Data model for a list of response resources"
       },
+      "CampaignAvailability": {
+        "type": "object",
+        "properties": {
+          "buyType": {
+            "enum": [
+              "unknown",
+              "auction",
+              "preferreddeals",
+              "sponsorship",
+              "offsite"
+            ],
+            "type": "string",
+            "description": "The buy type this object represents availability for",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "unknown",
+              "sponsoredproducts",
+              "onsitedisplay",
+              "offsite"
+            ],
+            "type": "string",
+            "description": "The type of campaign this object represents availability for",
+            "nullable": true
+          },
+          "isAvailable": {
+            "type": "boolean",
+            "description": "Indicates whether the campaign type and buy type combination is available for the retailer",
+            "nullable": true
+          },
+          "validCombinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageTypeCombination"
+            },
+            "description": "PageType-PageEnvironmentType pairs which are supported for this campaign-buy type combination",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Information about the availability of a specific campaign type and buy type combination, and page types and environments supported for that combination"
+      },
       "CatalogStatusV2": {
         "required": [
           "status",
@@ -7060,6 +7184,38 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
+      "EntityResourceCollectionOutcomeOfRetailerResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfRetailerResult"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+      },
       "EntityResourceCollectionOutcomeOfRetailMediaChildAccountAndMetadata": {
         "type": "object",
         "properties": {
@@ -7169,6 +7325,26 @@
         },
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
+      },
+      "EntityResourceOfRetailerResult": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RetailerResult"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "EntityResourceOfRetailMediaChildAccount": {
         "type": "object",
@@ -8230,6 +8406,47 @@
         },
         "additionalProperties": false,
         "description": "A wrapper class to return a single page of items with metadata for offset and limit based paging."
+      },
+      "PageTypeCombination": {
+        "type": "object",
+        "properties": {
+          "pageEnvironmentType": {
+            "enum": [
+              "unknown",
+              "web",
+              "mobile",
+              "app",
+              "lockout",
+              "mixed",
+              "ios",
+              "android"
+            ],
+            "type": "string",
+            "description": "The page types which are supported for this campaign-buy type combination",
+            "nullable": true
+          },
+          "pageType": {
+            "enum": [
+              "unknown",
+              "search",
+              "home",
+              "checkout",
+              "category",
+              "productdetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchbar",
+              "categorymenu"
+            ],
+            "type": "string",
+            "description": "The page types which are supported for this campaign-buy type combination",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The page type-environment type combination object."
       },
       "PageTypeEnvironment2": {
         "type": "object",
@@ -10343,6 +10560,49 @@
         },
         "additionalProperties": false,
         "description": "Outcome object containing errors and warnings."
+      },
+      "RetailerResult": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "campaignAvailabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignAvailability"
+            },
+            "description": "A list of campaign availabilities for the retailer, each of which shows the availability of a specific campaign type and buy type combination",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "ID of the retailer"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the retailer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The result of a query for the configuration of a retailer",
+        "nullable": true
+      },
+      "RetailerSearchRequest": {
+        "type": "object",
+        "properties": {
+          "retailerIdFilter": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of retailer IDs to filter the results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request model for searching retailers"
       },
       "RetailMediaContactlistAmendment": {
         "required": [
@@ -13911,6 +14171,16 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
         "nullable": true
       },
+      "ValueResourceInputOfRetailerSearchRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfRetailerSearchRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputOfSellerCatalogRequestV2": {
         "type": "object",
         "properties": {
@@ -14028,6 +14298,21 @@
         },
         "description": "A value resource exposed by the API.",
         "nullable": true
+      },
+      "ValueResourceOfRetailerSearchRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RetailerSearchRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfSellerCatalogRequestV2": {
         "type": "object",
