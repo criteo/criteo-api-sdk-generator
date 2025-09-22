@@ -749,11 +749,11 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of self-services Creatives is returned.",
+            "description": "The list of self-services Creatives is returned.This list will contain creatives in draft status as well which will have some properties as null",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCreative"
+                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCreativeRead"
                 }
               }
             }
@@ -4951,23 +4951,19 @@
           },
           "descriptionFont": {
             "type": "string",
-            "description": "Font of the description\r\nValid supported font like \"Arial\"",
-            "nullable": true
+            "description": "Font of the description\r\nValid supported font like \"Arial\""
           },
           "descriptionText": {
             "type": "string",
-            "description": "The description text of the banner",
-            "nullable": true
+            "description": "The description text of the banner"
           },
           "headlineFont": {
             "type": "string",
-            "description": "Font of the headline\r\nValid supported font like \"Arial\"",
-            "nullable": true
+            "description": "Font of the headline\r\nValid supported font like \"Arial\""
           },
           "headlineText": {
             "type": "string",
-            "description": "The headline text of the banner",
-            "nullable": true
+            "description": "The headline text of the banner"
           },
           "imageDisplay": {
             "enum": [
@@ -5058,7 +5054,98 @@
             "description": "Color of the image set's headline text.\r\nA valid RGB24 color in hexadecimal (e.g. \"AB00FF\")"
           }
         },
-        "description": "Entity consists of the color aliases of the creative's elements"
+        "description": "Entity consists of the color aliases of the creative's elements",
+        "nullable": true
+      },
+      "AdaptiveReadAttributes": {
+        "type": "object",
+        "properties": {
+          "callsToAction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as “Buy now” or “Go!”.",
+            "nullable": true
+          },
+          "colors": {
+            "$ref": "#/components/schemas/AdaptiveColors"
+          },
+          "descriptionFont": {
+            "type": "string",
+            "description": "Font of the description\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "descriptionText": {
+            "type": "string",
+            "description": "The description text of the banner",
+            "nullable": true
+          },
+          "headlineFont": {
+            "type": "string",
+            "description": "Font of the headline\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "headlineText": {
+            "type": "string",
+            "description": "The headline text of the banner",
+            "nullable": true
+          },
+          "imageDisplay": {
+            "enum": [
+              "ShowFullImage",
+              "ZoomOnImage"
+            ],
+            "type": "string",
+            "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your image set should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether it should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping.",
+            "nullable": true
+          },
+          "imageSets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageSet"
+            },
+            "description": "Multiple image sets, each image set consists of multiple images and a headline text.",
+            "nullable": true
+          },
+          "landingPageUrl": {
+            "type": "string",
+            "description": "Web redirection of the landing page url",
+            "format": "uri",
+            "nullable": true
+          },
+          "layouts": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Editorial",
+                "Montage",
+                "InBannerVideo"
+              ],
+              "type": "string"
+            },
+            "description": "The Adaptive layouts that are enabled.\r\nIt can contain any of the following values: \"Editorial\", “Montage“, \"InBannerVideo\".",
+            "nullable": true
+          },
+          "logos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageShape"
+            },
+            "description": "Logo images uploaded on demostatic.criteo.com when deploying and then static.criteo.net",
+            "nullable": true
+          },
+          "videos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoDetail"
+            },
+            "description": "Multiple videos potentially in different shapes.",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to Adaptive creatives read",
+        "nullable": true
       },
       "AdaptiveWriteAttributes": {
         "required": [
@@ -8831,6 +8918,62 @@
           }
         },
         "description": "A creative is a project with the necessary information to display a creative",
+        "nullable": true
+      },
+      "CreativeRead": {
+        "required": [
+          "advertiserId",
+          "author",
+          "name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "adaptiveAttributes": {
+            "$ref": "#/components/schemas/AdaptiveReadAttributes"
+          },
+          "advertiserId": {
+            "type": "string",
+            "description": "Advertiser linked to the Creative"
+          },
+          "author": {
+            "type": "string",
+            "description": "The login of the person who created this creative ("
+          },
+          "datasetId": {
+            "type": "string",
+            "description": "Data set id linked to the Creative",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the creative",
+            "nullable": true
+          },
+          "dynamicAttributes": {
+            "$ref": "#/components/schemas/DynamicAttributes"
+          },
+          "format": {
+            "type": "string",
+            "description": "The format of the creative",
+            "nullable": true
+          },
+          "htmlTagAttributes": {
+            "$ref": "#/components/schemas/HtmlTagAttributes"
+          },
+          "imageAttributes": {
+            "$ref": "#/components/schemas/ImageAttributes"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the creative"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the creative"
+          }
+        },
+        "description": "A CreativeRead is a project with the necessary information to display a creative",
         "nullable": true
       },
       "CreativeWrite": {
@@ -13826,13 +13969,13 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities."
       },
-      "ResourceCollectionOutcomeOfCreative": {
+      "ResourceCollectionOutcomeOfCreativeRead": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ResourceOfCreative"
+              "$ref": "#/components/schemas/ResourceOfCreativeRead"
             },
             "nullable": true
           },
@@ -14034,6 +14177,24 @@
         },
         "description": "A class that represents a domain entity exposed by an API.",
         "nullable": true
+      },
+      "ResourceOfCreativeRead": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreativeRead"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of this resource.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API."
       },
       "ResourceOfCreativeWrite": {
         "type": "object",
