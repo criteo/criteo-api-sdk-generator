@@ -53,40 +53,15 @@
                   "errors": [ ],
                   "warnings": [ ]
                 }
-              },
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPortfolioResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPortfolioResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPortfolioResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPortfolioResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPortfolioResponse"
-                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
       }
     },
     "/2024-10/audiences/{audience-segment-id}/contactlist": {
@@ -122,40 +97,15 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorCodeResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "validation",
-                      "code": "audience-invalid",
-                      "instance": "/audience/314159",
-                      "title": "Audience is invalid",
-                      "detail": "Audience is not found, please choose a valid audience"
-                    }
-                  ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -210,72 +160,15 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorCodeResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "validation",
-                      "code": "audience-invalid",
-                      "instance": "/audience/314159",
-                      "title": "Audience is invalid",
-                      "detail": "Audience is not found, please choose a valid audience"
-                    }
-                  ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Audience 123 not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorCodeResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "validation",
-                      "code": "audience-invalid",
-                      "instance": "/audience/314159",
-                      "title": "Audience is invalid",
-                      "detail": "Audience is not found, please choose a valid audience"
-                    }
-                  ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       },
       "parameters": [
         {
@@ -314,45 +207,33 @@
         "requestBody": {
           "description": "The query message.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransparencyQueryMessage"
-              },
-              "example": {
-                "shouldDisplayProductIds": false,
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
-              }
-            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
               "example": {
                 "shouldDisplayProductIds": false,
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
+                "startDate": "2025-05-31T00:00:00.0000000+00:00",
+                "endDate": "2025-06-03T00:00:00.0000000+00:00"
               }
             },
-            "text/json": {
+            "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": {
-                "shouldDisplayProductIds": false,
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
-              }
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             },
-            "application/*+json": {
+            "text/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": {
-                "shouldDisplayProductIds": false,
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
-              }
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/TransparencyQueryMessage"
+              },
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             }
           }
         },
@@ -360,17 +241,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransparencyReportListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransparencyReportListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TransparencyReportListResponse"
                 }
@@ -383,149 +254,18 @@
               "text/xml": {
                 "schema": {
                   "$ref": "#/components/schemas/TransparencyReportListResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets": {
@@ -538,22 +278,7 @@
         "requestBody": {
           "description": "List of adsets to patch.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/RequestsPatchAdSetV24Q1"
               }
@@ -565,40 +290,21 @@
           "200": {
             "description": "List of patched adSets.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetIdV24Q1"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetIdV24Q1"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponsesAdSetIdV24Q1"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -609,22 +315,7 @@
         "requestBody": {
           "description": "the ad sets to create",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAdSetV24Q1Request"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAdSetV24Q1Request"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAdSetV24Q1Request"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateAdSetV24Q1Request"
               }
@@ -637,40 +328,21 @@
           "201": {
             "description": "The ad set that has been created and errors / warnings",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/{ad-set-id}": {
@@ -696,40 +368,21 @@
           "200": {
             "description": "data for the ad set",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/{ad-set-id}/audience": {
@@ -754,22 +407,7 @@
         "requestBody": {
           "description": "Ad set-Audience update request.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetAudienceLinkInputEntityV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetAudienceLinkInputEntityV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetAudienceLinkInputEntityV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AdSetAudienceLinkInputEntityV1"
               }
@@ -782,48 +420,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdSetAudienceLinkEntityV1Response"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdSetAudienceLinkEntityV1Response"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AdSetAudienceLinkEntityV1Response"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/{ad-set-id}/category-bids": {
@@ -849,48 +460,21 @@
           "200": {
             "description": "List of Category Bids for all valid Categories associated to an Ad Set.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdSetCategoryBidListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdSetCategoryBidListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AdSetCategoryBidListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -912,22 +496,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PatchAdSetCategoryBidListRequest"
               }
@@ -939,48 +508,21 @@
           "200": {
             "description": "List of updated Category Bids for given Categories associated to an Ad Set.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatchAdSetCategoryBidResultListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatchAdSetCategoryBidResultListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PatchAdSetCategoryBidResultListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/{ad-set-id}/display-multipliers": {
@@ -1006,48 +548,21 @@
           "200": {
             "description": "List of Display Multipliers for all valid Categories associated to an Ad Set.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdSetDisplayMultiplierListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdSetDisplayMultiplierListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AdSetDisplayMultiplierListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -1069,22 +584,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierListRequest"
               }
@@ -1096,48 +596,21 @@
           "200": {
             "description": "List of updated Display Multipliers for given Categories associated to an Ad Set.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PatchAdSetDisplayMultiplierResultListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/search": {
@@ -1149,22 +622,7 @@
         "operationId": "SearchAdSetsV24Q1",
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetSearchRequestV24Q1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetSearchRequestV24Q1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetSearchRequestV24Q1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AdSetSearchRequestV24Q1"
               }
@@ -1176,48 +634,21 @@
           "200": {
             "description": "data for the ad sets",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesReadAdSetV24Q1"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesReadAdSetV24Q1"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponsesReadAdSetV24Q1"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/start": {
@@ -1230,22 +661,7 @@
         "requestBody": {
           "description": "All the ad sets to start",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsAdSetId"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsAdSetId"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsAdSetId"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/RequestsAdSetId"
               }
@@ -1257,40 +673,21 @@
           "200": {
             "description": "List of ad sets that have been started and errors / warnings by ad set",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetId"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetId"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponsesAdSetId"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ad-sets/stop": {
@@ -1303,22 +700,7 @@
         "requestBody": {
           "description": "All the ad sets to stop",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsAdSetId"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsAdSetId"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsAdSetId"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/RequestsAdSetId"
               }
@@ -1330,40 +712,21 @@
           "200": {
             "description": "List of ad sets that have been stopped and errors / warnings by ad set",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetId"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetId"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponsesAdSetId"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/ads/{id}": {
@@ -1389,17 +752,15 @@
         "responses": {
           "204": {
             "description": "The ad was deleted."
-          },
-          "400": {
-            "description": "The request contained invalid parameters."
-          },
-          "401": {
-            "description": "The request was not properly authorized."
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server."
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -1424,48 +785,21 @@
           "200": {
             "description": "The found ad is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfAd"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfAd"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfAd"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/advertisers/{advertiser-id}/ads": {
@@ -1513,48 +847,21 @@
           "200": {
             "description": "The list of self-services Ads is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfAd"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfAd"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceCollectionOutcomeOfAd"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -1576,22 +883,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfAdWrite"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfAdWrite"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfAdWrite"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/ResourceInputOfAdWrite"
               }
@@ -1604,48 +896,21 @@
           "201": {
             "description": "The created Ad is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfAd"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfAd"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfAd"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/advertisers/{advertiser-id}/coupons": {
@@ -1693,40 +958,21 @@
           "200": {
             "description": "The list of self-services Coupons is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCoupon"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCoupon"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCoupon"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -1748,22 +994,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreateCoupon"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreateCoupon"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreateCoupon"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/ResourceInputOfCreateCoupon"
               }
@@ -1776,40 +1007,21 @@
           "201": {
             "description": "The created Coupon is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/advertisers/{advertiser-id}/coupons-supported-sizes": {
@@ -1844,40 +1056,21 @@
           "200": {
             "description": "The list of Coupon supported sizes is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCouponSupportedSizes"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCouponSupportedSizes"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCouponSupportedSizes"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}": {
@@ -1912,14 +1105,15 @@
         "responses": {
           "204": {
             "description": "The Coupon was deleted."
-          },
-          "400": {
-            "description": "The request contained invalid parameters."
-          },
-          "403": {
-            "description": "The request was not properly authorized."
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -1953,40 +1147,21 @@
           "200": {
             "description": "The found Coupon is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -2018,22 +1193,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfUpdateCoupon"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfUpdateCoupon"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfUpdateCoupon"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/ResourceInputOfUpdateCoupon"
               }
@@ -2046,40 +1206,21 @@
           "200": {
             "description": "The edited Coupon is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCoupon"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}/preview": {
@@ -2144,31 +1285,17 @@
                 "schema": {
                   "type": "string"
                 }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/html": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/html": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/advertisers/{advertiser-id}/creatives": {
@@ -2214,50 +1341,23 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of self-services Creatives is returned.",
+            "description": "The list of self-services Creatives is returned.This list will contain creatives in draft status as well which will have some properties as null",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCreative"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCreative"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCreative"
+                  "$ref": "#/components/schemas/ResourceCollectionOutcomeOfCreativeRead"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -2279,22 +1379,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
               }
@@ -2307,48 +1392,21 @@
           "201": {
             "description": "The created creative is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments": {
@@ -2361,22 +1419,7 @@
         "requestBody": {
           "description": "Segment Update request",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkUpdateInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkUpdateInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkUpdateInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSegmentBulkUpdateInputV1"
               }
@@ -2389,48 +1432,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSegmentEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/{audience-segment-id}/contact-list": {
@@ -2466,40 +1482,15 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorCodeResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "validation",
-                      "code": "audience-invalid",
-                      "instance": "/audience/314159",
-                      "title": "Audience is invalid",
-                      "detail": "Audience is not found, please choose a valid audience"
-                    }
-                  ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -2554,72 +1545,15 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorCodeResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "validation",
-                      "code": "audience-invalid",
-                      "instance": "/audience/314159",
-                      "title": "Audience is invalid",
-                      "detail": "Audience is not found, please choose a valid audience"
-                    }
-                  ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Audience 123 not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorCodeResponse"
-                },
-                "example": {
-                  "errors": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "validation",
-                      "code": "audience-invalid",
-                      "instance": "/audience/314159",
-                      "title": "Audience is invalid",
-                      "detail": "Audience is not found, please choose a valid audience"
-                    }
-                  ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       },
       "parameters": [
         {
@@ -2659,40 +1593,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContactListStatisticsEntityV1Response"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContactListStatisticsEntityV1Response"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContactListStatisticsEntityV1Response"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/compute-sizes": {
@@ -2705,22 +1620,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentComputeSizesInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentComputeSizesInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentComputeSizesInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSegmentComputeSizesInputV1"
               }
@@ -2733,48 +1633,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentSizeEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentSizeEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSegmentSizeEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/create": {
@@ -2787,22 +1660,7 @@
         "requestBody": {
           "description": "Segment creation parameter",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkCreateInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkCreateInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkCreateInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSegmentBulkCreateInputV1"
               }
@@ -2815,48 +1673,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSegmentEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/delete": {
@@ -2869,22 +1700,7 @@
         "requestBody": {
           "description": "Segment delete request.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkDeleteInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkDeleteInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentBulkDeleteInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSegmentBulkDeleteInputV1"
               }
@@ -2897,48 +1713,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentIdEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentIdEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSegmentIdEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/estimate-size": {
@@ -2951,22 +1740,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentEstimateSizeInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentEstimateSizeInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentEstimateSizeInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSegmentEstimateSizeInputV1"
               }
@@ -2979,48 +1753,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentSizeEstimationV1Response"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentSizeEstimationV1Response"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSegmentSizeEstimationV1Response"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/in-market-brands": {
@@ -3056,40 +1803,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/InMarketAudienceSegmentBrandEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InMarketAudienceSegmentBrandEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InMarketAudienceSegmentBrandEntityV1ListResponse"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/in-market-interests": {
@@ -3125,40 +1853,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/InMarketAudienceSegmentInterestEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InMarketAudienceSegmentInterestEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InMarketAudienceSegmentInterestEntityV1ListResponse"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audience-segments/search": {
@@ -3197,22 +1906,7 @@
         "requestBody": {
           "description": "Segment search filters.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentSearchInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentSearchInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSegmentSearchInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSegmentSearchInputV1"
               }
@@ -3225,48 +1919,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentEntityV1AudienceSegmentSearchMetadataV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSegmentEntityV1AudienceSegmentSearchMetadataV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSegmentEntityV1AudienceSegmentSearchMetadataV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audiences": {
@@ -3279,22 +1946,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkUpdateInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkUpdateInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkUpdateInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceBulkUpdateInputV1"
               }
@@ -3307,48 +1959,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audiences/compute-sizes": {
@@ -3361,22 +1986,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceComputeSizesInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceComputeSizesInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceComputeSizesInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceComputeSizesInputV1"
               }
@@ -3389,48 +1999,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSizeEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSizeEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSizeEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audiences/create": {
@@ -3443,22 +2026,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkCreateInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkCreateInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkCreateInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceBulkCreateInputV1"
               }
@@ -3471,48 +2039,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audiences/delete": {
@@ -3525,22 +2066,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkDeleteInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkDeleteInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceBulkDeleteInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceBulkDeleteInputV1"
               }
@@ -3553,17 +2079,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceIdEntityV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceIdEntityV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceIdEntityV1ListResponse"
                 }
@@ -3573,36 +2089,17 @@
           "204": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
+              "application/json": { }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audiences/estimate-size": {
@@ -3615,22 +2112,7 @@
         "requestBody": {
           "description": "",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceEstimateSizeInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceEstimateSizeInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceEstimateSizeInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceEstimateSizeInputV1"
               }
@@ -3643,48 +2125,21 @@
           "200": {
             "description": "Success or partial success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSizeEstimationV1Response"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceSizeEstimationV1Response"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceSizeEstimationV1Response"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/audiences/search": {
@@ -3723,22 +2178,7 @@
         "requestBody": {
           "description": "Audience search filters.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSearchInputV1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSearchInputV1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AudienceSearchInputV1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AudienceSearchInputV1"
               }
@@ -3751,48 +2191,21 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceEntityV1AudienceSearchMetadataV1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AudienceEntityV1AudienceSearchMetadataV1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceEntityV1AudienceSearchMetadataV1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/campaigns": {
@@ -3805,22 +2218,7 @@
         "requestBody": {
           "description": "List of campaigns to patch.",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchCampaignListRequest"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchCampaignListRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchCampaignListRequest"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PatchCampaignListRequest"
               }
@@ -3832,40 +2230,21 @@
           "200": {
             "description": "List of patched campaigns.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatchResultCampaignListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatchResultCampaignListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PatchResultCampaignListResponse"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -3876,22 +2255,7 @@
         "requestBody": {
           "description": "the campaigns to create",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCampaignRequest"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCampaignRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCampaignRequest"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateCampaignRequest"
               }
@@ -3904,40 +2268,21 @@
           "201": {
             "description": "The campaign that has been created and errors / warnings",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1Response"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1Response"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CampaignV23Q1Response"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/campaigns/{campaign-id}": {
@@ -3963,40 +2308,21 @@
           "200": {
             "description": "data for the campaign",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1Response"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1Response"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CampaignV23Q1Response"
                 }
               }
             }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The API client is not authorized to access this resource or the resource does not exist.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/campaigns/search": {
@@ -4009,22 +2335,7 @@
         "requestBody": {
           "description": "filters on campaigns",
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignSearchRequestV23Q1"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignSearchRequestV23Q1"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignSearchRequestV23Q1"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CampaignSearchRequestV23Q1"
               }
@@ -4036,48 +2347,21 @@
           "200": {
             "description": "data for the campaigns",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1ListResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1ListResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CampaignV23Q1ListResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The API client is not properly authenticated.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/creatives/{id}": {
@@ -4102,17 +2386,15 @@
         "responses": {
           "204": {
             "description": "The creative was deleted."
-          },
-          "400": {
-            "description": "The request contained invalid parameters."
-          },
-          "401": {
-            "description": "The request was not properly authorized."
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server."
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -4136,48 +2418,21 @@
           "200": {
             "description": "The found creative is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Read"
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -4199,22 +2454,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
-              }
-            },
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/ResourceInputOfCreativeWrite"
               }
@@ -4227,48 +2467,21 @@
           "200": {
             "description": "The edited creative is returned.",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceOutcomeOfCreative"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "401": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "500": {
-            "description": "A non-request based error occurred on the server.",
-            "content": {
-              "text/plain": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/creatives/{id}/preview": {
@@ -4323,31 +2536,17 @@
                 "schema": {
                   "type": "string"
                 }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
               }
             }
-          },
-          "400": {
-            "description": "The request contained invalid parameters.",
-            "content": {
-              "text/html": { },
-              "application/json": { },
-              "text/json": { }
-            }
-          },
-          "403": {
-            "description": "The request was not properly authorized.",
-            "content": {
-              "text/html": { },
-              "application/json": { },
-              "text/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/marketing-solutions/me": {
@@ -4367,14 +2566,13 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": { }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
       }
     },
     "/2024-10/placements/report": {
@@ -4386,22 +2584,22 @@
         "operationId": "GetPlacementsReport",
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
-              }
-            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
             },
-            "text/json": {
+            "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
             },
-            "application/*+json": {
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
+              }
+            },
+            "application/*+xml": {
               "schema": {
                 "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
               }
@@ -4412,19 +2610,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
@@ -4436,7 +2622,7 @@
                   "format": "binary"
                 }
               },
-              "application/xml": {
+              "text/xml": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
@@ -4449,146 +2635,15 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/statistics/report": {
@@ -4600,57 +2655,6 @@
         "operationId": "GetAdsetReport",
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/StatisticsReportQueryMessage"
-              },
-              "example": {
-                "advertiserIds": "123,456,789",
-                "adSetIds": [
-                  "12345",
-                  "54321"
-                ],
-                "adSetNames": [
-                  "myAdSet1",
-                  "myAdSet2"
-                ],
-                "adSetStatus": [
-                  "Active"
-                ],
-                "dimensions": [
-                  "CampaignId",
-                  "Campaign",
-                  "AdsetId",
-                  "Adset",
-                  "AdvertiserId",
-                  "Advertiser",
-                  "AdId",
-                  "Ad",
-                  "CouponId",
-                  "Coupon",
-                  "CategoryId",
-                  "Category",
-                  "Hour",
-                  "Day",
-                  "Week",
-                  "Month",
-                  "Year",
-                  "Os",
-                  "Device"
-                ],
-                "metrics": [
-                  "Clicks",
-                  "Displays",
-                  "Cpc",
-                  "Visits"
-                ],
-                "currency": "EUR",
-                "format": "csv",
-                "timezone": "Europe/Paris",
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
-              }
-            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/StatisticsReportQueryMessage"
@@ -4698,110 +2702,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StatisticsReportQueryMessage"
-              },
-              "example": {
-                "advertiserIds": "123,456,789",
-                "adSetIds": [
-                  "12345",
-                  "54321"
-                ],
-                "adSetNames": [
-                  "myAdSet1",
-                  "myAdSet2"
-                ],
-                "adSetStatus": [
-                  "Active"
-                ],
-                "dimensions": [
-                  "CampaignId",
-                  "Campaign",
-                  "AdsetId",
-                  "Adset",
-                  "AdvertiserId",
-                  "Advertiser",
-                  "AdId",
-                  "Ad",
-                  "CouponId",
-                  "Coupon",
-                  "CategoryId",
-                  "Category",
-                  "Hour",
-                  "Day",
-                  "Week",
-                  "Month",
-                  "Year",
-                  "Os",
-                  "Device"
-                ],
-                "metrics": [
-                  "Clicks",
-                  "Displays",
-                  "Cpc",
-                  "Visits"
-                ],
-                "currency": "EUR",
-                "format": "csv",
-                "timezone": "Europe/Paris",
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/StatisticsReportQueryMessage"
-              },
-              "example": {
-                "advertiserIds": "123,456,789",
-                "adSetIds": [
-                  "12345",
-                  "54321"
-                ],
-                "adSetNames": [
-                  "myAdSet1",
-                  "myAdSet2"
-                ],
-                "adSetStatus": [
-                  "Active"
-                ],
-                "dimensions": [
-                  "CampaignId",
-                  "Campaign",
-                  "AdsetId",
-                  "Adset",
-                  "AdvertiserId",
-                  "Advertiser",
-                  "AdId",
-                  "Ad",
-                  "CouponId",
-                  "Coupon",
-                  "CategoryId",
-                  "Category",
-                  "Hour",
-                  "Day",
-                  "Week",
-                  "Month",
-                  "Year",
-                  "Os",
-                  "Device"
-                ],
-                "metrics": [
-                  "Clicks",
-                  "Displays",
-                  "Cpc",
-                  "Visits"
-                ],
-                "currency": "EUR",
-                "format": "csv",
-                "timezone": "Europe/Paris",
-                "startDate": "2024-04-24T00:00:00.0000000+02:00",
-                "endDate": "2024-04-27T00:00:00.0000000+02:00"
+                "startDate": "2025-05-31T00:00:00.0000000+00:00",
+                "endDate": "2025-06-03T00:00:00.0000000+00:00"
               }
             }
           }
@@ -4810,19 +2712,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
@@ -4844,185 +2734,18 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
       }
     },
     "/2024-10/transactions/report": {
@@ -5034,22 +2757,22 @@
         "operationId": "GetTransactionsReport",
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
-              }
-            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
             },
-            "text/json": {
+            "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
             },
-            "application/*+json": {
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
+              }
+            },
+            "application/*+xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
               }
@@ -5060,19 +2783,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
@@ -5094,185 +2805,18 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                },
-                "example": {
-                  "warnings": [ ],
-                  "errors": [
-                    {
-                      "traceId": "905125ba2e35bd81e02ea712e4a05e2d",
-                      "type": "validation",
-                      "code": "required-field",
-                      "instance": "/report",
-                      "title": "Start date and end date are required.",
-                      "detail": ""
-                    }
-                  ]
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
-                }
-              },
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                "schema": {
-                  "$ref": "#/components/schemas/Outcome"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
       }
     }
   },
@@ -5459,7 +3003,98 @@
             "description": "Color of the image set's headline text.\r\nA valid RGB24 color in hexadecimal (e.g. \"AB00FF\")"
           }
         },
-        "description": "Entity consists of the color aliases of the creative's elements"
+        "description": "Entity consists of the color aliases of the creative's elements",
+        "nullable": true
+      },
+      "AdaptiveReadAttributes": {
+        "type": "object",
+        "properties": {
+          "callsToAction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as “Buy now” or “Go!”.",
+            "nullable": true
+          },
+          "colors": {
+            "$ref": "#/components/schemas/AdaptiveColors"
+          },
+          "descriptionFont": {
+            "type": "string",
+            "description": "Font of the description\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "descriptionText": {
+            "type": "string",
+            "description": "The description text of the banner",
+            "nullable": true
+          },
+          "headlineFont": {
+            "type": "string",
+            "description": "Font of the headline\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "headlineText": {
+            "type": "string",
+            "description": "The headline text of the banner",
+            "nullable": true
+          },
+          "imageDisplay": {
+            "enum": [
+              "ShowFullImage",
+              "ZoomOnImage"
+            ],
+            "type": "string",
+            "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your image set should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether it should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping.",
+            "nullable": true
+          },
+          "imageSets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageSet"
+            },
+            "description": "Multiple image sets, each image set consists of multiple images and a headline text.",
+            "nullable": true
+          },
+          "landingPageUrl": {
+            "type": "string",
+            "description": "Web redirection of the landing page url",
+            "format": "uri",
+            "nullable": true
+          },
+          "layouts": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Editorial",
+                "Montage",
+                "InBannerVideo"
+              ],
+              "type": "string"
+            },
+            "description": "The Adaptive layouts that are enabled.\r\nIt can contain any of the following values: \"Editorial\", “Montage“, \"InBannerVideo\".",
+            "nullable": true
+          },
+          "logos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageShape"
+            },
+            "description": "Logo images uploaded on demostatic.criteo.com when deploying and then static.criteo.net",
+            "nullable": true
+          },
+          "videos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoDetail"
+            },
+            "description": "Multiple videos potentially in different shapes.",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to Adaptive creatives read",
+        "nullable": true
       },
       "AdaptiveWriteAttributes": {
         "required": [
@@ -8598,6 +6233,62 @@
         "description": "A creative is a project with the necessary information to display a creative",
         "nullable": true
       },
+      "CreativeRead": {
+        "required": [
+          "advertiserId",
+          "author",
+          "name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "adaptiveAttributes": {
+            "$ref": "#/components/schemas/AdaptiveReadAttributes"
+          },
+          "advertiserId": {
+            "type": "string",
+            "description": "Advertiser linked to the Creative"
+          },
+          "author": {
+            "type": "string",
+            "description": "The login of the person who created this creative ("
+          },
+          "datasetId": {
+            "type": "string",
+            "description": "Data set id linked to the Creative",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the creative",
+            "nullable": true
+          },
+          "dynamicAttributes": {
+            "$ref": "#/components/schemas/DynamicAttributes"
+          },
+          "format": {
+            "type": "string",
+            "description": "The format of the creative",
+            "nullable": true
+          },
+          "htmlTagAttributes": {
+            "$ref": "#/components/schemas/HtmlTagAttributes"
+          },
+          "imageAttributes": {
+            "$ref": "#/components/schemas/ImageAttributes"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the creative"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the creative"
+          }
+        },
+        "description": "A CreativeRead is a project with the necessary information to display a creative",
+        "nullable": true
+      },
       "CreativeWrite": {
         "required": [
           "datasetId",
@@ -8931,28 +6622,6 @@
           }
         },
         "description": "Generic Criteo API successful data model"
-      },
-      "ErrorCodeResponse": {
-        "required": [
-          "errors"
-        ],
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AudienceError"
-            }
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AudienceWarning"
-            },
-            "nullable": true
-          }
-        },
-        "description": "Definition of the error code"
       },
       "GetPortfolioResponse": {
         "type": "object",
@@ -9788,31 +7457,6 @@
         "description": "Placeholder object for string value  for which \"null\" is a valid business value",
         "nullable": true
       },
-      "Outcome": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The outcome of an API call."
-      },
       "PatchAdSetBiddingV24Q1": {
         "type": "object",
         "properties": {
@@ -10221,7 +7865,6 @@
           "currency",
           "dimensions",
           "endDate",
-          "format",
           "metrics",
           "startDate"
         ],
@@ -10282,8 +7925,15 @@
             "nullable": true
           },
           "format": {
+            "enum": [
+              "csv",
+              "excel",
+              "xml",
+              "json"
+            ],
             "type": "string",
-            "description": "The file format of the generated report: csv, xml, excel or json."
+            "description": "The file format of the generated report",
+            "default": "json"
           },
           "metrics": {
             "type": "array",
@@ -10792,13 +8442,13 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities."
       },
-      "ResourceCollectionOutcomeOfCreative": {
+      "ResourceCollectionOutcomeOfCreativeRead": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ResourceOfCreative"
+              "$ref": "#/components/schemas/ResourceOfCreativeRead"
             },
             "nullable": true
           },
@@ -10968,6 +8618,24 @@
         },
         "description": "A class that represents a domain entity exposed by an API.",
         "nullable": true
+      },
+      "ResourceOfCreativeRead": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreativeRead"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of this resource.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API."
       },
       "ResourceOfCreativeWrite": {
         "type": "object",
@@ -11327,7 +8995,6 @@
           "currency",
           "dimensions",
           "endDate",
-          "format",
           "metrics",
           "startDate"
         ],
@@ -11407,12 +9074,255 @@
             "format": "date-time"
           },
           "format": {
+            "enum": [
+              "csv",
+              "excel",
+              "xml",
+              "json"
+            ],
             "type": "string",
-            "description": "The file format of the generated report: csv, xml, excel or json."
+            "description": "The file format of the generated report",
+            "default": "json"
           },
           "metrics": {
             "type": "array",
             "items": {
+              "enum": [
+                "Clicks",
+                "Displays",
+                "AdvertiserCost",
+                "SalesPc30dClientAttribution",
+                "SalesClientAttribution",
+                "SalesPc30d",
+                "SalesAllPc30dClientAttribution",
+                "SalesAllClientAttribution",
+                "SalesAllPc30d",
+                "SalesPv24h",
+                "SalesAllPv24h",
+                "SalesPc30Pv24",
+                "SalesAllPc30Pv24",
+                "SalesPc30dPv24h",
+                "SalesAllPc30dPv24h",
+                "SalesPc7dPv24",
+                "SalesAllPc7dPv24",
+                "SalesPc7dPv24h",
+                "SalesAllPc7dPv24h",
+                "SalesLc",
+                "SalesAllLc",
+                "SalesPc7d",
+                "SalesAllPc7d",
+                "SalesPc1d",
+                "SalesAllPc1d",
+                "SalesPiPc",
+                "SalesPiPv",
+                "SalesPiPcPv",
+                "PostInstallSales",
+                "SalesOfflinePc",
+                "SalesOfflinePv",
+                "SalesOfflinePc30d",
+                "SalesOfflinePv24h",
+                "RevenueGeneratedPc30dClientAttribution",
+                "RevenueGeneratedClientAttribution",
+                "RevenueGeneratedPc30d",
+                "RevenueGeneratedAllPc30dClientAttribution",
+                "RevenueGeneratedAllClientAttribution",
+                "RevenueGeneratedAllPc30d",
+                "RevenueGeneratedPv24h",
+                "RevenueGeneratedAllPv24h",
+                "RevenueGeneratedPc30Pv24",
+                "RevenueGeneratedAllPc30Pv24",
+                "RevenueGeneratedPc30dPv24h",
+                "RevenueGeneratedAllPc30dPv24h",
+                "RevenueGeneratedPc7dPv24h",
+                "RevenueGeneratedAllPc7dPv24h",
+                "RevenueGeneratedPc7dPv24",
+                "RevenueGeneratedAllPc7dPv24",
+                "RevenueGeneratedLc",
+                "RevenueGeneratedAllLc",
+                "RevenueGeneratedPc7d",
+                "RevenueGeneratedAllPc7d",
+                "RevenueGeneratedPc1d",
+                "RevenueGeneratedAllPc1d",
+                "RevenueGeneratedOfflinePc",
+                "RevenueGeneratedOfflinePv",
+                "RevenueGeneratedOfflinePc30d",
+                "RevenueGeneratedOfflinePv24h",
+                "ConversionRatePc30dClientAttribution",
+                "ConversionRateClientAttribution",
+                "ConversionRatePc30d",
+                "ConversionRateAllPc30dClientAttribution",
+                "ConversionRateAllClientAttribution",
+                "ConversionRateAllPc30d",
+                "ConversionRatePv24h",
+                "ConversionRateAllPv24h",
+                "ConversionRatePc30Pv24",
+                "ConversionRateAllPc30Pv24",
+                "ConversionRatePc30dPv24h",
+                "ConversionRateAllPc30dPv24h",
+                "ConversionRatePc7dPv24",
+                "ConversionRateAllPc7dPv24",
+                "ConversionRatePc7dPv24h",
+                "ConversionRateAllPc7dPv24h",
+                "ConversionRatePc7d",
+                "ConversionRateAllPc7d",
+                "ConversionRatePc1d",
+                "ConversionRateAllPc1d",
+                "ConversionRatePiPcPv",
+                "PostInstallConversionRate",
+                "ECosPc30dClientAttribution",
+                "ECosClientAttribution",
+                "ECosPc30d",
+                "ECosAllPc30dClientAttribution",
+                "ECosAllClientAttribution",
+                "ECosAllPc30d",
+                "ECosPv24h",
+                "ECosAllPv24h",
+                "ECosPc30Pv24",
+                "ECosAllPc30Pv24",
+                "ECosPc30dPv24h",
+                "ECosAllPc30dPv24h",
+                "ECosPc7dPv24h",
+                "ECosAllPc7dPv24h",
+                "ECosPc7dPv24",
+                "ECosAllPc7dPv24",
+                "ECosPc7d",
+                "ECosAllPc7d",
+                "ECosPc1d",
+                "ECosAllPc1d",
+                "CostPerOrderPc30dClientAttribution",
+                "CostPerOrderClientAttribution",
+                "CostPerOrderPc30d",
+                "CostPerOrderAllPc30dClientAttribution",
+                "CostPerOrderAllClientAttribution",
+                "CostPerOrderAllPc30d",
+                "CostPerOrderPv24h",
+                "CostPerOrderAllPv24h",
+                "CostPerOrderPc30Pv24",
+                "CostPerOrderAllPc30Pv24",
+                "CostPerOrderPc30dPv24h",
+                "CostPerOrderAllPc30dPv24h",
+                "CostPerOrderPc7dPv24h",
+                "CostPerOrderAllPc7dPv24h",
+                "CostPerOrderPc7dPv24",
+                "CostPerOrderAllPc7dPv24",
+                "CostPerOrderPc7d",
+                "CostPerOrderAllPc7d",
+                "CostPerOrderPc1d",
+                "CostPerOrderAllPc1d",
+                "ExposedUsers",
+                "Audience",
+                "Reach",
+                "AverageCartPc30dClientAttribution",
+                "AverageCartAllPc30dClientAttribution",
+                "AverageCartClientAttribution",
+                "AverageCartAllClientAttribution",
+                "AverageCartPc30d",
+                "AverageCartAllPc30d",
+                "AverageCartPv24h",
+                "AverageCartAllPv24h",
+                "AverageCartPc1d",
+                "AverageCartAllPc1d",
+                "AverageCartPc7d",
+                "AverageCartAllPc7d",
+                "AverageCartPc30Pv24",
+                "AverageCartAllPc30Pv24",
+                "AverageCartPc30dPv24h",
+                "AverageCartAllPc30dPv24h",
+                "AverageCartPc7dPv24h",
+                "AverageCartAllPc7dPv24h",
+                "AverageCartPc7dPv24",
+                "AverageCartAllPc7dPv24",
+                "ClickThroughRate",
+                "ECpc",
+                "Cpc",
+                "ECpm",
+                "ReturnOnAdvertisingSpendingClientAttribution",
+                "ReturnOnAdvertisingSpendingAllClientAttribution",
+                "AdvertiserValue",
+                "AdvertiserAllValue",
+                "CostOfAdvertiserValue",
+                "CostOfAdvertiserValueAll",
+                "AppInstallsPcPv",
+                "AppInstalls",
+                "QualifiedVisits",
+                "Visits",
+                "VisitsPV1D",
+                "OrderValuePi",
+                "PostInstallOrderValue",
+                "BounceRate",
+                "CostPerInstallPcPv",
+                "CostPerInstall",
+                "CostPerVisit",
+                "CostPerVisitPV1D",
+                "CostPerQualifiedVisit",
+                "InstallRatePcPv",
+                "InstallRate",
+                "OmnichannelRoasPc30d",
+                "OmnichannelRoasAllPc30d",
+                "OmnichannelRevenuePc30d",
+                "OmnichannelRevenueAllPc30d",
+                "OmnichannelSalesPc30d",
+                "OmnichannelSalesAllPc30d",
+                "OmnichannelRoasAllPv24h",
+                "OmnichannelRoasPv24h",
+                "OmnichannelRevenueAllPv24h",
+                "OmnichannelRevenuePv24h",
+                "OmnichannelSalesAllPv24h",
+                "OmnichannelSalesPv24h",
+                "OmnichannelRoasClientAttribution",
+                "OmnichannelRevenueClientAttribution",
+                "OmnichannelSalesClientAttribution",
+                "RoasAllPc30dClientAttribution",
+                "RoasPc30dClientAttribution",
+                "RoasAllClientAttribution",
+                "RoasClientAttribution",
+                "RoasAllPc30d",
+                "RoasPc30d",
+                "RoasAllPc7d",
+                "RoasPc7d",
+                "RoasAllPc1d",
+                "RoasPc1d",
+                "RoasAllPv24h",
+                "RoasPv24h",
+                "RoasPc30Pv24",
+                "RoasAllPc30Pv24",
+                "RoasPc30dPv24h",
+                "RoasAllPc30dPv24h",
+                "RoasPc7dPv24",
+                "RoasAllPc7dPv24",
+                "RoasPc7dPv24h",
+                "RoasAllPc7dPv24h",
+                "CostOfSalePi",
+                "CostPerOrderPi",
+                "PostInstallCostOfSale",
+                "PostInstallCostPerOrder",
+                "ReturnOnAdvertiserSpendingPi",
+                "PostInstallRoas",
+                "ReturnOnAdvertiserSpendingOfflinePc",
+                "ReturnOnAdvertiserSpendingOfflinePv",
+                "RoasOfflinePc30d",
+                "RoasOfflinePv24h",
+                "PotentialDisplays",
+                "OverallCompetitionWin",
+                "ViewableDisplays",
+                "NonViewableDisplays",
+                "UntrackableDisplays",
+                "Frequency",
+                "InvalidDisplays",
+                "InvalidClicks",
+                "ResultType",
+                "VideoStarted",
+                "VideoFirstQuartile",
+                "VideoMidpoint",
+                "VideoThirdQuartile",
+                "VideoCompleted",
+                "VideoAvoc",
+                "VideoStartRate",
+                "VideoCompletionRate",
+                "VideoAverageViewRate",
+                "VideoCpv",
+                "VideoCpcv"
+              ],
               "type": "string"
             },
             "description": "The list of metrics to report."
@@ -11450,7 +9360,6 @@
         "required": [
           "currency",
           "endDate",
-          "format",
           "startDate"
         ],
         "type": "object",
@@ -11475,8 +9384,15 @@
             "nullable": true
           },
           "format": {
+            "enum": [
+              "csv",
+              "excel",
+              "xml",
+              "json"
+            ],
             "type": "string",
-            "description": "The file format of the generated report: csv, xml, excel or json."
+            "description": "The file format of the generated report",
+            "default": "json"
           },
           "startDate": {
             "type": "string",
