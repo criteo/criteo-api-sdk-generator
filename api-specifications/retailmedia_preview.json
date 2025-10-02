@@ -1491,7 +1491,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailerResult"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailerResultAndMetadata"
                 }
               }
             }
@@ -3889,6 +3889,45 @@
         ]
       }
     },
+    "/preview/retail-media/reports/unfilled-placements": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Returns an asynchronous Unfilled Placements Report\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateAsyncUnfilledPlacementsReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncUnfilledPlacementsReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/retailers/{retailer-id}/cpc-rates": {
       "get": {
         "tags": [
@@ -5829,6 +5868,170 @@
         },
         "description": "Async Report response format"
       },
+      "AsyncUnfilledPlacementsReport": {
+        "required": [
+          "dimensions",
+          "endDate",
+          "metrics",
+          "startDate",
+          "supplyAccountIds"
+        ],
+        "type": "object",
+        "properties": {
+          "adServerType": {
+            "enum": [
+              "all",
+              "gam",
+              "criteo"
+            ],
+            "type": "string",
+            "description": "Filter on the type of the ad server: criteo, gam, all",
+            "default": "all"
+          },
+          "campaignType": {
+            "enum": [
+              "all",
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter on the type of the campaign: onsite display, onsite sponsored products, all",
+            "default": "all"
+          },
+          "dimensions": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "retailerId",
+                "retailerName",
+                "placementId",
+                "placementName",
+                "pageTypeName",
+                "servedCategory",
+                "environment",
+                "retailerCategoryId",
+                "retailerCategoryName",
+                "adServerType",
+                "campaignType"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Format of the output",
+            "default": "json"
+          },
+          "metrics": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "totalUnfilledPlacements",
+                "unfilledUserOptOut",
+                "unfilledNotEnoughDemand",
+                "unfilledTotalAuctionSettings",
+                "unfilledTotalAuctionConsiderations",
+                "unfilledAdvertiserAuctionSettings",
+                "unfilledRetailerAuctionSettings",
+                "unfilledCriteoAuctionSettings",
+                "unfilledReturnedButNotPainted",
+                "nonDeliverableUnmappedCategories",
+                "nonDeliverablePagesWithUnknownProducts",
+                "nonDeliverableBlockedOptOut",
+                "nonDeliverableBlockedPageCategory",
+                "nonDeliverableInactivePlacement",
+                "nonDeliverableInsufficientOrganicResults",
+                "nonDeliverableInvalidTraffic",
+                "nonDeliverableTestPlacement",
+                "uncoveredUnusedFormats",
+                "uncoveredSearchTermWithoutCategory",
+                "uncoveredNoDemandBrandedKeywordConquestingEnabled",
+                "uncoveredNoDemandBrandedKeywordConquestingDisabled",
+                "uncoveredNoDemandUnbrandedInventory",
+                "uncoveredNoDemandOptOut",
+                "uncoveredFilteredOutDemand",
+                "uncoveredBrokenPlacement",
+                "uncoveredNotPainted",
+                "availablePlacements",
+                "fillRate",
+                "placementImpressions",
+                "productImpressions",
+                "placementClicks",
+                "productClicks",
+                "clicks",
+                "placementImpressionsCTR",
+                "productImpressionsCTR",
+                "cpm",
+                "cpc",
+                "placementImpressionsRevenue",
+                "productClicksRevenue",
+                "revenue",
+                "nonDeliverablePlacements",
+                "deliverablePlacements",
+                "placementsWithCandidates",
+                "coveredPlacements",
+                "coverageRate"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "supplyAccountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Supply account ids to report on"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC"
+          }
+        },
+        "description": "Async Unfilled Placements report body request"
+      },
+      "AsyncUnfilledPlacementsReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncUnfilledPlacementsReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "AsyncUnfilledPlacementsReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncUnfilledPlacementsReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
       "AudienceError": {
         "required": [
           "code",
@@ -7184,7 +7387,7 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
-      "EntityResourceCollectionOutcomeOfRetailerResult": {
+      "EntityResourceCollectionOutcomeOfRetailerResultAndMetadata": {
         "type": "object",
         "properties": {
           "data": {
@@ -7203,6 +7406,9 @@
             "nullable": true,
             "readOnly": true
           },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
           "warnings": {
             "type": "array",
             "items": {
@@ -7214,7 +7420,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "EntityResourceCollectionOutcomeOfRetailMediaChildAccountAndMetadata": {
         "type": "object",
@@ -8446,7 +8652,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "The page type-environment type combination object."
+        "description": "Represents a combination of page type and page environment type for a specific campaign-buy type."
       },
       "PageTypeEnvironment2": {
         "type": "object",
@@ -10562,9 +10768,6 @@
         "description": "Outcome object containing errors and warnings."
       },
       "RetailerResult": {
-        "required": [
-          "id"
-        ],
         "type": "object",
         "properties": {
           "campaignAvailabilities": {
@@ -10574,10 +10777,6 @@
             },
             "description": "A list of campaign availabilities for the retailer, each of which shows the availability of a specific campaign type and buy type combination",
             "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "description": "ID of the retailer"
           },
           "name": {
             "type": "string",
@@ -12157,7 +12356,8 @@
               "Email",
               "UserIdentifier",
               "IdentityLink",
-              "CustomerId"
+              "CustomerId",
+              "PhoneNumber"
             ],
             "type": "string",
             "description": "Indicates contact list type"
@@ -12252,7 +12452,8 @@
               "Email",
               "UserIdentifier",
               "IdentityLink",
-              "CustomerId"
+              "CustomerId",
+              "PhoneNumber"
             ],
             "type": "string",
             "description": "Indicates contact list identifier's type",
@@ -13092,6 +13293,14 @@
             "type": "string",
             "description": "The name of the line item."
           },
+          "optimizationStrategy": {
+            "enum": [
+              "manual",
+              "automated"
+            ],
+            "type": "string",
+            "nullable": true
+          },
           "startDate": {
             "type": "string",
             "description": "The date and time when the line item starts running.",
@@ -13121,6 +13330,7 @@
           },
           "targetRetailerId": {
             "type": "string",
+            "description": "The ID of the retailer targeted by this line item.",
             "format": "long-id"
           },
           "updatedAt": {
@@ -13206,6 +13416,14 @@
             "type": "string",
             "description": "The name of the line item."
           },
+          "optimizationStrategyEnum": {
+            "enum": [
+              "manual",
+              "automated"
+            ],
+            "type": "string",
+            "default": "manual"
+          },
           "startDate": {
             "type": "string",
             "description": "The date and time when the line item should start running.",
@@ -13231,8 +13449,7 @@
           "isAutoDailyPacing",
           "name",
           "startDate",
-          "status",
-          "targetBid"
+          "status"
         ],
         "type": "object",
         "properties": {
@@ -13244,20 +13461,24 @@
               "revenue"
             ],
             "type": "string",
+            "description": "The bidding strategy for the line item.",
             "default": "conversion"
           },
           "budget": {
             "type": "number",
+            "description": "The total budget allocated for this line item.",
             "format": "double",
             "nullable": true
           },
           "dailyPacing": {
             "type": "number",
+            "description": "The daily pacing amount for the line item.",
             "format": "double",
             "nullable": true
           },
           "endDate": {
             "type": "string",
+            "description": "The date and time when the line item stops running.",
             "format": "date-time",
             "nullable": true
           },
@@ -13265,25 +13486,39 @@
             "$ref": "#/components/schemas/FlightSchedule"
           },
           "isAutoDailyPacing": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "True if daily pacing is automatic, false if manual."
           },
           "maxBid": {
             "type": "number",
+            "description": "The maximum bid amount for the line item.",
             "format": "double",
             "nullable": true
           },
           "monthlyPacing": {
             "type": "number",
+            "description": "The monthly pacing amount for the line item.",
             "format": "double",
             "nullable": true
           },
           "name": {
             "maxLength": 255,
             "minLength": 0,
-            "type": "string"
+            "type": "string",
+            "description": "The name of this line item."
+          },
+          "optimizationStrategy": {
+            "enum": [
+              "manual",
+              "automated"
+            ],
+            "type": "string",
+            "description": "The optimization strategy for the line item.",
+            "default": "manual"
           },
           "startDate": {
             "type": "string",
+            "description": "The date and time when the line item starts running.",
             "format": "date-time"
           },
           "status": {
@@ -13293,11 +13528,13 @@
               "draft"
             ],
             "type": "string",
-            "description": "Status of a line item."
+            "description": "The current status of the line item."
           },
           "targetBid": {
             "type": "number",
-            "format": "double"
+            "description": "The target bid amount for the line item.",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -14199,7 +14436,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputOfSponsoredProductsLineItemUpdateRequestModel": {
         "type": "object",
@@ -14209,7 +14446,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputPartnerBillingReportRequestV1": {
         "type": "object",
