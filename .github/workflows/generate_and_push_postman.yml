@@ -47,11 +47,11 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Postman Artefact publishing success <https://www.postman.com/realcriteo|Link to the collections>. If the environment is not prod please check the private collection."
+            text: "Postman Artefact publishing success, see the <https://www.postman.com/realcriteo|collections>."
             icon_emoji: ":green_check:"
             
       - name: Send failure notification
-        if: ${{ failure() }}
+        # if: ${{ failure() }}
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -60,5 +60,5 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Postman Artefact publishing failure."
+            text: "Postman Artefact publishing failure, see the "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|workflow run>" "
             icon_emoji: ":x:"
