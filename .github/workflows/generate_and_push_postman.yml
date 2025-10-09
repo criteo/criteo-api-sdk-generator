@@ -37,26 +37,13 @@ jobs:
           IS_PROD: 1
         shell: bash
 
-      - name: Send success notification
+      - name: Send success/failure notification
         if: ${{ !env.ACT }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: criteo-api-sdk-generator
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: Postman Artefact publishing success <https://www.postman.com/realcriteo|Link to the collections>. If the environment is not prod please check the private collection.
-          SLACK_USERNAME: sdk-generation-bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_FOOTER: ''
-          SLACK_ICON_EMOJI: green_check_mark
-
-      - name: Send failure notification
-        if: ${{ failure() }} && ${{ !env.ACT }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: criteo-api-sdk-generator
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: Postman Artefact publishing failure. 
-          SLACK_USERNAME: sdk-generation-bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_FOOTER: ''
-          SLACK_ICON_EMOJI: x
+        uses: craftech-io/slack-action@v1
+        with:
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          channel_name: criteo-api-sdk-generator
+          slack_channel: criteo-api-sdk-generator
+          slack_username: sdk-generation-bot
+          #Postman Artefact publishing success <https://www.postman.com/realcriteo|Link to the collections>. If the environment is not prod please check the private collection.
+          status: ${{ job.status }}
