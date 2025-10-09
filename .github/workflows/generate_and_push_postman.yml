@@ -39,11 +39,12 @@ jobs:
 
       - name: Send success/failure notification
         if: ${{ !env.ACT }}
-        uses: craftech-io/slack-action@v1
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-          channel_name: criteo-api-sdk-generator
-          slack_channel: criteo-api-sdk-generator
-          slack_username: sdk-generation-bot
-          #Postman Artefact publishing success <https://www.postman.com/realcriteo|Link to the collections>. If the environment is not prod please check the private collection.
-          status: ${{ job.status }}
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            status: "${{ job.status }}"
+            option: "false"
+            channel: "C02J0CWR789"
+            username: "sdk-generation-bot"
+            text: "Postman Artefact publishing success <https://www.postman.com/realcriteo|Link to the collections>. If the environment is not prod please check the private collection."
