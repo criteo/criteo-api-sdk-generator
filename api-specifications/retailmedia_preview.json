@@ -17,7 +17,7 @@
           "Accounts"
         ],
         "description": "Gets page of private market child accounts that are associated with the given account",
-        "operationId": "ExternalApiAccounts_GetApiExternalV1AccountPrivateMarketChildAccountsByAccountId",
+        "operationId": "GetPrivateMarketChildAccountsByAccountId",
         "parameters": [
           {
             "name": "accountId",
@@ -1104,7 +1104,7 @@
           "Campaign"
         ],
         "description": "Create a creative for an account",
-        "operationId": "PostApiV2ExternalAccountCreativesByAccountId",
+        "operationId": "CreateCreative",
         "parameters": [
           {
             "name": "account-id",
@@ -1155,7 +1155,7 @@
           "Campaign"
         ],
         "description": "Get the specified creative",
-        "operationId": "GetApiV2ExternalAccountByAccountId}Creatives{creativeId",
+        "operationId": "GetCreative",
         "parameters": [
           {
             "name": "account-id",
@@ -1203,7 +1203,7 @@
           "Campaign"
         ],
         "description": "Update a creative",
-        "operationId": "PutApiV2ExternalAccountByAccountId}Creatives{creativeId",
+        "operationId": "UpdateCreative",
         "parameters": [
           {
             "name": "account-id",
@@ -1267,7 +1267,7 @@
           "Campaign"
         ],
         "description": "Get account creatives",
-        "operationId": "PostApiV2ExternalAccountCreativesSearchByAccountId",
+        "operationId": "SearchAccountCreatives",
         "parameters": [
           {
             "name": "account-id",
@@ -1562,6 +1562,7 @@
           "Accounts"
         ],
         "description": "Get fees for provided accounts",
+        "operationId": "AccountFeesSearch",
         "parameters": [
           {
             "name": "limit",
@@ -1626,6 +1627,7 @@
           "Accounts"
         ],
         "description": "Set fees for provided accounts",
+        "operationId": "UpdateAccountFees",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1636,15 +1638,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeAccountFeesUpdateResult"
-                }
-              }
-            }
+          "204": {
+            "description": "Success"
           }
         },
         "security": [
@@ -1949,6 +1944,7 @@
           "Billing"
         ],
         "description": "Create a Partner Billing Report request.",
+        "operationId": "CreatePartnerBillingReportRequestV1",
         "requestBody": {
           "description": "Partner Billing Report request object.",
           "content": {
@@ -1986,6 +1982,7 @@
           "Billing"
         ],
         "description": "Get the output of an existing Partner Billing Report.",
+        "operationId": "GetPartnerBillingReportOutputV1",
         "parameters": [
           {
             "name": "requestId",
@@ -2032,6 +2029,7 @@
           "Billing"
         ],
         "description": "Get the status of an existing Partner Billing Report.",
+        "operationId": "GetPartnerBillingReportStatusV1",
         "parameters": [
           {
             "name": "requestId",
@@ -4510,30 +4508,6 @@
         },
         "additionalProperties": false,
         "description": "request body to set provided fees for the provided accounts"
-      },
-      "AccountFeesUpdateResult": {
-        "type": "object",
-        "properties": {
-          "failedUpdateAccountIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "account Id that were not updated in the request",
-            "nullable": true
-          },
-          "successfullyUpdatedAccountIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "account Ids that were successfully updated in the request",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "results of the update request, includes any accounts that were not updated successfully",
-        "nullable": true
       },
       "AddRemoveKeywordModel": {
         "type": "object",
@@ -7213,7 +7187,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "settings for DSP fees"
+        "description": "settings for DSP fees",
+        "nullable": true
       },
       "EntityResourceBrandIdSearchResult": {
         "type": "object",
@@ -7854,7 +7829,6 @@
         "type": "object",
         "properties": {
           "assetIds": {
-            "minItems": 1,
             "type": "array",
             "items": {
               "type": "string"
@@ -8340,7 +8314,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "settings for managed service fees"
+        "description": "settings for managed service fees",
+        "nullable": true
       },
       "MatchTypeModel": {
         "enum": [
@@ -9222,10 +9197,6 @@
         "nullable": true
       },
       "PrivateMarketFees": {
-        "required": [
-          "demandManaged",
-          "managedService"
-        ],
         "type": "object",
         "properties": {
           "demandManaged": {
@@ -14255,22 +14226,6 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "ValueResourceAccountFeesUpdateResult": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AccountFeesUpdateResult"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
       "ValueResourceAsyncJobResponse": {
         "type": "object",
         "properties": {
@@ -14358,7 +14313,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputAccountFeesUpdateRequest": {
         "type": "object",
@@ -14368,7 +14323,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputBrandIdSearchRequest": {
         "type": "object",
@@ -14456,7 +14411,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputRecommendedCategoriesRequestV1": {
         "type": "object",
@@ -14594,34 +14549,6 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
-      },
-      "ValueResourceOutcomeAccountFeesUpdateResult": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceAccountFeesUpdateResult"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
       "ValueResourceOutcomeAsyncJobResponse": {
         "type": "object",
