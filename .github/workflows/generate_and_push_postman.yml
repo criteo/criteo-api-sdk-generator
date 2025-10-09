@@ -37,14 +37,28 @@ jobs:
           IS_PROD: 1
         shell: bash
 
-      - name: Send success/failure notification
-        if: ${{ !env.ACT }}
+      - name: Send success notification
+        if: ${{ !failure() }} && ${{ !env.ACT }}
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
           payload: |
             status: "${{ job.status }}"
-            option: "false"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
             text: "Postman Artefact publishing success <https://www.postman.com/realcriteo|Link to the collections>. If the environment is not prod please check the private collection."
+            icon_emoji: ":green_check:"
+            
+      - name: Send failure notification
+        if: ${{ failure() }} && ${{ !env.ACT }}
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            status: "${{ job.status }}"
+            channel: "C02J0CWR789"
+            username: "sdk-generation-bot"
+            text: "Postman Artefact publishing failure."
+            icon_emoji: ":x:"
