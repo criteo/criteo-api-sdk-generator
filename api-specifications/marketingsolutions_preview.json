@@ -3159,12 +3159,27 @@
           }
         ]
       },
+      "parameters": [
+        {
+          "name": "audience-segment-id",
+          "in": "path",
+          "description": "The id of the contact list audience-segment to amend",
+          "required": true,
+          "style": "simple",
+          "schema": {
+            "type": "string",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "/preview/marketing-solutions/audience-segments/{audience-segment-id}/contact-list/statistics": {
       "get": {
         "tags": [
           "Audience"
         ],
         "description": "Returns the statistics of a contact list segment.",
-        "operationId": "getAudienceSegmentContactListStatistics",
+        "operationId": "GetAudienceSegmentContactListStatistics",
         "parameters": [
           {
             "name": "audience-segment-id",
@@ -3197,20 +3212,7 @@
             ]
           }
         ]
-      },
-      "parameters": [
-        {
-          "name": "audience-segment-id",
-          "in": "path",
-          "description": "The id of the contact list audience-segment to amend",
-          "required": true,
-          "style": "simple",
-          "schema": {
-            "type": "string",
-            "format": "int32"
-          }
-        }
-      ]
+      }
     },
     "/preview/marketing-solutions/audience-segments/compute-sizes": {
       "post": {
@@ -7880,37 +7882,45 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "A machine-readable error code, expressed as a string value."
+            "description": "A machine-readable error code, expressed as a string value.",
+            "nullable": true
           },
           "detail": {
             "type": "string",
-            "description": "A human-readable explanation specific to this occurrence of the problem"
+            "description": "A human-readable explanation specific to this occurrence of the problem",
+            "nullable": true
           },
           "instance": {
             "type": "string",
-            "description": "A URI that identifies the specific occurrence of the problem."
+            "description": "A URI that identifies the specific occurrence of the problem.",
+            "nullable": true
           },
           "source": {
             "type": "object",
             "additionalProperties": {
               "type": "string"
             },
-            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)"
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "nullable": true
           },
           "stackTrace": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "title": {
             "type": "string",
-            "description": "A short human-readable description of the problem type"
+            "description": "A short human-readable description of the problem type",
+            "nullable": true
           },
           "traceId": {
             "type": "string",
-            "description": "The request correlation ID this problem comes from."
+            "description": "The request correlation ID this problem comes from.",
+            "nullable": true
           },
           "traceIdentifier": {
             "type": "string",
-            "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)"
+            "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
+            "nullable": true
           },
           "type": {
             "enum": [
@@ -7924,7 +7934,8 @@
               "validation"
             ],
             "type": "string",
-            "description": "The problem's category."
+            "description": "The problem's category.",
+            "nullable": true
           }
         },
         "description": "Common problem object."

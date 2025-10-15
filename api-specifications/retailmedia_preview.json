@@ -1380,6 +1380,57 @@
         ]
       }
     },
+    "/preview/retail-media/accounts/{account-id}/line-items/cap-out-history": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Get the cap out history for line items",
+        "operationId": "GetCapoutHistory",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "account id that own the lineitem",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "lineitem budgetcapout history  object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputLineItemBudgetCapOutHistoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeLineItemBudgetCapOutHistoryResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/accounts/{accountId}/brand-catalog-export": {
       "post": {
         "tags": [
@@ -2276,9 +2327,22 @@
             }
           },
           {
-            "name": "limitToId",
+            "name": "limit",
             "in": "query",
-            "description": "The ids that you would like to limit your result set to",
+            "description": "The number of elements to be returned on a page.",
+            "style": "form",
+            "schema": {
+              "maximum": 500,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "limitToIds",
+            "in": "query",
+            "description": "The ids to limit the auction line item results to",
             "style": "form",
             "schema": {
               "type": "array",
@@ -2288,9 +2352,9 @@
             }
           },
           {
-            "name": "pageIndex",
+            "name": "offset",
             "in": "query",
-            "description": "The 0 indexed page index you would like to receive given the page size",
+            "description": "The (zero-based) starting offset into the collection.",
             "style": "form",
             "schema": {
               "maximum": 2147483647,
@@ -2298,19 +2362,6 @@
               "type": "integer",
               "format": "int32",
               "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of items you would like to receive in this request",
-            "style": "form",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 25
             }
           }
         ],
@@ -6526,7 +6577,7 @@
             "enum": [
               "unknown",
               "auction",
-              "preferreddeals",
+              "preferredDeals",
               "sponsorship",
               "offsite"
             ],
@@ -6537,8 +6588,8 @@
           "campaignType": {
             "enum": [
               "unknown",
-              "sponsoredproducts",
-              "onsitedisplay",
+              "sponsoredProducts",
+              "onsiteDisplay",
               "offsite"
             ],
             "type": "string",
@@ -8102,6 +8153,107 @@
         "additionalProperties": false,
         "description": "Response object containing keywords associated with a line item."
       },
+      "LineItemBudgetCapOutHistory": {
+        "type": "object",
+        "properties": {
+          "capoutTimes": {
+            "type": "object",
+            "properties": {
+              "daily": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "nullable": true
+              },
+              "hourly": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "nullable": true
+              },
+              "monthly": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "nullable": true
+              },
+              "total": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "nullable": true
+              }
+            },
+            "additionalProperties": false,
+            "description": "The dictionary of budget type to the list of cap out times up to 3 most recent cap out times",
+            "nullable": true
+          },
+          "lineItemId": {
+            "type": "string",
+            "description": "Line Item Id",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The cap out history for a line item"
+      },
+      "LineItemBudgetCapOutHistoryRequest": {
+        "required": [
+          "budgetTypes",
+          "lineItemIds"
+        ],
+        "type": "object",
+        "properties": {
+          "budgetTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "total",
+                "daily",
+                "monthly",
+                "hourly"
+              ],
+              "type": "string",
+              "description": "The budget type enum"
+            },
+            "description": "Budget Types to return cap out history"
+          },
+          "lineItemIds": {
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line Item Ids to return cap out history"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The request body for cap out history of line item"
+      },
+      "LineItemBudgetCapOutHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "lineItemBudgetCapOutHistories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemBudgetCapOutHistory"
+            },
+            "description": "The list of line item budget cap out histories",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The response body for cap out history of line item",
+        "nullable": true
+      },
       "LineItemCappingV2": {
         "required": [
           "type",
@@ -8613,13 +8765,13 @@
               "home",
               "checkout",
               "category",
-              "productdetail",
+              "productDetail",
               "confirmation",
               "merchandising",
               "deals",
               "favorites",
               "searchbar",
-              "categorymenu"
+              "categoryMenu"
             ],
             "type": "string",
             "description": "The page types which are supported for this campaign-buy type combination",
@@ -13178,10 +13330,10 @@
         "properties": {
           "bidStrategy": {
             "enum": [
-              "unknown",
               "conversion",
               "clicks",
-              "revenue"
+              "revenue",
+              "unknown"
             ],
             "type": "string",
             "description": "Optional field.",
@@ -13267,9 +13419,11 @@
           "optimizationStrategy": {
             "enum": [
               "manual",
-              "automated"
+              "automated",
+              "unknown"
             ],
             "type": "string",
+            "description": "Optimization strategy for the line item.",
             "nullable": true
           },
           "startDate": {
@@ -13324,7 +13478,6 @@
         "properties": {
           "bidStrategy": {
             "enum": [
-              "unknown",
               "conversion",
               "clicks",
               "revenue"
@@ -13347,7 +13500,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date and time when the line item should stop running.",
+            "description": "The date and time when the line item stops running.",
             "format": "date-time",
             "nullable": true
           },
@@ -13387,7 +13540,7 @@
             "type": "string",
             "description": "The name of the line item."
           },
-          "optimizationStrategyEnum": {
+          "optimizationStrategy": {
             "enum": [
               "manual",
               "automated"
@@ -13397,7 +13550,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date and time when the line item should start running.",
+            "description": "The date and time when the line item starts running.",
             "format": "date-time"
           },
           "targetBid": {
@@ -13426,7 +13579,6 @@
         "properties": {
           "bidStrategy": {
             "enum": [
-              "unknown",
               "conversion",
               "clicks",
               "revenue"
@@ -14343,6 +14495,16 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceInputLineItemBudgetCapOutHistoryRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceLineItemBudgetCapOutHistoryRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputLoadSkuOffersRequest": {
         "type": "object",
         "properties": {
@@ -14462,6 +14624,37 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceLineItemBudgetCapOutHistoryRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemBudgetCapOutHistoryRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceLineItemBudgetCapOutHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemBudgetCapOutHistoryResponse"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
       "ValueResourceLoadSkuOffersRequest": {
         "type": "object",
         "properties": {
@@ -14555,6 +14748,34 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceAsyncJobResponse"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
+      "ValueResourceOutcomeLineItemBudgetCapOutHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceLineItemBudgetCapOutHistoryResponse"
           },
           "errors": {
             "type": "array",
