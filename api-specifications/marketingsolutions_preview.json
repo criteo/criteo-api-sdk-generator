@@ -4179,6 +4179,54 @@
             ]
           }
         ]
+      },
+      "patch": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Patch an existing product set",
+        "operationId": "PatchProductSet",
+        "parameters": [
+          {
+            "name": "product-set-id",
+            "in": "path",
+            "description": "ID of the product set",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfPatchProductSetRequest"
+              }
+            }
+          },
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Product set modified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceOutcomeOfProductSet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Reco_Manage"
+            ]
+          }
+        ]
       }
     },
     "/preview/product-sets/{product-set-id}/product-filters": {
@@ -12292,6 +12340,35 @@
         },
         "description": "patch marketing campaign budget automation model"
       },
+      "PatchProductSetRequest": {
+        "type": "object",
+        "properties": {
+          "isDraft": {
+            "type": "boolean",
+            "description": "[optional] New value of product set segment status (draft or active)",
+            "nullable": true
+          },
+          "minimumNumberOfProducts": {
+            "type": "integer",
+            "description": "[optional] New minimum number of products of the product set to be patched. This is used to determine if the rules are valid!",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "[optional]  New name that will be associated to the product set"
+          },
+          "rules": {
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductSetRule"
+            },
+            "description": "[optional] New rules that will be associated to the product set"
+          }
+        },
+        "description": "Entity to update a product set"
+      },
       "PatchResultCampaignListResponse": {
         "type": "object",
         "properties": {
@@ -15654,6 +15731,15 @@
           }
         }
       },
+      "ValueResourceInputOfPatchProductSetRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfPatchProductSetRequest"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
       "ValueResourceOfCreateProductFilterRequest": {
         "type": "object",
         "properties": {
@@ -15678,6 +15764,18 @@
           }
         },
         "description": "A class that represents a ValueType in a guild compliant way"
+      },
+      "ValueResourceOfPatchProductSetRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/PatchProductSetRequest"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "ValueResourceOfProductFilterConfig": {
         "type": "object",
