@@ -16,7 +16,7 @@
         "tags": [
           "Accounts"
         ],
-        "description": "Gets page of private market child accounts that are associated with the given account",
+        "description": "Gets Private Market child accounts that are associated with the given account",
         "operationId": "GetPrivateMarketChildAccountsByAccountId",
         "parameters": [
           {
@@ -4216,6 +4216,57 @@
         ]
       }
     },
+    "/preview/retail-media/retailers/{retailerId}/compute-display-min-bid": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "computes the min bid for relevant page types based on the provided information",
+        "operationId": "ComputeDisplayMinBidByRetailerId",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "description": "the retailer id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the details for what cratives and product ids to use to compute the min bids",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputDisplayAuctionMinBidRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeDisplayAuctionMinBidResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/retailers/{retailerId}/offers/load": {
       "post": {
         "tags": [
@@ -4514,6 +4565,251 @@
           {
             "oauth": [
               "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/third-party-accounts/{accountId}/brands/{brandId}/remove": {
+      "post": {
+        "tags": [
+          "ThirdPartyAccounts"
+        ],
+        "description": "Attempt to remove the provided brand from the account.",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "account id to remove brand from",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "brand to remove",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfRetailMediaBrands"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_ThirdPartyAccounts_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/third-party-accounts/{accountId}/brands/add": {
+      "post": {
+        "tags": [
+          "ThirdPartyAccounts"
+        ],
+        "description": "add the provided brands to an account. This will not remove any existing brands.",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "account to add brands to",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "list of bands to add to an account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrands"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfRetailMediaBrands"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_ThirdPartyAccounts_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/third-party-accounts/{accountId}/create-brand-account": {
+      "post": {
+        "tags": [
+          "ThirdPartyAccounts"
+        ],
+        "description": "Create a private market demand brand account under a given parent account.",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "parent supply account to create account under",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaBrandAccountCreationV2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfRetailMediaAccountV2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_ThirdPartyAccounts_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/third-party-accounts/{accountId}/create-seller-account": {
+      "post": {
+        "tags": [
+          "ThirdPartyAccounts"
+        ],
+        "description": "Create a private market demand seller account under a given parent account.",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "parent supply account to create account under",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfRetailMediaSellerAccountCreationV2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfRetailMediaAccountV2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_ThirdPartyAccounts_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/third-party-accounts/{accountId}/sellers": {
+      "put": {
+        "tags": [
+          "ThirdPartyAccounts"
+        ],
+        "description": "Update the list of sellers mapped to the account. This will override any existing mappings.",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "accountId to update sellers for",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceCollectionInputOfRetailMediaSeller"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfRetailMediaSeller"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_ThirdPartyAccounts_Manage"
             ]
           }
         ]
@@ -7241,6 +7537,68 @@
         "description": "settings for DSP fees",
         "nullable": true
       },
+      "DisplayAuctionMinBidRequest": {
+        "type": "object",
+        "properties": {
+          "creativeIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of Creatives to use"
+          },
+          "productIds": {
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of potential product ids (SkuIds) to put in creatives"
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents the list of creatives and respective product IDs to compute min bid for."
+      },
+      "DisplayAuctionMinBidResult": {
+        "type": "object",
+        "properties": {
+          "creativeId": {
+            "type": "string",
+            "description": "The creativeId for the creative",
+            "nullable": true
+          },
+          "minBid": {
+            "type": "number",
+            "description": "The minimum bid for the combination of page type, creative and categories",
+            "format": "double",
+            "nullable": true
+          },
+          "pageType": {
+            "enum": [
+              "unknown",
+              "search",
+              "home",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchBar",
+              "categoryMenu"
+            ],
+            "type": "string",
+            "description": "Page type for the creative to display on",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents the min bid for a pagtype type and creative combination.",
+        "nullable": true
+      },
       "EntityResourceBrandIdSearchResult": {
         "type": "object",
         "properties": {
@@ -7578,6 +7936,27 @@
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id."
       },
+      "EntityResourceOfRetailMediaAccountV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalRetailMediaAccountV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
       "EntityResourceOfRetailMediaChildAccount": {
         "type": "object",
         "properties": {
@@ -7646,6 +8025,34 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity.",
         "nullable": true
+      },
+      "EntityResourceOutcomeOfRetailMediaAccountV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfRetailMediaAccountV2"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
       "EntityResourceOutcomeOfSponsoredProductsLineItem": {
         "type": "object",
@@ -7812,6 +8219,121 @@
         "description": "Metadata for an async report request: descriptions of the columns and number of rows returned",
         "nullable": true
       },
+      "ExternalRetailMediaAccountV2": {
+        "type": "object",
+        "properties": {
+          "countryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "list of countries associated with the account",
+            "nullable": true
+          },
+          "currencyId": {
+            "type": "string",
+            "description": "the currency for the account",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "account name",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "On behalf entity name of ads for the Digital Services Act",
+            "nullable": true
+          },
+          "parentAccountLabel": {
+            "type": "string",
+            "description": "parent account label for the account",
+            "nullable": true
+          },
+          "payingCompanyName": {
+            "type": "string",
+            "description": "Paying entity name of ads for the Digital Services Act",
+            "nullable": true
+          },
+          "subType": {
+            "enum": [
+              "unknown",
+              "brand",
+              "seller"
+            ],
+            "type": "string",
+            "description": "subtype for the account",
+            "nullable": true
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "the timezone for the account",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "supply",
+              "demand"
+            ],
+            "type": "string",
+            "description": "Type for the account",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The details for a newly created account",
+        "nullable": true
+      },
+      "ExternalRetailMediaBrandAccountCreationV2": {
+        "type": "object",
+        "properties": {
+          "brands": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "list of brands to link to the new account",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "the name of the account, must be unique across all accounts",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "On behalf entity name of ads for the Digital Services Act",
+            "nullable": true
+          },
+          "payingCompanyName": {
+            "type": "string",
+            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "the initial set up and configuration options for a new private market demand brand account"
+      },
+      "ExternalRetailMediaBrands": {
+        "required": [
+          "brandIds"
+        ],
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of brand ids",
+        "nullable": true
+      },
       "ExternalRetailMediaChildAccount": {
         "type": "object",
         "properties": {
@@ -7872,6 +8394,59 @@
         "additionalProperties": false,
         "description": "The details for a newly created account",
         "nullable": true
+      },
+      "ExternalRetailMediaSeller": {
+        "required": [
+          "retailerId",
+          "sellerId"
+        ],
+        "type": "object",
+        "properties": {
+          "retailerId": {
+            "type": "integer",
+            "description": "the retailer id",
+            "format": "int32"
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "the seller id"
+          }
+        },
+        "additionalProperties": false,
+        "description": "used to define the exact seller linked with an account",
+        "nullable": true
+      },
+      "ExternalRetailMediaSellerAccountCreationV2": {
+        "required": [
+          "sellers"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "the name of the account, must be unique across all accounts",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "On behalf entity name of ads for the Digital Services Act",
+            "nullable": true
+          },
+          "payingCompanyName": {
+            "type": "string",
+            "description": "Display name for reporting the owning entity of ads for the Digital Services Act in the European Union",
+            "nullable": true
+          },
+          "sellers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalRetailMediaSeller"
+            },
+            "description": "list of sellers to associate to the new account"
+          }
+        },
+        "additionalProperties": false,
+        "description": "the initial set up and configuration options for a new private market demand brand account"
       },
       "FilesVariableValue": {
         "required": [
@@ -14422,6 +14997,84 @@
         },
         "description": "A value resource exposed by the API."
       },
+      "ValueResourceCollectionInputOfRetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfRetailMediaSeller"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for several value objects."
+      },
+      "ValueResourceCollectionOutcomeDisplayAuctionMinBidResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceDisplayAuctionMinBidResult"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
+      },
+      "ValueResourceCollectionOutcomeOfRetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfRetailMediaSeller"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
+      },
       "ValueResourceCollectionOutcomePrivateMarketAccountFeesAndMetadata": {
         "type": "object",
         "properties": {
@@ -14456,6 +15109,36 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata."
+      },
+      "ValueResourceDisplayAuctionMinBidRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DisplayAuctionMinBidRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceDisplayAuctionMinBidResult": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DisplayAuctionMinBidResult"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "ValueResourceInputAccountFeesSearchRequest": {
         "type": "object",
@@ -14495,6 +15178,16 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceInputDisplayAuctionMinBidRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceDisplayAuctionMinBidRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputLineItemBudgetCapOutHistoryRequest": {
         "type": "object",
         "properties": {
@@ -14530,6 +15223,36 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceOfRetailerSearchRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfRetailMediaBrandAccountCreationV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrandAccountCreationV2"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfRetailMediaBrands": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrands"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfRetailMediaSellerAccountCreationV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfRetailMediaSellerAccountCreationV2"
           }
         },
         "additionalProperties": false,
@@ -14699,6 +15422,67 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "ValueResourceOfRetailMediaBrandAccountCreationV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalRetailMediaBrandAccountCreationV2"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfRetailMediaBrands": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalRetailMediaBrands"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "ValueResourceOfRetailMediaSeller": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalRetailMediaSeller"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfRetailMediaSellerAccountCreationV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExternalRetailMediaSellerAccountCreationV2"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "ValueResourceOfSellerCatalogRequestV2": {
         "type": "object",
         "properties": {
@@ -14776,6 +15560,34 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceLineItemBudgetCapOutHistoryResponse"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
+      "ValueResourceOutcomeOfRetailMediaBrands": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfRetailMediaBrands"
           },
           "errors": {
             "type": "array",
@@ -15075,6 +15887,9 @@
     },
     {
       "name": "OnSiteRecommendation"
+    },
+    {
+      "name": "ThirdPartyAccounts"
     }
   ],
   "x-samples-languages": [
