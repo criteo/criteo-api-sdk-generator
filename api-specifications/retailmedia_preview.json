@@ -1313,73 +1313,6 @@
         ]
       }
     },
-    "/preview/retail-media/accounts/{account-id}/keywords/in-review-report": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Generate a list of reports for line items which contain one or more actionable keyword reviews",
-        "operationId": "InReviewReportV1",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account to generate a report for",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of items per page",
-            "style": "form",
-            "schema": {
-              "maximum": 50,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 25
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Offset for pagination",
-            "style": "form",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeLineItemKeywordReviewReportAndMetadata"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/accounts/{account-id}/line-items/cap-out-history": {
       "post": {
         "tags": [
@@ -1426,56 +1359,6 @@
           {
             "oauth": [
               "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/accounts/{accountId}/brand-catalog-export": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Create a request for a Catalog available to the indicated account.",
-        "operationId": "Catalog_PostApiExternalV2AccountBrandCatalogExportByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "The account to request the catalog for.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfBrandCatalogRequestV2"
-              }
-            }
-          },
-          "x-bodyName": "body"
-        },
-        "responses": {
-          "200": {
-            "description": "Catalog request successfully created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceOutcomeOfCatalogStatusV2"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Manage"
             ]
           }
         ]
@@ -1552,56 +1435,6 @@
           {
             "oauth": [
               "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/accounts/{accountId}/seller-catalog-export": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Create a request for a Catalog available to the indicated account.",
-        "operationId": "Catalog_PostApiExternalV2AccountSellerCatalogExportByAccountId",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "description": "The account to request the catalog for.",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfSellerCatalogRequestV2"
-              }
-            }
-          },
-          "x-bodyName": "body"
-        },
-        "responses": {
-          "200": {
-            "description": "Catalog request successfully created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceOutcomeOfCatalogStatusV2"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Manage"
             ]
           }
         ]
@@ -2736,196 +2569,6 @@
           {
             "oauth": [
               "RetailMedia_OnSiteRecommendation_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/line-items/{id}/keywords": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Fetch keywords associated with the specified line item",
-        "operationId": "FetchKeywords",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the line item",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/KeywordsModelResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/line-items/{id}/keywords/add-remove": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Add or Remove keywords from the line item in bulk",
-        "operationId": "AddRemoveKeywords",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the line item",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddRemoveKeywordsModelRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcome"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/line-items/{id}/keywords/set-bid": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Set bid overrides for associated keywords to the given line item in bulk",
-        "operationId": "SetKeywordBids",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the line item",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SetBidsModelRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceOutcome"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/line-items/{line-item-id}/keywords/review": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Update the status of keyword reviews under a line item",
-        "operationId": "UpdateKeywordReviewsV1",
-        "parameters": [
-          {
-            "name": "line-item-id",
-            "in": "path",
-            "description": "The line item to update keyword review statuses for",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Request object containing a list of Phrase-ReviewState pairs to update",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputRetailMediaKeywordsReview"
-              }
-            }
-          },
-          "x-bodyName": "keywordReviewSetStateRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeRetailMediaKeywordsReviewResult"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Manage"
             ]
           }
         ]
@@ -4221,13 +3864,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "computes the min bid for relevant page types based on the provided information",
+        "description": "Computes the min bid for relevant page types based on the provided information",
         "operationId": "ComputeDisplayMinBidByRetailerId",
         "parameters": [
           {
             "name": "retailerId",
             "in": "path",
-            "description": "the retailer id",
+            "description": "The retailer id",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4237,7 +3880,7 @@
           }
         ],
         "requestBody": {
-          "description": "the details for what cratives and product ids to use to compute the min bids",
+          "description": "The details for what creatives and product ids to use to compute the min bids",
           "content": {
             "application/json": {
               "schema": {
@@ -4855,67 +4498,6 @@
         },
         "additionalProperties": false,
         "description": "request body to set provided fees for the provided accounts"
-      },
-      "AddRemoveKeywordModel": {
-        "type": "object",
-        "properties": {
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "matchType": {
-            "$ref": "#/components/schemas/MatchTypeModel"
-          },
-          "phrase": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A single keyword to be added or removed"
-      },
-      "AddRemoveKeywordsModel": {
-        "type": "object",
-        "properties": {
-          "keywords": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AddRemoveKeywordModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Data model containing keywords to be added or removed from a line item"
-      },
-      "AddRemoveKeywordsModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/AddRemoveKeywordsModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Request object to add or remove keywords from a line item"
-      },
-      "AddRemoveKeywordsModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AddRemoveKeywordsModel"
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Resource object containing keywords to be added or removed from a line item"
       },
       "ApplicationSummaryModel": {
         "type": "object",
@@ -6717,51 +6299,6 @@
         "description": "bot structured answer to the user prompt",
         "nullable": true
       },
-      "BrandCatalogRequestV2": {
-        "type": "object",
-        "properties": {
-          "brandIdFilter": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "The brand ids to filter the catalog by.",
-              "format": "long-id"
-            },
-            "description": "The brand ids to filter the catalog by."
-          },
-          "includeFields": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "Unknown",
-                "Description",
-                "ImageUrl",
-                "GoogleCategory",
-                "RetailerName",
-                "Category",
-                "BrandName"
-              ],
-              "type": "string"
-            },
-            "description": "Out of the optional fields, only the ones specified will be included in the catalog generated."
-          },
-          "modifiedAfter": {
-            "type": "string",
-            "description": "Only products modified after this time will be returned.",
-            "format": "date-time"
-          },
-          "retailerIdFilter": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "description": "The retailer ids to filter the catalog by."
-          }
-        },
-        "description": "A request for a catalog under the specified format.",
-        "nullable": true
-      },
       "BrandIdSearchRequest": {
         "required": [
           "retailerIds"
@@ -7555,11 +7092,12 @@
             "items": {
               "type": "string"
             },
-            "description": "List of potential product ids (SkuIds) to put in creatives"
+            "description": "List of potential product ids (SkuIds) to put in creatives",
+            "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "represents the list of creatives and respective product IDs to compute min bid for."
+        "description": "Represents the list of creatives and respective product IDs to compute min bid for."
       },
       "DisplayAuctionMinBidResult": {
         "type": "object",
@@ -7596,7 +7134,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "represents the min bid for a pagtype type and creative combination.",
+        "description": "Represents the min bid for a pageType and creative combination.",
         "nullable": true
       },
       "EntityResourceBrandIdSearchResult": {
@@ -7736,41 +7274,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
-      "EntityResourceCollectionOutcomeLineItemKeywordReviewReportAndMetadata": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EntityResourceLineItemKeywordReviewReport"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Metadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
-      },
       "EntityResourceCollectionOutcomeOfRetailerResultAndMetadata": {
         "type": "object",
         "properties": {
@@ -7875,26 +7378,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
-      },
-      "EntityResourceLineItemKeywordReviewReport": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/LineItemKeywordReviewReport"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique id of the entity.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "EntityResourceOfCatalogStatusV2": {
         "type": "object",
@@ -8578,34 +8061,6 @@
         },
         "description": "an API recommendation request"
       },
-      "InputKeywordsModel": {
-        "type": "object",
-        "properties": {
-          "negativeBroad": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "negativeExact": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "positiveExact": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The keywords to be added or removed from a line item."
-      },
       "InputResourceOfPreferredLineItemCreateModelV2": {
         "type": "object",
         "properties": {
@@ -8631,102 +8086,6 @@
           }
         },
         "description": "Defines the installment of a product."
-      },
-      "KeywordDataModel": {
-        "type": "object",
-        "properties": {
-          "bid": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "inputKeywords": {
-            "$ref": "#/components/schemas/InputKeywordsModel"
-          },
-          "matchType": {
-            "$ref": "#/components/schemas/MatchTypeModel"
-          },
-          "reviewState": {
-            "$ref": "#/components/schemas/ReviewStateModel"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A single keyword and associated bid override"
-      },
-      "KeywordsModel": {
-        "type": "object",
-        "properties": {
-          "keywords": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/KeywordDataModel"
-            },
-            "nullable": true
-          },
-          "rank": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The keywords associated with a line item.",
-        "nullable": true
-      },
-      "KeywordsModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/KeywordsModel"
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Resource object containing keywords associated with a line item.",
-        "nullable": true
-      },
-      "KeywordsModelResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/KeywordsModelResource"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RmcaCommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RmcaCommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Response object containing keywords associated with a line item."
       },
       "LineItemBudgetCapOutHistory": {
         "type": "object",
@@ -8851,62 +8210,6 @@
           }
         },
         "description": "Frequency Capping for a Preferred Line Item",
-        "nullable": true
-      },
-      "LineItemKeywordReviewReport": {
-        "required": [
-          "accountId",
-          "accountName",
-          "campaignId",
-          "campaignName",
-          "countKeywords",
-          "lineItemId",
-          "lineItemName",
-          "retailerId",
-          "retailerName"
-        ],
-        "type": "object",
-        "properties": {
-          "accountId": {
-            "type": "string",
-            "description": "External ID of the account containing the campaign containing the line item this report is for"
-          },
-          "accountName": {
-            "type": "string",
-            "description": "Name of the account containing the campaign containing the line item this report is for"
-          },
-          "campaignId": {
-            "type": "string",
-            "description": "External ID of the campaign containing the line item this report is for"
-          },
-          "campaignName": {
-            "type": "string",
-            "description": "Name of the campaign containing the line item this report is for"
-          },
-          "countKeywords": {
-            "type": "integer",
-            "description": "Number of PositiveExactMatch keywords on this line item that are in either \"InReview\" or \"Pending\" state",
-            "format": "int32"
-          },
-          "lineItemId": {
-            "type": "string",
-            "description": "External ID of the line item that this report is for"
-          },
-          "lineItemName": {
-            "type": "string",
-            "description": "Name of the line item that this report is for"
-          },
-          "retailerId": {
-            "type": "string",
-            "description": "Retailer ID connected to the line item this report is for"
-          },
-          "retailerName": {
-            "type": "string",
-            "description": "Name of the retailer connected to the line item this report is for"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Reports on a line item which contains one or more actionable keyword reviews",
         "nullable": true
       },
       "LineItemPageCategoryV2": {
@@ -9043,15 +8346,6 @@
         "additionalProperties": false,
         "description": "settings for managed service fees",
         "nullable": true
-      },
-      "MatchTypeModel": {
-        "enum": [
-          "PositiveExactMatch",
-          "NegativeExactMatch",
-          "NegativeBroadMatch"
-        ],
-        "type": "string",
-        "description": "The match type of a keyword."
       },
       "Message": {
         "title": "Message",
@@ -11442,29 +10736,6 @@
         },
         "description": "A class that represents a domain entity exposed by an API"
       },
-      "ResourceOutcome": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RmcaCommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RmcaCommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Outcome object containing errors and warnings."
-      },
       "RetailerResult": {
         "type": "object",
         "properties": {
@@ -11645,83 +10916,6 @@
           }
         },
         "description": "The attributes of Retail Media contact list operation"
-      },
-      "RetailMediaKeywordsReview": {
-        "required": [
-          "keywords"
-        ],
-        "type": "object",
-        "properties": {
-          "keywords": {
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReviewSetState"
-            },
-            "description": "List of Phrase-ReviewState pairs describing keyword review updates to perform"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Request object for approval of keyword reviews, containing a list of Phrase-ReviewState pairs"
-      },
-      "RetailMediaKeywordsReviewResult": {
-        "required": [
-          "keywords"
-        ],
-        "type": "object",
-        "properties": {
-          "keywords": {
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReviewSetState"
-            },
-            "description": "List of Phrase-ReviewState pairs describing keyword review updates which were performed"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Response object for approval of keyword reviews, containing a list of Phrase-ReviewState pairs",
-        "nullable": true
-      },
-      "ReviewSetState": {
-        "required": [
-          "phrase",
-          "reviewState"
-        ],
-        "type": "object",
-        "properties": {
-          "phrase": {
-            "type": "string",
-            "description": "Normalized key phrase for keyword review to update"
-          },
-          "reviewState": {
-            "enum": [
-              "Unknown",
-              "InReview",
-              "Recommended",
-              "Approved",
-              "AutoApproved",
-              "Rejected",
-              "AutoRejected"
-            ],
-            "type": "string",
-            "description": "Keyword review state to set for a phrase"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A Phrase-ReviewState pair describing an update to a keyword review"
-      },
-      "ReviewStateModel": {
-        "enum": [
-          "InReview",
-          "Recommended",
-          "Approved",
-          "AutoApproved",
-          "Rejected",
-          "AutoRejected"
-        ],
-        "type": "string",
-        "description": "The state of a keyword in the context of a line item."
       },
       "RmAlgebraNodeV1": {
         "type": "object",
@@ -13464,59 +12658,6 @@
         "additionalProperties": false,
         "description": "Common problem object."
       },
-      "SellerCatalogRequestV2": {
-        "type": "object",
-        "properties": {
-          "includeFields": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "Unknown",
-                "Description",
-                "ImageUrl",
-                "GlobalCategoryId",
-                "RetailerName",
-                "Category",
-                "BrandName"
-              ],
-              "type": "string"
-            },
-            "description": "Out of the optional fields, only the ones specified will be included in the catalog generated."
-          },
-          "modifiedAfter": {
-            "type": "string",
-            "description": "Only products modified after this time will be returned.",
-            "format": "date-time"
-          },
-          "sellers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SellerIdentifierV2"
-            },
-            "description": "A list of sellers to restrict the catalog to."
-          }
-        },
-        "description": "Used to request a catalog of seller SKUs",
-        "nullable": true
-      },
-      "SellerIdentifierV2": {
-        "required": [
-          "retailerId",
-          "sellerId"
-        ],
-        "type": "object",
-        "properties": {
-          "retailerId": {
-            "type": "string",
-            "description": "The retailer Id that the seller operates under"
-          },
-          "sellerId": {
-            "type": "string",
-            "description": "The id for the seller based on the corresponding retailer"
-          }
-        },
-        "description": "Identifies a Unique Seller"
-      },
       "SellerPreview": {
         "type": "object",
         "properties": {
@@ -13549,66 +12690,6 @@
           }
         },
         "description": "Data model for response resource"
-      },
-      "SetBidModel": {
-        "type": "object",
-        "properties": {
-          "bid": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "phrase": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A single keyword and associated bid override"
-      },
-      "SetBidsModel": {
-        "type": "object",
-        "properties": {
-          "keywords": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SetBidModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Data model containing keywords and their associated bid overrides"
-      },
-      "SetBidsModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/SetBidsModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Request object to set bid overrides for keywords associated with a line item"
-      },
-      "SetBidsModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SetBidsModel"
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Resource object containing keywords and their associated bid overrides"
       },
       "SetSkuBuyBoxWinnersRequest": {
         "required": [
@@ -15208,16 +14289,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
-      "ValueResourceInputOfBrandCatalogRequestV2": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfBrandCatalogRequestV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
-        "nullable": true
-      },
       "ValueResourceInputOfRetailerSearchRequest": {
         "type": "object",
         "properties": {
@@ -15257,16 +14328,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "ValueResourceInputOfSellerCatalogRequestV2": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfSellerCatalogRequestV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects.",
-        "nullable": true
       },
       "ValueResourceInputOfSponsoredProductsLineItemCreateRequestModel": {
         "type": "object",
@@ -15312,16 +14373,6 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceRecommendedKeywordsRequestV1"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
-      },
-      "ValueResourceInputRetailMediaKeywordsReview": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceRetailMediaKeywordsReview"
           }
         },
         "additionalProperties": false,
@@ -15392,20 +14443,6 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
-      },
-      "ValueResourceOfBrandCatalogRequestV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/BrandCatalogRequestV2"
-          },
-          "type": {
-            "type": "string",
-            "description": "The Type of the resource."
-          }
-        },
-        "description": "A value resource exposed by the API.",
-        "nullable": true
       },
       "ValueResourceOfRetailerSearchRequest": {
         "type": "object",
@@ -15482,20 +14519,6 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
-      },
-      "ValueResourceOfSellerCatalogRequestV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SellerCatalogRequestV2"
-          },
-          "type": {
-            "type": "string",
-            "description": "The Type of the resource."
-          }
-        },
-        "description": "A value resource exposed by the API.",
-        "nullable": true
       },
       "ValueResourceOfSponsoredProductsLineItemCreateRequestModel": {
         "type": "object",
@@ -15639,34 +14662,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
-      "ValueResourceOutcomeRetailMediaKeywordsReviewResult": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceRetailMediaKeywordsReviewResult"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
-      },
       "ValueResourcePartnerBillingReportRequestV1": {
         "type": "object",
         "properties": {
@@ -15731,37 +14726,6 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/RecommendedKeywordsResponseV1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
-      "ValueResourceRetailMediaKeywordsReview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaKeywordsReview"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceRetailMediaKeywordsReviewResult": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RetailMediaKeywordsReviewResult"
           },
           "type": {
             "type": "string",
