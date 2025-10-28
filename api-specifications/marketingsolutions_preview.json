@@ -1309,7 +1309,7 @@
           "Audience"
         ],
         "description": "Add/remove identifiers to or from a contact list.",
-        "operationId": "modifyAudienceUsersWithAttributes",
+        "operationId": "ModifyAudienceUsersWithAttributes",
         "parameters": [
           {
             "name": "audience-id",
@@ -3059,6 +3059,7 @@
           "Audience"
         ],
         "description": "Delete all identifiers from a contact list audience-segment.",
+        "operationId": "DeleteContactListByAudienceSegment",
         "responses": {
           "200": {
             "description": "The Contact List was emptied",
@@ -3101,6 +3102,7 @@
           "Audience"
         ],
         "description": "Add/remove identifiers to or from a contact list audience-segment.",
+        "operationId": "UpdateContactListByAudienceSegment",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3566,6 +3568,76 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AudienceEntityV1ListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/marketing-solutions/audiences/{audience-id}/contactlist-attributes": {
+      "patch": {
+        "tags": [
+          "Audience"
+        ],
+        "description": "Add/remove identifiers to or from a contact list.",
+        "operationId": "ModifyAudienceUsersWithAttributes",
+        "parameters": [
+          {
+            "name": "audience-id",
+            "in": "path",
+            "description": "The id of the contact list audience-segment to amend",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactlistWithAttributesAmendmentRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "body"
+        },
+        "responses": {
+          "200": {
+            "description": "Summary of created request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifyAudienceResponse"
+                },
+                "example": {
+                  "data": {
+                    "type": "ContactlistAmendment",
+                    "attributes": {
+                      "contactListId": 12,
+                      "operation": "add",
+                      "requestDate": "2018-12-10T10:00:50.0000000+00:00",
+                      "identifierType": "madid",
+                      "nbValidIdentifiers": 7343,
+                      "nbInvalidIdentifiers": 13,
+                      "sampleInvalidIdentifiers": [
+                        "InvalidIdentifier"
+                      ]
+                    }
+                  },
+                  "errors": [ ],
+                  "warnings": [ ]
                 }
               }
             }
