@@ -1364,6 +1364,51 @@
         ]
       }
     },
+    "/preview/retail-media/accounts/{accountId}/grant-third-party-consent": {
+      "post": {
+        "tags": [
+          "ThirdPartyAccounts"
+        ],
+        "summary": "",
+        "description": "Grant third-party consent to a business application on behalf of a Private Market demand account",
+        "operationId": "GrantThirdPartyConsent",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The demand account ID on which to grant consent",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The request input containing clientId, callbackURL, and callbackState",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantConsentInput"
+              }
+            }
+          },
+          "x-bodyName": "grantConsentInput"
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_ThirdPartyAccounts_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/accounts/{accountId}/retailers/search": {
       "post": {
         "tags": [
@@ -8000,6 +8045,46 @@
         "additionalProperties": false,
         "description": "A flight schedule for a line item.",
         "nullable": true
+      },
+      "GrantConsentInput": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/GrantConsentModelValueResource"
+          }
+        },
+        "description": "An object that encapsulates GrantConsentModel"
+      },
+      "GrantConsentModel": {
+        "required": [
+          "callbackUrl",
+          "clientId"
+        ],
+        "type": "object",
+        "properties": {
+          "callbackState": {
+            "type": "string"
+          },
+          "callbackUrl": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          }
+        },
+        "description": "An object that represents the required (ClientId and CallbackUrl) and optional (CallbackState) parameters when granting consents on behalf of a Private Market demand account"
+      },
+      "GrantConsentModelValueResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/GrantConsentModel"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
       "HyperlinkVariableValue": {
         "type": "object",
