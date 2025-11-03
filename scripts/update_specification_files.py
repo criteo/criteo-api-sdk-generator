@@ -85,7 +85,7 @@ def update_previous_specifications(specification_folder, gateway_service):
 
 
 def main():
-    help_msg = f'{__doc__}\n{__file__} -r <version to release> -s <path to specification folder> -c <URL to the configuration service>'
+    help_msg = f'{__doc__}\n{__file__} -r <version to release> -s <path to specification folder> -g <URL to the gateway service>'
     try:
         opts, _ = getopt.getopt(sys.argv[1:], "hvr:s:g:", ["help", "verbose", "release=", "specification_folder=", "gateway_service="])
     except getopt.GetoptError:
