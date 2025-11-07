@@ -1,0 +1,65 @@
+name: Update RetailMedia Preview doc
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'api-specifications/marketingsolutions_preview.json'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup SSH Agent for git operations
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+            ssh-private-key: ${{ secrets.MARKETING_SOLUTIONS_PUBLIC_API_DOC_REPO_PRIVATE_KEY }}
+
+      - name: Commit and push Preview OAS
+        run: |
+          git clone git@github.com:criteo/marketing-solutions-public-api-doc.git
+          cd marketing-solutions-public-api-doc
+          # cut: to turn 'remotes/origin/<name>' to '<name>'
+          # egrep: to keep only pattern vYYYY.MM . ie reject vYYYY.MM.dd and vYYYY.MM_merge_conflict_<sha>
+          PREVIEW_BRANCH=$(git branch -a | grep origin | cut -d \/ -f3 | grep -E ^v[0-9]{4}\.[0-9]{2}$ | sort | tail -1)
+          git checkout $PREVIEW_BRANCH
+          OAS_DEST=reference/criteo-api-1.json
+          cp ../api-specifications/marketingsolutions_preview.json "$OAS_DEST"
+          git add "$OAS_DEST"
+          git config --global user.name "update-oas-bot"
+          git config --global user.email "update-oas-bot@users.noreply.github.com"
+          if git commit -m "OAS auto-update"; then
+            git push origin $PREVIEW_BRANCH
+          else
+            echo "Nothing to commit"
+          fi
+
+      - name: Send success notification
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            status: "${{ job.status }}"
+            channel: "C02J0CWR789"
+            username: "sdk-generation-bot"
+            text: "Autoupdate of MarketingSolutions Preview OAS in Readme repo."
+            icon_emoji: ":bell:"
+
+      - name: Send failure notification
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            status: "${{ job.status }}"
+            channel: "C02J0CWR789"
+            username: "sdk-generation-bot"
+            text: "Autoupdate of MarketingSolutions Preview OAS in Readme repo failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
+            icon_emoji: ":x:"
