@@ -41,15 +41,16 @@ createTagIndexMd() {
 cd reference
 rm -rf "Criteo API" && mkdir "Criteo API" && cd "Criteo API"
 
-for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholderForSlashN/g' | jq -r '.paths | keys[] as $path | .[$path] | keys[] as $verb | .[$verb] | .tags[] as $tag | [ $path, $tag, .operationId, .description ] | join("#")' | tr ' ' '\1'); do
+for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholderForSlashN/g' | jq -r '.paths | keys[] as $path | .[$path] | keys[] as $verb | .[$verb] | .tags[] as $tag | [ $path, $verb, $tag, .operationId, .description ] | join("#")' | tr ' ' '\1'); do
 	INPUT="$(echo $ROUTE_TAG_OPERATIONID_DESC | tr '\1' ' ' | sed 's/tempPlaceholderForSlashN/\\n/g')"
 	ROUTE="$(echo $INPUT | cut -d# -f1)"
-	TAG="$(echo $INPUT| cut -d# -f2 | tr '[:upper:]' '[:lower:]')"
-	OPERATIONID="$(echo $INPUT| cut -d# -f3)"
+	VERB="$(echo $INPUT | cut -d# -f2)"
+	TAG="$(echo $INPUT| cut -d# -f3 | tr '[:upper:]' '[:lower:]')"
+	OPERATIONID="$(echo $INPUT| cut -d# -f4)"
 	if [[ -z "$OPERATIONID" ]]; then
-		OPERATIONID=placeholder # TODO
+		OPERATIONID=$(echo $VERB$ROUTE | sed 's#/#_#' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
 	fi
-	DESCRIPTION="$(echo $INPUT| cut -d# -f4)"
+	DESCRIPTION="$(echo $INPUT| cut -d# -f5)"
 
 	mkdir -p "$TAG"
 	createMd $ROUTE $TAG $OPERATIONID "$DESCRIPTION"
