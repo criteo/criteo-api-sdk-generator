@@ -27,9 +27,13 @@ jobs:
           # egrep: to keep only pattern vYYYY.MM . ie reject vYYYY.MM.dd and vYYYY.MM_merge_conflict_<sha>
           PREVIEW_BRANCH=$(git branch -a | grep origin | cut -d \/ -f3 | grep -E ^v[0-9]{4}\.[0-9]{2}$ | sort | tail -1)
           git checkout $PREVIEW_BRANCH
-          OAS_DEST=reference/criteo-api-1.json
+          OAS_DEST_NAME=criteo-api-1.json
+          OAS_DEST=reference/"$OAS_DEST_NAME"
           cp ../api-specifications/marketingsolutions_preview.json "$OAS_DEST"
+          chmod u+x ../scripts/regenerate_md_files.sh
+          ../scripts/regenerate_md_files.sh "$OAS_DEST_NAME"
           git add "$OAS_DEST"
+          git add reference
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot@users.noreply.github.com"
           if git commit -m "OAS auto-update"; then

@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-OAS_FILE=criteo-api.json
+OAS_FILE="$1"
 
 createMd() {
 	ROUTE="$1"
