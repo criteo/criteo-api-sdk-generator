@@ -43,7 +43,7 @@ createTagIndexMd() {
 cd reference
 rm -rf "Criteo API" && mkdir "Criteo API" && cd "Criteo API"
 
-for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholderForSlashN/g' | jq -r '.paths | keys_unsorted[] as $path | .[$path] | keys_unsorted[] as $verb | .[$verb] | .tags[] as $tag | [ $path, $verb, $tag, .operationId, .description ] | join("#")' | tr ' ' '\1'); do
+for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholderForSlashN/g' | jq -r '.paths | keys_unsorted[] as $path | .[$path] | keys_unsorted[] as $verb | .[$verb] | try .tags[] as $tag | [ $path, $verb, $tag, .operationId, .description ] | join("#")' | tr ' ' '\1'); do
 	INPUT="$(echo $ROUTE_TAG_OPERATIONID_DESC | tr '\1' ' ' | sed 's/tempPlaceholderForSlashN/\\n/g')"
 	ROUTE="$(echo $INPUT | cut -d# -f1)"
 	VERB="$(echo $INPUT | cut -d# -f2)"
