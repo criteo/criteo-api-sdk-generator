@@ -34,10 +34,15 @@ jobs:
           git add reference
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot@users.noreply.github.com"
+          echo "testGT: not pushing because test mode"
           if git commit -m "OAS auto-update"; then
-            git push origin $PREVIEW_BRANCH
+            #git push origin $PREVIEW_BRANCH
+            git show
           else
             echo "Nothing to commit"
+            git status
+            git diff
+            git diff --cached
           fi
 
       - name: Send success notification

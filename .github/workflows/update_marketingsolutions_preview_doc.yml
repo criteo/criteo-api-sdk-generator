@@ -36,10 +36,15 @@ jobs:
           git add reference
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot@users.noreply.github.com"
+        echo "tempGT: not pushing because we're troubleshooting"
           if git commit -m "OAS auto-update"; then
-            git push origin $PREVIEW_BRANCH
+            git show
+            #git push origin $PREVIEW_BRANCH
           else
             echo "Nothing to commit"
+            git status
+            git diff
+            git diff -c
           fi
 
       - name: Send success notification
