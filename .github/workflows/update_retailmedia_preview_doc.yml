@@ -25,10 +25,11 @@ jobs:
           cd retail-media-public-api-doc
           PREVIEW_BRANCH=$(git branch -a | grep preview | cut -d '/' -f3)
           git checkout $PREVIEW_BRANCH
-          OAS_DEST=reference/criteo-api.json
+          OAS_DEST_NAME=crite-api.json
+          OAS_DEST=reference/"$OAS_DEST_NAME"
           cp ../api-specifications/retailmedia_preview.json "$OAS_DEST"
           chmod u+x ../scripts/regenerate_md_files.sh
-          ../scripts/regenerate_md_files.sh
+          ../scripts/regenerate_md_files.sh "$OAS_DEST_NAME"
           git add "$OAS_DEST"
           git add reference
           git config --global user.name "update-oas-bot"
