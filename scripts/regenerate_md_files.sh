@@ -13,7 +13,7 @@ createMd() {
 
 	echo "---" > "$MD_FILE"
 	echo "title: $ROUTE" >>  "$MD_FILE"
-	echo "excerpt: $DESCRIPTION" >> "$MD_FILE"
+	echo "excerpt: \"$DESCRIPTION\"" >> "$MD_FILE" # double-quote to turn \n to new lines
 	echo "api:" >> "$MD_FILE"
 	echo "  file: $OAS_FILE" >> "$MD_FILE"
 	echo "  operationId: $OPERATIONID" >> "$MD_FILE"
@@ -50,6 +50,7 @@ for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholde
 	TAG="$(echo $INPUT| cut -d# -f3 | tr '[:upper:]' '[:lower:]')"
 	OPERATIONID="$(echo $INPUT| cut -d# -f4)"
 	if [[ -z "$OPERATIONID" ]]; then
+		# 'sed' to replace only the first slash, then 'tr' to replace all remaining ones
 		OPERATIONID=$(echo $VERB$ROUTE | sed 's#/#_#' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
 	fi
 	DESCRIPTION="$(echo $INPUT| cut -d# -f5)"
