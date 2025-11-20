@@ -27,7 +27,10 @@ jobs:
           git checkout $PREVIEW_BRANCH
           OAS_DEST=reference/criteo-api.json
           cp ../api-specifications/retailmedia_preview.json "$OAS_DEST"
+          chmod u+x ../scripts/regenerate_md_files.sh
+          ../scripts/regenerate_md_files.sh
           git add "$OAS_DEST"
+          git add reference
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot@users.noreply.github.com"
           if git commit -m "OAS auto-update"; then
