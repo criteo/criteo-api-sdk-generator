@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -o pipefail
 
 OAS_FILE="$1"
 
