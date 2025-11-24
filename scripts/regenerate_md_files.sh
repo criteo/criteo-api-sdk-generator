@@ -25,7 +25,7 @@ createMd() {
 }
 
 createTagIndexMd() {
-	TITLE="$1"
+	TITLE="$(echo "$1" |  sed -e 's/\([A-Z]\)/ \1/g' -e 's/^ //')"
 
 	echo "---" > index.md
 	echo "title: ${TITLE^}" >> index.md
@@ -48,7 +48,7 @@ for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholde
 	INPUT="$(echo $ROUTE_TAG_OPERATIONID_DESC | tr '\1' ' ' | sed 's/tempPlaceholderForSlashN/\\n/g')"
 	ROUTE="$(echo $INPUT | cut -d# -f1)"
 	VERB="$(echo $INPUT | cut -d# -f2)"
-	TAG="$(echo $INPUT| cut -d# -f3 | tr '[:upper:]' '[:lower:]')"
+	TAG="$(echo $INPUT| cut -d# -f3)"
 	OPERATIONID="$(echo $INPUT| cut -d# -f4)"
 	if [[ -z "$OPERATIONID" ]]; then
 		# 'sed' to replace only the first slash, then 'tr' to replace all remaining ones
