@@ -52,7 +52,7 @@ for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholde
 	OPERATIONID="$(echo $INPUT| cut -d# -f4)"
 	if [[ -z "$OPERATIONID" ]]; then
 		# 'sed' to replace only the first slash, then 'tr' to replace all remaining ones
-		OPERATIONID=$(echo $VERB$ROUTE | sed 's#/#_#' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+		OPERATIONID=$(echo $VERB$ROUTE | sed 's#/#_#' | tr -d '{}' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
 	fi
 	DESCRIPTION="$(echo $INPUT| cut -d# -f5)"
 
