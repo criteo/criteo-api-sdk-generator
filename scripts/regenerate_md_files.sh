@@ -7,6 +7,7 @@ createMd() {
 	ROUTE="$1"
 	TAG="$2"
 	OPERATIONID="$3"
+	ESCAPED_OPERATIONID="$(echo "$OPERATIONID" | tr -d '{}')"
 	DESCRIPTION="$4"
 
 	LOWERCASE_OPERATIONID=$(echo $OPERATIONID | tr '[:upper:]' '[:lower:]')
@@ -17,7 +18,7 @@ createMd() {
 	echo "excerpt: \"$DESCRIPTION\"" >> "$MD_FILE" # double-quote to turn \n to new lines
 	echo "api:" >> "$MD_FILE"
 	echo "  file: $OAS_FILE" >> "$MD_FILE"
-	echo "  operationId: $OPERATIONID" >> "$MD_FILE"
+	echo "  operationId: $ESCAPED_OPERATIONID" >> "$MD_FILE"
 	echo "hidden: false" >> "$MD_FILE"
 	echo "---" >> "$MD_FILE"
 
@@ -52,7 +53,7 @@ for ROUTE_TAG_OPERATIONID_DESC in $(cat ../$OAS_FILE | sed 's/\\n/tempPlaceholde
 	OPERATIONID="$(echo $INPUT| cut -d# -f4)"
 	if [[ -z "$OPERATIONID" ]]; then
 		# 'sed' to replace only the first slash, then 'tr' to replace all remaining ones
-		OPERATIONID=$(echo $VERB$ROUTE | sed 's#/#_#' | tr -d '{}' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+		OPERATIONID=$(echo $VERB$ROUTE | sed 's#/#_#' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
 	fi
 	DESCRIPTION="$(echo $INPUT| cut -d# -f5)"
 
