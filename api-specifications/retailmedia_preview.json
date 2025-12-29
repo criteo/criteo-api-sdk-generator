@@ -804,7 +804,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "integer",
+                "format": "int64"
               }
             }
           },
@@ -839,7 +840,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2PagedListResponse"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfBalanceResponseV1AndPageMeta"
                 }
               }
             }
@@ -875,189 +876,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBalanceV2Request"
+                "$ref": "#/components/schemas/ValueResourceInputOfCreateBalanceV1"
               }
             }
           },
-          "required": true,
-          "x-bodyName": "createBalance"
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Balance_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/accounts/{account-id}/balances/{balance-id}": {
-      "get": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Get a balance for the given account id and balance id",
-        "operationId": "GetBalanceByAccountAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balance-id",
-            "in": "path",
-            "description": "The balance id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Balance_Read"
-            ]
-          }
-        ]
-      },
-      "patch": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Modify a balance for the given account id",
-        "operationId": "ModifyBalanceByAccountAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balance-id",
-            "in": "path",
-            "description": "The balance to change the dates",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "An object that represents the available options to modify a balance.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBalanceModelV2Request"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "updateBalanceModel"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Balance_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/accounts/{account-id}/balances/{balance-id}/change-dates": {
-      "post": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Change dates of a balance for the given account id",
-        "operationId": "ChangeDatesByAccountAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balance-id",
-            "in": "path",
-            "description": "The balance to change the dates",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "An object that represents the available options to modify schedule of a balance.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeDatesOfBalanceV2Request"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "changeDatesOfBalance"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              }
-            }
+            "description": "Success"
           }
         },
         "security": [
@@ -1766,6 +1593,131 @@
           {
             "oauth": [
               "RetailMedia_Audience_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/balances/{balance-id}/campaigns": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Gets page of campaigns for the given balanceId",
+        "operationId": "GetCampaignsByBalanceId",
+        "parameters": [
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to get campaigns from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limitToId",
+            "in": "query",
+            "description": "The ids that you would like to limit your result set to",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "The 0 indexed page index you would like to receive given the page size",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The maximum number of items you would like to receive in this request",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfBalanceCampaignV1AndPageMeta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/balances/{balance-id}/campaigns/append": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "appends one or more campaigns to the specified balance",
+        "operationId": "AppendCampaignsByBalanceId",
+        "parameters": [
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to add campaigns from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The campaigns to append",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntityResourceCollectionInputOfBalanceCampaignV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfBalanceCampaignV1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
             ]
           }
         ]
@@ -6017,6 +5969,12 @@
         },
         "description": "Definition of the warning"
       },
+      "BalanceCampaignV1": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Campaigns related to the balance",
+        "nullable": true
+      },
       "BalanceHistoryChangeDataCaptureV1": {
         "required": [
           "changeDetails",
@@ -6064,13 +6022,22 @@
         "additionalProperties": false,
         "description": "Data model represents the data change capture of balance history."
       },
-      "BalanceResponseV2": {
+      "BalanceResponseV1": {
         "required": [
-          "name",
-          "startDate",
           "balanceType",
+          "createdAt",
+          "deposited",
+          "endDate",
+          "memo",
+          "name",
+          "poNumber",
+          "privateMarketBillingType",
+          "remaining",
           "spendType",
-          "privateMarketBillingType"
+          "spent",
+          "startDate",
+          "status",
+          "updatedAt"
         ],
         "type": "object",
         "properties": {
@@ -6131,9 +6098,10 @@
           },
           "spendType": {
             "enum": [
-              "Onsite",
-              "Offsite",
-              "OffsiteAwareness"
+              "unknown",
+              "onsite",
+              "offsite",
+              "offsiteAwareness"
             ],
             "type": "string",
             "description": "Spend Type of the balance."
@@ -6164,60 +6132,8 @@
             "format": "date-time"
           }
         },
+        "additionalProperties": false,
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
-        "nullable": true
-      },
-      "BalanceResponseV2PagedListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a paged list of response resources"
-      },
-      "BalanceResponseV2Response": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
         "nullable": true
       },
       "BatchAcceptedResponse": {
@@ -6517,33 +6433,6 @@
         "additionalProperties": false,
         "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID"
       },
-      "ChangeDatesOfBalanceV2": {
-        "type": "object",
-        "properties": {
-          "endDate": {
-            "type": "string",
-            "description": "End date of the balance in the format YYYY-MM-DD."
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo."
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Start date of the balance in the format YYYY-MM-DD."
-          }
-        },
-        "description": "An object that represents the available options to modify schedule of a balance."
-      },
-      "ChangeDatesOfBalanceV2Request": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfChangeDatesOfBalanceV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
-      },
       "ChangeDetailsV1": {
         "type": "object",
         "properties": {
@@ -6723,18 +6612,22 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
-      "CreateBalanceV2": {
+      "CreateBalanceV1": {
         "required": [
+          "deposited",
+          "endDate",
+          "memo",
           "name",
-          "startDate",
-          "spendType"
+          "spendType",
+          "startDate"
         ],
         "type": "object",
         "properties": {
           "deposited": {
             "type": "number",
             "description": "Amount of billable funds allotted to the balance.",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "endDate": {
             "type": "string",
@@ -6757,9 +6650,10 @@
           },
           "spendType": {
             "enum": [
-              "Onsite",
-              "Offsite",
-              "OffsiteAwareness"
+              "unknown",
+              "onsite",
+              "offsite",
+              "offsiteAwareness"
             ],
             "type": "string",
             "description": "Type of the balance spend."
@@ -6769,16 +6663,8 @@
             "description": "Start date of the balance in the format YYYY-MM-DD."
           }
         },
+        "additionalProperties": false,
         "description": "An object that represents the available options to set when creating a Retail Media Balance"
-      },
-      "CreateBalanceV2Request": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfCreateBalanceV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
       },
       "Creative2": {
         "required": [
@@ -7319,6 +7205,20 @@
         },
         "description": "A domain entity exposed by the API, identified by a unique id."
       },
+      "EntityResourceCollectionInputOfBalanceCampaignV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfBalanceCampaignV1"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for several entities."
+      },
       "EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata": {
         "type": "object",
         "properties": {
@@ -7449,6 +7349,108 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities."
+      },
+      "EntityResourceCollectionOutcomeOfBalanceCampaignV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfBalanceCampaignV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+      },
+      "EntityResourceCollectionOutcomeOfBalanceCampaignV1AndPageMeta": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfBalanceCampaignV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PageMeta"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
+      "EntityResourceCollectionOutcomeOfBalanceResponseV1AndPageMeta": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfBalanceResponseV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PageMeta"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "EntityResourceCollectionOutcomeOfRetailerResultAndMetadata": {
         "type": "object",
@@ -7604,6 +7606,46 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+      },
+      "EntityResourceOfBalanceCampaignV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceCampaignV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceOfBalanceResponseV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceResponseV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "EntityResourceOfCatalogStatusV2": {
         "type": "object",
@@ -8821,6 +8863,44 @@
         },
         "additionalProperties": false,
         "description": "The state of a single offer after it is replaced as part of an Update operation"
+      },
+      "PageMeta": {
+        "type": "object",
+        "properties": {
+          "currentPageIndex": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer",
+            "description": "The 0 indexed page index you would like to receive given the page size",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "currentPageSize": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "description": "The maximum number of items you would like to receive in this request",
+            "format": "int32",
+            "default": 25,
+            "nullable": true
+          },
+          "totalItemsAcrossAllPages": {
+            "type": "integer",
+            "description": "Total Items in search result across all pages",
+            "format": "int64",
+            "nullable": true
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "total pages in search result",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents metadata for paginated data, including information about the current page, page size,  total items, and\r\ntotal pages in a search result.",
+        "nullable": true
       },
       "PageMetadata": {
         "required": [
@@ -10687,26 +10767,6 @@
         },
         "description": "Report response format"
       },
-      "ResourceOfBalanceResponseV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/BalanceResponseV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true
-          }
-        },
-        "description": "A class that represents a domain entity exposed by an API",
-        "nullable": true
-      },
       "ResourceOfBrandPreview": {
         "type": "object",
         "properties": {
@@ -10725,23 +10785,6 @@
         },
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API."
-      },
-      "ResourceOfChangeDatesOfBalanceV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ChangeDatesOfBalanceV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "A class that represents a domain entity exposed by an API"
       },
       "ResourceOfCpcRateCardPreview": {
         "type": "object",
@@ -10762,23 +10805,6 @@
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API.",
         "nullable": true
-      },
-      "ResourceOfCreateBalanceV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CreateBalanceV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "A class that represents a domain entity exposed by an API"
       },
       "ResourceOfCreative2": {
         "type": "object",
@@ -10951,23 +10977,6 @@
         },
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API."
-      },
-      "ResourceOfUpdateBalanceModelV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/UpdateBalanceModelV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "A class that represents a domain entity exposed by an API"
       },
       "RetailerResult": {
         "type": "object",
@@ -14242,46 +14251,6 @@
         "description": "A value of a template text variable",
         "nullable": true
       },
-      "UpdateBalanceModelV2": {
-        "type": "object",
-        "properties": {
-          "endDate": {
-            "type": "string",
-            "description": "End date of the balance in the format YYYY-MM-DD.",
-            "nullable": true
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo.",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the balance.",
-            "nullable": true
-          },
-          "poNumber": {
-            "type": "string",
-            "description": "Purchase Order number.",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Start date of the balance in the format YYYY-MM-DD.",
-            "nullable": true
-          }
-        },
-        "description": "An object that represents the available options to set when updating a Retail Media Balance."
-      },
-      "UpdateBalanceModelV2Request": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfUpdateBalanceModelV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
-      },
       "UpdateOffersRequest": {
         "required": [
           "offerUpdates"
@@ -14585,6 +14554,16 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceInputOfCreateBalanceV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfCreateBalanceV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputOfRetailerSearchRequest": {
         "type": "object",
         "properties": {
@@ -14730,6 +14709,21 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/LoadSkuOffersRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfCreateBalanceV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreateBalanceV1"
           },
           "type": {
             "type": "string",
