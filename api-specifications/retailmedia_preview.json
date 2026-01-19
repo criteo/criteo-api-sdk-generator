@@ -1296,99 +1296,6 @@
         ]
       }
     },
-    "/preview/retail-media/accounts/fees/search": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "Get fees for provided accounts",
-        "operationId": "AccountFeesSearch",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "used for paging, number of results returned per request, Maximum of 500",
-            "schema": {
-              "maximum": 500,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "used for paging, number of records to skip",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputAccountFeesSearchRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomePrivateMarketAccountFeesAndMetadata"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Accounts_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/accounts/fees/update": {
-      "post": {
-        "tags": [
-          "Accounts"
-        ],
-        "description": "Set fees for provided accounts",
-        "operationId": "UpdateAccountFees",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputAccountFeesUpdateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Accounts_Manage"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/auction-line-items/{lineItemId}": {
       "get": {
         "tags": [
@@ -1789,129 +1696,6 @@
           {
             "oauth": [
               "RetailMedia_Balance_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/billing/partner-report": {
-      "post": {
-        "tags": [
-          "Billing"
-        ],
-        "description": "Create a Partner Billing Report request.",
-        "operationId": "CreatePartnerBillingReportRequestV1",
-        "requestBody": {
-          "description": "Partner Billing Report request object.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputPartnerBillingReportRequestV1"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceOutcomePartnerBillingReportStatusV1"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Billing_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/billing/partner-report/{requestId}/output": {
-      "get": {
-        "tags": [
-          "Billing"
-        ],
-        "description": "Get the output of an existing Partner Billing Report.",
-        "operationId": "GetPartnerBillingReportOutputV1",
-        "parameters": [
-          {
-            "name": "requestId",
-            "in": "path",
-            "description": "The id of a Partner Billing Report request.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/csv": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Billing_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/billing/partner-report/{requestId}/status": {
-      "get": {
-        "tags": [
-          "Billing"
-        ],
-        "description": "Get the status of an existing Partner Billing Report.",
-        "operationId": "GetPartnerBillingReportStatusV1",
-        "parameters": [
-          {
-            "name": "requestId",
-            "in": "path",
-            "description": "The id of a Partner Billing Report request.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceOutcomePartnerBillingReportStatusV1"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Billing_Read"
             ]
           }
         ]
@@ -3606,6 +3390,56 @@
         ]
       }
     },
+    "/preview/retail-media/retailers/{retailer-id}/offers/update": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "description": "Update one or more offers by replacing each offer's price and availability with the given values",
+        "operationId": "OfferUpdateV1",
+        "parameters": [
+          {
+            "name": "retailer-id",
+            "in": "path",
+            "description": "The retailer for which these offers will be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Collection of offer price and availability updates to be applied.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputUpdateOffersRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Catalog_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/retailers/{retailer-id}/placements": {
       "get": {
         "tags": [
@@ -3640,6 +3474,56 @@
           {
             "oauth": [
               "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/retailers/{retailer-id}/products/set-buy-box-winners": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "description": "Update the buy box winner for one or more products",
+        "operationId": "OfferSetBbwV1",
+        "parameters": [
+          {
+            "name": "retailer-id",
+            "in": "path",
+            "description": "The retailer for which these buy box winners will be set",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated buy box winners for one or more products",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputSetProductBuyBoxWinnersRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Catalog_Manage"
             ]
           }
         ]
@@ -3703,81 +3587,6 @@
         ]
       }
     },
-    "/preview/retail-media/retailers/{retailerId}/categories/search": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Search a retailer categories by given text substring and category ids.",
-        "operationId": "SearchCategory",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Limit of the search result.",
-            "schema": {
-              "maximum": 500,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Offset of the search result.",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "Retailer id.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Request of categories search.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputCategoriesSearchRequestV1"
-              }
-            }
-          },
-          "x-bodyName": "request"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCategory202204Metadata"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/retailers/{retailerId}/compute-display-min-bid": {
       "post": {
         "tags": [
@@ -3814,256 +3623,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueResourceCollectionOutcomeDisplayAuctionMinBidResult"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailerId}/offers/load": {
-      "post": {
-        "tags": [
-          "Catalog"
-        ],
-        "description": "Replace the offers for one or more SKUs with a snapshot of the new offers for each respective SKU",
-        "operationId": "OfferLoadV1",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer for which these offers will be loaded",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputLoadSkuOffersRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Catalog_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailerId}/offers/set-buy-box-winners": {
-      "post": {
-        "tags": [
-          "Catalog"
-        ],
-        "description": "Update the buy box winner for one or more SKUs",
-        "operationId": "OfferSetBbwV1",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer for which these buy box winners will be set",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputSetSkuBuyBoxWinnersRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Catalog_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailerId}/offers/update": {
-      "post": {
-        "tags": [
-          "Catalog"
-        ],
-        "description": "Update one or more offers by replacing each offer's price and availability with the given values",
-        "operationId": "OfferUpdateV1",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer for which these offers will be updated",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputUpdateOffersRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeAsyncJobResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Catalog_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailerId}/recommend-categories": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Endpoint to get recommended categories by given retailer id and sku id list.",
-        "operationId": "GetRecommendedCategories",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "Retailer id.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Request of recommended categories.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputRecommendedCategoriesRequestV1"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "request"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCategory202204"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailerId}/recommend-keywords": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Recommend keywords by given retailer id and sku ids.",
-        "operationId": "RecommendedKeywords",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "Retailer id.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Request of recommended keywords.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputRecommendedKeywordsRequestV1"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceOutcomeRecommendedKeywordsResponseV1"
                 }
               }
             }
@@ -4375,44 +3934,6 @@
   },
   "components": {
     "schemas": {
-      "AccountFeesSearchRequest": {
-        "type": "object",
-        "properties": {
-          "accountIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Account Ids to return fees",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "the request body for account fees search"
-      },
-      "AccountFeesUpdateRequest": {
-        "required": [
-          "accountIds",
-          "fees"
-        ],
-        "type": "object",
-        "properties": {
-          "accountIds": {
-            "maxItems": 25,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "accounts to update"
-          },
-          "fees": {
-            "$ref": "#/components/schemas/PrivateMarketFees"
-          }
-        },
-        "additionalProperties": false,
-        "description": "request body to set provided fees for the provided accounts"
-      },
       "ApplicationSummaryModel": {
         "type": "object",
         "properties": {
@@ -5152,18 +4673,6 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
-      },
-      "AsyncJobResponse": {
-        "type": "object",
-        "properties": {
-          "jobId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Indicates the successful receipt of an async request, containing the job ID",
-        "nullable": true
       },
       "AsyncLineItemsReport": {
         "required": [
@@ -6389,26 +5898,6 @@
         "description": "The status of an asynchronous request to generate a catalog",
         "nullable": true
       },
-      "CategoriesSearchRequestV1": {
-        "type": "object",
-        "properties": {
-          "categoryIds": {
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Categories search category ids criteria.",
-            "nullable": true
-          },
-          "textSubstring": {
-            "type": "string",
-            "description": "Categories search text substring criteria.",
-            "nullable": true
-          }
-        },
-        "description": "An object that represents the request of CategoriesSearch endpoint."
-      },
       "Category202204": {
         "required": [
           "name",
@@ -7086,24 +6575,6 @@
         },
         "description": "Defines a custom attribute of a product."
       },
-      "DemandManagedFee": {
-        "required": [
-          "rate"
-        ],
-        "type": "object",
-        "properties": {
-          "rate": {
-            "maximum": 1,
-            "minimum": 0,
-            "type": "number",
-            "description": "decimal fee rate between 0 and 1",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "settings for DSP fees",
-        "nullable": true
-      },
       "DisplayAuctionMinBidRequest": {
         "type": "object",
         "properties": {
@@ -7186,25 +6657,6 @@
         },
         "description": "A domain entity exposed by the API, identified by a unique id."
       },
-      "EntityResourceCategory202204": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/Category202204"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique id of the entity.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "description": "A domain entity exposed by the API, identified by a unique id."
-      },
       "EntityResourceCollectionInputOfBalanceCampaignV1": {
         "type": "object",
         "properties": {
@@ -7240,71 +6692,6 @@
           },
           "metadata": {
             "$ref": "#/components/schemas/PagingOffsetLimitMetadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
-      },
-      "EntityResourceCollectionOutcomeCategory202204": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EntityResourceCategory202204"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
-      },
-      "EntityResourceCollectionOutcomeCategory202204Metadata": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EntityResourceCategory202204"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/Metadata"
           },
           "warnings": {
             "type": "array",
@@ -7833,55 +7220,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
-      },
-      "EntityResourceOutcomePartnerBillingReportStatusV1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/EntityResourcePartnerBillingReportStatusV1"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
-      },
-      "EntityResourcePartnerBillingReportStatusV1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/PartnerBillingReportStatusV1"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique id of the entity.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A domain entity exposed by the API, identified by a unique id.",
-        "nullable": true
       },
       "ExportReportColumn": {
         "required": [
@@ -8593,24 +7931,6 @@
         "description": "The status of a promoted product in the context of the line item.",
         "nullable": true
       },
-      "LoadSkuOffersRequest": {
-        "required": [
-          "skuOfferLoads"
-        ],
-        "type": "object",
-        "properties": {
-          "skuOfferLoads": {
-            "maxItems": 5000,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkuOfferLoad"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "description": "The request passed by the caller of the Load endpoint"
-      },
       "LoyaltyPoints": {
         "type": "object",
         "properties": {
@@ -8630,34 +7950,6 @@
           }
         },
         "description": "Defines how a client earns loyalty points after buying this product."
-      },
-      "ManagedServiceFee": {
-        "required": [
-          "onsiteDisplayEnabled",
-          "onsiteSponsoredProductsEnabled",
-          "rate"
-        ],
-        "type": "object",
-        "properties": {
-          "onsiteDisplayEnabled": {
-            "type": "boolean",
-            "description": "whether fee is enabled for display campaigns"
-          },
-          "onsiteSponsoredProductsEnabled": {
-            "type": "boolean",
-            "description": "whether fee is enabled for sponsored product campaigns"
-          },
-          "rate": {
-            "maximum": 1,
-            "minimum": 0,
-            "type": "number",
-            "description": "decimal fee rate between 0 and 1",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "settings for managed service fees",
-        "nullable": true
       },
       "Message": {
         "title": "Message",
@@ -8796,73 +8088,58 @@
         "description": "Placeholder object for string value  for which \"null\" is a valid business value",
         "nullable": true
       },
-      "OfferLoad": {
-        "required": [
-          "availability",
-          "price",
-          "sellerId"
-        ],
-        "type": "object",
-        "properties": {
-          "availability": {
-            "enum": [
-              "OutOfStock",
-              "PreOrder",
-              "InStock",
-              "BackOrder"
-            ],
-            "type": "string"
-          },
-          "offerType": {
-            "enum": [
-              "Seller",
-              "Retailer"
-            ],
-            "type": "string",
-            "default": "Seller"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "sellerId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The state of a single offer which is being added for a SKU as part of a load operation"
-      },
       "OfferUpdate": {
         "required": [
           "availability",
-          "price",
-          "sellerId",
-          "skuId"
+          "offerId",
+          "price"
         ],
         "type": "object",
         "properties": {
           "availability": {
             "enum": [
-              "OutOfStock",
-              "PreOrder",
-              "InStock",
-              "BackOrder"
+              "outOfStock",
+              "preOrder",
+              "inStock",
+              "backOrder"
             ],
+            "type": "string"
+          },
+          "offerId": {
             "type": "string"
           },
           "price": {
             "type": "number",
             "format": "double"
-          },
-          "sellerId": {
-            "type": "string"
-          },
-          "skuId": {
-            "type": "string"
           }
         },
         "additionalProperties": false,
         "description": "The state of a single offer after it is replaced as part of an Update operation"
+      },
+      "Outcome": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The outcome of an API call."
       },
       "PageMeta": {
         "type": "object",
@@ -9068,87 +8345,6 @@
           }
         },
         "description": "Metadata for paging data.",
-        "nullable": true
-      },
-      "PartnerBillingReportRequestV1": {
-        "required": [
-          "endDate",
-          "startDate"
-        ],
-        "type": "object",
-        "properties": {
-          "accountIds": {
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "On which accounts the report is created.",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "End date of the report (ISO 8601 format, e.g. YYYY-MM-DD).",
-            "format": "date"
-          },
-          "format": {
-            "enum": [
-              "json",
-              "csv"
-            ],
-            "type": "string",
-            "description": "Format type of the report.",
-            "default": "json"
-          },
-          "retailerIds": {
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "description": "On which retailers the report is created.",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Start date of the report (ISO 8601 format, e.g. YYYY-MM-DD).",
-            "format": "date"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The request object of a Partner Billing Report."
-      },
-      "PartnerBillingReportStatusV1": {
-        "required": [
-          "createdAt",
-          "status"
-        ],
-        "type": "object",
-        "properties": {
-          "createdAt": {
-            "type": "string",
-            "description": "The date when the report request is created.",
-            "format": "date-time"
-          },
-          "errorMessage": {
-            "type": "string",
-            "description": "Possible error message along with the status.",
-            "nullable": true
-          },
-          "status": {
-            "enum": [
-              "pending",
-              "success",
-              "failed",
-              "expired"
-            ],
-            "type": "string",
-            "description": "Status of the report."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Status info of a Partner Billing Report.",
         "nullable": true
       },
       "PlacementPreview": {
@@ -9396,7 +8592,6 @@
         "required": [
           "name",
           "startDate",
-          "endDate",
           "status",
           "targetRetailerId",
           "budget",
@@ -9438,7 +8633,8 @@
           "endDate": {
             "type": "string",
             "description": "Represents the Date as a year, month, and day in the format YYYY-MM-DD",
-            "format": "date"
+            "format": "date",
+            "nullable": true
           },
           "id": {
             "type": "string",
@@ -9557,36 +8753,6 @@
           }
         },
         "description": "Defines a price."
-      },
-      "PrivateMarketAccountFees": {
-        "type": "object",
-        "properties": {
-          "accountId": {
-            "type": "string",
-            "description": "The account Id",
-            "nullable": true
-          },
-          "fees": {
-            "$ref": "#/components/schemas/PrivateMarketFees"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The Fees for a Specific private market account",
-        "nullable": true
-      },
-      "PrivateMarketFees": {
-        "type": "object",
-        "properties": {
-          "demandManaged": {
-            "$ref": "#/components/schemas/DemandManagedFee"
-          },
-          "managedService": {
-            "$ref": "#/components/schemas/ManagedServiceFee"
-          }
-        },
-        "additionalProperties": false,
-        "description": "fees for a private market account",
-        "nullable": true
       },
       "Product": {
         "required": [
@@ -10096,6 +9262,19 @@
         "description": "A top-level object that encapsulates a Criteo API response for several entities",
         "nullable": true
       },
+      "ProductBuyBoxWinner": {
+        "required": [
+          "offerId"
+        ],
+        "type": "object",
+        "properties": {
+          "offerId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The new buy box winner for a product after it is updated as part of a SetBuyBoxWinner operation"
+      },
       "ProductMetadata": {
         "type": "object",
         "properties": {
@@ -10482,61 +9661,6 @@
         },
         "additionalProperties": false,
         "description": "Outcome object containing promoted products."
-      },
-      "RecommendedCategoriesRequestV1": {
-        "required": [
-          "productIds"
-        ],
-        "type": "object",
-        "properties": {
-          "productIds": {
-            "maxItems": 1000,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Sku id list."
-          }
-        },
-        "description": "An object that represents the request of RecommendCategories endpoint."
-      },
-      "RecommendedKeywordsRequestV1": {
-        "required": [
-          "productIds"
-        ],
-        "type": "object",
-        "properties": {
-          "productIds": {
-            "maxItems": 1000,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Product Id list that the recommended keywords generated on."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Request model of RecommendedKeywords"
-      },
-      "RecommendedKeywordsResponseV1": {
-        "required": [
-          "recommendedKeywords"
-        ],
-        "type": "object",
-        "properties": {
-          "recommendedKeywords": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Recommended keywords generated by given retailer Id and sku Ids."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Response model of Recommended Keywords",
-        "nullable": true
       },
       "ReportDataResponseResource": {
         "type": "object",
@@ -12939,40 +12063,23 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
-      "SetSkuBuyBoxWinnersRequest": {
+      "SetProductBuyBoxWinnersRequest": {
         "required": [
-          "skuBuyBoxWinners"
+          "productBuyBoxWinners"
         ],
         "type": "object",
         "properties": {
-          "skuBuyBoxWinners": {
+          "productBuyBoxWinners": {
             "maxItems": 5000,
             "minItems": 1,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SkuBuyBoxWinner"
+              "$ref": "#/components/schemas/ProductBuyBoxWinner"
             }
           }
         },
         "additionalProperties": false,
         "description": "The request passed by the caller of the SetBuyBoxWinners endpoint"
-      },
-      "SkuBuyBoxWinner": {
-        "required": [
-          "sellerId",
-          "skuId"
-        ],
-        "type": "object",
-        "properties": {
-          "sellerId": {
-            "type": "string"
-          },
-          "skuId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The new buy box winner for a SKU after it is updated as part of a SetBuyBoxWinner operation"
       },
       "SkuDataPreview": {
         "required": [
@@ -13157,29 +12264,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities."
-      },
-      "SkuOfferLoad": {
-        "required": [
-          "offers",
-          "skuId"
-        ],
-        "type": "object",
-        "properties": {
-          "buyBoxWinner": {
-            "type": "string"
-          },
-          "offers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OfferLoad"
-            }
-          },
-          "skuId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The new state of the offers for a SKU after a load operation"
       },
       "SkuSearchRequestPreview": {
         "required": [
@@ -14269,71 +13353,11 @@
         "additionalProperties": false,
         "description": "The request passed by the caller of the Update endpoint"
       },
-      "ValueResourceAccountFeesSearchRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AccountFeesSearchRequest"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceAccountFeesUpdateRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AccountFeesUpdateRequest"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceAsyncJobResponse": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AsyncJobResponse"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
       "ValueResourceBrandIdSearchRequest": {
         "type": "object",
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/BrandIdSearchRequest"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceCategoriesSearchRequestV1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CategoriesSearchRequestV1"
           },
           "type": {
             "type": "string",
@@ -14421,41 +13445,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several value objects."
       },
-      "ValueResourceCollectionOutcomePrivateMarketAccountFeesAndMetadata": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ValueResourcePrivateMarketAccountFees"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata."
-      },
       "ValueResourceDisplayAuctionMinBidRequest": {
         "type": "object",
         "properties": {
@@ -14486,40 +13475,11 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "ValueResourceInputAccountFeesSearchRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceAccountFeesSearchRequest"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "ValueResourceInputAccountFeesUpdateRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceAccountFeesUpdateRequest"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
       "ValueResourceInputBrandIdSearchRequest": {
         "type": "object",
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceBrandIdSearchRequest"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
-      },
-      "ValueResourceInputCategoriesSearchRequestV1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceCategoriesSearchRequestV1"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
@@ -14543,16 +13503,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "ValueResourceInputLoadSkuOffersRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceLoadSkuOffersRequest"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
       "ValueResourceInputOfCreateBalanceV1": {
         "type": "object",
@@ -14624,44 +13574,15 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
-      "ValueResourceInputPartnerBillingReportRequestV1": {
+      "ValueResourceInputSetProductBuyBoxWinnersRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ValueResourcePartnerBillingReportRequestV1"
+            "$ref": "#/components/schemas/ValueResourceSetProductBuyBoxWinnersRequest"
           }
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "ValueResourceInputRecommendedCategoriesRequestV1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceRecommendedCategoriesRequestV1"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
-      },
-      "ValueResourceInputRecommendedKeywordsRequestV1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceRecommendedKeywordsRequestV1"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
-      },
-      "ValueResourceInputSetSkuBuyBoxWinnersRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceSetSkuBuyBoxWinnersRequest"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
       "ValueResourceInputUpdateOffersRequest": {
         "type": "object",
@@ -14671,7 +13592,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceLineItemBudgetCapOutHistoryRequest": {
         "type": "object",
@@ -14703,21 +13624,6 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "nullable": true
-      },
-      "ValueResourceLoadSkuOffersRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/LoadSkuOffersRequest"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfCreateBalanceV1": {
         "type": "object",
@@ -14840,34 +13746,6 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "ValueResourceOutcomeAsyncJobResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceAsyncJobResponse"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
-      },
       "ValueResourceOutcomeLineItemBudgetCapOutHistoryResponse": {
         "type": "object",
         "properties": {
@@ -14924,114 +13802,11 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
-      "ValueResourceOutcomeRecommendedKeywordsResponseV1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceRecommendedKeywordsResponseV1"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
-      },
-      "ValueResourcePartnerBillingReportRequestV1": {
+      "ValueResourceSetProductBuyBoxWinnersRequest": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/PartnerBillingReportRequestV1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourcePrivateMarketAccountFees": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/PrivateMarketAccountFees"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceRecommendedCategoriesRequestV1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RecommendedCategoriesRequestV1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceRecommendedKeywordsRequestV1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RecommendedKeywordsRequestV1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceRecommendedKeywordsResponseV1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/RecommendedKeywordsResponseV1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
-      "ValueResourceSetSkuBuyBoxWinnersRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SetSkuBuyBoxWinnersRequest"
+            "$ref": "#/components/schemas/SetProductBuyBoxWinnersRequest"
           },
           "type": {
             "type": "string",
@@ -15126,9 +13901,6 @@
     },
     {
       "name": "Balance"
-    },
-    {
-      "name": "Billing"
     },
     {
       "name": "Campaign"
