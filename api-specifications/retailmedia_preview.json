@@ -896,6 +896,58 @@
         ]
       }
     },
+    "/preview/retail-media/accounts/{account-id}/balances/{balance-id}": {
+      "patch": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Modify a balance for the given account id",
+        "operationId": "UpdateBalanceV2",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account of the balance",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to change the dates",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "An object that represents the available options to modify a balance.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfUpdateBalanceModelV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/accounts/{account-id}/creatives": {
       "post": {
         "tags": [
@@ -8076,6 +8128,19 @@
         "description": "Placeholder object for value for which \"null\" is a valid business value",
         "nullable": true
       },
+      "NillableOfNullableOfDateOnly": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Underlying actual value",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a value that can be set to null explicitly",
+        "nullable": true
+      },
       "NillableString": {
         "type": "object",
         "properties": {
@@ -13335,6 +13400,36 @@
         "description": "A value of a template text variable",
         "nullable": true
       },
+      "UpdateBalanceModelV1": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "$ref": "#/components/schemas/NillableOfNullableOfDateOnly"
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the balance.",
+            "nullable": true
+          },
+          "poNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An object that represents the available options to set when updating a Retail Media Balance."
+      },
       "UpdateOffersRequest": {
         "required": [
           "offerUpdates"
@@ -13574,6 +13669,16 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
+      "ValueResourceInputOfUpdateBalanceModelV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfUpdateBalanceModelV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputSetProductBuyBoxWinnersRequest": {
         "type": "object",
         "properties": {
@@ -13736,6 +13841,21 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/SponsoredProductsLineItemUpdateRequestModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfUpdateBalanceModelV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/UpdateBalanceModelV1"
           },
           "type": {
             "type": "string",
