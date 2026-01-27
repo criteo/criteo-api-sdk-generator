@@ -18,9 +18,7 @@ jobs:
         run: |
           git clone git@github.com:criteo/marketing-solutions-public-api-doc.git
           cd marketing-solutions-public-api-doc
-          # cut: to turn 'remotes/origin/<name>' to '<name>'
-          # egrep: to keep only pattern vYYYY.MM . ie reject vYYYY.MM.dd and vYYYY.MM_merge_conflict_<sha>
-          PREVIEW_BRANCH=$(git branch -a | grep origin | cut -d \/ -f3 | grep -E ^v[0-9]{4}\.[0-9]{2}$ | sort | tail -1)
+          PREVIEW_BRANCH=$(git branch -a | grep preview | cut -d '/' -f3)
           git checkout $PREVIEW_BRANCH
           OAS_DEST_NAME=criteo-api-1.json
           OAS_DEST=reference/"$OAS_DEST_NAME"
