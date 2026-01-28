@@ -18,7 +18,7 @@ import urllib.parse
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
-ALL_API_SERVICES = ["marketingSolutions", "retailMedia"]
+ALL_API_SERVICES = ["marketingSolutions", "retailMedia", "commerceGrid"]
 NUM_YEARS_TO_KEEP = 1
 EVERGREEN_VERSIONS = {"preview",}
 SPECIFICATION_EXTENSION = ".json"

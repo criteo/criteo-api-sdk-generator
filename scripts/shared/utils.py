@@ -21,7 +21,7 @@ def assert_criteo_service(directory_name):
   
   criteo_service = splitted_directory_name[0].lower()
 
-  if criteo_service != 'marketingsolutions' and criteo_service != 'retailmedia':
+  if criteo_service != 'marketingsolutions' and criteo_service != 'retailmedia' and criteo_service != 'commercegrid': # TODO use criteo_service.py ?
     raise InvalidCriteoServiceException(f'Criteo Service found in directory name of generated source is invalid ({criteo_service})')
 
   return criteo_service
