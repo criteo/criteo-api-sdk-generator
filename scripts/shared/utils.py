@@ -3,6 +3,7 @@ import re
 import subprocess
 import logging
 from datetime import datetime
+from .models.criteo_service import CriteoService
 
 logger = None
 formatted_date = None
@@ -20,8 +21,8 @@ def assert_criteo_service(directory_name):
     raise InvalidCriteoServiceException(f'Directory name for generated source doesn\'t have a valid format ({directory_name})')
   
   criteo_service = splitted_directory_name[0].lower()
-
-  if criteo_service != 'marketingsolutions' and criteo_service != 'retailmedia' and criteo_service != 'commercegrid': # TODO use criteo_service.py ?
+  known_services = {item.value for item in CriteoService}
+  if criteo_service not in known_services:
     raise InvalidCriteoServiceException(f'Criteo Service found in directory name of generated source is invalid ({criteo_service})')
 
   return criteo_service
