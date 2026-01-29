@@ -64,126 +64,6 @@
         ]
       }
     },
-    "/2025-01/audiences/{audience-segment-id}/contactlist": {
-      "delete": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Delete all identifiers from a contact list audience-segment.",
-        "responses": {
-          "200": {
-            "description": "The Contact List was emptied",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteAudienceContactListResponse"
-                },
-                "example": {
-                  "data": {
-                    "id": "1",
-                    "type": "AudienceContactlist"
-                  },
-                  "errors": [ ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Audience_Manage"
-            ]
-          }
-        ]
-      },
-      "patch": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Add/remove identifiers to or from a contact list audience-segment.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ContactlistAmendmentRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "body"
-        },
-        "responses": {
-          "200": {
-            "description": "Summary of created request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModifyAudienceResponse"
-                },
-                "example": {
-                  "data": {
-                    "type": "ContactlistAmendment",
-                    "attributes": {
-                      "contactListId": 12,
-                      "operation": "add",
-                      "requestDate": "2018-12-10T10:00:50.0000000+00:00",
-                      "identifierType": "madid",
-                      "nbValidIdentifiers": 7343,
-                      "nbInvalidIdentifiers": 13,
-                      "sampleInvalidIdentifiers": [
-                        "InvalidIdentifier"
-                      ]
-                    }
-                  },
-                  "errors": [ ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Audience_Manage"
-            ]
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "audience-segment-id",
-          "in": "path",
-          "description": "The id of the contact list audience-segment to amend",
-          "required": true,
-          "style": "simple",
-          "schema": {
-            "type": "string",
-            "format": "int32"
-          }
-        }
-      ]
-    },
     "/2025-01/log-level/advertisers/{advertiser-id}/report": {
       "post": {
         "tags": [
@@ -197,7 +77,6 @@
             "in": "path",
             "description": "The advertiser id to fetch the transparency data.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -213,27 +92,27 @@
               },
               "example": {
                 "shouldDisplayProductIds": false,
-                "startDate": "2025-05-31T00:00:00.0000000+00:00",
-                "endDate": "2025-06-03T00:00:00.0000000+00:00"
+                "startDate": "2025-08-11T00:00:00.0000000+00:00",
+                "endDate": "2025-08-14T00:00:00.0000000+00:00"
               }
             },
             "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-08-14T00:00:00+00:00</EndDate>\n  <StartDate>2025-08-11T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             },
             "text/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-08-14T00:00:00+00:00</EndDate>\n  <StartDate>2025-08-11T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             },
             "application/*+xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-08-14T00:00:00+00:00</EndDate>\n  <StartDate>2025-08-11T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             }
           }
         },
@@ -268,123 +147,6 @@
         ]
       }
     },
-    "/2025-01/marketing-solutions/ad-sets": {
-      "patch": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Patch a list of AdSets.",
-        "operationId": "PatchAdSets",
-        "requestBody": {
-          "description": "List of adsets to patch.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestsPatchAdSetV24Q1"
-              }
-            }
-          },
-          "x-bodyName": "adSets"
-        },
-        "responses": {
-          "200": {
-            "description": "List of patched adSets.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesAdSetIdV24Q1"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Campaign_Manage"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Create the specified ad set",
-        "operationId": "CreateAdSet",
-        "requestBody": {
-          "description": "the ad sets to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAdSetV24Q1Request"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "adSet"
-        },
-        "responses": {
-          "201": {
-            "description": "The ad set that has been created and errors / warnings",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Campaign_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/2025-01/marketing-solutions/ad-sets/{ad-set-id}": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Get the data for the specified ad set",
-        "operationId": "GetAdSet",
-        "parameters": [
-          {
-            "name": "ad-set-id",
-            "in": "path",
-            "description": "Id of the ad set",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "data for the ad set",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseReadAdSetV24Q1"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/2025-01/marketing-solutions/ad-sets/{ad-set-id}/audience": {
       "put": {
         "tags": [
@@ -398,7 +160,6 @@
             "in": "path",
             "description": "The ad set ID.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -450,7 +211,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -488,7 +248,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -502,6 +261,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "categoryBidsToUpdate"
         },
         "responses": {
@@ -538,7 +298,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -576,7 +335,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -590,6 +348,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "displayMultipliersToUpdate"
         },
         "responses": {
@@ -608,44 +367,6 @@
           {
             "oauth": [
               "MarketingSolutions_Campaign_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/2025-01/marketing-solutions/ad-sets/search": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Search for ad sets",
-        "operationId": "SearchAdSets",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdSetSearchRequestV24Q1"
-              }
-            }
-          },
-          "x-bodyName": "request"
-        },
-        "responses": {
-          "200": {
-            "description": "data for the ad sets",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsesReadAdSetV24Q1"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Campaign_Read"
             ]
           }
         ]
@@ -742,7 +463,6 @@
             "in": "path",
             "description": "The ad identifier to delete.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -774,7 +494,6 @@
             "in": "path",
             "description": "The ad identifier to retrieve.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -815,7 +534,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -824,7 +542,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of ads to be returned. The default is 50.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -835,7 +552,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection of ads. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -875,7 +591,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -926,7 +641,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -935,7 +649,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of coupons to be returned. The default is 50.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -946,7 +659,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection of coupons. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -986,7 +698,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1036,7 +747,6 @@
             "name": "ad-set-id",
             "in": "query",
             "description": "The ad set id on which you want to check the Coupon supported sizes.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1046,7 +756,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1086,7 +795,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1096,7 +804,6 @@
             "in": "path",
             "description": "The Coupon identifier to delete.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1127,7 +834,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1137,7 +843,6 @@
             "in": "path",
             "description": "The Coupon identifier to retrieve.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1175,7 +880,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1185,7 +889,6 @@
             "in": "path",
             "description": "The Coupon identifier to edit.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1236,7 +939,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1245,7 +947,6 @@
             "name": "height",
             "in": "query",
             "description": "The height of the coupon to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1256,7 +957,6 @@
             "in": "path",
             "description": "The Coupon identifier to preview.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1265,7 +965,6 @@
             "name": "width",
             "in": "query",
             "description": "The width of the coupon to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1311,7 +1010,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1320,7 +1018,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of creatives to be returned. The default is 50.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -1331,7 +1028,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection of creatives. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -1371,7 +1067,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1455,6 +1150,7 @@
           "Audience"
         ],
         "description": "Delete all identifiers from a contact list audience-segment.",
+        "operationId": "DeleteContactListByAudienceSegment",
         "responses": {
           "200": {
             "description": "The Contact List was emptied",
@@ -1497,6 +1193,7 @@
           "Audience"
         ],
         "description": "Add/remove identifiers to or from a contact list audience-segment.",
+        "operationId": "UpdateContactListByAudienceSegment",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1561,7 +1258,6 @@
           "in": "path",
           "description": "The id of the contact list audience-segment to amend",
           "required": true,
-          "style": "simple",
           "schema": {
             "type": "string",
             "format": "int32"
@@ -1582,7 +1278,6 @@
             "in": "path",
             "description": "The segment ID.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1783,7 +1478,6 @@
             "in": "query",
             "description": "The advertiser ID.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1793,7 +1487,6 @@
             "in": "query",
             "description": "The ISO 3166-1 alpha-2 country code.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1833,7 +1526,6 @@
             "in": "query",
             "description": "The advertiser ID.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1843,7 +1535,6 @@
             "in": "query",
             "description": "The ISO 3166-1 alpha-2 country code.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1882,7 +1573,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
-            "style": "form",
             "schema": {
               "maximum": 100,
               "minimum": 0,
@@ -1895,7 +1585,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -2154,7 +1843,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
-            "style": "form",
             "schema": {
               "maximum": 100,
               "minimum": 0,
@@ -2167,7 +1855,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -2224,6 +1911,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -2298,7 +1986,6 @@
             "in": "path",
             "description": "Id of the campaign",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2377,7 +2064,6 @@
             "in": "path",
             "description": "The creative identifier to delete.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2408,7 +2094,6 @@
             "in": "path",
             "description": "The creative identifier to retrieve.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2446,7 +2131,6 @@
             "in": "path",
             "description": "The creative identifier to edit.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2496,7 +2180,6 @@
             "name": "height",
             "in": "query",
             "description": "The height of the Creative to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2507,7 +2190,6 @@
             "in": "path",
             "description": "The Creative identifier to preview.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2516,7 +2198,6 @@
             "name": "width",
             "in": "query",
             "description": "The width of the Creative to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2702,8 +2383,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2025-05-31T00:00:00.0000000+00:00",
-                "endDate": "2025-06-03T00:00:00.0000000+00:00"
+                "startDate": "2025-08-11T00:00:00.0000000+00:00",
+                "endDate": "2025-08-14T00:00:00.0000000+00:00"
               }
             }
           }
@@ -3323,49 +3004,6 @@
         },
         "description": "Data model for a Resource"
       },
-      "AdSetDeliveryLimitationsV24Q1": {
-        "type": "object",
-        "properties": {
-          "devices": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "other",
-                "desktop",
-                "mobile",
-                "tablet"
-              ],
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "environments": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "web",
-                "inApp"
-              ],
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "operatingSystems": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "android",
-                "ios",
-                "unknown"
-              ],
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "description": "ad set delivery limitations model",
-        "nullable": true
-      },
       "AdSetDisplayMultiplier": {
         "type": "object",
         "properties": {
@@ -3432,122 +3070,6 @@
           }
         },
         "description": "Data model for a Resource"
-      },
-      "AdSetFrequencyCappingV24Q1": {
-        "type": "object",
-        "properties": {
-          "frequency": {
-            "enum": [
-              "hourly",
-              "daily",
-              "lifetime",
-              "advanced"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "maximumImpressions": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "description": "ad set frequency capping model",
-        "nullable": true
-      },
-      "AdSetGeoLocationV24Q1": {
-        "type": "object",
-        "properties": {
-          "countries": {
-            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q1"
-          },
-          "subdivisions": {
-            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q1"
-          },
-          "zipCodes": {
-            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV24Q1"
-          }
-        },
-        "description": "ad set geolocation model",
-        "nullable": true
-      },
-      "AdSetIdV24Q1": {
-        "type": "object",
-        "description": "ad set id model",
-        "nullable": true
-      },
-      "AdSetSearchFilterV24Q1": {
-        "type": "object",
-        "properties": {
-          "adSetIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "advertiserIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "campaignIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "description": "filter on ad set ids"
-      },
-      "AdSetSearchRequestV24Q1": {
-        "type": "object",
-        "properties": {
-          "filters": {
-            "$ref": "#/components/schemas/AdSetSearchFilterV24Q1"
-          }
-        },
-        "description": "request payload of the search endpoint"
-      },
-      "AdSetTargetingRuleV24Q1": {
-        "type": "object",
-        "properties": {
-          "operand": {
-            "enum": [
-              "undefined",
-              "in",
-              "notIn"
-            ],
-            "type": "string"
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "description": "ad set targeting rule model"
-      },
-      "AdSetTargetingV24Q1": {
-        "type": "object",
-        "properties": {
-          "deliveryLimitations": {
-            "$ref": "#/components/schemas/AdSetDeliveryLimitationsV24Q1"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/AdSetFrequencyCappingV24Q1"
-          },
-          "geoLocation": {
-            "$ref": "#/components/schemas/AdSetGeoLocationV24Q1"
-          }
-        },
-        "description": "ad set targeting model",
-        "nullable": true
       },
       "AdWrite": {
         "required": [
@@ -5747,235 +5269,6 @@
         "description": "Entity containing the list of Coupon supported sizes",
         "nullable": true
       },
-      "CreateAdSetBiddingV24Q1": {
-        "required": [
-          "costController"
-        ],
-        "type": "object",
-        "properties": {
-          "bidAmount": {
-            "type": "number",
-            "description": "Decimal value target relating to the `bidStrategy` specified. May be `null` for strategies that do not require a target value. At most 4 decimals are supported. Additional decimals are rounded.",
-            "format": "double",
-            "nullable": true
-          },
-          "costController": {
-            "enum": [
-              "COS",
-              "CPC",
-              "CPI",
-              "CPM",
-              "CPO",
-              "CPSV",
-              "CPV",
-              "dailyBudget",
-              "targetCPM"
-            ],
-            "type": "string",
-            "description": "How spend is controlled"
-          }
-        },
-        "description": "ad set bidding create model"
-      },
-      "CreateAdSetBudgetV24Q1": {
-        "required": [
-          "budgetStrategy"
-        ],
-        "type": "object",
-        "properties": {
-          "budgetAmount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "budgetDeliverySmoothing": {
-            "enum": [
-              "accelerated",
-              "standard"
-            ],
-            "type": "string"
-          },
-          "budgetDeliveryWeek": {
-            "enum": [
-              "undefined",
-              "mondayToSunday",
-              "tuesdayToMonday",
-              "wednesdayToTuesday",
-              "thursdayToWednesday",
-              "fridayToThursday",
-              "saturdayToFriday",
-              "sundayToSaturday"
-            ],
-            "type": "string"
-          },
-          "budgetRenewal": {
-            "enum": [
-              "undefined",
-              "daily",
-              "monthly",
-              "lifetime",
-              "weekly"
-            ],
-            "type": "string"
-          },
-          "budgetStrategy": {
-            "enum": [
-              "capped",
-              "uncapped"
-            ],
-            "type": "string"
-          }
-        },
-        "description": "ad set budget create model"
-      },
-      "CreateAdSetGeoLocationV24Q1": {
-        "type": "object",
-        "properties": {
-          "countries": {
-            "$ref": "#/components/schemas/AdSetTargetingRuleV24Q1"
-          },
-          "subdivisions": {
-            "$ref": "#/components/schemas/AdSetTargetingRuleV24Q1"
-          },
-          "zipCodes": {
-            "$ref": "#/components/schemas/AdSetTargetingRuleV24Q1"
-          }
-        },
-        "description": "Geolocation configuration of the ad set"
-      },
-      "CreateAdSetScheduleV24Q1": {
-        "required": [
-          "startDate"
-        ],
-        "type": "object",
-        "properties": {
-          "endDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "description": "ad set schedule create model"
-      },
-      "CreateAdSetTargetingV24Q1": {
-        "required": [
-          "frequencyCapping"
-        ],
-        "type": "object",
-        "properties": {
-          "deliveryLimitations": {
-            "$ref": "#/components/schemas/AdSetDeliveryLimitationsV24Q1"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/AdSetFrequencyCappingV24Q1"
-          },
-          "geoLocation": {
-            "$ref": "#/components/schemas/CreateAdSetGeoLocationV24Q1"
-          }
-        },
-        "description": "Targeting configuration of the ad set"
-      },
-      "CreateAdSetV24Q1": {
-        "required": [
-          "bidding",
-          "campaignId",
-          "datasetId",
-          "mediaType",
-          "name",
-          "objective",
-          "schedule",
-          "targeting",
-          "trackingCode"
-        ],
-        "type": "object",
-        "properties": {
-          "bidding": {
-            "$ref": "#/components/schemas/CreateAdSetBiddingV24Q1"
-          },
-          "budget": {
-            "$ref": "#/components/schemas/CreateAdSetBudgetV24Q1"
-          },
-          "campaignId": {
-            "type": "string",
-            "description": "Campaign id this ad set belongs to",
-            "nullable": true
-          },
-          "datasetId": {
-            "type": "string",
-            "description": "Dataset id of this ad set",
-            "nullable": true
-          },
-          "mediaType": {
-            "enum": [
-              "display",
-              "video"
-            ],
-            "type": "string",
-            "description": "Media type for the ad set"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the ad set",
-            "nullable": true
-          },
-          "objective": {
-            "enum": [
-              "customAction",
-              "clicks",
-              "conversions",
-              "displays",
-              "appPromotion",
-              "revenue",
-              "storeConversions",
-              "value",
-              "reach",
-              "visits",
-              "videoViews"
-            ],
-            "type": "string",
-            "description": "Objective of the ad set"
-          },
-          "schedule": {
-            "$ref": "#/components/schemas/CreateAdSetScheduleV24Q1"
-          },
-          "targeting": {
-            "$ref": "#/components/schemas/CreateAdSetTargetingV24Q1"
-          },
-          "trackingCode": {
-            "type": "string",
-            "description": "The click tracking code associated to this Ad Set.",
-            "nullable": true
-          }
-        },
-        "description": "ad set create model"
-      },
-      "CreateAdSetV24Q1Request": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/CreateAdSetV24Q1Resource"
-          }
-        },
-        "description": "Data model for an input resources"
-      },
-      "CreateAdSetV24Q1Resource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CreateAdSetV24Q1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "example": "AdSet"
-          }
-        },
-        "description": "Data model for a Resource"
-      },
       "CreateCampaign": {
         "required": [
           "advertiserId",
@@ -7376,34 +6669,6 @@
         },
         "description": "Parameters to modify an audience"
       },
-      "NillableAdSetTargetingRuleV24Q1": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/AdSetTargetingRuleV24Q1"
-              }
-            ],
-            "nullable": true
-          }
-        },
-        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
-        "nullable": true
-      },
-      "NillableDateTime": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
-        "nullable": true
-      },
       "NillableDecimal": {
         "type": "object",
         "properties": {
@@ -7456,65 +6721,6 @@
         },
         "description": "Placeholder object for string value  for which \"null\" is a valid business value",
         "nullable": true
-      },
-      "PatchAdSetBiddingV24Q1": {
-        "type": "object",
-        "properties": {
-          "bidAmount": {
-            "$ref": "#/components/schemas/NillableDecimal"
-          }
-        },
-        "description": "ad set bidding patch model"
-      },
-      "PatchAdSetBudgetV24Q1": {
-        "type": "object",
-        "properties": {
-          "budgetAmount": {
-            "$ref": "#/components/schemas/NillableDecimal"
-          },
-          "budgetDeliverySmoothing": {
-            "enum": [
-              "accelerated",
-              "standard"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "budgetDeliveryWeek": {
-            "enum": [
-              "undefined",
-              "mondayToSunday",
-              "tuesdayToMonday",
-              "wednesdayToTuesday",
-              "thursdayToWednesday",
-              "fridayToThursday",
-              "saturdayToFriday",
-              "sundayToSaturday"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "budgetRenewal": {
-            "enum": [
-              "undefined",
-              "daily",
-              "monthly",
-              "lifetime",
-              "weekly"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "budgetStrategy": {
-            "enum": [
-              "capped",
-              "uncapped"
-            ],
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "description": "ad set budget patch model"
       },
       "PatchAdSetCategoryBid": {
         "type": "object",
@@ -7691,40 +6897,6 @@
           }
         },
         "description": "Data model for a Resource"
-      },
-      "PatchAdSetSchedulingV24Q1": {
-        "type": "object",
-        "properties": {
-          "endDate": {
-            "$ref": "#/components/schemas/NillableDateTime"
-          },
-          "startDate": {
-            "$ref": "#/components/schemas/NillableDateTime"
-          }
-        },
-        "description": "ad set schedule patch model"
-      },
-      "PatchAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "bidding": {
-            "$ref": "#/components/schemas/PatchAdSetBiddingV24Q1"
-          },
-          "budget": {
-            "$ref": "#/components/schemas/PatchAdSetBudgetV24Q1"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "scheduling": {
-            "$ref": "#/components/schemas/PatchAdSetSchedulingV24Q1"
-          },
-          "targeting": {
-            "$ref": "#/components/schemas/AdSetTargetingV24Q1"
-          }
-        },
-        "description": "ad set patch model"
       },
       "PatchCampaign": {
         "type": "object",
@@ -7938,6 +7110,23 @@
           "metrics": {
             "type": "array",
             "items": {
+              "enum": [
+                "Clicks",
+                "Displays",
+                "Cost",
+                "SalesPc30d",
+                "RevenuePc30d",
+                "CosPc30d",
+                "RoasPc30d",
+                "CpoPc30d",
+                "CvrPc30d",
+                "SalesPv1d",
+                "RevenuePv1d",
+                "CosPv1d",
+                "RoasPv1d",
+                "CpoPv1d",
+                "CvrPv1d"
+              ],
               "type": "string"
             },
             "description": "The list of metrics to report."
@@ -8101,202 +7290,6 @@
         "description": "Settings to target prospecting users to website visitors.",
         "nullable": true
       },
-      "ReadAdSetBiddingV24Q1": {
-        "type": "object",
-        "properties": {
-          "bidAmount": {
-            "type": "number",
-            "description": "Decimal value target relating to the `adSetObjective` specified. May be `null` for objectives that do not require a target value. At most 4 decimals are supported. Additional decimals are rounded.",
-            "format": "double",
-            "nullable": true
-          },
-          "costController": {
-            "enum": [
-              "COS",
-              "CPC",
-              "CPI",
-              "CPM",
-              "CPO",
-              "CPSV",
-              "CPV",
-              "dailyBudget",
-              "targetCPM"
-            ],
-            "type": "string",
-            "description": "How spend is controlled",
-            "nullable": true
-          }
-        },
-        "description": "ad set bidding read model",
-        "nullable": true
-      },
-      "ReadAdSetBudgetV24Q1": {
-        "type": "object",
-        "properties": {
-          "budgetAmount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "budgetDeliverySmoothing": {
-            "enum": [
-              "accelerated",
-              "standard"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "budgetDeliveryWeek": {
-            "enum": [
-              "undefined",
-              "mondayToSunday",
-              "tuesdayToMonday",
-              "wednesdayToTuesday",
-              "thursdayToWednesday",
-              "fridayToThursday",
-              "saturdayToFriday",
-              "sundayToSaturday"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "budgetRenewal": {
-            "enum": [
-              "undefined",
-              "daily",
-              "monthly",
-              "lifetime",
-              "weekly"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "budgetStrategy": {
-            "enum": [
-              "capped",
-              "uncapped"
-            ],
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "description": "ad set budget read model",
-        "nullable": true
-      },
-      "ReadAdSetScheduleV24Q1": {
-        "type": "object",
-        "properties": {
-          "activationStatus": {
-            "enum": [
-              "on",
-              "off"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "deliveryStatus": {
-            "enum": [
-              "draft",
-              "inactive",
-              "live",
-              "notLive",
-              "pausing",
-              "paused",
-              "scheduled",
-              "ended",
-              "notDelivering",
-              "archived"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "endDate": {
-            "$ref": "#/components/schemas/NillableDateTime"
-          },
-          "startDate": {
-            "$ref": "#/components/schemas/NillableDateTime"
-          }
-        },
-        "description": "ad set schedule read model",
-        "nullable": true
-      },
-      "ReadAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "advertiserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "bidding": {
-            "$ref": "#/components/schemas/ReadAdSetBiddingV24Q1"
-          },
-          "budget": {
-            "$ref": "#/components/schemas/ReadAdSetBudgetV24Q1"
-          },
-          "campaignId": {
-            "type": "string",
-            "nullable": true
-          },
-          "datasetId": {
-            "type": "string",
-            "nullable": true
-          },
-          "destinationEnvironment": {
-            "enum": [
-              "undefined",
-              "web",
-              "app"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "mediaType": {
-            "enum": [
-              "display",
-              "video"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "objective": {
-            "enum": [
-              "customAction",
-              "clicks",
-              "conversions",
-              "displays",
-              "appPromotion",
-              "revenue",
-              "storeConversions",
-              "value",
-              "reach",
-              "visits",
-              "videoViews"
-            ],
-            "type": "string",
-            "nullable": true
-          },
-          "schedule": {
-            "$ref": "#/components/schemas/ReadAdSetScheduleV24Q1"
-          },
-          "targeting": {
-            "$ref": "#/components/schemas/AdSetTargetingV24Q1"
-          },
-          "videoChannel": {
-            "enum": [
-              "olv",
-              "ctv"
-            ],
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "description": "ad set read model",
-        "nullable": true
-      },
       "ReadModelAdSetId": {
         "type": "object",
         "properties": {
@@ -8315,49 +7308,6 @@
         },
         "description": "read model data for resources"
       },
-      "ReadModelAdSetIdV24Q1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AdSetIdV24Q1"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true,
-            "readOnly": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true,
-            "example": "AdSetIdV24Q1"
-          }
-        },
-        "description": "read model data for resources"
-      },
-      "ReadModelReadAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ReadAdSetV24Q1"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true,
-            "readOnly": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true,
-            "example": "ReadAdSetV24Q1"
-          }
-        },
-        "description": "read model data for resources",
-        "nullable": true
-      },
       "RequestsAdSetId": {
         "type": "object",
         "properties": {
@@ -8365,19 +7315,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/WriteModelAdSetId"
-            },
-            "nullable": true
-          }
-        },
-        "description": "List of input resources"
-      },
-      "RequestsPatchAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WriteModelPatchAdSetV24Q1"
             },
             "nullable": true
           }
@@ -8773,31 +7710,6 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
-      "ResponseReadAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReadModelReadAdSetV24Q1"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "output resource"
-      },
       "ResponsesAdSetId": {
         "type": "object",
         "properties": {
@@ -8805,66 +7717,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ReadModelAdSetId"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "List of output resources"
-      },
-      "ResponsesAdSetIdV24Q1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReadModelAdSetIdV24Q1"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "List of output resources"
-      },
-      "ResponsesReadAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReadModelReadAdSetV24Q1"
             },
             "nullable": true,
             "readOnly": true
@@ -9105,8 +7957,6 @@
                 "SalesAllPc30dPv24h",
                 "SalesPc7dPv24",
                 "SalesAllPc7dPv24",
-                "SalesPc7dPv24h",
-                "SalesAllPc7dPv24h",
                 "SalesLc",
                 "SalesAllLc",
                 "SalesPc7d",
@@ -9133,8 +7983,6 @@
                 "RevenueGeneratedAllPc30Pv24",
                 "RevenueGeneratedPc30dPv24h",
                 "RevenueGeneratedAllPc30dPv24h",
-                "RevenueGeneratedPc7dPv24h",
-                "RevenueGeneratedAllPc7dPv24h",
                 "RevenueGeneratedPc7dPv24",
                 "RevenueGeneratedAllPc7dPv24",
                 "RevenueGeneratedLc",
@@ -9161,8 +8009,6 @@
                 "ConversionRateAllPc30dPv24h",
                 "ConversionRatePc7dPv24",
                 "ConversionRateAllPc7dPv24",
-                "ConversionRatePc7dPv24h",
-                "ConversionRateAllPc7dPv24h",
                 "ConversionRatePc7d",
                 "ConversionRateAllPc7d",
                 "ConversionRatePc1d",
@@ -9181,8 +8027,6 @@
                 "ECosAllPc30Pv24",
                 "ECosPc30dPv24h",
                 "ECosAllPc30dPv24h",
-                "ECosPc7dPv24h",
-                "ECosAllPc7dPv24h",
                 "ECosPc7dPv24",
                 "ECosAllPc7dPv24",
                 "ECosPc7d",
@@ -9201,8 +8045,6 @@
                 "CostPerOrderAllPc30Pv24",
                 "CostPerOrderPc30dPv24h",
                 "CostPerOrderAllPc30dPv24h",
-                "CostPerOrderPc7dPv24h",
-                "CostPerOrderAllPc7dPv24h",
                 "CostPerOrderPc7dPv24",
                 "CostPerOrderAllPc7dPv24",
                 "CostPerOrderPc7d",
@@ -9228,8 +8070,6 @@
                 "AverageCartAllPc30Pv24",
                 "AverageCartPc30dPv24h",
                 "AverageCartAllPc30dPv24h",
-                "AverageCartPc7dPv24h",
-                "AverageCartAllPc7dPv24h",
                 "AverageCartPc7dPv24",
                 "AverageCartAllPc7dPv24",
                 "ClickThroughRate",
@@ -9290,13 +8130,22 @@
                 "RoasAllPc30dPv24h",
                 "RoasPc7dPv24",
                 "RoasAllPc7dPv24",
-                "RoasPc7dPv24h",
-                "RoasAllPc7dPv24h",
                 "CostOfSalePi",
                 "CostPerOrderPi",
                 "PostInstallCostOfSale",
                 "PostInstallCostPerOrder",
                 "ReturnOnAdvertiserSpendingPi",
+                "CacClientAttribution",
+                "CacPc30d",
+                "CacPc7d",
+                "CacPc1d",
+                "CacPv24h",
+                "CacPv7d",
+                "CacPv14d",
+                "CacPv30d",
+                "CacPc30Pv24h",
+                "CacPc7dPv24h",
+                "CacLc30d",
                 "PostInstallRoas",
                 "ReturnOnAdvertiserSpendingOfflinePc",
                 "ReturnOnAdvertiserSpendingOfflinePv",
@@ -9615,26 +8464,6 @@
             "description": "Canonical type name of the entity",
             "nullable": true,
             "example": "AdSetId"
-          }
-        },
-        "description": "write model data for resources"
-      },
-      "WriteModelPatchAdSetV24Q1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/PatchAdSetV24Q1"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity",
-            "nullable": true,
-            "example": "PatchAdSetV24Q1"
           }
         },
         "description": "write model data for resources"

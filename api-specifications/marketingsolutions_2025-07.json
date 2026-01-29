@@ -64,126 +64,6 @@
         ]
       }
     },
-    "/2025-07/audiences/{audience-segment-id}/contactlist": {
-      "delete": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Delete all identifiers from a contact list audience-segment.",
-        "responses": {
-          "200": {
-            "description": "The Contact List was emptied",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteAudienceContactListResponse"
-                },
-                "example": {
-                  "data": {
-                    "id": "1",
-                    "type": "AudienceContactlist"
-                  },
-                  "errors": [ ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Audience_Manage"
-            ]
-          }
-        ]
-      },
-      "patch": {
-        "tags": [
-          "Audience"
-        ],
-        "description": "Add/remove identifiers to or from a contact list audience-segment.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ContactlistAmendmentRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "body"
-        },
-        "responses": {
-          "200": {
-            "description": "Summary of created request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModifyAudienceResponse"
-                },
-                "example": {
-                  "data": {
-                    "type": "ContactlistAmendment",
-                    "attributes": {
-                      "contactListId": 12,
-                      "operation": "add",
-                      "requestDate": "2018-12-10T10:00:50.0000000+00:00",
-                      "identifierType": "madid",
-                      "nbValidIdentifiers": 7343,
-                      "nbInvalidIdentifiers": 13,
-                      "sampleInvalidIdentifiers": [
-                        "InvalidIdentifier"
-                      ]
-                    }
-                  },
-                  "errors": [ ],
-                  "warnings": [
-                    {
-                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
-                      "type": "deprecation",
-                      "code": "deprecated-field",
-                      "instance": "/audiences/314195",
-                      "title": "'nbValidIds' is deprecated",
-                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Audience_Manage"
-            ]
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "audience-segment-id",
-          "in": "path",
-          "description": "The id of the contact list audience-segment to amend",
-          "required": true,
-          "style": "simple",
-          "schema": {
-            "type": "string",
-            "format": "int32"
-          }
-        }
-      ]
-    },
     "/2025-07/log-level/advertisers/{advertiser-id}/report": {
       "post": {
         "tags": [
@@ -197,7 +77,6 @@
             "in": "path",
             "description": "The advertiser id to fetch the transparency data.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -213,27 +92,27 @@
               },
               "example": {
                 "shouldDisplayProductIds": false,
-                "startDate": "2025-05-31T00:00:00.0000000+00:00",
-                "endDate": "2025-06-03T00:00:00.0000000+00:00"
+                "startDate": "2025-08-11T00:00:00.0000000+00:00",
+                "endDate": "2025-08-14T00:00:00.0000000+00:00"
               }
             },
             "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-08-14T00:00:00+00:00</EndDate>\n  <StartDate>2025-08-11T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             },
             "text/xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-08-14T00:00:00+00:00</EndDate>\n  <StartDate>2025-08-11T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             },
             "application/*+xml": {
               "schema": {
                 "$ref": "#/components/schemas/TransparencyQueryMessage"
               },
-              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-06-03T00:00:00+00:00</EndDate>\n  <StartDate>2025-05-31T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
+              "example": "<TransparencyQueryMessage xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Criteo.Api.Exam.Statistics.Controllers.V1.Messages\">\n  <EndDate>2025-08-14T00:00:00+00:00</EndDate>\n  <StartDate>2025-08-11T00:00:00+00:00</StartDate>\n  <ShouldDisplayProductIds>false</ShouldDisplayProductIds>\n</TransparencyQueryMessage>"
             }
           }
         },
@@ -284,6 +163,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "adSets"
         },
         "responses": {
@@ -358,7 +238,6 @@
             "in": "path",
             "description": "Id of the ad set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -398,7 +277,6 @@
             "in": "path",
             "description": "The ad set ID.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -450,7 +328,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -488,7 +365,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -502,6 +378,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "categoryBidsToUpdate"
         },
         "responses": {
@@ -538,7 +415,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -576,7 +452,6 @@
             "in": "path",
             "description": "Id of the Ad Set",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -590,6 +465,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "displayMultipliersToUpdate"
         },
         "responses": {
@@ -742,7 +618,6 @@
             "in": "path",
             "description": "The ad identifier to delete.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -774,7 +649,6 @@
             "in": "path",
             "description": "The ad identifier to retrieve.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -815,7 +689,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -824,7 +697,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of ads to be returned. The default is 50.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -835,7 +707,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection of ads. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -875,7 +746,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -926,7 +796,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -935,7 +804,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of coupons to be returned. The default is 50.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -946,7 +814,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection of coupons. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -986,7 +853,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1036,7 +902,6 @@
             "name": "ad-set-id",
             "in": "query",
             "description": "The ad set id on which you want to check the Coupon supported sizes.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1046,7 +911,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1086,7 +950,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1096,7 +959,6 @@
             "in": "path",
             "description": "The Coupon identifier to delete.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1127,7 +989,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1137,7 +998,6 @@
             "in": "path",
             "description": "The Coupon identifier to retrieve.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1175,7 +1035,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1185,7 +1044,6 @@
             "in": "path",
             "description": "The Coupon identifier to edit.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1236,7 +1094,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1245,7 +1102,6 @@
             "name": "height",
             "in": "query",
             "description": "The height of the coupon to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1256,7 +1112,6 @@
             "in": "path",
             "description": "The Coupon identifier to preview.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1265,7 +1120,6 @@
             "name": "width",
             "in": "query",
             "description": "The width of the coupon to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1311,7 +1165,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1320,7 +1173,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of creatives to be returned. The default is 50.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -1331,7 +1183,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection of creatives. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -1371,7 +1222,6 @@
             "in": "path",
             "description": "The advertiser identifier.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -1455,6 +1305,7 @@
           "Audience"
         ],
         "description": "Delete all identifiers from a contact list audience-segment.",
+        "operationId": "DeleteContactListByAudienceSegment",
         "responses": {
           "200": {
             "description": "The Contact List was emptied",
@@ -1497,6 +1348,7 @@
           "Audience"
         ],
         "description": "Add/remove identifiers to or from a contact list audience-segment.",
+        "operationId": "UpdateContactListByAudienceSegment",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1561,7 +1413,6 @@
           "in": "path",
           "description": "The id of the contact list audience-segment to amend",
           "required": true,
-          "style": "simple",
           "schema": {
             "type": "string",
             "format": "int32"
@@ -1582,7 +1433,6 @@
             "in": "path",
             "description": "The segment ID.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1783,7 +1633,6 @@
             "in": "query",
             "description": "The advertiser ID.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1793,7 +1642,6 @@
             "in": "query",
             "description": "The ISO 3166-1 alpha-2 country code.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1833,7 +1681,6 @@
             "in": "query",
             "description": "The advertiser ID.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1843,7 +1690,6 @@
             "in": "query",
             "description": "The ISO 3166-1 alpha-2 country code.",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -1882,7 +1728,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
-            "style": "form",
             "schema": {
               "maximum": 100,
               "minimum": 0,
@@ -1895,7 +1740,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -2154,7 +1998,6 @@
             "name": "limit",
             "in": "query",
             "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
-            "style": "form",
             "schema": {
               "maximum": 100,
               "minimum": 0,
@@ -2167,7 +2010,6 @@
             "name": "offset",
             "in": "query",
             "description": "The (zero-based) offset into the collection. The default is 0.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -2224,6 +2066,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "request"
         },
         "responses": {
@@ -2298,7 +2141,6 @@
             "in": "path",
             "description": "Id of the campaign",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2377,7 +2219,6 @@
             "in": "path",
             "description": "The creative identifier to delete.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2408,7 +2249,6 @@
             "in": "path",
             "description": "The creative identifier to retrieve.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2446,7 +2286,6 @@
             "in": "path",
             "description": "The creative identifier to edit.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2496,7 +2335,6 @@
             "name": "height",
             "in": "query",
             "description": "The height of the Creative to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2507,7 +2345,6 @@
             "in": "path",
             "description": "The Creative identifier to preview.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -2516,7 +2353,6 @@
             "name": "width",
             "in": "query",
             "description": "The width of the Creative to preview.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2595,7 +2431,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2637,7 +2472,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2647,7 +2481,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Seller CampaignId",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2657,7 +2490,6 @@
             "name": "height",
             "in": "query",
             "description": "Height of the ad to display",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2668,7 +2500,6 @@
             "in": "query",
             "description": "Id of the seller",
             "required": true,
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2678,7 +2509,6 @@
             "name": "width",
             "in": "query",
             "description": "Width of the ad to display",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2720,7 +2550,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2765,7 +2594,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2775,7 +2603,6 @@
             "name": "budgetId",
             "in": "query",
             "description": "Return only budgets with given Id",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2785,7 +2612,6 @@
             "name": "endAfterDate",
             "in": "query",
             "description": "Return budgets that end after the given date using the `yyyy-MM-DD` format.\r\n            If param is not provided, default behavior is to only return budgets that have not yet ended.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -2795,7 +2621,6 @@
             "name": "sellerId",
             "in": "query",
             "description": "Return only budgets belonging to given sellerId",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -2805,7 +2630,6 @@
             "name": "startBeforeDate",
             "in": "query",
             "description": "Return budgets that start on or before the given date using the `yyyy-MM-DD` format.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -2815,7 +2639,6 @@
             "name": "status",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -2829,7 +2652,6 @@
             "name": "type",
             "in": "query",
             "description": "Return only budgets with the given budget type.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -2838,7 +2660,6 @@
             "name": "withBalance",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -2847,7 +2668,6 @@
             "name": "withSpend",
             "in": "query",
             "description": "Return budgets with any positive spend.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -2891,7 +2711,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2936,7 +2755,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2981,7 +2799,6 @@
             "in": "path",
             "description": "Id of the advertiser",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2991,7 +2808,6 @@
             "name": "partnerId",
             "in": "query",
             "description": "Id of the partner",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3010,6 +2826,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "sellerNames"
         },
         "responses": {
@@ -3081,7 +2898,6 @@
             "name": "advertiserId",
             "in": "query",
             "description": "Return only budgets belonging to the specified advertiser",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3091,7 +2907,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Return only budgets that pay for a given campaign.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3101,7 +2916,6 @@
             "name": "endAfterDate",
             "in": "query",
             "description": "Return budgets that end after the given date using the `yyyy-MM-DD` format.\r\n             If param is not provided, default behavior is to only return budgets that have not yet ended.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -3111,7 +2925,6 @@
             "name": "sellerId",
             "in": "query",
             "description": "Return only budgets belonging to the given seller.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -3120,7 +2933,6 @@
             "name": "startBeforeDate",
             "in": "query",
             "description": "Return budgets that start on or before the given date using the `yyyy-MM-DD` format.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -3130,7 +2942,6 @@
             "name": "status",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -3144,7 +2955,6 @@
             "name": "type",
             "in": "query",
             "description": "Return only budgets with the given budget type.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -3153,7 +2963,6 @@
             "name": "withBalance",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3162,7 +2971,6 @@
             "name": "withSpend",
             "in": "query",
             "description": "Return budgets with any positive spend.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3210,6 +3018,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "updateSellerBudgets"
         },
         "responses": {
@@ -3254,6 +3063,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "createSellerBudgets"
         },
         "responses": {
@@ -3294,7 +3104,6 @@
             "in": "path",
             "description": "Id of the budget.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3334,7 +3143,6 @@
             "in": "path",
             "description": "Id of the budget",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -3350,6 +3158,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "message"
         },
         "responses": {
@@ -3386,7 +3195,6 @@
             "name": "advertiserId",
             "in": "query",
             "description": "Return only seller belonging to the specified advertiser",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3396,7 +3204,6 @@
             "name": "budgetStatus",
             "in": "query",
             "description": "Return only seller campaigns whose budget has the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -3410,7 +3217,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Return only seller campaigns associated with the given campaign.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3420,7 +3226,6 @@
             "name": "sellerId",
             "in": "query",
             "description": "Return only seller campaigns belonging to the given seller.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -3429,7 +3234,6 @@
             "name": "sellerStatus",
             "in": "query",
             "description": "Return only seller campaigns for sellers with the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Inactive",
@@ -3481,6 +3285,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "campaignMessages"
         },
         "responses": {
@@ -3521,7 +3326,6 @@
             "in": "path",
             "description": "Id of the seller campaign.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -3562,7 +3366,6 @@
             "name": "bid",
             "in": "query",
             "description": "The new bid for the seller campaign.",
-            "style": "form",
             "schema": {
               "type": "number",
               "format": "double"
@@ -3573,7 +3376,6 @@
             "in": "path",
             "description": "Id of the existing seller campaign to update",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -3613,7 +3415,6 @@
             "name": "endAfterDate",
             "in": "query",
             "description": "Return budgets that end after the given date using the `yyyy-MM-DD` format.\r\n             If param is not provided, default behavior is to only return budgets that have not yet ended.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -3624,7 +3425,6 @@
             "in": "path",
             "description": "Return only budgets belonging to the given seller campaign.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -3633,7 +3433,6 @@
             "name": "startBeforeDate",
             "in": "query",
             "description": "Return budgets that start on or before the given date using the `yyyy-MM-DD` format.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -3643,7 +3442,6 @@
             "name": "status",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -3657,7 +3455,6 @@
             "name": "type",
             "in": "query",
             "description": "Return only budgets with the given budget type.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -3666,7 +3463,6 @@
             "name": "withBalance",
             "in": "query",
             "description": "Return only budgets with a positive balance.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3675,7 +3471,6 @@
             "name": "withSpend",
             "in": "query",
             "description": "Return budgets with a positive spend.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3718,7 +3513,6 @@
             "name": "advertiserId",
             "in": "query",
             "description": "Return only sellers belonging to the specified advertiser",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3728,7 +3522,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Return only sellers belonging to the specified campaign",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3738,7 +3531,6 @@
             "name": "sellerName",
             "in": "query",
             "description": "Return only sellers with the matching name.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -3747,7 +3539,6 @@
             "name": "sellerStatus",
             "in": "query",
             "description": "Return only sellers with specific status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Inactive",
@@ -3760,7 +3551,6 @@
             "name": "withBudgetStatus",
             "in": "query",
             "description": "Return only sellers with specific budget status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -3774,7 +3564,6 @@
             "name": "withProducts",
             "in": "query",
             "description": "Return only sellers with or without products in catalog.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3818,7 +3607,6 @@
             "in": "path",
             "description": "Id of the seller.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -3858,7 +3646,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Return only budgets that pay for a given campaign.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3868,7 +3655,6 @@
             "name": "endAfterDate",
             "in": "query",
             "description": "Return budgets that end after the given date using the `yyyy-MM-DD` format.\r\n            If param is not provided, default behavior is to only return budgets that have not yet ended.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -3879,7 +3665,6 @@
             "in": "path",
             "description": "Return only budgets belonging to the given seller.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -3888,7 +3673,6 @@
             "name": "startBeforeDate",
             "in": "query",
             "description": "Return budgets that start on or before the given date using the `yyyy-MM-DD` format.",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -3898,7 +3682,6 @@
             "name": "status",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -3912,7 +3695,6 @@
             "name": "type",
             "in": "query",
             "description": "Return only budgets with the given budget type.",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -3921,7 +3703,6 @@
             "name": "withBalance",
             "in": "query",
             "description": "Return only budgets with the given status.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3930,7 +3711,6 @@
             "name": "withSpend",
             "in": "query",
             "description": "Return budgets with any positive spend.",
-            "style": "form",
             "schema": {
               "type": "boolean"
             }
@@ -3973,7 +3753,6 @@
             "name": "budgetStatus",
             "in": "query",
             "description": "Return only seller campaigns whose budget has the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Archived",
@@ -3987,7 +3766,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Return only seller campaigns associated with the given campaign.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3998,7 +3776,6 @@
             "in": "path",
             "description": "Return only seller campaigns belonging to the given seller.",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -4007,7 +3784,6 @@
             "name": "sellerStatus",
             "in": "query",
             "description": "Return only seller campaigns for sellers with the given status.",
-            "style": "form",
             "schema": {
               "enum": [
                 "Inactive",
@@ -4053,7 +3829,6 @@
             "in": "path",
             "description": "Supply a generated Id of an existing Seller",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -4068,6 +3843,7 @@
               }
             }
           },
+          "required": true,
           "x-bodyName": "sellerCampaign"
         },
         "responses": {
@@ -4104,7 +3880,6 @@
             "name": "advertiserId",
             "in": "query",
             "description": "Show only metrics for this advertiser.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4114,7 +3889,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Show only metrics for this campaign (default all campaigns)",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4123,7 +3897,6 @@
             "name": "clickAttributionPolicy",
             "in": "query",
             "description": "Specify the click attribution policy for salesUnits, revenue, CR, CPO, COS, and ROAS",
-            "style": "form",
             "schema": {
               "enum": [
                 "Both",
@@ -4138,7 +3911,6 @@
             "name": "count",
             "in": "query",
             "description": "Return up to the first count rows of data (default is all rows)",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4148,7 +3920,6 @@
             "name": "endDate",
             "in": "query",
             "description": "Filter out all events that occur after date (default is today’s date)",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -4158,7 +3929,6 @@
             "name": "intervalSize",
             "in": "query",
             "description": "Specify the aggregation interval for events used to compute stats (default is \"day\")",
-            "style": "form",
             "schema": {
               "enum": [
                 "Hour",
@@ -4174,7 +3944,6 @@
             "name": "startDate",
             "in": "query",
             "description": "Filter out all events that occur before date (default is the value of `endDate`)",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -4184,7 +3953,6 @@
             "name": "timeZoneId",
             "in": "query",
             "description": "Specify the timezone used in the aggregations (IANA code).",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4225,7 +3993,6 @@
             "name": "advertiserId",
             "in": "query",
             "description": "Show only metrics for this advertiser.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4235,7 +4002,6 @@
             "name": "campaignId",
             "in": "query",
             "description": "Show only metrics for this campaign (default all campaigns)",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4244,7 +4010,6 @@
             "name": "clickAttributionPolicy",
             "in": "query",
             "description": "Specify the click attribution policy for salesUnits, revenue, CR, CPO, COS, and ROAS",
-            "style": "form",
             "schema": {
               "enum": [
                 "Both",
@@ -4259,7 +4024,6 @@
             "name": "count",
             "in": "query",
             "description": "Return up to the first count rows of data (default is all rows)",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4269,7 +4033,6 @@
             "name": "endDate",
             "in": "query",
             "description": "Filter out all events that occur after date (default is today’s date)",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -4279,7 +4042,6 @@
             "name": "intervalSize",
             "in": "query",
             "description": "Specify the aggregation interval for events used to compute stats (default is \"day\")",
-            "style": "form",
             "schema": {
               "enum": [
                 "Hour",
@@ -4295,7 +4057,6 @@
             "name": "sellerId",
             "in": "query",
             "description": "Show only metrics for this seller (default all sellers)",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4304,7 +4065,6 @@
             "name": "startDate",
             "in": "query",
             "description": "Filter out all events that occur before date (default is the value of `endDate`)",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -4314,7 +4074,6 @@
             "name": "timeZoneId",
             "in": "query",
             "description": "Specify the timezone used in the aggregations (IANA code).",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4355,7 +4114,6 @@
             "name": "advertiserId",
             "in": "query",
             "description": "Show only metrics for this advertiser.",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4365,7 +4123,6 @@
             "name": "clickAttributionPolicy",
             "in": "query",
             "description": "Specify the click attribution policy for salesUnits, revenue, CR, CPO, COS, and ROAS",
-            "style": "form",
             "schema": {
               "enum": [
                 "Both",
@@ -4380,7 +4137,6 @@
             "name": "count",
             "in": "query",
             "description": "Return up to the first count rows of data (default is all rows)",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4390,7 +4146,6 @@
             "name": "endDate",
             "in": "query",
             "description": "Filter out all events that occur after date (default is today’s date)",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -4400,7 +4155,6 @@
             "name": "intervalSize",
             "in": "query",
             "description": "Specify the aggregation interval for events used to compute stats (default is \"day\")",
-            "style": "form",
             "schema": {
               "enum": [
                 "Hour",
@@ -4416,7 +4170,6 @@
             "name": "sellerId",
             "in": "query",
             "description": "Show only metrics for this seller (default all sellers)",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4425,7 +4178,6 @@
             "name": "startDate",
             "in": "query",
             "description": "Filter out all events that occur before date (default is the value of `endDate`)",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -4435,7 +4187,6 @@
             "name": "timeZoneId",
             "in": "query",
             "description": "Specify the timezone used in the aggregations (IANA code).",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -4616,8 +4367,8 @@
                 "currency": "EUR",
                 "format": "csv",
                 "timezone": "Europe/Paris",
-                "startDate": "2025-05-31T00:00:00.0000000+00:00",
-                "endDate": "2025-06-03T00:00:00.0000000+00:00"
+                "startDate": "2025-08-11T00:00:00.0000000+00:00",
+                "endDate": "2025-08-14T00:00:00.0000000+00:00"
               }
             }
           }
@@ -7974,8 +7725,7 @@
           },
           "datasetId": {
             "type": "string",
-            "description": "Dataset id of this ad set",
-            "nullable": true
+            "description": "Dataset id of this ad set"
           },
           "mediaType": {
             "enum": [
@@ -10083,6 +9833,23 @@
           "metrics": {
             "type": "array",
             "items": {
+              "enum": [
+                "Clicks",
+                "Displays",
+                "Cost",
+                "SalesPc30d",
+                "RevenuePc30d",
+                "CosPc30d",
+                "RoasPc30d",
+                "CpoPc30d",
+                "CvrPc30d",
+                "SalesPv1d",
+                "RevenuePv1d",
+                "CosPv1d",
+                "RoasPv1d",
+                "CpoPv1d",
+                "CvrPv1d"
+              ],
               "type": "string"
             },
             "description": "The list of metrics to report."
@@ -11410,8 +11177,6 @@
                 "SalesAllPc30dPv24h",
                 "SalesPc7dPv24",
                 "SalesAllPc7dPv24",
-                "SalesPc7dPv24h",
-                "SalesAllPc7dPv24h",
                 "SalesLc",
                 "SalesAllLc",
                 "SalesPc7d",
@@ -11438,8 +11203,6 @@
                 "RevenueGeneratedAllPc30Pv24",
                 "RevenueGeneratedPc30dPv24h",
                 "RevenueGeneratedAllPc30dPv24h",
-                "RevenueGeneratedPc7dPv24h",
-                "RevenueGeneratedAllPc7dPv24h",
                 "RevenueGeneratedPc7dPv24",
                 "RevenueGeneratedAllPc7dPv24",
                 "RevenueGeneratedLc",
@@ -11466,8 +11229,6 @@
                 "ConversionRateAllPc30dPv24h",
                 "ConversionRatePc7dPv24",
                 "ConversionRateAllPc7dPv24",
-                "ConversionRatePc7dPv24h",
-                "ConversionRateAllPc7dPv24h",
                 "ConversionRatePc7d",
                 "ConversionRateAllPc7d",
                 "ConversionRatePc1d",
@@ -11486,8 +11247,6 @@
                 "ECosAllPc30Pv24",
                 "ECosPc30dPv24h",
                 "ECosAllPc30dPv24h",
-                "ECosPc7dPv24h",
-                "ECosAllPc7dPv24h",
                 "ECosPc7dPv24",
                 "ECosAllPc7dPv24",
                 "ECosPc7d",
@@ -11506,8 +11265,6 @@
                 "CostPerOrderAllPc30Pv24",
                 "CostPerOrderPc30dPv24h",
                 "CostPerOrderAllPc30dPv24h",
-                "CostPerOrderPc7dPv24h",
-                "CostPerOrderAllPc7dPv24h",
                 "CostPerOrderPc7dPv24",
                 "CostPerOrderAllPc7dPv24",
                 "CostPerOrderPc7d",
@@ -11533,8 +11290,6 @@
                 "AverageCartAllPc30Pv24",
                 "AverageCartPc30dPv24h",
                 "AverageCartAllPc30dPv24h",
-                "AverageCartPc7dPv24h",
-                "AverageCartAllPc7dPv24h",
                 "AverageCartPc7dPv24",
                 "AverageCartAllPc7dPv24",
                 "ClickThroughRate",
@@ -11595,13 +11350,22 @@
                 "RoasAllPc30dPv24h",
                 "RoasPc7dPv24",
                 "RoasAllPc7dPv24",
-                "RoasPc7dPv24h",
-                "RoasAllPc7dPv24h",
                 "CostOfSalePi",
                 "CostPerOrderPi",
                 "PostInstallCostOfSale",
                 "PostInstallCostPerOrder",
                 "ReturnOnAdvertiserSpendingPi",
+                "CacClientAttribution",
+                "CacPc30d",
+                "CacPc7d",
+                "CacPc1d",
+                "CacPv24h",
+                "CacPv7d",
+                "CacPv14d",
+                "CacPv30d",
+                "CacPc30Pv24h",
+                "CacPc7dPv24h",
+                "CacLc30d",
                 "PostInstallRoas",
                 "ReturnOnAdvertiserSpendingOfflinePc",
                 "ReturnOnAdvertiserSpendingOfflinePv",
