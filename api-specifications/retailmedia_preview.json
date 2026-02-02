@@ -1362,7 +1362,7 @@
             "description": "The id of the line item",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int64"
             }
           }
@@ -1400,7 +1400,7 @@
             "description": "The external line item ID of the sponsored products line item.",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int64"
             }
           }
@@ -1451,7 +1451,7 @@
             "description": "The id of the contact list audience-segment to amend, we only accept external Id here",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int64"
             }
           }
@@ -1535,7 +1535,7 @@
             "description": "The id of the contact list audience-segment to amend, we only accept external Id here",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int64"
             }
           }
@@ -2328,7 +2328,7 @@
             "required": true,
             "schema": {
               "title": "catalogid",
-              "type": "integer",
+              "type": "string",
               "description": "the identifier of the catalog to query"
             }
           }
@@ -2359,6 +2359,43 @@
           {
             "oauth": [
               "RetailMedia_OnSiteRecommendation_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/insights/share-of-voice": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Generate a share of voice by category insight",
+        "operationId": "GenerateShareOfVoiceInsight",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareOfVoiceInsightRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncInsightResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
             ]
           }
         ]
@@ -3604,7 +3641,7 @@
             "description": "The retailer id for which brands should be fetched.",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int32"
             }
           },
@@ -3653,7 +3690,7 @@
             "description": "The retailer id",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int32"
             }
           }
@@ -3703,7 +3740,7 @@
             "description": "The retailer id for which seller should be fetched.",
             "required": true,
             "schema": {
-              "type": "integer",
+              "type": "string",
               "format": "int32"
             }
           },
@@ -4725,6 +4762,34 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "AsyncInsightResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InsightStatusResponseResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
       "AsyncLineItemsReport": {
         "required": [
@@ -7774,6 +7839,74 @@
           }
         },
         "description": "Data model for a Resource"
+      },
+      "InsightStatusResponse": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileSizeBytes": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "md5CheckSum": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "rowCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "Unknown",
+              "Pending",
+              "Success",
+              "Failure",
+              "Expired",
+              "Invalidated"
+            ],
+            "type": "string",
+            "description": "Status of an async report request",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Status of an async report request",
+        "nullable": true
+      },
+      "InsightStatusResponseResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/InsightStatusResponse"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
       },
       "Installment": {
         "type": "object",
@@ -12128,6 +12261,27 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
+      "ServedCategoryFilter": {
+        "required": [
+          "retailerId",
+          "servedCategories"
+        ],
+        "type": "object",
+        "properties": {
+          "retailerId": {
+            "type": "string"
+          },
+          "servedCategories": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The filters to apply"
+      },
       "SetProductBuyBoxWinnersRequest": {
         "required": [
           "productBuyBoxWinners"
@@ -12145,6 +12299,153 @@
         },
         "additionalProperties": false,
         "description": "The request passed by the caller of the SetBuyBoxWinners endpoint"
+      },
+      "ShareOfVoiceInsight": {
+        "required": [
+          "accountId",
+          "dimensions",
+          "metrics"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "all",
+              "onsiteSponsoredProducts",
+              "onsiteDisplay"
+            ],
+            "type": "string",
+            "default": "all"
+          },
+          "dimensions": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "accountId",
+                "accountName",
+                "retailerId",
+                "retailerName",
+                "brandId",
+                "brandName",
+                "campaignId",
+                "campaignName",
+                "buyType",
+                "skuId",
+                "skuName",
+                "lineItemId",
+                "lineItemName",
+                "pageTypeId",
+                "pageTypeName",
+                "productGtin",
+                "productMpn",
+                "productCategory",
+                "servedCategory",
+                "campaignType",
+                "creativeType",
+                "adFormat",
+                "creativeName",
+                "environment"
+              ],
+              "type": "string"
+            }
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "default": "json-compact"
+          },
+          "metrics": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "grossClicks",
+                "spend",
+                "cpc",
+                "ctr",
+                "cpm",
+                "roas",
+                "attributedSales",
+                "attributedUnits",
+                "assistedUnits",
+                "assistedSales",
+                "exposedUsers",
+                "impressionShare",
+                "clickShare",
+                "invalidClicks"
+              ],
+              "type": "string"
+            }
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "servedCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServedCategoryFilter"
+            },
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Description of a Share of voice insight"
+      },
+      "ShareOfVoiceInsightRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ShareOfVoiceInsightResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ShareOfVoiceInsightResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ShareOfVoiceInsight"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "SkuDataPreview": {
         "required": [
