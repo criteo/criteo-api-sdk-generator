@@ -11,6 +11,7 @@ class IOsClient:
     Returns SSH private key for accessing SDK's repository:
     PHP - MarketingSolutions: PHP_SDK_REPO_PRIVATE_KEY_MS
     PHP - RetailMedia: PHP_SDK_REPO_PRIVATE_KEY_RM
+    PHP - CommerceGrid: PHP_SDK_REPO_PRIVATE_KEY_CGRID
     """
     pass
   
