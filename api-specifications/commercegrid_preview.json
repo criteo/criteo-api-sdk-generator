@@ -1,0 +1,1354 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Criteo API",
+    "description": "Criteo API - CommerceGrid",
+    "version": "Preview"
+  },
+  "servers": [
+    {
+      "url": "https://api.criteo.com"
+    }
+  ],
+  "paths": {
+    "/preview/commerce-grid/audience-segments": {
+      "patch": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Updates the properties of all segments with a valid configuration, and returns the full segments. For those that cannot be updated, one or multiple errors are returned.",
+        "operationId": "bulkUpdateAudienceSegments",
+        "requestBody": {
+          "description": "Segment Update request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CgAudienceSegmentBulkUpdateInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CgAudienceSegmentEntityV1ListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/audience-segments/{audience-segment-id}/contact-list/add-remove": {
+      "post": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Add/remove identifiers to or from a Commerce Grid audience segment of type Contact List.",
+        "operationId": "AddRemoveContactListByAudienceSegment",
+        "parameters": [
+          {
+            "name": "audience-segment-id",
+            "in": "path",
+            "description": "The ID of the audience segment of type contact list to amend",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommerceGridContactlistAmendmentRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "body"
+        },
+        "responses": {
+          "200": {
+            "description": "Summary of the add/remove operation of identifiers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommerceGridContactlistOperation"
+                },
+                "example": {
+                  "data": {
+                    "type": "AddRemoveContactlistResult",
+                    "attributes": {
+                      "contactListId": 568708742535471104,
+                      "operation": "add",
+                      "requestDate": "2018-12-10T10:00:50.0000000+00:00",
+                      "identifierType": "madid",
+                      "nbValidIdentifiers": 7343,
+                      "nbInvalidIdentifiers": 13,
+                      "sampleInvalidIdentifiers": [
+                        "InvalidIdentifier"
+                      ]
+                    }
+                  },
+                  "errors": [
+                    {
+                      "traceId": "667ac683ac797284.667ac683ac797284<:667ac683ac797284",
+                      "type": "availability",
+                      "code": "internal-error",
+                      "instance": "",
+                      "title": "Internal error"
+                    }
+                  ],
+                  "warnings": [
+                    {
+                      "traceId": "56ed4096-f96a-4944-8881-05468efe0ec9",
+                      "type": "deprecation",
+                      "code": "deprecated-field",
+                      "instance": "/audiences/314195",
+                      "title": "'nbValidIds' is deprecated",
+                      "detail": "The field 'nbValidIds' is deprecated please use 'nbValidIdentifiers'"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/audience-segments/{audience-segment-id}/contact-list/clear": {
+      "post": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Delete all identifiers from a Commerce Grid audience segment of type Contact List.",
+        "operationId": "ClearContactListByAudienceSegment",
+        "parameters": [
+          {
+            "name": "audience-segment-id",
+            "in": "path",
+            "description": "The ID of the audience segment of type contact list to amend",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The Contact List identifiers were deleted",
+            "content": {
+              "application/json": { }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/audience-segments/{audience-segment-id}/contact-list/statistics": {
+      "get": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Returns the statistics of a contact list segment.",
+        "operationId": "getAudienceSegmentContactListStatistics",
+        "parameters": [
+          {
+            "name": "audience-segment-id",
+            "in": "path",
+            "description": "The segment ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CgContactListStatisticsEntityV1Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/audience-segments/create": {
+      "post": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Creates all segments with a valid configuration, and returns the full segments. For those that cannot be created, one or multiple errors are returned.",
+        "operationId": "bulkCreateAudienceSegments",
+        "requestBody": {
+          "description": "Segment creation parameter",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CgAudienceSegmentBulkCreateInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CgAudienceSegmentEntityV1ListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/audience-segments/delete": {
+      "post": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Delete the segments associated to the given IDs.",
+        "operationId": "bulkDeleteAudienceSegments",
+        "requestBody": {
+          "description": "Segment delete request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CgAudienceSegmentBulkDeleteInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success or partial success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CgAudienceSegmentIdEntityV1ListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/audience-segments/search": {
+      "post": {
+        "tags": [
+          "Segment"
+        ],
+        "description": "Returns a list of segments that match the provided filters. If present, the filters are AND'ed together when applied.",
+        "operationId": "searchAudienceSegments",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of elements to be returned. The default is 50 and the maximum is 100.",
+            "schema": {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The (zero-based) offset into the collection. The default is 0.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CgAudienceSegmentSearchInputV1"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CgAudienceSegmentEntityV1CgAudienceSegmentSearchMetadataV1ListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "CommerceGrid_Segment_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/commerce-grid/me": {
+      "get": {
+        "tags": [
+          "Gateway"
+        ],
+        "description": "Get information about the currently logged application",
+        "operationId": "GetCurrentApplication",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationSummaryModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApplicationSummaryModel": {
+        "type": "object",
+        "properties": {
+          "applicationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "criteoService": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients",
+        "nullable": true
+      },
+      "ApplicationSummaryModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ApplicationSummaryModel"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true
+      },
+      "ApplicationSummaryModelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ApplicationSummaryModelResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "AudienceError": {
+        "required": [
+          "code",
+          "instance",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kebab-case."
+          },
+          "detail": {
+            "type": "string",
+            "description": "(RECOMMENDED) A human-readable explanation specific to this occurrence of the problem",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem"
+          },
+          "source": {
+            "type": "object",
+            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "(RECOMMENDED) A short, human-readable summary of the problem type",
+            "nullable": true
+          },
+          "traceId": {
+            "type": "string",
+            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "(REQUIRED) The classification of the error"
+          }
+        },
+        "description": "Definition of an audience error"
+      },
+      "AudienceWarning": {
+        "required": [
+          "code",
+          "detail",
+          "instance",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "(REQUIRED) A machine-readable unique error code, expressed as a string value. The format used must be kebab-case."
+          },
+          "detail": {
+            "type": "string",
+            "description": "(REQUIRED) A human-readable explanation specific to this occurrence of the problem"
+          },
+          "instance": {
+            "type": "string",
+            "description": "(REQUIRED) A URI reference that identifies the specific occurrence of the problem"
+          },
+          "source": {
+            "type": "object",
+            "description": "(OPTIONAL) A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "(NEVER IN PRODUCTION) A human-readable stacktrace produced by the implementation technology",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "(RECOMMENDED) A short, human-readable summary of the problem type",
+            "nullable": true
+          },
+          "traceId": {
+            "type": "string",
+            "description": "(REQUIRED) The Correlation ID provided by the Gateway. It is also a unique identifier for this particular occurrence of the problem.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "(REQUIRED) The classification of the error"
+          }
+        },
+        "description": "Definition of the warning"
+      },
+      "CgAudienceSegmentBulkCreateInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CgAudienceSegmentCreateEntityV1Resource"
+            }
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for several values."
+      },
+      "CgAudienceSegmentBulkDeleteInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CgAudienceSegmentDeleteEntityV1Resource"
+            }
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for several entities."
+      },
+      "CgAudienceSegmentBulkUpdateInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CgAudienceSegmentUpdateEntityV1Resource"
+            }
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for several entities."
+      },
+      "CgAudienceSegmentCreateEntityV1": {
+        "required": [
+          "dataProviderId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "contactList": {
+            "$ref": "#/components/schemas/CgContactListCreateV1"
+          },
+          "dataProviderId": {
+            "type": "string",
+            "description": "Data provider associated to the segment"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the segment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the segment"
+          }
+        },
+        "description": "Set of rules that defines specific people to target."
+      },
+      "CgAudienceSegmentCreateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgAudienceSegmentCreateEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "CgAudienceSegmentDeleteEntityV1": {
+        "type": "object",
+        "description": "Segment to delete",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "CommerceGridAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "CgAudienceSegmentDeleteEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgAudienceSegmentDeleteEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "CgAudienceSegmentEntityV1": {
+        "type": "object",
+        "properties": {
+          "contactList": {
+            "$ref": "#/components/schemas/CgContactListV1"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp in UTC of segment creation (read-only)",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dataProviderId": {
+            "type": "string",
+            "description": "Data provider associated to the segment (read-only)",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the segment",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the segment",
+            "nullable": true
+          },
+          "remoteId": {
+            "type": "string",
+            "description": "The ID used to identify the segment in the data provider's system (read-only)",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Unknown",
+              "ContactList"
+            ],
+            "type": "string",
+            "description": "Type of segment (read-only)",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp in UTC of segment update (read-only)",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "description": "Set of rules that defines specific people to target.",
+        "nullable": true,
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "CommerceGridAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "CgAudienceSegmentEntityV1CgAudienceSegmentSearchMetadataV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CgAudienceSegmentEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/CgAudienceSegmentSearchMetadataV1"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata"
+      },
+      "CgAudienceSegmentEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CgAudienceSegmentEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+      },
+      "CgAudienceSegmentEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgAudienceSegmentEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "CgAudienceSegmentIdEntityV1": {
+        "type": "object",
+        "description": "Audience Segment entity only with its ID",
+        "nullable": true,
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "CommerceGridAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "CgAudienceSegmentIdEntityV1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CgAudienceSegmentIdEntityV1Resource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several entities"
+      },
+      "CgAudienceSegmentIdEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgAudienceSegmentIdEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "CgAudienceSegmentSearchEntityV1": {
+        "type": "object",
+        "properties": {
+          "audienceSegmentIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of segment ids"
+          },
+          "audienceSegmentTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "ContactList"
+              ],
+              "type": "string"
+            },
+            "description": "List of segment types"
+          },
+          "dataProviderIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of data provider ids"
+          },
+          "remoteIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of ids used to identify the segment in the data provider's system"
+          }
+        },
+        "description": "Available filters to perform a search on audience segments. If present, the filters are AND'ed together when applied."
+      },
+      "CgAudienceSegmentSearchEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgAudienceSegmentSearchEntityV1"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "CgAudienceSegmentSearchInputV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CgAudienceSegmentSearchEntityV1Resource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "CgAudienceSegmentSearchMetadataV1": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "description": "Max item of the current page",
+            "format": "int32",
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Number of item to skip",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalItems": {
+            "type": "integer",
+            "description": "Total number of items",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "Metadata for the audience segment search response.",
+        "nullable": true
+      },
+      "CgAudienceSegmentUpdateEntityV1": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "$ref": "#/components/schemas/NillableString"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the segment"
+          }
+        },
+        "description": "Set of rules that defines specific people to target.",
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "CommerceGridAudienceSegment",
+          "version": "v1"
+        }
+      },
+      "CgAudienceSegmentUpdateEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgAudienceSegmentUpdateEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API"
+      },
+      "CgContactListCreateV1": {
+        "type": "object",
+        "properties": {
+          "remoteId": {
+            "type": "string",
+            "description": "The ID owned by the client and used to identify the Audience Segment."
+          }
+        },
+        "description": "Settings to target users with your contact lists."
+      },
+      "CgContactListStatisticsEntityV1": {
+        "type": "object",
+        "properties": {
+          "matchRate": {
+            "type": "number",
+            "description": "Percentage of matched identifiers in the contact list.\r\nCan differ from matches/identifiers depending on the contact list type.",
+            "format": "double",
+            "nullable": true
+          },
+          "numberOfIdentifiers": {
+            "type": "integer",
+            "description": "Number of identifiers in the contact list.",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberOfMatches": {
+            "type": "integer",
+            "description": "Number of matched identifiers in the contact list.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "Contact list statistics.",
+        "nullable": true,
+        "x-criteo-canonical": {
+          "infoType": "entity",
+          "name": "ContactListStatistics",
+          "version": "v1"
+        }
+      },
+      "CgContactListStatisticsEntityV1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CgContactListStatisticsEntityV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true
+      },
+      "CgContactListStatisticsEntityV1Response": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CgContactListStatisticsEntityV1Resource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity"
+      },
+      "CgContactListV1": {
+        "type": "object",
+        "description": "Settings to target users with your contact lists.",
+        "nullable": true
+      },
+      "CommerceGridContactlistAmendment": {
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "required": [
+              "identifiers",
+              "operation"
+            ],
+            "type": "object",
+            "properties": {
+              "identifiers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "The users to add or remove, each in the schema specified"
+              },
+              "identifierType": {
+                "enum": [
+                  "Email",
+                  "MadId",
+                  "UserIdentifier",
+                  "IdentityLink",
+                  "BidSwitchId",
+                  "FTrackId",
+                  "PanoramaId",
+                  "HadronId",
+                  "IpAddressV4",
+                  "PageUrl",
+                  "PageDomain",
+                  "AppId"
+                ],
+                "type": "string",
+                "description": "What type of identifiers are used"
+              },
+              "operation": {
+                "enum": [
+                  "Add",
+                  "Remove"
+                ],
+                "type": "string",
+                "description": "Whether to add or remove users"
+              }
+            },
+            "description": "Attributes of Commerce Grid contact list amendment"
+          },
+          "type": {
+            "type": "string",
+            "description": "Contact List",
+            "example": "AddRemoveContactlist"
+          }
+        },
+        "description": "Request data of Commerce Grid contact list amendment"
+      },
+      "CommerceGridContactlistAmendmentRequest": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CommerceGridContactlistAmendment"
+          }
+        },
+        "description": "Request of Commerce Grid contact list"
+      },
+      "CommerceGridContactlistOperation": {
+        "required": [
+          "data",
+          "errors",
+          "warnings"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CommerceGridContactlistOperationResponseAttributes"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceError"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceWarning"
+            }
+          }
+        },
+        "description": "Operation on Commerce Grid contact list"
+      },
+      "CommerceGridContactlistOperationResponseAttributes": {
+        "required": [
+          "attributes"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Contact List",
+            "nullable": true,
+            "example": "AddRemoveContactlist"
+          },
+          "attributes": {
+            "required": [
+              "operation"
+            ],
+            "type": "object",
+            "properties": {
+              "contactListId": {
+                "type": "integer",
+                "description": "the affected contact list ID",
+                "format": "int64",
+                "nullable": true,
+                "readOnly": true
+              },
+              "identifierType": {
+                "type": "string",
+                "description": "The schema specified for of the identifiers",
+                "nullable": true,
+                "readOnly": true
+              },
+              "nbInvalidIdentifiers": {
+                "type": "integer",
+                "description": "How many identifiers were invalid for the specified schema",
+                "format": "int32",
+                "nullable": true,
+                "readOnly": true
+              },
+              "nbValidIdentifiers": {
+                "type": "integer",
+                "description": "How many identifiers were valid for the specified schema",
+                "format": "int32",
+                "nullable": true,
+                "readOnly": true
+              },
+              "operation": {
+                "type": "string",
+                "description": "The action recorded"
+              },
+              "requestDate": {
+                "type": "string",
+                "description": "When the action was recorded",
+                "format": "date-time",
+                "nullable": true,
+                "readOnly": true
+              },
+              "sampleInvalidIdentifiers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "A sample of invalid identifiers if there is some",
+                "nullable": true,
+                "readOnly": true
+              }
+            },
+            "description": "Attributes of Commerce Grid contact list amendment"
+          }
+        },
+        "description": "Response data of Commerce Grid contact list amendment"
+      },
+      "CommonProblem": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "A machine-readable error code, expressed as a string value.",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that identifies the specific occurrence of the problem.",
+            "nullable": true
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s)",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "A short human-readable description of the problem type",
+            "nullable": true
+          },
+          "traceId": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from.",
+            "nullable": true
+          },
+          "traceIdentifier": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from. (deprecated, use traceId instead)",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "The problem's category.",
+            "nullable": true
+          }
+        },
+        "description": "Common problem object."
+      },
+      "NillableString": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "The string's value. If missing or null the string's value is set to \"null\"",
+            "nullable": true
+          }
+        },
+        "description": "Placeholder object for string value  for which \"null\" is a valid business value",
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "oauth": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.criteo.com/oauth2/token",
+            "scopes": { }
+          },
+          "authorizationCode": {
+            "authorizationUrl": "https://api.criteo.com/oauth2",
+            "tokenUrl": "https://api.criteo.com/oauth2/token",
+            "scopes": { }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Gateway"
+    },
+    {
+      "name": "Segment"
+    }
+  ],
+  "x-samples-languages": [
+    "java",
+    "python",
+    "php",
+    "csharp",
+    "javascript",
+    "curl",
+    "ruby"
+  ]
+}
