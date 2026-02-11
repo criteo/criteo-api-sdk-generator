@@ -79,6 +79,9 @@ class GitClient(IGitClient):
             raise GitException(f'Git tag operation failed: {str(e)}')
     
     def push(self, include_tags = True):
+        # In case of issue, be sure to check the known remotes.
+        run_command(f'git ls-remote')
+        
         run_command(f'git push origin --all')
 
         if include_tags:
