@@ -14,12 +14,10 @@ jobs:
             ssh_secret: MARKETING_SOLUTIONS_PUBLIC_API_DOC_REPO_PRIVATE_KEY
             repo: marketing-solutions-public-api-doc
             oas_dest_name: criteo-api-1.json
-            spec_file: marketingsolutions_preview.json
           - api: RetailMedia
             ssh_secret: RETAIL_MEDIA_PUBLIC_API_DOC_REPO_PRIVATE_KEY
             repo: retail-media-public-api-doc
             oas_dest_name: criteo-api.json
-            spec_file: retailmedia_preview.json
     name: ${{ matrix.api }}
     steps:
       - uses: actions/checkout@v6
@@ -37,7 +35,7 @@ jobs:
           git checkout $PREVIEW_BRANCH
           OAS_DEST_NAME=${{ matrix.oas_dest_name }}
           OAS_DEST=reference/"$OAS_DEST_NAME"
-          cp ../api-specifications/${{ matrix.spec_file }} "$OAS_DEST"
+          curl -fSsL "https://api.criteo.com/Preview/${{ matrix.api }}/open-api-specifications.json?removeCircularReferences=true" -o "$OAS_DEST"
           chmod u+x ../scripts/regenerate_md_files.sh
           ../scripts/regenerate_md_files.sh "$OAS_DEST_NAME"
           git add "$OAS_DEST"
