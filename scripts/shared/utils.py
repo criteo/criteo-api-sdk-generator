@@ -67,7 +67,7 @@ def run_command(command, env=None, error_template=None):
     output = subprocess.Popen(command,
                        shell=True,
                        stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE,
+                       stderr=subprocess.STDOUT,
                        env=env)
 
     lines = ''
