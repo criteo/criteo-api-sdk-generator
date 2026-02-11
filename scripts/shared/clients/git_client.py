@@ -79,7 +79,7 @@ class GitClient(IGitClient):
             raise GitException(f'Git tag operation failed: {str(e)}')
     
     def push(self, include_tags = True):
-        run_command(f'git push origin --quiet --all')
+        run_command(f'git push origin --all')
 
         if include_tags:
             run_command(f'git push origin --tags')
