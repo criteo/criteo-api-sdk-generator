@@ -112,7 +112,11 @@ def main():
 	try:
 
 		postman_specification_files = prepare_postman_specs_data()
-		solutions_naming_map = dict({CriteoService.marketingsolutions:"MS API", CriteoService.retailmedia:"RM API"})
+		solutions_naming_map = dict({
+			CriteoService.marketingsolutions:"MS API", 
+			CriteoService.retailmedia:"RM API",
+			CriteoService.commercegrid:"CGRID API",
+		})
 		workspace_response_json = get_workspace_data()
 		for file in postman_specification_files:
 			create_flag = False
