@@ -780,49 +780,6 @@
         ]
       }
     },
-    "/preview/retail-media/accounts/{account-id}/balances": {
-      "post": {
-        "tags": [
-          "Balance"
-        ],
-        "description": "Create balance for the given account id",
-        "operationId": "CreateBalanceByAccountId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account to create balances for",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "An object that represents the available options to set when creating a Retail Media Balance",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfCreateBalanceV1"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Balance_Manage"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/accounts/{account-id}/balances/{balance-id}": {
       "patch": {
         "tags": [
@@ -5897,60 +5854,6 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
-      },
-      "CreateBalanceV1": {
-        "required": [
-          "deposited",
-          "endDate",
-          "memo",
-          "name",
-          "spendType",
-          "startDate"
-        ],
-        "type": "object",
-        "properties": {
-          "deposited": {
-            "type": "number",
-            "description": "Amount of billable funds allotted to the balance.",
-            "format": "double",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "End date of the balance in the format YYYY-MM-DD.",
-            "nullable": true
-          },
-          "memo": {
-            "type": "string",
-            "description": "Memo",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the balance."
-          },
-          "poNumber": {
-            "type": "string",
-            "description": "Purchase Order number.",
-            "nullable": true
-          },
-          "spendType": {
-            "enum": [
-              "unknown",
-              "onsite",
-              "offsite",
-              "offsiteAwareness"
-            ],
-            "type": "string",
-            "description": "Type of the balance spend."
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Start date of the balance in the format YYYY-MM-DD."
-          }
-        },
-        "additionalProperties": false,
-        "description": "An object that represents the available options to set when creating a Retail Media Balance"
       },
       "Creative2": {
         "required": [
@@ -13386,16 +13289,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
-      "ValueResourceInputOfCreateBalanceV1": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceOfCreateBalanceV1"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
       "ValueResourceInputOfRetailerSearchRequest": {
         "type": "object",
         "properties": {
@@ -13516,21 +13409,6 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "nullable": true
-      },
-      "ValueResourceOfCreateBalanceV1": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CreateBalanceV1"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfRetailerSearchRequest": {
         "type": "object",
