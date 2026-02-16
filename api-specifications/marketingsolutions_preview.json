@@ -4371,13 +4371,51 @@
         "tags": [
           "OnSiteRecommendation"
         ],
-        "description": "Retrieves a list of products recommended for the given user. This end point can either rely on a Criteo UserId, or a list of user events to perform the recommendation.",
+        "description": "Retrieves a list of products recommended for the given user. This end point can either rely on a Criteo UserId, or a list of user events to perform the recommendation",
         "operationId": "SearchRecommendedProducts",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/OnSiteRecoRequest"
+              }
+            }
+          },
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnSiteRecoResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_OnSiteRecommendation_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/recommendation/search-conversational": {
+      "post": {
+        "tags": [
+          "OnSiteRecommendation"
+        ],
+        "description": "Retrieves a list of products recommended for the given user based on a conversation between a user and a partner's agent",
+        "operationId": "SearchRecommendedProductsConversational",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnSiteRecoRequestConversational"
               }
             }
           },
@@ -5662,11 +5700,42 @@
         },
         "description": "filter on ad set ids"
       },
+      "AdSetSearchRequestMetadataV26Q1": {
+        "type": "object",
+        "properties": {
+          "fields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Name",
+                "AdvertiserId",
+                "DatasetId",
+                "CampaignId",
+                "DestinationEnvironment",
+                "Objective",
+                "Schedule",
+                "Bidding",
+                "Targeting",
+                "Budget",
+                "MediaType",
+                "VideoChannel",
+                "AttributionConfiguration"
+              ],
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Optional metadata for searching ad sets"
+      },
       "AdSetSearchRequestV26Q1": {
         "type": "object",
         "properties": {
           "filters": {
             "$ref": "#/components/schemas/AdSetSearchFilterV26Q1"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AdSetSearchRequestMetadataV26Q1"
           }
         },
         "description": "request payload of the search endpoint"
@@ -11962,6 +12031,70 @@
         "description": "Placeholder object for string value  for which \"null\" is a valid business value",
         "nullable": true
       },
+      "OnSiteRecoChatMessage": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "description": "Chat message of conversation"
+      },
+      "OnSiteRecoPrice": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Price amount.",
+            "format": "float"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Price currency in ISO 4217 format."
+          }
+        },
+        "description": "Price information"
+      },
+      "OnSiteRecoProductContext": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string",
+            "description": "Product brand."
+          },
+          "category": {
+            "type": "string",
+            "description": "Google product category."
+          },
+          "color": {
+            "type": "string",
+            "description": "Product color."
+          },
+          "description": {
+            "type": "string",
+            "description": "Product description."
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name."
+          },
+          "price": {
+            "$ref": "#/components/schemas/OnSiteRecoPrice"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier of the product matching Criteo Catalog Integration"
+          },
+          "size": {
+            "type": "string",
+            "description": "Product size (e.g., M, 42, 500ml)."
+          }
+        },
+        "description": "Information about a product used as context for conversational recommendation"
+      },
       "OnSiteRecoRequest": {
         "required": [
           "nbRequestedProducts",
@@ -11983,10 +12116,11 @@
             "enum": [
               "CtoBundle",
               "Idfa",
-              "Gaid"
+              "Gaid",
+              "InternalUserId"
             ],
             "type": "string",
-            "description": "Type of the user identifier (CtoBundle, Idfa, Gaid...)\r\nOptional if its type is CtoBundle"
+            "description": "Type of the user identifier (CtoBundle, Idfa, Gaid...) Optional if its type is CtoBundle"
           },
           "nbRequestedProducts": {
             "type": "integer",
@@ -12003,7 +12137,54 @@
             "description": "Used to retrieve user events from Criteo trackers."
           }
         },
-        "description": "Recommendation request parameters."
+        "description": "Recommendation request parameters"
+      },
+      "OnSiteRecoRequestConversational": {
+        "required": [
+          "adSetId",
+          "conversation",
+          "nbRequestedProducts",
+          "partnerId",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "adId": {
+            "type": "integer",
+            "description": "Id of the Ad. This field is optional, it allows to setup Reco controls at Ad level.",
+            "format": "int32"
+          },
+          "adSetId": {
+            "type": "integer",
+            "description": "Id of the AdSet. This field is optional and is resolved automatically for adsets previously configured.",
+            "format": "int32"
+          },
+          "conversation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnSiteRecoChatMessage"
+            },
+            "description": "Conversation between the user and the agent."
+          },
+          "nbRequestedProducts": {
+            "type": "integer",
+            "description": "Amount of products to recommend.",
+            "format": "int32"
+          },
+          "partnerId": {
+            "type": "integer",
+            "description": "Id of the partner.",
+            "format": "int32"
+          },
+          "product": {
+            "$ref": "#/components/schemas/OnSiteRecoProductContext"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Used to retrieve user events from Criteo trackers."
+          }
+        },
+        "description": "Conversational recommendation request parameters"
       },
       "OnSiteRecoResponse": {
         "type": "object",
@@ -12026,7 +12207,7 @@
             "nullable": true
           }
         },
-        "description": "Recommendation response."
+        "description": "Recommendation response"
       },
       "Outcome": {
         "type": "object",
@@ -13885,7 +14066,7 @@
           },
           "clickUrl": {
             "type": "string",
-            "description": "Url leading to product details page and also used to track user click. It's relying on the default product URL field in the catalog.",
+            "description": "Url leading to product details page and also used to track user click",
             "nullable": true
           },
           "description": {
@@ -13905,7 +14086,7 @@
           },
           "name": {
             "type": "string",
-            "description": "Product name.",
+            "description": "Product name",
             "nullable": true
           },
           "price": {
@@ -13916,10 +14097,10 @@
           },
           "productExternalId": {
             "type": "string",
-            "description": "Product external id. Same id than what is used in user events.",
+            "description": "Product external id. Same id than what is used in user events",
             "nullable": true
           },
-          "retailprice": {
+          "retailPrice": {
             "type": "number",
             "description": "Product retail price.",
             "format": "double",
