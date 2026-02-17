@@ -355,10 +355,104 @@
           }
         ]
       }
+    },
+    "/2026-01/commerce-grid/me": {
+      "get": {
+        "tags": [
+          "Gateway"
+        ],
+        "description": "Get information about the currently logged application",
+        "operationId": "GetCurrentApplication",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationSummaryModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
+      }
     }
   },
   "components": {
     "schemas": {
+      "ApplicationSummaryModel": {
+        "type": "object",
+        "properties": {
+          "applicationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "criteoService": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "Used for the /me endpoint. Contains information about the currently authenticated application that we accept to give to our clients",
+        "nullable": true
+      },
+      "ApplicationSummaryModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ApplicationSummaryModel"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true
+      },
+      "ApplicationSummaryModelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ApplicationSummaryModelResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
       "AudienceError": {
         "required": [
           "code",
@@ -1241,6 +1335,9 @@
     }
   ],
   "tags": [
+    {
+      "name": "Gateway"
+    },
     {
       "name": "Segment"
     }
