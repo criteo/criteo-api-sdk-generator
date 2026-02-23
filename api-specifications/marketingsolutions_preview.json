@@ -12043,58 +12043,6 @@
         },
         "description": "Chat message of conversation"
       },
-      "OnSiteRecoPrice": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "description": "Price amount.",
-            "format": "float"
-          },
-          "currency": {
-            "type": "string",
-            "description": "Price currency in ISO 4217 format."
-          }
-        },
-        "description": "Price information"
-      },
-      "OnSiteRecoProductContext": {
-        "type": "object",
-        "properties": {
-          "brand": {
-            "type": "string",
-            "description": "Product brand."
-          },
-          "category": {
-            "type": "string",
-            "description": "Google product category."
-          },
-          "color": {
-            "type": "string",
-            "description": "Product color."
-          },
-          "description": {
-            "type": "string",
-            "description": "Product description."
-          },
-          "name": {
-            "type": "string",
-            "description": "Product name."
-          },
-          "price": {
-            "$ref": "#/components/schemas/OnSiteRecoPrice"
-          },
-          "productId": {
-            "type": "string",
-            "description": "Unique identifier of the product matching Criteo Catalog Integration"
-          },
-          "size": {
-            "type": "string",
-            "description": "Product size (e.g., M, 42, 500ml)."
-          }
-        },
-        "description": "Information about a product used as context for conversational recommendation"
-      },
       "OnSiteRecoRequest": {
         "required": [
           "nbRequestedProducts",
@@ -12177,7 +12125,7 @@
             "format": "int32"
           },
           "product": {
-            "$ref": "#/components/schemas/OnSiteRecoProductContext"
+            "$ref": "#/components/schemas/ProductContext"
           },
           "userId": {
             "type": "string",
@@ -13282,6 +13230,43 @@
         },
         "description": "Defines a product to be inserted or updated."
       },
+      "ProductContext": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string",
+            "description": "Product brand."
+          },
+          "category": {
+            "type": "string",
+            "description": "Google product category."
+          },
+          "color": {
+            "type": "string",
+            "description": "Product color."
+          },
+          "description": {
+            "type": "string",
+            "description": "Product description."
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name."
+          },
+          "price": {
+            "$ref": "#/components/schemas/ProductPrice"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier of the product matching Criteo Catalog Integration"
+          },
+          "size": {
+            "type": "string",
+            "description": "Product size (e.g., M, 42, 500ml)."
+          }
+        },
+        "description": "Information about a product used as context for conversational recommendation"
+      },
       "ProductFilterConfig": {
         "required": [
           "adId",
@@ -13374,6 +13359,21 @@
           }
         },
         "description": "Warning descriptor."
+      },
+      "ProductPrice": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Price amount.",
+            "format": "float"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Price currency in ISO 4217 format."
+          }
+        },
+        "description": "Price information"
       },
       "ProductsCustomBatchRequest": {
         "required": [
