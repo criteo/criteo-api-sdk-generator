@@ -1834,8 +1834,7 @@
             "description": "Identifies the merchant, can also be called partnerId",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -1881,8 +1880,7 @@
             "description": "Identifies the merchant, can also be called partnerId",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -11855,12 +11853,22 @@
         "required": [
           "accountId",
           "dimensions",
-          "metrics"
+          "endDate",
+          "metrics",
+          "startDate"
         ],
         "type": "object",
         "properties": {
           "accountId": {
             "type": "string"
+          },
+          "aggregationLevel": {
+            "enum": [
+              "category",
+              "keyword"
+            ],
+            "type": "string",
+            "default": "category"
           },
           "brandIds": {
             "type": "array",
@@ -11903,6 +11911,8 @@
                 "productMpn",
                 "productCategory",
                 "servedCategory",
+                "keyword",
+                "keywordType",
                 "campaignType",
                 "creativeType",
                 "adFormat",
@@ -11925,6 +11935,26 @@
             ],
             "type": "string",
             "default": "json-compact"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "keywordTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "generic",
+                "branded",
+                "conquesting"
+              ],
+              "type": "string"
+            },
+            "nullable": true
           },
           "metrics": {
             "minItems": 1,
