@@ -2029,139 +2029,6 @@
         ]
       }
     },
-    "/preview/retail-media/catalogs/sku-retrieval": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Endpoint to search skus by text, retailer and sellers/brands.",
-        "operationId": "SkuRetrieval_PostApiExternalV1CatalogsSkuRetrieval",
-        "parameters": [
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "The start position in the overall list of matches. Must be zero or greater.",
-            "schema": {
-              "maximum": 500,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of results to return with each call. Must be greater than zero.",
-            "schema": {
-              "maximum": 1000,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 100
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The list of SKU keys to retrieve sku information",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Skus found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SkuDataPreviewListResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/catalogs/sku-search": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Endpoint to search skus by text, retailer and sellers/brands.",
-        "operationId": "SkuSearch_PostApiExternalV1CatalogsSkuSearch",
-        "parameters": [
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "The start position in the overall list of matches. Must be zero or greater.",
-            "schema": {
-              "maximum": 500,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of results to return with each call. Must be greater than zero.",
-            "schema": {
-              "maximum": 1000,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 100
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SkuSearchRequestPreviewRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Skus found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SkuDataPreviewListResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/chatbot-catalogs/{catalogid}/product-recommendations": {
       "post": {
         "tags": [
@@ -3278,56 +3145,6 @@
         ]
       }
     },
-    "/preview/retail-media/retailers/{retailer-id}/cpc-rates": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Gets the minimum cpc bid for the retailer, and optionally the categories under the retailer",
-        "operationId": "Retailer_GetApiExternalV1RetailerCpcRatesByRetailerId",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "The fields in the response that is to be included",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "retailer-id",
-            "in": "path",
-            "description": "The retailer id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "bids found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CpcRateCardPreviewResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/retailers/{retailer-id}/offers/update": {
       "post": {
         "tags": [
@@ -3373,45 +3190,6 @@
           {
             "oauth": [
               "RetailMedia_Catalog_Manage"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailer-id}/placements": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Gets all placement information for the given retailer",
-        "operationId": "Retailer_GetApiExternalV1RetailerPlacementsByRetailerId",
-        "parameters": [
-          {
-            "name": "retailer-id",
-            "in": "path",
-            "description": "The retailer id for which placements should be fetched.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "placements records",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlacementPreviewListResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
             ]
           }
         ]
@@ -3467,64 +3245,6 @@
         ]
       }
     },
-    "/preview/retail-media/retailers/{retailerId}/brands": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Gets the brands for the given retailer",
-        "operationId": "Retailer_GetApiExternalV1RetailerBrandsByRetailerId",
-        "parameters": [
-          {
-            "name": "brand-type",
-            "in": "query",
-            "description": "Filter to narrow down brands [all|uc|retailer]. Defaults to uc",
-            "schema": {
-              "type": "string",
-              "default": "uc"
-            }
-          },
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer id for which brands should be fetched.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "sku-stock-type-filter",
-            "in": "query",
-            "description": "Filter to narrow down brands [first-party|third-party|first-and-third-party]. Defaults to first-and-third-party",
-            "schema": {
-              "type": "string",
-              "default": "first-and-third-party"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Brands found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BrandPreviewListResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/retailers/{retailerId}/compute-display-min-bid": {
       "post": {
         "tags": [
@@ -3561,55 +3281,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueResourceCollectionOutcomeDisplayAuctionMinBidResult"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/preview/retail-media/retailers/{retailerId}/sellers/{seller}": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "description": "Endpoint to get market place seller id and name",
-        "operationId": "Seller_GetApiExternalV1RetailerByRetailerId}Sellers{seller",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer id for which seller should be fetched.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "seller",
-            "in": "path",
-            "description": "The seller id or seller name which should be validated.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Seller found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SellerPreviewResponse"
                 }
               }
             }
@@ -5527,7 +5198,7 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Entry"
+              "$ref": "#/components/schemas/InsertEntry"
             }
           }
         },
@@ -5627,60 +5298,6 @@
         "description": "An object that represents the result from a brand ID search.",
         "nullable": true
       },
-      "BrandPreview": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "brandType": {
-            "type": "string",
-            "description": "Brand Type",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "Brand Name"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Retail media brands",
-        "nullable": true
-      },
-      "BrandPreviewListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBrandPreview"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
-      },
       "CampaignAvailability": {
         "type": "object",
         "properties": {
@@ -5773,30 +5390,6 @@
         "additionalProperties": false,
         "description": "The status of an asynchronous request to generate a catalog",
         "nullable": true
-      },
-      "Category202204": {
-        "required": [
-          "name",
-          "parentId",
-          "text"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Category Name"
-          },
-          "parentId": {
-            "type": "string",
-            "description": "Category ParentId"
-          },
-          "text": {
-            "type": "string",
-            "description": "Category Text"
-          }
-        },
-        "additionalProperties": false,
-        "description": "List of retailer's categories, including the full hierarchy of categories and their parent category ID"
       },
       "ChangeDetailsV1": {
         "type": "object",
@@ -5917,65 +5510,6 @@
           }
         },
         "description": "Common problem object."
-      },
-      "CpcRateCardPreview": {
-        "required": [
-          "retailerMinimumCpcBid"
-        ],
-        "type": "object",
-        "properties": {
-          "categories": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/Category202204"
-            },
-            "description": "map of category id to category values",
-            "nullable": true
-          },
-          "categoryMinimumCpcBids": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "number",
-              "format": "double"
-            },
-            "description": "map of category id to minimum cpc bids",
-            "nullable": true
-          },
-          "retailerMinimumCpcBid": {
-            "type": "number",
-            "description": "retailer minimum cpc bid",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Represents all minimum cpc rates for a retailer and category id",
-        "nullable": true
-      },
-      "CpcRateCardPreviewResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfCpcRateCardPreview"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
       "Creative2": {
         "required": [
@@ -6906,25 +6440,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
-      "Entry": {
-        "required": [
-          "attributes",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/StoreInventoryUpsert"
-          },
-          "type": {
-            "enum": [
-              "Upsert"
-            ],
-            "type": "string"
-          }
-        },
-        "description": "Defines a pack of inventories"
-      },
       "ExportReportColumn": {
         "required": [
           "name",
@@ -7426,6 +6941,25 @@
           }
         },
         "description": "Data model for a Resource"
+      },
+      "InsertEntry": {
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/StoreInventoryUpsert"
+          },
+          "type": {
+            "enum": [
+              "Upsert"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "Defines a pack of inventories"
       },
       "InsightStatusResponse": {
         "type": "object",
@@ -8093,92 +7627,6 @@
         },
         "description": "Metadata for paging data.",
         "nullable": true
-      },
-      "PlacementPreview": {
-        "required": [
-          "name",
-          "pageEnvironmentType",
-          "pageType",
-          "retailerId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the placement"
-          },
-          "pageEnvironmentType": {
-            "enum": [
-              "Unknown",
-              "Web",
-              "Mobile",
-              "App",
-              "Lockout",
-              "Mixed",
-              "iOS",
-              "Android"
-            ],
-            "type": "string",
-            "description": "Page Environment"
-          },
-          "pageType": {
-            "enum": [
-              "Unknown",
-              "Search",
-              "Home",
-              "Browse",
-              "Checkout",
-              "Category",
-              "ProductDetail",
-              "Confirmation",
-              "Merchandising",
-              "Deals"
-            ],
-            "type": "string",
-            "description": "Page Type"
-          },
-          "retailerId": {
-            "type": "string",
-            "description": "Retailer Id"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Ad Placement information on a page",
-        "nullable": true
-      },
-      "PlacementPreviewListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfPlacementPreview"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
       },
       "PreferredLineItemCreateModelV2": {
         "required": [
@@ -9638,45 +9086,6 @@
         },
         "description": "Report response format"
       },
-      "ResourceOfBrandPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/BrandPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API."
-      },
-      "ResourceOfCpcRateCardPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CpcRateCardPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API.",
-        "nullable": true
-      },
       "ResourceOfCreative2": {
         "type": "object",
         "properties": {
@@ -9696,25 +9105,6 @@
         "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API.",
         "nullable": true
-      },
-      "ResourceOfPlacementPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/PlacementPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API."
       },
       "ResourceOfPreferredLineItemUpdateModelV2": {
         "type": "object",
@@ -9790,64 +9180,6 @@
         },
         "description": "A class that represents a domain entity exposed by an API",
         "nullable": true
-      },
-      "ResourceOfSellerPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SellerPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API.",
-        "nullable": true
-      },
-      "ResourceOfSkuDataPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SkuDataPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API."
-      },
-      "ResourceOfSkuSearchRequestPreview": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/SkuSearchRequestPreview"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier of this resource.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A class that represents a domain entity exposed by an API."
       },
       "RetailerResult": {
         "type": "object",
@@ -11771,45 +11103,6 @@
         "additionalProperties": false,
         "description": "Common problem object."
       },
-      "SellerPreview": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Seller Name",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Retail media Seller Id and Name",
-        "nullable": true
-      },
-      "SellerPreviewResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfSellerPreview"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
-      },
       "ServedCategoryFilter": {
         "required": [
           "retailerId",
@@ -12027,282 +11320,6 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
-      },
-      "SkuDataPreview": {
-        "required": [
-          "brandId",
-          "brandName",
-          "id",
-          "isInStock",
-          "price",
-          "retailerId",
-          "retailerName",
-          "skuKey",
-          "updatedAt"
-        ],
-        "type": "object",
-        "properties": {
-          "brandId": {
-            "type": "string",
-            "description": "The global brand id associated to the product."
-          },
-          "brandName": {
-            "maxLength": 120,
-            "minLength": 0,
-            "type": "string",
-            "description": "The name of the global brand."
-          },
-          "category": {
-            "maxLength": 1000,
-            "minLength": 0,
-            "type": "string",
-            "description": "The full category breadcrumb in the retailers catalog.",
-            "nullable": true
-          },
-          "categoryId": {
-            "type": "string",
-            "description": "The category Id.",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "description": "A product description.",
-            "nullable": true
-          },
-          "gtin": {
-            "type": "string",
-            "description": "A GTIN identifier for the product if available. Covers variations such as EANs and UPCs.",
-            "nullable": true
-          },
-          "id": {
-            "maxLength": 500,
-            "minLength": 0,
-            "type": "string",
-            "description": "The product identifier."
-          },
-          "imageUrl": {
-            "type": "string",
-            "description": "An http image resource provided by the retailer.",
-            "nullable": true
-          },
-          "isBuybox": {
-            "type": "boolean",
-            "description": "whether the Sku is a Buybox Winner",
-            "nullable": true
-          },
-          "isInStock": {
-            "type": "boolean",
-            "description": "An indication of if the retailer currently has the product in stock."
-          },
-          "isSellerSku": {
-            "type": "boolean",
-            "description": "An indication of if the sku is seller sku.",
-            "nullable": true
-          },
-          "modelNumber": {
-            "type": "string",
-            "description": "The Model Number for the product if available.",
-            "nullable": true
-          },
-          "mpn": {
-            "type": "string",
-            "description": "The MPN for the product if available.",
-            "nullable": true
-          },
-          "name": {
-            "maxLength": 1000,
-            "minLength": 0,
-            "type": "string",
-            "description": "A short product name.",
-            "nullable": true
-          },
-          "parentId": {
-            "type": "string",
-            "description": "The ParentId for the product if available.",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "description": "The price of the product on the retailer site.",
-            "format": "double"
-          },
-          "productPage": {
-            "type": "string",
-            "description": "The product page URL",
-            "nullable": true
-          },
-          "retailerBrandId": {
-            "type": "string",
-            "description": "The retailer brand id associated to the product.",
-            "nullable": true
-          },
-          "retailerBrandName": {
-            "maxLength": 120,
-            "minLength": 0,
-            "type": "string",
-            "description": "The name of the retailer brand.",
-            "nullable": true
-          },
-          "retailerId": {
-            "type": "string",
-            "description": "The identifier for the retailer the product is listed by."
-          },
-          "retailerName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "description": "The retailer name."
-          },
-          "sellerId": {
-            "type": "string",
-            "description": "The id of the seller.",
-            "nullable": true
-          },
-          "sellerName": {
-            "type": "string",
-            "description": "The name of the seller.",
-            "nullable": true
-          },
-          "skuKey": {
-            "type": "string",
-            "description": "The product SKU Key."
-          },
-          "ucGolbalCategoryId": {
-            "type": "string",
-            "description": "The global category Id.",
-            "nullable": true
-          },
-          "updatedAt": {
-            "type": "string",
-            "description": "The last time this product was updated in the Retail Media Catalog. Represented as a UTC ISO8601 string.",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Metadata and usage info of a sku search",
-        "nullable": true
-      },
-      "SkuDataPreviewListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfSkuDataPreview"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
-      },
-      "SkuSearchRequestPreview": {
-        "required": [
-          "queryString",
-          "retailerId"
-        ],
-        "type": "object",
-        "properties": {
-          "brandIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "A list of brand Id's",
-              "format": "long-id"
-            },
-            "description": "A list of brand Id's",
-            "nullable": true
-          },
-          "brandType": {
-            "enum": [
-              "uC",
-              "retailer"
-            ],
-            "type": "string",
-            "description": "Enum to set type of brand id's to filter by",
-            "default": "uC"
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "productIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "A list of product Id's, if not passed ignore and search by QueryString",
-            "nullable": true
-          },
-          "productIdType": {
-            "enum": [
-              "skuKey",
-              "gtin",
-              "mpn",
-              "model",
-              "skuId",
-              "parentId"
-            ],
-            "type": "string",
-            "description": "Type of Product Ids to search for.",
-            "default": "skuKey"
-          },
-          "queryString": {
-            "type": "string",
-            "description": "Query string to search for across SKU's properties (gtin, mpn, feed ID, Title, and Description)"
-          },
-          "retailerId": {
-            "type": "string",
-            "description": "Retailer Id",
-            "format": "long-id"
-          },
-          "sellers": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "A list of seller names and/or seller Id's",
-            "nullable": true
-          },
-          "skuType": {
-            "enum": [
-              "brand",
-              "seller",
-              "all"
-            ],
-            "type": "string",
-            "description": "Enum to set isSellerSku field",
-            "default": "brand"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A request for sku by sellers or brands."
-      },
-      "SkuSearchRequestPreviewRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfSkuSearchRequestPreview"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
       },
       "SponsoredProductsLineItem": {
         "required": [
