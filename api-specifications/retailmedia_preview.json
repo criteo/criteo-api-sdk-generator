@@ -1439,6 +1439,45 @@
         ]
       }
     },
+    "/preview/retail-media/balances/{balanceId}": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Get a balance for the given balance id.",
+        "operationId": "GetBalanceV1",
+        "parameters": [
+          {
+            "name": "balanceId",
+            "in": "path",
+            "description": "The balance id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeBalanceV1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/balances/{balanceId}/history": {
       "get": {
         "tags": [
@@ -5162,6 +5201,125 @@
         "additionalProperties": false,
         "description": "Data model represents the data change capture of balance history."
       },
+      "BalanceV1": {
+        "required": [
+          "balanceType",
+          "createdAt",
+          "deposited",
+          "name",
+          "privateMarketBillingType",
+          "remaining",
+          "spendType",
+          "spent",
+          "startDate",
+          "status",
+          "updatedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "balanceType": {
+            "enum": [
+              "unknown",
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Type of the balance."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation time of the balance.",
+            "format": "date-time"
+          },
+          "criteoPoNumber": {
+            "type": "string",
+            "description": "Criteo purchase order number.",
+            "nullable": true
+          },
+          "deposited": {
+            "type": "number",
+            "description": "Amount of billable funds allotted to the balance.",
+            "format": "double"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the balance."
+          },
+          "privateMarketBillingType": {
+            "enum": [
+              "notApplicable",
+              "billByRetailer",
+              "billByCriteo",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Billing type for Private Market of the balance."
+          },
+          "remaining": {
+            "type": "number",
+            "description": "Amount of remaining funds of the balance.",
+            "format": "double"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The billing retailer id.",
+            "nullable": true
+          },
+          "retailerPoNumber": {
+            "type": "string",
+            "description": "Retailer purchase order number.",
+            "nullable": true
+          },
+          "spendType": {
+            "enum": [
+              "onsite",
+              "offsite",
+              "offsiteAwareness",
+              "lockout",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Spend Type of the balance."
+          },
+          "spent": {
+            "type": "number",
+            "description": "Amount of spent funds of the balance.",
+            "format": "double"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD."
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "scheduled",
+              "active",
+              "ended"
+            ],
+            "type": "string",
+            "description": "Status of the balance."
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Update time of the balance.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account.",
+        "nullable": true
+      },
       "BatchAcceptedResponse": {
         "required": [
           "operationToken"
@@ -6013,6 +6171,27 @@
         "description": "Represents the min bid for a pageType and creative combination.",
         "nullable": true
       },
+      "EntityResourceBalanceV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
       "EntityResourceBrandIdSearchResult": {
         "type": "object",
         "properties": {
@@ -6355,6 +6534,34 @@
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
+      },
+      "EntityResourceOutcomeBalanceV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceBalanceV1"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
       "EntityResourceOutcomeOfCatalogStatusV2": {
         "type": "object",
