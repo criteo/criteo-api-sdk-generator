@@ -4028,6 +4028,164 @@
         ]
       }
     },
+    "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/{reportId}": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "This endpoint is subject to specific rate limits.",
+        "operationId": "GetRealtimeProduct",
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileStreamResultResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileStreamResultResponse"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileStreamResultResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/export": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "This endpoint is subject to specific rate limits.",
+        "operationId": "CreateRealtimeProductReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RealTimeProductReportJobRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RealTimeProductReportJobRequest"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RealTimeProductReportJobRequest"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RealTimeProductReportJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealTimeProductReportJobStatusResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealTimeProductReportJobStatusResponse"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealTimeProductReportJobStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/marketing-solutions/marketplace-performance-outcomes/stats/report-jobs/{reportId}": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "This endpoint is subject to specific rate limits.",
+        "operationId": "GetRealtimeProductJob",
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealTimeProductReportJobStatusResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealTimeProductReportJobStatusResponse"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealTimeProductReportJobStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/marketing-solutions/me": {
       "get": {
         "tags": [
@@ -9920,6 +10078,53 @@
         "description": "Result data for an async report request",
         "nullable": true
       },
+      "FileStreamResultResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "string",
+            "description": "Attributes of the resource.",
+            "format": "binary",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "FileStreamResultResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/FileStreamResultResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
       "GenerateAudiencePerformanceReport": {
         "required": [
           "advertiserId",
@@ -14056,6 +14261,214 @@
         "description": "read model data for resources",
         "nullable": true
       },
+      "RealTimeProductReportJob": {
+        "type": "object",
+        "properties": {
+          "advertiserIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of advertiser IDs to include in the export. Required.",
+            "nullable": true
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of campaign IDs to filter the export.",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency for the export. Default is \"EUR\".",
+            "nullable": true
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "AdvertiserId",
+                "PartnerId",
+                "CampaignId",
+                "SellerId",
+                "ProductId",
+                "Year",
+                "Month",
+                "Week",
+                "Day",
+                "Hour",
+                "Minute"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to include in the export. Default: [\"advertiserId\", \"campaignId\", \"sellerId\", \"productId\", \"day\"].",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End of the reporting interval, in ISOâ€‘8601 dateâ€‘time format (UTC). Mutually exclusive with lookbackWindow.\r\nIf omitted while startDate is provided, defaults to the current time.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fileFormat": {
+            "enum": [
+              "Csv",
+              "Json"
+            ],
+            "type": "string",
+            "description": "The file format for the export. Allowed values: \"csv\", \"json\". Default is \"csv\"."
+          },
+          "lookbackWindow": {
+            "type": "integer",
+            "description": "Lookback window in days. Default is 60.",
+            "format": "int32",
+            "nullable": true
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Clicks",
+                "Displays",
+                "Cost"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to include in the export. Default: [\"clicks\", \"displays\", \"cost\"].",
+            "nullable": true
+          },
+          "partnerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of partner IDs to filter the export.",
+            "nullable": true
+          },
+          "sellerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of seller IDs to filter the export.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start of the reporting interval, in ISOâ€‘8601 dateâ€‘time format (UTC). Mutually exclusive with lookbackWindow.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone for the export. Default is \"UTC\".",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a request to create a real-time product export."
+      },
+      "RealTimeProductReportJobRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RealTimeProductReportJobResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "RealTimeProductReportJobResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RealTimeProductReportJob"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "RealTimeProductReportJobStatus": {
+        "type": "object",
+        "properties": {
+          "exportId": {
+            "type": "string",
+            "description": "Unique ID (UUID) of the export job.",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Optional informational message (e.g. rows_count=1232).",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "Unknown",
+              "Pending",
+              "Done",
+              "Failure",
+              "Expired"
+            ],
+            "type": "string",
+            "description": "Export job status: PENDING, DONE, FAILURE, EXPIRED.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the status of a real-time product report export job.",
+        "nullable": true
+      },
+      "RealTimeProductReportJobStatusResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RealTimeProductReportJobStatus"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "RealTimeProductReportJobStatusResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RealTimeProductReportJobStatusResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
       "RecommendedProduct": {
         "type": "object",
         "properties": {
@@ -14098,6 +14511,12 @@
           "productExternalId": {
             "type": "string",
             "description": "Product external id. Same id than what is used in user events",
+            "nullable": true
+          },
+          "relevancyScore": {
+            "type": "number",
+            "description": "Product Relevancy score",
+            "format": "double",
             "nullable": true
           },
           "retailPrice": {
