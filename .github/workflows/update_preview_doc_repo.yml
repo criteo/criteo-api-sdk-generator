@@ -1,4 +1,4 @@
-name: Update RetailMedia Preview doc
+name: Push Preview OAS to ReadMe documentation repositories
 
 on:
   workflow_dispatch:
@@ -6,23 +6,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: MarketingSolutions
+            ssh_secret: MARKETING_SOLUTIONS_PUBLIC_API_DOC_REPO_PRIVATE_KEY
+            repo: marketing-solutions-public-api-doc
+            oas_dest_name: criteo-api-1.json
+          - api: RetailMedia
+            ssh_secret: RETAIL_MEDIA_PUBLIC_API_DOC_REPO_PRIVATE_KEY
+            repo: retail-media-public-api-doc
+            oas_dest_name: criteo-api.json
+    name: ${{ matrix.api }}
     steps:
       - uses: actions/checkout@v6
 
       - name: Setup SSH Agent for git operations
         uses: webfactory/ssh-agent@v0.9.1
         with:
-            ssh-private-key: ${{ secrets.RETAIL_MEDIA_PUBLIC_API_DOC_REPO_PRIVATE_KEY }}
+            ssh-private-key: ${{ secrets[matrix.ssh_secret] }}
 
       - name: Commit and push Preview OAS
         run: |
-          git clone git@github.com:criteo/retail-media-public-api-doc.git
-          cd retail-media-public-api-doc
+          git clone git@github.com:criteo/${{ matrix.repo }}.git
+          cd ${{ matrix.repo }}
           PREVIEW_BRANCH=$(git branch -a | grep preview | cut -d '/' -f3)
           git checkout $PREVIEW_BRANCH
-          OAS_DEST_NAME=criteo-api.json
+          OAS_DEST_NAME=${{ matrix.oas_dest_name }}
           OAS_DEST=reference/"$OAS_DEST_NAME"
-          cp ../api-specifications/retailmedia_preview.json "$OAS_DEST"
+          curl -fSsL "https://api.criteo.com/Preview/${{ matrix.api }}/open-api-specifications.json?removeCircularReferences=true" -o "$OAS_DEST"
           chmod u+x ../scripts/regenerate_md_files.sh
           ../scripts/regenerate_md_files.sh "$OAS_DEST_NAME"
           git add "$OAS_DEST"
@@ -45,7 +58,7 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Autoupdate of RetailMedia Preview OAS in Readme repo."
+            text: "Autoupdate of ${{ matrix.api }} Preview OAS in Readme repo."
             icon_emoji: ":bell:"
 
       - name: Send failure notification
@@ -58,5 +71,5 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Autoupdate of RetailMedia Preview OAS in Readme repo failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
+            text: "Autoupdate of ${{ matrix.api }} Preview OAS in Readme repo failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
             icon_emoji: ":x:"
