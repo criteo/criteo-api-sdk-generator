@@ -1114,6 +1114,81 @@
         ]
       }
     },
+    "/preview/retail-media/accounts/{accountId}/balances": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "description": "Gets page of balance objects for the given account id.",
+        "operationId": "GetPageOfBalancesV1",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account to get balances for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of elements to be returned.",
+            "schema": {
+              "maximum": 500,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "limit-to-id",
+            "in": "query",
+            "description": "The balance ids which the result is limited to.",
+            "schema": {
+              "maxItems": 50,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The (zero-based) starting offset in the collection.",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBalanceV1AndMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/accounts/{accountId}/grant-third-party-consent": {
       "post": {
         "tags": [
@@ -1478,13 +1553,113 @@
         ]
       }
     },
+    "/preview/retail-media/balances/{balanceId}/campaigns/append": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Appends one or more campaigns to the specified balance",
+        "operationId": "AppendCampaignsToBalanceV1",
+        "parameters": [
+          {
+            "name": "balanceId",
+            "in": "path",
+            "description": "The balance to add campaigns from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The balance campaign appending request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputAppendCampaignsRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeBalanceCampaignsV1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/balances/{balanceId}/campaigns/delete": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Deletes one or more campaigns on the specified balance",
+        "operationId": "DeleteCampaignsFromBalanceV1",
+        "parameters": [
+          {
+            "name": "balanceId",
+            "in": "path",
+            "description": "The balance to remove campaigns from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The balance campaign deleting request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputDeleteCampaignsRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeBalanceCampaignsV1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/balances/{balanceId}/history": {
       "get": {
         "tags": [
           "Balance"
         ],
         "description": "Gets the balance's historical change data.",
-        "operationId": "GetBalanceHistory",
+        "operationId": "GetBalanceHistoryV1",
         "parameters": [
           {
             "name": "balanceId",
@@ -1500,7 +1675,7 @@
             "in": "query",
             "description": "The number of elements to be returned.",
             "schema": {
-              "maximum": 100,
+              "maximum": 500,
               "minimum": 1,
               "type": "integer",
               "format": "int32",
@@ -1534,7 +1709,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageOfBalanceHistoryChangeDataCaptureV1"
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeBalanceHistoryChangeDataCaptureV1AndMetadata"
                 }
               }
             }
@@ -3582,6 +3757,23 @@
   },
   "components": {
     "schemas": {
+      "AppendCampaignsRequestV1": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the campaigns that are going to be appended to balance campaigns mapping."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request object for appending campaigns to balance campaigns mapping."
+      },
       "ApplicationSummaryModel": {
         "type": "object",
         "properties": {
@@ -5154,6 +5346,24 @@
         },
         "description": "Definition of the warning"
       },
+      "BalanceCampaignsV1": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the campaigns that are mapped to the balance."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Balance campaigns mapping object.",
+        "nullable": true
+      },
       "BalanceHistoryChangeDataCaptureV1": {
         "required": [
           "changeDetails",
@@ -5168,17 +5378,19 @@
           },
           "changeType": {
             "enum": [
-              "BalanceCreated",
-              "BalanceAdded",
-              "BalanceRemoved",
-              "BalanceUncapped",
-              "BalanceCapped",
-              "EndDate",
-              "StartDate",
-              "BalanceName",
-              "PoNumber",
-              "ValueAdd",
-              "Unknown"
+              "balanceCreated",
+              "balanceAdded",
+              "balanceRemoved",
+              "balanceUncapped",
+              "balanceCapped",
+              "endDate",
+              "startDate",
+              "balanceName",
+              "retailerPoNumber",
+              "criteoPoNumber",
+              "retailerId",
+              "valueAdd",
+              "unknown"
             ],
             "type": "string",
             "description": "Represent the type of change states of the history."
@@ -5199,7 +5411,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Data model represents the data change capture of balance history."
+        "description": "Data model represents the data change capture of balance history.",
+        "nullable": true
       },
       "BalanceV1": {
         "required": [
@@ -5554,7 +5767,7 @@
         "properties": {
           "changeValue": {
             "type": "string",
-            "description": "Change detail of a property of the insertion order.",
+            "description": "Change amount of a property of the insertion order.",
             "nullable": true
           },
           "currentValue": {
@@ -6089,6 +6302,23 @@
         },
         "description": "Defines a custom attribute of a product."
       },
+      "DeleteCampaignsRequestV1": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the campaigns that are going to be deleted from balance campaigns mapping."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request object for deleting campaigns from balance campaigns mapping."
+      },
       "DeleteEntry": {
         "required": [
           "attributes",
@@ -6210,6 +6440,41 @@
           }
         },
         "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceCollectionOutcomeBalanceV1AndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceBalanceV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata": {
         "type": "object",
@@ -7702,26 +7967,6 @@
           }
         },
         "description": "Metadata related to the current request"
-      },
-      "PageOfBalanceHistoryChangeDataCaptureV1": {
-        "required": [
-          "data",
-          "meta"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BalanceHistoryChangeDataCaptureV1"
-            }
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A wrapper class to return a single page of items with metadata for offset and limit based paging."
       },
       "PageTypeCombination": {
         "type": "object",
@@ -12620,6 +12865,52 @@
         "additionalProperties": false,
         "description": "The request passed by the caller of the Update endpoint"
       },
+      "ValueResourceAppendCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AppendCampaignsRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceBalanceCampaignsV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceCampaignsV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "ValueResourceBalanceHistoryChangeDataCaptureV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceHistoryChangeDataCaptureV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "ValueResourceBrandIdSearchRequest": {
         "type": "object",
         "properties": {
@@ -12647,6 +12938,41 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for several value objects."
+      },
+      "ValueResourceCollectionOutcomeBalanceHistoryChangeDataCaptureV1AndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceBalanceHistoryChangeDataCaptureV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata."
       },
       "ValueResourceCollectionOutcomeDisplayAuctionMinBidResult": {
         "type": "object",
@@ -12712,6 +13038,21 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several value objects."
       },
+      "ValueResourceDeleteCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DeleteCampaignsRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "ValueResourceDisplayAuctionMinBidRequest": {
         "type": "object",
         "properties": {
@@ -12742,6 +13083,16 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "ValueResourceInputAppendCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceAppendCampaignsRequestV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputBrandIdSearchRequest": {
         "type": "object",
         "properties": {
@@ -12750,6 +13101,16 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+      },
+      "ValueResourceInputDeleteCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceDeleteCampaignsRequestV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputDisplayAuctionMinBidRequest": {
         "type": "object",
@@ -13012,6 +13373,34 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOutcomeBalanceCampaignsV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceBalanceCampaignsV1"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
       "ValueResourceOutcomeLineItemBudgetCapOutHistoryResponse": {
         "type": "object",

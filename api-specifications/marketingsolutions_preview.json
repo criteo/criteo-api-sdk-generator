@@ -3012,6 +3012,205 @@
         ]
       }
     },
+    "/preview/marketing-solutions/ads/{ad-id}/product-boost": {
+      "get": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Fetch all boosting associations and configurations",
+        "operationId": "FetchBoostedAdAssociations",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfBoostedAdProductSet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Reco_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/marketing-solutions/ads/{ad-id}/product-boost/{product-set-id}": {
+      "delete": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Delete association and configuration.",
+        "operationId": "DeleteBoostedAdAssociation",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product-set-id",
+            "in": "path",
+            "description": "ID of the product set",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfBoostedAdProductSet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Reco_Manage"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Fetch boosting association and configuration",
+        "operationId": "FetchBoostedAdAssociation",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product-set-id",
+            "in": "path",
+            "description": "ID of the product set",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfBoostedAdProductSet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Reco_Read"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Create or update product boosting configuration",
+        "operationId": "CreateBoostedAdAssociation",
+        "parameters": [
+          {
+            "name": "ad-id",
+            "in": "path",
+            "description": "ID of the ad",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product-set-id",
+            "in": "path",
+            "description": "ID of the product set",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfBoostingConfigurationRequest"
+              }
+            }
+          },
+          "x-bodyName": "boostedAdProductSetAssociationRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfBoostedAdProductSet"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceOutcomeOfBoostedAdProductSet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Reco_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/marketing-solutions/audience-segments": {
       "patch": {
         "tags": [
@@ -4023,6 +4222,59 @@
           {
             "oauth": [
               "MarketingSolutions_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/marketing-solutions/dataset/{dataset-id}/product-boost": {
+      "get": {
+        "tags": [
+          "Reco"
+        ],
+        "description": "Fetch boosting association and configuration for a given partner",
+        "operationId": "FetchBoostedAdAssociationByPartnerId",
+        "parameters": [
+          {
+            "name": "client-type",
+            "in": "query",
+            "description": "Client type filter",
+            "schema": {
+              "enum": [
+                "Unknown",
+                "CGrowth",
+                "CMax"
+              ],
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "dataset-id",
+            "in": "path",
+            "description": "ID of the dataset",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfBoostedAdProductSet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Reco_Read"
             ]
           }
         ]
@@ -8001,6 +8253,45 @@
         "description": "Settings of a behavioral set of users provided by Criteo.",
         "nullable": true
       },
+      "BoostedAdProductSet": {
+        "required": [
+          "adId",
+          "boostingFactor",
+          "modificationDate",
+          "productSetId"
+        ],
+        "type": "object",
+        "properties": {
+          "adId": {
+            "type": "string"
+          },
+          "boostingFactor": {
+            "type": "number",
+            "format": "double"
+          },
+          "modificationDate": {
+            "type": "string"
+          },
+          "productSetId": {
+            "type": "string"
+          }
+        },
+        "description": "Encapsulate a boosted ad product set association and its configuration",
+        "nullable": true
+      },
+      "BoostingConfigurationRequest": {
+        "required": [
+          "boostingFactor"
+        ],
+        "type": "object",
+        "properties": {
+          "boostingFactor": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "Encapsulate the parameters needed to create or update a boosting configuration"
+      },
       "BudgetAutomation": {
         "type": "object",
         "properties": {
@@ -8086,6 +8377,7 @@
               "lifetime"
             ],
             "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
             "nullable": true
           },
           "spendLimitType": {
@@ -8094,6 +8386,7 @@
               "uncapped"
             ],
             "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
             "nullable": true
           }
         },
@@ -8791,7 +9084,8 @@
               "accelerated",
               "standard"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests)."
           },
           "budgetDeliveryWeek": {
             "enum": [
@@ -8804,7 +9098,8 @@
               "saturdayToFriday",
               "sundayToSaturday"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\"."
           },
           "budgetRenewal": {
             "enum": [
@@ -8814,14 +9109,16 @@
               "lifetime",
               "weekly"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\")."
           },
           "budgetStrategy": {
             "enum": [
               "capped",
               "uncapped"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null."
           }
         },
         "description": "ad set budget create model"
@@ -8880,6 +9177,7 @@
       "CreateAdSetV26Q1": {
         "required": [
           "bidding",
+          "budget",
           "campaignId",
           "datasetId",
           "mediaType",
@@ -9044,7 +9342,7 @@
         "properties": {
           "spendLimitAmount": {
             "type": "number",
-            "description": "The amount of the spend limit. null if spendLimitType is uncapped.",
+            "description": "Maximum spend amount in the advertiser's currency per renewal period. Non-null when capped. null when uncapped.",
             "format": "double",
             "nullable": true
           },
@@ -9056,7 +9354,7 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the spend limit renewal"
+            "description": "The period over which the spend limit is consumed.\r\n- \"daily\", \"monthly\": spend limit resets at the start of each period.\r\n- \"lifetime\": spend limit covers the entire campaign duration without resetting.\r\n- \"undefined\": only used when spendLimitType is \"uncapped\" (no renewal applies)."
           },
           "spendLimitType": {
             "enum": [
@@ -9064,7 +9362,7 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your spend limit is capped or not"
+            "description": "Controls whether the campaign has a spending limit.\r\n- \"capped\": spending is limited to spendLimitAmount. Requires spendLimitAmount (non-null) and spendLimitRenewal (not \"undefined\").\r\n- \"uncapped\": no spending limit. spendLimitAmount is null and spendLimitRenewal is \"undefined\"."
           }
         },
         "description": "campaign spend limit create model"
@@ -12440,6 +12738,7 @@
               "standard"
             ],
             "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
             "nullable": true
           },
           "budgetDeliveryWeek": {
@@ -12454,6 +12753,7 @@
               "sundayToSaturday"
             ],
             "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
             "nullable": true
           },
           "budgetRenewal": {
@@ -12465,6 +12765,7 @@
               "weekly"
             ],
             "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
             "nullable": true
           },
           "budgetStrategy": {
@@ -12473,10 +12774,11 @@
               "uncapped"
             ],
             "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
             "nullable": true
           }
         },
-        "description": "ad set budget patch model"
+        "description": "Budget patch model for an ad set. Only provided fields are updated; omitted fields are left unchanged.\r\nSwitching to \"uncapped\": set budgetStrategy to \"uncapped\" and budgetAmount.value to null. Other budget fields (budgetRenewal, budgetDeliverySmoothing, budgetDeliveryWeek) are automatically cleared.\r\nSwitching to \"capped\": set budgetStrategy to \"capped\", budgetAmount.value to a positive number, budgetRenewal to a period, and budgetDeliverySmoothing to a pacing strategy."
       },
       "PatchAdSetCategoryBid": {
         "type": "object",
@@ -14044,6 +14346,7 @@
               "standard"
             ],
             "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
             "nullable": true
           },
           "budgetDeliveryWeek": {
@@ -14058,6 +14361,7 @@
               "sundayToSaturday"
             ],
             "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
             "nullable": true
           },
           "budgetRenewal": {
@@ -14069,6 +14373,7 @@
               "weekly"
             ],
             "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
             "nullable": true
           },
           "budgetStrategy": {
@@ -14077,6 +14382,7 @@
               "uncapped"
             ],
             "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
             "nullable": true
           }
         },
@@ -16396,6 +16702,35 @@
         },
         "description": "User definition with an identifier (email, uid...) and attributes (key, value)"
       },
+      "ValueResourceCollectionOutcomeOfBoostedAdProductSet": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfBoostedAdProductSet"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several values."
+      },
       "ValueResourceCollectionOutcomeOfProductFilterConfig": {
         "type": "object",
         "properties": {
@@ -16424,6 +16759,15 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for several values."
+      },
+      "ValueResourceInputOfBoostingConfigurationRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfBoostingConfigurationRequest"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
       "ValueResourceInputOfCreateProductFilterRequest": {
         "type": "object",
@@ -16470,6 +16814,33 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "ValueResourceOfBoostedAdProductSet": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BoostedAdProductSet"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "nullable": true
+      },
+      "ValueResourceOfBoostingConfigurationRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BoostingConfigurationRequest"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
       "ValueResourceOfCreateProductFilterRequest": {
         "type": "object",
@@ -16549,6 +16920,31 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value.",
         "nullable": true
+      },
+      "ValueResourceOutcomeOfBoostedAdProductSet": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfBoostedAdProductSet"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
       "ValueResourceOutcomeOfExamAdAudienceSegmentLink": {
         "type": "object",
