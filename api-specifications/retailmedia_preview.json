@@ -3320,6 +3320,45 @@
         ]
       }
     },
+    "/preview/retail-media/reports/sync/real-time-performance": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Returns a synchronous Real Time Performance Report. Returns empty rows; metadata includes dataCompleteThrough (latest time from streaming table in the request timezone).\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateSyncRealTimePerformanceReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRealTimePerformanceReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/reports/unfilled-placements": {
       "post": {
         "tags": [
@@ -6302,6 +6341,23 @@
         },
         "description": "Defines a custom attribute of a product."
       },
+      "DataCompleteThrough": {
+        "type": "object",
+        "properties": {
+          "dateTime": {
+            "type": "string",
+            "description": "The instant through which data is complete, in the format \"yyyy-MM-dd HH:mm:ss\" in Criteo.RetailMedia.Exam.Reporting.Resources.Models.Outputs.DataCompleteThrough.Timezone.",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for Criteo.RetailMedia.Exam.Reporting.Resources.Models.Outputs.DataCompleteThrough.DateTime (e.g. \"UTC\", \"America/New_York\"). Matches the query timezone.",
+            "nullable": true
+          }
+        },
+        "description": "Data freshness: the instant through which report data is complete, expressed in the report's request timezone.",
+        "nullable": true
+      },
       "DeleteCampaignsRequestV1": {
         "required": [
           "ids"
@@ -6991,13 +7047,16 @@
             },
             "nullable": true
           },
+          "dataCompleteThrough": {
+            "$ref": "#/components/schemas/DataCompleteThrough"
+          },
           "rows": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           }
         },
-        "description": "Metadata for an async report request: descriptions of the columns and number of rows returned",
+        "description": "Metadata for a report response: data freshness, column descriptions, and row count.",
         "nullable": true
       },
       "ExternalRetailMediaAccountV2": {
@@ -12762,6 +12821,112 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/SyncLineItemsReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "SyncRealTimePerformanceReport": {
+        "required": [
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Account ids to filter (plural; base has AccountId for single account)."
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter."
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "accountId",
+                "accountName",
+                "campaignId",
+                "campaignName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName"
+              ],
+              "type": "string",
+              "description": "Dimensions supported by the real-time performance report (streaming + landing).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
+            },
+            "description": "List of dimensions to report on (real-time: at least one required). Only values from Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeDimension are valid."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Optional end date/time (inclusive in the request timezone). If empty or not provided, no end date filter is applied.\r\nWhen provided, used as the inclusive upper bound for the report range.\r\nHides base Report.EndDate so this report can treat end date as optional (no [Required]).",
+            "format": "date-time"
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line item ids to filter."
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "billableImpressions",
+                "billableClicks",
+                "spend"
+              ],
+              "type": "string",
+              "description": "Metrics supported by the real-time performance report (streaming + landing).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
+            },
+            "description": "List of metrics to report on (real-time: at least one required). Only values from Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeMetric are valid (billableImpressions, billableClicks, spend)."
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retailer ids to filter. This is not used for security, so no need to check for > 0 elements"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date (real-time: must be within the last 7 days).",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC"
+          }
+        },
+        "description": "Real Time Performance report body request (one sheeter: startDate, endDate (optional), RetailerIds, accountIds, campaignIds, lineItemIds, dimensions, metrics, timezones).\r\nExtends SyncReport only (no default filters); adds entry filter arrays.\r\nDimensions and metrics are restricted to Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeDimension and Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeMetric; invalid values cause deserialization to fail."
+      },
+      "SyncRealTimePerformanceReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SyncRealTimePerformanceReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "SyncRealTimePerformanceReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SyncRealTimePerformanceReport"
           },
           "type": {
             "type": "string"
