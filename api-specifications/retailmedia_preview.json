@@ -1114,6 +1114,91 @@
         ]
       }
     },
+    "/preview/retail-media/accounts/{accountId}/auction-display-line-items/search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Searches for auction display line items based on various filters.",
+        "operationId": "SearchAuctionDisplayLineItems",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The id of the account to search line items for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Optional list of field names to include in the response (e.g. \"proposalStatus\").",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to return. Must be between 1 and 5. Default is 2.",
+            "schema": {
+              "maximum": 5,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 2
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of items to skip before starting to collect the result set. Default is 0.",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The search filters to apply, including line item IDs and proposal filter.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfAuctionDisplayLineItemSearchModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfAuctionDisplayLineItemSearchResultAndMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/accounts/{accountId}/balances": {
       "get": {
         "tags": [
@@ -1184,6 +1269,130 @@
           {
             "oauth": [
               "RetailMedia_Balance_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/accounts/{accountId}/display-campaigns": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Creates a new display campaign with the specified settings.",
+        "operationId": "CreateDisplayCampaign",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The id of the account to which the campaign belongs",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The campaign settings to create a campaign with",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfDisplayCampaignCreateModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfDisplayCampaign"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/accounts/{accountId}/display-campaigns/search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Searches for display campaigns based on various filters.",
+        "operationId": "SearchDisplayCampaigns",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The id of the account to search campaigns for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to return. Must be between 1 and 1000. Default is 100.",
+            "schema": {
+              "maximum": 500,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of items to skip before starting to collect the result set. Default is 0.",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The search filters to apply, including campaign IDs and other criteria.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfDisplayCampaignSearchModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfDisplayCampaignAndMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
             ]
           }
         ]
@@ -1302,6 +1511,142 @@
           {
             "oauth": [
               "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/auction-display-line-items/{lineItemId}": {
+      "patch": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Updates an auction display line item with the specified settings.",
+        "operationId": "UpdateAuctionDisplayLineItem",
+        "parameters": [
+          {
+            "name": "lineItemId",
+            "in": "path",
+            "description": "The id of the line item to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The line item settings to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfAuctionDisplayLineItemPatchModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfAuctionDisplayLineItem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/auction-display-line-items/{lineItemId}/recall-proposal": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Recalls an auction display line item from approval.",
+        "operationId": "RecallProposal",
+        "parameters": [
+          {
+            "name": "lineItemId",
+            "in": "path",
+            "description": "The id of the line item to recall from approval",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Additional optional recall information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntityResourceInputOfAuctionDisplayLineItemRecallProposalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/auction-display-line-items/{lineItemId}/submit-proposal": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Submits an auction display line item for approval.",
+        "operationId": "SubmitProposal",
+        "parameters": [
+          {
+            "name": "lineItemId",
+            "in": "path",
+            "description": "The id of the line item to submit for approval",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Additional optional submission information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntityResourceInputOfAuctionDisplayLineItemSubmitProposalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
             ]
           }
         ]
@@ -1912,6 +2257,56 @@
         ]
       }
     },
+    "/preview/retail-media/campaigns/{campaignId}/auction-display-line-items": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Creates a new auction display line item with the specified settings.",
+        "operationId": "CreateAuctionDisplayLineItem",
+        "parameters": [
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "The id of the campaign to which the line item belongs",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The line item settings to create a line item with",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfAuctionDisplayLineItemCreateModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfAuctionDisplayLineItem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/campaigns/{campaignId}/auction-line-items": {
       "get": {
         "tags": [
@@ -2289,6 +2684,56 @@
           {
             "oauth": [
               "RetailMedia_OnSiteRecommendation_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/display-campaigns/{campaignId}": {
+      "patch": {
+        "tags": [
+          "Campaign"
+        ],
+        "description": "Updates a display campaign with the specified settings.",
+        "operationId": "UpdateDisplayCampaign",
+        "parameters": [
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "The id of the campaign to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The campaign settings to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfDisplayCampaignPatchModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfDisplayCampaign"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
             ]
           }
         ]
@@ -5265,6 +5710,602 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "AuctionBid": {
+        "required": [
+          "bid",
+          "pageType"
+        ],
+        "type": "object",
+        "properties": {
+          "bid": {
+            "type": "number",
+            "description": "The bid amount for the auction.",
+            "format": "double"
+          },
+          "pageType": {
+            "enum": [
+              "unknown",
+              "search",
+              "home",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchBar",
+              "categoryMenu"
+            ],
+            "type": "string",
+            "description": "The page type for which the bid is configured."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a bid for an auction display line item."
+      },
+      "AuctionBidRequest": {
+        "required": [
+          "bid",
+          "pageType"
+        ],
+        "type": "object",
+        "properties": {
+          "bid": {
+            "type": "number",
+            "description": "The bid amount for the auction.",
+            "format": "double"
+          },
+          "pageType": {
+            "enum": [
+              "search",
+              "home",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchBar",
+              "categoryMenu"
+            ],
+            "type": "string",
+            "description": "The page type for which the bid is configured."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a bid for an auction display line item."
+      },
+      "AuctionDisplayLineItem": {
+        "required": [
+          "bidding",
+          "budget",
+          "campaignId",
+          "creativeIds",
+          "isProposal",
+          "mediaType",
+          "name",
+          "pacing",
+          "pageTypes",
+          "productIds",
+          "retailerId",
+          "startDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "bidding": {
+            "$ref": "#/components/schemas/Bidding"
+          },
+          "budget": {
+            "type": "number",
+            "description": "The budget for the line item",
+            "format": "double"
+          },
+          "campaignId": {
+            "type": "string",
+            "description": "The identifier of the campaign to which the line item belongs."
+          },
+          "creativeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of creative IDs associated with the line item."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The end date of the line item.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/LineItemCappingTarget"
+          },
+          "isProposal": {
+            "type": "boolean",
+            "description": "Indicates whether the line item is a proposal."
+          },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "description": "The media type of the line item (e.g., display or video)."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item."
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/LineItemPacing"
+          },
+          "pageTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "search",
+                "home",
+                "checkout",
+                "category",
+                "productDetail",
+                "confirmation",
+                "merchandising",
+                "deals",
+                "favorites",
+                "searchBar",
+                "categoryMenu"
+              ],
+              "type": "string",
+              "description": "Specifies the type of page where the auction display line item is shown."
+            },
+            "description": "The list of page types where the line item can be displayed."
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of product IDs targeted by the line item."
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The identifier of the retailer associated with the line item."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The start date of the line item.",
+            "format": "date-time"
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "scheduled",
+              "draft",
+              "paused",
+              "budgetHit",
+              "ended",
+              "archived",
+              "noFunds"
+            ],
+            "type": "string",
+            "description": "The current status of the line item."
+          },
+          "targets": {
+            "$ref": "#/components/schemas/Targets"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the response model for an auction display line item.",
+        "nullable": true
+      },
+      "AuctionDisplayLineItemCreateModel": {
+        "required": [
+          "bidding",
+          "budget",
+          "creativeIds",
+          "isActive",
+          "mediaType",
+          "name",
+          "pacing",
+          "pageTypes",
+          "productIds",
+          "retailerId",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "bidding": {
+            "$ref": "#/components/schemas/BiddingRequest"
+          },
+          "budget": {
+            "type": "number",
+            "description": "The budget for the line item",
+            "format": "double"
+          },
+          "creativeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of creative ids associated with the line item."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The end date of the line item.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/LineItemCappingTargetRequest"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates whether the line item is active."
+          },
+          "mediaType": {
+            "enum": [
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "description": "The media type of the line item."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item."
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/LineItemPacingRequest"
+          },
+          "pageTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "search",
+                "home",
+                "checkout",
+                "category",
+                "productDetail",
+                "confirmation",
+                "merchandising",
+                "deals",
+                "favorites",
+                "searchBar",
+                "categoryMenu"
+              ],
+              "type": "string",
+              "description": "Specifies the type of page where the auction display line item is shown."
+            },
+            "description": "The list of page types configured for the line item."
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of product ids associated with the line item."
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The retailer id of the associated retailer."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The start date of the line item.",
+            "format": "date-time"
+          },
+          "targets": {
+            "$ref": "#/components/schemas/TargetsRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model for creating an auction display line item."
+      },
+      "AuctionDisplayLineItemPatchModel": {
+        "type": "object",
+        "properties": {
+          "bidding": {
+            "$ref": "#/components/schemas/BiddingRequest"
+          },
+          "budget": {
+            "type": "number",
+            "description": "The budget for the line item",
+            "format": "double",
+            "nullable": true
+          },
+          "campaignId": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "The identifier of the campaign to which the line item belongs.",
+            "nullable": true
+          },
+          "creativeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of creative IDs associated with the line item.",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The end date of the line item.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/NillableOfLineItemCappingTargetRequest"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates whether the line item is active.",
+            "nullable": true
+          },
+          "mediaType": {
+            "enum": [
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "description": "The media type of the line item (e.g., display or video).",
+            "nullable": true
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/LineItemPacingRequest"
+          },
+          "pageTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "search",
+                "home",
+                "checkout",
+                "category",
+                "productDetail",
+                "confirmation",
+                "merchandising",
+                "deals",
+                "favorites",
+                "searchBar",
+                "categoryMenu"
+              ],
+              "type": "string",
+              "description": "Specifies the type of page where the auction display line item is shown."
+            },
+            "description": "The list of page types configured for the line item.",
+            "nullable": true
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of product IDs targeted by the line item.",
+            "nullable": true
+          },
+          "retailerId": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "The identifier of the retailer associated with the line item.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The start date of the line item.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "targets": {
+            "$ref": "#/components/schemas/TargetsRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a patch model for updating an auction display line item."
+      },
+      "AuctionDisplayLineItemRecallProposalRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "maxLength": 510,
+            "minLength": 0,
+            "type": "string",
+            "description": "Optional comment to add to the proposal",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a request to recall an auction display line item proposal."
+      },
+      "AuctionDisplayLineItemSearchModel": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "description": "search for line items within a specific campaign",
+            "nullable": true
+          },
+          "isProposal": {
+            "type": "boolean",
+            "description": "Indicating whether to filter for proposal line items.\r\nDefault is false, which means only active line items will be returned.",
+            "default": false
+          },
+          "lineItemIds": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of line item IDs to filter by.",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "search for line items for a specific retailer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model for searching auction display line items."
+      },
+      "AuctionDisplayLineItemSearchResult": {
+        "required": [
+          "bidding",
+          "budget",
+          "campaignId",
+          "creativeIds",
+          "isProposal",
+          "mediaType",
+          "name",
+          "pacing",
+          "pageTypes",
+          "productIds",
+          "retailerId",
+          "startDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "bidding": {
+            "$ref": "#/components/schemas/Bidding"
+          },
+          "budget": {
+            "type": "number",
+            "description": "The budget for the line item",
+            "format": "double"
+          },
+          "campaignId": {
+            "type": "string",
+            "description": "The identifier of the campaign to which the line item belongs."
+          },
+          "creativeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of creative IDs associated with the line item."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The end date of the line item.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/LineItemCappingTarget"
+          },
+          "isProposal": {
+            "type": "boolean",
+            "description": "Indicates whether the line item is a proposal."
+          },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "description": "The media type of the line item (e.g., display or video)."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item."
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/LineItemPacing"
+          },
+          "pageTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "search",
+                "home",
+                "checkout",
+                "category",
+                "productDetail",
+                "confirmation",
+                "merchandising",
+                "deals",
+                "favorites",
+                "searchBar",
+                "categoryMenu"
+              ],
+              "type": "string",
+              "description": "Specifies the type of page where the auction display line item is shown."
+            },
+            "description": "The list of page types where the line item can be displayed."
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of product IDs targeted by the line item."
+          },
+          "proposalStatus": {
+            "$ref": "#/components/schemas/ProposalStatus"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The identifier of the retailer associated with the line item."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The start date of the line item.",
+            "format": "date-time"
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "scheduled",
+              "draft",
+              "paused",
+              "budgetHit",
+              "ended",
+              "archived",
+              "noFunds"
+            ],
+            "type": "string",
+            "description": "The current status of the line item."
+          },
+          "targets": {
+            "$ref": "#/components/schemas/Targets"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the response model for a searched auction display line item, including proposal review status.",
+        "nullable": true
+      },
+      "AuctionDisplayLineItemSubmitProposalRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "maxLength": 510,
+            "minLength": 0,
+            "type": "string",
+            "description": "Optional comment to add to the proposal",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a request to submit an auction display line item proposal."
+      },
       "AudienceError": {
         "required": [
           "code",
@@ -5614,6 +6655,49 @@
         },
         "description": "Batch to be stored in Store inventories"
       },
+      "Bidding": {
+        "required": [
+          "bidStrategy"
+        ],
+        "type": "object",
+        "properties": {
+          "bidStrategy": {
+            "enum": [
+              "unknown",
+              "manual",
+              "automated"
+            ],
+            "type": "string",
+            "description": "The bidding strategy for the line item."
+          },
+          "manualBidding": {
+            "$ref": "#/components/schemas/ManualBidding"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the bidding configuration for an auction display line item."
+      },
+      "BiddingRequest": {
+        "required": [
+          "bidStrategy"
+        ],
+        "type": "object",
+        "properties": {
+          "bidStrategy": {
+            "enum": [
+              "manual",
+              "automated"
+            ],
+            "type": "string",
+            "description": "The bidding strategy for the line item."
+          },
+          "manualBidding": {
+            "$ref": "#/components/schemas/ManualBiddingRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the bidding configuration for an auction display line item."
+      },
       "BotMessage": {
         "title": "BotMessage",
         "type": "object",
@@ -5708,6 +6792,104 @@
         "description": "An object that represents the result from a brand ID search.",
         "nullable": true
       },
+      "CampaignAttribution": {
+        "type": "object",
+        "properties": {
+          "clickAttributionScope": {
+            "enum": [
+              "unknown",
+              "sameSku",
+              "sameSkuCategory",
+              "sameSkuCategoryBrand"
+            ],
+            "type": "string",
+            "description": "Gets or sets the attribution scope for clicks, defining the level at which click attributions are tracked.",
+            "nullable": true
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "unknown",
+              "7d",
+              "14d",
+              "30d"
+            ],
+            "type": "string",
+            "description": "Gets or sets the attribution window for clicks, defining how long after a click a conversion can be attributed to it.",
+            "nullable": true
+          },
+          "viewAttributionScope": {
+            "enum": [
+              "unknown",
+              "sameSku",
+              "sameSkuCategory",
+              "sameSkuCategoryBrand"
+            ],
+            "type": "string",
+            "description": "Gets or sets the attribution scope for views, defining the level at which view attributions are tracked.",
+            "nullable": true
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "unknown",
+              "none",
+              "1d",
+              "7d",
+              "14d",
+              "30d"
+            ],
+            "type": "string",
+            "description": "Gets or sets the attribution window for views, defining how long after an ad view a conversion can be attributed to it.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the attribution settings for a campaign, defining how conversions are attributed to ad interactions."
+      },
+      "CampaignAttributionRequest": {
+        "type": "object",
+        "properties": {
+          "clickAttributionScope": {
+            "enum": [
+              "sameSku",
+              "sameSkuCategory",
+              "sameSkuCategoryBrand"
+            ],
+            "type": "string",
+            "description": "The attribution scope for clicks, defining the level at which click attributions are tracked."
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "7d",
+              "14d",
+              "30d"
+            ],
+            "type": "string",
+            "description": "The attribution window for clicks, defining how long after a click a conversion can be attributed to it."
+          },
+          "viewAttributionScope": {
+            "enum": [
+              "sameSku",
+              "sameSkuCategory",
+              "sameSkuCategoryBrand"
+            ],
+            "type": "string",
+            "description": "The attribution scope for views, defining the level at which view attributions are tracked."
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "none",
+              "1d",
+              "7d",
+              "14d",
+              "30d"
+            ],
+            "type": "string",
+            "description": "The attribution window for views, defining how long after an ad view a conversion can be attributed to it."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the attribution configuration for a campaign, defining how conversions are attributed to ad interactions."
+      },
       "CampaignAvailability": {
         "type": "object",
         "properties": {
@@ -5750,6 +6932,53 @@
         },
         "additionalProperties": false,
         "description": "Information about the availability of a specific campaign type and buy type combination, and page types and environments supported for that combination"
+      },
+      "CampaignCappingTarget": {
+        "required": [
+          "cappingDurationType"
+        ],
+        "type": "object",
+        "properties": {
+          "cappingCount": {
+            "type": "integer",
+            "description": "Specifies the maximum number of times an ad from this campaign can be shown within the specified duration.",
+            "format": "int32",
+            "nullable": true
+          },
+          "cappingDurationType": {
+            "enum": [
+              "unknown",
+              "session",
+              "day"
+            ],
+            "type": "string",
+            "description": "Specifies the time period type over which the capping count is applied."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the frequency capping settings for a campaign, defining limits on how often ads are shown to users.",
+        "nullable": true
+      },
+      "CampaignCappingTargetRequest": {
+        "type": "object",
+        "properties": {
+          "cappingCount": {
+            "type": "integer",
+            "description": "Specifies the maximum number of times an ad from this campaign can be shown within the specified duration.",
+            "format": "int32"
+          },
+          "cappingDurationType": {
+            "enum": [
+              "session",
+              "day"
+            ],
+            "type": "string",
+            "description": "Specifies the time period type over which the capping count is applied."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the frequency capping settings for a campaign, defining limits on how often ads are shown to users.",
+        "nullable": true
       },
       "CatalogStatusV2": {
         "required": [
@@ -6280,6 +7509,38 @@
         "description": "Creative search response model",
         "nullable": true
       },
+      "CreativeStatus": {
+        "required": [
+          "creativeId",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "creativeId": {
+            "type": "string",
+            "description": "The identifier of the creative."
+          },
+          "retailerComment": {
+            "type": "string",
+            "description": "The retailer's comment on this creative.",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "draft",
+              "inReview",
+              "approved",
+              "rejected",
+              "deleted"
+            ],
+            "type": "string",
+            "description": "The review status of the creative."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the review status of a creative within an auction display line item proposal."
+      },
       "CreativeUpdateModel2": {
         "required": [
           "name",
@@ -6457,6 +7718,177 @@
         "description": "Represents the min bid for a pageType and creative combination.",
         "nullable": true
       },
+      "DisplayCampaign": {
+        "required": [
+          "accountId",
+          "attribution",
+          "buyType",
+          "name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "The account identifier associated with the campaign."
+          },
+          "attribution": {
+            "$ref": "#/components/schemas/CampaignAttribution"
+          },
+          "buyType": {
+            "enum": [
+              "unknown",
+              "auction",
+              "preferred",
+              "lockout"
+            ],
+            "type": "string",
+            "description": "The buy type of the campaign."
+          },
+          "companyName": {
+            "type": "string",
+            "description": "The name of the company that owns the campaign.",
+            "nullable": true
+          },
+          "drawableBalanceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The balance ids that the campaign will be mapped to.",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/CampaignCappingTarget"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the campaign."
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "The name of the company on whose behalf the campaign is running.",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "active",
+              "paused",
+              "scheduled",
+              "ended",
+              "archived"
+            ],
+            "type": "string",
+            "description": "The current status of the campaign."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a display campaign response model with campaign details.",
+        "nullable": true
+      },
+      "DisplayCampaignCreateModel": {
+        "required": [
+          "attribution",
+          "buyType",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "attribution": {
+            "$ref": "#/components/schemas/CampaignAttributionRequest"
+          },
+          "buyType": {
+            "enum": [
+              "auction",
+              "preferred"
+            ],
+            "type": "string",
+            "description": "The buy type of the campaign."
+          },
+          "companyName": {
+            "type": "string",
+            "description": "The name of the company that owns the campaign.",
+            "nullable": true
+          },
+          "drawableBalanceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The balance ids that the campaign will be mapped to.",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/CampaignCappingTargetRequest"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the campaign."
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "The name of the company on whose behalf the campaign is running.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a model for creating a new display campaign with the required properties."
+      },
+      "DisplayCampaignPatchModel": {
+        "type": "object",
+        "properties": {
+          "attribution": {
+            "$ref": "#/components/schemas/CampaignAttributionRequest"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "The name of the company paying for the ad",
+            "nullable": true
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/NillableOfCampaignCappingTargetRequest"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the campaign.",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "The name of the company the ad is on behalf of.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a model for updating specific properties of an existing display campaign."
+      },
+      "DisplayCampaignSearchModel": {
+        "type": "object",
+        "properties": {
+          "buyType": {
+            "enum": [
+              "unknown",
+              "auction",
+              "preferred",
+              "lockout"
+            ],
+            "type": "string",
+            "description": "The Buy type of Campaigns to filter by.",
+            "nullable": true
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of Campaign IDs to filter by.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model for searching display campaigns with various filter criteria."
+      },
       "EntityResourceBalanceV1": {
         "type": "object",
         "properties": {
@@ -6597,6 +8029,76 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities."
+      },
+      "EntityResourceCollectionOutcomeOfAuctionDisplayLineItemSearchResultAndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfAuctionDisplayLineItemSearchResult"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
+      "EntityResourceCollectionOutcomeOfDisplayCampaignAndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfDisplayCampaign"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "EntityResourceCollectionOutcomeOfRetailerResultAndMetadata": {
         "type": "object",
@@ -6753,11 +8255,133 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single entity."
       },
+      "EntityResourceInputOfAuctionDisplayLineItemRecallProposalRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfAuctionDisplayLineItemRecallProposalRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+      },
+      "EntityResourceInputOfAuctionDisplayLineItemSubmitProposalRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfAuctionDisplayLineItemSubmitProposalRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+      },
+      "EntityResourceOfAuctionDisplayLineItem": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItem"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
+      "EntityResourceOfAuctionDisplayLineItemRecallProposalRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItemRecallProposalRequest"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceOfAuctionDisplayLineItemSearchResult": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItemSearchResult"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceOfAuctionDisplayLineItemSubmitProposalRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItemSubmitProposalRequest"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
+      },
       "EntityResourceOfCatalogStatusV2": {
         "type": "object",
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/CatalogStatusV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
+      "EntityResourceOfDisplayCampaign": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DisplayCampaign"
           },
           "id": {
             "type": "string",
@@ -6884,11 +8508,67 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
+      "EntityResourceOutcomeOfAuctionDisplayLineItem": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfAuctionDisplayLineItem"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
       "EntityResourceOutcomeOfCatalogStatusV2": {
         "type": "object",
         "properties": {
           "data": {
             "$ref": "#/components/schemas/EntityResourceOfCatalogStatusV2"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
+      "EntityResourceOutcomeOfDisplayCampaign": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfDisplayCampaign"
           },
           "errors": {
             "type": "array",
@@ -7675,6 +9355,57 @@
         "description": "The response body for cap out history of line item",
         "nullable": true
       },
+      "LineItemCappingTarget": {
+        "required": [
+          "cappingCount",
+          "cappingDurationType"
+        ],
+        "type": "object",
+        "properties": {
+          "cappingCount": {
+            "type": "integer",
+            "description": "The maximum number of times the line item can be shown within the specified duration.",
+            "format": "int32"
+          },
+          "cappingDurationType": {
+            "enum": [
+              "unknown",
+              "session",
+              "day"
+            ],
+            "type": "string",
+            "description": "The duration type for the frequency capping (e.g., per session or per day)."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the frequency capping target for a line item.",
+        "nullable": true
+      },
+      "LineItemCappingTargetRequest": {
+        "required": [
+          "cappingCount",
+          "cappingDurationType"
+        ],
+        "type": "object",
+        "properties": {
+          "cappingCount": {
+            "type": "integer",
+            "description": "The maximum number of times the line item can be shown within the specified duration.",
+            "format": "int32"
+          },
+          "cappingDurationType": {
+            "enum": [
+              "session",
+              "day"
+            ],
+            "type": "string",
+            "description": "The duration type for the frequency capping (e.g., per session or per day)."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the frequency capping target for a line item.",
+        "nullable": true
+      },
       "LineItemCappingV2": {
         "required": [
           "type",
@@ -7698,6 +9429,59 @@
         },
         "description": "Frequency Capping for a Preferred Line Item",
         "nullable": true
+      },
+      "LineItemPacing": {
+        "required": [
+          "pacingType"
+        ],
+        "type": "object",
+        "properties": {
+          "pacingAmount": {
+            "type": "number",
+            "description": "The daily budget cap amount. Only present when PacingType is DailyBudgetCap.",
+            "format": "double",
+            "nullable": true
+          },
+          "pacingType": {
+            "enum": [
+              "unknown",
+              "even",
+              "ahead",
+              "asSoonAsPossible",
+              "dailyBudgetCap"
+            ],
+            "type": "string",
+            "description": "The pacing type."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the pacing configuration for a line item in an auction display."
+      },
+      "LineItemPacingRequest": {
+        "required": [
+          "pacingType"
+        ],
+        "type": "object",
+        "properties": {
+          "pacingAmount": {
+            "type": "number",
+            "description": "The daily budget cap amount. Required and valid only when PacingType is DailyBudgetCap.",
+            "format": "double",
+            "nullable": true
+          },
+          "pacingType": {
+            "enum": [
+              "even",
+              "ahead",
+              "asSoonAsPossible",
+              "dailyBudgetCap"
+            ],
+            "type": "string",
+            "description": "The pacing type."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the pacing configuration for a line item in an auction display."
       },
       "LineItemPageCategoryV2": {
         "required": [
@@ -7787,6 +9571,41 @@
           }
         },
         "description": "Defines how a client earns loyalty points after buying this product."
+      },
+      "ManualBidding": {
+        "required": [
+          "auctionBids"
+        ],
+        "type": "object",
+        "properties": {
+          "auctionBids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionBid"
+            },
+            "description": "The list of auction bids for the line item."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the manual bidding configuration for an auction display line item.",
+        "nullable": true
+      },
+      "ManualBiddingRequest": {
+        "required": [
+          "auctionBids"
+        ],
+        "type": "object",
+        "properties": {
+          "auctionBids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionBidRequest"
+            },
+            "description": "The list of auction bids for the line item."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the manual bidding configuration for an auction display line item."
       },
       "Message": {
         "title": "Message",
@@ -7911,6 +9730,28 @@
           }
         },
         "description": "Placeholder object for value for which \"null\" is a valid business value",
+        "nullable": true
+      },
+      "NillableOfCampaignCappingTargetRequest": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "$ref": "#/components/schemas/CampaignCappingTargetRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a value that can be set to null explicitly",
+        "nullable": true
+      },
+      "NillableOfLineItemCappingTargetRequest": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "$ref": "#/components/schemas/LineItemCappingTargetRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a value that can be set to null explicitly",
         "nullable": true
       },
       "NillableOfNullableOfDateOnly": {
@@ -9220,6 +11061,38 @@
         },
         "description": "Defines the shipping weight of a product."
       },
+      "ProductStatus": {
+        "required": [
+          "productId",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the product."
+          },
+          "retailerComment": {
+            "type": "string",
+            "description": "The retailer's comment on this product. One comment applies to all products in the line item.",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "draft",
+              "inReview",
+              "approved",
+              "rejected",
+              "deleted"
+            ],
+            "type": "string",
+            "description": "The review status of the product."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the review status of a product within an auction display line item proposal."
+      },
       "ProductTax": {
         "type": "object",
         "properties": {
@@ -9367,6 +11240,35 @@
         },
         "additionalProperties": false,
         "description": "Outcome object containing promoted products."
+      },
+      "ProposalStatus": {
+        "type": "object",
+        "properties": {
+          "advertiserComment": {
+            "type": "string",
+            "description": "The advertiser's comment on this proposal.",
+            "nullable": true
+          },
+          "creativesStatuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreativeStatus"
+            },
+            "description": "The review statuses of the creatives associated with this proposal.",
+            "nullable": true
+          },
+          "productsStatuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductStatus"
+            },
+            "description": "The review statuses of the products associated with this proposal.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the proposal review status for an auction display line item.",
+        "nullable": true
       },
       "ReportDataResponseResource": {
         "type": "object",
@@ -12934,6 +14836,41 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "Targets": {
+        "required": [
+          "targetAudienceIds"
+        ],
+        "type": "object",
+        "properties": {
+          "targetAudienceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of target audience IDs for the line item."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the target audiences for an auction display line item.",
+        "nullable": true
+      },
+      "TargetsRequest": {
+        "required": [
+          "targetAudienceIds"
+        ],
+        "type": "object",
+        "properties": {
+          "targetAudienceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of target audience IDs for the line item."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the target audiences for an auction display line item."
+      },
       "TemplateVariableValue": {
         "required": [
           "id"
@@ -13297,6 +15234,66 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
+      "ValueResourceInputOfAuctionDisplayLineItemCreateModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfAuctionDisplayLineItemCreateModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfAuctionDisplayLineItemPatchModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfAuctionDisplayLineItemPatchModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfAuctionDisplayLineItemSearchModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfAuctionDisplayLineItemSearchModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfDisplayCampaignCreateModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfDisplayCampaignCreateModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfDisplayCampaignPatchModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfDisplayCampaignPatchModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputOfDisplayCampaignSearchModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfDisplayCampaignSearchModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputOfRetailerSearchRequest": {
         "type": "object",
         "properties": {
@@ -13417,6 +15414,96 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "nullable": true
+      },
+      "ValueResourceOfAuctionDisplayLineItemCreateModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItemCreateModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfAuctionDisplayLineItemPatchModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItemPatchModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfAuctionDisplayLineItemSearchModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AuctionDisplayLineItemSearchModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfDisplayCampaignCreateModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DisplayCampaignCreateModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfDisplayCampaignPatchModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DisplayCampaignPatchModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfDisplayCampaignSearchModel": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DisplayCampaignSearchModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfRetailerSearchRequest": {
         "type": "object",

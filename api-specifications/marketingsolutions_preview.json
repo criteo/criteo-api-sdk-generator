@@ -2172,7 +2172,7 @@
         },
         "responses": {
           "200": {
-            "description": "List of patched adSets.",
+            "description": "Patched attributes for adSets specified in the request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2194,7 +2194,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Create the specified ad set",
+        "description": "Create an ad set with the provided parameters",
         "operationId": "CreateAdSet",
         "requestBody": {
           "description": "the ad sets to create",
@@ -2361,7 +2361,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Patch Category Bids for one or more Categories in a single request. Partial success policy is followed.",
+        "description": "Update the Category Bids for given Categories associated to an Ad Set\r\nPatch Category Bids for one or more Categories in a single request. Partial success policy is followed.",
         "operationId": "PatchAdSetCategoryBids",
         "parameters": [
           {
@@ -2375,6 +2375,7 @@
           }
         ],
         "requestBody": {
+          "description": "Collection of category bids to update",
           "content": {
             "application/json": {
               "schema": {
@@ -2387,7 +2388,7 @@
         },
         "responses": {
           "200": {
-            "description": "List of updated Category Bids for given Categories associated to an Ad Set.",
+            "description": "List of updated Category Bids for given Categories associated to an Ad Set, used for partial successes as well.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2448,7 +2449,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Patch Display Multipliers for one or more Categories in a single request. Partial success policy is followed.",
+        "description": "Update the Display Multipliers for given Categories associated to an Ad Set\r\nPatch Display Multipliers for one or more Categories in a single request. Partial success policy is followed.",
         "operationId": "PatchDisplayMultipliers",
         "parameters": [
           {
@@ -2462,6 +2463,7 @@
           }
         ],
         "requestBody": {
+          "description": "List of display multiplier values to change",
           "content": {
             "application/json": {
               "schema": {
@@ -2474,7 +2476,7 @@
         },
         "responses": {
           "200": {
-            "description": "List of updated Display Multipliers for given Categories associated to an Ad Set.",
+            "description": "List of updated Display Multipliers for given Categories associated to an Ad Set. Make sure to check the error field in the response since a partial success will result in a 200 response code.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2752,7 +2754,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Search for ad sets",
+        "description": "Search for ad sets based on provided criteria.\r\nThis returns the full configuration of ad sets matching those criteria.\r\nField projection can be used if only a subset of fields is required, instead of the full configuration.\r\n            \r\nIf specific fields are precised in the user prompt, use meta.fields field projection in order to query only the value of these fields, else, provide every field.",
         "operationId": "SearchAdSets",
         "requestBody": {
           "content": {
@@ -4076,7 +4078,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Patch a list of Campaigns.",
+        "description": "Patch a list of Campaigns.\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "PatchCampaigns",
         "requestBody": {
           "description": "List of campaigns to patch.",
@@ -4114,7 +4116,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Create the specified campaign",
+        "description": "Create the specified campaign\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "CreateCampaign",
         "requestBody": {
           "description": "the campaigns to create",
@@ -4154,13 +4156,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Get the data for the specified campaign",
+        "description": "Get the data for the specified campaign.\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "GetCampaign",
         "parameters": [
           {
             "name": "campaign-id",
             "in": "path",
-            "description": "Id of the campaign",
+            "description": "ID of the marketing campaign; This field is required.",
             "required": true,
             "schema": {
               "type": "string"
@@ -4169,7 +4171,7 @@
         ],
         "responses": {
           "200": {
-            "description": "data for the campaign",
+            "description": "Returns the data of the specified marketing campaign.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4193,10 +4195,10 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Search for campaigns",
+        "description": "Search endpoint for campaigns\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "SearchCampaigns",
         "requestBody": {
-          "description": "filters on campaigns",
+          "description": "Filters for searching for campaigns",
           "content": {
             "application/json": {
               "schema": {
@@ -4208,7 +4210,7 @@
         },
         "responses": {
           "200": {
-            "description": "data for the campaigns",
+            "description": "Returns a list of marketing campaigns' data.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5942,8 +5944,10 @@
                 "mobile",
                 "tablet"
               ],
-              "type": "string"
+              "type": "string",
+              "description": "Targeted device type.\r\n            \r\nPossible values:\r\n- other\r\n- desktop\r\n- mobile\r\n- tablet"
             },
+            "description": "List of devices which the ad set should target.\r\n            \r\nNo limitation if the list is empty.",
             "nullable": true
           },
           "environments": {
@@ -5953,8 +5957,10 @@
                 "web",
                 "inApp"
               ],
-              "type": "string"
+              "type": "string",
+              "description": "Targeted environment type.\r\n            \r\nNote: this is very different from AdSetDestinationEnvironment: this parameter defines a delivery limitation,\r\nnot an impression's destination.\r\n            \r\nPossible values:\r\n- web\r\n- inApp"
             },
+            "description": "List of environments which the ad set should target.\r\n            \r\nNo limitation if the list is empty.",
             "nullable": true
           },
           "operatingSystems": {
@@ -5965,12 +5971,14 @@
                 "ios",
                 "unknown"
               ],
-              "type": "string"
+              "type": "string",
+              "description": "Targeted operating system.\r\n            \r\nPossible values:\r\n- android\r\n- ios\r\n- unknown"
             },
+            "description": "List of operating systems which the ad set should target.\r\n            \r\nNo limitation if the list is empty.",
             "nullable": true
           }
         },
-        "description": "ad set delivery limitations model",
+        "description": "Delivery limitations for an ad set.",
         "nullable": true
       },
       "AdSetDisplayMultiplier": {
@@ -6051,15 +6059,17 @@
               "advanced"
             ],
             "type": "string",
+            "description": "Period on which impression limitation is calculated.\r\n            \r\nPossible values:\r\n- hourly\r\n- daily\r\n- lifetime\r\n- advanced",
             "nullable": true
           },
           "maximumImpressions": {
             "type": "integer",
+            "description": "Maximum impressions for the specified period.",
             "format": "int32",
             "nullable": true
           }
         },
-        "description": "ad set frequency capping model",
+        "description": "Ad set frequency capping.\r\n            \r\nSettings that can limit the number of impression by viewer and by period.",
         "nullable": true
       },
       "AdSetGeoLocationV26Q1": {
@@ -6075,7 +6085,7 @@
             "$ref": "#/components/schemas/NillableAdSetTargetingRuleV26Q1"
           }
         },
-        "description": "ad set geolocation model",
+        "description": "Ad set geolocation options.",
         "nullable": true
       },
       "AdSetIdV26Q1": {
@@ -6091,6 +6101,7 @@
             "items": {
               "type": "string"
             },
+            "description": "Ad set ids to filter on. Ids are string-encoded integers.",
             "nullable": true
           },
           "advertiserIds": {
@@ -6098,6 +6109,7 @@
             "items": {
               "type": "string"
             },
+            "description": "Advertiser ids which ad sets belongs to (indirectly via their marketing campaign).\r\nIds are string-encoded integers.",
             "nullable": true
           },
           "campaignIds": {
@@ -6105,10 +6117,11 @@
             "items": {
               "type": "string"
             },
+            "description": "Campaign ids to filter on. Ids are string-encoded integers.",
             "nullable": true
           }
         },
-        "description": "filter on ad set ids"
+        "description": "Filter on ad set ids.\r\n            \r\nMultiple filters are combined with an implicit AND operation.\r\nIdentifiers are string-encoded integers; invalid values are ignored.\r\nIf no filter is provided (both arrays are null or empty), the search returns all accessible campaigns."
       },
       "AdSetSearchRequestMetadataV26Q1": {
         "type": "object",
@@ -6131,8 +6144,10 @@
                 "VideoChannel",
                 "AttributionConfiguration"
               ],
-              "type": "string"
+              "type": "string",
+              "description": "Fields that can be projected when searching ad sets.\r\n            \r\nPossible values:\r\n- Name\r\n- AdvertiserId\r\n- DatasetId\r\n- CampaignId\r\n- DestinationEnvironment\r\n- Objective\r\n- Schedule\r\n- Bidding\r\n- Targeting\r\n- Budget\r\n- MediaType\r\n- VideoChannel\r\n- AttributionConfiguration"
             },
+            "description": "List of fields to include in the response. If null or omitted, all fields are returned.\r\nWhen only a subset of fields is projected, non-projected fields will have default values (e.g. null, 0, or enum defaults) which may not reflect the actual ad set state. Do not interpret non-projected fields as meaningful data.",
             "nullable": true
           }
         },
@@ -6148,7 +6163,14 @@
             "$ref": "#/components/schemas/AdSetSearchRequestMetadataV26Q1"
           }
         },
-        "description": "request payload of the search endpoint"
+        "description": "request payload of the search endpoint",
+        "example": {
+          "filters": {
+            "advertiserIds": [
+              "12345"
+            ]
+          }
+        }
       },
       "AdSetTargetingDealIds": {
         "type": "object",
@@ -8300,7 +8322,8 @@
             "$ref": "#/components/schemas/BudgetAutomationConfiguration"
           },
           "enabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether budget automation is active for this marketing campaign.\r\n- true: budget automation is enabled and \"budgetConfiguration\" must be provided with a valid objective.\r\n- false (default when omitted): budget automation is disabled; \"budgetConfiguration\" is ignored if provided."
           }
         },
         "description": "Budget automation, lets users configure budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nIf \"enabled\" is omitted and only \"budgetConfiguration\" is provided, \"enabled\" defaults to false — budget automation will not be activated.\r\nTo activate budget automation at creation, \"enabled\" must be explicitly set to true along with a valid \"budgetConfiguration\".\r\nIf the entire \"budgetAutomation\" object is omitted from the create request, the campaign is created with budget automation disabled."
@@ -8345,6 +8368,7 @@
             "items": {
               "type": "string"
             },
+            "description": "Advertiser IDs to filter on (string-encoded integers).",
             "nullable": true
           },
           "campaignIds": {
@@ -8352,10 +8376,11 @@
             "items": {
               "type": "string"
             },
+            "description": "Campaign IDs to filter on (string-encoded integers).",
             "nullable": true
           }
         },
-        "description": "filters on campaign"
+        "description": "Filters for searching campaigns.\r\n            \r\nMultiple filters are combined with an implicit AND operation.\r\nIdentifiers are string-encoded integers; invalid values are ignored.\r\nIf no filter is provided (both arrays are null or empty), the search returns all accessible campaigns."
       },
       "CampaignSearchRequestV23Q1": {
         "type": "object",
@@ -8364,7 +8389,7 @@
             "$ref": "#/components/schemas/CampaignSearchFiltersV23Q1"
           }
         },
-        "description": "request payload of the search endpoint"
+        "description": "Request payload for the campaign search endpoint."
       },
       "CampaignSpendLimitV23Q1": {
         "type": "object",
@@ -8401,6 +8426,7 @@
         "properties": {
           "advertiserId": {
             "type": "string",
+            "description": "Advertiser id of the campaign (string-encoded integer)",
             "nullable": true
           },
           "budgetAutomation": {
@@ -8413,6 +8439,7 @@
               "retention"
             ],
             "type": "string",
+            "description": "Goal of the campaign\r\n            \r\nSerialized values are {unspecified}, {acquisition} and {retention}.\r\n            \r\nAcquisition and retention are defined as follows:\r\n- Acquisition: campaign with the goal of acquiring new customers. The success of an acquisition campaign is measured by the number of new customers it brings.\r\n- Retention: campaign with the goal of retaining existing customers. The success of a retention campaign is measured by the number of existing customers it retains.",
             "nullable": true
           },
           "id": {
@@ -8422,13 +8449,14 @@
           },
           "name": {
             "type": "string",
+            "description": "Name of the campaign",
             "nullable": true
           },
           "spendLimit": {
             "$ref": "#/components/schemas/CampaignSpendLimitV23Q1"
           }
         },
-        "description": "campaign read model",
+        "description": "Campaign read model\r\n            \r\nThe {id} field is the campaign identifier (string-encoded integer).",
         "nullable": true
       },
       "CampaignV23Q1ListResponse": {
@@ -9252,7 +9280,58 @@
             "nullable": true
           }
         },
-        "description": "ad set create model"
+        "description": "ad set create model",
+        "example": {
+          "name": "test adset",
+          "datasetId": "108002",
+          "campaignId": "358313",
+          "objective": "conversions",
+          "schedule": {
+            "startDate": "2026-04-04T16:21:06.3537890+02:00",
+            "endDate": "2026-04-13T16:21:06.3537917+02:00"
+          },
+          "bidding": {
+            "costController": "dailyBudget"
+          },
+          "targeting": {
+            "deliveryLimitations": {
+              "environments": [
+                "web"
+              ],
+              "devices": [
+                "desktop"
+              ],
+              "operatingSystems": [
+                "android"
+              ]
+            },
+            "geoLocation": {
+              "countries": {
+                "operand": "in",
+                "values": [
+                  "FR",
+                  "IT"
+                ]
+              }
+            },
+            "frequencyCapping": {
+              "frequency": "daily",
+              "maximumImpressions": 1000
+            }
+          },
+          "budget": {
+            "budgetStrategy": "capped",
+            "budgetRenewal": "weekly",
+            "budgetDeliverySmoothing": "standard",
+            "budgetDeliveryWeek": "mondayToSunday",
+            "budgetAmount": 1000
+          },
+          "trackingCode": "Test123",
+          "mediaType": "display",
+          "attributionConfiguration": {
+            "attributionMethod": "criteoAttribution"
+          }
+        }
       },
       "CreateAdSetV26Q1Request": {
         "type": "object",
@@ -9288,7 +9367,7 @@
         "properties": {
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser id this campaign belongs to",
+            "description": "Advertiser ID this campaign belongs to (string-encoded integer).",
             "nullable": true
           },
           "budgetAutomation": {
@@ -9301,7 +9380,7 @@
               "Retention"
             ],
             "type": "string",
-            "description": "Goal for the marketing campaign"
+            "description": "Goal of the campaign\r\n            \r\nSerialized values are {Unspecified}, {Acquisition} and {Retention}.\r\n            \r\nAcquisition and retention are defined as follows:\r\n- Acquisition: campaign with the goal of acquiring new customers. The success of an acquisition campaign is measured by the number of new customers it brings.\r\n- Retention: campaign with the goal of retaining existing customers. The success of a retention campaign is measured by the number of existing customers it retains."
           },
           "name": {
             "type": "string",
@@ -9312,7 +9391,7 @@
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
           }
         },
-        "description": "Campaign create model"
+        "description": "Campaign create model."
       },
       "CreateCampaignRequest": {
         "type": "object",
@@ -12727,7 +12806,7 @@
             "$ref": "#/components/schemas/NillableDecimal"
           }
         },
-        "description": "ad set bidding patch model"
+        "description": "Ad set bidding patch model"
       },
       "PatchAdSetBudgetV26Q1": {
         "type": "object",
@@ -12969,7 +13048,7 @@
             "$ref": "#/components/schemas/NillableDateTime"
           }
         },
-        "description": "ad set schedule patch model"
+        "description": "Model for patching ad set scheduling."
       },
       "PatchAdSetV26Q1": {
         "type": "object",
@@ -12985,6 +13064,7 @@
           },
           "name": {
             "type": "string",
+            "description": "Name of the ad set.",
             "nullable": true
           },
           "scheduling": {
@@ -12994,7 +13074,7 @@
             "$ref": "#/components/schemas/AdSetTargetingV26Q1"
           }
         },
-        "description": "ad set patch model"
+        "description": "Model for patching an ad set."
       },
       "PatchCampaign": {
         "type": "object",
@@ -13006,7 +13086,7 @@
             "$ref": "#/components/schemas/PatchCampaignSpendLimit"
           }
         },
-        "description": "campaign patch model"
+        "description": "Campaign patch model.\r\nThe campaign identifier is provided in the resource {id} field (string-encoded integer) and is required."
       },
       "PatchCampaignListRequest": {
         "type": "object",
@@ -14289,7 +14369,7 @@
               "googleAnalytics"
             ],
             "type": "string",
-            "description": "The attribution method.",
+            "description": "Ad set attribution method.\r\nThis defines how certain events (visits, clicks, sales...) are attributed to the ad set.\r\n            \r\nPossible values:\r\n- unknown\r\n- criteoAttribution (default attribution method)\r\n- googleAnalyticsLastClick (requires Google Analytics integration)\r\n- postClick\r\n- sftp\r\n- googleAnalytics (requires Google Analytics integration)",
             "nullable": true
           },
           "lookbackWindow": {
@@ -14305,7 +14385,7 @@
             "nullable": true
           }
         },
-        "description": "Read model for an ad set's attribution configuration.",
+        "description": "Read model for an ad set's attribution configuration.\r\n            \r\nThe lookback window is only set for ad sets with an attribution method that is postClick or googleAnalyticsLastClick.\r\nIt will be null with any other attribution method.",
         "nullable": true
       },
       "ReadAdSetBiddingV26Q1": {
@@ -14313,7 +14393,7 @@
         "properties": {
           "bidAmount": {
             "type": "number",
-            "description": "Decimal value target relating to the `adSetObjective` specified. May be `null` for objectives that do not require a target value. At most 4 decimals are supported. Additional decimals are rounded.",
+            "description": "Decimal value target relating to the `adSetObjective` specified.\r\nMay be `null` for objectives that do not require a target value.\r\nAt most 4 decimals are supported. Additional decimals are rounded.",
             "format": "double",
             "nullable": true
           },
@@ -14330,11 +14410,11 @@
               "targetCPM"
             ],
             "type": "string",
-            "description": "How spend is controlled",
+            "description": "Cost controller for the ad set.\r\n            \r\nPossible values:\r\n- COS\r\n- maxCPC\r\n- CPI\r\n- CPM\r\n- CPO\r\n- CPSV\r\n- CPV\r\n- dailyBudget\r\n- targetCPM",
             "nullable": true
           }
         },
-        "description": "ad set bidding read model",
+        "description": "Ad set bidding read configuration.",
         "nullable": true
       },
       "ReadAdSetBudgetV26Q1": {
@@ -14404,6 +14484,7 @@
               "off"
             ],
             "type": "string",
+            "description": "Activation status of the ad set, i.e. whether the consumer wants it to deliver",
             "nullable": true
           },
           "deliveryStatus": {
@@ -14420,6 +14501,7 @@
               "archived"
             ],
             "type": "string",
+            "description": "Delivery status of the ad set, i.e. whether the ad set is delivering.\r\n            \r\nPossible values:\r\n- draft\r\n- inactive\r\n- live\r\n- notLive\r\n- pausing\r\n- paused\r\n- scheduled\r\n- ended\r\n- notDelivering\r\n- archived",
             "nullable": true
           },
           "endDate": {
@@ -14429,7 +14511,7 @@
             "$ref": "#/components/schemas/NillableDateTime"
           }
         },
-        "description": "ad set schedule read model",
+        "description": "Ad set schedule read model",
         "nullable": true
       },
       "ReadAdSetV26Q1": {
@@ -14437,6 +14519,7 @@
         "properties": {
           "advertiserId": {
             "type": "string",
+            "description": "Advertiser id of the campaign this ad set belongs to\r\nThis value is a string-encoded integer.",
             "nullable": true
           },
           "attributionConfiguration": {
@@ -14450,10 +14533,12 @@
           },
           "campaignId": {
             "type": "string",
+            "description": "Campaign id this ad set belongs to.\r\n            \r\nThis is a key to a MarketingCampaign entity, which can be retrieved using the MarketingCampaigns endpoints.\r\nThis value is a string-encoded integer.",
             "nullable": true
           },
           "datasetId": {
             "type": "string",
+            "description": "Dataset id of this ad set\r\nThis value is a string-encoded integer.",
             "nullable": true
           },
           "destinationEnvironment": {
@@ -14463,6 +14548,7 @@
               "app"
             ],
             "type": "string",
+            "description": "The environment that an ad click will lead a user to.\r\n            \r\nPossible values:\r\n- undefined: the ad set does not specify its destination environment\r\n- web: the ad set lead users to a web page\r\n- app: the ad set lead users to an app",
             "nullable": true
           },
           "mediaType": {
@@ -14475,6 +14561,7 @@
           },
           "name": {
             "type": "string",
+            "description": "Name of the ad set",
             "nullable": true
           },
           "objective": {
@@ -14492,6 +14579,7 @@
               "videoViews"
             ],
             "type": "string",
+            "description": "Ad set objective.\r\n            \r\nPossible values:\r\n- customAction (previously \"Actions\")\r\n- clicks\r\n- conversions\r\n- displays\r\n- appPromotion (previously \"Installs\")\r\n- revenue\r\n- storeConversions\r\n- value\r\n- reach (previously \"ViewedImpressions\")\r\n- visits\r\n- videoViews (previously \"CompletedVideoViews\")",
             "nullable": true
           },
           "schedule": {
@@ -14509,7 +14597,7 @@
             "nullable": true
           }
         },
-        "description": "ad set read model",
+        "description": "Ad set read model.\r\n            \r\nThe ad set is the configuration unit that defines ads delivery. Its binds together the objective, budget,\r\nscheduling, targeting options and ads.",
         "nullable": true
       },
       "ReadModelAdSetId": {
