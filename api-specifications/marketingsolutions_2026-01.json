@@ -357,7 +357,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Patch Category Bids for one or more Categories in a single request. Partial success policy is followed.",
+        "description": "Update the Category Bids for given Categories associated to an Ad Set\r\nPatch Category Bids for one or more Categories in a single request. Partial success policy is followed.",
         "operationId": "PatchAdSetCategoryBids",
         "parameters": [
           {
@@ -371,6 +371,7 @@
           }
         ],
         "requestBody": {
+          "description": "Collection of category bids to update",
           "content": {
             "application/json": {
               "schema": {
@@ -383,7 +384,7 @@
         },
         "responses": {
           "200": {
-            "description": "List of updated Category Bids for given Categories associated to an Ad Set.",
+            "description": "List of updated Category Bids for given Categories associated to an Ad Set, used for partial successes as well.",
             "content": {
               "application/json": {
                 "schema": {
@@ -444,7 +445,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Patch Display Multipliers for one or more Categories in a single request. Partial success policy is followed.",
+        "description": "Update the Display Multipliers for given Categories associated to an Ad Set\r\nPatch Display Multipliers for one or more Categories in a single request. Partial success policy is followed.",
         "operationId": "PatchDisplayMultipliers",
         "parameters": [
           {
@@ -458,6 +459,7 @@
           }
         ],
         "requestBody": {
+          "description": "List of display multiplier values to change",
           "content": {
             "application/json": {
               "schema": {
@@ -470,7 +472,7 @@
         },
         "responses": {
           "200": {
-            "description": "List of updated Display Multipliers for given Categories associated to an Ad Set.",
+            "description": "List of updated Display Multipliers for given Categories associated to an Ad Set. Make sure to check the error field in the response since a partial success will result in a 200 response code.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2178,7 +2180,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Patch a list of Campaigns.",
+        "description": "Patch a list of Campaigns.\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "PatchCampaigns",
         "requestBody": {
           "description": "List of campaigns to patch.",
@@ -2216,7 +2218,7 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Create the specified campaign",
+        "description": "Create the specified campaign\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "CreateCampaign",
         "requestBody": {
           "description": "the campaigns to create",
@@ -2256,13 +2258,13 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Get the data for the specified campaign",
+        "description": "Get the data for the specified campaign.\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "GetCampaign",
         "parameters": [
           {
             "name": "campaign-id",
             "in": "path",
-            "description": "Id of the campaign",
+            "description": "ID of the marketing campaign; This field is required.",
             "required": true,
             "schema": {
               "type": "string"
@@ -2271,7 +2273,7 @@
         ],
         "responses": {
           "200": {
-            "description": "data for the campaign",
+            "description": "Returns the data of the specified marketing campaign.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2295,10 +2297,10 @@
         "tags": [
           "Campaign"
         ],
-        "description": "Search for campaigns",
+        "description": "Search endpoint for campaigns\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "SearchCampaigns",
         "requestBody": {
-          "description": "filters on campaigns",
+          "description": "Filters for searching for campaigns",
           "content": {
             "application/json": {
               "schema": {
@@ -2310,7 +2312,7 @@
         },
         "responses": {
           "200": {
-            "description": "data for the campaigns",
+            "description": "Returns a list of marketing campaigns' data.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4087,8 +4089,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "byte"
+                  "$ref": "#/components/schemas/StatsReportMessage"
                 }
               }
             }
@@ -4208,8 +4209,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "byte"
+                  "$ref": "#/components/schemas/StatsReportMessage"
                 }
               }
             }
@@ -4321,8 +4321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "byte"
+                  "$ref": "#/components/schemas/StatsReportMessage"
                 }
               }
             }
@@ -4616,6 +4615,36 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PlacementsReportQueryMessageListRequest"
+              },
+              "example": {
+                "data": [
+                  {
+                    "type": "report",
+                    "attributes": {
+                      "advertiserIds": "123,456,789",
+                      "campaignIds": "111,222,333,444",
+                      "adsetIds": "135,246,357,468",
+                      "environment": "Web",
+                      "placement": "MyPlacement",
+                      "dimensions": [
+                        "AdsetId",
+                        "AdvertiserId",
+                        "Placement"
+                      ],
+                      "metrics": [
+                        "Clicks",
+                        "Displays",
+                        "Cost"
+                      ],
+                      "currency": "EUR",
+                      "disclosed": false,
+                      "format": "csv",
+                      "timezone": "Europe/Paris",
+                      "startDate": "2026-01-02T00:00:00.0000000+02:00",
+                      "endDate": "2026-01-05T00:00:00.0000000+02:00"
+                    }
+                  }
+                ]
               }
             },
             "application/xml": {
@@ -4789,6 +4818,22 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TransactionsReportQueryMessageListRequest"
+              },
+              "example": {
+                "data": [
+                  {
+                    "type": "report",
+                    "attributes": {
+                      "advertiserIds": "123,456,789",
+                      "eventType": "Display",
+                      "currency": "EUR",
+                      "format": "csv",
+                      "timezone": "Europe/Paris",
+                      "startDate": "2026-01-02T00:00:00.0000000+02:00",
+                      "endDate": "2026-01-05T00:00:00.0000000+02:00"
+                    }
+                  }
+                ]
               }
             },
             "application/xml": {
@@ -5630,13 +5675,16 @@
               "NotRunning"
             ],
             "type": "string",
+            "description": "Human-readable delivery status of the campaign's ad set",
             "readOnly": true
           },
           "campaignName": {
-            "type": "string"
+            "type": "string",
+            "description": "Display name of the campaign"
           },
           "id": {
             "type": "integer",
+            "description": "Unique campaign identifier",
             "format": "int32"
           },
           "status": {
@@ -5646,27 +5694,48 @@
               2
             ],
             "type": "integer",
+            "description": "Numeric delivery status: 0 = Running, 1 = Archived, 2 = NotRunning",
             "nullable": true
           }
         },
-        "description": "Data representing an advertiser's adset",
+        "description": "Data representing a campaign for an advertiser. A campaign groups seller-campaigns and defines delivery settings.",
+        "example": {
+          "id": 436017,
+          "campaignName": "Sponsored Products - Main",
+          "adSetDeliveryStatus": "Running",
+          "status": 0
+        },
         "x-readonly-adSetDeliveryStatus": true
       },
       "AdvertiserInfoMessage": {
         "type": "object",
         "properties": {
           "advertiserName": {
-            "type": "string"
+            "type": "string",
+            "description": "Display name of the advertiser"
           },
           "currencyName": {
-            "type": "string"
+            "type": "string",
+            "description": "Currency used by the advertiser for bids and budgets (e.g. USD, EUR)"
           },
           "id": {
             "type": "integer",
+            "description": "Unique advertiser identifier",
             "format": "int32"
+          },
+          "timeZoneId": {
+            "type": "string",
+            "description": "IANA timezone identifier for the advertiser (e.g. UTC, Asia/Tokyo)",
+            "nullable": true
           }
         },
-        "description": "Data representing an advertiser"
+        "description": "Data representing an advertiser. An advertiser is the top-level entity that owns campaigns, sellers, and budgets.",
+        "example": {
+          "id": 9703,
+          "advertiserName": "MyCarDealers CO",
+          "currencyName": "USD",
+          "timeZoneId": "UTC"
+        }
       },
       "AdvertiserQuotaMessage": {
         "type": "object",
@@ -7231,10 +7300,11 @@
               "videoViews"
             ],
             "type": "string",
+            "description": "Optimization objective used to automate budget allocation across ad sets.\r\nExpected when budgetAutomation.enabled is true.\r\nPossible values are \"conversions\", \"revenue\", \"visits\", and \"videoViews\".",
             "nullable": true
           }
         },
-        "description": "The automated budget configuration model",
+        "description": "Detailed configuration used when campaign budget automation is enabled.",
         "nullable": true
       },
       "BasicAudienceDefinition": {
@@ -7303,10 +7373,11 @@
             "$ref": "#/components/schemas/BudgetAutomationConfiguration"
           },
           "enabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether budget automation is active for this marketing campaign.\r\n- true: budget automation is enabled and \"budgetConfiguration\" must be provided with a valid objective.\r\n- false (default when omitted): budget automation is disabled; \"budgetConfiguration\" is ignored if provided."
           }
         },
-        "description": "The campaign budget automation model"
+        "description": "Budget automation, lets users configure budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nIf \"enabled\" is omitted and only \"budgetConfiguration\" is provided, \"enabled\" defaults to false — budget automation will not be activated.\r\nTo activate budget automation at creation, \"enabled\" must be explicitly set to true along with a valid \"budgetConfiguration\".\r\nIf the entire \"budgetAutomation\" object is omitted from the create request, the campaign is created with budget automation disabled."
       },
       "BudgetAutomationConfiguration": {
         "type": "object",
@@ -7318,10 +7389,11 @@
               "visits",
               "videoViews"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "The ad set optimization objective for budget automation. Determines how the automated budget allocates spend across ad sets in the campaign.\r\n- \"conversions\": optimize for conversion events.\r\n- \"revenue\": optimize for revenue.\r\n- \"visits\": optimize for site visits.\r\n- \"videoViews\": optimize for completed video views."
           }
         },
-        "description": "The budget automation configuration model",
+        "description": "Configuration for budget automation. Only meaningful when \"enabled\" is true.\r\nWhen \"enabled\" is false or omitted, this field is ignored.",
         "nullable": true
       },
       "CampaignBudgetAutomationV23Q1": {
@@ -7332,10 +7404,11 @@
           },
           "enabled": {
             "type": "boolean",
+            "description": "Whether budget automation is enabled for this campaign. This field is always present in the response.",
             "nullable": true
           }
         },
-        "description": "The campaign budget automation model",
+        "description": "Budget automation, also known as automated budget or budget pacing, lets users configure KPIs and budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nWhen enabled is false, automatedBudgetConfiguration is null.\r\nWhen enabled is true, automatedBudgetConfiguration.adSetOptimizationObjective is expected.",
         "nullable": true
       },
       "CampaignSearchFiltersV23Q1": {
@@ -7346,6 +7419,7 @@
             "items": {
               "type": "string"
             },
+            "description": "Advertiser IDs to filter on (string-encoded integers).",
             "nullable": true
           },
           "campaignIds": {
@@ -7353,10 +7427,11 @@
             "items": {
               "type": "string"
             },
+            "description": "Campaign IDs to filter on (string-encoded integers).",
             "nullable": true
           }
         },
-        "description": "filters on campaign"
+        "description": "Filters for searching campaigns.\r\n            \r\nMultiple filters are combined with an implicit AND operation.\r\nIdentifiers are string-encoded integers; invalid values are ignored.\r\nIf no filter is provided (both arrays are null or empty), the search returns all accessible campaigns."
       },
       "CampaignSearchRequestV23Q1": {
         "type": "object",
@@ -7365,7 +7440,7 @@
             "$ref": "#/components/schemas/CampaignSearchFiltersV23Q1"
           }
         },
-        "description": "request payload of the search endpoint"
+        "description": "Request payload for the campaign search endpoint."
       },
       "CampaignSpendLimitV23Q1": {
         "type": "object",
@@ -7381,6 +7456,7 @@
               "lifetime"
             ],
             "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
             "nullable": true
           },
           "spendLimitType": {
@@ -7389,10 +7465,11 @@
               "uncapped"
             ],
             "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
             "nullable": true
           }
         },
-        "description": "campaign spend limit model",
+        "description": "Campaign spend-limit configuration. A capped spend limit restricts campaign spending per renewal period. An uncapped spend limit does not impose a spending ceiling.",
         "nullable": true
       },
       "CampaignV23Q1": {
@@ -7400,6 +7477,7 @@
         "properties": {
           "advertiserId": {
             "type": "string",
+            "description": "Advertiser id of the campaign (string-encoded integer)",
             "nullable": true
           },
           "budgetAutomation": {
@@ -7412,6 +7490,7 @@
               "retention"
             ],
             "type": "string",
+            "description": "Goal of the campaign\r\n            \r\nSerialized values are {unspecified}, {acquisition} and {retention}.\r\n            \r\nAcquisition and retention are defined as follows:\r\n- Acquisition: campaign with the goal of acquiring new customers. The success of an acquisition campaign is measured by the number of new customers it brings.\r\n- Retention: campaign with the goal of retaining existing customers. The success of a retention campaign is measured by the number of existing customers it retains.",
             "nullable": true
           },
           "id": {
@@ -7421,13 +7500,14 @@
           },
           "name": {
             "type": "string",
+            "description": "Name of the campaign",
             "nullable": true
           },
           "spendLimit": {
             "$ref": "#/components/schemas/CampaignSpendLimitV23Q1"
           }
         },
-        "description": "campaign read model",
+        "description": "Campaign read model\r\n            \r\nThe {id} field is the campaign identifier (string-encoded integer).",
         "nullable": true
       },
       "CampaignV23Q1ListResponse": {
@@ -8133,7 +8213,58 @@
             "nullable": true
           }
         },
-        "description": "ad set create model"
+        "description": "ad set create model",
+        "example": {
+          "name": "test adset",
+          "datasetId": "108002",
+          "campaignId": "358313",
+          "objective": "conversions",
+          "schedule": {
+            "startDate": "2026-04-04T16:21:06.3809615+02:00",
+            "endDate": "2026-04-13T16:21:06.3809642+02:00"
+          },
+          "bidding": {
+            "costController": "dailyBudget"
+          },
+          "targeting": {
+            "deliveryLimitations": {
+              "environments": [
+                "web"
+              ],
+              "devices": [
+                "desktop"
+              ],
+              "operatingSystems": [
+                "android"
+              ]
+            },
+            "geoLocation": {
+              "countries": {
+                "operand": "in",
+                "values": [
+                  "FR",
+                  "IT"
+                ]
+              }
+            },
+            "frequencyCapping": {
+              "frequency": "daily",
+              "maximumImpressions": 1000
+            }
+          },
+          "budget": {
+            "budgetStrategy": "capped",
+            "budgetRenewal": "weekly",
+            "budgetDeliverySmoothing": "standard",
+            "budgetDeliveryWeek": "mondayToSunday",
+            "budgetAmount": 1000
+          },
+          "trackingCode": "Test123",
+          "mediaType": "display",
+          "attributionConfiguration": {
+            "attributionMethod": "criteoAttribution"
+          }
+        }
       },
       "CreateAdSetV24Q3Request": {
         "type": "object",
@@ -8169,7 +8300,7 @@
         "properties": {
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser id this campaign belongs to",
+            "description": "Advertiser ID this campaign belongs to (string-encoded integer).",
             "nullable": true
           },
           "budgetAutomation": {
@@ -8182,7 +8313,7 @@
               "Retention"
             ],
             "type": "string",
-            "description": "Goal for the marketing campaign"
+            "description": "Goal of the campaign\r\n            \r\nSerialized values are {Unspecified}, {Acquisition} and {Retention}.\r\n            \r\nAcquisition and retention are defined as follows:\r\n- Acquisition: campaign with the goal of acquiring new customers. The success of an acquisition campaign is measured by the number of new customers it brings.\r\n- Retention: campaign with the goal of retaining existing customers. The success of a retention campaign is measured by the number of existing customers it retains."
           },
           "name": {
             "type": "string",
@@ -8193,7 +8324,7 @@
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
           }
         },
-        "description": "Campaign create model"
+        "description": "Campaign create model."
       },
       "CreateCampaignRequest": {
         "type": "object",
@@ -8226,7 +8357,7 @@
         "properties": {
           "spendLimitAmount": {
             "type": "number",
-            "description": "The amount of the spend limit. null if spendLimitType is uncapped.",
+            "description": "Maximum spend amount in the advertiser's currency per renewal period. Non-null when capped. null when uncapped.",
             "format": "double",
             "nullable": true
           },
@@ -8238,7 +8369,7 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The pace of the spend limit renewal"
+            "description": "The period over which the spend limit is consumed.\r\n- \"daily\", \"monthly\": spend limit resets at the start of each period.\r\n- \"lifetime\": spend limit covers the entire campaign duration without resetting.\r\n- \"undefined\": only used when spendLimitType is \"uncapped\" (no renewal applies)."
           },
           "spendLimitType": {
             "enum": [
@@ -8246,10 +8377,10 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Whether your spend limit is capped or not"
+            "description": "Controls whether the campaign has a spending limit.\r\n- \"capped\": spending is limited to spendLimitAmount. Requires spendLimitAmount (non-null) and spendLimitRenewal (not \"undefined\").\r\n- \"uncapped\": no spending limit. spendLimitAmount is null and spendLimitRenewal is \"undefined\"."
           }
         },
-        "description": "campaign spend limit create model"
+        "description": "Spend limit configuration for a marketing campaign. Controls how much can be spent and the renewal cadence.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount is null and spendLimitRenewal is \"undefined\"."
       },
       "CreateCoupon": {
         "required": [
@@ -8390,26 +8521,32 @@
         "type": "object",
         "properties": {
           "amount": {
-            "type": "string"
+            "type": "string",
+            "description": "Budget amount as a string (e.g. '100.50')"
           },
           "budgetType": {
-            "type": "string"
+            "type": "string",
+            "description": "Type of budget: 'Daily' (daily cap), 'Capped' (lifetime with fixed amount), or 'Uncapped' (lifetime with no limit)"
           },
           "campaignIds": {
             "type": "array",
             "items": {
               "type": "integer",
               "format": "int32"
-            }
+            },
+            "description": "List of campaign IDs this budget applies to"
           },
           "endDate": {
-            "type": "string"
+            "type": "string",
+            "description": "Budget end date as a string (format: YYYY-MM-DD), or empty string for open-ended"
           },
           "sellerId": {
-            "type": "string"
+            "type": "string",
+            "description": "Identifier of the seller this budget is for"
           },
           "startDate": {
             "type": "string",
+            "description": "Budget start date. Time component is ignored.",
             "format": "date-time"
           }
         },
@@ -8420,10 +8557,12 @@
         "properties": {
           "bid": {
             "type": "number",
+            "description": "Initial cost-per-click bid in the advertiser's currency",
             "format": "double"
           },
           "campaignId": {
             "type": "integer",
+            "description": "ID of the campaign to associate the seller with. Must be an existing campaign.",
             "format": "int32"
           }
         },
@@ -10051,7 +10190,7 @@
             "$ref": "#/components/schemas/PatchCampaignSpendLimit"
           }
         },
-        "description": "campaign patch model"
+        "description": "Campaign patch model.\r\nThe campaign identifier is provided in the resource {id} field (string-encoded integer) and is required."
       },
       "PatchCampaignListRequest": {
         "type": "object",
@@ -10080,6 +10219,7 @@
               "lifetime"
             ],
             "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
             "nullable": true
           },
           "spendLimitType": {
@@ -10088,10 +10228,11 @@
               "uncapped"
             ],
             "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
             "nullable": true
           }
         },
-        "description": "campaign spend limit model"
+        "description": "Spend limit configuration for a marketing campaign (patch).\r\nOnly provided fields are updated; omitted fields are left unchanged.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount is null and spendLimitRenewal is \"undefined\"."
       },
       "PatchCampaignWriteResource": {
         "type": "object",
@@ -10121,10 +10262,10 @@
           },
           "enabled": {
             "type": "boolean",
-            "description": "Budget automation for the marketing campaign enable"
+            "description": "Whether budget automation is enabled for this campaign. This field is always present in the response."
           }
         },
-        "description": "patch marketing campaign budget automation model"
+        "description": "Budget automation, lets users configure budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nOnly provided fields are updated; omitted fields are left unchanged.\r\nIf \"enabled\" is omitted and only \"budgetConfiguration\" is provided, \"enabled\" defaults to false — budget automation will not be activated.\r\nTo activate budget automation, \"enabled\" must be explicitly set to true along with a valid \"budgetConfiguration\".\r\nTo deactivate, set \"enabled\" to false; \"budgetConfiguration\" can be omitted."
       },
       "PatchProductSetRequest": {
         "type": "object",
@@ -11593,58 +11734,86 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique seller identifier"
           },
           "sellerName": {
-            "type": "string"
+            "type": "string",
+            "description": "Display name of the seller (merchant)"
           }
         },
-        "description": "The seller represents the legal person selling products on your platform. "
+        "description": "The seller represents the merchant selling products on the advertiser's marketplace platform.",
+        "example": {
+          "id": "10656107",
+          "sellerName": "AutoShop NYC"
+        }
       },
       "SellerBudgetMessage": {
         "type": "object",
         "properties": {
           "amount": {
             "type": "number",
+            "description": "Budget amount in the advertiser's currency",
             "format": "double",
             "nullable": true
           },
           "budgetType": {
-            "type": "string"
+            "type": "string",
+            "description": "Type of budget: 'Daily' (daily cap), 'Capped' (lifetime with fixed amount), or 'Uncapped' (lifetime with no limit)"
           },
           "campaignIds": {
             "type": "array",
             "items": {
               "type": "integer",
               "format": "int32"
-            }
+            },
+            "description": "List of campaign IDs this budget applies to"
           },
           "endDate": {
-            "type": "string"
+            "type": "string",
+            "description": "End date of the budget period (format: YYYY-MM-DD), or empty string if open-ended"
           },
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique budget identifier"
           },
           "isSuspended": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the budget has been manually suspended by the partner"
           },
           "sellerId": {
-            "type": "string"
+            "type": "string",
+            "description": "Identifier of the seller this budget belongs to"
           },
           "spend": {
             "type": "number",
+            "description": "Amount spent against this budget so far, or null if not available",
             "format": "double",
             "nullable": true
           },
           "startDate": {
             "type": "string",
+            "description": "Start date of the budget period (format: YYYY-MM-DD)",
             "format": "date"
           },
           "status": {
             "$ref": "#/components/schemas/SellerBudgetStatusV2"
           }
         },
-        "description": "Budget are used to specify budget constraints for one or more Seller-Campaigns of the same Seller"
+        "description": "A budget defines spending constraints for a seller across one or more campaigns. Each seller can have one active budget per time period.",
+        "example": {
+          "id": "16501666",
+          "sellerId": "10656107",
+          "campaignIds": [
+            436017
+          ],
+          "budgetType": "Capped",
+          "amount": 462.47,
+          "endDate": "2026-04-30",
+          "spend": 117.59,
+          "status": "Current",
+          "isSuspended": false
+        }
       },
       "SellerBudgetStatusV2": {
         "enum": [
@@ -11660,22 +11829,30 @@
         "properties": {
           "bid": {
             "type": "number",
+            "description": "Cost-per-click bid in the advertiser's currency. Null means no CPC is defined (seller-campaign will be suspended with NoCpcDefined). Set to 0 to stop delivery.",
             "format": "double",
             "nullable": true
           },
           "campaignId": {
             "type": "integer",
+            "description": "Identifier of the campaign this seller participates in",
             "format": "int32"
           },
           "id": {
             "type": "string",
+            "description": "Composite identifier in format {sellerId}.{campaignId}",
             "readOnly": true
           },
+          "productSet": {
+            "$ref": "#/components/schemas/SellerCampaignProductSet"
+          },
           "sellerId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier of the seller (merchant)"
           },
           "suspendedSince": {
             "type": "string",
+            "description": "Timestamp when the seller-campaign was suspended. Null means the seller-campaign is active.",
             "format": "date-time",
             "nullable": true
           },
@@ -11683,11 +11860,49 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SellerCampaignSuspensionReason"
-            }
+            },
+            "description": "List of reasons why the seller-campaign is suspended. Null means the seller-campaign is active.",
+            "nullable": true
           }
         },
-        "description": "A Seller-Campaign contains all the information relative to the advertisement of the products of a Seller in a Campaign",
+        "description": "A seller-campaign links a seller to a campaign, defining the CPC bid. A seller can participate in multiple campaigns, and a campaign can have multiple sellers.",
+        "example": {
+          "id": "10656107.248287",
+          "sellerId": "10656107",
+          "campaignId": 248287,
+          "bid": 0.15,
+          "suspendedSince": "2021-03-03T15:14:25.7970000+00:00",
+          "suspensionReasons": [
+            "NoBudgetDefined"
+          ]
+        },
         "x-readonly-id": true
+      },
+      "SellerCampaignProductSet": {
+        "type": "object",
+        "properties": {
+          "productSetNumberOfProducts": {
+            "type": "integer",
+            "description": "Number of products matching the product set rules",
+            "format": "int32",
+            "nullable": true
+          },
+          "productSetStatus": {
+            "type": "string",
+            "description": "Status of the product set (e.g. Active, Pending)",
+            "nullable": true
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Array of product set filtering rules",
+            "nullable": true
+          }
+        },
+        "description": "Product set targeting configuration for a seller-campaign",
+        "nullable": true
       },
       "SellerCampaignSuspensionReason": {
         "enum": [
@@ -11696,23 +11911,27 @@
           "NoBudgetDefined",
           "NoCpcDefined",
           "RemovedFromCatalog",
-          "NotYetStarted"
+          "NotYetStarted",
+          "NoMoreDailyBudget",
+          "Other"
         ],
         "type": "string",
-        "description": "Public seller-campaign suspension reasons"
+        "description": "Reason why a seller-campaign is suspended. Values: ManuallyStopped (manually paused by the partner), NoBudgetDefined (no valid budget linked), NoCpcDefined (no CPC bid set), NoMoreBudget (lifetime budget fully spent), NoMoreDailyBudget (daily budget limit reached), RemovedFromCatalog (all products removed from catalog), NotYetStarted (newly created, not yet processed), Other (internal issue preventing delivery)."
       },
       "SellerCampaignUpdate": {
         "type": "object",
         "properties": {
           "bid": {
             "type": "number",
+            "description": "New cost-per-click bid. Set to 0 to stop delivery.",
             "format": "double"
           },
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Seller-campaign identifier in format {sellerId}.{campaignId}"
           }
         },
-        "description": "Date used to update a Seller-Campaign's Bid."
+        "description": "Data used to update a Seller-Campaign's Bid."
       },
       "Size": {
         "type": "object",
@@ -12079,6 +12298,76 @@
         },
         "additionalProperties": false,
         "description": "This is the message defining the query for Adset report"
+      },
+      "StatsReportMessage": {
+        "type": "object",
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of column names for the report (e.g. campaignId, sellerId, day, impressions, clicks, cost, etc.)",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { }
+            },
+            "description": "Array of data rows, each row is an array of values matching the columns order",
+            "nullable": true
+          },
+          "links": {
+            "type": "object",
+            "description": "Pagination links (empty object if no pagination)",
+            "nullable": true
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Total number of data rows in the report",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "A tabular stats report with column headers and data rows. Each row in 'data' is an array of values matching the order of 'columns'.",
+        "example": {
+          "columns": [
+            "campaignId",
+            "sellerId",
+            "sellerName",
+            "day",
+            "impressions",
+            "clicks",
+            "cost",
+            "saleUnits",
+            "revenue",
+            "cr",
+            "cpo",
+            "cos",
+            "roas"
+          ],
+          "data": [
+            [
+              436017,
+              10656107,
+              "AutoShop NYC",
+              "2026-04-01",
+              75,
+              1,
+              0.05,
+              0,
+              0,
+              0,
+              null,
+              null,
+              0
+            ]
+          ],
+          "rows": 1,
+          "links": { }
+        }
       },
       "Tag": {
         "type": "object",
