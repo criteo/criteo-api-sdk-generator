@@ -11802,27 +11802,6 @@
         "additionalProperties": false,
         "description": "Common problem object."
       },
-      "ServedCategoryFilter": {
-        "required": [
-          "retailerId",
-          "servedCategories"
-        ],
-        "type": "object",
-        "properties": {
-          "retailerId": {
-            "type": "string"
-          },
-          "servedCategories": {
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "description": "The filters to apply"
-      },
       "SetProductBuyBoxWinnersRequest": {
         "required": [
           "productBuyBoxWinners"
@@ -11861,6 +11840,17 @@
             },
             "nullable": true
           },
+          "activationPlatforms": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "commerceMax",
+                "privateMarket"
+              ],
+              "type": "string"
+            },
+            "nullable": true
+          },
           "aggregationLevel": {
             "enum": [
               "category",
@@ -11872,6 +11862,17 @@
           "brandIds": {
             "type": "array",
             "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "budgetModels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "criteoBudget",
+                "retailerBudget"
+              ],
               "type": "string"
             },
             "nullable": true
@@ -11916,7 +11917,9 @@
                 "creativeType",
                 "adFormat",
                 "creativeName",
-                "environment"
+                "environment",
+                "budgetModel",
+                "activationPlatform"
               ],
               "type": "string"
             }
@@ -11990,7 +11993,7 @@
           "servedCategories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ServedCategoryFilter"
+              "type": "string"
             },
             "nullable": true
           },
@@ -12000,7 +12003,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Description of a Share of voice insight"
+        "description": "The filters to apply"
       },
       "ShareOfVoiceInsightRequest": {
         "type": "object",

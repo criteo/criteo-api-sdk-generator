@@ -4401,12 +4401,13 @@
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/{reportId}",
-        "description": "This endpoint is subject to specific rate limits.",
+        "description": "This endpoint is subject to specific rate limits.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
         "operationId": "GetRealtimeProduct",
         "parameters": [
           {
             "name": "reportId",
             "in": "path",
+            "description": "Unique ID (UUID) of the report to retrieve.",
             "required": true,
             "schema": {
               "type": "string"
@@ -4450,7 +4451,7 @@
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/export",
-        "description": "This endpoint is subject to specific rate limits.",
+        "description": "This endpoint is subject to specific rate limits.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
         "operationId": "CreateRealtimeProductReport",
         "requestBody": {
           "content": {
@@ -4513,11 +4514,13 @@
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/report-jobs/{reportId}",
+        "description": "This endpoint is subject to specific rate limits.",
         "operationId": "GetRealtimeProductJob",
         "parameters": [
           {
             "name": "reportId",
             "in": "path",
+            "description": "Unique ID (UUID) of the report job.",
             "required": true,
             "schema": {
               "type": "string"
@@ -9481,9 +9484,18 @@
             ],
             "type": "string",
             "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null."
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets."
           }
         },
-        "description": "Budget create model for an ad set.\r\nFor \"capped\": budgetAmount (required, non-null), budgetRenewal (required, not \"undefined\"), and budgetDeliverySmoothing (required) must all be provided.\r\nFor \"uncapped\": budgetAmount must be null, budgetRenewal must be \"undefined\", budgetDeliverySmoothing and budgetDeliveryWeek must be omitted or \"undefined\".\r\nFor marketing campaigns with budget automation enabled, omit this object.\r\nIn that case, the ad set budget is initialized from the marketing campaign spend limit amount and renewal period."
+        "description": "Budget create model for an ad set.\r\nFor \"capped\": budgetAmount (required, non-null), budgetRenewal (required, not \"undefined\"), and budgetDeliverySmoothing (required) must all be provided.\r\npacingBehavior is optional; \"targetAverageDailyBudget\" is only supported for capped, standard, monthly budgets.\r\nFor \"uncapped\": budgetAmount must be null, budgetRenewal must be \"undefined\", budgetDeliverySmoothing, budgetDeliveryWeek, and pacingBehavior must be omitted or \"undefined\".\r\nFor marketing campaigns with budget automation enabled, omit this object.\r\nIn that case, the ad set budget is initialized from the marketing campaign spend limit amount and renewal period."
       },
       "CreateAdSetGeoLocationV26Q1": {
         "type": "object",
@@ -9654,6 +9666,7 @@
             "budgetRenewal": "weekly",
             "budgetDeliverySmoothing": "standard",
             "budgetDeliveryWeek": "mondayToSunday",
+            "pacingBehavior": "targetFullBudget",
             "budgetAmount": 1000
           },
           "trackingCode": "Test123",
@@ -13188,9 +13201,19 @@
             "type": "string",
             "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
             "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets.",
+            "nullable": true
           }
         },
-        "description": "Budget patch model for an ad set. Only provided fields are updated; omitted fields are left unchanged.\r\nSwitching to \"uncapped\": set budgetStrategy to \"uncapped\" and budgetAmount.value to null. Other budget fields (budgetRenewal, budgetDeliverySmoothing, budgetDeliveryWeek) are automatically cleared.\r\nSwitching to \"capped\": set budgetStrategy to \"capped\", budgetAmount.value to a positive number, budgetRenewal to a period, and budgetDeliverySmoothing to a pacing strategy.\r\nManual budget updates are not supported when the linked marketing campaign has budget automation enabled."
+        "description": "Budget patch model for an ad set. Only provided fields are updated; omitted fields are left unchanged.\r\nSwitching to \"uncapped\": set budgetStrategy to \"uncapped\" and budgetAmount.value to null. Other budget fields (budgetRenewal, budgetDeliverySmoothing, budgetDeliveryWeek, and pacingBehavior) are automatically cleared.\r\nSwitching to \"capped\": set budgetStrategy to \"capped\", budgetAmount.value to a positive number, budgetRenewal to a period, and budgetDeliverySmoothing to a pacing strategy.\r\npacingBehavior can only be set for capped budgets using standard delivery smoothing; \"targetAverageDailyBudget\" also requires monthly renewal.\r\nManual budget updates are not supported when the linked marketing campaign has budget automation enabled."
       },
       "PatchAdSetCategoryBid": {
         "type": "object",
@@ -14800,9 +14823,19 @@
             "type": "string",
             "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
             "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets.",
+            "nullable": true
           }
         },
-        "description": "Budget create model for an ad set.\r\nFor \"capped\": budgetAmount (required, non-null), budgetRenewal (required, not \"undefined\"), and budgetDeliverySmoothing (required) must all be provided.\r\nFor \"uncapped\": budgetAmount must be null, budgetRenewal must be \"undefined\", budgetDeliverySmoothing and budgetDeliveryWeek must be omitted or \"undefined\".\r\nFor marketing campaigns with budget automation enabled, omit this object.\r\nIn that case, the ad set budget is initialized from the marketing campaign spend limit amount and renewal period.",
+        "description": "Budget configuration for an ad set. Controls how much can be spent and how spending is paced.\r\nWhen budgetStrategy is \"capped\": budgetAmount, budgetRenewal, and budgetDeliverySmoothing are all set.\r\nWhen budgetStrategy is \"uncapped\": budgetAmount is null, budgetRenewal is \"undefined\", budgetDeliverySmoothing is null, budgetDeliveryWeek is \"undefined\", and pacingBehavior is \"undefined\".",
         "nullable": true
       },
       "ReadAdSetScheduleV26Q1": {
@@ -15225,6 +15258,11 @@
           "googleCategory": {
             "type": "string",
             "description": "Product google category.",
+            "nullable": true
+          },
+          "hasVariants": {
+            "type": "boolean",
+            "description": "Whether the product has variants available.",
             "nullable": true
           },
           "imageUrl": {
