@@ -85,19 +85,22 @@ def update_previous_specifications(specification_folder, gateway_service):
 
 
 def main():
-    help_msg = f'{__doc__}\n{__file__} -r <version to release> -s <path to specification folder> -g <URL to the gateway service>'
+    help_msg = f'{__doc__}\n{__file__} -r <version to release> -s <path to specification folder> -g <URL to the gateway service> [-n] (skip cleanup of obsolete versions, use for release candidates)'
     try:
-        opts, _ = getopt.getopt(sys.argv[1:], "hvr:s:g:", ["help", "verbose", "release=", "specification_folder=", "gateway_service="])
+        opts, _ = getopt.getopt(sys.argv[1:], "hvnr:s:g:", ["help", "verbose", "no-cleanup", "release=", "specification_folder=", "gateway_service="])
     except getopt.GetoptError:
         LOGGER.error(f'Invalid call: [help] {help_msg}')
         sys.exit(2)
 
+    no_cleanup = False
     for option, value in opts:
         if option in ('-h', '--help'):
             LOGGER.info(help_msg)
             sys.exit()
         elif option in ('-v', ):
            LOGGER.setLevel(logging.DEBUG)
+        elif option in ('-n', '--no-cleanup'):
+            no_cleanup = True
         elif option in ('-r', '--release'):
             release = value
         elif option in ('-s', '--specification_folder'):
@@ -107,7 +110,7 @@ def main():
         else:
             raise Exception(f'Unsupported command line option ({option}={value}).')
 
-    if release.lower() == "preview":
+    if release.lower() == "preview" or no_cleanup:
       for api_service in ALL_API_SERVICES:
           LOGGER.info(f"Getting new specifications for {api_service}/{release}")
           download_specification(release, api_service, specification_folder, gateway_service)

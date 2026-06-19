@@ -5,7 +5,11 @@ on:
     inputs:
         latest-version:
           type: string
-          description: latest stable API version (ex 2023-07)
+          description: latest API version to onboard (ex 2026-07)
+        release-candidate:
+          type: boolean
+          description: skip cleanup of obsolete versions (use for release candidates)
+          default: false
 
 permissions:
   actions: write
@@ -24,7 +28,12 @@ jobs:
           python-version: '3.9'
 
       - name: update OAS
-        run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r ${{ github.event.inputs.latest-version }}
+        run: |
+          EXTRA_ARGS=""
+          if [ "${{ github.event.inputs.release-candidate }}" == "true" ]; then
+            EXTRA_ARGS="--no-cleanup"
+          fi
+          python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r ${{ github.event.inputs.latest-version }} $EXTRA_ARGS
 
       - name: Create new branch and commit files
         run: |
@@ -32,10 +41,10 @@ jobs:
           git config --global user.email "update-oas-bot]@users.noreply.github.com"
           git checkout -b update-oas-$(date --rfc-3339=date)
           git add *
-          git commit -m "Update OAS up to ${{ github.event.inputs.latest-version }}"
+          git commit -m "Update OAS for ${{ github.event.inputs.latest-version }}${{ github.event.inputs.release-candidate == 'true' && ' (RC)' || '' }}"
           git push origin update-oas-$(date --rfc-3339=date)
 
       - name: Create pull request on main
-        run: gh pr create --base main --head update-oas-$(date --rfc-3339=date) --title "Update OAS up to ${{ github.event.inputs.latest-version }}" --body "Update OAS up to ${{ github.event.inputs.latest-version }}"
+        run: gh pr create --base main --head update-oas-$(date --rfc-3339=date) --title "Update OAS for ${{ github.event.inputs.latest-version }}${{ github.event.inputs.release-candidate == 'true' && ' (RC)' || '' }}" --body "Update OAS for ${{ github.event.inputs.latest-version }}${{ github.event.inputs.release-candidate == 'true' && ' (RC — no version cleanup performed)' || '' }}"
         env:
           GH_TOKEN: ${{ github.token }}
