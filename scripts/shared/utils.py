@@ -5,6 +5,8 @@ import logging
 from datetime import datetime
 from .models.criteo_service import CriteoService
 
+PREVIEW_AND_EXPERIMENTAL_VERSIONS = {'preview', 'experimental'}
+
 logger = None
 formatted_date = None
 
@@ -35,7 +37,7 @@ def assert_api_version(directory_name):
 
   api_version = splitted_directory_name[1]
 
-  if api_version != 'preview' and not re.match(r'[0-9]{2,}(-[0-9]{2})', api_version):
+  if api_version not in PREVIEW_AND_EXPERIMENTAL_VERSIONS and not re.match(r'[0-9]{2,}(-[0-9]{2})', api_version):
     raise InvalidApiVersionException(f'API Version found in directory name of generated source is invalid ({api_version})')
   
   return api_version
