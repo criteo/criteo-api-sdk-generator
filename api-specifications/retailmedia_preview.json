@@ -2335,6 +2335,126 @@
         ]
       }
     },
+    "/preview/retail-media/insights/{insightId}/output": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/retail-media/insights/{insightId}/output",
+        "description": "Returns the output of an async insight",
+        "operationId": "GetInsightReportOutput",
+        "parameters": [
+          {
+            "name": "insightId",
+            "in": "path",
+            "description": "The ID of the asynchronous insight report. Must be a valid ID format.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/insights/{insightId}/status": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/retail-media/insights/{insightId}/status",
+        "description": "Returns the status of an async insight",
+        "operationId": "GetInsightReportStatus",
+        "parameters": [
+          {
+            "name": "insightId",
+            "in": "path",
+            "description": "The ID of the asynchronous insight report. Must be a valid ID format.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncInsightResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/insights/digital-shelf-intelligence": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/retail-media/insights/digital-shelf-intelligence",
+        "description": "Generate a Digital Shelf Intelligence insight",
+        "operationId": "GenerateDigitalShelfIntelligenceInsight",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DigitalShelfIntelligenceInsightRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncInsightResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/insights/share-of-voice": {
       "post": {
         "tags": [
@@ -6580,6 +6700,118 @@
         },
         "description": "Defines a reference to inventory"
       },
+      "DigitalShelfIntelligenceInsight": {
+        "required": [
+          "accountId",
+          "aggregationLevel",
+          "endDate",
+          "metrics",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "aggregationLevel": {
+            "enum": [
+              "brand",
+              "sku"
+            ],
+            "type": "string"
+          },
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "default": "json-compact"
+          },
+          "metrics": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "considerationIndex",
+                "listingPrice",
+                "pdpViewRank",
+                "salesIndex",
+                "salesRank",
+                "totalPdpPageViews",
+                "totalSalesOnline",
+                "totalSoldUnitsOnline"
+              ],
+              "type": "string"
+            }
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "skuIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkuFilter"
+            },
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Description of a Digital Shelf Intelligence insight"
+      },
+      "DigitalShelfIntelligenceInsightRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DigitalShelfIntelligenceInsightResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "DigitalShelfIntelligenceInsightResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DigitalShelfIntelligenceInsight"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "DisplayAuctionMinBidRequest": {
         "type": "object",
         "properties": {
@@ -7719,12 +7951,12 @@
               "Invalidated"
             ],
             "type": "string",
-            "description": "Status of an async report request",
+            "description": "Status of an async insight request",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Status of an async report request",
+        "description": "Status of an async insight request",
         "nullable": true
       },
       "InsightStatusResponseResource": {
@@ -12003,7 +12235,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "The filters to apply"
+        "description": "Description of a Share of voice insight"
       },
       "ShareOfVoiceInsightRequest": {
         "type": "object",
@@ -12029,6 +12261,27 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "SkuFilter": {
+        "required": [
+          "retailerId",
+          "retailerSkuIds"
+        ],
+        "type": "object",
+        "properties": {
+          "retailerId": {
+            "type": "string"
+          },
+          "retailerSkuIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The filters to apply"
       },
       "SponsoredProductsLineItem": {
         "required": [
@@ -13196,7 +13449,7 @@
             "description": "Name of the balance.",
             "nullable": true
           },
-          "poNumber": {
+          "retailerPoNumber": {
             "type": "string",
             "description": "Purchase Order number.",
             "nullable": true
