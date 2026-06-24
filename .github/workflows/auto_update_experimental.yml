@@ -1,0 +1,71 @@
+name: Weekly autoupdate OAS for Experimental
+
+on:
+  schedule:
+    - cron: "0 16 * * 1" # At 16:00 on every Monday
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-oas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ssh-key: ${{ secrets.CRITEO_API_SDK_GENERATOR_REPO_PRIVATE_KEY }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.9"
+
+      - name: Update OAS
+        run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r Experimental
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add *
+          if git diff --cached --exit-code; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push files
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config --global user.name "update-oas-bot"
+          git config --global user.email "update-oas-bot@users.noreply.github.com"
+          git commit -m "Update OAS for Experimental"
+          git push origin HEAD:main
+
+      - name: Send success notification
+        if: ${{ success() && steps.check_changes.outputs.has_changes == 'true' }}
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            status: "${{ job.status }}"
+            channel: "C02J0CWR789"
+            username: "sdk-generation-bot"
+            text: "Autoupdate of OAS in Experimental. Autoupdate of OAS in experimental runs weekly on Monday."
+            icon_emoji: ":bell:"
+
+      - name: Send failure notification
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            status: "${{ job.status }}"
+            channel: "C02J0CWR789"
+            username: "sdk-generation-bot"
+            text: "Autoupdate of OAS in Experimental failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
+            icon_emoji: ":x:"

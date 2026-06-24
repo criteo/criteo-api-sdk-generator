@@ -111,6 +111,9 @@ class TestPhpSdkPushAction:
     ('preview', 0, f'0.0.{get_formatted_date()}'),
     ('preview', 1, f'0.0.{get_formatted_date()}-patch1'),
     ('preview', 99, f'0.0.{get_formatted_date()}-patch99'),
+    ('experimental', 0, f'0.0.{get_formatted_date()}'),
+    ('experimental', 1, f'0.0.{get_formatted_date()}-patch1'),
+    ('experimental', 99, f'0.0.{get_formatted_date()}-patch99'),
     ('2021-10', 0, f'2021.10.0.{get_formatted_date()}'),
     ('2021-10', 1, f'2021.10.0.{get_formatted_date()}-patch1'),
     ('2021-10', 99, f'2021.10.0.{get_formatted_date()}-patch99'),
@@ -141,6 +144,7 @@ class TestPhpSdkPushAction:
   
   test_data = [
     ('preview', 'preview'),
+    ('experimental', 'experimental'),
     ('2021-04', '2021.04'),
     ('2021-07', '2021.07'),
     ('2021-10', '2021.10'),

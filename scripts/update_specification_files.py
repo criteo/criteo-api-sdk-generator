@@ -20,7 +20,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
 ALL_API_SERVICES = ["marketingSolutions", "retailMedia", "commerceGrid"]
 NUM_YEARS_TO_KEEP = 1
-EVERGREEN_VERSIONS = {"preview",}
+PREVIEW_AND_EXPERIMENTAL_VERSIONS = {"preview", "experimental"}
 SPECIFICATION_EXTENSION = ".json"
 
 
@@ -48,7 +48,7 @@ def remove_out_of_support_specifications(specification_folder, reference_version
   folder_path = Path(specification_folder)
   for specification_path in folder_path.glob(f"*{SPECIFICATION_EXTENSION}"):
     _, version = _get_service_version_from_specification_filepath(specification_path)
-    if version.lower() in EVERGREEN_VERSIONS:
+    if version.lower() in PREVIEW_AND_EXPERIMENTAL_VERSIONS:
         continue
     if _is_more_recent_than_reference_version_minus(version, reference_version, num_years_to_keep):
         continue
@@ -110,7 +110,7 @@ def main():
         else:
             raise Exception(f'Unsupported command line option ({option}={value}).')
 
-    if release.lower() == "preview" or no_cleanup:
+    if release.lower() in PREVIEW_AND_EXPERIMENTAL_VERSIONS or no_cleanup:
       for api_service in ALL_API_SERVICES:
           LOGGER.info(f"Getting new specifications for {api_service}/{release}")
           download_specification(release, api_service, specification_folder, gateway_service)

@@ -5,7 +5,7 @@ from shared.clients.os_client import IOsClient
 
 from shared.clients.git_client import GitException, IGitClient
 from shared.models.programming_language import ProgrammingLanguage
-from shared.utils import get_logger, assert_criteo_service, assert_api_version, get_formatted_date
+from shared.utils import get_logger, assert_criteo_service, assert_api_version, get_formatted_date, PREVIEW_AND_EXPERIMENTAL_VERSIONS
 
 logger = get_logger()
 
@@ -132,7 +132,7 @@ class PhpSdkPushAction:
   def __get_tag_name(self, patch=0):
       now_date = get_formatted_date()
 
-      if self.api_version == 'preview':
+      if self.api_version in PREVIEW_AND_EXPERIMENTAL_VERSIONS:
         api_version = 0
       else:
         api_version = self.api_version.replace('-', '.')
