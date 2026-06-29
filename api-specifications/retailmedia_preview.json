@@ -2470,7 +2470,8 @@
                 "$ref": "#/components/schemas/ShareOfVoiceInsightRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -3225,6 +3226,47 @@
         ]
       }
     },
+    "/preview/retail-media/reports/attributed-transactions": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/retail-media/reports/attributed-transactions",
+        "description": "Creates an attributed-transactions async report. The request accepts explicit attributed-transaction dimensions, metrics, and filters.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "CreateAsyncAttributedTransactionsReport",
+        "requestBody": {
+          "description": "Required create payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncAttributedTransactionsReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/reports/campaigns": {
       "post": {
         "tags": [
@@ -3345,6 +3387,47 @@
         ]
       }
     },
+    "/preview/retail-media/reports/missed-opportunities": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/retail-media/reports/missed-opportunities",
+        "description": "Creates a missed-opportunities async report. The request accepts explicit missed-opportunities dimensions, metrics, and filters.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "CreateAsyncMissedOpportunitiesReport",
+        "requestBody": {
+          "description": "Required create payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncMissedOpportunitiesReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/retail-media/reports/offsite": {
       "post": {
         "tags": [
@@ -3358,6 +3441,47 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AsyncOffsiteReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/retail-media/reports/performance": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/retail-media/reports/performance",
+        "description": "Creates a performance DSP analytics async report. Dimensions and metrics select the output schema, and filters constrain eligible data.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "CreateAsyncPerformanceReport",
+        "requestBody": {
+          "description": "Required create payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncPerformanceReportRequest"
               }
             }
           },
@@ -4386,6 +4510,156 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "AsyncAttributedTransactionsReport": {
+        "required": [
+          "endDate",
+          "filters",
+          "metrics",
+          "dimensions",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "clickAttributionWindow": {
+            "enum": [
+              "none",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Optional click attribution window.",
+            "default": "none"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "purchasedDate",
+                "purchasedHour",
+                "advertisedDate",
+                "advertisedHour",
+                "daysDifference",
+                "campaignId",
+                "campaignName",
+                "lineItemId",
+                "lineItemName",
+                "advertisedProductId",
+                "advertisedProductGtin",
+                "advertisedProductMpn",
+                "advertisedProductName",
+                "advertisedProductCategory",
+                "purchasedProductId",
+                "purchasedProductGtin",
+                "purchasedProductMpn",
+                "purchasedProductName",
+                "purchasedProductCategory",
+                "advertisedEngagement",
+                "advertisedToPurchasedProductRelationship",
+                "salesChannel",
+                "retailerId",
+                "retailerName",
+                "pageType",
+                "keyword",
+                "attributionWindow",
+                "saleSellerId",
+                "saleSellerName",
+                "activitySellerId",
+                "activitySellerName"
+              ],
+              "type": "string"
+            },
+            "description": "Required output grouping fields. Empty array means no grouping fields. At least one of dimensions or metrics must be non-empty."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Required inclusive report end date in YYYY-MM-DD format. Must be greater than or equal to startDate.",
+            "format": "date"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/AttributedTransactionsReportFilters"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Output format. If omitted, json-compact is used.",
+            "default": "json-compact"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "attributedUnits",
+                "attributedSales"
+              ],
+              "type": "string"
+            },
+            "description": "Required output measure fields. Empty array means no measure fields. At least one of dimensions or metrics must be non-empty."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Required inclusive report start date in YYYY-MM-DD format.",
+            "format": "date"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Optional time zone identifier. If omitted, UTC is used. If provided, it must be valid.",
+            "default": "UTC"
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "none",
+              "1D",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Optional view attribution window.",
+            "default": "none"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Create payload attributes for an attributed-transactions async report."
+      },
+      "AsyncAttributedTransactionsReportRequest": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncAttributedTransactionsReportResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates an attributed-transactions async report create request."
+      },
+      "AsyncAttributedTransactionsReportResource": {
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncAttributedTransactionsReport"
+          },
+          "type": {
+            "enum": [
+              "AsyncAttributedTransactionsReport"
+            ],
+            "type": "string",
+            "description": "Optional JSON:API resource type. If provided, it must match this create resource."
+          }
+        },
+        "additionalProperties": false,
+        "description": "JSON:API resource wrapper for an attributed-transactions async report create request."
+      },
       "AsyncCampaignsReport": {
         "required": [
           "endDate",
@@ -5154,6 +5428,119 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "AsyncMissedOpportunitiesReport": {
+        "required": [
+          "endDate",
+          "filters",
+          "metrics",
+          "dimensions",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "campaignId",
+                "campaignName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName",
+                "buyType",
+                "bidStrategy"
+              ],
+              "type": "string"
+            },
+            "description": "Required output grouping fields. Empty array means no grouping fields. At least one of dimensions or metrics must be non-empty."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Required inclusive report end date in YYYY-MM-DD format. Must be greater than or equal to startDate.",
+            "format": "date"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/MissedOpportunitiesReportFilters"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Output format. If omitted, json-compact is used.",
+            "default": "json-compact"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "daypartingScheduled",
+                "totalSpend",
+                "roas",
+                "capoutHour",
+                "attributedSales",
+                "impressions",
+                "clicks",
+                "cpc",
+                "cpm",
+                "ctr",
+                "missedTraffic",
+                "missedSpend",
+                "missedClicks",
+                "missedImpressions",
+                "missedSales"
+              ],
+              "type": "string"
+            },
+            "description": "Required output measure fields. Empty array means no measure fields. At least one of dimensions or metrics must be non-empty."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Required inclusive report start date in YYYY-MM-DD format.",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Create payload attributes for a missed-opportunities async report."
+      },
+      "AsyncMissedOpportunitiesReportRequest": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncMissedOpportunitiesReportResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a missed-opportunities async report create request."
+      },
+      "AsyncMissedOpportunitiesReportResource": {
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncMissedOpportunitiesReport"
+          },
+          "type": {
+            "enum": [
+              "AsyncMissedOpportunitiesReport"
+            ],
+            "type": "string",
+            "description": "Optional JSON:API resource type. If provided, it must match this create resource."
+          }
+        },
+        "additionalProperties": false,
+        "description": "JSON:API resource wrapper for a missed-opportunities async report create request."
+      },
       "AsyncOffsiteReport": {
         "required": [
           "accountIds",
@@ -5382,6 +5769,199 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "AsyncPerformanceReport": {
+        "required": [
+          "endDate",
+          "filters",
+          "metrics",
+          "dimensions",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "clickAttributionWindow": {
+            "enum": [
+              "none",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Optional click attribution window.",
+            "default": "none"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "accountId",
+                "accountName",
+                "campaignId",
+                "campaignName",
+                "campaignType",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName",
+                "brandId",
+                "brandName",
+                "productCategory",
+                "productId",
+                "productName",
+                "salesChannel",
+                "mediaType",
+                "buyType",
+                "budgetModel",
+                "activationPlatform",
+                "environment",
+                "pageType",
+                "pageCategory",
+                "servedCategory",
+                "taxonomyBreadcrumb",
+                "keyword",
+                "searchTerm",
+                "searchTermType",
+                "searchTermTargeting",
+                "creativeId",
+                "creativeName",
+                "creativeType",
+                "creativeTemplateId",
+                "creativeTemplateName",
+                "targetedKeywordType"
+              ],
+              "type": "string"
+            },
+            "description": "Required output grouping fields. Empty array means no grouping fields. At least one of dimensions or metrics must be non-empty."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Required inclusive report end date in YYYY-MM-DD format. Must be greater than or equal to startDate.",
+            "format": "date"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/PerformanceReportFilters"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Output format. If omitted, json-compact is used.",
+            "default": "json-compact"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "spend",
+                "attributedSales",
+                "attributedUnits",
+                "attributedOrders",
+                "assistedSales",
+                "assistedUnits",
+                "ctr",
+                "cpc",
+                "cpo",
+                "cpm",
+                "roas",
+                "videoViews",
+                "videosStarted",
+                "videosPlayedTo25",
+                "videosPlayedTo50",
+                "videosPlayedTo75",
+                "videosPlayedTo100",
+                "videoPlayingRate",
+                "videoCompletionRate",
+                "videoImpressions",
+                "videoMuted",
+                "videoUnmuted",
+                "videoPaused",
+                "videoResumed",
+                "videoAvgInteractionRate",
+                "videoViewability",
+                "videoStartingRate",
+                "videoCPC",
+                "videoCPCV",
+                "newToBrandAttributedSales",
+                "newToBrandAttributedSalesRate",
+                "newToBrandAttributedUnits",
+                "newToBrandAttributedUnitsRate",
+                "uniqueVisitors",
+                "frequency",
+                "winRate",
+                "sampledBidsWon",
+                "sampledBidsParticipated"
+              ],
+              "type": "string"
+            },
+            "description": "Required output measure fields. Empty array means no measure fields. At least one of dimensions or metrics must be non-empty."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Required inclusive report start date in YYYY-MM-DD format.",
+            "format": "date"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Optional time zone identifier. If omitted, UTC is used. If provided, it must be valid.",
+            "default": "UTC"
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "none",
+              "1D",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Optional view attribution window.",
+            "default": "none"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Create payload attributes for a performance DSP analytics async report."
+      },
+      "AsyncPerformanceReportRequest": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncPerformanceReportResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a performance DSP analytics async report create request."
+      },
+      "AsyncPerformanceReportResource": {
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncPerformanceReport"
+          },
+          "type": {
+            "enum": [
+              "AsyncPerformanceReport"
+            ],
+            "type": "string",
+            "description": "Optional JSON:API resource type. If provided, it must match this create resource."
+          }
+        },
+        "additionalProperties": false,
+        "description": "JSON:API resource wrapper for a performance DSP analytics async report create request."
+      },
       "AsyncReportResponse": {
         "type": "object",
         "properties": {
@@ -5570,6 +6150,53 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "AttributedTransactionsReportFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 5 account IDs per request."
+          },
+          "campaignIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 50 campaign IDs per request."
+          },
+          "lineItemIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 50 line-item IDs per request."
+          },
+          "mediaTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "video",
+                "display"
+              ],
+              "type": "string"
+            },
+            "description": "Optional media type filter."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Array-valued constraints for attributed-transactions reporting. At least one of accountIds, campaignIds, or lineItemIds is required."
       },
       "AudienceError": {
         "required": [
@@ -6788,6 +7415,9 @@
         "description": "Description of a Digital Shelf Intelligence insight"
       },
       "DigitalShelfIntelligenceInsightRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -6798,6 +7428,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "DigitalShelfIntelligenceInsightResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -8320,6 +8953,65 @@
         "description": "Metadata related to the current request.",
         "nullable": true
       },
+      "MissedOpportunitiesReportFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 5 account IDs per request."
+          },
+          "campaignIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 50 campaign IDs per request."
+          },
+          "lineItemIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 50 line-item IDs per request."
+          },
+          "mediaTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "video",
+                "display"
+              ],
+              "type": "string"
+            },
+            "description": "Optional inherited media type filter."
+          },
+          "salesChannels": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "online",
+                "offline"
+              ],
+              "type": "string"
+            },
+            "description": "Optional inherited sales channel filter."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Array-valued constraints for missed-opportunities reporting. At least one of accountIds, campaignIds, or lineItemIds is required."
+      },
       "NillableDecimal": {
         "type": "object",
         "properties": {
@@ -8558,6 +9250,154 @@
         },
         "description": "Metadata for paging data.",
         "nullable": true
+      },
+      "PerformanceReportFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 5 account IDs per request."
+          },
+          "activationPlatforms": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "CommerceMax",
+                "PrivateMarket"
+              ],
+              "type": "string"
+            },
+            "description": "Optional activation platform filter."
+          },
+          "budgetModels": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "CriteoBudget",
+                "RetailerBudget"
+              ],
+              "type": "string"
+            },
+            "description": "Optional budget model filter."
+          },
+          "buyTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "auction",
+                "preferredDeals",
+                "sponsorship"
+              ],
+              "type": "string"
+            },
+            "description": "Optional buy type filter."
+          },
+          "campaignIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 50 campaign IDs per request."
+          },
+          "campaignTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "sponsoredProducts",
+                "onSiteDisplays"
+              ],
+              "type": "string"
+            },
+            "description": "Optional inherited campaign type filter."
+          },
+          "lineItemIds": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional scope filter. Allows up to 50 line-item IDs per request."
+          },
+          "mediaTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "video",
+                "display"
+              ],
+              "type": "string"
+            },
+            "description": "Optional inherited media type filter."
+          },
+          "salesChannels": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "online",
+                "offline"
+              ],
+              "type": "string"
+            },
+            "description": "Optional inherited sales channel filter."
+          },
+          "searchTermTargetings": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "automatic",
+                "manual"
+              ],
+              "type": "string"
+            },
+            "description": "Optional search term targeting filter."
+          },
+          "searchTermTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "searched",
+                "entered"
+              ],
+              "type": "string"
+            },
+            "description": "Optional search term type filter."
+          },
+          "targetedKeywordTypes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "generic",
+                "branded",
+                "conquesting"
+              ],
+              "type": "string"
+            },
+            "description": "Optional targeted keyword type filter."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Array-valued constraints for performance DSP analytics. At least one of accountIds, campaignIds, or lineItemIds is required."
       },
       "PreferredLineItemCreateModelV2": {
         "required": [
@@ -12238,6 +13078,9 @@
         "description": "Description of a Share of voice insight"
       },
       "ShareOfVoiceInsightRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -12248,6 +13091,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ShareOfVoiceInsightResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -13315,7 +14161,7 @@
                 "retailerName"
               ],
               "type": "string",
-              "description": "Dimensions supported by the real-time performance report (streaming + landing).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
+              "description": "Dimensions supported by the real-time performance report (streaming + hourly stats).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
             },
             "description": "List of dimensions to report on (real-time: at least one required). Only values from Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeDimension are valid."
           },
@@ -13335,14 +14181,14 @@
             "type": "array",
             "items": {
               "enum": [
-                "billableImpressions",
-                "billableClicks",
+                "impressions",
+                "clicks",
                 "spend"
               ],
               "type": "string",
-              "description": "Metrics supported by the real-time performance report (streaming + landing).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
+              "description": "Metrics supported by the real-time performance report (streaming + hourly stats).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
             },
-            "description": "List of metrics to report on (real-time: at least one required). Only values from Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeMetric are valid (billableImpressions, billableClicks, spend)."
+            "description": "List of metrics to report on (real-time: at least one required). Only values from Criteo.RetailMedia.Exam.Reporting.Resources.Models.Inputs.RealTimePerformance.SyncRealTimeMetric are valid."
           },
           "retailerIds": {
             "type": "array",
