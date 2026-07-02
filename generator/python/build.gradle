@@ -50,6 +50,7 @@ task generateClient(type: GradleBuild) {
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
         def isPreviewOrExperimental = criteoApiVersion == 'preview' || criteoApiVersion == 'experimental';
+        def isExperimental = criteoApiVersion == 'experimental';
 
         def versionInNamespace =  criteoApiVersion
         if (versionInNamespace.matches("[0-9].*"))
@@ -59,6 +60,9 @@ task generateClient(type: GradleBuild) {
 
         def artifactVersion = isPreviewOrExperimental ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
+
+        // experimental is a parallel track to preview, give it a distinct PyPI name so its coordinates don't collide with preview's on PyPI.
+        def artifactId = isExperimental ? "criteo-api-${criteoService}-sdk-experimental" : "criteo-api-${criteoService}-sdk"
 
         def createConfig  = task("createConfig_" + taskSuffix, type: Copy)
        {
@@ -81,14 +85,14 @@ task generateClient(type: GradleBuild) {
             configOptions = [
                     groupId                 : 'criteo',
                     apiVersion              : "${artifactVersion}".toString(),
-                    artifactId              : "criteo-api-${criteoService}-sdk".toString(),
+                    artifactId              : artifactId.toString(),
                     description             : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
                     hideGenerationTimestamp : 'true',
                     invokerPackage          : 'Criteo\\SDK',
                     packageName             : "${namespaceBase}".toString(),
                     packageUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
                     packageVersion          : "${artifactVersion}".toString(), // v2021_10.1.211109
-                    projectName             : "criteo-api-${criteoService}-sdk".toString(),
+                    projectName             : artifactId.toString(), // criteo-api-marketingsolutions-sdk (or criteo-api-marketingsolutions-sdk-experimental)
             ]
             additionalProperties = [
                     criteoServiceAsPrefix   : "${criteoService}".toString().toUpperCase(),
