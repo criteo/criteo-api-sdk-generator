@@ -45,6 +45,7 @@ task generateClient(type: GradleBuild) {
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
         def isPreviewOrExperimental = criteoApiVersion == 'preview' || criteoApiVersion == 'experimental';
+        def isExperimental = criteoApiVersion == 'experimental';
 
         def versionInNamespace =  criteoApiVersion
         if (versionInNamespace.matches("[0-9].*"))
@@ -54,6 +55,9 @@ task generateClient(type: GradleBuild) {
 
         def artifactVersion = isPreviewOrExperimental ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
+
+        // experimental is a parallel track to preview, give it a distinct artifactId so its Maven coordinates don't collide with preview's on Central.
+        def artifactId = isExperimental ? "criteo-api-${criteoService}-sdk-experimental" : "criteo-api-${criteoService}-sdk"
 
         namespaceBase = "com." + namespaceBase; // 'com' is Java-specific => example: com.criteo.api.marketingsolutions.v2021_10
 
@@ -84,7 +88,7 @@ task generateClient(type: GradleBuild) {
                     apiPackage               : "${namespaceBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
                     modelPackage             : "${namespaceBase}.model".toString(),
                     artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
-                    artifactId               : "criteo-api-${criteoService}-sdk".toString(), // criteo-api-marketingsolutions-sdk
+                    artifactId               : artifactId.toString(), // criteo-api-marketingsolutions-sdk (or criteo-api-marketingsolutions-sdk-experimental)
                     artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110
                     artifactUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
                     dateLibrary              : technologyStack.toString(),
