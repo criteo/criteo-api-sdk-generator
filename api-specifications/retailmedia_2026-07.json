@@ -733,79 +733,6 @@
       }
     },
     "/2026-07/retail-media/accounts/{account-id}/balances": {
-      "get": {
-        "tags": [
-          "Balance"
-        ],
-        "summary": "/2026-07/retail-media/accounts/{account-id}/balances",
-        "description": "Gets page of balance objects for the given account id",
-        "operationId": "GetBalancesByAccountId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account to get balances for",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limitToId",
-            "in": "query",
-            "description": "The ids that you would like to limit your result set to",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "The 0 indexed page index you would like to receive given the page size",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The maximum number of items you would like to receive in this request",
-            "schema": {
-              "maximum": 2147483647,
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32",
-              "default": 25
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2PagedListResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Balance_Read"
-            ]
-          }
-        ]
-      },
       "post": {
         "tags": [
           "Balance"
@@ -829,7 +756,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBalanceV2Request"
+                "$ref": "#/components/schemas/CreateBalanceV3Request"
               }
             }
           },
@@ -842,7 +769,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                  "$ref": "#/components/schemas/BalanceResponseV3Response"
                 }
               }
             }
@@ -858,6 +785,64 @@
       }
     },
     "/2026-07/retail-media/accounts/{account-id}/balances/{balance-id}": {
+      "patch": {
+        "tags": [
+          "Balance"
+        ],
+        "summary": "/2026-07/retail-media/accounts/{account-id}/balances/{balance-id}",
+        "description": "Modify a balance for the given account id",
+        "operationId": "UpdateBalanceV1",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The account of the balance",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "balance-id",
+            "in": "path",
+            "description": "The balance to change the dates",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "An object that represents the available options to modify a balance.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfUpdateBalanceModelV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfBalanceResponseV1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Manage"
+            ]
+          }
+        ]
+      },
       "get": {
         "tags": [
           "Balance"
@@ -904,65 +889,6 @@
             ]
           }
         ]
-      },
-      "patch": {
-        "tags": [
-          "Balance"
-        ],
-        "summary": "/2026-07/retail-media/accounts/{account-id}/balances/{balance-id}",
-        "description": "Modify a balance for the given account id",
-        "operationId": "ModifyBalanceByAccountAndBalanceId",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The account of the balance",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "balance-id",
-            "in": "path",
-            "description": "The balance to change the dates",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "An object that represents the available options to modify a balance.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBalanceModelV2Request"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "updateBalanceModel"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Balance_Manage"
-            ]
-          }
-        ]
       }
     },
     "/2026-07/retail-media/accounts/{account-id}/balances/{balance-id}/add-funds": {
@@ -998,7 +924,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddFundsToBalanceV2Request"
+                "$ref": "#/components/schemas/AddFundsToBalanceV3Request"
               }
             }
           },
@@ -1011,7 +937,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponseV2Response"
+                  "$ref": "#/components/schemas/BalanceResponseV3Response"
                 }
               }
             }
@@ -1624,6 +1550,82 @@
         ]
       }
     },
+    "/2026-07/retail-media/accounts/{accountId}/balances": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "summary": "/2026-07/retail-media/accounts/{accountId}/balances",
+        "description": "Gets page of balance objects for the given account id.",
+        "operationId": "GetPageOfBalancesV1",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account to get balances for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of elements to be returned.",
+            "schema": {
+              "maximum": 500,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "limit-to-id",
+            "in": "query",
+            "description": "The balance ids which the result is limited to.",
+            "schema": {
+              "maxItems": 50,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The (zero-based) starting offset in the collection.",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeBalanceV1AndMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/2026-07/retail-media/accounts/{accountId}/brand-catalog-export": {
       "post": {
         "tags": [
@@ -1894,7 +1896,7 @@
           "Campaign"
         ],
         "summary": "/2026-07/retail-media/accounts/{accountId}/retailers/search",
-        "description": "Searches for retailers associated with the specified account based on provided search criteria",
+        "description": "Searches for retailers associated with the specified account and returns budget model availability for each retailer",
         "operationId": "SearchAccountRetailers",
         "parameters": [
           {
@@ -1936,7 +1938,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputOfRetailerSearchRequest"
+                "$ref": "#/components/schemas/ValueResourceInputOfRetailerSearchRequestV2"
               }
             }
           },
@@ -1948,7 +1950,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailerResultAndMetadata"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailerResultV2AndMetadata"
                 }
               }
             }
@@ -2483,17 +2485,57 @@
         ]
       }
     },
-    "/2026-07/retail-media/balances/{balance-id}/campaigns/append": {
+    "/2026-07/retail-media/balances/{balanceId}": {
+      "get": {
+        "tags": [
+          "Balance"
+        ],
+        "summary": "/2026-07/retail-media/balances/{balanceId}",
+        "description": "Get a balance for the given balance id.",
+        "operationId": "GetBalanceV1",
+        "parameters": [
+          {
+            "name": "balanceId",
+            "in": "path",
+            "description": "The balance id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeBalanceV1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Balance_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2026-07/retail-media/balances/{balanceId}/campaigns/append": {
       "post": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/2026-07/retail-media/balances/{balance-id}/campaigns/append",
-        "description": "appends one or more campaigns to the specified balance",
-        "operationId": "AppendCampaignsByBalanceId",
+        "summary": "/2026-07/retail-media/balances/{balanceId}/campaigns/append",
+        "description": "Appends one or more campaigns to the specified balance",
+        "operationId": "AppendCampaignsToBalanceV1",
         "parameters": [
           {
-            "name": "balance-id",
+            "name": "balanceId",
             "in": "path",
             "description": "The balance to add campaigns from",
             "required": true,
@@ -2503,15 +2545,15 @@
           }
         ],
         "requestBody": {
-          "description": "The campaigns to append",
+          "description": "The balance campaign appending request.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BalanceCampaign202110ListRequest"
+                "$ref": "#/components/schemas/ValueResourceInputAppendCampaignsRequestV1"
               }
             }
           },
-          "x-bodyName": "campaigns"
+          "required": true
         },
         "responses": {
           "200": {
@@ -2519,7 +2561,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceCampaign202110PagedListResponse"
+                  "$ref": "#/components/schemas/ValueResourceOutcomeBalanceCampaignsV1"
                 }
               }
             }
@@ -2534,17 +2576,17 @@
         ]
       }
     },
-    "/2026-07/retail-media/balances/{balance-id}/campaigns/delete": {
+    "/2026-07/retail-media/balances/{balanceId}/campaigns/delete": {
       "post": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/2026-07/retail-media/balances/{balance-id}/campaigns/delete",
-        "description": "Removes one or more campaigns on the specified balance",
-        "operationId": "DeleteCampaignsByBalanceId",
+        "summary": "/2026-07/retail-media/balances/{balanceId}/campaigns/delete",
+        "description": "Deletes one or more campaigns on the specified balance",
+        "operationId": "DeleteCampaignsFromBalanceV1",
         "parameters": [
           {
-            "name": "balance-id",
+            "name": "balanceId",
             "in": "path",
             "description": "The balance to remove campaigns from",
             "required": true,
@@ -2554,15 +2596,15 @@
           }
         ],
         "requestBody": {
-          "description": "The campaigns to append",
+          "description": "The balance campaign deleting request.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BalanceCampaign202110ListRequest"
+                "$ref": "#/components/schemas/ValueResourceInputDeleteCampaignsRequestV1"
               }
             }
           },
-          "x-bodyName": "campaigns"
+          "required": true
         },
         "responses": {
           "200": {
@@ -2570,7 +2612,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceCampaign202110PagedListResponse"
+                  "$ref": "#/components/schemas/ValueResourceOutcomeBalanceCampaignsV1"
                 }
               }
             }
@@ -2592,7 +2634,7 @@
         ],
         "summary": "/2026-07/retail-media/balances/{balanceId}/history",
         "description": "Gets the balance's historical change data.",
-        "operationId": "GetBalanceHistory",
+        "operationId": "GetBalanceHistoryV1",
         "parameters": [
           {
             "name": "balanceId",
@@ -2608,7 +2650,7 @@
             "in": "query",
             "description": "The number of elements to be returned.",
             "schema": {
-              "maximum": 100,
+              "maximum": 500,
               "minimum": 1,
               "type": "integer",
               "format": "int32",
@@ -2642,7 +2684,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageOfBalanceHistoryChangeDataCaptureV1"
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeBalanceHistoryChangeDataCaptureV1AndMetadata"
                 }
               }
             }
@@ -5041,59 +5083,19 @@
         ]
       }
     },
-    "/2026-07/retail-media/reports/accounts": {
+    "/2026-07/retail-media/reports/attributed-transactions": {
       "post": {
         "tags": [
           "Analytics"
         ],
-        "summary": "/2026-07/retail-media/reports/accounts",
-        "description": "Returns an asynchronous Accounts Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
-        "operationId": "GenerateAsyncAccountsReport",
+        "summary": "/2026-07/retail-media/reports/attributed-transactions",
+        "description": "Creates an attributed-transactions async report. The request accepts explicit attributed-transaction dimensions, metrics, and filters.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateAsyncAttributedTransactionsReport",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncAccountsReportRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-bodyName": "request"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AsyncReportResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Analytics_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/2026-07/retail-media/reports/campaigns": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "summary": "/2026-07/retail-media/reports/campaigns",
-        "description": "Return an asynchronous Campaigns Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
-        "operationId": "GenerateAsyncCampaignsReport",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AsyncCampaignsReportRequest"
+                "$ref": "#/components/schemas/AsyncAttributedTransactionsReportRequest"
               }
             }
           },
@@ -5161,19 +5163,59 @@
         ]
       }
     },
-    "/2026-07/retail-media/reports/line-items": {
+    "/2026-07/retail-media/reports/missed-opportunities": {
       "post": {
         "tags": [
           "Analytics"
         ],
-        "summary": "/2026-07/retail-media/reports/line-items",
-        "description": "Returns an asynchronous Line Items Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
-        "operationId": "GenerateAsyncLineItemsReport",
+        "summary": "/2026-07/retail-media/reports/missed-opportunities",
+        "description": "Creates a missed-opportunities async report. The request accepts explicit missed-opportunities dimensions, metrics, and filters.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateAsyncMissedOpportunitiesReport",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsyncLineItemsReportRequest"
+                "$ref": "#/components/schemas/AsyncMissedOpportunitiesReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2026-07/retail-media/reports/performance": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/2026-07/retail-media/reports/performance",
+        "description": "Creates a performance DSP analytics async report. Dimensions and metrics select the output schema, and filters constrain eligible data.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateAsyncPerformanceReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsyncPerformanceReportRequest"
               }
             }
           },
@@ -5227,6 +5269,166 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AsyncReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2026-07/retail-media/reports/sync/attributed-transactions": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/2026-07/retail-media/reports/sync/attributed-transactions",
+        "description": "Returns a synchronous Attributed Transactions Report",
+        "operationId": "GenerateSyncAttributedTransactionsReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncAttributedTransactionsReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2026-07/retail-media/reports/sync/campaigns": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/2026-07/retail-media/reports/sync/campaigns",
+        "description": "Returns a synchronous Campaigns Report",
+        "operationId": "GenerateSyncCampaignsReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncCampaignsReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2026-07/retail-media/reports/sync/line-items": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/2026-07/retail-media/reports/sync/line-items",
+        "description": "Returns a synchronous Line Items Report",
+        "operationId": "GenerateSyncLineItemsReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncLineItemsReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2026-07/retail-media/reports/sync/real-time-performance": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/2026-07/retail-media/reports/sync/real-time-performance",
+        "description": "Returns a synchronous Real Time Performance Report. Returns empty rows; metadata includes dataCompleteThrough (latest time from streaming table in the request timezone).\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "operationId": "GenerateSyncRealTimePerformanceReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRealTimePerformanceReportRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
                 }
               }
             }
@@ -5688,7 +5890,7 @@
         "additionalProperties": false,
         "description": "request body to set provided fees for the provided accounts"
       },
-      "AddFundsToBalanceV2": {
+      "AddFundsToBalanceV3": {
         "required": [
           "deltaAmount"
         ],
@@ -5703,18 +5905,18 @@
             "type": "string",
             "description": "Memo"
           },
-          "poNumber": {
+          "retailerPoNumber": {
             "type": "string",
             "description": "Purchase Order number."
           }
         },
         "description": "An object that represents the available options of adding funds to a balance."
       },
-      "AddFundsToBalanceV2Request": {
+      "AddFundsToBalanceV3Request": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ResourceOfAddFundsToBalanceV2"
+            "$ref": "#/components/schemas/ResourceOfAddFundsToBalanceV3"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single entity"
@@ -5873,6 +6075,23 @@
         },
         "description": "Data model for a value type resource outcome"
       },
+      "AppendCampaignsRequestV1": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the campaigns that are going to be appended to balance campaigns mapping."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request object for appending campaigns to balance campaigns mapping."
+      },
       "ApplicationSummaryModel": {
         "type": "object",
         "properties": {
@@ -6008,135 +6227,80 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity"
       },
-      "AsyncAccountsReport": {
+      "AsyncAttributedTransactionsReport": {
         "required": [
-          "accountIds",
+          "dimensions",
           "endDate",
+          "filters",
+          "metrics",
           "startDate"
         ],
         "type": "object",
         "properties": {
-          "accountIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Account Ids to report on"
-          },
-          "activationPlatforms": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "CommerceMax",
-                "PrivateMarket"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the activation platform: CommerceMax, PrivateMarket"
-          },
-          "aggregationLevel": {
+          "clickAttributionWindow": {
             "enum": [
-              "campaign",
-              "lineItem"
+              "none",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string"
+          },
+          "clickMatchLevel": {
+            "enum": [
+              "sameSku",
+              "sameCategory",
+              "sameBrand",
+              "campaign"
             ],
             "type": "string",
-            "description": "Level of aggregation, if no dimensions and metrics are provided, falls back to campaign aggregationLevel",
             "default": "campaign"
           },
-          "budgetModels": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "CriteoBudget",
-                "RetailerBudget"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the budget model: CriteoBudget, RetailerBudget"
-          },
-          "buyTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "auction",
-                "preferredDeals",
-                "sponsorship"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the buy type: auction, preferredDeals, sponsorship"
-          },
-          "campaignType": {
-            "enum": [
-              "all",
-              "sponsoredProducts",
-              "onSiteDisplays"
-            ],
-            "type": "string",
-            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
-            "default": "all"
-          },
-          "clickAttributionWindow": {
-            "enum": [
-              "none",
-              "7D",
-              "14D",
-              "30D"
-            ],
-            "type": "string",
-            "description": "Click attribution window",
-            "default": "none"
-          },
           "dimensions": {
             "type": "array",
             "items": {
               "enum": [
-                "date",
-                "hour",
-                "accountId",
-                "accountName",
+                "purchasedDate",
+                "purchasedHour",
+                "advertisedDate",
+                "advertisedHour",
+                "daysDifference",
                 "campaignId",
                 "campaignName",
-                "campaignTypeName",
                 "lineItemId",
                 "lineItemName",
+                "advertisedProductId",
+                "advertisedProductGtin",
+                "advertisedProductMpn",
+                "advertisedProductName",
+                "advertisedProductCategory",
+                "purchasedProductId",
+                "purchasedProductGtin",
+                "purchasedProductMpn",
+                "purchasedProductName",
+                "purchasedProductCategory",
+                "advertisedEngagement",
+                "advertisedToPurchasedProductRelationship",
+                "salesChannel",
                 "retailerId",
                 "retailerName",
-                "brandId",
-                "brandName",
-                "advProductCategory",
-                "advProductId",
-                "advProductName",
-                "salesChannel",
-                "mediaType",
-                "buyType",
-                "budgetModel",
-                "activationPlatform",
-                "environment",
-                "pageTypeName",
-                "pageCategory",
-                "servedCategory",
-                "taxonomyBreadcrumb",
+                "pageType",
                 "keyword",
-                "searchTerm",
-                "searchTermType",
-                "searchTermTargeting",
-                "creativeId",
-                "creativeName",
-                "creativeTypeId",
-                "creativeTypeName",
-                "creativeTemplateId",
-                "creativeTemplateName",
-                "targetedKeywordType"
+                "attributionWindow",
+                "saleSellerId",
+                "saleSellerName",
+                "activitySellerId",
+                "activitySellerName"
               ],
               "type": "string"
-            },
-            "description": "List of dimensions to report on"
+            }
           },
           "endDate": {
             "type": "string",
-            "description": "End date",
             "format": "date-time"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/AttributedTransactionsReportFilters"
           },
           "format": {
             "enum": [
@@ -6145,445 +6309,24 @@
               "json-newline",
               "csv"
             ],
-            "type": "string",
-            "description": "Format of the output",
-            "default": "json-compact"
-          },
-          "mediaType": {
-            "enum": [
-              "unknown",
-              "video",
-              "display",
-              "all"
-            ],
-            "type": "string",
-            "description": "Filter on the type of media: unknown, display, video",
-            "default": "all"
-          },
-          "metrics": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "impressions",
-                "clicks",
-                "spend",
-                "attributedSales",
-                "attributedUnits",
-                "attributedOrders",
-                "assistedSales",
-                "assistedUnits",
-                "ctr",
-                "cpc",
-                "cpo",
-                "cpm",
-                "roas",
-                "videoViews",
-                "videosStarted",
-                "videosPlayedTo25",
-                "videosPlayedTo50",
-                "videosPlayedTo75",
-                "videosPlayedTo100",
-                "videoPlayingRate",
-                "videoCompletionRate",
-                "videoImpressions",
-                "videoMuted",
-                "videoUnmuted",
-                "videoPaused",
-                "videoResumed",
-                "videoAvgInteractionRate",
-                "videoViewability",
-                "videoStartingRate",
-                "videoCPC",
-                "videoCPCV",
-                "newToBrandAttributedSales",
-                "newToBrandAttributedSalesRate",
-                "newToBrandAttributedUnits",
-                "newToBrandAttributedUnitsRate",
-                "uniqueVisitors",
-                "frequency",
-                "winRate",
-                "sampledBidsWon",
-                "sampledBidsParticipated"
-              ],
-              "type": "string"
-            },
-            "description": "List of metrics to report on"
-          },
-          "reportType": {
-            "enum": [
-              "summary",
-              "pageType",
-              "keyword",
-              "productCategory",
-              "product",
-              "attributedTransactions",
-              "environment",
-              "servedCategory",
-              "capout"
-            ],
-            "type": "string",
-            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
-            "default": "summary"
-          },
-          "salesChannel": {
-            "enum": [
-              "online",
-              "offline",
-              "all"
-            ],
-            "type": "string",
-            "description": "Filter on specific sales channel: offline or online",
-            "default": "all"
-          },
-          "searchTermTargetings": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "automatic",
-                "manual"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the type of search term targeting: unknown, automatic, manual"
-          },
-          "searchTermTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "searched",
-                "entered"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the type of search term type: unknown, searched, entered"
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Start date",
-            "format": "date-time"
-          },
-          "targetedKeywordTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "generic",
-                "branded",
-                "conquesting"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on targeted keyword type: unknown, generic, branded, conquesting"
-          },
-          "timezone": {
-            "type": "string",
-            "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
-          },
-          "viewAttributionWindow": {
-            "enum": [
-              "none",
-              "1D",
-              "7D",
-              "14D",
-              "30D"
-            ],
-            "type": "string",
-            "description": "View attribution window",
-            "default": "none"
-          }
-        },
-        "description": "Async Accounts report body request"
-      },
-      "AsyncAccountsReportRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/AsyncAccountsReportResource"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value"
-      },
-      "AsyncAccountsReportResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AsyncAccountsReport"
-          },
-          "type": {
             "type": "string"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
-      },
-      "AsyncCampaignsReport": {
-        "required": [
-          "endDate",
-          "startDate"
-        ],
-        "type": "object",
-        "properties": {
-          "activationPlatforms": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "CommerceMax",
-                "PrivateMarket"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the activation platform: CommerceMax, PrivateMarket"
-          },
-          "budgetModels": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "CriteoBudget",
-                "RetailerBudget"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the budget model: CriteoBudget, RetailerBudget"
-          },
-          "buyTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "auction",
-                "preferredDeals",
-                "sponsorship"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the buy type: auction, preferredDeals, sponsorship"
-          },
-          "campaignType": {
-            "enum": [
-              "all",
-              "sponsoredProducts",
-              "onSiteDisplays"
-            ],
-            "type": "string",
-            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
-            "default": "all"
-          },
-          "clickAttributionWindow": {
-            "enum": [
-              "none",
-              "7D",
-              "14D",
-              "30D"
-            ],
-            "type": "string",
-            "description": "Click attribution window",
-            "default": "none"
-          },
-          "dimensions": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "date",
-                "hour",
-                "accountId",
-                "accountName",
-                "campaignId",
-                "campaignName",
-                "campaignTypeName",
-                "lineItemId",
-                "lineItemName",
-                "retailerId",
-                "retailerName",
-                "brandId",
-                "brandName",
-                "advProductCategory",
-                "advProductId",
-                "advProductName",
-                "salesChannel",
-                "mediaType",
-                "buyType",
-                "budgetModel",
-                "activationPlatform",
-                "environment",
-                "pageTypeName",
-                "pageCategory",
-                "servedCategory",
-                "taxonomyBreadcrumb",
-                "keyword",
-                "searchTerm",
-                "searchTermType",
-                "searchTermTargeting",
-                "creativeId",
-                "creativeName",
-                "creativeTypeId",
-                "creativeTypeName",
-                "creativeTemplateId",
-                "creativeTemplateName",
-                "targetedKeywordType"
-              ],
-              "type": "string"
-            },
-            "description": "List of dimensions to report on"
-          },
-          "endDate": {
-            "type": "string",
-            "description": "End date",
-            "format": "date-time"
-          },
-          "format": {
-            "enum": [
-              "json",
-              "json-compact",
-              "json-newline",
-              "csv"
-            ],
-            "type": "string",
-            "description": "Format of the output",
-            "default": "json-compact"
-          },
-          "id": {
-            "type": "string",
-            "description": "Campaign id to report on"
-          },
-          "ids": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Campaign ids to report on"
-          },
-          "mediaType": {
-            "enum": [
-              "unknown",
-              "video",
-              "display",
-              "all"
-            ],
-            "type": "string",
-            "description": "Filter on the type of media: unknown, display, video",
-            "default": "all"
           },
           "metrics": {
             "type": "array",
             "items": {
               "enum": [
-                "impressions",
-                "clicks",
-                "spend",
-                "attributedSales",
                 "attributedUnits",
-                "attributedOrders",
-                "assistedSales",
-                "assistedUnits",
-                "ctr",
-                "cpc",
-                "cpo",
-                "cpm",
-                "roas",
-                "videoViews",
-                "videosStarted",
-                "videosPlayedTo25",
-                "videosPlayedTo50",
-                "videosPlayedTo75",
-                "videosPlayedTo100",
-                "videoPlayingRate",
-                "videoCompletionRate",
-                "videoImpressions",
-                "videoMuted",
-                "videoUnmuted",
-                "videoPaused",
-                "videoResumed",
-                "videoAvgInteractionRate",
-                "videoViewability",
-                "videoStartingRate",
-                "videoCPC",
-                "videoCPCV",
-                "newToBrandAttributedSales",
-                "newToBrandAttributedSalesRate",
-                "newToBrandAttributedUnits",
-                "newToBrandAttributedUnitsRate",
-                "uniqueVisitors",
-                "frequency",
-                "winRate",
-                "sampledBidsWon",
-                "sampledBidsParticipated"
+                "attributedSales"
               ],
               "type": "string"
-            },
-            "description": "List of metrics to report on"
-          },
-          "reportType": {
-            "enum": [
-              "summary",
-              "pageType",
-              "keyword",
-              "productCategory",
-              "product",
-              "attributedTransactions",
-              "environment",
-              "servedCategory",
-              "capout"
-            ],
-            "type": "string",
-            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
-            "default": "summary"
-          },
-          "salesChannel": {
-            "enum": [
-              "online",
-              "offline",
-              "all"
-            ],
-            "type": "string",
-            "description": "Filter on specific sales channel: offline or online",
-            "default": "all"
-          },
-          "searchTermTargetings": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "automatic",
-                "manual"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the type of search term targeting: unknown, automatic, manual"
-          },
-          "searchTermTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "searched",
-                "entered"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the type of search term type: unknown, searched, entered"
+            }
           },
           "startDate": {
             "type": "string",
-            "description": "Start date",
             "format": "date-time"
-          },
-          "targetedKeywordTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "generic",
-                "branded",
-                "conquesting"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on targeted keyword type: unknown, generic, branded, conquesting"
           },
           "timezone": {
             "type": "string",
-            "description": "Time zone : see criteo developer portal for supported time zones",
             "default": "UTC"
           },
           "viewAttributionWindow": {
@@ -6594,27 +6337,35 @@
               "14D",
               "30D"
             ],
+            "type": "string"
+          },
+          "viewMatchLevel": {
+            "enum": [
+              "sameSku",
+              "sameCategory",
+              "sameBrand",
+              "campaign"
+            ],
             "type": "string",
-            "description": "View attribution window",
-            "default": "none"
+            "default": "campaign"
           }
         },
-        "description": "Async Campaigns report body request"
+        "description": "Create payload attributes for an attributed-transactions async report."
       },
-      "AsyncCampaignsReportRequest": {
+      "AsyncAttributedTransactionsReportRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/AsyncCampaignsReportResource"
+            "$ref": "#/components/schemas/AsyncAttributedTransactionsReportResource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+        "description": "A top-level object that encapsulates an attributed-transactions async report create request."
       },
-      "AsyncCampaignsReportResource": {
+      "AsyncAttributedTransactionsReportResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/AsyncCampaignsReport"
+            "$ref": "#/components/schemas/AsyncAttributedTransactionsReport"
           },
           "type": {
             "type": "string"
@@ -6754,57 +6505,110 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
-      "AsyncLineItemsReport": {
+      "AsyncMissedOpportunitiesReport": {
         "required": [
+          "dimensions",
           "endDate",
+          "filters",
+          "metrics",
           "startDate"
         ],
         "type": "object",
         "properties": {
-          "activationPlatforms": {
+          "dimensions": {
             "type": "array",
             "items": {
               "enum": [
-                "CommerceMax",
-                "PrivateMarket"
+                "date",
+                "campaignId",
+                "campaignName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName",
+                "buyType",
+                "bidStrategy"
               ],
               "type": "string"
-            },
-            "description": "Filter on the activation platform: CommerceMax, PrivateMarket"
+            }
           },
-          "budgetModels": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "CriteoBudget",
-                "RetailerBudget"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the budget model: CriteoBudget, RetailerBudget"
-          },
-          "buyTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "auction",
-                "preferredDeals",
-                "sponsorship"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the buy type: auction, preferredDeals, sponsorship"
-          },
-          "campaignType": {
-            "enum": [
-              "all",
-              "sponsoredProducts",
-              "onSiteDisplays"
-            ],
+          "endDate": {
             "type": "string",
-            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
-            "default": "all"
+            "format": "date-time"
           },
+          "filters": {
+            "$ref": "#/components/schemas/MissedOpportunitiesReportFilters"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "json-compact",
+              "json-newline",
+              "csv"
+            ],
+            "type": "string"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "daypartingScheduled",
+                "totalSpend",
+                "roas",
+                "capoutHour",
+                "attributedSales",
+                "impressions",
+                "clicks",
+                "cpc",
+                "cpm",
+                "ctr",
+                "missedTraffic",
+                "missedSpend",
+                "missedClicks",
+                "missedImpressions",
+                "missedSales"
+              ],
+              "type": "string"
+            }
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Create payload attributes for a missed-opportunities async report."
+      },
+      "AsyncMissedOpportunitiesReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AsyncMissedOpportunitiesReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a missed-opportunities async report create request."
+      },
+      "AsyncMissedOpportunitiesReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AsyncMissedOpportunitiesReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "AsyncPerformanceReport": {
+        "required": [
+          "dimensions",
+          "endDate",
+          "filters",
+          "metrics",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
           "clickAttributionWindow": {
             "enum": [
               "none",
@@ -6812,9 +6616,17 @@
               "14D",
               "30D"
             ],
+            "type": "string"
+          },
+          "clickMatchLevel": {
+            "enum": [
+              "sameSku",
+              "sameCategory",
+              "sameBrand",
+              "campaign"
+            ],
             "type": "string",
-            "description": "Click attribution window",
-            "default": "none"
+            "default": "campaign"
           },
           "dimensions": {
             "type": "array",
@@ -6826,46 +6638,45 @@
                 "accountName",
                 "campaignId",
                 "campaignName",
-                "campaignTypeName",
+                "campaignType",
                 "lineItemId",
                 "lineItemName",
                 "retailerId",
                 "retailerName",
                 "brandId",
                 "brandName",
-                "advProductCategory",
-                "advProductId",
-                "advProductName",
+                "productCategory",
+                "productId",
+                "productName",
                 "salesChannel",
                 "mediaType",
                 "buyType",
                 "budgetModel",
                 "activationPlatform",
                 "environment",
-                "pageTypeName",
+                "pageType",
                 "pageCategory",
                 "servedCategory",
-                "taxonomyBreadcrumb",
                 "keyword",
                 "searchTerm",
                 "searchTermType",
                 "searchTermTargeting",
                 "creativeId",
                 "creativeName",
-                "creativeTypeId",
-                "creativeTypeName",
+                "creativeType",
                 "creativeTemplateId",
                 "creativeTemplateName",
                 "targetedKeywordType"
               ],
               "type": "string"
-            },
-            "description": "List of dimensions to report on"
+            }
           },
           "endDate": {
             "type": "string",
-            "description": "End date",
             "format": "date-time"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/PerformanceReportFilters"
           },
           "format": {
             "enum": [
@@ -6874,31 +6685,7 @@
               "json-newline",
               "csv"
             ],
-            "type": "string",
-            "description": "Format of the output",
-            "default": "json-compact"
-          },
-          "id": {
-            "type": "string",
-            "description": "Line Item id to report on"
-          },
-          "ids": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Line Item ids to report on"
-          },
-          "mediaType": {
-            "enum": [
-              "unknown",
-              "video",
-              "display",
-              "all"
-            ],
-            "type": "string",
-            "description": "Filter on the type of media: unknown, display, video",
-            "default": "all"
+            "type": "string"
           },
           "metrics": {
             "type": "array",
@@ -6946,80 +6733,14 @@
                 "sampledBidsParticipated"
               ],
               "type": "string"
-            },
-            "description": "List of metrics to report on"
-          },
-          "reportType": {
-            "enum": [
-              "summary",
-              "pageType",
-              "keyword",
-              "productCategory",
-              "product",
-              "attributedTransactions",
-              "environment",
-              "servedCategory",
-              "capout"
-            ],
-            "type": "string",
-            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
-            "default": "summary"
-          },
-          "salesChannel": {
-            "enum": [
-              "online",
-              "offline",
-              "all"
-            ],
-            "type": "string",
-            "description": "Filter on specific sales channel: offline or online",
-            "default": "all"
-          },
-          "searchTermTargetings": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "automatic",
-                "manual"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the type of search term targeting: unknown, automatic, manual"
-          },
-          "searchTermTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "searched",
-                "entered"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on the type of search term type: unknown, searched, entered"
+            }
           },
           "startDate": {
             "type": "string",
-            "description": "Start date",
             "format": "date-time"
-          },
-          "targetedKeywordTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "generic",
-                "branded",
-                "conquesting"
-              ],
-              "type": "string"
-            },
-            "description": "Filter on targeted keyword type: unknown, generic, branded, conquesting"
           },
           "timezone": {
             "type": "string",
-            "description": "Time zone : see criteo developer portal for supported time zones",
             "default": "UTC"
           },
           "viewAttributionWindow": {
@@ -7030,27 +6751,35 @@
               "14D",
               "30D"
             ],
+            "type": "string"
+          },
+          "viewMatchLevel": {
+            "enum": [
+              "sameSku",
+              "sameCategory",
+              "sameBrand",
+              "campaign"
+            ],
             "type": "string",
-            "description": "View attribution window",
-            "default": "none"
+            "default": "campaign"
           }
         },
-        "description": "Async Line Items report body request"
+        "description": "Create payload attributes for a performance DSP analytics async report."
       },
-      "AsyncLineItemsReportRequest": {
+      "AsyncPerformanceReportRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/AsyncLineItemsReportResource"
+            "$ref": "#/components/schemas/AsyncPerformanceReportResource"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+        "description": "A top-level object that encapsulates a performance DSP analytics async report create request."
       },
-      "AsyncLineItemsReportResource": {
+      "AsyncPerformanceReportResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/AsyncLineItemsReport"
+            "$ref": "#/components/schemas/AsyncPerformanceReport"
           },
           "type": {
             "type": "string"
@@ -7097,6 +6826,17 @@
             },
             "description": "Account ids to filter"
           },
+          "activationPlatforms": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "CommerceMax",
+                "PrivateMarket"
+              ],
+              "type": "string"
+            },
+            "description": "Filter on the activation platform: CommerceMax, PrivateMarket"
+          },
           "advertiserTypes": {
             "type": "array",
             "items": {
@@ -7108,6 +6848,17 @@
               "type": "string"
             },
             "description": "Filter on the type of advertiser: retailer, brand, seller"
+          },
+          "budgetModels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "CriteoBudget",
+                "RetailerBudget"
+              ],
+              "type": "string"
+            },
+            "description": "Filter on the budget model: CriteoBudget, RetailerBudget"
           },
           "buyType": {
             "enum": [
@@ -7192,6 +6943,8 @@
                 "advProductGtin",
                 "advProductMpn",
                 "buyType",
+                "budgetModel",
+                "activationPlatform",
                 "soldBy",
                 "saleChannel",
                 "salesChannel",
@@ -7375,10 +7128,11 @@
             "enum": [
               "directSold",
               "indirectSold",
-              "privateMarket"
+              "privateMarket",
+              "authorizedBuyer"
             ],
             "type": "string",
-            "description": "Filter on the seller: Indirect Sold, Direct Sold or Private Market"
+            "description": "Filter on the seller: Indirect Sold, Direct Sold, Authorized Buyer or Private Market"
           },
           "startDate": {
             "type": "string",
@@ -7614,6 +7368,42 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "AttributedTransactionsReportFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mediaTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "video",
+                "display",
+                "all"
+              ],
+              "type": "string"
+            }
+          }
+        },
+        "description": "Array-valued constraints for attributed-transactions reporting. Exactly one of accountIds, campaignIds, or lineItemIds is required."
+      },
       "AudienceError": {
         "required": [
           "code",
@@ -7825,18 +7615,6 @@
         "type": "object",
         "description": "Campaigns related to the balance"
       },
-      "BalanceCampaign202110ListRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBalanceCampaign202110"
-            }
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for several entities"
-      },
       "BalanceCampaign202110PagedListResponse": {
         "type": "object",
         "properties": {
@@ -7866,6 +7644,24 @@
         },
         "description": "Data model for a paged list of response resources"
       },
+      "BalanceCampaignsV1": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the campaigns that are mapped to the balance."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Balance campaigns mapping object.",
+        "nullable": true
+      },
       "BalanceHistoryChangeDataCaptureV1": {
         "required": [
           "changeDetails",
@@ -7880,17 +7676,19 @@
           },
           "changeType": {
             "enum": [
-              "BalanceCreated",
-              "BalanceAdded",
-              "BalanceRemoved",
-              "BalanceUncapped",
-              "BalanceCapped",
-              "EndDate",
-              "StartDate",
-              "BalanceName",
-              "PoNumber",
-              "ValueAdd",
-              "Unknown"
+              "balanceCreated",
+              "balanceAdded",
+              "balanceRemoved",
+              "balanceUncapped",
+              "balanceCapped",
+              "endDate",
+              "startDate",
+              "balanceName",
+              "retailerPoNumber",
+              "criteoPoNumber",
+              "retailerId",
+              "valueAdd",
+              "unknown"
             ],
             "type": "string",
             "description": "Represent the type of change states of the history."
@@ -7911,7 +7709,122 @@
           }
         },
         "additionalProperties": false,
-        "description": "Data model represents the data change capture of balance history."
+        "description": "Data model represents the data change capture of balance history.",
+        "nullable": true
+      },
+      "BalanceResponseV1": {
+        "required": [
+          "balanceType",
+          "createdAt",
+          "deposited",
+          "endDate",
+          "memo",
+          "name",
+          "privateMarketBillingType",
+          "remaining",
+          "retailerPoNumber",
+          "spendType",
+          "spent",
+          "startDate",
+          "status",
+          "updatedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "balanceType": {
+            "enum": [
+              "unknown",
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Type of the balance."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation time of the balance.",
+            "format": "date-time"
+          },
+          "deposited": {
+            "type": "number",
+            "description": "Amount of billable funds allotted to the balance.",
+            "format": "double",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the balance."
+          },
+          "privateMarketBillingType": {
+            "enum": [
+              "notApplicable",
+              "billByRetailer",
+              "billByCriteo",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Billing type for Private Market of the balance."
+          },
+          "remaining": {
+            "type": "number",
+            "description": "Amount of remaining funds of the balance.",
+            "format": "double",
+            "nullable": true
+          },
+          "retailerPoNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true
+          },
+          "spendType": {
+            "enum": [
+              "unknown",
+              "onsite",
+              "offsite",
+              "offsiteAwareness"
+            ],
+            "type": "string",
+            "description": "Spend Type of the balance."
+          },
+          "spent": {
+            "type": "number",
+            "description": "Amount of spent funds of the balance.",
+            "format": "double",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD."
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "scheduled",
+              "active",
+              "ended"
+            ],
+            "type": "string",
+            "description": "Status of the balance."
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Update time of the balance.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
+        "nullable": true
       },
       "BalanceResponseV2": {
         "required": [
@@ -8016,35 +7929,6 @@
         "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
         "nullable": true
       },
-      "BalanceResponseV2PagedListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResourceOfBalanceResponseV2"
-            }
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/PageMetadata"
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a paged list of response resources"
-      },
       "BalanceResponseV2Response": {
         "type": "object",
         "properties": {
@@ -8067,6 +7951,252 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "nullable": true
+      },
+      "BalanceResponseV3": {
+        "required": [
+          "name",
+          "startDate",
+          "balanceType",
+          "spendType",
+          "privateMarketBillingType"
+        ],
+        "type": "object",
+        "properties": {
+          "balanceType": {
+            "enum": [
+              "unknown",
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Type of the balance."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation time of the balance.",
+            "format": "date-time"
+          },
+          "deposited": {
+            "type": "number",
+            "description": "Amount of billable funds allotted to the balance.",
+            "format": "double",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the balance."
+          },
+          "privateMarketBillingType": {
+            "enum": [
+              "notApplicable",
+              "billByRetailer",
+              "billByCriteo",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Billing type for Private Market of the balance."
+          },
+          "remaining": {
+            "type": "number",
+            "description": "Amount of remaining funds of the balance.",
+            "format": "double",
+            "nullable": true
+          },
+          "retailerPoNumber": {
+            "type": "string",
+            "description": "Purchase Order number.",
+            "nullable": true
+          },
+          "spendType": {
+            "enum": [
+              "Onsite",
+              "Offsite",
+              "OffsiteAwareness"
+            ],
+            "type": "string",
+            "description": "Spend Type of the balance."
+          },
+          "spent": {
+            "type": "number",
+            "description": "Amount of spent funds of the balance.",
+            "format": "double",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD."
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "scheduled",
+              "active",
+              "ended"
+            ],
+            "type": "string",
+            "description": "Status of the balance."
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Update time of the balance.",
+            "format": "date-time"
+          }
+        },
+        "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account",
+        "nullable": true
+      },
+      "BalanceResponseV3Response": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceOfBalanceResponseV3"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity",
+        "nullable": true
+      },
+      "BalanceV1": {
+        "required": [
+          "balanceType",
+          "createdAt",
+          "deposited",
+          "name",
+          "privateMarketBillingType",
+          "remaining",
+          "spendType",
+          "spent",
+          "startDate",
+          "status",
+          "updatedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "balanceType": {
+            "enum": [
+              "unknown",
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Type of the balance."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation time of the balance.",
+            "format": "date-time"
+          },
+          "criteoPoNumber": {
+            "type": "string",
+            "description": "Criteo purchase order number.",
+            "nullable": true
+          },
+          "deposited": {
+            "type": "number",
+            "description": "Amount of billable funds allotted to the balance.",
+            "format": "double"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the balance in the format YYYY-MM-DD.",
+            "nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the balance."
+          },
+          "privateMarketBillingType": {
+            "enum": [
+              "notApplicable",
+              "billByRetailer",
+              "billByCriteo",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Billing type for Private Market of the balance."
+          },
+          "remaining": {
+            "type": "number",
+            "description": "Amount of remaining funds of the balance.",
+            "format": "double"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The billing retailer id.",
+            "nullable": true
+          },
+          "retailerPoNumber": {
+            "type": "string",
+            "description": "Retailer purchase order number.",
+            "nullable": true
+          },
+          "spendType": {
+            "enum": [
+              "onsite",
+              "offsite",
+              "offsiteAwareness",
+              "lockout",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Spend Type of the balance."
+          },
+          "spent": {
+            "type": "number",
+            "description": "Amount of spent funds of the balance.",
+            "format": "double"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the balance in the format YYYY-MM-DD."
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "scheduled",
+              "active",
+              "ended"
+            ],
+            "type": "string",
+            "description": "Status of the balance."
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Update time of the balance.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A Retail Media Balance used to determine the funds available for any or all campaigns in an account.",
         "nullable": true
       },
       "BatchStoreInventoryDeleteRequest": {
@@ -8326,9 +8456,23 @@
         },
         "description": "An object that represents the available options to set when creating a Retail Media Campaign"
       },
-      "CampaignAvailability": {
+      "CampaignAvailabilityV2": {
         "type": "object",
         "properties": {
+          "budgetModelAvailabilities": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "criteoBudget",
+                "retailerBudget"
+              ],
+              "type": "string",
+              "description": "Possible budget models for retail media campaigns"
+            },
+            "description": "The budget models available for this campaign type and buy type combination. Presence of a value indicates that budget model is available.",
+            "nullable": true
+          },
           "buyType": {
             "enum": [
               "unknown",
@@ -8352,22 +8496,17 @@
             "description": "The type of campaign this object represents availability for",
             "nullable": true
           },
-          "isAvailable": {
-            "type": "boolean",
-            "description": "Indicates whether the campaign type and buy type combination is available for the retailer",
-            "nullable": true
-          },
           "validCombinations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PageTypeCombination"
+              "$ref": "#/components/schemas/PageTypeCombinationV2"
             },
             "description": "PageType-PageEnvironmentType pairs which are supported for this campaign-buy type combination",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Information about the availability of a specific campaign type and buy type combination, and page types and environments supported for that combination"
+        "description": "Information about the budget model availability for a specific campaign type and buy type combination, and page types and environments supported for that combination"
       },
       "CampaignBudgetOverrides": {
         "required": [
@@ -8780,7 +8919,7 @@
         "properties": {
           "changeValue": {
             "type": "string",
-            "description": "Change detail of a property of the insertion order.",
+            "description": "Change amount of a property of the insertion order.",
             "nullable": true
           },
           "currentValue": {
@@ -9245,7 +9384,7 @@
         "description": "Cpc Min Bids response object.",
         "nullable": true
       },
-      "CreateBalanceV2": {
+      "CreateBalanceV3": {
         "required": [
           "name",
           "startDate",
@@ -9272,7 +9411,7 @@
             "type": "string",
             "description": "Name of the balance."
           },
-          "poNumber": {
+          "retailerPoNumber": {
             "type": "string",
             "description": "Purchase Order number.",
             "nullable": true
@@ -9293,11 +9432,11 @@
         },
         "description": "An object that represents the available options to set when creating a Retail Media Balance"
       },
-      "CreateBalanceV2Request": {
+      "CreateBalanceV3Request": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ResourceOfCreateBalanceV2"
+            "$ref": "#/components/schemas/ResourceOfCreateBalanceV3"
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single entity"
@@ -9799,6 +9938,40 @@
         "additionalProperties": false,
         "description": "The details for a daily budget override"
       },
+      "DataCompleteThrough": {
+        "type": "object",
+        "properties": {
+          "dateTime": {
+            "type": "string",
+            "description": "The instant through which data is complete, in the format \"yyyy-MM-dd HH:mm:ss\" in the timezone given by the {timezone} field.",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the {dateTime} field (e.g. \"UTC\", \"America/New_York\"). Matches the query timezone.",
+            "nullable": true
+          }
+        },
+        "description": "Data freshness: the instant through which report data is complete, expressed in the report's request timezone.",
+        "nullable": true
+      },
+      "DeleteCampaignsRequestV1": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the campaigns that are going to be deleted from balance campaigns mapping."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request object for deleting campaigns from balance campaigns mapping."
+      },
       "DeleteEntry": {
         "required": [
           "attributes",
@@ -9929,6 +10102,27 @@
         },
         "description": "An object that represents the available options to set when editing a Retail Media Campaign"
       },
+      "EntityResourceBalanceV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
       "EntityResourceBrandIdSearchResult": {
         "type": "object",
         "properties": {
@@ -9966,6 +10160,41 @@
           }
         },
         "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceCollectionOutcomeBalanceV1AndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceBalanceV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "EntityResourceCollectionOutcomeBrandIdSearchResultPagingOffsetLimitMetadata": {
         "type": "object",
@@ -10101,13 +10330,13 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
-      "EntityResourceCollectionOutcomeOfRetailerResultAndMetadata": {
+      "EntityResourceCollectionOutcomeOfRetailerResultV2AndMetadata": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EntityResourceOfRetailerResult"
+              "$ref": "#/components/schemas/EntityResourceOfRetailerResultV2"
             },
             "nullable": true
           },
@@ -10226,6 +10455,27 @@
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id."
       },
+      "EntityResourceOfBalanceResponseV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceResponseV1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
       "EntityResourceOfCatalogStatusV2": {
         "type": "object",
         "properties": {
@@ -10247,11 +10497,11 @@
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
       },
-      "EntityResourceOfRetailerResult": {
+      "EntityResourceOfRetailerResultV2": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/RetailerResult"
+            "$ref": "#/components/schemas/RetailerResultV2"
           },
           "id": {
             "type": "string",
@@ -10328,6 +10578,62 @@
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
+      },
+      "EntityResourceOutcomeBalanceV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceBalanceV1"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
+      "EntityResourceOutcomeOfBalanceResponseV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfBalanceResponseV1"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
       "EntityResourceOutcomeOfCatalogStatusV2": {
         "type": "object",
@@ -10460,6 +10766,97 @@
         },
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
+      "ExportReportColumn": {
+        "required": [
+          "name",
+          "role",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "description": "Currency of the column",
+            "nullable": true
+          },
+          "deprecated": {
+            "type": "boolean",
+            "description": "Flag for deprecated column",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the exported column",
+            "nullable": true
+          },
+          "duration": {
+            "type": "string",
+            "description": "Duration of the column",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the exported column"
+          },
+          "role": {
+            "enum": [
+              "Dimension",
+              "Property",
+              "Interval",
+              "Metric"
+            ],
+            "type": "string",
+            "description": "Role of the column"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the column",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the exported column",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Boolean",
+              "Number",
+              "Money",
+              "String",
+              "Date",
+              "DateTime",
+              "Interval",
+              "Duration"
+            ],
+            "type": "string",
+            "description": "Type of the column"
+          }
+        },
+        "description": "Description of a column from an async report request"
+      },
+      "ExportReportMetaData": {
+        "type": "object",
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExportReportColumn"
+            },
+            "nullable": true
+          },
+          "dataCompleteThrough": {
+            "$ref": "#/components/schemas/DataCompleteThrough"
+          },
+          "rows": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "Metadata for a report response: data freshness, column descriptions, and row count.",
         "nullable": true
       },
       "ExternalAccount": {
@@ -11989,6 +12386,30 @@
         "description": "Metadata related to the current request.",
         "nullable": true
       },
+      "MissedOpportunitiesReportFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Array-valued constraints for missed-opportunities reporting. Exactly one of accountIds, campaignIds, or lineItemIds is required."
+      },
       "MonthlyLineItemBudegetOverride": {
         "required": [
           "duration",
@@ -12036,6 +12457,19 @@
           }
         },
         "description": "Placeholder object for value for which \"null\" is a valid business value",
+        "nullable": true
+      },
+      "NillableOfNullableOfDateOnly": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Underlying actual value",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a value that can be set to null explicitly",
         "nullable": true
       },
       "NillableString": {
@@ -12087,27 +12521,7 @@
         "additionalProperties": false,
         "description": "Metadata related to the current request"
       },
-      "PageOfBalanceHistoryChangeDataCaptureV1": {
-        "required": [
-          "data",
-          "meta"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BalanceHistoryChangeDataCaptureV1"
-            }
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A wrapper class to return a single page of items with metadata for offset and limit based paging."
-      },
-      "PageTypeCombination": {
+      "PageTypeCombinationV2": {
         "type": "object",
         "properties": {
           "pageEnvironmentType": {
@@ -12122,7 +12536,7 @@
               "android"
             ],
             "type": "string",
-            "description": "The page types which are supported for this campaign-buy type combination",
+            "description": "The page environment type supported for this campaign-buy type combination",
             "nullable": true
           },
           "pageType": {
@@ -12138,10 +12552,11 @@
               "deals",
               "favorites",
               "searchbar",
-              "categoryMenu"
+              "categoryMenu",
+              "aiAssistant"
             ],
             "type": "string",
-            "description": "The page types which are supported for this campaign-buy type combination",
+            "description": "The page type supported for this campaign-buy type combination",
             "nullable": true
           }
         },
@@ -12340,6 +12755,129 @@
         "additionalProperties": false,
         "description": "Status info of a Partner Billing Report.",
         "nullable": true
+      },
+      "PerformanceReportFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "activationPlatforms": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "CommerceMax",
+                "PrivateMarket"
+              ],
+              "type": "string"
+            }
+          },
+          "budgetModels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "CriteoBudget",
+                "RetailerBudget"
+              ],
+              "type": "string"
+            }
+          },
+          "buyTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "auction",
+                "preferredDeals",
+                "sponsorship"
+              ],
+              "type": "string"
+            }
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "campaignTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "all",
+                "sponsoredProducts",
+                "onSiteDisplays"
+              ],
+              "type": "string"
+            }
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mediaTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "video",
+                "display",
+                "all"
+              ],
+              "type": "string"
+            }
+          },
+          "salesChannels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "online",
+                "offline",
+                "all"
+              ],
+              "type": "string"
+            }
+          },
+          "searchTermTargetings": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "automatic",
+                "manual"
+              ],
+              "type": "string"
+            }
+          },
+          "searchTermTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "searched",
+                "entered"
+              ],
+              "type": "string"
+            }
+          },
+          "targetedKeywordTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "generic",
+                "branded",
+                "conquesting"
+              ],
+              "type": "string"
+            }
+          }
+        },
+        "description": "Array-valued constraints for performance DSP analytics. Exactly one of accountIds, campaignIds, or lineItemIds is required."
       },
       "PostCampaignV202301": {
         "type": "object",
@@ -12914,11 +13452,61 @@
         "description": "Response model for recommended keywords",
         "nullable": true
       },
-      "ResourceOfAddFundsToBalanceV2": {
+      "ReportDataResponseResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/AddFundsToBalanceV2"
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "description": "Data response format",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value",
+        "nullable": true
+      },
+      "ReportResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ReportDataResponseResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ExportReportMetaData"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Report response format"
+      },
+      "ResourceOfAddFundsToBalanceV3": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AddFundsToBalanceV3"
           },
           "id": {
             "type": "string",
@@ -12955,6 +13543,26 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/BalanceResponseV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true
+          }
+        },
+        "description": "A class that represents a domain entity exposed by an API",
+        "nullable": true
+      },
+      "ResourceOfBalanceResponseV3": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceResponseV3"
           },
           "id": {
             "type": "string",
@@ -13025,11 +13633,11 @@
         },
         "description": "A class that represents a domain entity exposed by an API"
       },
-      "ResourceOfCreateBalanceV2": {
+      "ResourceOfCreateBalanceV3": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/CreateBalanceV2"
+            "$ref": "#/components/schemas/CreateBalanceV3"
           },
           "id": {
             "type": "string",
@@ -13178,23 +13786,6 @@
         "description": "A class that represents a domain entity exposed by an API.",
         "nullable": true
       },
-      "ResourceOfUpdateBalanceModelV2": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/UpdateBalanceModelV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id of the entity"
-          },
-          "type": {
-            "type": "string",
-            "description": "Canonical type name of the entity"
-          }
-        },
-        "description": "A class that represents a domain entity exposed by an API"
-      },
       "ResourceOutcome": {
         "type": "object",
         "properties": {
@@ -13235,15 +13826,15 @@
         "additionalProperties": false,
         "description": "Wraps a list of valid pages for a retailer"
       },
-      "RetailerResult": {
+      "RetailerResultV2": {
         "type": "object",
         "properties": {
           "campaignAvailabilities": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CampaignAvailability"
+              "$ref": "#/components/schemas/CampaignAvailabilityV2"
             },
-            "description": "A list of campaign availabilities for the retailer, each of which shows the availability of a specific campaign type and buy type combination",
+            "description": "A list of campaign availabilities for the retailer, each showing the budget models available for a specific campaign type and buy type combination",
             "nullable": true
           },
           "name": {
@@ -13256,7 +13847,7 @@
         "description": "The result of a query for the configuration of a retailer",
         "nullable": true
       },
-      "RetailerSearchRequest": {
+      "RetailerSearchRequestV2": {
         "type": "object",
         "properties": {
           "retailerIdFilter": {
@@ -13427,8 +14018,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ReviewSetState"
-            },
-            "description": "List of Phrase-ReviewState pairs describing keyword review updates to perform"
+            }
           }
         },
         "additionalProperties": false,
@@ -13445,8 +14035,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ReviewSetState"
-            },
-            "description": "List of Phrase-ReviewState pairs describing keyword review updates which were performed"
+            }
           }
         },
         "additionalProperties": false,
@@ -15400,6 +15989,626 @@
         },
         "description": "Data model for a value type resource outcome"
       },
+      "SyncAttributedTransactionsReport": {
+        "required": [
+          "accountId",
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "Account id to report on"
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter"
+          },
+          "campaignType": {
+            "enum": [
+              "all",
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "default": "all"
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "none",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Click attribution window",
+            "default": "none"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "purchasedDate",
+                "purchasedHour",
+                "advDate",
+                "advHour",
+                "daysDifference",
+                "campaignId",
+                "campaignName",
+                "lineItemId",
+                "lineItemName",
+                "advProductId",
+                "advProductGtin",
+                "advProductMpn",
+                "advProductName",
+                "advProductCategory",
+                "purchasedProductId",
+                "purchasedProductGtin",
+                "purchasedProductMpn",
+                "purchasedProductName",
+                "purchasedProductCategory",
+                "advEngagement",
+                "advToPurchasedProductRelationship",
+                "salesChannel",
+                "retailerName",
+                "pageTypeName",
+                "keyword",
+                "attributionWindow",
+                "saleSellerId",
+                "saleSellerName",
+                "activitySellerId",
+                "activitySellerName"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line item ids to filter"
+          },
+          "mediaType": {
+            "enum": [
+              "unknown",
+              "video",
+              "display",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on the type of media: unknown, display, video",
+            "default": "all"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "attributedUnits",
+                "attributedSales"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on"
+          },
+          "salesChannel": {
+            "enum": [
+              "online",
+              "offline",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "default": "all"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC"
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "none",
+              "1D",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "View attribution window",
+            "default": "none"
+          }
+        },
+        "description": "Attributed Transactions report body request"
+      },
+      "SyncAttributedTransactionsReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SyncAttributedTransactionsReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "SyncAttributedTransactionsReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SyncAttributedTransactionsReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "SyncCampaignsReport": {
+        "required": [
+          "accountId",
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "Account id to report on"
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter"
+          },
+          "campaignType": {
+            "enum": [
+              "all",
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "default": "all"
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "none",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Click attribution window",
+            "default": "none"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "accountId",
+                "accountName",
+                "campaignId",
+                "campaignName",
+                "campaignTypeName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName",
+                "brandId",
+                "brandName",
+                "advProductCategory",
+                "advProductId",
+                "advProductName",
+                "salesChannel",
+                "environment",
+                "pageTypeName",
+                "pageCategory",
+                "servedCategory",
+                "taxonomyBreadcrumb"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "spend",
+                "attributedSales",
+                "attributedUnits",
+                "attributedOrders",
+                "assistedSales",
+                "assistedUnits",
+                "ctr",
+                "cpc",
+                "cpo",
+                "cpm",
+                "roas",
+                "uniqueVisitors",
+                "frequency"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on"
+          },
+          "reportType": {
+            "enum": [
+              "summary",
+              "pageType",
+              "productCategory",
+              "product",
+              "environment",
+              "servedCategory"
+            ],
+            "type": "string",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
+            "default": "summary"
+          },
+          "salesChannel": {
+            "enum": [
+              "online",
+              "offline",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "default": "all"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC"
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "none",
+              "1D",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "View attribution window",
+            "default": "none"
+          }
+        },
+        "description": "Campaigns report body request"
+      },
+      "SyncCampaignsReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SyncCampaignsReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "SyncCampaignsReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SyncCampaignsReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "SyncLineItemsReport": {
+        "required": [
+          "accountId",
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "Account id to report on"
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter"
+          },
+          "campaignType": {
+            "enum": [
+              "all",
+              "sponsoredProducts",
+              "onSiteDisplays"
+            ],
+            "type": "string",
+            "description": "Filter the type of campaigns to report on: sponsoredProducts or onSiteDisplays",
+            "default": "all"
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "none",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "Click attribution window",
+            "default": "none"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "accountId",
+                "accountName",
+                "campaignId",
+                "campaignName",
+                "campaignTypeName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName",
+                "brandId",
+                "brandName",
+                "advProductCategory",
+                "advProductId",
+                "advProductName",
+                "salesChannel",
+                "environment",
+                "pageTypeName",
+                "pageCategory",
+                "servedCategory",
+                "taxonomyBreadcrumb"
+              ],
+              "type": "string"
+            },
+            "description": "List of dimensions to report on"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date",
+            "format": "date-time"
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line Item ids to filter"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "spend",
+                "attributedSales",
+                "attributedUnits",
+                "attributedOrders",
+                "assistedSales",
+                "assistedUnits",
+                "ctr",
+                "cpc",
+                "cpo",
+                "cpm",
+                "roas",
+                "uniqueVisitors",
+                "frequency"
+              ],
+              "type": "string"
+            },
+            "description": "List of metrics to report on"
+          },
+          "reportType": {
+            "enum": [
+              "summary",
+              "pageType",
+              "productCategory",
+              "product",
+              "environment",
+              "servedCategory"
+            ],
+            "type": "string",
+            "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
+            "default": "summary"
+          },
+          "salesChannel": {
+            "enum": [
+              "online",
+              "offline",
+              "all"
+            ],
+            "type": "string",
+            "description": "Filter on specific sales channel: offline or online",
+            "default": "all"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC"
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "none",
+              "1D",
+              "7D",
+              "14D",
+              "30D"
+            ],
+            "type": "string",
+            "description": "View attribution window",
+            "default": "none"
+          }
+        },
+        "description": "Line Items report body request"
+      },
+      "SyncLineItemsReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SyncLineItemsReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "SyncLineItemsReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SyncLineItemsReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
+      "SyncRealTimePerformanceReport": {
+        "required": [
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Account ids to filter (plural; base has AccountId for single account)."
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter."
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "date",
+                "hour",
+                "accountId",
+                "accountName",
+                "campaignId",
+                "campaignName",
+                "lineItemId",
+                "lineItemName",
+                "retailerId",
+                "retailerName"
+              ],
+              "type": "string",
+              "description": "Dimensions supported by the real-time performance report (streaming + hourly stats).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
+            },
+            "description": "List of dimensions to report on (real-time: at least one required). Only the supported dimension values are valid."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Optional end date/time (inclusive in the request timezone). If empty or not provided, no end date filter is applied.\r\nWhen provided, used as the inclusive upper bound for the report range.\r\nHides base Report.EndDate so this report can treat end date as optional (no [Required]).",
+            "format": "date-time"
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line item ids to filter."
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "spend"
+              ],
+              "type": "string",
+              "description": "Metrics supported by the real-time performance report (streaming + hourly stats).\r\nOnly these values are accepted; invalid values cause deserialization to fail."
+            },
+            "description": "List of metrics to report on (real-time: at least one required). Only the supported metric values are valid."
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retailer ids to filter. This is not used for security, so no need to check for > 0 elements"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date (real-time: must be within the last 7 days).",
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Time zone : see criteo developer portal for supported time zones",
+            "default": "UTC"
+          }
+        },
+        "description": "Real Time Performance report body request (one sheeter: startDate, endDate (optional), RetailerIds, accountIds, campaignIds, lineItemIds, dimensions, metrics, timezones).\r\nExtends SyncReport only (no default filters); adds entry filter arrays.\r\nDimensions and metrics are restricted to their supported enumerated values; invalid values cause deserialization to fail."
+      },
+      "SyncRealTimePerformanceReportRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SyncRealTimePerformanceReportResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value"
+      },
+      "SyncRealTimePerformanceReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SyncRealTimePerformanceReport"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+      },
       "Template": {
         "required": [
           "allCollectionsMandatory",
@@ -15650,13 +16859,11 @@
         "description": "A value of a template text variable",
         "nullable": true
       },
-      "UpdateBalanceModelV2": {
+      "UpdateBalanceModelV1": {
         "type": "object",
         "properties": {
           "endDate": {
-            "type": "string",
-            "description": "End date of the balance in the format YYYY-MM-DD.",
-            "nullable": true
+            "$ref": "#/components/schemas/NillableOfNullableOfDateOnly"
           },
           "memo": {
             "type": "string",
@@ -15668,7 +16875,7 @@
             "description": "Name of the balance.",
             "nullable": true
           },
-          "poNumber": {
+          "retailerPoNumber": {
             "type": "string",
             "description": "Purchase Order number.",
             "nullable": true
@@ -15679,16 +16886,8 @@
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "An object that represents the available options to set when updating a Retail Media Balance."
-      },
-      "UpdateBalanceModelV2Request": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ResourceOfUpdateBalanceModelV2"
-          }
-        },
-        "description": "A top-level object that encapsulates a Criteo API request for a single entity"
       },
       "ValueResourceAccountFeesSearchRequest": {
         "type": "object",
@@ -15710,6 +16909,52 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/AccountFeesUpdateRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceAppendCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AppendCampaignsRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceBalanceCampaignsV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceCampaignsV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "ValueResourceBalanceHistoryChangeDataCaptureV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BalanceHistoryChangeDataCaptureV1"
           },
           "type": {
             "type": "string",
@@ -15761,6 +17006,41 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for several value objects."
+      },
+      "ValueResourceCollectionOutcomeBalanceHistoryChangeDataCaptureV1AndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceBalanceHistoryChangeDataCaptureV1"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata."
       },
       "ValueResourceCollectionOutcomeOfRetailMediaSeller": {
         "type": "object",
@@ -15892,6 +17172,21 @@
         "description": "A value resource exposed by the API.",
         "nullable": true
       },
+      "ValueResourceDeleteCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DeleteCampaignsRequestV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "ValueResourceInputAccountFeesSearchRequest": {
         "type": "object",
         "properties": {
@@ -15907,6 +17202,16 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceAccountFeesUpdateRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ValueResourceInputAppendCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceAppendCampaignsRequestV1"
           }
         },
         "additionalProperties": false,
@@ -15940,6 +17245,16 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
       },
+      "ValueResourceInputDeleteCampaignsRequestV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceDeleteCampaignsRequestV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputOfBrandCatalogRequestV2": {
         "type": "object",
         "properties": {
@@ -15970,11 +17285,11 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
-      "ValueResourceInputOfRetailerSearchRequest": {
+      "ValueResourceInputOfRetailerSearchRequestV2": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/ValueResourceOfRetailerSearchRequest"
+            "$ref": "#/components/schemas/ValueResourceOfRetailerSearchRequestV2"
           }
         },
         "additionalProperties": false,
@@ -16050,6 +17365,16 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
+      "ValueResourceInputOfUpdateBalanceModelV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfUpdateBalanceModelV1"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputPartnerBillingReportRequestV1": {
         "type": "object",
         "properties": {
@@ -16087,7 +17412,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceOfBrandCatalogRequestV2": {
         "type": "object",
@@ -16152,11 +17477,11 @@
         "description": "A value resource exposed by the API.",
         "nullable": true
       },
-      "ValueResourceOfRetailerSearchRequest": {
+      "ValueResourceOfRetailerSearchRequestV2": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/RetailerSearchRequest"
+            "$ref": "#/components/schemas/RetailerSearchRequestV2"
           },
           "type": {
             "type": "string",
@@ -16302,6 +17627,49 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOfUpdateBalanceModelV1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/UpdateBalanceModelV1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ValueResourceOutcomeBalanceCampaignsV1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceBalanceCampaignsV1"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
       "ValueResourceOutcomeCpcMinBidsResponse": {
         "type": "object",
@@ -16597,7 +17965,6 @@
           },
           "type": {
             "type": "string",
-            "description": "Type of the resource.",
             "nullable": true
           }
         },
