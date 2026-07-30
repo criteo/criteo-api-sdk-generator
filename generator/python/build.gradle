@@ -60,18 +60,19 @@ task generateClient(type: GradleBuild) {
         def artifactVersion = isPreviewOrExperimental ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
 
+        def configDir = "${buildDir}/${parsedApiName}"
         def createConfig  = task("createConfig_" + taskSuffix, type: Copy)
        {
             mustRunAfter cleanPreviousDist
             from "${projectDir}/generatorConfiguration.yaml"
-            into "${buildDir}"
+            into "${configDir}"
             rename  {filename -> namespaceBase + ".yaml" }
             filter { line -> line.replaceAll('%sdkFolder%', namespaceBase) }
         }
 
         def generateTask = task("openApiGenerate_" + taskSuffix, type: GenerateTask.class) {
             generatorName = "python-prior"
-            configFile = "${buildDir}/${namespaceBase}.yaml"
+            configFile = "${configDir}/${namespaceBase}.yaml"
             templateDir = "$resourcesDir/templates/".toString()
             inputSpec = specPath
             outputDir = clientOutputDirPerVersion
