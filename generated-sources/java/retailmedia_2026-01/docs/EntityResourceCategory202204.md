@@ -1,0 +1,16 @@
+
+
+# EntityResourceCategory202204
+
+A domain entity exposed by the API, identified by a unique id.
+
+## Properties
+
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**attributes** | [**Category202204**](Category202204.md) |  |  [optional] |
+|**id** | **String** | Unique id of the entity. |  [optional] |
+|**type** | **String** | Type of the resource. |  [optional] |
+
+
+

@@ -1,0 +1,44 @@
+
+
+# AdaptiveWriteAttributes
+
+The attributes specific to create or update an Adaptive creative
+
+## Properties
+
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**callsToAction** | **List&lt;String&gt;** | A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate  response, such as “Buy now” or “Go!”. |  |
+|**colors** | [**AdaptiveColors**](AdaptiveColors.md) |  |  |
+|**descriptionFont** | **String** | Font of the description  Valid supported font like \&quot;Arial\&quot; |  |
+|**descriptionText** | **String** | The description text of the banner |  |
+|**headlineFont** | **String** | Font of the headline  Valid supported font like \&quot;Arial\&quot; |  |
+|**headlineText** | **String** | The headline text of the banner |  |
+|**imageDisplay** | [**ImageDisplayEnum**](#ImageDisplayEnum) | Value can be \&quot;ShowFullImage\&quot; or \&quot;ZoomOnImage\&quot;. Choose whether your image set should fit inside the allocated  space (\&quot;ShowFullImage\&quot;) or whether it should fill that space (\&quot;ZoomOnImage\&quot;). If you choose ZoomOnImage, there may be some  image cropping. |  [optional] |
+|**imageSetsBase64** | [**List&lt;ImageSetBase64&gt;**](ImageSetBase64.md) | Multiple image sets, each image set consists of multiple images as a base-64 encoded string and a headline text. |  [optional] |
+|**landingPageUrl** | **URI** | Web redirection of the landing page url. |  |
+|**layouts** | [**List&lt;LayoutsEnum&gt;**](#List&lt;LayoutsEnum&gt;) | The Adaptive layouts that are enabled.  It can contain any of the following values: \&quot;Editorial\&quot;, “Montage“, \&quot;InBannerVideo\&quot;. |  |
+|**logoBase64String** | **String** | Logo image as a base-64 encoded string |  |
+|**videoBase64Strings** | **List&lt;String&gt;** | Multiple videos potentially in different shapes, each video is a base-64 encoded string. |  [optional] |
+
+
+
+## Enum: ImageDisplayEnum
+
+| Name | Value |
+|---- | -----|
+| SHOWFULLIMAGE | &quot;ShowFullImage&quot; |
+| ZOOMONIMAGE | &quot;ZoomOnImage&quot; |
+
+
+
+## Enum: List&lt;LayoutsEnum&gt;
+
+| Name | Value |
+|---- | -----|
+| EDITORIAL | &quot;Editorial&quot; |
+| MONTAGE | &quot;Montage&quot; |
+| INBANNERVIDEO | &quot;InBannerVideo&quot; |
+
+
+
