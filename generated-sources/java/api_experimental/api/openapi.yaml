@@ -1,0 +1,509 @@
+openapi: 3.0.1
+info:
+  description: Criteo API - Api
+  title: Criteo API
+  version: Experimental
+servers:
+- url: https://api.criteo.com
+security:
+- oauth: []
+tags:
+- name: Analytics
+paths:
+  /experimental/sample/testing/inheritance:
+    post:
+      description: Echoes a concrete derived type (plain inheritance / allOf).
+      operationId: PostInheritance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DerivedTypeOneRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DerivedTypeOneResponse'
+          description: Success
+      security:
+      - oauth: []
+      summary: /experimental/sample/testing/inheritance
+      tags:
+      - Analytics
+      x-content-type: application/json
+      x-accepts: application/json
+  /experimental/sample/testing/polymorphic-list:
+    post:
+      description: Echoes a list of the polymorphic types.
+      operationId: PostPolymorphicList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseTypeListRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseTypeListResponse'
+          description: Success
+      security:
+      - oauth: []
+      summary: /experimental/sample/testing/polymorphic-list
+      tags:
+      - Analytics
+      x-content-type: application/json
+      x-accepts: application/json
+  /experimental/sample/testing/polymorphism:
+    post:
+      description: Echoes a polymorphic type (allOf + discriminator).
+      operationId: PostPolymorphism
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseTypeRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseTypeResponse'
+          description: Success
+      security:
+      - oauth: []
+      summary: /experimental/sample/testing/polymorphism
+      tags:
+      - Analytics
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    BaseType:
+      additionalProperties: false
+      description: "Abstract base of the polymorphic hierarchy, carrying the discriminator\
+        \ and data common to every derived type."
+      discriminator:
+        mapping:
+          derivedTypeOne: '#/components/schemas/DerivedTypeOne'
+          derivedTypeTwo: '#/components/schemas/DerivedTypeTwo'
+        propertyName: typeDiscriminator
+      example:
+        commonData: commonData
+        typeDiscriminator: typeDiscriminator
+      nullable: true
+      properties:
+        commonData:
+          format: byte
+          nullable: true
+          type: string
+        typeDiscriminator:
+          nullable: true
+          type: string
+      required:
+      - typeDiscriminator
+      type: object
+    BaseTypeListRequest:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API request for several
+        values.
+      example:
+        data:
+        - attributes:
+            commonData: commonData
+            typeDiscriminator: typeDiscriminator
+          type: type
+        - attributes:
+            commonData: commonData
+            typeDiscriminator: typeDiscriminator
+          type: type
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/BaseTypeResource'
+          nullable: true
+          type: array
+      type: object
+    BaseTypeListResponse:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API response for
+        several values.
+      example:
+        data:
+        - attributes:
+            commonData: commonData
+            typeDiscriminator: typeDiscriminator
+          type: type
+        - attributes:
+            commonData: commonData
+            typeDiscriminator: typeDiscriminator
+          type: type
+        warnings:
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        errors:
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/BaseTypeResource'
+          nullable: true
+          type: array
+        errors:
+          items:
+            $ref: '#/components/schemas/CommonProblem'
+          nullable: true
+          readOnly: true
+          type: array
+        warnings:
+          items:
+            $ref: '#/components/schemas/CommonProblem'
+          nullable: true
+          readOnly: true
+          type: array
+      type: object
+    BaseTypeRequest:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API request for a
+        single value.
+      example:
+        data:
+          attributes:
+            commonData: commonData
+            typeDiscriminator: typeDiscriminator
+          type: type
+      properties:
+        data:
+          $ref: '#/components/schemas/BaseTypeResource'
+      type: object
+    BaseTypeResource:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API response for
+        a single value.
+      example:
+        attributes:
+          commonData: commonData
+          typeDiscriminator: typeDiscriminator
+        type: type
+      nullable: true
+      properties:
+        attributes:
+          $ref: '#/components/schemas/BaseType'
+        type:
+          nullable: true
+          type: string
+      type: object
+    BaseTypeResponse:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API response for
+        a single value.
+      example:
+        data:
+          attributes:
+            commonData: commonData
+            typeDiscriminator: typeDiscriminator
+          type: type
+        warnings:
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        errors:
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+      properties:
+        data:
+          $ref: '#/components/schemas/BaseTypeResource'
+        errors:
+          items:
+            $ref: '#/components/schemas/CommonProblem'
+          nullable: true
+          readOnly: true
+          type: array
+        warnings:
+          items:
+            $ref: '#/components/schemas/CommonProblem'
+          nullable: true
+          readOnly: true
+          type: array
+      type: object
+    CommonProblem:
+      additionalProperties: false
+      description: Common problem object.
+      example:
+        traceId: traceId
+        code: code
+        instance: instance
+        traceIdentifier: traceIdentifier
+        detail: detail
+        source:
+          key: source
+        stackTrace: stackTrace
+        title: title
+        type: unknown
+      properties:
+        code:
+          description: "A machine-readable error code, expressed as a string value."
+          nullable: true
+          type: string
+        detail:
+          description: A human-readable explanation specific to this occurrence of
+            the problem.
+          nullable: true
+          type: string
+        instance:
+          description: A URI that identifies the specific occurrence of the problem.
+          nullable: true
+          type: string
+        source:
+          additionalProperties:
+            type: string
+          description: A machine-readable structure to reference to the exact location(s)
+            causing the error(s).
+          nullable: true
+          type: object
+        stackTrace:
+          description: ""
+          nullable: true
+          type: string
+        title:
+          description: A short human-readable description of the problem type.
+          nullable: true
+          type: string
+        traceId:
+          description: The request correlation ID this problem comes from.
+          nullable: true
+          type: string
+        traceIdentifier:
+          deprecated: true
+          description: Deprecated. The request correlation ID this problem comes from.
+          nullable: true
+          type: string
+        type:
+          description: The problem's category.
+          enum:
+          - unknown
+          - access-control
+          - authentication
+          - authorization
+          - availability
+          - deprecation
+          - quota
+          - validation
+          nullable: true
+          type: string
+      type: object
+    DerivedTypeOne:
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/BaseType'
+      description: Concrete polymorphic type identified by the "derivedTypeOne" discriminator
+        value.
+      example:
+        typeOneValue: typeOneValue
+      nullable: true
+      properties:
+        typeOneValue:
+          nullable: true
+          type: string
+      type: object
+    DerivedTypeOneRequest:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API request for a
+        single value.
+      example:
+        data:
+          attributes:
+            typeOneValue: typeOneValue
+          type: type
+      properties:
+        data:
+          $ref: '#/components/schemas/DerivedTypeOneResource'
+      type: object
+    DerivedTypeOneResource:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API response for
+        a single value.
+      example:
+        attributes:
+          typeOneValue: typeOneValue
+        type: type
+      nullable: true
+      properties:
+        attributes:
+          $ref: '#/components/schemas/DerivedTypeOne'
+        type:
+          nullable: true
+          type: string
+      type: object
+    DerivedTypeOneResponse:
+      additionalProperties: false
+      description: A top-level object that encapsulates a Criteo API response for
+        a single value.
+      example:
+        data:
+          attributes:
+            typeOneValue: typeOneValue
+          type: type
+        warnings:
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        errors:
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+        - traceId: traceId
+          code: code
+          instance: instance
+          traceIdentifier: traceIdentifier
+          detail: detail
+          source:
+            key: source
+          stackTrace: stackTrace
+          title: title
+          type: unknown
+      properties:
+        data:
+          $ref: '#/components/schemas/DerivedTypeOneResource'
+        errors:
+          items:
+            $ref: '#/components/schemas/CommonProblem'
+          nullable: true
+          readOnly: true
+          type: array
+        warnings:
+          items:
+            $ref: '#/components/schemas/CommonProblem'
+          nullable: true
+          readOnly: true
+          type: array
+      type: object
+    DerivedTypeTwo:
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/BaseType'
+      description: Concrete polymorphic type identified by the "derivedTypeTwo" discriminator
+        value.
+      properties:
+        typeTwoValue:
+          format: int32
+          type: integer
+      type: object
+  securitySchemes:
+    oauth:
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.criteo.com/oauth2
+          scopes: {}
+          tokenUrl: https://api.criteo.com/oauth2/token
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.criteo.com/oauth2/token
+      type: oauth2
+x-samples-languages:
+- java
+- python
+- php
+- csharp
+- javascript
+- curl
+- ruby
+
