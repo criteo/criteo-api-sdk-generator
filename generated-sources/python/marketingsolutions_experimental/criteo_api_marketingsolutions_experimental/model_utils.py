@@ -621,13 +621,19 @@ class ModelComposed(OpenApiModel):
                         type(self).__name__, name),
                     [e for e in [self._path_to_item, name] if e]
                 )
-        # attribute must be set on self and composed instances
+        # attribute must be set on self and on every composed instance that
+        # actually accepts it. A property that belongs only to self (e.g. a
+        # discriminator subtype's own field) must NOT be forced onto a composed
+        # schema whose additionalProperties is False, or that schema rejects it.
         self.set_attribute(name, value)
+        accepting_instances = []
         for model_instance in self._composed_instances:
-            setattr(model_instance, name, value)
+            if name in model_instance.openapi_types or model_instance.additional_properties_type is not None:
+                setattr(model_instance, name, value)
+                accepting_instances.append(model_instance)
         if name not in self._var_name_to_model_instances:
             # we assigned an additional property
-            self.__dict__['_var_name_to_model_instances'][name] = self._composed_instances + [self]
+            self.__dict__['_var_name_to_model_instances'][name] = accepting_instances + [self]
         return None
 
     __unset_attribute_value__ = object()
@@ -1125,18 +1131,26 @@ def remove_uncoercible(required_types_classes, current_item, spec_property_namin
     return results_classes
 
 
-def get_discriminated_classes(cls):
+def get_discriminated_classes(cls, _visited=None):
     """
     Returns all the classes that a discriminator converts to
     TODO: lru_cache this
     """
+    # A subtype may carry the same discriminator mapping as its base (and even
+    # map to itself), which would recurse forever. Track visited classes and
+    # treat an already-seen class as a concrete leaf.
+    if _visited is None:
+        _visited = set()
+    if cls in _visited:
+        return [cls]
+    _visited.add(cls)
     possible_classes = []
     key = list(cls.discriminator.keys())[0]
     if is_type_nullable(cls):
         possible_classes.append(cls)
     for discr_cls in cls.discriminator[key].values():
         if hasattr(discr_cls, 'discriminator') and discr_cls.discriminator is not None:
-            possible_classes.extend(get_discriminated_classes(discr_cls))
+            possible_classes.extend(get_discriminated_classes(discr_cls, _visited))
         else:
             possible_classes.append(discr_cls)
     return possible_classes
@@ -1796,11 +1810,17 @@ def get_allof_instances(self, model_args, constant_args):
     composed_instances = []
     for allof_class in self._composed_schemas['allOf']:
 
+        # Only pass each allOf schema the arguments it actually declares. A parent
+        # schema with additionalProperties: False would otherwise reject a child's
+        # own properties (which belong to the composed schema, not the parent).
+        allowed_args = {
+            k: v for k, v in model_args.items() if k in allof_class.openapi_types
+        }
         try:
             if constant_args.get('_spec_property_naming'):
-                allof_instance = allof_class._from_openapi_data(**model_args, **constant_args)
+                allof_instance = allof_class._from_openapi_data(**allowed_args, **constant_args)
             else:
-                allof_instance = allof_class(**model_args, **constant_args)
+                allof_instance = allof_class(**allowed_args, **constant_args)
             composed_instances.append(allof_instance)
         except Exception as ex:
             raise ApiValueError(

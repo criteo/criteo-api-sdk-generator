@@ -33,13 +33,19 @@
                         type(self).__name__, name),
                     [e for e in [self._path_to_item, name] if e]
                 )
-        # attribute must be set on self and composed instances
+        # attribute must be set on self and on every composed instance that
+        # actually accepts it. A property that belongs only to self (e.g. a
+        # discriminator subtype's own field) must NOT be forced onto a composed
+        # schema whose additionalProperties is False, or that schema rejects it.
         self.set_attribute(name, value)
+        accepting_instances = []
         for model_instance in self._composed_instances:
-            setattr(model_instance, name, value)
+            if name in model_instance.openapi_types or model_instance.additional_properties_type is not None:
+                setattr(model_instance, name, value)
+                accepting_instances.append(model_instance)
         if name not in self._var_name_to_model_instances:
             # we assigned an additional property
-            self.__dict__['_var_name_to_model_instances'][name] = self._composed_instances + [self]
+            self.__dict__['_var_name_to_model_instances'][name] = accepting_instances + [self]
         return None
 
     __unset_attribute_value__ = object()
