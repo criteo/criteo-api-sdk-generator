@@ -263,6 +263,10 @@ public class BrandIdSearchResult {
     openapiFields.add("id");
     openapiFields.add("name");
     openapiFields.add("retailerIds");
+    openapiFields.add("brandType");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("retailerIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

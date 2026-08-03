@@ -337,6 +337,10 @@ public class CampaignAvailability {
     openapiFields.add("campaignType");
     openapiFields.add("isAvailable");
     openapiFields.add("validCombinations");
+    openapiFields.add("buyType");
+    openapiFields.add("campaignType");
+    openapiFields.add("isAvailable");
+    openapiFields.add("validCombinations");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

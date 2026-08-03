@@ -364,6 +364,13 @@ public class InsightStatusResponse {
     openapiFields.add("message");
     openapiFields.add("rowCount");
     openapiFields.add("status");
+    openapiFields.add("createdAt");
+    openapiFields.add("expiresAt");
+    openapiFields.add("fileSizeBytes");
+    openapiFields.add("md5CheckSum");
+    openapiFields.add("message");
+    openapiFields.add("rowCount");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

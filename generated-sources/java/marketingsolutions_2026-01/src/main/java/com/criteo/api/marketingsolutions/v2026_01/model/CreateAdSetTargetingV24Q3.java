@@ -242,6 +242,9 @@ public class CreateAdSetTargetingV24Q3 {
     openapiFields.add("deliveryLimitations");
     openapiFields.add("frequencyCapping");
     openapiFields.add("geoLocation");
+    openapiFields.add("deliveryLimitations");
+    openapiFields.add("frequencyCapping");
+    openapiFields.add("geoLocation");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

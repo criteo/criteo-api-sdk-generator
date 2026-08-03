@@ -668,6 +668,18 @@ public class RealTimeProductReportJob {
     openapiFields.add("sellerIds");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("currency");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("fileFormat");
+    openapiFields.add("lookbackWindow");
+    openapiFields.add("metrics");
+    openapiFields.add("partnerIds");
+    openapiFields.add("sellerIds");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

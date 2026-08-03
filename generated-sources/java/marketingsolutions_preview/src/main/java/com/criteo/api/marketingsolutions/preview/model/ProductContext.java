@@ -373,6 +373,14 @@ public class ProductContext {
     openapiFields.add("price");
     openapiFields.add("productId");
     openapiFields.add("size");
+    openapiFields.add("brand");
+    openapiFields.add("category");
+    openapiFields.add("color");
+    openapiFields.add("description");
+    openapiFields.add("name");
+    openapiFields.add("price");
+    openapiFields.add("productId");
+    openapiFields.add("size");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

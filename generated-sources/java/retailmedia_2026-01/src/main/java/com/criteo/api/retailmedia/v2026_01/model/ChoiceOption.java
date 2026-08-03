@@ -160,6 +160,8 @@ public class ChoiceOption {
     openapiFields = new HashSet<String>();
     openapiFields.add("dependentVariables");
     openapiFields.add("id");
+    openapiFields.add("dependentVariables");
+    openapiFields.add("id");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

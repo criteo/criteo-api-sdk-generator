@@ -442,6 +442,12 @@ public class CriteoApiWarning {
     openapiFields.add("title");
     openapiFields.add("traceId");
     openapiFields.add("type");
+    openapiFields.add("code");
+    openapiFields.add("detail");
+    openapiFields.add("instance");
+    openapiFields.add("title");
+    openapiFields.add("traceId");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

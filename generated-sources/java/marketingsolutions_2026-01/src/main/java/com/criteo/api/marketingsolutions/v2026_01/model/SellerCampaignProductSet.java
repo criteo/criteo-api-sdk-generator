@@ -249,6 +249,9 @@ public class SellerCampaignProductSet {
     openapiFields.add("productSetNumberOfProducts");
     openapiFields.add("productSetStatus");
     openapiFields.add("rules");
+    openapiFields.add("productSetNumberOfProducts");
+    openapiFields.add("productSetStatus");
+    openapiFields.add("rules");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

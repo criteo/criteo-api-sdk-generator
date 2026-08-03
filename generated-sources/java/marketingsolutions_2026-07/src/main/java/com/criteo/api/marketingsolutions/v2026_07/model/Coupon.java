@@ -598,6 +598,21 @@ public class Coupon {
     openapiFields.add("showEvery");
     openapiFields.add("startDate");
     openapiFields.add("status");
+    openapiFields.add("adSetId");
+    openapiFields.add("advertiserId");
+    openapiFields.add("author");
+    openapiFields.add("description");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("id");
+    openapiFields.add("images");
+    openapiFields.add("landingPageUrl");
+    openapiFields.add("name");
+    openapiFields.add("rotationsNumber");
+    openapiFields.add("showDuration");
+    openapiFields.add("showEvery");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

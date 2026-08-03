@@ -406,6 +406,15 @@ public class AudienceSegmentCreateEntityV1 {
     openapiFields.add("name");
     openapiFields.add("prospecting");
     openapiFields.add("retargeting");
+    openapiFields.add("advertiserId");
+    openapiFields.add("contactList");
+    openapiFields.add("description");
+    openapiFields.add("inMarket");
+    openapiFields.add("location");
+    openapiFields.add("lookalike");
+    openapiFields.add("name");
+    openapiFields.add("prospecting");
+    openapiFields.add("retargeting");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

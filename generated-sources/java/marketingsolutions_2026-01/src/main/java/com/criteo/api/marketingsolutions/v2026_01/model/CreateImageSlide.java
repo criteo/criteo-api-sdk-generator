@@ -249,6 +249,9 @@ public class CreateImageSlide {
     openapiFields.add("height");
     openapiFields.add("slideBase64Strings");
     openapiFields.add("width");
+    openapiFields.add("height");
+    openapiFields.add("slideBase64Strings");
+    openapiFields.add("width");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

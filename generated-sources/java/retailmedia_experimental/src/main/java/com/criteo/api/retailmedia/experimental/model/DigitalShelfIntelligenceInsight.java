@@ -594,6 +594,16 @@ public class DigitalShelfIntelligenceInsight {
     openapiFields.add("retailerIds");
     openapiFields.add("skuIds");
     openapiFields.add("startDate");
+    openapiFields.add("accountId");
+    openapiFields.add("aggregationLevel");
+    openapiFields.add("brandIds");
+    openapiFields.add("categories");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("retailerIds");
+    openapiFields.add("skuIds");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

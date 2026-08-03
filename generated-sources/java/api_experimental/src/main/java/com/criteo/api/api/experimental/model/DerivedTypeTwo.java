@@ -142,6 +142,7 @@ public class DerivedTypeTwo extends BaseType {
     openapiFields = new HashSet<String>();
     openapiFields.add("commonData");
     openapiFields.add("typeDiscriminator");
+    openapiFields.add("typeTwoValue");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

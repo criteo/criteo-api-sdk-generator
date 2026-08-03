@@ -254,6 +254,8 @@ public class StoreTarget202110 {
     openapiFields = new HashSet<String>();
     openapiFields.add("scope");
     openapiFields.add("storeIds");
+    openapiFields.add("scope");
+    openapiFields.add("storeIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

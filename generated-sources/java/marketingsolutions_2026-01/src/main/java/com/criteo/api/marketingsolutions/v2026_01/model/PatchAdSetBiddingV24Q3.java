@@ -182,6 +182,7 @@ public class PatchAdSetBiddingV24Q3 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("bidAmount");
+    openapiFields.add("bidAmount");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -1736,6 +1736,26 @@ public class AsyncAccountsReport {
     openapiFields.add("targetedKeywordTypes");
     openapiFields.add("timezone");
     openapiFields.add("viewAttributionWindow");
+    openapiFields.add("accountIds");
+    openapiFields.add("activationPlatforms");
+    openapiFields.add("aggregationLevel");
+    openapiFields.add("budgetModels");
+    openapiFields.add("buyTypes");
+    openapiFields.add("campaignType");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("mediaType");
+    openapiFields.add("metrics");
+    openapiFields.add("reportType");
+    openapiFields.add("salesChannel");
+    openapiFields.add("searchTermTargetings");
+    openapiFields.add("searchTermTypes");
+    openapiFields.add("startDate");
+    openapiFields.add("targetedKeywordTypes");
+    openapiFields.add("timezone");
+    openapiFields.add("viewAttributionWindow");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

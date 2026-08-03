@@ -145,6 +145,7 @@ public class RetailerSearchRequestV2 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("retailerIdFilter");
+    openapiFields.add("retailerIdFilter");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -325,6 +325,12 @@ public class CreateSellerBudgetMapiMessage {
     openapiFields.add("endDate");
     openapiFields.add("sellerId");
     openapiFields.add("startDate");
+    openapiFields.add("amount");
+    openapiFields.add("budgetType");
+    openapiFields.add("campaignIds");
+    openapiFields.add("endDate");
+    openapiFields.add("sellerId");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

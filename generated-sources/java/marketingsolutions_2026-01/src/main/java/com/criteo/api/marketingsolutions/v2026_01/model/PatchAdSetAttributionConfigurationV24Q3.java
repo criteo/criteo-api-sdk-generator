@@ -318,6 +318,8 @@ public class PatchAdSetAttributionConfigurationV24Q3 {
     openapiFields = new HashSet<String>();
     openapiFields.add("attributionMethod");
     openapiFields.add("lookbackWindow");
+    openapiFields.add("attributionMethod");
+    openapiFields.add("lookbackWindow");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

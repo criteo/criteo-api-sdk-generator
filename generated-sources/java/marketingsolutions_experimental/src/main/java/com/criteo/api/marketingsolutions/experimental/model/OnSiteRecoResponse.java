@@ -229,6 +229,8 @@ public class OnSiteRecoResponse {
     openapiFields = new HashSet<String>();
     openapiFields.add("extraInfos");
     openapiFields.add("products");
+    openapiFields.add("extraInfos");
+    openapiFields.add("products");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

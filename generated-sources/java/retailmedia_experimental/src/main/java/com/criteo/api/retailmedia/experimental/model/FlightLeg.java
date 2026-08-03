@@ -244,6 +244,9 @@ public class FlightLeg {
     openapiFields.add("dayOfWeek");
     openapiFields.add("endTime");
     openapiFields.add("startTime");
+    openapiFields.add("dayOfWeek");
+    openapiFields.add("endTime");
+    openapiFields.add("startTime");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

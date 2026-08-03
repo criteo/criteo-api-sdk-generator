@@ -290,6 +290,10 @@ public class AudienceSearchEntityV1 {
     openapiFields.add("advertiserIds");
     openapiFields.add("audienceIds");
     openapiFields.add("audienceSegmentIds");
+    openapiFields.add("adSetIds");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("audienceIds");
+    openapiFields.add("audienceSegmentIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

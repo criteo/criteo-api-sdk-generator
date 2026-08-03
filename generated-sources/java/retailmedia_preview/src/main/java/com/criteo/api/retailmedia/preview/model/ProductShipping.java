@@ -344,6 +344,13 @@ public class ProductShipping {
     openapiFields.add("price");
     openapiFields.add("region");
     openapiFields.add("service");
+    openapiFields.add("country");
+    openapiFields.add("locationGroupName");
+    openapiFields.add("locationId");
+    openapiFields.add("postalCode");
+    openapiFields.add("price");
+    openapiFields.add("region");
+    openapiFields.add("service");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

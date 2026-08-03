@@ -210,6 +210,8 @@ public class Size {
     openapiFields = new HashSet<String>();
     openapiFields.add("height");
     openapiFields.add("width");
+    openapiFields.add("height");
+    openapiFields.add("width");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

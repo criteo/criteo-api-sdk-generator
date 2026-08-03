@@ -169,6 +169,7 @@ public class CgContactListCreateV1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("remoteId");
+    openapiFields.add("remoteId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

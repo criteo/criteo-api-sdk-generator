@@ -221,6 +221,8 @@ public class ExternalCatalogRequest {
     openapiFields = new HashSet<String>();
     openapiFields.add("brandIdFilter");
     openapiFields.add("format");
+    openapiFields.add("brandIdFilter");
+    openapiFields.add("format");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

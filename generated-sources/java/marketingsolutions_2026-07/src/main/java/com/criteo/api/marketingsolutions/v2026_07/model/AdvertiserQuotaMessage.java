@@ -298,6 +298,11 @@ public class AdvertiserQuotaMessage {
     openapiFields.add("quotaLimit");
     openapiFields.add("quotaStartDate");
     openapiFields.add("quotaUsed");
+    openapiFields.add("advertiserId");
+    openapiFields.add("quotaEndDate");
+    openapiFields.add("quotaLimit");
+    openapiFields.add("quotaStartDate");
+    openapiFields.add("quotaUsed");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

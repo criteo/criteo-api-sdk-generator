@@ -256,6 +256,10 @@ public class BoostedAdProductSet {
     openapiFields.add("boostingFactor");
     openapiFields.add("modificationDate");
     openapiFields.add("productSetId");
+    openapiFields.add("adId");
+    openapiFields.add("boostingFactor");
+    openapiFields.add("modificationDate");
+    openapiFields.add("productSetId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

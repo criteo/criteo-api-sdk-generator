@@ -325,6 +325,12 @@ public class UpdateSellerBudgetMessage {
     openapiFields.add("endDate");
     openapiFields.add("isSuspended");
     openapiFields.add("startDate");
+    openapiFields.add("amount");
+    openapiFields.add("budgetId");
+    openapiFields.add("campaignIds");
+    openapiFields.add("endDate");
+    openapiFields.add("isSuspended");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

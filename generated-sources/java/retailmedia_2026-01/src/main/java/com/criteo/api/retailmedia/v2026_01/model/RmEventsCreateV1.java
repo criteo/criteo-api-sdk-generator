@@ -442,6 +442,12 @@ public class RmEventsCreateV1 {
     openapiFields.add("maxPrice");
     openapiFields.add("minPrice");
     openapiFields.add("shopperActivity");
+    openapiFields.add("brandIds");
+    openapiFields.add("categoryIds");
+    openapiFields.add("lookbackDays");
+    openapiFields.add("maxPrice");
+    openapiFields.add("minPrice");
+    openapiFields.add("shopperActivity");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

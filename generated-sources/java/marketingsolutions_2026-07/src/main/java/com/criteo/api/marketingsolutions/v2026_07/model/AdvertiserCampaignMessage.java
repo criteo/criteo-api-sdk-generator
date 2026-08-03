@@ -365,6 +365,10 @@ public class AdvertiserCampaignMessage {
     openapiFields.add("campaignName");
     openapiFields.add("id");
     openapiFields.add("status");
+    openapiFields.add("adSetDeliveryStatus");
+    openapiFields.add("campaignName");
+    openapiFields.add("id");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

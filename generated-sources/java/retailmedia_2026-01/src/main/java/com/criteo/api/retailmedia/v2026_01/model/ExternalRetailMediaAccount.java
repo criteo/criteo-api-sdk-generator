@@ -475,6 +475,15 @@ public class ExternalRetailMediaAccount {
     openapiFields.add("subType");
     openapiFields.add("timeZone");
     openapiFields.add("type");
+    openapiFields.add("companyName");
+    openapiFields.add("countryIds");
+    openapiFields.add("currencyId");
+    openapiFields.add("name");
+    openapiFields.add("onBehalfCompanyName");
+    openapiFields.add("parentAccountLabel");
+    openapiFields.add("subType");
+    openapiFields.add("timeZone");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

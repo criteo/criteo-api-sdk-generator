@@ -130,6 +130,7 @@ public class FilesVariableValue {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("assetIds");
+    openapiFields.add("assetIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

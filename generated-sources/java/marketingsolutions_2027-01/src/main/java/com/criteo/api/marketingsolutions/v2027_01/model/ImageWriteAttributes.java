@@ -206,6 +206,8 @@ public class ImageWriteAttributes {
     openapiFields = new HashSet<String>();
     openapiFields.add("base64Strings");
     openapiFields.add("landingPageUrl");
+    openapiFields.add("base64Strings");
+    openapiFields.add("landingPageUrl");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

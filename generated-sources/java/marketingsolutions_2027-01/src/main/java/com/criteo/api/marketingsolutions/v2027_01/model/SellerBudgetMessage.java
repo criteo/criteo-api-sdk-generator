@@ -454,6 +454,16 @@ public class SellerBudgetMessage {
     openapiFields.add("spend");
     openapiFields.add("startDate");
     openapiFields.add("status");
+    openapiFields.add("amount");
+    openapiFields.add("budgetType");
+    openapiFields.add("campaignIds");
+    openapiFields.add("endDate");
+    openapiFields.add("id");
+    openapiFields.add("isSuspended");
+    openapiFields.add("sellerId");
+    openapiFields.add("spend");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

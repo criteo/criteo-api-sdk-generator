@@ -345,6 +345,9 @@ public class RmContactListV1 {
     openapiFields.add("identifierType");
     openapiFields.add("isReadOnly");
     openapiFields.add("sharingStatus");
+    openapiFields.add("identifierType");
+    openapiFields.add("isReadOnly");
+    openapiFields.add("sharingStatus");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

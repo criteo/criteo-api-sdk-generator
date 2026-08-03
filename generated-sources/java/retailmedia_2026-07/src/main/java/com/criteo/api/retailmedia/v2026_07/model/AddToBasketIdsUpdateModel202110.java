@@ -216,6 +216,8 @@ public class AddToBasketIdsUpdateModel202110 {
     openapiFields = new HashSet<String>();
     openapiFields.add("categoryIds");
     openapiFields.add("productIds");
+    openapiFields.add("categoryIds");
+    openapiFields.add("productIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

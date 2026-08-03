@@ -932,6 +932,18 @@ public class SyncCampaignsReport {
     openapiFields.add("startDate");
     openapiFields.add("timezone");
     openapiFields.add("viewAttributionWindow");
+    openapiFields.add("accountId");
+    openapiFields.add("campaignIds");
+    openapiFields.add("campaignType");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("metrics");
+    openapiFields.add("reportType");
+    openapiFields.add("salesChannel");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
+    openapiFields.add("viewAttributionWindow");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

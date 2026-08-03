@@ -218,6 +218,8 @@ public class ImageSet {
     openapiFields = new HashSet<String>();
     openapiFields.add("headlineText");
     openapiFields.add("images");
+    openapiFields.add("headlineText");
+    openapiFields.add("images");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

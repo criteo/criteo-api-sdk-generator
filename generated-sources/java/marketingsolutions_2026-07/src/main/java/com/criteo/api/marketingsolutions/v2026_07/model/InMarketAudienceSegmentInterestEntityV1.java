@@ -181,6 +181,7 @@ public class InMarketAudienceSegmentInterestEntityV1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("parentId");
+    openapiFields.add("parentId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

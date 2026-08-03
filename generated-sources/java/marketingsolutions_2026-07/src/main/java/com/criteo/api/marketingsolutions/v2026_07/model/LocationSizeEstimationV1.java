@@ -206,6 +206,8 @@ public class LocationSizeEstimationV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("pointsOfInterest");
     openapiFields.add("radiusInKm");
+    openapiFields.add("pointsOfInterest");
+    openapiFields.add("radiusInKm");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

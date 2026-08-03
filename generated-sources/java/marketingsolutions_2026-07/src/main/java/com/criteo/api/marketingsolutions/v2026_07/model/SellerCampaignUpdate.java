@@ -198,6 +198,8 @@ public class SellerCampaignUpdate {
     openapiFields = new HashSet<String>();
     openapiFields.add("bid");
     openapiFields.add("id");
+    openapiFields.add("bid");
+    openapiFields.add("id");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

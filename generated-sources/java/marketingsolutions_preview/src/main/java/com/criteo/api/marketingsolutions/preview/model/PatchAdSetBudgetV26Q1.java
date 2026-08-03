@@ -582,6 +582,12 @@ public class PatchAdSetBudgetV26Q1 {
     openapiFields.add("budgetRenewal");
     openapiFields.add("budgetStrategy");
     openapiFields.add("pacingBehavior");
+    openapiFields.add("budgetAmount");
+    openapiFields.add("budgetDeliverySmoothing");
+    openapiFields.add("budgetDeliveryWeek");
+    openapiFields.add("budgetRenewal");
+    openapiFields.add("budgetStrategy");
+    openapiFields.add("pacingBehavior");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

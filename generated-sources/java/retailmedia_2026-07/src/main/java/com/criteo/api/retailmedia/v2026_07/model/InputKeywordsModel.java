@@ -219,6 +219,9 @@ public class InputKeywordsModel {
     openapiFields.add("negativeBroad");
     openapiFields.add("negativeExact");
     openapiFields.add("positiveExact");
+    openapiFields.add("negativeBroad");
+    openapiFields.add("negativeExact");
+    openapiFields.add("positiveExact");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

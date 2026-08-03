@@ -314,6 +314,12 @@ public class ProductTax {
     openapiFields.add("rate");
     openapiFields.add("region");
     openapiFields.add("taxShip");
+    openapiFields.add("country");
+    openapiFields.add("locationId");
+    openapiFields.add("postalCode");
+    openapiFields.add("rate");
+    openapiFields.add("region");
+    openapiFields.add("taxShip");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

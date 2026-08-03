@@ -198,6 +198,8 @@ public class CustomAttribute {
     openapiFields = new HashSet<String>();
     openapiFields.add("name");
     openapiFields.add("value");
+    openapiFields.add("name");
+    openapiFields.add("value");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

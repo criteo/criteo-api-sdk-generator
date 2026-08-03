@@ -327,6 +327,9 @@ public class LineItemPageV2 {
     openapiFields.add("categories");
     openapiFields.add("pageType");
     openapiFields.add("searchKeywords");
+    openapiFields.add("categories");
+    openapiFields.add("pageType");
+    openapiFields.add("searchKeywords");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

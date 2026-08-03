@@ -365,6 +365,12 @@ public class OnSiteRecoRequest {
     openapiFields.add("nbRequestedProducts");
     openapiFields.add("partnerId");
     openapiFields.add("userId");
+    openapiFields.add("adId");
+    openapiFields.add("adSetId");
+    openapiFields.add("identityType");
+    openapiFields.add("nbRequestedProducts");
+    openapiFields.add("partnerId");
+    openapiFields.add("userId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

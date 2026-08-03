@@ -183,6 +183,9 @@ public class ManagedServiceFee {
     openapiFields.add("onsiteDisplayEnabled");
     openapiFields.add("onsiteSponsoredProductsEnabled");
     openapiFields.add("rate");
+    openapiFields.add("onsiteDisplayEnabled");
+    openapiFields.add("onsiteSponsoredProductsEnabled");
+    openapiFields.add("rate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

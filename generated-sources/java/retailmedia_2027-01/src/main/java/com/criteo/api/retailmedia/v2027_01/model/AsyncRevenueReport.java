@@ -2196,6 +2196,34 @@ public class AsyncRevenueReport {
     openapiFields.add("timezone");
     openapiFields.add("viewAttributionWindow");
     openapiFields.add("viewMatchLevel");
+    openapiFields.add("accountIds");
+    openapiFields.add("activationPlatforms");
+    openapiFields.add("advertiserTypes");
+    openapiFields.add("budgetModels");
+    openapiFields.add("buyType");
+    openapiFields.add("campaignIds");
+    openapiFields.add("campaignType");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("clickMatchLevel");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("id");
+    openapiFields.add("ids");
+    openapiFields.add("lineItemIds");
+    openapiFields.add("mediaType");
+    openapiFields.add("metrics");
+    openapiFields.add("reportType");
+    openapiFields.add("retailerIds");
+    openapiFields.add("revenueType");
+    openapiFields.add("salesChannel");
+    openapiFields.add("skuRelations");
+    openapiFields.add("soldBy");
+    openapiFields.add("startDate");
+    openapiFields.add("targetedKeywordTypes");
+    openapiFields.add("timezone");
+    openapiFields.add("viewAttributionWindow");
+    openapiFields.add("viewMatchLevel");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

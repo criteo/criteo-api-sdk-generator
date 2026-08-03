@@ -232,6 +232,10 @@ public class ExternalRetailMediaBrandAccountCreation {
     openapiFields.add("companyName");
     openapiFields.add("name");
     openapiFields.add("onBehalfCompanyName");
+    openapiFields.add("brands");
+    openapiFields.add("companyName");
+    openapiFields.add("name");
+    openapiFields.add("onBehalfCompanyName");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

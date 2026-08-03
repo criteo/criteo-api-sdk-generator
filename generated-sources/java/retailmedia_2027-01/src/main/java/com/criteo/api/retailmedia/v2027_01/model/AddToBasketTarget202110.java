@@ -294,6 +294,9 @@ public class AddToBasketTarget202110 {
     openapiFields.add("categoryIds");
     openapiFields.add("productIds");
     openapiFields.add("scope");
+    openapiFields.add("categoryIds");
+    openapiFields.add("productIds");
+    openapiFields.add("scope");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -200,6 +200,8 @@ public class PatchCampaign {
     openapiFields = new HashSet<String>();
     openapiFields.add("budgetAutomation");
     openapiFields.add("spendLimit");
+    openapiFields.add("budgetAutomation");
+    openapiFields.add("spendLimit");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -966,6 +966,17 @@ public class AsyncPerformanceReport {
     openapiFields.add("timezone");
     openapiFields.add("viewAttributionWindow");
     openapiFields.add("viewMatchLevel");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("clickMatchLevel");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("filters");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
+    openapiFields.add("viewAttributionWindow");
+    openapiFields.add("viewMatchLevel");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

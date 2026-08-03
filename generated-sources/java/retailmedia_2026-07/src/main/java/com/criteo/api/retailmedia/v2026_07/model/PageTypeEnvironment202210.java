@@ -292,6 +292,8 @@ public class PageTypeEnvironment202210 {
     openapiFields = new HashSet<String>();
     openapiFields.add("environments");
     openapiFields.add("pageType");
+    openapiFields.add("environments");
+    openapiFields.add("pageType");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

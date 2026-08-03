@@ -166,6 +166,8 @@ public class LineItemBudgetOverrides {
     openapiFields = new HashSet<String>();
     openapiFields.add("dailyLineItemBudgetOverrides");
     openapiFields.add("monthlyLineItemBudgetOverrides");
+    openapiFields.add("dailyLineItemBudgetOverrides");
+    openapiFields.add("monthlyLineItemBudgetOverrides");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

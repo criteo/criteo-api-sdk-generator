@@ -355,6 +355,15 @@ public class LineItemKeywordReviewReport {
     openapiFields.add("lineItemName");
     openapiFields.add("retailerId");
     openapiFields.add("retailerName");
+    openapiFields.add("accountId");
+    openapiFields.add("accountName");
+    openapiFields.add("campaignId");
+    openapiFields.add("campaignName");
+    openapiFields.add("countKeywords");
+    openapiFields.add("lineItemId");
+    openapiFields.add("lineItemName");
+    openapiFields.add("retailerId");
+    openapiFields.add("retailerName");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

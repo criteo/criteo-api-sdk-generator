@@ -193,6 +193,9 @@ public class ChangeDetailsV1 {
     openapiFields.add("changeValue");
     openapiFields.add("currentValue");
     openapiFields.add("previousValue");
+    openapiFields.add("changeValue");
+    openapiFields.add("currentValue");
+    openapiFields.add("previousValue");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

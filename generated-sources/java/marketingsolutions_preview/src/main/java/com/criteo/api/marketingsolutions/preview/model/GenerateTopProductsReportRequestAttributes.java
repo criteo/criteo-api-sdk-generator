@@ -795,6 +795,20 @@ public class GenerateTopProductsReportRequestAttributes {
     openapiFields.add("rankProductsBy");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adSetIds");
+    openapiFields.add("adSetStatus");
+    openapiFields.add("advertiserId");
+    openapiFields.add("brands");
+    openapiFields.add("campaignIds");
+    openapiFields.add("categoryIds");
+    openapiFields.add("currency");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("limit");
+    openapiFields.add("metrics");
+    openapiFields.add("rankProductsBy");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

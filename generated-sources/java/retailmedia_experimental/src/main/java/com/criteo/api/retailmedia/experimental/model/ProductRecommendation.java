@@ -386,6 +386,14 @@ public class ProductRecommendation {
     openapiFields.add("price");
     openapiFields.add("rationale");
     openapiFields.add("url");
+    openapiFields.add("brand");
+    openapiFields.add("currency");
+    openapiFields.add("description");
+    openapiFields.add("imageUrl");
+    openapiFields.add("name");
+    openapiFields.add("price");
+    openapiFields.add("rationale");
+    openapiFields.add("url");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

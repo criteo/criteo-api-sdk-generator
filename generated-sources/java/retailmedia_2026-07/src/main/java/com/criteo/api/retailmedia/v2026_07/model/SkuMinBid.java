@@ -152,6 +152,8 @@ public class SkuMinBid {
     openapiFields = new HashSet<String>();
     openapiFields.add("minBid");
     openapiFields.add("skuId");
+    openapiFields.add("minBid");
+    openapiFields.add("skuId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

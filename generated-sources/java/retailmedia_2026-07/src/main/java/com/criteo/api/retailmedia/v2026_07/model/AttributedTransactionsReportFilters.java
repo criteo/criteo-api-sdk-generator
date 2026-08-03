@@ -341,6 +341,10 @@ public class AttributedTransactionsReportFilters {
     openapiFields.add("campaignIds");
     openapiFields.add("lineItemIds");
     openapiFields.add("mediaTypes");
+    openapiFields.add("accountIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("lineItemIds");
+    openapiFields.add("mediaTypes");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

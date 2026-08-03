@@ -261,6 +261,8 @@ public class AdSetFrequencyCappingV26Q1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("frequency");
     openapiFields.add("maximumImpressions");
+    openapiFields.add("frequency");
+    openapiFields.add("maximumImpressions");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

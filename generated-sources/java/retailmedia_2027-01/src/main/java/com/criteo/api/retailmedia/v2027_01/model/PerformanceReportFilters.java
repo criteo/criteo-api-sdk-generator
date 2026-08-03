@@ -1027,6 +1027,18 @@ public class PerformanceReportFilters {
     openapiFields.add("searchTermTargetings");
     openapiFields.add("searchTermTypes");
     openapiFields.add("targetedKeywordTypes");
+    openapiFields.add("accountIds");
+    openapiFields.add("activationPlatforms");
+    openapiFields.add("budgetModels");
+    openapiFields.add("buyTypes");
+    openapiFields.add("campaignIds");
+    openapiFields.add("campaignTypes");
+    openapiFields.add("lineItemIds");
+    openapiFields.add("mediaTypes");
+    openapiFields.add("salesChannels");
+    openapiFields.add("searchTermTargetings");
+    openapiFields.add("searchTermTypes");
+    openapiFields.add("targetedKeywordTypes");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

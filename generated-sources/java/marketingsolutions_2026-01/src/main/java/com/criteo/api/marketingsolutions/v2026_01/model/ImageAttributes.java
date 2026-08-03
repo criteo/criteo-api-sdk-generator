@@ -220,6 +220,8 @@ public class ImageAttributes {
     openapiFields = new HashSet<String>();
     openapiFields.add("landingPageUrl");
     openapiFields.add("urls");
+    openapiFields.add("landingPageUrl");
+    openapiFields.add("urls");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -297,6 +297,11 @@ public class ApplicationSummaryModel {
     openapiFields.add("description");
     openapiFields.add("name");
     openapiFields.add("organizationId");
+    openapiFields.add("applicationId");
+    openapiFields.add("criteoService");
+    openapiFields.add("description");
+    openapiFields.add("name");
+    openapiFields.add("organizationId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

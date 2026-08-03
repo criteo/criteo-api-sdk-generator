@@ -596,6 +596,19 @@ public class AudienceSegmentEntityV1 {
     openapiFields.add("retargeting");
     openapiFields.add("type");
     openapiFields.add("updatedAt");
+    openapiFields.add("advertiserId");
+    openapiFields.add("behavioral");
+    openapiFields.add("contactList");
+    openapiFields.add("createdAt");
+    openapiFields.add("description");
+    openapiFields.add("inMarket");
+    openapiFields.add("location");
+    openapiFields.add("lookalike");
+    openapiFields.add("name");
+    openapiFields.add("prospecting");
+    openapiFields.add("retargeting");
+    openapiFields.add("type");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

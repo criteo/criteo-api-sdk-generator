@@ -198,6 +198,8 @@ public class LineItemPageCategoryV2 {
     openapiFields = new HashSet<String>();
     openapiFields.add("categoryId");
     openapiFields.add("includeChildren");
+    openapiFields.add("categoryId");
+    openapiFields.add("includeChildren");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

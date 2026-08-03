@@ -377,6 +377,12 @@ public class CampaignV23Q1 {
     openapiFields.add("id");
     openapiFields.add("name");
     openapiFields.add("spendLimit");
+    openapiFields.add("advertiserId");
+    openapiFields.add("budgetAutomation");
+    openapiFields.add("goal");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("spendLimit");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

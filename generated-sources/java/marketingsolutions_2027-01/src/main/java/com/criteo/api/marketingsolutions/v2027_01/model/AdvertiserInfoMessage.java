@@ -268,6 +268,10 @@ public class AdvertiserInfoMessage {
     openapiFields.add("currencyName");
     openapiFields.add("id");
     openapiFields.add("timeZoneId");
+    openapiFields.add("advertiserName");
+    openapiFields.add("currencyName");
+    openapiFields.add("id");
+    openapiFields.add("timeZoneId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

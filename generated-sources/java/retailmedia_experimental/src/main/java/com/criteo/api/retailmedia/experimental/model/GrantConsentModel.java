@@ -227,6 +227,9 @@ public class GrantConsentModel {
     openapiFields.add("callbackState");
     openapiFields.add("callbackUrl");
     openapiFields.add("clientId");
+    openapiFields.add("callbackState");
+    openapiFields.add("callbackUrl");
+    openapiFields.add("clientId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -261,6 +261,10 @@ public class CommonLineItemPagedListResponse {
     openapiFields.add("errors");
     openapiFields.add("metadata");
     openapiFields.add("warnings");
+    openapiFields.add("data");
+    openapiFields.add("errors");
+    openapiFields.add("metadata");
+    openapiFields.add("warnings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -284,6 +284,10 @@ public class FilesVariablesSpecification {
     openapiFields.add("maxBytes");
     openapiFields.add("maxFile");
     openapiFields.add("minFiles");
+    openapiFields.add("extensions");
+    openapiFields.add("maxBytes");
+    openapiFields.add("maxFile");
+    openapiFields.add("minFiles");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

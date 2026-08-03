@@ -409,6 +409,13 @@ public class DynamicWriteAttributes {
     openapiFields.add("pricesColor");
     openapiFields.add("primaryFont");
     openapiFields.add("productImageDisplay");
+    openapiFields.add("bodyTextColor");
+    openapiFields.add("callsToAction");
+    openapiFields.add("creativeBackgroundColor");
+    openapiFields.add("logoBase64String");
+    openapiFields.add("pricesColor");
+    openapiFields.add("primaryFont");
+    openapiFields.add("productImageDisplay");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

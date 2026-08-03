@@ -257,6 +257,10 @@ public class LineItemBudgetCapOutHistoryCapoutTimes {
     openapiFields.add("Hourly");
     openapiFields.add("Monthly");
     openapiFields.add("Total");
+    openapiFields.add("Daily");
+    openapiFields.add("Hourly");
+    openapiFields.add("Monthly");
+    openapiFields.add("Total");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

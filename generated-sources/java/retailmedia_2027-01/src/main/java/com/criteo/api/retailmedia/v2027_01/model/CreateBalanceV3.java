@@ -404,6 +404,13 @@ public class CreateBalanceV3 {
     openapiFields.add("retailerPoNumber");
     openapiFields.add("spendType");
     openapiFields.add("startDate");
+    openapiFields.add("deposited");
+    openapiFields.add("endDate");
+    openapiFields.add("memo");
+    openapiFields.add("name");
+    openapiFields.add("retailerPoNumber");
+    openapiFields.add("spendType");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

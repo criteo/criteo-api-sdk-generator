@@ -479,6 +479,13 @@ public class CreativeSearchRequest {
     openapiFields.add("pageTypes");
     openapiFields.add("retailerIds");
     openapiFields.add("templateIds");
+    openapiFields.add("brandIds");
+    openapiFields.add("creativeIds");
+    openapiFields.add("creativeName");
+    openapiFields.add("creativeTypes");
+    openapiFields.add("pageTypes");
+    openapiFields.add("retailerIds");
+    openapiFields.add("templateIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

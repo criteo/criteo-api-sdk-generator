@@ -306,6 +306,10 @@ public class BrandCatalogRequestV2 {
     openapiFields.add("includeFields");
     openapiFields.add("modifiedAfter");
     openapiFields.add("retailerIdFilter");
+    openapiFields.add("brandIdFilter");
+    openapiFields.add("includeFields");
+    openapiFields.add("modifiedAfter");
+    openapiFields.add("retailerIdFilter");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

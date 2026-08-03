@@ -1222,6 +1222,23 @@ public class AsyncOffsiteReport {
     openapiFields.add("startDate");
     openapiFields.add("timezone");
     openapiFields.add("viewAttributionWindow");
+    openapiFields.add("accountIds");
+    openapiFields.add("buyType");
+    openapiFields.add("campaignIds");
+    openapiFields.add("campaignType");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("creativeIds");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("lineItemIds");
+    openapiFields.add("mediaType");
+    openapiFields.add("metrics");
+    openapiFields.add("retailerIds");
+    openapiFields.add("salesChannel");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
+    openapiFields.add("viewAttributionWindow");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

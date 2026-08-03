@@ -220,6 +220,8 @@ public class CategoriesSearchRequestV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("categoryIds");
     openapiFields.add("textSubstring");
+    openapiFields.add("categoryIds");
+    openapiFields.add("textSubstring");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

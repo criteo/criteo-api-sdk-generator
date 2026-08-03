@@ -269,6 +269,8 @@ public class NillableAdSetTargetingRuleV24Q3Value {
     openapiFields = new HashSet<String>();
     openapiFields.add("operand");
     openapiFields.add("values");
+    openapiFields.add("operand");
+    openapiFields.add("values");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

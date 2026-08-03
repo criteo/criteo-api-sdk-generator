@@ -634,6 +634,18 @@ public class AdaptiveAttributes {
     openapiFields.add("layouts");
     openapiFields.add("logos");
     openapiFields.add("videos");
+    openapiFields.add("callsToAction");
+    openapiFields.add("colors");
+    openapiFields.add("descriptionFont");
+    openapiFields.add("descriptionText");
+    openapiFields.add("headlineFont");
+    openapiFields.add("headlineText");
+    openapiFields.add("imageDisplay");
+    openapiFields.add("imageSets");
+    openapiFields.add("landingPageUrl");
+    openapiFields.add("layouts");
+    openapiFields.add("logos");
+    openapiFields.add("videos");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

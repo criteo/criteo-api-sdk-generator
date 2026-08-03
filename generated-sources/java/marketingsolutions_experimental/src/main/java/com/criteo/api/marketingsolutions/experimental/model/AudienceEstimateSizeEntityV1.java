@@ -199,6 +199,8 @@ public class AudienceEstimateSizeEntityV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("advertiserId");
     openapiFields.add("algebra");
+    openapiFields.add("advertiserId");
+    openapiFields.add("algebra");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

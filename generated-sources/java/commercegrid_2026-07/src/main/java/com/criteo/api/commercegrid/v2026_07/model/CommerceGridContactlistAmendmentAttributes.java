@@ -348,6 +348,9 @@ public class CommerceGridContactlistAmendmentAttributes {
     openapiFields.add("identifiers");
     openapiFields.add("identifierType");
     openapiFields.add("operation");
+    openapiFields.add("identifiers");
+    openapiFields.add("identifierType");
+    openapiFields.add("operation");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

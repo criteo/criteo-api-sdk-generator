@@ -165,6 +165,8 @@ public class LineItemBudgetCapOutHistory {
     openapiFields = new HashSet<String>();
     openapiFields.add("capoutTimes");
     openapiFields.add("lineItemId");
+    openapiFields.add("capoutTimes");
+    openapiFields.add("lineItemId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

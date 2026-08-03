@@ -211,6 +211,8 @@ public class CampaignBudgetAutomationV23Q1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("automatedBudgetConfiguration");
     openapiFields.add("enabled");
+    openapiFields.add("automatedBudgetConfiguration");
+    openapiFields.add("enabled");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

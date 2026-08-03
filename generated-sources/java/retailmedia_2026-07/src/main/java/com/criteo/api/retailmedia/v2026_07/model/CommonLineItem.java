@@ -641,6 +641,19 @@ public class CommonLineItem {
     openapiFields.add("targetRetailerId");
     openapiFields.add("type");
     openapiFields.add("updatedAt");
+    openapiFields.add("budget");
+    openapiFields.add("budgetRemaining");
+    openapiFields.add("budgetSpent");
+    openapiFields.add("campaignId");
+    openapiFields.add("createdAt");
+    openapiFields.add("endDate");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
+    openapiFields.add("targetRetailerId");
+    openapiFields.add("type");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

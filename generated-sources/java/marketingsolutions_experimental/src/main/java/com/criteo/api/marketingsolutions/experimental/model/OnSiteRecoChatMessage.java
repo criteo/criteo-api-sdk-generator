@@ -198,6 +198,8 @@ public class OnSiteRecoChatMessage {
     openapiFields = new HashSet<String>();
     openapiFields.add("content");
     openapiFields.add("role");
+    openapiFields.add("content");
+    openapiFields.add("role");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

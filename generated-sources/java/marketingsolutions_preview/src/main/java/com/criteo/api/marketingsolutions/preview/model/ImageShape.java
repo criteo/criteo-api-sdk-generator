@@ -248,6 +248,8 @@ public class ImageShape {
     openapiFields = new HashSet<String>();
     openapiFields.add("shape");
     openapiFields.add("url");
+    openapiFields.add("shape");
+    openapiFields.add("url");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

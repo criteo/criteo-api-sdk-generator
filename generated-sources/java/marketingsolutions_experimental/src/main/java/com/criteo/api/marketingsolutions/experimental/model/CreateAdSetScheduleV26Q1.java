@@ -211,6 +211,8 @@ public class CreateAdSetScheduleV26Q1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("endDate");
     openapiFields.add("startDate");
+    openapiFields.add("endDate");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

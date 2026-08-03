@@ -297,6 +297,9 @@ public class LocationV1 {
     openapiFields.add("pointsOfInterest");
     openapiFields.add("radiusInKm");
     openapiFields.add("registryType");
+    openapiFields.add("pointsOfInterest");
+    openapiFields.add("radiusInKm");
+    openapiFields.add("registryType");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

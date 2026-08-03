@@ -541,6 +541,14 @@ public class AdLevelReportRequestAttributes {
     openapiFields.add("metrics");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adsetIds");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

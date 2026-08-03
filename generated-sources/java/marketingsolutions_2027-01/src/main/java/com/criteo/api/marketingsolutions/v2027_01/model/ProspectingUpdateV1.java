@@ -287,6 +287,9 @@ public class ProspectingUpdateV1 {
     openapiFields.add("daysSinceLastVisitMax");
     openapiFields.add("daysSinceLastVisitMin");
     openapiFields.add("usersType");
+    openapiFields.add("daysSinceLastVisitMax");
+    openapiFields.add("daysSinceLastVisitMin");
+    openapiFields.add("usersType");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

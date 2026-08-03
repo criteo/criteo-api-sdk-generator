@@ -615,6 +615,17 @@ public class CreativeSearchResponse {
     openapiFields.add("retailerId");
     openapiFields.add("status");
     openapiFields.add("templateId");
+    openapiFields.add("brandId");
+    openapiFields.add("createdAt");
+    openapiFields.add("creativeType");
+    openapiFields.add("lineItems");
+    openapiFields.add("modifiedAt");
+    openapiFields.add("name");
+    openapiFields.add("pageType");
+    openapiFields.add("preview");
+    openapiFields.add("retailerId");
+    openapiFields.add("status");
+    openapiFields.add("templateId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

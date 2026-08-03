@@ -201,6 +201,9 @@ public class ChoiceVariableSpecification {
     openapiFields.add("maxSelected");
     openapiFields.add("minSelected");
     openapiFields.add("options");
+    openapiFields.add("maxSelected");
+    openapiFields.add("minSelected");
+    openapiFields.add("options");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

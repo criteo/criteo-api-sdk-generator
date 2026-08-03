@@ -272,6 +272,10 @@ public class DailyLineItemBudgetOverride {
     openapiFields.add("maxDailySpend");
     openapiFields.add("startDate");
     openapiFields.add("status");
+    openapiFields.add("duration");
+    openapiFields.add("maxDailySpend");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

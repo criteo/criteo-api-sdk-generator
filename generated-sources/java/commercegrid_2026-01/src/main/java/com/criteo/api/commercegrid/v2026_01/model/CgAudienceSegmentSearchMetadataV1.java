@@ -239,6 +239,9 @@ public class CgAudienceSegmentSearchMetadataV1 {
     openapiFields.add("limit");
     openapiFields.add("offset");
     openapiFields.add("totalItems");
+    openapiFields.add("limit");
+    openapiFields.add("offset");
+    openapiFields.add("totalItems");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

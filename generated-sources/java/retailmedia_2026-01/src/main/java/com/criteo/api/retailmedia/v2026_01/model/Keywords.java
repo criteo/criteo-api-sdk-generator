@@ -390,6 +390,12 @@ public class Keywords {
     openapiFields.add("matchType");
     openapiFields.add("reviewState");
     openapiFields.add("updatedAt");
+    openapiFields.add("bid");
+    openapiFields.add("createdAt");
+    openapiFields.add("inputKeywords");
+    openapiFields.add("matchType");
+    openapiFields.add("reviewState");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

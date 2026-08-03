@@ -167,6 +167,8 @@ public class BaseType {
     openapiFields = new HashSet<String>();
     openapiFields.add("commonData");
     openapiFields.add("typeDiscriminator");
+    openapiFields.add("commonData");
+    openapiFields.add("typeDiscriminator");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

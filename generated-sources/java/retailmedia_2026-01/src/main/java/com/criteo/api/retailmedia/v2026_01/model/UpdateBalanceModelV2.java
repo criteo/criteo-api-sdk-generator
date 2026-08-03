@@ -297,6 +297,11 @@ public class UpdateBalanceModelV2 {
     openapiFields.add("name");
     openapiFields.add("poNumber");
     openapiFields.add("startDate");
+    openapiFields.add("endDate");
+    openapiFields.add("memo");
+    openapiFields.add("name");
+    openapiFields.add("poNumber");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

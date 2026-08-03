@@ -371,6 +371,13 @@ public class Creative202110 {
     openapiFields.add("retailerId");
     openapiFields.add("status");
     openapiFields.add("updatedAt");
+    openapiFields.add("associatedLineItemIds");
+    openapiFields.add("brandId");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("retailerId");
+    openapiFields.add("status");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

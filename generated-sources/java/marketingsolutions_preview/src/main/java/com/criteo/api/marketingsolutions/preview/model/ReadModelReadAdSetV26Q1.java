@@ -232,6 +232,9 @@ public class ReadModelReadAdSetV26Q1 {
     openapiFields.add("attributes");
     openapiFields.add("id");
     openapiFields.add("type");
+    openapiFields.add("attributes");
+    openapiFields.add("id");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

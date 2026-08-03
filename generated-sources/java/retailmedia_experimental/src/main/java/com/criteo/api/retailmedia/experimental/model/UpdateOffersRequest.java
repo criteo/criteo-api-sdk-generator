@@ -131,6 +131,7 @@ public class UpdateOffersRequest {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("offerUpdates");
+    openapiFields.add("offerUpdates");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

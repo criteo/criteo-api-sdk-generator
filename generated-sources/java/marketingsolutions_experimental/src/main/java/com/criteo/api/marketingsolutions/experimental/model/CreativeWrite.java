@@ -439,6 +439,14 @@ public class CreativeWrite {
     openapiFields.add("htmlTagWriteAttributes");
     openapiFields.add("imageWriteAttributes");
     openapiFields.add("name");
+    openapiFields.add("adaptiveWriteAttributes");
+    openapiFields.add("datasetId");
+    openapiFields.add("description");
+    openapiFields.add("dynamicWriteAttributes");
+    openapiFields.add("format");
+    openapiFields.add("htmlTagWriteAttributes");
+    openapiFields.add("imageWriteAttributes");
+    openapiFields.add("name");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

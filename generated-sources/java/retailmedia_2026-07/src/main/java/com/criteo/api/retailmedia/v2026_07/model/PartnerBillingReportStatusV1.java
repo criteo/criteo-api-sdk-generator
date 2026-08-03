@@ -245,6 +245,9 @@ public class PartnerBillingReportStatusV1 {
     openapiFields.add("createdAt");
     openapiFields.add("errorMessage");
     openapiFields.add("status");
+    openapiFields.add("createdAt");
+    openapiFields.add("errorMessage");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

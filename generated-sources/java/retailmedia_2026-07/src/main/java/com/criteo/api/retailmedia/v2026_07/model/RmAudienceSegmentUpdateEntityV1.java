@@ -270,6 +270,10 @@ public class RmAudienceSegmentUpdateEntityV1 {
     openapiFields.add("description");
     openapiFields.add("events");
     openapiFields.add("name");
+    openapiFields.add("contactList");
+    openapiFields.add("description");
+    openapiFields.add("events");
+    openapiFields.add("name");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -181,6 +181,7 @@ public class ContactListV1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("isReadOnly");
+    openapiFields.add("isReadOnly");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

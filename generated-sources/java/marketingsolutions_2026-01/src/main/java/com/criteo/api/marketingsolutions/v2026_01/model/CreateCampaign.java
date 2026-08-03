@@ -336,6 +336,11 @@ public class CreateCampaign {
     openapiFields.add("goal");
     openapiFields.add("name");
     openapiFields.add("spendLimit");
+    openapiFields.add("advertiserId");
+    openapiFields.add("budgetAutomation");
+    openapiFields.add("goal");
+    openapiFields.add("name");
+    openapiFields.add("spendLimit");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

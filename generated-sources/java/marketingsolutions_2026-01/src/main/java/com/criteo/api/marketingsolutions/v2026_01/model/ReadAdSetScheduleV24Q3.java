@@ -379,6 +379,10 @@ public class ReadAdSetScheduleV24Q3 {
     openapiFields.add("deliveryStatus");
     openapiFields.add("endDate");
     openapiFields.add("startDate");
+    openapiFields.add("activationStatus");
+    openapiFields.add("deliveryStatus");
+    openapiFields.add("endDate");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

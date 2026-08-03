@@ -239,6 +239,9 @@ public class PagingOffsetLimitMetadata {
     openapiFields.add("count");
     openapiFields.add("limit");
     openapiFields.add("offset");
+    openapiFields.add("count");
+    openapiFields.add("limit");
+    openapiFields.add("offset");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

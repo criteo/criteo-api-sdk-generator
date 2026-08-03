@@ -250,6 +250,9 @@ public class BotMessage {
     openapiFields.add("closing");
     openapiFields.add("opening");
     openapiFields.add("productRecos");
+    openapiFields.add("closing");
+    openapiFields.add("opening");
+    openapiFields.add("productRecos");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

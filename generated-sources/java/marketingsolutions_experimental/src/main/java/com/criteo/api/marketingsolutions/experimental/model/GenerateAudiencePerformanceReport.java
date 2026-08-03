@@ -540,6 +540,16 @@ public class GenerateAudiencePerformanceReport {
     openapiFields.add("segmentsIds");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adSetIds");
+    openapiFields.add("advertiserId");
+    openapiFields.add("audienceIds");
+    openapiFields.add("currency");
+    openapiFields.add("dimension");
+    openapiFields.add("endDate");
+    openapiFields.add("metrics");
+    openapiFields.add("segmentsIds");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

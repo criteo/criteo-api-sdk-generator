@@ -768,6 +768,15 @@ public class AsyncUnfilledPlacementsReport {
     openapiFields.add("startDate");
     openapiFields.add("supplyAccountIds");
     openapiFields.add("timezone");
+    openapiFields.add("adServerType");
+    openapiFields.add("campaignType");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("startDate");
+    openapiFields.add("supplyAccountIds");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

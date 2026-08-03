@@ -239,6 +239,9 @@ public class RmContactListStatisticsEntityV1 {
     openapiFields.add("matchRate");
     openapiFields.add("numberOfIdentifiers");
     openapiFields.add("numberOfMatches");
+    openapiFields.add("matchRate");
+    openapiFields.add("numberOfIdentifiers");
+    openapiFields.add("numberOfMatches");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

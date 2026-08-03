@@ -252,6 +252,8 @@ public class RmAudienceSegmentComputeSizeEntityV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("channel");
     openapiFields.add("ids");
+    openapiFields.add("channel");
+    openapiFields.add("ids");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

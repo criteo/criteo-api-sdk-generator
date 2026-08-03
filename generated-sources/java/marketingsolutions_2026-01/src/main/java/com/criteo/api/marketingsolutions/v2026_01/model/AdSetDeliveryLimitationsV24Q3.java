@@ -412,6 +412,9 @@ public class AdSetDeliveryLimitationsV24Q3 {
     openapiFields.add("devices");
     openapiFields.add("environments");
     openapiFields.add("operatingSystems");
+    openapiFields.add("devices");
+    openapiFields.add("environments");
+    openapiFields.add("operatingSystems");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

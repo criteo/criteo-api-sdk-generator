@@ -217,6 +217,8 @@ public class MarketingSolutionsReportStatus {
     openapiFields = new HashSet<String>();
     openapiFields.add("message");
     openapiFields.add("status");
+    openapiFields.add("message");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

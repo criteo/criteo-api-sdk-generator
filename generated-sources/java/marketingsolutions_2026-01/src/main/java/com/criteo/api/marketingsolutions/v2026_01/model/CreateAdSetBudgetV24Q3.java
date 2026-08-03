@@ -503,6 +503,11 @@ public class CreateAdSetBudgetV24Q3 {
     openapiFields.add("budgetDeliveryWeek");
     openapiFields.add("budgetRenewal");
     openapiFields.add("budgetStrategy");
+    openapiFields.add("budgetAmount");
+    openapiFields.add("budgetDeliverySmoothing");
+    openapiFields.add("budgetDeliveryWeek");
+    openapiFields.add("budgetRenewal");
+    openapiFields.add("budgetStrategy");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

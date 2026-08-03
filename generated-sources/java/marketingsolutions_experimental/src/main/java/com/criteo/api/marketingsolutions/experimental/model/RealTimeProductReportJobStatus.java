@@ -246,6 +246,9 @@ public class RealTimeProductReportJobStatus {
     openapiFields.add("exportId");
     openapiFields.add("message");
     openapiFields.add("status");
+    openapiFields.add("exportId");
+    openapiFields.add("message");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

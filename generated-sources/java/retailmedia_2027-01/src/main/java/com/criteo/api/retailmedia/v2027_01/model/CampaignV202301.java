@@ -1148,6 +1148,29 @@ public class CampaignV202301 {
     openapiFields.add("updatedAt");
     openapiFields.add("viewAttributionScope");
     openapiFields.add("viewAttributionWindow");
+    openapiFields.add("accountId");
+    openapiFields.add("budget");
+    openapiFields.add("budgetRemaining");
+    openapiFields.add("budgetSpent");
+    openapiFields.add("clickAttributionScope");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("companyName");
+    openapiFields.add("createdAt");
+    openapiFields.add("dailyPacing");
+    openapiFields.add("drawableBalanceIds");
+    openapiFields.add("endDate");
+    openapiFields.add("isAutoDailyPacing");
+    openapiFields.add("monthlyPacing");
+    openapiFields.add("name");
+    openapiFields.add("onBehalfCompanyName");
+    openapiFields.add("promotedBrandIds");
+    openapiFields.add("retailerId");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
+    openapiFields.add("type");
+    openapiFields.add("updatedAt");
+    openapiFields.add("viewAttributionScope");
+    openapiFields.add("viewAttributionWindow");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

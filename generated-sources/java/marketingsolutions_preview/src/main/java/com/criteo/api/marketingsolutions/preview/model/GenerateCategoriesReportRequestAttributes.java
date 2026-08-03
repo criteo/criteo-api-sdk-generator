@@ -455,6 +455,16 @@ public class GenerateCategoriesReportRequestAttributes {
     openapiFields.add("shouldDisplayDomainDimension");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adsetId");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("campaignId");
+    openapiFields.add("category");
+    openapiFields.add("domain");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("shouldDisplayDomainDimension");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

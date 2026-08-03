@@ -317,6 +317,11 @@ public class PartnerBillingReportRequestV1 {
     openapiFields.add("format");
     openapiFields.add("retailerIds");
     openapiFields.add("startDate");
+    openapiFields.add("accountIds");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("retailerIds");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

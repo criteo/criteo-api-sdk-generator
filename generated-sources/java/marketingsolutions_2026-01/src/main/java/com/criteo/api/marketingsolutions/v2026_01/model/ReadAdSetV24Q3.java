@@ -742,6 +742,19 @@ public class ReadAdSetV24Q3 {
     openapiFields.add("schedule");
     openapiFields.add("targeting");
     openapiFields.add("videoChannel");
+    openapiFields.add("advertiserId");
+    openapiFields.add("attributionConfiguration");
+    openapiFields.add("bidding");
+    openapiFields.add("budget");
+    openapiFields.add("campaignId");
+    openapiFields.add("datasetId");
+    openapiFields.add("destinationEnvironment");
+    openapiFields.add("mediaType");
+    openapiFields.add("name");
+    openapiFields.add("objective");
+    openapiFields.add("schedule");
+    openapiFields.add("targeting");
+    openapiFields.add("videoChannel");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

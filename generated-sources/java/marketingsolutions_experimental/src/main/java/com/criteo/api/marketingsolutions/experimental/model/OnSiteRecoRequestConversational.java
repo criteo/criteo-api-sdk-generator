@@ -352,6 +352,13 @@ public class OnSiteRecoRequestConversational {
     openapiFields.add("partnerId");
     openapiFields.add("product");
     openapiFields.add("userId");
+    openapiFields.add("adId");
+    openapiFields.add("adSetId");
+    openapiFields.add("conversation");
+    openapiFields.add("nbRequestedProducts");
+    openapiFields.add("partnerId");
+    openapiFields.add("product");
+    openapiFields.add("userId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

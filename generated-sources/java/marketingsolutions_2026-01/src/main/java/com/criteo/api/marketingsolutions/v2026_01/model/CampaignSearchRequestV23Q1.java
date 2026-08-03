@@ -170,6 +170,7 @@ public class CampaignSearchRequestV23Q1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("filters");
+    openapiFields.add("filters");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

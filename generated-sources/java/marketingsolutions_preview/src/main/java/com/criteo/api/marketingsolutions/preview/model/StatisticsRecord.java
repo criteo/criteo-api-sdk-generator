@@ -605,6 +605,22 @@ public class StatisticsRecord {
     openapiFields.add("total");
     openapiFields.add("updated");
     openapiFields.add("variant");
+    openapiFields.add("added");
+    openapiFields.add("blacklisted");
+    openapiFields.add("deleted");
+    openapiFields.add("displayable");
+    openapiFields.add("endDate");
+    openapiFields.add("missingDescription");
+    openapiFields.add("missingImage");
+    openapiFields.add("missingName");
+    openapiFields.add("missingPrice");
+    openapiFields.add("missingUrl");
+    openapiFields.add("nonDisplayable");
+    openapiFields.add("outOfStock");
+    openapiFields.add("startDate");
+    openapiFields.add("total");
+    openapiFields.add("updated");
+    openapiFields.add("variant");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

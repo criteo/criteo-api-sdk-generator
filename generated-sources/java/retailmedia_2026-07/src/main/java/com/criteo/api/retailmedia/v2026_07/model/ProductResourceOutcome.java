@@ -183,6 +183,8 @@ public class ProductResourceOutcome {
     openapiFields = new HashSet<String>();
     openapiFields.add("errors");
     openapiFields.add("warnings");
+    openapiFields.add("errors");
+    openapiFields.add("warnings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

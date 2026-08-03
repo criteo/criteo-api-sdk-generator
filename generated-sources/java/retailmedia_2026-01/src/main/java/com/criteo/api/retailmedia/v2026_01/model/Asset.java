@@ -210,6 +210,8 @@ public class Asset {
     openapiFields = new HashSet<String>();
     openapiFields.add("fileExtension");
     openapiFields.add("fileLocation");
+    openapiFields.add("fileExtension");
+    openapiFields.add("fileLocation");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -288,6 +288,12 @@ public class CreativeUpdateModel2 {
     openapiFields.add("retailerId");
     openapiFields.add("templateId");
     openapiFields.add("templateVariableValues");
+    openapiFields.add("brandId");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("retailerId");
+    openapiFields.add("templateId");
+    openapiFields.add("templateVariableValues");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

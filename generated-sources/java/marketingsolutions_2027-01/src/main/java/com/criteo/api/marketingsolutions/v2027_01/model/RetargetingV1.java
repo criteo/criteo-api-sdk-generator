@@ -290,6 +290,9 @@ public class RetargetingV1 {
     openapiFields.add("daysSinceLastVisitMax");
     openapiFields.add("daysSinceLastVisitMin");
     openapiFields.add("visitorsType");
+    openapiFields.add("daysSinceLastVisitMax");
+    openapiFields.add("daysSinceLastVisitMin");
+    openapiFields.add("visitorsType");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

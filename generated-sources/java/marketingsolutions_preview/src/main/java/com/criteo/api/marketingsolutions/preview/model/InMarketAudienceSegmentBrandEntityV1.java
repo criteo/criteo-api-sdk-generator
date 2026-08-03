@@ -210,6 +210,8 @@ public class InMarketAudienceSegmentBrandEntityV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("name");
     openapiFields.add("size");
+    openapiFields.add("name");
+    openapiFields.add("size");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

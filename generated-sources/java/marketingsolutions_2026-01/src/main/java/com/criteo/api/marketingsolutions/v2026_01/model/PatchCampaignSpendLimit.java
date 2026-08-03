@@ -338,6 +338,9 @@ public class PatchCampaignSpendLimit {
     openapiFields.add("spendLimitAmount");
     openapiFields.add("spendLimitRenewal");
     openapiFields.add("spendLimitType");
+    openapiFields.add("spendLimitAmount");
+    openapiFields.add("spendLimitRenewal");
+    openapiFields.add("spendLimitType");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

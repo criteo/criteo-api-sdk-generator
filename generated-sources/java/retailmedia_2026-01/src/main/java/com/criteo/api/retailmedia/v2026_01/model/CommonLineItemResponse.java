@@ -223,6 +223,9 @@ public class CommonLineItemResponse {
     openapiFields.add("data");
     openapiFields.add("errors");
     openapiFields.add("warnings");
+    openapiFields.add("data");
+    openapiFields.add("errors");
+    openapiFields.add("warnings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

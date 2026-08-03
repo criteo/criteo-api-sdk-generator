@@ -277,6 +277,9 @@ public class VideoDetail {
     openapiFields.add("duration");
     openapiFields.add("shape");
     openapiFields.add("url");
+    openapiFields.add("duration");
+    openapiFields.add("shape");
+    openapiFields.add("url");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

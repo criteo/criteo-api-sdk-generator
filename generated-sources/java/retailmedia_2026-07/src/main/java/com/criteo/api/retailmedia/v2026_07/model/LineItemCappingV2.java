@@ -247,6 +247,8 @@ public class LineItemCappingV2 {
     openapiFields = new HashSet<String>();
     openapiFields.add("count");
     openapiFields.add("type");
+    openapiFields.add("count");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -198,6 +198,8 @@ public class ProductUnitPricingMeasure {
     openapiFields = new HashSet<String>();
     openapiFields.add("unit");
     openapiFields.add("value");
+    openapiFields.add("unit");
+    openapiFields.add("value");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

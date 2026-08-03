@@ -314,6 +314,12 @@ public class AdaptiveColors {
     openapiFields.add("logoAreaAndTitleColor");
     openapiFields.add("text1Color");
     openapiFields.add("text2Color");
+    openapiFields.add("backgroundColor");
+    openapiFields.add("ctaBackgroundColor");
+    openapiFields.add("ctaTextColor");
+    openapiFields.add("logoAreaAndTitleColor");
+    openapiFields.add("text1Color");
+    openapiFields.add("text2Color");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

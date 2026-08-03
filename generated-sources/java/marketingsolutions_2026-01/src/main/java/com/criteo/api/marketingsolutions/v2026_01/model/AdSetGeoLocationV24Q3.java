@@ -240,6 +240,9 @@ public class AdSetGeoLocationV24Q3 {
     openapiFields.add("countries");
     openapiFields.add("subdivisions");
     openapiFields.add("zipCodes");
+    openapiFields.add("countries");
+    openapiFields.add("subdivisions");
+    openapiFields.add("zipCodes");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

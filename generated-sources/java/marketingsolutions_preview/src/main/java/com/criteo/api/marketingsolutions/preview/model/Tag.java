@@ -211,6 +211,8 @@ public class Tag {
     openapiFields = new HashSet<String>();
     openapiFields.add("htmlTag");
     openapiFields.add("size");
+    openapiFields.add("htmlTag");
+    openapiFields.add("size");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

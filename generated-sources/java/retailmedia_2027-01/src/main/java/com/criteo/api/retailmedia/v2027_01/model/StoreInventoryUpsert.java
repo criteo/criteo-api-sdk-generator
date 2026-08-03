@@ -365,6 +365,12 @@ public class StoreInventoryUpsert {
     openapiFields.add("productId");
     openapiFields.add("salePrice");
     openapiFields.add("storeId");
+    openapiFields.add("availability");
+    openapiFields.add("batchId");
+    openapiFields.add("price");
+    openapiFields.add("productId");
+    openapiFields.add("salePrice");
+    openapiFields.add("storeId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

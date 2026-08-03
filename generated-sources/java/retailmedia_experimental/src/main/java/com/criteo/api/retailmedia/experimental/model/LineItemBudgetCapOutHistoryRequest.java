@@ -215,6 +215,8 @@ public class LineItemBudgetCapOutHistoryRequest {
     openapiFields = new HashSet<String>();
     openapiFields.add("budgetTypes");
     openapiFields.add("lineItemIds");
+    openapiFields.add("budgetTypes");
+    openapiFields.add("lineItemIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

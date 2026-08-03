@@ -123,6 +123,7 @@ public class TextVariableValue {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("text");
+    openapiFields.add("text");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

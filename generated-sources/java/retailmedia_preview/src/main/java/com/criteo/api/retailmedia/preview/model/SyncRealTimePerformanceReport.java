@@ -564,6 +564,15 @@ public class SyncRealTimePerformanceReport {
     openapiFields.add("retailerIds");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("accountIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("lineItemIds");
+    openapiFields.add("metrics");
+    openapiFields.add("retailerIds");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

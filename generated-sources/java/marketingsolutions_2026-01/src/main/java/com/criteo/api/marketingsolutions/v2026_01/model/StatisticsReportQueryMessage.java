@@ -1154,6 +1154,17 @@ public class StatisticsReportQueryMessage {
     openapiFields.add("metrics");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adSetIds");
+    openapiFields.add("adSetNames");
+    openapiFields.add("adSetStatus");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("currency");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -322,6 +322,13 @@ public class CommerceGridContactlistOperationResponseAttributesAttributes {
     openapiFields.add("operation");
     openapiFields.add("requestDate");
     openapiFields.add("sampleInvalidIdentifiers");
+    openapiFields.add("contactListId");
+    openapiFields.add("identifierType");
+    openapiFields.add("nbInvalidIdentifiers");
+    openapiFields.add("nbValidIdentifiers");
+    openapiFields.add("operation");
+    openapiFields.add("requestDate");
+    openapiFields.add("sampleInvalidIdentifiers");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

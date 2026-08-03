@@ -209,6 +209,8 @@ public class ReviewSetState {
     openapiFields = new HashSet<String>();
     openapiFields.add("phrase");
     openapiFields.add("reviewState");
+    openapiFields.add("phrase");
+    openapiFields.add("reviewState");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

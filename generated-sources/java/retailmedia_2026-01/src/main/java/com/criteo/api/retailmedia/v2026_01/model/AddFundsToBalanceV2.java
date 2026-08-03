@@ -227,6 +227,9 @@ public class AddFundsToBalanceV2 {
     openapiFields.add("deltaAmount");
     openapiFields.add("memo");
     openapiFields.add("poNumber");
+    openapiFields.add("deltaAmount");
+    openapiFields.add("memo");
+    openapiFields.add("poNumber");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

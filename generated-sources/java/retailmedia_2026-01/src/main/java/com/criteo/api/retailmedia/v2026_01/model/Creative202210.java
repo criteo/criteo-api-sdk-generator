@@ -636,6 +636,19 @@ public class Creative202210 {
     openapiFields.add("templateName");
     openapiFields.add("templateVariableValues");
     openapiFields.add("updatedAt");
+    openapiFields.add("associatedLineItemIds");
+    openapiFields.add("brandId");
+    openapiFields.add("creativeFormatType");
+    openapiFields.add("environments");
+    openapiFields.add("formatId");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("retailerId");
+    openapiFields.add("status");
+    openapiFields.add("templateId");
+    openapiFields.add("templateName");
+    openapiFields.add("templateVariableValues");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

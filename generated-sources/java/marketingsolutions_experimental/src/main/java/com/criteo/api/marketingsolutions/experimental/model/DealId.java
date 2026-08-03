@@ -210,6 +210,8 @@ public class DealId {
     openapiFields = new HashSet<String>();
     openapiFields.add("dealIdentifier");
     openapiFields.add("supplyVendorId");
+    openapiFields.add("dealIdentifier");
+    openapiFields.add("supplyVendorId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

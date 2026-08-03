@@ -280,6 +280,12 @@ public class PageMetadata {
     openapiFields.add("previousPage");
     openapiFields.add("totalItemsAcrossAllPages");
     openapiFields.add("totalPages");
+    openapiFields.add("currentPageIndex");
+    openapiFields.add("currentPageSize");
+    openapiFields.add("nextPage");
+    openapiFields.add("previousPage");
+    openapiFields.add("totalItemsAcrossAllPages");
+    openapiFields.add("totalPages");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

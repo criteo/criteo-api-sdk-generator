@@ -210,6 +210,8 @@ public class DataCompleteThrough {
     openapiFields = new HashSet<String>();
     openapiFields.add("dateTime");
     openapiFields.add("timezone");
+    openapiFields.add("dateTime");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

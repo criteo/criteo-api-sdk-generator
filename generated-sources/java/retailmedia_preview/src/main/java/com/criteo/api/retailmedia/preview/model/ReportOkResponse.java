@@ -468,6 +468,15 @@ public class ReportOkResponse {
     openapiFields.add("numberOfProductsWithWarnings");
     openapiFields.add("status");
     openapiFields.add("warningDetails");
+    openapiFields.add("errorDetails");
+    openapiFields.add("importRequestTimestamp");
+    openapiFields.add("numberOfProductsDeleted");
+    openapiFields.add("numberOfProductsInTheBatch");
+    openapiFields.add("numberOfProductsUpserted");
+    openapiFields.add("numberOfProductsWithErrors");
+    openapiFields.add("numberOfProductsWithWarnings");
+    openapiFields.add("status");
+    openapiFields.add("warningDetails");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

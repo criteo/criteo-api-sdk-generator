@@ -275,6 +275,9 @@ public class RmAudienceEstimateSizeEntityV1 {
     openapiFields.add("algebra");
     openapiFields.add("channel");
     openapiFields.add("retailerId");
+    openapiFields.add("algebra");
+    openapiFields.add("channel");
+    openapiFields.add("retailerId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

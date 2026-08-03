@@ -169,6 +169,7 @@ public class LookalikeUpdateV1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("targetSize");
+    openapiFields.add("targetSize");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

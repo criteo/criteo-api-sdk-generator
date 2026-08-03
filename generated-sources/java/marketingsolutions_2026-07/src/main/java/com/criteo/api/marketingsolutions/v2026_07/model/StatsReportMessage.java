@@ -286,6 +286,10 @@ public class StatsReportMessage {
     openapiFields.add("data");
     openapiFields.add("links");
     openapiFields.add("rows");
+    openapiFields.add("columns");
+    openapiFields.add("data");
+    openapiFields.add("links");
+    openapiFields.add("rows");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

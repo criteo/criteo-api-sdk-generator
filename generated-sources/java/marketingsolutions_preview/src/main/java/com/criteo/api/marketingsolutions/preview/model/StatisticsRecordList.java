@@ -177,6 +177,7 @@ public class StatisticsRecordList {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("statisticsRecordList");
+    openapiFields.add("statisticsRecordList");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

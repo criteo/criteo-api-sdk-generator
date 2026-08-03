@@ -254,6 +254,8 @@ public class AudienceTarget202110 {
     openapiFields = new HashSet<String>();
     openapiFields.add("audienceIds");
     openapiFields.add("scope");
+    openapiFields.add("audienceIds");
+    openapiFields.add("scope");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

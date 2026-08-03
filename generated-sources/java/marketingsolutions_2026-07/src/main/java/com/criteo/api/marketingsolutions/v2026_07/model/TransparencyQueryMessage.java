@@ -182,6 +182,9 @@ public class TransparencyQueryMessage {
     openapiFields.add("endDate");
     openapiFields.add("shouldDisplayProductIds");
     openapiFields.add("startDate");
+    openapiFields.add("endDate");
+    openapiFields.add("shouldDisplayProductIds");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

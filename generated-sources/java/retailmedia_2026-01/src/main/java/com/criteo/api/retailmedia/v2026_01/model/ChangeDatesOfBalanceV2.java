@@ -227,6 +227,9 @@ public class ChangeDatesOfBalanceV2 {
     openapiFields.add("endDate");
     openapiFields.add("memo");
     openapiFields.add("startDate");
+    openapiFields.add("endDate");
+    openapiFields.add("memo");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -198,6 +198,8 @@ public class SellerBase {
     openapiFields = new HashSet<String>();
     openapiFields.add("id");
     openapiFields.add("sellerName");
+    openapiFields.add("id");
+    openapiFields.add("sellerName");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

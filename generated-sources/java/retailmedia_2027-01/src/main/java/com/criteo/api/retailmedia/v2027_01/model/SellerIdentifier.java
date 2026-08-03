@@ -152,6 +152,8 @@ public class SellerIdentifier {
     openapiFields = new HashSet<String>();
     openapiFields.add("retailerId");
     openapiFields.add("sellerId");
+    openapiFields.add("retailerId");
+    openapiFields.add("sellerId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

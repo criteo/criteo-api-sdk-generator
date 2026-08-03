@@ -500,6 +500,18 @@ public class LineItemBidMultipliersV2 {
     openapiFields.add("productDetail");
     openapiFields.add("search");
     openapiFields.add("searchBar");
+    openapiFields.add("category");
+    openapiFields.add("categoryMenu");
+    openapiFields.add("checkout");
+    openapiFields.add("confirmation");
+    openapiFields.add("deals");
+    openapiFields.add("favorites");
+    openapiFields.add("home");
+    openapiFields.add("id");
+    openapiFields.add("merchandising");
+    openapiFields.add("productDetail");
+    openapiFields.add("search");
+    openapiFields.add("searchBar");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

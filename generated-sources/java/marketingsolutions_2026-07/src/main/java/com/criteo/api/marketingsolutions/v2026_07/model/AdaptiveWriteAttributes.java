@@ -627,6 +627,18 @@ public class AdaptiveWriteAttributes {
     openapiFields.add("layouts");
     openapiFields.add("logoBase64String");
     openapiFields.add("videoBase64Strings");
+    openapiFields.add("callsToAction");
+    openapiFields.add("colors");
+    openapiFields.add("descriptionFont");
+    openapiFields.add("descriptionText");
+    openapiFields.add("headlineFont");
+    openapiFields.add("headlineText");
+    openapiFields.add("imageDisplay");
+    openapiFields.add("imageSetsBase64");
+    openapiFields.add("landingPageUrl");
+    openapiFields.add("layouts");
+    openapiFields.add("logoBase64String");
+    openapiFields.add("videoBase64Strings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

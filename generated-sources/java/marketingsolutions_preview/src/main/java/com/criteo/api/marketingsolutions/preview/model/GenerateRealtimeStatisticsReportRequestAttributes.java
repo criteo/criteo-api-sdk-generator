@@ -493,6 +493,14 @@ public class GenerateRealtimeStatisticsReportRequestAttributes {
     openapiFields.add("lookbackWindow");
     openapiFields.add("metrics");
     openapiFields.add("timezone");
+    openapiFields.add("adsetIds");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("currency");
+    openapiFields.add("dimensions");
+    openapiFields.add("lookbackWindow");
+    openapiFields.add("metrics");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

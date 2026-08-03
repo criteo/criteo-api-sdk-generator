@@ -658,6 +658,12 @@ public class SetAdSetTargetingVideoPositioning {
     openapiFields.add("videoInStreamPosition");
     openapiFields.add("videoPlayerSize");
     openapiFields.add("videoPlcmt");
+    openapiFields.add("playbackMethod");
+    openapiFields.add("skippable");
+    openapiFields.add("videoAspectRatio");
+    openapiFields.add("videoInStreamPosition");
+    openapiFields.add("videoPlayerSize");
+    openapiFields.add("videoPlcmt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -211,6 +211,8 @@ public class CgAudienceSegmentUpdateEntityV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("description");
     openapiFields.add("name");
+    openapiFields.add("description");
+    openapiFields.add("name");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

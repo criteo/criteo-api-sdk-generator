@@ -166,6 +166,8 @@ public class CampaignBudgetOverrides {
     openapiFields = new HashSet<String>();
     openapiFields.add("dailyBudgetOverrides");
     openapiFields.add("monthlyBudgetOverrides");
+    openapiFields.add("dailyBudgetOverrides");
+    openapiFields.add("monthlyBudgetOverrides");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -269,6 +269,8 @@ public class AdSetTargetingRuleV26Q1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("operand");
     openapiFields.add("values");
+    openapiFields.add("operand");
+    openapiFields.add("values");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

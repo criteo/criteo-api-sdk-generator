@@ -185,6 +185,8 @@ public class KeywordsModel {
     openapiFields = new HashSet<String>();
     openapiFields.add("keywords");
     openapiFields.add("rank");
+    openapiFields.add("keywords");
+    openapiFields.add("rank");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

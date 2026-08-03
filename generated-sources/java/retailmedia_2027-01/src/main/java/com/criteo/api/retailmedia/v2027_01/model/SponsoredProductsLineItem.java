@@ -900,6 +900,26 @@ public class SponsoredProductsLineItem {
     openapiFields.add("targetBid");
     openapiFields.add("targetRetailerId");
     openapiFields.add("updatedAt");
+    openapiFields.add("bidStrategy");
+    openapiFields.add("budget");
+    openapiFields.add("budgetRemaining");
+    openapiFields.add("budgetSpent");
+    openapiFields.add("campaignId");
+    openapiFields.add("createdAt");
+    openapiFields.add("dailyPacing");
+    openapiFields.add("endDate");
+    openapiFields.add("flightSchedule");
+    openapiFields.add("isAutoDailyPacing");
+    openapiFields.add("keywordStrategy");
+    openapiFields.add("maxBid");
+    openapiFields.add("monthlyPacing");
+    openapiFields.add("name");
+    openapiFields.add("optimizationStrategy");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
+    openapiFields.add("targetBid");
+    openapiFields.add("targetRetailerId");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

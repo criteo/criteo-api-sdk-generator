@@ -194,6 +194,9 @@ public class AddRemoveKeywordModel {
     openapiFields.add("isDeleted");
     openapiFields.add("matchType");
     openapiFields.add("phrase");
+    openapiFields.add("isDeleted");
+    openapiFields.add("matchType");
+    openapiFields.add("phrase");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

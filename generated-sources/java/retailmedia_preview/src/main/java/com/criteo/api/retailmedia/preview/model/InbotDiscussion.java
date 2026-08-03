@@ -180,6 +180,7 @@ public class InbotDiscussion {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("messages");
+    openapiFields.add("messages");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

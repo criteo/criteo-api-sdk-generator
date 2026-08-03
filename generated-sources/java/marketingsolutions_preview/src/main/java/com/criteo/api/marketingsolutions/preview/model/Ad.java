@@ -433,6 +433,14 @@ public class Ad {
     openapiFields.add("inventoryType");
     openapiFields.add("name");
     openapiFields.add("startDate");
+    openapiFields.add("adSetId");
+    openapiFields.add("creativeId");
+    openapiFields.add("description");
+    openapiFields.add("endDate");
+    openapiFields.add("id");
+    openapiFields.add("inventoryType");
+    openapiFields.add("name");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

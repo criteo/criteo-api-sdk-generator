@@ -175,6 +175,8 @@ public class ExportMetaData {
     openapiFields = new HashSet<String>();
     openapiFields.add("columns");
     openapiFields.add("rows");
+    openapiFields.add("columns");
+    openapiFields.add("rows");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

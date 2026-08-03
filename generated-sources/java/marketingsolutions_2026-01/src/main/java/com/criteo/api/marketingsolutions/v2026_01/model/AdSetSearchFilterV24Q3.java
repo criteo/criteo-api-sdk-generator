@@ -265,6 +265,9 @@ public class AdSetSearchFilterV24Q3 {
     openapiFields.add("adSetIds");
     openapiFields.add("advertiserIds");
     openapiFields.add("campaignIds");
+    openapiFields.add("adSetIds");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("campaignIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

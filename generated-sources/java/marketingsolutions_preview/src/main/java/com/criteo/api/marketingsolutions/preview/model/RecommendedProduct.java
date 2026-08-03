@@ -576,6 +576,19 @@ public class RecommendedProduct {
     openapiFields.add("relevanceLabel");
     openapiFields.add("relevancyScore");
     openapiFields.add("retailPrice");
+    openapiFields.add("alternativeClickUrl");
+    openapiFields.add("brand");
+    openapiFields.add("clickUrl");
+    openapiFields.add("description");
+    openapiFields.add("googleCategory");
+    openapiFields.add("hasVariants");
+    openapiFields.add("imageUrl");
+    openapiFields.add("name");
+    openapiFields.add("price");
+    openapiFields.add("productExternalId");
+    openapiFields.add("relevanceLabel");
+    openapiFields.add("relevancyScore");
+    openapiFields.add("retailPrice");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

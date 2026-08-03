@@ -211,6 +211,8 @@ public class BudgetAutomation {
     openapiFields = new HashSet<String>();
     openapiFields.add("budgetConfiguration");
     openapiFields.add("enabled");
+    openapiFields.add("budgetConfiguration");
+    openapiFields.add("enabled");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -190,6 +190,9 @@ public class TransparencyReport {
     openapiFields.add("advertiserId");
     openapiFields.add("files");
     openapiFields.add("tokenValidUntil");
+    openapiFields.add("advertiserId");
+    openapiFields.add("files");
+    openapiFields.add("tokenValidUntil");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

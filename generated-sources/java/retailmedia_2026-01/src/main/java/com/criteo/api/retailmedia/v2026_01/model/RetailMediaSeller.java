@@ -193,6 +193,9 @@ public class RetailMediaSeller {
     openapiFields.add("name");
     openapiFields.add("retailerId");
     openapiFields.add("sellerId");
+    openapiFields.add("name");
+    openapiFields.add("retailerId");
+    openapiFields.add("sellerId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

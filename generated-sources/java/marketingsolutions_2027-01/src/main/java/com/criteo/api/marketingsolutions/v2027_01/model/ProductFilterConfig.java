@@ -198,6 +198,8 @@ public class ProductFilterConfig {
     openapiFields = new HashSet<String>();
     openapiFields.add("adId");
     openapiFields.add("productSetId");
+    openapiFields.add("adId");
+    openapiFields.add("productSetId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

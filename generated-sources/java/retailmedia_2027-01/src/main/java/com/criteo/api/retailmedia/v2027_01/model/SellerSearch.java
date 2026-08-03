@@ -159,6 +159,8 @@ public class SellerSearch {
     openapiFields = new HashSet<String>();
     openapiFields.add("accountIds");
     openapiFields.add("includeDetails");
+    openapiFields.add("accountIds");
+    openapiFields.add("includeDetails");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

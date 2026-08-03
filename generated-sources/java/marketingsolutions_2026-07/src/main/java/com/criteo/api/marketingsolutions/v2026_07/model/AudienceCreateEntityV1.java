@@ -257,6 +257,10 @@ public class AudienceCreateEntityV1 {
     openapiFields.add("algebra");
     openapiFields.add("description");
     openapiFields.add("name");
+    openapiFields.add("advertiserId");
+    openapiFields.add("algebra");
+    openapiFields.add("description");
+    openapiFields.add("name");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

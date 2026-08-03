@@ -523,6 +523,15 @@ public class ExportReportColumn {
     openapiFields.add("timezone");
     openapiFields.add("title");
     openapiFields.add("type");
+    openapiFields.add("currency");
+    openapiFields.add("deprecated");
+    openapiFields.add("description");
+    openapiFields.add("duration");
+    openapiFields.add("name");
+    openapiFields.add("role");
+    openapiFields.add("timezone");
+    openapiFields.add("title");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

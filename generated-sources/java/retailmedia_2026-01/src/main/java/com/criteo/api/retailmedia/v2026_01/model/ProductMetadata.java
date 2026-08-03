@@ -222,6 +222,10 @@ public class ProductMetadata {
     openapiFields.add("limit");
     openapiFields.add("offset");
     openapiFields.add("responseCount");
+    openapiFields.add("count");
+    openapiFields.add("limit");
+    openapiFields.add("offset");
+    openapiFields.add("responseCount");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

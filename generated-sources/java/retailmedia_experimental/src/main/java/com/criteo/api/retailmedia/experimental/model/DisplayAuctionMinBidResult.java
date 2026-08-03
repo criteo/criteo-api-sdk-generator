@@ -260,6 +260,9 @@ public class DisplayAuctionMinBidResult {
     openapiFields.add("creativeId");
     openapiFields.add("minBid");
     openapiFields.add("pageType");
+    openapiFields.add("creativeId");
+    openapiFields.add("minBid");
+    openapiFields.add("pageType");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

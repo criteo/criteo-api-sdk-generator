@@ -583,6 +583,17 @@ public class ProductSet {
     openapiFields.add("numberOfProducts");
     openapiFields.add("rules");
     openapiFields.add("status");
+    openapiFields.add("clientType");
+    openapiFields.add("creationDate");
+    openapiFields.add("datasetId");
+    openapiFields.add("id");
+    openapiFields.add("isFallbackAllowed");
+    openapiFields.add("keepVariantProducts");
+    openapiFields.add("minimumNumberOfProducts");
+    openapiFields.add("name");
+    openapiFields.add("numberOfProducts");
+    openapiFields.add("rules");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

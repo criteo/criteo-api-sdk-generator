@@ -1115,6 +1115,22 @@ public class ShareOfVoiceInsight {
     openapiFields.add("retailerIds");
     openapiFields.add("servedCategories");
     openapiFields.add("startDate");
+    openapiFields.add("accountId");
+    openapiFields.add("accountIds");
+    openapiFields.add("activationPlatforms");
+    openapiFields.add("aggregationLevel");
+    openapiFields.add("brandIds");
+    openapiFields.add("budgetModels");
+    openapiFields.add("campaignType");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("format");
+    openapiFields.add("keywords");
+    openapiFields.add("keywordTypes");
+    openapiFields.add("metrics");
+    openapiFields.add("retailerIds");
+    openapiFields.add("servedCategories");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

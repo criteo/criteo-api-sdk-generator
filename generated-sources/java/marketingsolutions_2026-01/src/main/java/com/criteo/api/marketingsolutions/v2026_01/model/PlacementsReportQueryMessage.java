@@ -736,6 +736,19 @@ public class PlacementsReportQueryMessage {
     openapiFields.add("placement");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adsetIds");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("currency");
+    openapiFields.add("dimensions");
+    openapiFields.add("disclosed");
+    openapiFields.add("endDate");
+    openapiFields.add("environment");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("placement");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -472,6 +472,15 @@ public class ExternalAccount {
     openapiFields.add("subtype");
     openapiFields.add("timeZone");
     openapiFields.add("type");
+    openapiFields.add("companyName");
+    openapiFields.add("countries");
+    openapiFields.add("currency");
+    openapiFields.add("name");
+    openapiFields.add("onBehalfCompanyName");
+    openapiFields.add("parentAccountLabel");
+    openapiFields.add("subtype");
+    openapiFields.add("timeZone");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

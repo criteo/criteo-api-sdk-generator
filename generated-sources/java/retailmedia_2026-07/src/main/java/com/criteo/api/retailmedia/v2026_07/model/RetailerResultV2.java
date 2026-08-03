@@ -175,6 +175,8 @@ public class RetailerResultV2 {
     openapiFields = new HashSet<String>();
     openapiFields.add("campaignAvailabilities");
     openapiFields.add("name");
+    openapiFields.add("campaignAvailabilities");
+    openapiFields.add("name");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

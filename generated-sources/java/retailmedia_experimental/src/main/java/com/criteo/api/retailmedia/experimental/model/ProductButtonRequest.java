@@ -263,6 +263,10 @@ public class ProductButtonRequest {
     openapiFields.add("isMandatory");
     openapiFields.add("name");
     openapiFields.add("skus");
+    openapiFields.add("backgroundImage");
+    openapiFields.add("isMandatory");
+    openapiFields.add("name");
+    openapiFields.add("skus");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

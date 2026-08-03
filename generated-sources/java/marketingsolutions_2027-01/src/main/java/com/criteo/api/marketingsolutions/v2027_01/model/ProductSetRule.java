@@ -371,6 +371,9 @@ public class ProductSetRule {
     openapiFields.add("field");
     openapiFields.add("operator");
     openapiFields.add("values");
+    openapiFields.add("field");
+    openapiFields.add("operator");
+    openapiFields.add("values");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

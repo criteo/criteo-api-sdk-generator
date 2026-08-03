@@ -274,6 +274,9 @@ public class ReportDetailWarning {
     openapiFields.add("isServerRelated");
     openapiFields.add("message");
     openapiFields.add("type");
+    openapiFields.add("isServerRelated");
+    openapiFields.add("message");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

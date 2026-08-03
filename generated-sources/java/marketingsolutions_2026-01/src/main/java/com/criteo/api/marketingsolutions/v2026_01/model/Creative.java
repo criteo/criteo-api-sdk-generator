@@ -504,6 +504,18 @@ public class Creative {
     openapiFields.add("imageAttributes");
     openapiFields.add("name");
     openapiFields.add("status");
+    openapiFields.add("adaptiveAttributes");
+    openapiFields.add("advertiserId");
+    openapiFields.add("author");
+    openapiFields.add("datasetId");
+    openapiFields.add("description");
+    openapiFields.add("dynamicAttributes");
+    openapiFields.add("format");
+    openapiFields.add("htmlTagAttributes");
+    openapiFields.add("id");
+    openapiFields.add("imageAttributes");
+    openapiFields.add("name");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

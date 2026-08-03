@@ -165,6 +165,8 @@ public class PrivateMarketAccountFees {
     openapiFields = new HashSet<String>();
     openapiFields.add("accountId");
     openapiFields.add("fees");
+    openapiFields.add("accountId");
+    openapiFields.add("fees");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

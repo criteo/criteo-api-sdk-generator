@@ -166,6 +166,8 @@ public class PrivateMarketFees {
     openapiFields = new HashSet<String>();
     openapiFields.add("demandManaged");
     openapiFields.add("managedService");
+    openapiFields.add("demandManaged");
+    openapiFields.add("managedService");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

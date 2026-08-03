@@ -542,6 +542,18 @@ public class Template {
     openapiFields.add("skuPerCollectionMax");
     openapiFields.add("skuPerCollectionMin");
     openapiFields.add("updatedAt");
+    openapiFields.add("allCollectionsMandatory");
+    openapiFields.add("createdAt");
+    openapiFields.add("creativeFormat");
+    openapiFields.add("displayableSkusMax");
+    openapiFields.add("id");
+    openapiFields.add("name");
+    openapiFields.add("sections");
+    openapiFields.add("skuCollectionMax");
+    openapiFields.add("skuCollectionMin");
+    openapiFields.add("skuPerCollectionMax");
+    openapiFields.add("skuPerCollectionMin");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

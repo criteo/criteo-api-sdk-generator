@@ -331,6 +331,12 @@ public class PatchAdSetV26Q1 {
     openapiFields.add("name");
     openapiFields.add("scheduling");
     openapiFields.add("targeting");
+    openapiFields.add("attributionConfiguration");
+    openapiFields.add("bidding");
+    openapiFields.add("budget");
+    openapiFields.add("name");
+    openapiFields.add("scheduling");
+    openapiFields.add("targeting");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

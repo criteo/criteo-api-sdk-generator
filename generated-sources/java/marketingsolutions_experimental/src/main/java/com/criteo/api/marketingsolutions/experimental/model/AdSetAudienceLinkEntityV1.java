@@ -181,6 +181,7 @@ public class AdSetAudienceLinkEntityV1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("audienceId");
+    openapiFields.add("audienceId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

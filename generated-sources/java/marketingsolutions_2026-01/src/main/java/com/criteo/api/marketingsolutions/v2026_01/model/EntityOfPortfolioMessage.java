@@ -332,6 +332,10 @@ public class EntityOfPortfolioMessage {
     openapiFields.add("id");
     openapiFields.add("meta");
     openapiFields.add("type");
+    openapiFields.add("attributes");
+    openapiFields.add("id");
+    openapiFields.add("meta");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

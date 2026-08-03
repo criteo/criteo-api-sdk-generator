@@ -268,6 +268,10 @@ public class MessageError {
     openapiFields.add("instance");
     openapiFields.add("traceId");
     openapiFields.add("type");
+    openapiFields.add("code");
+    openapiFields.add("instance");
+    openapiFields.add("traceId");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

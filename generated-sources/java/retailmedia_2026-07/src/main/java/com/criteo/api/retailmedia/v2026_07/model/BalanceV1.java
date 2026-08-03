@@ -775,6 +775,22 @@ public class BalanceV1 {
     openapiFields.add("startDate");
     openapiFields.add("status");
     openapiFields.add("updatedAt");
+    openapiFields.add("balanceType");
+    openapiFields.add("createdAt");
+    openapiFields.add("criteoPoNumber");
+    openapiFields.add("deposited");
+    openapiFields.add("endDate");
+    openapiFields.add("memo");
+    openapiFields.add("name");
+    openapiFields.add("privateMarketBillingType");
+    openapiFields.add("remaining");
+    openapiFields.add("retailerId");
+    openapiFields.add("retailerPoNumber");
+    openapiFields.add("spendType");
+    openapiFields.add("spent");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

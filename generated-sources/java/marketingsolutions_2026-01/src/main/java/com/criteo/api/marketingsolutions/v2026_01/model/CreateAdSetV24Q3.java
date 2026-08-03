@@ -576,6 +576,17 @@ public class CreateAdSetV24Q3 {
     openapiFields.add("schedule");
     openapiFields.add("targeting");
     openapiFields.add("trackingCode");
+    openapiFields.add("attributionConfiguration");
+    openapiFields.add("bidding");
+    openapiFields.add("budget");
+    openapiFields.add("campaignId");
+    openapiFields.add("datasetId");
+    openapiFields.add("mediaType");
+    openapiFields.add("name");
+    openapiFields.add("objective");
+    openapiFields.add("schedule");
+    openapiFields.add("targeting");
+    openapiFields.add("trackingCode");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

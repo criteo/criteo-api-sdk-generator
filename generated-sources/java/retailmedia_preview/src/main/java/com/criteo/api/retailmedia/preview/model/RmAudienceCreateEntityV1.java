@@ -257,6 +257,10 @@ public class RmAudienceCreateEntityV1 {
     openapiFields.add("description");
     openapiFields.add("name");
     openapiFields.add("retailerId");
+    openapiFields.add("algebra");
+    openapiFields.add("description");
+    openapiFields.add("name");
+    openapiFields.add("retailerId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

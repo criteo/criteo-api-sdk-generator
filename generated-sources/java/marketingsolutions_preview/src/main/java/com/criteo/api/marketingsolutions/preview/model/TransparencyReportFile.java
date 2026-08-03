@@ -152,6 +152,8 @@ public class TransparencyReportFile {
     openapiFields = new HashSet<String>();
     openapiFields.add("fileName");
     openapiFields.add("url");
+    openapiFields.add("fileName");
+    openapiFields.add("url");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -232,6 +232,9 @@ public class OfferUpdate {
     openapiFields.add("availability");
     openapiFields.add("offerId");
     openapiFields.add("price");
+    openapiFields.add("availability");
+    openapiFields.add("offerId");
+    openapiFields.add("price");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

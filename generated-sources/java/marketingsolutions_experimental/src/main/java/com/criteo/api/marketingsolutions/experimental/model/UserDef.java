@@ -206,6 +206,8 @@ public class UserDef {
     openapiFields = new HashSet<String>();
     openapiFields.add("attributes");
     openapiFields.add("identifier");
+    openapiFields.add("attributes");
+    openapiFields.add("identifier");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

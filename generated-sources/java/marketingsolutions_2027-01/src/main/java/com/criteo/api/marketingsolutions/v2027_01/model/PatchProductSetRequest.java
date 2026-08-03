@@ -279,6 +279,10 @@ public class PatchProductSetRequest {
     openapiFields.add("minimumNumberOfProducts");
     openapiFields.add("name");
     openapiFields.add("rules");
+    openapiFields.add("isDraft");
+    openapiFields.add("minimumNumberOfProducts");
+    openapiFields.add("name");
+    openapiFields.add("rules");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

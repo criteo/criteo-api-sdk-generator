@@ -517,6 +517,12 @@ public class AsyncMissedOpportunitiesReport {
     openapiFields.add("format");
     openapiFields.add("metrics");
     openapiFields.add("startDate");
+    openapiFields.add("dimensions");
+    openapiFields.add("endDate");
+    openapiFields.add("filters");
+    openapiFields.add("format");
+    openapiFields.add("metrics");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

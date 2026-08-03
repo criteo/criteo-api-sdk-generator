@@ -239,6 +239,9 @@ public class PointOfInterestV1 {
     openapiFields.add("latitude");
     openapiFields.add("longitude");
     openapiFields.add("name");
+    openapiFields.add("latitude");
+    openapiFields.add("longitude");
+    openapiFields.add("name");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

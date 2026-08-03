@@ -169,6 +169,7 @@ public class BatchAcceptedResponse {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("operationToken");
+    openapiFields.add("operationToken");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

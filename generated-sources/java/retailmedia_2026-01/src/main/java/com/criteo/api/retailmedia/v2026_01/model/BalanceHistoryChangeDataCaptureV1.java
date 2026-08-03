@@ -318,6 +318,11 @@ public class BalanceHistoryChangeDataCaptureV1 {
     openapiFields.add("dateOfModification");
     openapiFields.add("memo");
     openapiFields.add("modifiedByUser");
+    openapiFields.add("changeDetails");
+    openapiFields.add("changeType");
+    openapiFields.add("dateOfModification");
+    openapiFields.add("memo");
+    openapiFields.add("modifiedByUser");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

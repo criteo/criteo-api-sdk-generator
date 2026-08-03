@@ -555,6 +555,16 @@ public class PreferredLineItemCreateModelV2 {
     openapiFields.add("startDate");
     openapiFields.add("status");
     openapiFields.add("targetRetailerId");
+    openapiFields.add("budget");
+    openapiFields.add("capping");
+    openapiFields.add("creativeId");
+    openapiFields.add("endDate");
+    openapiFields.add("name");
+    openapiFields.add("pacing");
+    openapiFields.add("page");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
+    openapiFields.add("targetRetailerId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

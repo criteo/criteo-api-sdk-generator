@@ -302,6 +302,9 @@ public class RmAudienceSegmentSearchEntityV1 {
     openapiFields.add("audienceSegmentIds");
     openapiFields.add("audienceSegmentTypes");
     openapiFields.add("retailerIds");
+    openapiFields.add("audienceSegmentIds");
+    openapiFields.add("audienceSegmentTypes");
+    openapiFields.add("retailerIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

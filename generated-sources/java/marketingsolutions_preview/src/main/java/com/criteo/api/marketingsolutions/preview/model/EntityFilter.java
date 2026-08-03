@@ -239,6 +239,9 @@ public class EntityFilter {
     openapiFields.add("active");
     openapiFields.add("readOnly");
     openapiFields.add("value");
+    openapiFields.add("active");
+    openapiFields.add("readOnly");
+    openapiFields.add("value");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

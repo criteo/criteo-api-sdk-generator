@@ -738,6 +738,19 @@ public class EditableCampaignAttributesV202301 {
     openapiFields.add("startDate");
     openapiFields.add("viewAttributionScope");
     openapiFields.add("viewAttributionWindow");
+    openapiFields.add("budget");
+    openapiFields.add("clickAttributionScope");
+    openapiFields.add("clickAttributionWindow");
+    openapiFields.add("companyName");
+    openapiFields.add("dailyPacing");
+    openapiFields.add("endDate");
+    openapiFields.add("isAutoDailyPacing");
+    openapiFields.add("monthlyPacing");
+    openapiFields.add("name");
+    openapiFields.add("onBehalfCompanyName");
+    openapiFields.add("startDate");
+    openapiFields.add("viewAttributionScope");
+    openapiFields.add("viewAttributionWindow");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

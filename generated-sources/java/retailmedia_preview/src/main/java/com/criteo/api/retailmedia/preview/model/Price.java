@@ -198,6 +198,8 @@ public class Price {
     openapiFields = new HashSet<String>();
     openapiFields.add("currency");
     openapiFields.add("value");
+    openapiFields.add("currency");
+    openapiFields.add("value");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

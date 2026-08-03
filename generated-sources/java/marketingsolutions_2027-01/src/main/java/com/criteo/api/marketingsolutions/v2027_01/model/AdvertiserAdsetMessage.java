@@ -315,6 +315,12 @@ public class AdvertiserAdsetMessage {
     openapiFields.add("isCoa");
     openapiFields.add("partnerId");
     openapiFields.add("status");
+    openapiFields.add("adsetId");
+    openapiFields.add("adsetName");
+    openapiFields.add("advertiserId");
+    openapiFields.add("isCoa");
+    openapiFields.add("partnerId");
+    openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

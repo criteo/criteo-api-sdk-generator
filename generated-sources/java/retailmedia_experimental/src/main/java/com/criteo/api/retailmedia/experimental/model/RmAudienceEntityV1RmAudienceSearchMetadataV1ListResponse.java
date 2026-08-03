@@ -273,6 +273,10 @@ public class RmAudienceEntityV1RmAudienceSearchMetadataV1ListResponse {
     openapiFields.add("errors");
     openapiFields.add("meta");
     openapiFields.add("warnings");
+    openapiFields.add("data");
+    openapiFields.add("errors");
+    openapiFields.add("meta");
+    openapiFields.add("warnings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

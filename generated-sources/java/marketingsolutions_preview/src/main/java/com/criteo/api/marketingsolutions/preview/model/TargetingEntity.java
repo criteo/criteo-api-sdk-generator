@@ -344,6 +344,9 @@ public class TargetingEntity {
     openapiFields.add("data");
     openapiFields.add("mode");
     openapiFields.add("type");
+    openapiFields.add("data");
+    openapiFields.add("mode");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

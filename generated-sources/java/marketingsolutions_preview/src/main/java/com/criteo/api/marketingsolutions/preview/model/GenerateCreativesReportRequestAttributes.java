@@ -853,6 +853,21 @@ public class GenerateCreativesReportRequestAttributes {
     openapiFields.add("metrics");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("adFormats");
+    openapiFields.add("adIds");
+    openapiFields.add("adNames");
+    openapiFields.add("adSetIds");
+    openapiFields.add("adSetStatus");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("couponIds");
+    openapiFields.add("couponNames");
+    openapiFields.add("dimensions");
+    openapiFields.add("displaySizes");
+    openapiFields.add("endDate");
+    openapiFields.add("metrics");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

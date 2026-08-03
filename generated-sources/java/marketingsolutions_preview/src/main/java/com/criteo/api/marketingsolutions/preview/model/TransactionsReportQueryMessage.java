@@ -408,6 +408,13 @@ public class TransactionsReportQueryMessage {
     openapiFields.add("format");
     openapiFields.add("startDate");
     openapiFields.add("timezone");
+    openapiFields.add("advertiserIds");
+    openapiFields.add("currency");
+    openapiFields.add("endDate");
+    openapiFields.add("eventType");
+    openapiFields.add("format");
+    openapiFields.add("startDate");
+    openapiFields.add("timezone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

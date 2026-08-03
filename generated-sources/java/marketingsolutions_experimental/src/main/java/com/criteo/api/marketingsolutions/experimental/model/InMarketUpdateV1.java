@@ -461,6 +461,12 @@ public class InMarketUpdateV1 {
     openapiFields.add("gender");
     openapiFields.add("interestIds");
     openapiFields.add("priceRange");
+    openapiFields.add("brandIds");
+    openapiFields.add("buyingPower");
+    openapiFields.add("country");
+    openapiFields.add("gender");
+    openapiFields.add("interestIds");
+    openapiFields.add("priceRange");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -315,6 +315,13 @@ public class TemplateVariableValue {
     openapiFields.add("id");
     openapiFields.add("textVariableValue");
     openapiFields.add("videoVariableValue");
+    openapiFields.add("choiceVariableValue");
+    openapiFields.add("colorVariableValue");
+    openapiFields.add("filesVariableValue");
+    openapiFields.add("hyperlinkVariableValue");
+    openapiFields.add("id");
+    openapiFields.add("textVariableValue");
+    openapiFields.add("videoVariableValue");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

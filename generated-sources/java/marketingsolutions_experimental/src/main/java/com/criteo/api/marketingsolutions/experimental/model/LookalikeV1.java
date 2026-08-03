@@ -210,6 +210,8 @@ public class LookalikeV1 {
     openapiFields = new HashSet<String>();
     openapiFields.add("seedSegmentId");
     openapiFields.add("targetSize");
+    openapiFields.add("seedSegmentId");
+    openapiFields.add("targetSize");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

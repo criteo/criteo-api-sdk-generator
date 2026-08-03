@@ -165,6 +165,8 @@ public class BaseTypeResource {
     openapiFields = new HashSet<String>();
     openapiFields.add("attributes");
     openapiFields.add("type");
+    openapiFields.add("attributes");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

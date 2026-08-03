@@ -229,6 +229,9 @@ public class AudienceSegmentSizeEstimationEntityV1 {
     openapiFields.add("advertiserId");
     openapiFields.add("inMarket");
     openapiFields.add("location");
+    openapiFields.add("advertiserId");
+    openapiFields.add("inMarket");
+    openapiFields.add("location");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -206,6 +206,8 @@ public class ReportDetailWarnings {
     openapiFields = new HashSet<String>();
     openapiFields.add("productId");
     openapiFields.add("warnings");
+    openapiFields.add("productId");
+    openapiFields.add("warnings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

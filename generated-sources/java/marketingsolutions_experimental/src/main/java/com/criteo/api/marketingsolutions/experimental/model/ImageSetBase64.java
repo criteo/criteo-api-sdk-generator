@@ -217,6 +217,8 @@ public class ImageSetBase64 {
     openapiFields = new HashSet<String>();
     openapiFields.add("headlineText");
     openapiFields.add("imageBase64Strings");
+    openapiFields.add("headlineText");
+    openapiFields.add("imageBase64Strings");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

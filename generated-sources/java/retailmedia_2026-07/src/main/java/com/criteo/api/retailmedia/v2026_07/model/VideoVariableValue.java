@@ -210,6 +210,10 @@ public class VideoVariableValue {
     openapiFields.add("height");
     openapiFields.add("url");
     openapiFields.add("width");
+    openapiFields.add("duration");
+    openapiFields.add("height");
+    openapiFields.add("url");
+    openapiFields.add("width");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

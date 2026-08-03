@@ -338,6 +338,12 @@ public class TemplateVariable {
     openapiFields.add("required");
     openapiFields.add("textVariableSpecification");
     openapiFields.add("type");
+    openapiFields.add("choiceVariableSpecification");
+    openapiFields.add("filesVariablesSpecification");
+    openapiFields.add("id");
+    openapiFields.add("required");
+    openapiFields.add("textVariableSpecification");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -201,6 +201,9 @@ public class Section {
     openapiFields.add("description");
     openapiFields.add("templateVariables");
     openapiFields.add("title");
+    openapiFields.add("description");
+    openapiFields.add("templateVariables");
+    openapiFields.add("title");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

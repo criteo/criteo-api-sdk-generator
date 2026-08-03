@@ -432,6 +432,14 @@ public class CgAudienceSegmentEntityV1 {
     openapiFields.add("remoteId");
     openapiFields.add("type");
     openapiFields.add("updatedAt");
+    openapiFields.add("contactList");
+    openapiFields.add("createdAt");
+    openapiFields.add("dataProviderId");
+    openapiFields.add("description");
+    openapiFields.add("name");
+    openapiFields.add("remoteId");
+    openapiFields.add("type");
+    openapiFields.add("updatedAt");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

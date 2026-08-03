@@ -130,6 +130,7 @@ public class DeleteCampaignsRequestV1 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("ids");
+    openapiFields.add("ids");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

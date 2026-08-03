@@ -322,6 +322,10 @@ public class BehavioralV1 {
     openapiFields.add("country");
     openapiFields.add("endDate");
     openapiFields.add("startDate");
+    openapiFields.add("category");
+    openapiFields.add("country");
+    openapiFields.add("endDate");
+    openapiFields.add("startDate");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

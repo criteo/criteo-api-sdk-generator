@@ -199,6 +199,8 @@ public class Installment {
     openapiFields = new HashSet<String>();
     openapiFields.add("amount");
     openapiFields.add("months");
+    openapiFields.add("amount");
+    openapiFields.add("months");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

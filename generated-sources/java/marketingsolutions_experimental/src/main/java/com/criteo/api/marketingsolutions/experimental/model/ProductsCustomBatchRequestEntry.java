@@ -391,6 +391,13 @@ public class ProductsCustomBatchRequestEntry {
     openapiFields.add("method");
     openapiFields.add("product");
     openapiFields.add("productId");
+    openapiFields.add("batchId");
+    openapiFields.add("feedId");
+    openapiFields.add("itemGroupId");
+    openapiFields.add("merchantId");
+    openapiFields.add("method");
+    openapiFields.add("product");
+    openapiFields.add("productId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -270,6 +270,9 @@ public class SellerCatalogRequestV2 {
     openapiFields.add("includeFields");
     openapiFields.add("modifiedAfter");
     openapiFields.add("sellers");
+    openapiFields.add("includeFields");
+    openapiFields.add("modifiedAfter");
+    openapiFields.add("sellers");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

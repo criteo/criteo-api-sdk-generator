@@ -210,6 +210,8 @@ public class AdSetDisplayMultiplier {
     openapiFields = new HashSet<String>();
     openapiFields.add("categoryName");
     openapiFields.add("displayMultiplier");
+    openapiFields.add("categoryName");
+    openapiFields.add("displayMultiplier");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

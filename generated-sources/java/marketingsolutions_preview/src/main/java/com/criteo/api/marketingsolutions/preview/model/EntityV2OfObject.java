@@ -364,6 +364,11 @@ public class EntityV2OfObject {
     openapiFields.add("meta");
     openapiFields.add("relationships");
     openapiFields.add("type");
+    openapiFields.add("attributes");
+    openapiFields.add("id");
+    openapiFields.add("meta");
+    openapiFields.add("relationships");
+    openapiFields.add("type");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -367,6 +367,13 @@ public class SellerCampaignMessage {
     openapiFields.add("sellerId");
     openapiFields.add("suspendedSince");
     openapiFields.add("suspensionReasons");
+    openapiFields.add("bid");
+    openapiFields.add("campaignId");
+    openapiFields.add("id");
+    openapiFields.add("productSet");
+    openapiFields.add("sellerId");
+    openapiFields.add("suspendedSince");
+    openapiFields.add("suspensionReasons");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

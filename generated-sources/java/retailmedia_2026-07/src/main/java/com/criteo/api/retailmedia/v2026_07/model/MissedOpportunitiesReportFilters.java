@@ -253,6 +253,9 @@ public class MissedOpportunitiesReportFilters {
     openapiFields.add("accountIds");
     openapiFields.add("campaignIds");
     openapiFields.add("lineItemIds");
+    openapiFields.add("accountIds");
+    openapiFields.add("campaignIds");
+    openapiFields.add("lineItemIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

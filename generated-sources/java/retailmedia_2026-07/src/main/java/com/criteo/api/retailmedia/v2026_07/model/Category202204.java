@@ -181,6 +181,9 @@ public class Category202204 {
     openapiFields.add("name");
     openapiFields.add("parentId");
     openapiFields.add("text");
+    openapiFields.add("name");
+    openapiFields.add("parentId");
+    openapiFields.add("text");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

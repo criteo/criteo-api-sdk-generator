@@ -169,6 +169,7 @@ public class ExamAdAudienceSegmentLinkWrite {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("audienceSegmentId");
+    openapiFields.add("audienceSegmentId");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -227,6 +227,9 @@ public class LoyaltyPoints {
     openapiFields.add("name");
     openapiFields.add("pointsValue");
     openapiFields.add("ratio");
+    openapiFields.add("name");
+    openapiFields.add("pointsValue");
+    openapiFields.add("ratio");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

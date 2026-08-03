@@ -160,6 +160,8 @@ public class CpcMinBidsResponse {
     openapiFields = new HashSet<String>();
     openapiFields.add("overallMinBid");
     openapiFields.add("skuMinBids");
+    openapiFields.add("overallMinBid");
+    openapiFields.add("skuMinBids");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -222,6 +222,8 @@ public class MessageBodyModel {
     openapiFields = new HashSet<String>();
     openapiFields.add("data");
     openapiFields.add("errors");
+    openapiFields.add("data");
+    openapiFields.add("errors");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -421,6 +421,13 @@ public class DynamicAttributes {
     openapiFields.add("pricesColor");
     openapiFields.add("primaryFont");
     openapiFields.add("productImageDisplay");
+    openapiFields.add("bodyTextColor");
+    openapiFields.add("callsToAction");
+    openapiFields.add("creativeBackgroundColor");
+    openapiFields.add("logos");
+    openapiFields.add("pricesColor");
+    openapiFields.add("primaryFont");
+    openapiFields.add("productImageDisplay");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -160,6 +160,8 @@ public class AccountFeesUpdateRequest {
     openapiFields = new HashSet<String>();
     openapiFields.add("accountIds");
     openapiFields.add("fees");
+    openapiFields.add("accountIds");
+    openapiFields.add("fees");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

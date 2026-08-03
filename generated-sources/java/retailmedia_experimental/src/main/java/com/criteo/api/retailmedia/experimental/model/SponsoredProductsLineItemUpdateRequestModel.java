@@ -630,6 +630,19 @@ public class SponsoredProductsLineItemUpdateRequestModel {
     openapiFields.add("startDate");
     openapiFields.add("status");
     openapiFields.add("targetBid");
+    openapiFields.add("bidStrategy");
+    openapiFields.add("budget");
+    openapiFields.add("dailyPacing");
+    openapiFields.add("endDate");
+    openapiFields.add("flightSchedule");
+    openapiFields.add("isAutoDailyPacing");
+    openapiFields.add("maxBid");
+    openapiFields.add("monthlyPacing");
+    openapiFields.add("name");
+    openapiFields.add("optimizationStrategy");
+    openapiFields.add("startDate");
+    openapiFields.add("status");
+    openapiFields.add("targetBid");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

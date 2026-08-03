@@ -176,6 +176,7 @@ public class StoreIdsUpdateModel202110 {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("storeIds");
+    openapiFields.add("storeIds");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
