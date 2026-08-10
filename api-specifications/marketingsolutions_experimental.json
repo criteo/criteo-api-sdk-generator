@@ -8877,6 +8877,46 @@
         "description": "Budget automation, also known as automated budget or budget pacing, lets users configure KPIs and budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nWhen enabled is false, automatedBudgetConfiguration is null.\r\nWhen enabled is true, automatedBudgetConfiguration.adSetOptimizationObjective is expected.",
         "nullable": true
       },
+      "CampaignScheduledSpendLimitV23Q1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit, for example \"12345\".",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\n- \"daily\", \"monthly\", and \"lifetime\" are valid when spendLimitType is \"capped\".\r\n- \"undefined\" is returned when spendLimitType is \"uncapped\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n- \"capped\": a spend limit applies, spendLimitAmount.value is non-null, and spendLimitRenewal is \"daily\", \"monthly\", or \"lifetime\".\r\n- \"uncapped\": no spend limit applies, spendLimitAmount.value is null, and spendLimitRenewal is \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-08-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A campaign spend limit scheduled to become active on the specified \"startDate\"."
+      },
       "CampaignSearchFiltersV23Q1": {
         "type": "object",
         "properties": {
@@ -8967,6 +9007,14 @@
           "name": {
             "type": "string",
             "description": "Name of the campaign",
+            "nullable": true
+          },
+          "scheduledSpendLimits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignScheduledSpendLimitV23Q1"
+            },
+            "description": "Spend limits scheduled to become active in the future. Empty when the campaign has no scheduled spend limits.",
             "nullable": true
           },
           "spendLimit": {
@@ -13793,6 +13841,200 @@
         },
         "description": "Data model for a Resource"
       },
+      "PatchAdSetScheduledBudgetCreationV26Q1": {
+        "required": [
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "description": "Maximum budget amount in the advertiser's currency per renewal period.\r\nRequired when budgetStrategy is \"capped\"; must be omitted when budgetStrategy is \"uncapped\".",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled budget becomes active. Required, strictly in the future.",
+            "format": "date"
+          }
+        },
+        "description": "A budget configuration to schedule on the ad set, becoming active on the specified \"startDate\".\r\nIt contains the same fields as an active-budget patch, plus the required start date.\r\nThe start date must be strictly in the future and unique among the ad set's scheduled budgets.\r\nCreating an \"uncapped\" scheduled budget: set budgetStrategy to \"uncapped\" and omit budgetAmount.\r\nCreating a \"capped\" scheduled budget: set budgetStrategy to \"capped\", budgetAmount to a positive number, budgetRenewal to a period, budgetDeliverySmoothing to a pacing strategy and pacingBehavior if budgetDeliverySmoothing is standard.\r\nManual scheduled budget changes are not supported when the linked marketing campaign has budget automation enabled."
+      },
+      "PatchAdSetScheduledBudgetDeletionV26Q1": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget to delete.",
+            "nullable": true
+          }
+        },
+        "description": "Deletion of an existing scheduled budget of the ad set, identified by its \"id\"."
+      },
+      "PatchAdSetScheduledBudgetUpdateV26Q1": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget to update.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "New advertiser-local calendar date when the scheduled budget becomes active. Must be strictly in the future\r\nand unique among the ad set's scheduled budgets.",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A patch of an existing scheduled budget of the ad set, identified by its \"id\".\r\nOnly provided fields are updated; omitted fields are left unchanged.\r\nSwitching to \"uncapped\": set budgetStrategy to \"uncapped\" and budgetAmount.value to null. The explicit null triggers the transition and automatically clears budgetRenewal, budgetDeliverySmoothing, budgetDeliveryWeek, and pacingBehavior.\r\nSwitching to \"capped\": set budgetStrategy to \"capped\", budgetAmount.value to a positive number, budgetRenewal to a period, budgetDeliverySmoothing to a pacing strategy and pacingBehavior if budgetDeliverySmoothing is standard.\r\nManual scheduled budget changes are not supported when the linked marketing campaign has budget automation enabled."
+      },
+      "PatchAdSetScheduledBudgetV26Q1": {
+        "type": "object",
+        "properties": {
+          "scheduledBudgetCreations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchAdSetScheduledBudgetCreationV26Q1"
+            },
+            "nullable": true
+          },
+          "scheduledBudgetDeletions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchAdSetScheduledBudgetDeletionV26Q1"
+            },
+            "nullable": true
+          },
+          "scheduledBudgetUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchAdSetScheduledBudgetUpdateV26Q1"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Scheduled budget patch model for an ad set. Groups the operations (Create, Update, Delete) on the ad set's scheduled budget."
+      },
       "PatchAdSetSchedulingV26Q1": {
         "type": "object",
         "properties": {
@@ -13822,6 +14064,9 @@
             "description": "Name of the ad set.",
             "nullable": true
           },
+          "scheduledBudget": {
+            "$ref": "#/components/schemas/PatchAdSetScheduledBudgetV26Q1"
+          },
           "scheduling": {
             "$ref": "#/components/schemas/PatchAdSetSchedulingV26Q1"
           },
@@ -13836,6 +14081,9 @@
         "properties": {
           "budgetAutomation": {
             "$ref": "#/components/schemas/PatchMarketingCampaignBudgetAutomation"
+          },
+          "scheduledSpendLimit": {
+            "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimit"
           },
           "spendLimit": {
             "$ref": "#/components/schemas/PatchCampaignSpendLimit"
@@ -13855,6 +14103,134 @@
           }
         },
         "description": "List of input resources"
+      },
+      "PatchCampaignScheduledSpendLimit": {
+        "type": "object",
+        "properties": {
+          "scheduledSpendLimitCreations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitCreation"
+            },
+            "description": "Scheduled spend limits to create.",
+            "nullable": true
+          },
+          "scheduledSpendLimitDeletions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitDeletion"
+            },
+            "description": "Scheduled spend limits to delete.",
+            "nullable": true
+          },
+          "scheduledSpendLimitUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitUpdate"
+            },
+            "description": "Scheduled spend limits to update.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit operations for a marketing campaign (patch).\r\nCreate, update, and delete operations are applied together by the backend."
+      },
+      "PatchCampaignScheduledSpendLimitCreation": {
+        "required": [
+          "spendLimitType",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-09-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit creation.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount.value is null and spendLimitRenewal is \"undefined\".\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
+      },
+      "PatchCampaignScheduledSpendLimitDeletion": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit to delete.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit deletion."
+      },
+      "PatchCampaignScheduledSpendLimitUpdate": {
+        "required": [
+          "id",
+          "spendLimitType",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit to update.",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-09-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit update.\r\nUpdates are full replacements: id, startDate, spendLimitType, and the capped or uncapped spend-limit values must describe the complete desired state.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
       },
       "PatchCampaignSpendLimit": {
         "type": "object",
@@ -15245,6 +15621,84 @@
         "description": "Budget configuration for an ad set. Controls how much can be spent and how spending is paced.\r\nWhen budgetStrategy is \"capped\": budgetAmount, budgetRenewal, and budgetDeliverySmoothing are all set.\r\nWhen budgetStrategy is \"uncapped\": budgetAmount is null, budgetRenewal is \"undefined\", budgetDeliverySmoothing is null, budgetDeliveryWeek is \"undefined\", and pacingBehavior is \"undefined\".",
         "nullable": true
       },
+      "ReadAdSetScheduledBudgetV26Q1": {
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "description": "Maximum budget amount in the advertiser's currency per renewal period. Non-null when capped. null when uncapped.",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Use for uncapped or accelerated budgets, or omit pacingBehavior.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled budget becomes active.",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A budget configuration scheduled to replace the ad set's active budget on the specified \"startDate\".\r\nIt contains the same fields as the active budget, plus the scheduled budget identifier and start date."
+      },
       "ReadAdSetScheduleV26Q1": {
         "type": "object",
         "properties": {
@@ -15354,6 +15808,13 @@
           },
           "schedule": {
             "$ref": "#/components/schemas/ReadAdSetScheduleV26Q1"
+          },
+          "scheduledBudgets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadAdSetScheduledBudgetV26Q1"
+            },
+            "nullable": true
           },
           "targeting": {
             "$ref": "#/components/schemas/AdSetTargetingV26Q1"

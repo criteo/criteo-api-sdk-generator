@@ -1075,7 +1075,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCreativeSearchResponse"
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCreativeSearchResponseAndMetadata"
                 }
               }
             }
@@ -2501,6 +2501,97 @@
         ]
       }
     },
+    "/experimental/retail-media/line-items": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items",
+        "description": "Create a new line item.",
+        "operationId": "CreateLineItem",
+        "requestBody": {
+          "description": "Line item details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExperimentalCreateLineItemModelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperimentalLineItemModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/line-items/{line-item-id}": {
+      "patch": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}",
+        "description": "Update an existing line item.",
+        "operationId": "UpdateLineItem",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "The line item id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Line item details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExperimentalUpdateLineItemModelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperimentalLineItemModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/experimental/retail-media/line-items/{line-item-id}/product-buttons": {
       "get": {
         "tags": [
@@ -2990,6 +3081,86 @@
           {
             "oauth": [
               "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/line-items/demand-search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/demand-search",
+        "description": "Search line items accessible from demand accounts.",
+        "operationId": "LineItemsDemandSearch",
+        "requestBody": {
+          "description": "Search criteria and pagination.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DemandSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineItemListResponseWithPagination"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/line-items/supply-search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/supply-search",
+        "description": "Search line items accessible from a supply account and its retailers.",
+        "operationId": "LineItemsSupplySearch",
+        "requestBody": {
+          "description": "Search criteria and pagination.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplySearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineItemListResponseWithPagination"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
             ]
           }
         ]
@@ -5731,19 +5902,19 @@
           },
           "changeType": {
             "enum": [
-              "balanceCreated",
-              "balanceAdded",
-              "balanceRemoved",
-              "balanceUncapped",
-              "balanceCapped",
-              "endDate",
-              "startDate",
-              "balanceName",
-              "retailerPoNumber",
-              "criteoPoNumber",
-              "retailerId",
-              "valueAdd",
-              "unknown"
+              "BalanceCreated",
+              "BalanceAdded",
+              "BalanceRemoved",
+              "BalanceUncapped",
+              "BalanceCapped",
+              "EndDate",
+              "StartDate",
+              "BalanceName",
+              "RetailerPoNumber",
+              "CriteoPoNumber",
+              "RetailerId",
+              "ValueAdd",
+              "Unknown"
             ],
             "type": "string",
             "description": "Represent the type of change states of the history."
@@ -6295,6 +6466,30 @@
         "description": "A value of a template color variable",
         "nullable": true
       },
+      "CommerceDisplayAttributes": {
+        "type": "object",
+        "properties": {
+          "auction": {
+            "$ref": "#/components/schemas/CommerceDisplayAuctionAttributes"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Extended attributes for a Commerce Display Line Item",
+        "nullable": true
+      },
+      "CommerceDisplayAuctionAttributes": {
+        "type": "object",
+        "properties": {
+          "isDynamicMatch": {
+            "type": "boolean",
+            "description": "Whether dynamic match or automatic SKU filtering is enabled.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Extended attributes for a Auction Commerce Display Line Item",
+        "nullable": true
+      },
       "CommonProblem": {
         "type": "object",
         "properties": {
@@ -6357,6 +6552,34 @@
           }
         },
         "description": "Common problem object."
+      },
+      "ConquestingSettings": {
+        "type": "object",
+        "properties": {
+          "conquestingAdStrategyEnabled": {
+            "type": "boolean",
+            "description": "Flag indicating if Conquesting ad strategy is enabled for the line item.",
+            "nullable": true
+          },
+          "defensiveAdStrategyEnabled": {
+            "type": "boolean",
+            "description": "Flag indicating if Defensive ad strategy is enabled for the line item.",
+            "nullable": true
+          },
+          "isAdStrategyLocked": {
+            "type": "boolean",
+            "description": "Indicates whether the ad strategy settings (conquesting, neutral, and defensive) are locked\r\nand cannot be modified for this line item. When true, any attempt to update the ad strategy\r\nsettings will be rejected.",
+            "nullable": true
+          },
+          "neutralAdStrategyEnabled": {
+            "type": "boolean",
+            "description": "Flag indicating if Neutral ad strategy is enabled for the line item.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Conquesting Settings",
+        "nullable": true
       },
       "Creative2": {
         "required": [
@@ -6831,6 +7054,78 @@
         },
         "description": "Defines a reference to inventory"
       },
+      "DemandSearch": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Demand account ids to search from.",
+            "nullable": true
+          },
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter line items by.",
+            "nullable": true
+          },
+          "includeChildrenAccounts": {
+            "type": "boolean",
+            "description": "Include line items from child demand accounts of requested private supply accounts."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Optional result limit. Defaults to the maximum allowed page size when omitted.",
+            "format": "int32",
+            "nullable": true
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line item ids to filter line items by.",
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Optional result offset.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request attributes for a Demand Account Line Item search"
+      },
+      "DemandSearchRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DemandSearchResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "DemandSearchResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DemandSearch"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "DigitalShelfIntelligenceInsight": {
         "required": [
           "accountId",
@@ -7121,7 +7416,7 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
-      "EntityResourceCollectionOutcomeCreativeSearchResponse": {
+      "EntityResourceCollectionOutcomeCreativeSearchResponseAndMetadata": {
         "type": "object",
         "properties": {
           "data": {
@@ -7140,6 +7435,9 @@
             "nullable": true,
             "readOnly": true
           },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
           "warnings": {
             "type": "array",
             "items": {
@@ -7151,7 +7449,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several entities."
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
       "EntityResourceCollectionOutcomeOfRetailerResultV2AndMetadata": {
         "type": "object",
@@ -7572,6 +7870,357 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
+      "ExperimentalConquestingSettingsModel": {
+        "type": "object",
+        "properties": {
+          "conquestingAdStrategyEnabled": {
+            "type": "boolean",
+            "description": "Whether the line item may bid on competitors' branded keywords. Defaults to false.",
+            "nullable": true
+          },
+          "defensiveAdStrategyEnabled": {
+            "type": "boolean",
+            "description": "Whether the line item may bid on the advertiser's own branded keywords. Defaults to true.",
+            "nullable": true
+          },
+          "isAdStrategyLocked": {
+            "type": "boolean",
+            "description": "Whether the keyword strategy flags have been set and can no longer be changed.",
+            "nullable": true
+          },
+          "neutralAdStrategyEnabled": {
+            "type": "boolean",
+            "description": "Whether the line item may bid on generic, unbranded category keywords. Defaults to true.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Which categories of search keyword the line item is eligible to bid on.",
+        "nullable": true
+      },
+      "ExperimentalCreateLineItemModel": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "description": "The campaign id of the associated campaign.",
+            "nullable": true
+          },
+          "flightDates": {
+            "$ref": "#/components/schemas/ExperimentalFlightDatesModel"
+          },
+          "isPaused": {
+            "type": "boolean",
+            "description": "Whether the line item should be paused or unpaused.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/ExperimentalCreateOnsiteDisplayLineItemDetails"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The retailer id of the associated retailer.",
+            "nullable": true
+          },
+          "serveToOptOutUser": {
+            "type": "boolean",
+            "description": "Whether to serve ads to users who have opted out of personalization.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The settings to create a line item with."
+      },
+      "ExperimentalCreateLineItemModelRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ExperimentalCreateLineItemModelResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ExperimentalCreateLineItemModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExperimentalCreateLineItemModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ExperimentalCreateOnsiteDisplayAuctionLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "isDynamicMatch": {
+            "type": "boolean",
+            "description": "Whether to serve only products relevant to the page context, replacing manual SKU curation.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Auction settings to create an onsite display line item with."
+      },
+      "ExperimentalCreateOnsiteDisplayLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "auctionDetails": {
+            "$ref": "#/components/schemas/ExperimentalCreateOnsiteDisplayAuctionLineItemDetails"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Onsite display settings to create a line item with."
+      },
+      "ExperimentalFlightDatesModel": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "type": "string",
+            "description": "When the line item expires.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "When the line item becomes active.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Active date range for a line item.",
+        "nullable": true
+      },
+      "ExperimentalLineItemModel": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "description": "The campaign id of the associated campaign.",
+            "nullable": true
+          },
+          "conquestingSettings": {
+            "$ref": "#/components/schemas/ExperimentalConquestingSettingsModel"
+          },
+          "effectiveFlightDates": {
+            "$ref": "#/components/schemas/ExperimentalFlightDatesModel"
+          },
+          "financialStatus": {
+            "enum": [
+              "Unknown",
+              "Active",
+              "BudgetHitDaily",
+              "BudgetHitMonthly",
+              "BudgetHitTotal",
+              "BalanceHit"
+            ],
+            "type": "string",
+            "description": "The financial status of the line item.",
+            "nullable": true
+          },
+          "isPaused": {
+            "type": "boolean",
+            "description": "Whether the line item should be paused or unpaused.",
+            "nullable": true
+          },
+          "lineItemId": {
+            "type": "string",
+            "description": "The unique identifier of the line item.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/ExperimentalOnsiteDisplayLineItemDetails"
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The retailer id of the associated retailer.",
+            "nullable": true
+          },
+          "serveToOptOutUser": {
+            "type": "boolean",
+            "description": "Whether ads are served to users who have opted out of personalization.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Unknown",
+              "SponsoredProduct",
+              "OnsiteDisplay"
+            ],
+            "type": "string",
+            "description": "The type of the line item.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A unit of ad delivery configuration within a campaign. It defines how a specific subset of ads\r\nis targeted.",
+        "nullable": true
+      },
+      "ExperimentalLineItemModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExperimentalLineItemModel"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
+      "ExperimentalLineItemModelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ExperimentalLineItemModelResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
+      "ExperimentalOnsiteDisplayAuctionLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "isDynamicMatch": {
+            "type": "boolean",
+            "description": "Whether only products relevant to the page context serve, replacing manual SKU curation.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Settings that only apply to auction-bought onsite display line items.",
+        "nullable": true
+      },
+      "ExperimentalOnsiteDisplayLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "auctionDetails": {
+            "$ref": "#/components/schemas/ExperimentalOnsiteDisplayAuctionLineItemDetails"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Settings that only apply to onsite display line items.",
+        "nullable": true
+      },
+      "ExperimentalUpdateLineItemModel": {
+        "type": "object",
+        "properties": {
+          "flightDates": {
+            "$ref": "#/components/schemas/ExperimentalFlightDatesModel"
+          },
+          "isPaused": {
+            "type": "boolean",
+            "description": "Whether the line item should be paused or unpaused.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/ExperimentalUpdateOnsiteDisplayLineItemDetails"
+          },
+          "serveToOptOutUser": {
+            "type": "boolean",
+            "description": "Whether to serve ads to users who have opted out of personalization.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The line item settings to change. Omitted fields are left unchanged."
+      },
+      "ExperimentalUpdateLineItemModelRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ExperimentalUpdateLineItemModelResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ExperimentalUpdateLineItemModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ExperimentalUpdateLineItemModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "ExperimentalUpdateOnsiteDisplayAuctionLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "isDynamicMatch": {
+            "type": "boolean",
+            "description": "Whether to serve only products relevant to the page context, replacing manual SKU curation.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The auction settings to change on an onsite display line item. Omitted fields are left unchanged."
+      },
+      "ExperimentalUpdateOnsiteDisplayLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "auctionDetails": {
+            "$ref": "#/components/schemas/ExperimentalUpdateOnsiteDisplayAuctionLineItemDetails"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The onsite display settings to change. Omitted fields are left unchanged."
+      },
       "ExportReportColumn": {
         "required": [
           "name",
@@ -7910,6 +8559,26 @@
         "description": "A value of a template file variable (one or several files), like images in a creative",
         "nullable": true
       },
+      "FlightDates": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "type": "string",
+            "description": "When the line item expires.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "When the line item becomes active.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Flight Dates of a Line Item",
+        "nullable": true
+      },
       "FlightLeg": {
         "required": [
           "dayOfWeek",
@@ -8180,6 +8849,75 @@
         },
         "description": "Defines the installment of a product."
       },
+      "LineItem": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "The account id of the associated account.",
+            "nullable": true
+          },
+          "buyType": {
+            "enum": [
+              "Auction",
+              "PreferredDeals",
+              "Sponsorship"
+            ],
+            "type": "string",
+            "description": "The buy type of the line item.",
+            "nullable": true
+          },
+          "campaignId": {
+            "type": "string",
+            "description": "The campaign id of the associated campaign.",
+            "nullable": true
+          },
+          "commerceDisplay": {
+            "$ref": "#/components/schemas/CommerceDisplayAttributes"
+          },
+          "conquestingSettings": {
+            "$ref": "#/components/schemas/ConquestingSettings"
+          },
+          "flightDates": {
+            "$ref": "#/components/schemas/FlightDates"
+          },
+          "lineItemId": {
+            "type": "string",
+            "description": "The id of the line item.",
+            "nullable": true
+          },
+          "lineItemType": {
+            "enum": [
+              "SponsoredProduct",
+              "CommerceDisplay"
+            ],
+            "type": "string",
+            "description": "The type of the line item.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "The retailer id of the associated retailer.",
+            "nullable": true
+          },
+          "serveToOptOutUser": {
+            "type": "boolean",
+            "description": "Whether to serve ads to users who have opted out of personalization.",
+            "nullable": true
+          },
+          "sponsoredProducts": {
+            "$ref": "#/components/schemas/SponsoredProductsAttributes"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Line Item search attributes",
+        "nullable": true
+      },
       "LineItemBudgetCapOutHistory": {
         "type": "object",
         "properties": {
@@ -8305,6 +9043,41 @@
         "description": "Frequency Capping for a Preferred Line Item",
         "nullable": true
       },
+      "LineItemListResponseWithPagination": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
       "LineItemPageCategoryV2": {
         "required": [
           "categoryId"
@@ -8373,6 +9146,26 @@
         "type": "string",
         "description": "The status of a promoted product in the context of the line item.",
         "nullable": true
+      },
+      "LineItemResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItem"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "LoyaltyPoints": {
         "type": "object",
@@ -8719,6 +9512,32 @@
         },
         "additionalProperties": false,
         "description": "The PageType-Environment Tuples for creatives"
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of line items matching the search.",
+            "format": "int32",
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum size of the paginated result set.",
+            "format": "int32",
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Zero based offset for the paginated result set.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Pagination of a Line Item search result",
+        "nullable": true
       },
       "PagingOffsetLimitMetadata": {
         "required": [
@@ -12476,6 +13295,30 @@
         "additionalProperties": false,
         "description": "The filters to apply"
       },
+      "SponsoredProductsAttributes": {
+        "type": "object",
+        "properties": {
+          "auction": {
+            "$ref": "#/components/schemas/SponsoredProductsAuctionAttributes"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Extended attributes for a Auction Sponsored Products Line Item",
+        "nullable": true
+      },
+      "SponsoredProductsAuctionAttributes": {
+        "type": "object",
+        "properties": {
+          "allInventory": {
+            "type": "boolean",
+            "description": "Whether to target all inventory.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Extended attributes for a Auction Sponsored Products Line Item",
+        "nullable": true
+      },
       "SponsoredProductsLineItem": {
         "required": [
           "budgetRemaining",
@@ -12957,6 +13800,90 @@
           }
         },
         "description": "Defines a store inventory to be upserted. Inspired from google spec.See https://developers.google.com/shopping-content/reference/rest/v2.1/localinventory/custombatch#LocalinventoryCustomBatchRequestEntry"
+      },
+      "SupplySearch": {
+        "type": "object",
+        "properties": {
+          "campaignIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Campaign ids to filter line items by.",
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Optional result limit. Defaults to the maximum allowed page size when omitted.",
+            "format": "int32",
+            "nullable": true
+          },
+          "lineItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Line item ids to filter line items by.",
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Optional result offset.",
+            "format": "int32",
+            "nullable": true
+          },
+          "relationship": {
+            "enum": [
+              "Direct",
+              "PrivateMarket",
+              "Network",
+              "AnyIndirect"
+            ],
+            "type": "string",
+            "description": "Relationship to filter line items by. When omitted, all relationships are returned.",
+            "nullable": true
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retailer ids to search from.",
+            "nullable": true
+          },
+          "supplyAccountId": {
+            "type": "string",
+            "description": "Supply account id to search from.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request attributes for a Supply Account Line Item search"
+      },
+      "SupplySearchRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SupplySearchResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "SupplySearchResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SupplySearch"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "SyncAttributedTransactionsReport": {
         "required": [
