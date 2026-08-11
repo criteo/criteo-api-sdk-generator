@@ -79,6 +79,6 @@ public class GatewayApiTest {
         ApiException exception = assertThrows(ApiException.class, () -> {
             api.getCurrentApplication();
         });
-        assertTrue(exception.getMessage().contains("must be authenticated"));
+        assertEquals(401, exception.getCode());
     }
 }
