@@ -56,7 +56,7 @@ class GitClient(IGitClient):
         run_command(f'git branch {branch_name}')
 
     def diff_count(self):
-        diff_count = run_command('git diff -U0 --staged | grep \'^[+-][^+-]\' | grep -Ev \'version|VERSION|Version\' | grep -Ev \'user_agent|UserAgent\' | wc -l | tr -d \'[:space:]\'')
+        diff_count = run_command('git -c diff.renameLimit=0 diff -U0 --staged | grep \'^[+-][^+-]\' | grep -Ev \'version|VERSION|Version\' | grep -Ev \'user_agent|UserAgent\' | wc -l | tr -d \'[:space:]\'')
 
         return int(diff_count[0])
 

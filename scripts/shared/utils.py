@@ -65,29 +65,25 @@ def get_formatted_date():
   return formatted_date
 
 def run_command(command, env=None, error_template=None):
-  try:
-    output = subprocess.Popen(command,
-                       shell=True,
-                       stdout=subprocess.PIPE,
-                       stderr=subprocess.STDOUT,
-                       env=env)
+  output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, env=env)
 
-    lines = ''
-    for line in iter(output.stdout.readline, b''):
-      line = line.decode("utf-8").strip().rstrip("\r\n")
+  lines = ''
+  for line in iter(output.stdout.readline, b''):
+    line = line.decode("utf-8").strip().rstrip("\r\n")
 
-      if error_template is not None and re.match(error_template, line):
-        handle_command_error(output)
+    if error_template is not None and re.match(error_template, line):
+      handle_command_error(output)
 
-      get_logger().info(line)
-      lines += line
+    get_logger().info(line)
+    lines += line
 
-    output.stdout.close()
-    output.wait()
+  output.stdout.close()
+  output.wait()
 
-    return lines
-  except subprocess.CalledProcessError as e:
-    raise CommandException(e.output)
+  if output.returncode != 0:
+    raise CommandException()
+
+  return lines
 
 class CommandException(Exception):
   pass
