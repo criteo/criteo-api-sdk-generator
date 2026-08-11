@@ -15,6 +15,9 @@ class JavaSdkTestAction:
       'MARKETINGSOLUTIONS_TEST_CLIENT_SECRET': assert_environment_variable('MARKETINGSOLUTIONS_TEST_CLIENT_SECRET'),
       'MARKETINGSOLUTIONS_TEST_CLIENT_ID': assert_environment_variable('MARKETINGSOLUTIONS_TEST_CLIENT_ID'),
       'MARKETINGSOLUTIONS_TEST_APPLICATION_ID': assert_environment_variable('MARKETINGSOLUTIONS_TEST_APPLICATION_ID'),
+      'COMMERCEGRID_TEST_CLIENT_ID': assert_environment_variable('COMMERCEGRID_TEST_CLIENT_ID'),
+      'COMMERCEGRID_TEST_CLIENT_SECRET': assert_environment_variable('COMMERCEGRID_TEST_CLIENT_SECRET'),
+      'COMMERCEGRID_TEST_APPLICATION_ID': assert_environment_variable('COMMERCEGRID_TEST_APPLICATION_ID'),
     })
     self.logger.info('Gradle Check successful')
 
