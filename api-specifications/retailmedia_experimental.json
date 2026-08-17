@@ -854,6 +854,57 @@
         ]
       }
     },
+    "/experimental/retail-media/accounts/{account-id}/campaigns": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/accounts/{account-id}/campaigns",
+        "description": "Creates a campaign under the specified account.",
+        "operationId": "CreateCampaign",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "The external id of the account.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The campaign to create.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfOrchestratorContractCampaignCreateModelV2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceOutcomeOfOrchestratorContractCampaignResponseModelV2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/experimental/retail-media/accounts/{account-id}/creatives": {
       "post": {
         "tags": [
@@ -2904,6 +2955,57 @@
         ]
       }
     },
+    "/experimental/retail-media/line-items/{line-item-id}/products/add": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/products/add",
+        "description": "Add products to a line item.",
+        "operationId": "AddProducts",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "The line item id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The products to add.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductsModelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductsResultModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/experimental/retail-media/line-items/{line-item-id}/products/append": {
       "post": {
         "tags": [
@@ -4170,6 +4272,125 @@
   },
   "components": {
     "schemas": {
+      "AddProductsModel": {
+        "type": "object",
+        "properties": {
+          "displayProductDetails": {
+            "maxItems": 1500,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductModel"
+            },
+            "description": "The display products to add to the line item.",
+            "nullable": true
+          },
+          "productType": {
+            "enum": [
+              "DisplayProduct",
+              "SponsoredProduct"
+            ],
+            "type": "string",
+            "description": "The type of product being added.",
+            "default": "DisplayProduct"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The products to add to a line item."
+      },
+      "AddProductsModelRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AddProductsModelResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "AddProductsModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AddProductsModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "AddProductsResultModel": {
+        "type": "object",
+        "properties": {
+          "displayProductDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DisplayProductResultModel"
+            },
+            "description": "The display products added to the line item.",
+            "nullable": true
+          },
+          "productType": {
+            "enum": [
+              "DisplayProduct",
+              "SponsoredProduct"
+            ],
+            "type": "string",
+            "description": "The type of product that was added.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The result of adding products to a line item.",
+        "nullable": true
+      },
+      "AddProductsResultModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AddProductsResultModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "AddProductsResultModelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AddProductsResultModelResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
       "AppendCampaignsRequestV1": {
         "required": [
           "ids"
@@ -6359,6 +6580,138 @@
         "additionalProperties": false,
         "description": "Information about the budget model availability for a specific campaign type and buy type combination, and page types and environments supported for that combination"
       },
+      "CampaignServiceContractAttributionSettingsCreateModelV2": {
+        "type": "object",
+        "properties": {
+          "clickAttributionScope": {
+            "enum": [
+              "SameSku",
+              "SameSkuCategory",
+              "SameSkuCategoryBrand"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "OneWeek",
+              "TwoWeeks",
+              "OneMonth"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "viewAttributionScope": {
+            "enum": [
+              "SameSku",
+              "SameSkuCategory",
+              "SameSkuCategoryBrand"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "None",
+              "OneDay",
+              "OneWeek",
+              "TwoWeeks",
+              "OneMonth"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Wrapper for attribution settings. Each setting may be omitted, in which case it is populated with the default for the campaign type."
+      },
+      "CampaignServiceContractAttributionSettingsModelV2": {
+        "type": "object",
+        "properties": {
+          "clickAttributionScope": {
+            "enum": [
+              "SameSku",
+              "SameSkuCategory",
+              "SameSkuCategoryBrand",
+              "Unknown"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "clickAttributionWindow": {
+            "enum": [
+              "OneWeek",
+              "TwoWeeks",
+              "OneMonth",
+              "Unknown"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "viewAttributionScope": {
+            "enum": [
+              "SameSku",
+              "SameSkuCategory",
+              "SameSkuCategoryBrand",
+              "Unknown"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "viewAttributionWindow": {
+            "enum": [
+              "None",
+              "OneDay",
+              "OneWeek",
+              "TwoWeeks",
+              "OneMonth",
+              "Unknown"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Wrapper for attribution settings.",
+        "nullable": true
+      },
+      "CampaignServiceContractScheduleDetailsCreateModelV2": {
+        "required": [
+          "endDate",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Flight dates of the campaign. Applies to SponsoredProducts only; OnsiteDisplay campaigns derive their dates from their line items and reject this node."
+      },
+      "CampaignServiceContractScheduleDetailsModelV2": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Flight dates of the campaign. Applies to SponsoredProducts only; OnsiteDisplay campaigns derive their dates from their line items.",
+        "nullable": true
+      },
       "CatalogStatusV2": {
         "required": [
           "createdAt",
@@ -7307,6 +7660,32 @@
         "description": "Represents the min bid for a pageType and creative combination.",
         "nullable": true
       },
+      "DisplayProductResultModel": {
+        "type": "object",
+        "properties": {
+          "approvalStatus": {
+            "enum": [
+              "Unknown",
+              "Approved",
+              "AutoApproved",
+              "InReview",
+              "Rejected",
+              "AutoRejected",
+              "Unsubmitted"
+            ],
+            "type": "string",
+            "description": "The approval status of the product.",
+            "nullable": true
+          },
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A display product returned after being added to a line item."
+      },
       "EntityResourceBalanceV1": {
         "type": "object",
         "properties": {
@@ -7648,6 +8027,27 @@
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
       },
+      "EntityResourceOfOrchestratorContractCampaignResponseModelV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/OrchestratorContractCampaignResponseModelV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
       "EntityResourceOfRetailerResultV2": {
         "type": "object",
         "properties": {
@@ -7805,6 +8205,34 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
+      "EntityResourceOutcomeOfOrchestratorContractCampaignResponseModelV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceOfOrchestratorContractCampaignResponseModelV2"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
             },
             "description": "Warnings that occured during this call.",
             "nullable": true,
@@ -9365,6 +9793,227 @@
         "additionalProperties": false,
         "description": "The state of a single offer after it is replaced as part of an Update operation"
       },
+      "OrchestratorContractBudgetDetailsCreateModelV2": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dailyPacing": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "isAutoDailyPacing": {
+            "type": "boolean"
+          },
+          "monthlyPacing": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Budget and pacing of the campaign."
+      },
+      "OrchestratorContractBudgetDetailsModelV2": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetRemaining": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetSpent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dailyPacing": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "isAutoDailyPacing": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "monthlyPacing": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Budget and pacing of the campaign, including the amounts spent and remaining.",
+        "nullable": true
+      },
+      "OrchestratorContractCampaignCreateModelV2": {
+        "type": "object",
+        "properties": {
+          "attributionSettings": {
+            "$ref": "#/components/schemas/CampaignServiceContractAttributionSettingsCreateModelV2"
+          },
+          "billByRetailerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "budgetDetails": {
+            "$ref": "#/components/schemas/OrchestratorContractBudgetDetailsCreateModelV2"
+          },
+          "buyType": {
+            "enum": [
+              "Auction"
+            ],
+            "type": "string"
+          },
+          "campaignType": {
+            "enum": [
+              "SponsoredProducts",
+              "OnsiteDisplay"
+            ],
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "drawableBalanceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "objective": {
+            "enum": [
+              "Manual",
+              "Clicks",
+              "Conversion",
+              "Revenue"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduleDetails": {
+            "$ref": "#/components/schemas/CampaignServiceContractScheduleDetailsCreateModelV2"
+          }
+        },
+        "additionalProperties": false,
+        "description": "An object that represents the available options to set when creating a Retail Media Campaign"
+      },
+      "OrchestratorContractCampaignResponseModelV2": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "nullable": true
+          },
+          "attributionSettings": {
+            "$ref": "#/components/schemas/CampaignServiceContractAttributionSettingsModelV2"
+          },
+          "billByRetailerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "budgetDetails": {
+            "$ref": "#/components/schemas/OrchestratorContractBudgetDetailsModelV2"
+          },
+          "buyType": {
+            "enum": [
+              "Unknown",
+              "Auction",
+              "PreferredDeals",
+              "Sponsorship"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "Unknown",
+              "SponsoredProducts",
+              "OnsiteDisplay"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "drawableBalanceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "objective": {
+            "enum": [
+              "Manual",
+              "Clicks",
+              "Conversion",
+              "Revenue",
+              "Unknown"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduleDetails": {
+            "$ref": "#/components/schemas/CampaignServiceContractScheduleDetailsModelV2"
+          },
+          "status": {
+            "enum": [
+              "Unknown",
+              "Active",
+              "Inactive"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A Retail Media Campaign used to represent an advertiser's marketing objective",
+        "nullable": true
+      },
       "Outcome": {
         "type": "object",
         "properties": {
@@ -10438,6 +11087,18 @@
         "additionalProperties": false,
         "description": "Metadata about the response. Used for pagination.",
         "nullable": true
+      },
+      "ProductModel": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A product associated with a line item."
       },
       "ProductRecommendation": {
         "title": "ProductRecommendation",
@@ -14868,6 +15529,16 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
+      "ValueResourceInputOfOrchestratorContractCampaignCreateModelV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfOrchestratorContractCampaignCreateModelV2"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputOfRetailerSearchRequestV2": {
         "type": "object",
         "properties": {
@@ -14988,6 +15659,21 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "nullable": true
+      },
+      "ValueResourceOfOrchestratorContractCampaignCreateModelV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/OrchestratorContractCampaignCreateModelV2"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfRetailerSearchRequestV2": {
         "type": "object",
