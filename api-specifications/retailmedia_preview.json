@@ -3695,57 +3695,6 @@
         ]
       }
     },
-    "/preview/retail-media/retailers/{retailerId}/compute-display-min-bid": {
-      "post": {
-        "tags": [
-          "Campaign"
-        ],
-        "summary": "/preview/retail-media/retailers/{retailerId}/compute-display-min-bid",
-        "description": "Computes the min bid for relevant page types based on the provided information",
-        "operationId": "ComputeDisplayMinBidByRetailerId",
-        "parameters": [
-          {
-            "name": "retailerId",
-            "in": "path",
-            "description": "The retailer id",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The details for what creatives and product ids to use to compute the min bids",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValueResourceInputDisplayAuctionMinBidRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeDisplayAuctionMinBidResult"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/preview/retail-media/third-party-accounts/{accountId}/brands/{brandId}/remove": {
       "post": {
         "tags": [
@@ -6948,69 +6897,6 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
-      },
-      "DisplayAuctionMinBidRequest": {
-        "type": "object",
-        "properties": {
-          "creativeIds": {
-            "maxItems": 50,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of Creatives to use"
-          },
-          "productIds": {
-            "maxItems": 50,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of potential product ids (SkuIds) to put in creatives",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Represents the list of creatives and respective product IDs to compute min bid for."
-      },
-      "DisplayAuctionMinBidResult": {
-        "type": "object",
-        "properties": {
-          "creativeId": {
-            "type": "string",
-            "description": "The creativeId for the creative",
-            "nullable": true
-          },
-          "minBid": {
-            "type": "number",
-            "description": "The minimum bid for the combination of page type, creative and categories",
-            "format": "double",
-            "nullable": true
-          },
-          "pageType": {
-            "enum": [
-              "unknown",
-              "search",
-              "home",
-              "checkout",
-              "category",
-              "productDetail",
-              "confirmation",
-              "merchandising",
-              "deals",
-              "favorites",
-              "searchBar",
-              "categoryMenu"
-            ],
-            "type": "string",
-            "description": "Page type for the creative to display on",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Represents the min bid for a pageType and creative combination.",
-        "nullable": true
       },
       "EntityResourceBalanceV1": {
         "type": "object",
@@ -13786,38 +13672,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several value objects and metadata."
       },
-      "ValueResourceCollectionOutcomeDisplayAuctionMinBidResult": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ValueResourceDisplayAuctionMinBidResult"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
-      },
       "ValueResourceCollectionOutcomeOfRetailMediaSeller": {
         "type": "object",
         "properties": {
@@ -13865,36 +13719,6 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "ValueResourceDisplayAuctionMinBidRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/DisplayAuctionMinBidRequest"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ValueResourceDisplayAuctionMinBidResult": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/DisplayAuctionMinBidResult"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
       "ValueResourceInputAppendCampaignsRequestV1": {
         "type": "object",
         "properties": {
@@ -13919,16 +13743,6 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ValueResourceDeleteCampaignsRequestV1"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "ValueResourceInputDisplayAuctionMinBidRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ValueResourceDisplayAuctionMinBidRequest"
           }
         },
         "additionalProperties": false,
