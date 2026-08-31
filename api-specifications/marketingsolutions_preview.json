@@ -7935,6 +7935,9 @@
             "type": "string",
             "description": "Description of the segment"
           },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedCreateV1"
+          },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketCreateV1"
           },
@@ -8018,6 +8021,9 @@
             "type": "string",
             "description": "Description of the segment",
             "nullable": true
+          },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedV1"
           },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketV1"
@@ -8448,6 +8454,9 @@
         "properties": {
           "description": {
             "$ref": "#/components/schemas/NillableString"
+          },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedUpdateV1"
           },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketUpdateV1"
@@ -11150,6 +11159,104 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
+      "FilterBasedAlgebraNodeV1": {
+        "type": "object",
+        "properties": {
+          "and": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+            },
+            "description": "And node in the algebra tree.",
+            "nullable": true
+          },
+          "filter": {
+            "$ref": "#/components/schemas/FilterBasedDefinitionV1"
+          },
+          "not": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "or": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+            },
+            "description": "Or node in the algebra tree.",
+            "nullable": true
+          }
+        },
+        "description": "Boolean algebra tree used to combine filters with And, Or and Not operators.",
+        "nullable": true
+      },
+      "FilterBasedCreateV1": {
+        "required": [
+          "algebra"
+        ],
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use only signals coming from partners from these countries"
+          }
+        },
+        "description": "Settings to target users based on a combination of filters."
+      },
+      "FilterBasedDefinitionV1": {
+        "type": "object",
+        "properties": {
+          "partnerId": {
+            "$ref": "#/components/schemas/IntegerFilterV1"
+          },
+          "productCategory": {
+            "$ref": "#/components/schemas/ProductCategoryFilterV1"
+          },
+          "sellerId": {
+            "$ref": "#/components/schemas/LongFilterV1"
+          }
+        },
+        "description": "Definition of one or more filters. If multiple filters are defined, a user signal must match all the filters to be\r\nconsidered in the segment.",
+        "nullable": true
+      },
+      "FilterBasedUpdateV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use signals coming from partners from these countries"
+          }
+        },
+        "description": "Settings to target users based on a combination of filters."
+      },
+      "FilterBasedV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use only signals coming from partners from these countries",
+            "nullable": true
+          }
+        },
+        "description": "Settings to target users based on a combination of filters.",
+        "nullable": true
+      },
       "GenerateAllProductsReportRequestAttributes": {
         "required": [
           "advertiserIds",
@@ -12970,6 +13077,31 @@
         },
         "description": "Defines the installment of a product."
       },
+      "IntegerFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the integer filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Integer values to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that compares integers against one or more values.",
+        "nullable": true
+      },
       "JsonReportRows": {
         "type": "object",
         "properties": {
@@ -13163,6 +13295,31 @@
           }
         },
         "description": "Settings to target users based on their location.",
+        "nullable": true
+      },
+      "LongFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the long filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "64-bit integer values to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that compares 64-bit integers against one or more values.",
         "nullable": true
       },
       "LookalikeCreateV1": {
@@ -14964,6 +15121,48 @@
           }
         },
         "description": "Defines a product to be inserted or updated."
+      },
+      "ProductCategoryFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals",
+              "In"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the product category filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductCategoryV1"
+            },
+            "description": "Product categories to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that matches when a product category (identified by its id and level) is among the provided values.",
+        "nullable": true
+      },
+      "ProductCategoryV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the product category.",
+            "nullable": true
+          },
+          "level": {
+            "type": "integer",
+            "description": "Level of the product category in the hierarchy.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "A product category identified by its id and its level in the hierarchy."
       },
       "ProductContext": {
         "type": "object",

@@ -2342,17 +2342,17 @@
         ]
       }
     },
-    "/preview/retail-media/insights/{insightId}/output": {
+    "/preview/retail-media/insights/{insight-id}/output": {
       "get": {
         "tags": [
           "Analytics"
         ],
-        "summary": "/preview/retail-media/insights/{insightId}/output",
-        "description": "Returns the output of an async insight",
+        "summary": "/preview/retail-media/insights/{insight-id}/output",
+        "description": "Downloads the file output of a completed insight report. The report must have reached the `Success`\r\nstatus; otherwise an error is returned. Check readiness first with the insight status endpoint.",
         "operationId": "GetInsightReportOutput",
         "parameters": [
           {
-            "name": "insightId",
+            "name": "insight-id",
             "in": "path",
             "description": "The ID of the asynchronous insight report. Must be a valid ID format.",
             "required": true,
@@ -2365,7 +2365,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
@@ -2383,17 +2383,17 @@
         ]
       }
     },
-    "/preview/retail-media/insights/{insightId}/status": {
+    "/preview/retail-media/insights/{insight-id}/status": {
       "get": {
         "tags": [
           "Analytics"
         ],
-        "summary": "/preview/retail-media/insights/{insightId}/status",
-        "description": "Returns the status of an async insight",
+        "summary": "/preview/retail-media/insights/{insight-id}/status",
+        "description": "Returns the current status of an asynchronously generated insight report. Poll this endpoint until the\r\nstatus is `Success`, then download the report from the insight output endpoint.",
         "operationId": "GetInsightReportStatus",
         "parameters": [
           {
-            "name": "insightId",
+            "name": "insight-id",
             "in": "path",
             "description": "The ID of the asynchronous insight report. Must be a valid ID format.",
             "required": true,
@@ -2429,7 +2429,7 @@
           "Analytics"
         ],
         "summary": "/preview/retail-media/insights/digital-shelf-intelligence",
-        "description": "Generate a Digital Shelf Intelligence insight",
+        "description": "Requests a Digital Shelf Intelligence insight report. This is an asynchronous, non-transactional operation:\r\nit does not return the analytic data. It enqueues an export job and returns the created insight\r\nreport, whose id is then used to poll the insight status endpoint until the report is ready and to\r\ndownload the result from the insight output endpoint.",
         "operationId": "GenerateDigitalShelfIntelligenceInsight",
         "requestBody": {
           "content": {
@@ -2468,7 +2468,7 @@
           "Analytics"
         ],
         "summary": "/preview/retail-media/insights/share-of-voice",
-        "description": "Generate a share of voice insight",
+        "description": "Requests a Share of Voice insight report. This is an asynchronous, non-transactional operation:\r\nit does not return the analytic data. It enqueues an export job and returns the created insight\r\nreport, whose id is then used to poll the insight status endpoint until the report is ready and to\r\ndownload the result from the insight output endpoint.",
         "operationId": "GenerateShareOfVoiceInsight",
         "requestBody": {
           "content": {
@@ -4228,7 +4228,8 @@
                 "frequency",
                 "winRate",
                 "sampledBidsWon",
-                "sampledBidsParticipated"
+                "sampledBidsParticipated",
+                "makeGoodSpend"
               ],
               "type": "string"
             },
@@ -4532,7 +4533,8 @@
                 "frequency",
                 "winRate",
                 "sampledBidsWon",
-                "sampledBidsParticipated"
+                "sampledBidsParticipated",
+                "makeGoodSpend"
               ],
               "type": "string"
             },
@@ -4805,7 +4807,24 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+        "description": "Response returned by the asynchronous insight endpoints, carrying the insight report status.",
+        "example": {
+          "data": {
+            "id": "12345678-90ab-cdef-1234-567890abcdef",
+            "type": "InsightStatus",
+            "attributes": {
+              "status": "Success",
+              "message": "rows_count=1234",
+              "createdAt": "2026-07-01T12:00:00.0000000+00:00",
+              "expiresAt": "2026-07-08T12:00:00.0000000+00:00",
+              "rowCount": 1234,
+              "md5CheckSum": "0123456789abcdef0123456789abcdef",
+              "fileSizeBytes": 154321
+            }
+          },
+          "warnings": [ ],
+          "errors": [ ]
+        }
       },
       "AsyncLineItemsReport": {
         "required": [
@@ -4996,7 +5015,8 @@
                 "frequency",
                 "winRate",
                 "sampledBidsWon",
-                "sampledBidsParticipated"
+                "sampledBidsParticipated",
+                "makeGoodSpend"
               ],
               "type": "string"
             },
@@ -6780,6 +6800,45 @@
         },
         "description": "Defines a reference to inventory"
       },
+      "DigitalShelfIntelligenceFilters": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Brands to filter on.",
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Category taxonomy values to filter on.",
+            "nullable": true
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retailers to filter on.",
+            "nullable": true
+          },
+          "skuIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkuFilter"
+            },
+            "description": "SKUs to filter on, grouped by retailer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filters for a Digital Shelf Intelligence insight."
+      },
       "DigitalShelfIntelligenceInsight": {
         "required": [
           "accountId",
@@ -6791,32 +6850,23 @@
         "type": "object",
         "properties": {
           "accountId": {
-            "type": "string"
+            "type": "string",
+            "description": "Account ID the insight report is generated for."
           },
           "aggregationLevel": {
             "enum": [
               "brand",
               "sku"
             ],
-            "type": "string"
-          },
-          "brandIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
+            "type": "string",
+            "description": "Aggregation level of the report. Allowed values: `brand`, `sku`."
           },
           "endDate": {
             "type": "string",
-            "format": "date-time"
+            "description": "End date of the report (inclusive), in ISO 8601 format (YYYY-MM-DD).\r\nAdjusted to the Sunday of the week containing the provided date."
+          },
+          "filters": {
+            "$ref": "#/components/schemas/DigitalShelfIntelligenceFilters"
           },
           "format": {
             "enum": [
@@ -6826,6 +6876,7 @@
               "csv"
             ],
             "type": "string",
+            "description": "Output format of the report. Allowed values: `json`, `json-compact`, `json-newline`, `csv`. Defaults to `json-compact`.",
             "default": "json-compact"
           },
           "metrics": {
@@ -6842,30 +6893,55 @@
                 "totalSalesOnline",
                 "totalSoldUnitsOnline"
               ],
-              "type": "string"
-            }
-          },
-          "retailerIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
+              "type": "string",
+              "description": "Metric available in a Digital Shelf Intelligence insight."
             },
-            "nullable": true
-          },
-          "skuIds": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkuFilter"
-            },
-            "nullable": true
+            "description": "Metrics to report on."
           },
           "startDate": {
             "type": "string",
-            "format": "date-time"
+            "description": "Start date of the report (inclusive), in ISO 8601 format (YYYY-MM-DD).\r\nAdjusted to the Monday of the week containing the provided date."
           }
         },
         "additionalProperties": false,
-        "description": "Description of a Digital Shelf Intelligence insight"
+        "description": "Parameters of a Digital Shelf Intelligence insight.",
+        "example": {
+          "startDate": "2026-06-01",
+          "endDate": "2026-06-07",
+          "aggregationLevel": "brand",
+          "metrics": [
+            "considerationIndex",
+            "listingPrice",
+            "pdpViewRank",
+            "salesIndex",
+            "salesRank",
+            "totalPdpPageViews",
+            "totalSalesOnline",
+            "totalSoldUnitsOnline"
+          ],
+          "filters": {
+            "retailerIds": [
+              "123"
+            ],
+            "brandIds": [
+              "456"
+            ],
+            "skuIds": [
+              {
+                "retailerId": "123",
+                "retailerSkuIds": [
+                  "SKU-001",
+                  "SKU-002"
+                ]
+              }
+            ],
+            "categories": [
+              "Electronics/Mobile Phones"
+            ]
+          },
+          "accountId": "12345",
+          "format": "json-compact"
+        }
       },
       "DigitalShelfIntelligenceInsightRequest": {
         "required": [
@@ -6878,7 +6954,49 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object.",
+        "example": {
+          "data": {
+            "type": "DigitalShelfIntelligenceInsight",
+            "attributes": {
+              "startDate": "2026-06-01T00:00:00.0000000+00:00",
+              "endDate": "2026-06-07T00:00:00.0000000+00:00",
+              "aggregationLevel": "brand",
+              "metrics": [
+                "considerationIndex",
+                "listingPrice",
+                "pdpViewRank",
+                "salesIndex",
+                "salesRank",
+                "totalPdpPageViews",
+                "totalSalesOnline",
+                "totalSoldUnitsOnline"
+              ],
+              "filters": {
+                "retailerIds": [
+                  "123"
+                ],
+                "brandIds": [
+                  "456"
+                ],
+                "skuIds": [
+                  {
+                    "retailerId": "123",
+                    "retailerSkuIds": [
+                      "SKU-001",
+                      "SKU-002"
+                    ]
+                  }
+                ],
+                "categories": [
+                  "Electronics/Mobile Phones"
+                ]
+              },
+              "accountId": "12345",
+              "format": "json-compact"
+            }
+          }
+        }
       },
       "DigitalShelfIntelligenceInsightResource": {
         "required": [
@@ -7992,27 +8110,33 @@
         "properties": {
           "createdAt": {
             "type": "string",
+            "description": "When the insight report was created.",
             "nullable": true
           },
           "expiresAt": {
             "type": "string",
+            "description": "When the insight report expires and can no longer be downloaded.",
             "nullable": true
           },
           "fileSizeBytes": {
             "type": "integer",
+            "description": "Size of the generated report file in bytes, when available.",
             "format": "int64",
             "nullable": true
           },
           "md5CheckSum": {
             "type": "string",
+            "description": "MD5 checksum of the generated report file, when available.",
             "nullable": true
           },
           "message": {
             "type": "string",
+            "description": "Additional information about the report status, when available.",
             "nullable": true
           },
           "rowCount": {
             "type": "integer",
+            "description": "Number of rows in the generated report, when available.",
             "format": "int32",
             "nullable": true
           },
@@ -8026,13 +8150,22 @@
               "Invalidated"
             ],
             "type": "string",
-            "description": "Status of an async insight request",
+            "description": "Current status of the insight report.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Status of an async insight request",
-        "nullable": true
+        "description": "Status of an asynchronous insight report request.",
+        "nullable": true,
+        "example": {
+          "status": "Success",
+          "message": "rows_count=1234",
+          "createdAt": "2026-07-01T12:00:00Z",
+          "expiresAt": "2026-07-08T12:00:00Z",
+          "rowCount": 1234,
+          "md5CheckSum": "0123456789abcdef0123456789abcdef",
+          "fileSizeBytes": 154321
+        }
       },
       "InsightStatusResponseResource": {
         "type": "object",
@@ -12128,6 +12261,104 @@
         "additionalProperties": false,
         "description": "The request passed by the caller of the SetBuyBoxWinners endpoint"
       },
+      "ShareOfVoiceFilters": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Accounts to filter on.",
+            "nullable": true
+          },
+          "activationPlatforms": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "commerceMax",
+                "privateMarket"
+              ],
+              "type": "string",
+              "description": "Platform on which a campaign is activated."
+            },
+            "description": "Activation platforms to filter on. Allowed values: `commerceMax`, `privateMarket`.",
+            "nullable": true
+          },
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Brands to filter on.",
+            "nullable": true
+          },
+          "budgetModels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "criteoBudget",
+                "retailerBudget"
+              ],
+              "type": "string",
+              "description": "Budget model funding a campaign."
+            },
+            "description": "Budget models to filter on. Allowed values: `criteoBudget`, `retailerBudget`.",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "all",
+              "onsiteSponsoredProducts",
+              "onsiteDisplay"
+            ],
+            "type": "string",
+            "description": "Campaign type to filter on. Allowed values: `all`, `onsiteSponsoredProducts`, `onsiteDisplay`. Defaults to `all`.",
+            "default": "all"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords to filter on.",
+            "nullable": true
+          },
+          "keywordTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "generic",
+                "branded",
+                "conquesting"
+              ],
+              "type": "string",
+              "description": "Type of keyword targeted in a campaign."
+            },
+            "description": "Keyword types to filter on. Allowed values: `unknown`, `generic`, `branded`, `conquesting`.",
+            "nullable": true
+          },
+          "retailerIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retailers to filter on.",
+            "nullable": true
+          },
+          "servedCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retailer-specific category taxonomy values to filter on.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filters for a Share of Voice insight."
+      },
       "ShareOfVoiceInsight": {
         "required": [
           "accountId",
@@ -12139,25 +12370,8 @@
         "type": "object",
         "properties": {
           "accountId": {
-            "type": "string"
-          },
-          "accountIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "activationPlatforms": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "commerceMax",
-                "privateMarket"
-              ],
-              "type": "string"
-            },
-            "nullable": true
+            "type": "string",
+            "description": "Account ID the insight report is generated for."
           },
           "aggregationLevel": {
             "enum": [
@@ -12165,34 +12379,8 @@
               "keyword"
             ],
             "type": "string",
+            "description": "Aggregation level of the report. Allowed values: `category`, `keyword`. Defaults to `category`.",
             "default": "category"
-          },
-          "brandIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "budgetModels": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "criteoBudget",
-                "retailerBudget"
-              ],
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "campaignType": {
-            "enum": [
-              "all",
-              "onsiteSponsoredProducts",
-              "onsiteDisplay"
-            ],
-            "type": "string",
-            "default": "all"
           },
           "dimensions": {
             "minItems": 1,
@@ -12229,12 +12417,17 @@
                 "budgetModel",
                 "activationPlatform"
               ],
-              "type": "string"
-            }
+              "type": "string",
+              "description": "Dimension by which Share of Voice results can be broken down."
+            },
+            "description": "Dimensions to report on."
           },
           "endDate": {
             "type": "string",
-            "format": "date-time"
+            "description": "End date of the report, in ISO 8601 format (YYYY-MM-DD)."
+          },
+          "filters": {
+            "$ref": "#/components/schemas/ShareOfVoiceFilters"
           },
           "format": {
             "enum": [
@@ -12244,27 +12437,8 @@
               "csv"
             ],
             "type": "string",
+            "description": "Output format of the report. Allowed values: `json`, `json-compact`, `json-newline`, `csv`. Defaults to `json-compact`.",
             "default": "json-compact"
-          },
-          "keywords": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "keywordTypes": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "unknown",
-                "generic",
-                "branded",
-                "conquesting"
-              ],
-              "type": "string"
-            },
-            "nullable": true
           },
           "metrics": {
             "minItems": 1,
@@ -12288,30 +12462,101 @@
                 "clickShare",
                 "invalidClicks"
               ],
-              "type": "string"
-            }
-          },
-          "retailerIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
+              "type": "string",
+              "description": "Metric available in a Share of Voice insight."
             },
-            "nullable": true
-          },
-          "servedCategories": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
+            "description": "Metrics to report on."
           },
           "startDate": {
             "type": "string",
-            "format": "date-time"
+            "description": "Start date of the report, in ISO 8601 format (YYYY-MM-DD)."
           }
         },
         "additionalProperties": false,
-        "description": "Description of a Share of voice insight"
+        "description": "Parameters of a Share of Voice insight.",
+        "example": {
+          "startDate": "2026-06-01",
+          "endDate": "2026-06-07",
+          "aggregationLevel": "category",
+          "dimensions": [
+            "date",
+            "accountId",
+            "accountName",
+            "retailerId",
+            "retailerName",
+            "brandId",
+            "brandName",
+            "campaignId",
+            "campaignName",
+            "buyType",
+            "skuId",
+            "skuName",
+            "lineItemId",
+            "lineItemName",
+            "pageTypeId",
+            "pageTypeName",
+            "productGtin",
+            "productMpn",
+            "productCategory",
+            "servedCategory",
+            "keyword",
+            "keywordType",
+            "campaignType",
+            "creativeType",
+            "adFormat",
+            "creativeName",
+            "environment",
+            "budgetModel",
+            "activationPlatform"
+          ],
+          "metrics": [
+            "impressions",
+            "clicks",
+            "grossClicks",
+            "spend",
+            "cpc",
+            "ctr",
+            "cpm",
+            "roas",
+            "attributedSales",
+            "attributedUnits",
+            "assistedUnits",
+            "assistedSales",
+            "exposedUsers",
+            "impressionShare",
+            "clickShare",
+            "invalidClicks"
+          ],
+          "filters": {
+            "campaignType": "onsiteSponsoredProducts",
+            "accountIds": [
+              "12345"
+            ],
+            "retailerIds": [
+              "123"
+            ],
+            "brandIds": [
+              "456"
+            ],
+            "servedCategories": [
+              "Sports & Outdoors/Footwear/Running Shoes"
+            ],
+            "keywords": [
+              "running shoes"
+            ],
+            "keywordTypes": [
+              "generic"
+            ],
+            "budgetModels": [
+              "criteoBudget"
+            ],
+            "activationPlatforms": [
+              "commerceMax"
+            ]
+          },
+          "accountId": "12345",
+          "format": "json-compact"
+        }
       },
       "ShareOfVoiceInsightRequest": {
         "required": [
@@ -12324,7 +12569,95 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object.",
+        "example": {
+          "data": {
+            "type": "ShareOfVoiceInsight",
+            "attributes": {
+              "startDate": "2026-06-01T00:00:00.0000000+00:00",
+              "endDate": "2026-06-07T00:00:00.0000000+00:00",
+              "aggregationLevel": "category",
+              "dimensions": [
+                "date",
+                "accountId",
+                "accountName",
+                "retailerId",
+                "retailerName",
+                "brandId",
+                "brandName",
+                "campaignId",
+                "campaignName",
+                "buyType",
+                "skuId",
+                "skuName",
+                "lineItemId",
+                "lineItemName",
+                "pageTypeId",
+                "pageTypeName",
+                "productGtin",
+                "productMpn",
+                "productCategory",
+                "servedCategory",
+                "keyword",
+                "keywordType",
+                "campaignType",
+                "creativeType",
+                "adFormat",
+                "creativeName",
+                "environment",
+                "budgetModel",
+                "activationPlatform"
+              ],
+              "metrics": [
+                "impressions",
+                "clicks",
+                "grossClicks",
+                "spend",
+                "cpc",
+                "ctr",
+                "cpm",
+                "roas",
+                "attributedSales",
+                "attributedUnits",
+                "assistedUnits",
+                "assistedSales",
+                "exposedUsers",
+                "impressionShare",
+                "clickShare",
+                "invalidClicks"
+              ],
+              "filters": {
+                "campaignType": "onsiteSponsoredProducts",
+                "accountIds": [
+                  "12345"
+                ],
+                "retailerIds": [
+                  "123"
+                ],
+                "brandIds": [
+                  "456"
+                ],
+                "servedCategories": [
+                  "Sports & Outdoors/Footwear/Running Shoes"
+                ],
+                "keywords": [
+                  "running shoes"
+                ],
+                "keywordTypes": [
+                  "generic"
+                ],
+                "budgetModels": [
+                  "criteoBudget"
+                ],
+                "activationPlatforms": [
+                  "commerceMax"
+                ]
+              },
+              "accountId": "12345",
+              "format": "json-compact"
+            }
+          }
+        }
       },
       "ShareOfVoiceInsightResource": {
         "required": [
@@ -12352,18 +12685,20 @@
         "type": "object",
         "properties": {
           "retailerId": {
-            "type": "string"
+            "type": "string",
+            "description": "Retailer the SKUs belong to."
           },
           "retailerSkuIds": {
             "minItems": 1,
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Retailer SKU IDs to filter on."
           }
         },
         "additionalProperties": false,
-        "description": "The filters to apply"
+        "description": "A set of retailer SKUs to filter on."
       },
       "SponsoredProductsLineItem": {
         "required": [
