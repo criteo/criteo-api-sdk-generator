@@ -513,7 +513,11 @@ class ObjectSerializer
             // If a discriminator is defined and points to a valid subclass, use it.
             $discriminator = $class::DISCRIMINATOR;
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
-                $subclass = '\criteo\api\marketingsolutions\v2026_01\Model\\' . $data->{$discriminator};
+                $discriminatorValue = $data->{$discriminator};
+                // The wire value is a discriminator mapping key when the schema declares a
+                // mapping; otherwise it is the model name itself.
+                $modelName = $class::DISCRIMINATOR_MAPPING[$discriminatorValue] ?? $discriminatorValue;
+                $subclass = '\criteo\api\marketingsolutions\v2026_01\Model\\' . $modelName;
                 if (is_subclass_of($subclass, $class)) {
                     $class = $subclass;
                 }

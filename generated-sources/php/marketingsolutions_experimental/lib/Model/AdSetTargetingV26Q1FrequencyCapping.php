@@ -45,6 +45,14 @@ class AdSetTargetingV26Q1FrequencyCapping implements ModelInterface, ArrayAccess
     public const DISCRIMINATOR = null;
 
     /**
+      * Maps each value the discriminator property can take on the wire to the name of the
+      * model that value identifies. Empty when the schema declares no discriminator mapping.
+      *
+      * @var array<string, string>
+      */
+    public const DISCRIMINATOR_MAPPING = [];
+
+    /**
       * The original name of the model.
       *
       * @var string
