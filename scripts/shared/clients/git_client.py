@@ -56,9 +56,13 @@ class GitClient(IGitClient):
         run_command(f'git branch {branch_name}')
 
     def diff_count(self):
-        diff_count = run_command('git -c diff.renameLimit=0 diff -U0 --staged | grep \'^[+-][^+-]\' | grep -Ev \'version|VERSION|Version\' | grep -Ev \'user_agent|UserAgent\' | wc -l | tr -d \'[:space:]\'')
-
-        return int(diff_count[0])
+        diff_count = run_command(
+            "git -c diff.renameLimit=0 diff -U0 --staged"
+            " | grep '^[+-][^+-]'"
+            r" | grep -Ev '[0-9]+\.[0-9]+(\.[0-9]+)*\.[0-9]{6}'"
+            " | wc -l | tr -d '[:space:]'"
+        )
+        return int(diff_count)
 
     def add(self, *args):
         files = '.' if (len(args) == 0) else ''
