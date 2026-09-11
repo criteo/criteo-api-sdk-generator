@@ -16,7 +16,10 @@ class IGitClient:
     def branch(self, branch_name):
         pass
 
-    def diff_count(self):
+    def diff_count(self, pathspec=None):
+        pass
+
+    def restore(self, pathspec):
         pass
 
     def add(self, *args):
@@ -55,14 +58,18 @@ class GitClient(IGitClient):
     def branch(self, branch_name):
         run_command(f'git branch {branch_name}')
 
-    def diff_count(self):
+    def diff_count(self, pathspec=None):
+        path_arg = f' -- {pathspec}' if pathspec else ''
         diff_count = run_command(
-            "git -c diff.renameLimit=0 diff -U0 --staged"
+            f"git -c diff.renameLimit=0 diff -U0 --staged{path_arg}"
             " | grep '^[+-][^+-]'"
             r" | grep -Ev '[0-9]+\.[0-9]+(\.[0-9]+)*\.[0-9]{6}'"
             " | wc -l | tr -d '[:space:]'"
         )
         return int(diff_count)
+
+    def restore(self, pathspec):
+        run_command(f'git restore --staged --worktree -- {pathspec}')
 
     def add(self, *args):
         files = '.' if (len(args) == 0) else ''

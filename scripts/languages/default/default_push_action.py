@@ -62,15 +62,26 @@ class DefaultPushSdkAction:
 
     self.git.add()
 
-    diff_count = self.git.diff_count()
+    sdks_folder = path.join(self.sdk_repository, 'sdks')
 
-    self.logger.info(f'{diff_count} lines modified.')
+    changed_sdks = []
+    for sdk_dir in self.fs.list_dir(sdks_folder):
+      sdk_dir_path = path.join('sdks', sdk_dir)
 
-    if diff_count > 0:
+      diff_count = self.git.diff_count(pathspec=sdk_dir_path)
+
+      self.logger.info(f'{sdk_dir}: {diff_count} lines modified.')
+
+      if diff_count > 0:
+        changed_sdks.append(sdk_dir)
+      else:
+        self.git.restore(sdk_dir_path)
+
+    if changed_sdks:
       now_date = get_formatted_date()
 
       self.logger.info(f'Committing...')
-      self.git.commit(f'[{now_date}] Automatic update of SDK.')
+      self.git.commit(f'[{now_date}] Automatic update of SDKs.\n\nChanged SDKs: {", ".join(changed_sdks)}.')
 
       self.logger.info(f'Pushing commit...')
       self.git.push(include_tags=False)
