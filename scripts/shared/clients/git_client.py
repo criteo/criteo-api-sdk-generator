@@ -25,7 +25,7 @@ class IGitClient:
     def commit(self, message):
         pass
     
-    def tag(self,tag_name):
+    def tag(self, tag_name):
         pass
     
     def push(self, include_tags = True):
@@ -33,7 +33,7 @@ class IGitClient:
 
 class GitClient(IGitClient):
     def setup(self, actor):
-        run_command('git config --global user.email "{actor}@users.noreply.github.com"')
+        run_command(f'git config --global user.email "{actor}@users.noreply.github.com"')
         run_command(f'git config --global user.name "{actor}"')
     
     def setup_ssh(self, private_key):
@@ -71,7 +71,7 @@ class GitClient(IGitClient):
     def commit(self, message):
         run_command(f'git commit -m "{message}"')
     
-    def tag(self,tag_name):
+    def tag(self, tag_name):
         try:
             run_command(f'git tag {tag_name}')
         except CommandException as e:
