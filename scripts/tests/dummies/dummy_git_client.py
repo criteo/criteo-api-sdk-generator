@@ -6,6 +6,8 @@ class DummyGitClient(IGitClient):
       self.nth_failures_before_success = 0
       self.retries_count = 0
       self.diff_count_response = 0
+      self.diff_count_responses = dict()
+      self.restored = []
       self.is_pushed = False
       self.response_on_push = ResultOrException()
 
@@ -20,8 +22,14 @@ class DummyGitClient(IGitClient):
     def branch(self, branch_name):
       pass
 
-    def diff_count(self):
+    def diff_count(self, pathspec=None):
+      if pathspec in self.diff_count_responses:
+        return self.diff_count_responses[pathspec]
+
       return self.diff_count_response
+
+    def restore(self, pathspec):
+      self.restored.append(pathspec)
 
     def add(self, *args):
       pass
