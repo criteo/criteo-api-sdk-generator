@@ -56,9 +56,43 @@ class GitClient(IGitClient):
         run_command(f'git branch {branch_name}')
 
     def diff_count(self):
-        diff_count = run_command('git -c diff.renameLimit=0 diff -U0 --staged | grep \'^[+-][^+-]\' | grep -Ev \'version|VERSION|Version\' | grep -Ev \'user_agent|UserAgent\' | wc -l | tr -d \'[:space:]\'')
+        # Count staged changed lines that represent a *real* SDK change.
+        #
+        # A change is NOT counted (so publishing is skipped) when it is only an
+        # SDK version-string bump located in:
+        #   - README.md          (Package version / maven <version> lines)
+        #   - build.gradle        (version = '...') / composer.json ("version")
+        #   - the User-Agent literal (OpenAPI-Generator/<version>/...), e.g.
+        #     ApiClient.java (Java) or Configuration.php (PHP)
+        #
+        # The SDK version is recognised by its trailing 6-digit datestamp
+        # (e.g. 2026.01.0.260901, 0.0.260901). This is intentionally precise so
+        # that unrelated changes -- including third-party dependency version
+        # bumps or code that merely mentions "version" -- are still counted.
+        awk_filter = (
+            "awk '"
+            r'/^diff / { next } '
+            r'/^@@/ { next } '
+            r'/^\+\+\+ / { f=$2; sub(/^b\//,"",f); next } '
+            r'/^--- / { next } '
+            r'/^[+-]/ {'
+            r'  base=f; sub(/.*\//,"",base);'
+            r'  ver = ($0 ~ /[0-9]+\.[0-9]+(\.[0-9]+)*\.[0-9][0-9][0-9][0-9][0-9][0-9]/);'
+            r'  ua  = ($0 ~ /OpenAPI-Generator\//);'
+            r'  ignorable = 0;'
+            r'  if (ver && (base=="README.md" || base=="build.gradle" || base=="composer.json")) ignorable=1;'
+            r'  else if (ver && ua) ignorable=1;'
+            r'  if (!ignorable) count++;'
+            r'} '
+            r'END { print count+0 }'
+            "'"
+        )
 
-        return int(diff_count[0])
+        diff_count = run_command(
+            f"git -c diff.renameLimit=0 diff -U0 --staged | {awk_filter} | tr -d '[:space:]'"
+        )
+
+        return int(diff_count)
 
     def add(self, *args):
         files = '.' if (len(args) == 0) else ''
