@@ -288,6 +288,7 @@
           }
         ],
         "requestBody": {
+          "description": "The ad information.",
           "content": {
             "application/json": {
               "schema": {
@@ -736,7 +737,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of self-services Creatives is returned.This list will contain creatives in draft status as well which will have some properties as null",
+            "description": "The list of self-services Creatives is returned.",
             "content": {
               "application/json": {
                 "schema": {
@@ -773,6 +774,7 @@
           }
         ],
         "requestBody": {
+          "description": "The creative information.",
           "content": {
             "application/json": {
               "schema": {
@@ -2791,12 +2793,12 @@
         ]
       }
     },
-    "/preview/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positionings/disable": {
+    "/preview/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positioning/disable": {
       "post": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/preview/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positionings/disable",
+        "summary": "/preview/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positioning/disable",
         "description": "Disable the Video Positioning Targeting configuration for the ad set whose id is specified",
         "operationId": "DisableAdSetTargetingVideoPositioning",
         "parameters": [
@@ -5951,6 +5953,15 @@
       "Ad": {
         "type": "object",
         "properties": {
+          "adDeliveryStatus": {
+            "enum": [
+              "Live",
+              "Paused"
+            ],
+            "type": "string",
+            "description": "The delivery status of the ad. Possible values are \"Live\" and \"Paused\". This is read-only: use the\r\ndedicated pause and unpause operations to change it.",
+            "nullable": true
+          },
           "adSetId": {
             "type": "string",
             "description": "The id of the Ad Set binded to this Ad",
@@ -5973,7 +5984,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "inventoryType": {
@@ -7194,7 +7204,7 @@
             "description": "The date when the ad will be launched\r\nString must be in ISO8601 format"
           }
         },
-        "description": "Entity to create or update an ad"
+        "description": "Entity to create an ad"
       },
       "AlgebraNodeV1": {
         "type": "object",
@@ -9026,6 +9036,11 @@
             "description": "Spend limits scheduled to become active in the future. Empty when the campaign has no scheduled spend limits.",
             "nullable": true
           },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id of the campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CampaignSpendLimitV23Q1"
           }
@@ -9535,7 +9550,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "images": {
@@ -9969,6 +9983,11 @@
             "description": "Name of the campaign",
             "nullable": true
           },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id attached to this campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
           }
@@ -10209,7 +10228,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "imageAttributes": {
@@ -10865,7 +10883,7 @@
             "$ref": "#/components/schemas/ValueResourceOfExamAdAudienceSegmentLinkWrite"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
       "ExamAdAudienceSegmentLinkWrite": {
         "required": [
@@ -18444,11 +18462,10 @@
           },
           "type": {
             "type": "string",
-            "description": "Type of the resource.",
             "nullable": true
           }
         },
-        "description": "A value resource exposed by the API."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
       "ValueResourceOfPatchProductSetRequest": {
         "type": "object",
