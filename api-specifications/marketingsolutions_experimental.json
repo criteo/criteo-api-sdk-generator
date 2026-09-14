@@ -288,6 +288,7 @@
           }
         ],
         "requestBody": {
+          "description": "The ad information.",
           "content": {
             "application/json": {
               "schema": {
@@ -736,7 +737,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of self-services Creatives is returned.This list will contain creatives in draft status as well which will have some properties as null",
+            "description": "The list of self-services Creatives is returned.",
             "content": {
               "application/json": {
                 "schema": {
@@ -773,6 +774,7 @@
           }
         ],
         "requestBody": {
+          "description": "The creative information.",
           "content": {
             "application/json": {
               "schema": {
@@ -1676,6 +1678,108 @@
           {
             "oauth": [
               "MarketingSolutions_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/catalog/ingestion/{ingestion-id}/reports/summary": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "/experimental/catalog/ingestion/{ingestion-id}/reports/summary",
+        "description": "Get the summary report of a catalog ingestion: what triggered it, how long it ran, how many offers it held, what it changed and how clean the data was.",
+        "operationId": "GetCatalogIngestionReportSummary",
+        "parameters": [
+          {
+            "name": "ingestion-id",
+            "in": "path",
+            "description": "Identifies the catalog ingestion to report on.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The summary report of the ingestion.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogIngestionSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Catalog_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/catalog/merchants/{merchant-id}/ingestion/reports": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "/experimental/catalog/merchants/{merchant-id}/ingestion/reports",
+        "description": "List the catalog ingestions of a merchant, most recent first, with their type, status and timing.",
+        "operationId": "GetCatalogIngestionReports",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of ingestion reports returned in the page.",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "merchant-id",
+            "in": "path",
+            "description": "Identifies the merchant whose catalog ingestions are reported.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first ingestion report of the page, used to page through the collection.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The page of catalog ingestion reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogIngestionReportListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Catalog_Read"
             ]
           }
         ]
@@ -2791,12 +2895,12 @@
         ]
       }
     },
-    "/experimental/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positionings/disable": {
+    "/experimental/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positioning/disable": {
       "post": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/experimental/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positionings/disable",
+        "summary": "/experimental/marketing-solutions/ad-sets/{ad-set-id}/targeting/video-positioning/disable",
         "description": "Disable the Video Positioning Targeting configuration for the ad set whose id is specified",
         "operationId": "DisableAdSetTargetingVideoPositioning",
         "parameters": [
@@ -5951,6 +6055,15 @@
       "Ad": {
         "type": "object",
         "properties": {
+          "adDeliveryStatus": {
+            "enum": [
+              "Live",
+              "Paused"
+            ],
+            "type": "string",
+            "description": "The delivery status of the ad. Possible values are \"Live\" and \"Paused\". This is read-only: use the\r\ndedicated pause and unpause operations to change it.",
+            "nullable": true
+          },
           "adSetId": {
             "type": "string",
             "description": "The id of the Ad Set binded to this Ad",
@@ -5973,7 +6086,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "inventoryType": {
@@ -7194,7 +7306,7 @@
             "description": "The date when the ad will be launched\r\nString must be in ISO8601 format"
           }
         },
-        "description": "Entity to create or update an ad"
+        "description": "Entity to create an ad"
       },
       "AlgebraNodeV1": {
         "type": "object",
@@ -9026,6 +9138,11 @@
             "description": "Spend limits scheduled to become active in the future. Empty when the campaign has no scheduled spend limits.",
             "nullable": true
           },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id of the campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CampaignSpendLimitV23Q1"
           }
@@ -9107,6 +9224,432 @@
           }
         },
         "description": "Data model for response resource"
+      },
+      "CatalogIngestionReport": {
+        "type": "object",
+        "properties": {
+          "componentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "string",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ingestionStatus": {
+            "$ref": "#/components/schemas/IngestionStatus"
+          },
+          "ingestionType": {
+            "$ref": "#/components/schemas/IngestionType"
+          },
+          "merchantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "multiSourceReportingStatus": {
+            "$ref": "#/components/schemas/MultiSourceReportingStatus"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Identification, timing and status of a single catalog ingestion. The summary report of the same ingestion repeats these fields and adds its volume, delta and data quality.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingDataQuality": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingErrors"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingQuality"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingDataQualitySummary"
+          },
+          "warnings": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingWarnings"
+          }
+        },
+        "description": "Data quality outcome of the ingestion: quality score, per-error and per-warning product counts, and their totals.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingDataQualitySummary": {
+        "type": "object",
+        "properties": {
+          "totalErrors": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalWarnings": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Total number of data quality errors and warnings raised by the ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingDelta": {
+        "type": "object",
+        "properties": {
+          "addedOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deletedOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unchangedOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedOffers": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Number of offers added, updated, deleted and left unchanged by the ingestion, compared to the previous one.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Error that made the ingestion fail.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingErrors": {
+        "type": "object",
+        "properties": {
+          "invalidGoogleProductCategory": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "invalidGtin": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingDescription": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingImageLink": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingLink": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingPrice": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingTitle": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidCrossSellersProductId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidExternalId": {
+            "type": "integer",
+            "description": "Offers missing ID, overlarge ID, or invalid format.",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidItemGroupId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidSellerId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidSellerName": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "description": "Number of products rejected by the ingestion, broken down by the error that rejected them.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingQuality": {
+        "type": "object",
+        "properties": {
+          "qualityDecision": {
+            "$ref": "#/components/schemas/QualityDecision"
+          },
+          "score": {
+            "type": "integer",
+            "description": "Feed quality score (0–100).",
+            "format": "int32"
+          },
+          "threshold": {
+            "type": "integer",
+            "description": "Minimum acceptable quality threshold.",
+            "format": "int32"
+          }
+        },
+        "description": "Quality score of the ingested catalog, the threshold it was compared to, and the resulting decision.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingTrigger": {
+        "type": "object",
+        "properties": {
+          "initiatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/TriggerType"
+          }
+        },
+        "description": "What started the ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingVolume": {
+        "type": "object",
+        "properties": {
+          "multisourceProducts": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalParentOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalSingleOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalVariantOffers": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Number of offers held by the ingested catalog, broken down by offer kind.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingWarnings": {
+        "type": "object",
+        "properties": {
+          "missingBrand": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingGoogleProductCategory": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingGtin": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingMpn": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "description": "Number of products missing an optional attribute, broken down by attribute.",
+        "nullable": true
+      },
+      "CatalogIngestionReportListResponse": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogIngestionReportResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Paginated response holding the catalog ingestion reports of a merchant.",
+        "nullable": true
+      },
+      "CatalogIngestionReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CatalogIngestionReport"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Resource holding the basic information of a catalog ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionSummary": {
+        "type": "object",
+        "properties": {
+          "componentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataQuality": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingDataQuality"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingDelta"
+          },
+          "duration": {
+            "type": "string",
+            "description": "Total ingestion processing time as an ISO 8601 duration.",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "error": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingError"
+          },
+          "ingestionStatus": {
+            "$ref": "#/components/schemas/IngestionStatus"
+          },
+          "ingestionType": {
+            "$ref": "#/components/schemas/IngestionType"
+          },
+          "merchantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchantName": {
+            "type": "string",
+            "nullable": true
+          },
+          "multiSource": {
+            "$ref": "#/components/schemas/MultiSourceReporting"
+          },
+          "multiSourceReportingStatus": {
+            "$ref": "#/components/schemas/MultiSourceReportingStatus"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trigger": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingTrigger"
+          },
+          "volume": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingVolume"
+          }
+        },
+        "description": "Summary report of a catalog ingestion: identification, timing, status, volume, delta and data quality.",
+        "nullable": true
+      },
+      "CatalogIngestionSummaryResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CatalogIngestionSummary"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Resource holding the summary report of a catalog ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionSummaryResponse": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CatalogIngestionSummaryResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Response holding the summary report of a single catalog ingestion.",
+        "nullable": true
       },
       "CommonProblem": {
         "type": "object",
@@ -9535,7 +10078,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "images": {
@@ -9969,6 +10511,11 @@
             "description": "Name of the campaign",
             "nullable": true
           },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id attached to this campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
           }
@@ -10209,7 +10756,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "imageAttributes": {
@@ -10865,7 +11411,7 @@
             "$ref": "#/components/schemas/ValueResourceOfExamAdAudienceSegmentLinkWrite"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
       "ExamAdAudienceSegmentLinkWrite": {
         "required": [
@@ -12680,6 +13226,44 @@
         },
         "description": "The attributes specific to create or update an Image creative"
       },
+      "IngestionStatus": {
+        "enum": [
+          "inProgress",
+          "finished",
+          "failed",
+          "blocked"
+        ],
+        "type": "string",
+        "description": "Status of the ingestion.",
+        "x-enumNames": [
+          "InProgress",
+          "Finished",
+          "Failed",
+          "Blocked"
+        ],
+        "x-enum-varnames": [
+          "InProgress",
+          "Finished",
+          "Failed",
+          "Blocked"
+        ]
+      },
+      "IngestionType": {
+        "enum": [
+          "catalogImport",
+          "productImporter"
+        ],
+        "type": "string",
+        "description": "Pipeline that ran the ingestion.",
+        "x-enumNames": [
+          "CatalogImport",
+          "ProductImporter"
+        ],
+        "x-enum-varnames": [
+          "CatalogImport",
+          "ProductImporter"
+        ]
+      },
       "InMarketAudienceSegmentBrandEntityV1": {
         "type": "object",
         "properties": {
@@ -13487,6 +14071,218 @@
         },
         "description": "Parameters to modify an audience"
       },
+      "MultiSourceAttributeCoverage": {
+        "type": "object",
+        "properties": {
+          "filledFromSource": {
+            "type": "integer",
+            "description": "Products that kept this attribute from the primary catalog: the number of products in the ingestion, less the products where the attribute was overridden. The same value as valueOrigin.primaryComponent. Products whose attribute is absent from every source are counted here too.",
+            "format": "int64"
+          },
+          "overridden": {
+            "type": "integer",
+            "description": "Products where an existing value was replaced.",
+            "format": "int64"
+          }
+        },
+        "description": "Number of products whose attribute was filled from the source, and number of products whose attribute was overridden.",
+        "nullable": true
+      },
+      "MultiSourceAttributeDetails": {
+        "type": "object",
+        "properties": {
+          "coverage": {
+            "$ref": "#/components/schemas/MultiSourceAttributeCoverage"
+          },
+          "resolution": {
+            "$ref": "#/components/schemas/MultiSourceAttributeResolution"
+          },
+          "sourceField": {
+            "type": "string",
+            "description": "Source field used for this attribute.",
+            "nullable": true
+          },
+          "sourcePriority": {
+            "type": "integer",
+            "description": "Priority of the additional source that wins for this attribute, which is the lowest priority configured for it. Zero when no additional source overrides the attribute, and also when the winning source is itself configured with priority zero; the two cases cannot be told apart.",
+            "format": "int32"
+          }
+        },
+        "description": "Multi-Source enrichment details of a single attribute: source field, source priority, coverage and resolution.",
+        "nullable": true
+      },
+      "MultiSourceAttributeMapping": {
+        "type": "object",
+        "properties": {
+          "attributeName": {
+            "type": "string",
+            "description": "Target attribute in the catalog schema.",
+            "nullable": true
+          },
+          "sourceComponentId": {
+            "type": "integer",
+            "description": "Identifies the additional source component this attribute is overridden from. Several mappings share it when one component overrides more than one attribute, which is why sourcesCount counts only the distinct ones.",
+            "format": "int32"
+          },
+          "sourceField": {
+            "type": "string",
+            "description": "Field name from the additional source mapped to this attribute.",
+            "nullable": true
+          },
+          "sourcePriority": {
+            "type": "integer",
+            "description": "Priority of this source for this attribute: lower wins (1 overrides 2).",
+            "format": "int32"
+          }
+        },
+        "description": "Mapping of one catalog attribute to the source component field it is filled from.",
+        "nullable": true
+      },
+      "MultiSourceAttributeResolution": {
+        "type": "object",
+        "properties": {
+          "overrideRate": {
+            "type": "number",
+            "description": "Percentage of products where the primary value was overridden for this attribute, out of the number of products in the ingestion, rounded to the nearest whole percent.",
+            "format": "double"
+          },
+          "valueOrigin": {
+            "$ref": "#/components/schemas/MultiSourceValueOrigin"
+          }
+        },
+        "description": "How the value of the attribute was resolved between the primary component and the additional sources.",
+        "nullable": true
+      },
+      "MultiSourceConfiguration": {
+        "type": "object",
+        "properties": {
+          "attributeMappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MultiSourceAttributeMapping"
+            },
+            "description": "Attribute-level mapping rules applied during enrichment.",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether Multi-Source Catalog was enabled for this ingestion."
+          },
+          "mainComponentId": {
+            "type": "integer",
+            "description": "Identifier of the primary catalog component.",
+            "format": "int32"
+          },
+          "matchingKeys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Keys used to match products between the primary catalog and the additional sources.",
+            "nullable": true
+          },
+          "sourcesCount": {
+            "type": "integer",
+            "description": "Number of additional sources configured, excluding the primary catalog.",
+            "format": "int32"
+          }
+        },
+        "description": "Multi-Source Catalog configuration applied to the ingestion: main component, number of sources, matching keys and attribute mappings.",
+        "nullable": true
+      },
+      "MultiSourceImpact": {
+        "type": "object",
+        "properties": {
+          "productsEnriched": {
+            "type": "integer",
+            "description": "Products where at least one missing attribute was filled. Not exclusive with productsModified: a product can be both enriched and modified.",
+            "format": "int64"
+          },
+          "productsEvaluated": {
+            "type": "integer",
+            "description": "Total products considered for Multi-Source enrichment.",
+            "format": "int64"
+          },
+          "productsMatched": {
+            "type": "integer",
+            "description": "Products matched with at least one additional source using the matching keys.",
+            "format": "int64"
+          },
+          "productsModified": {
+            "type": "integer",
+            "description": "Products where an existing value was overridden.",
+            "format": "int64"
+          },
+          "productsUnmatched": {
+            "type": "integer",
+            "description": "Products not matched with any additional source.",
+            "format": "int64"
+          }
+        },
+        "description": "Number of products evaluated, matched, enriched, modified and left unmatched by the Multi-Source enrichment.",
+        "nullable": true
+      },
+      "MultiSourceReporting": {
+        "type": "object",
+        "properties": {
+          "attributeDetails": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MultiSourceAttributeDetails"
+            },
+            "description": "Attribute-level reporting keyed by catalog attribute name (e.g. brand, color, gtin).",
+            "nullable": true
+          },
+          "configuration": {
+            "$ref": "#/components/schemas/MultiSourceConfiguration"
+          },
+          "impact": {
+            "$ref": "#/components/schemas/MultiSourceImpact"
+          }
+        },
+        "description": "The Multi-Source Catalog enrichment of one ingestion, as reported under multiSource in the ingestion summary: the configuration that was applied, its impact on the products, and the per-attribute details.",
+        "nullable": true
+      },
+      "MultiSourceReportingStatus": {
+        "enum": [
+          "notEnabled",
+          "inProgress",
+          "success",
+          "failed"
+        ],
+        "type": "string",
+        "description": "Status of the Multi-Source Catalog enrichment for the ingestion.",
+        "x-enumNames": [
+          "NotEnabled",
+          "InProgress",
+          "Success",
+          "Failed"
+        ],
+        "x-enum-varnames": [
+          "NotEnabled",
+          "InProgress",
+          "Success",
+          "Failed"
+        ]
+      },
+      "MultiSourceValueOrigin": {
+        "type": "object",
+        "properties": {
+          "additionalSource": {
+            "type": "integer",
+            "description": "Products where the final value came from an additional source.",
+            "format": "int64"
+          },
+          "primaryComponent": {
+            "type": "integer",
+            "description": "Products where the final value came from the main component: the number of products in the ingestion, less the products where this attribute came from an additional source.",
+            "format": "int64"
+          }
+        },
+        "description": "Number of products whose attribute value came from the primary component, and number whose value came from an additional source.",
+        "nullable": true
+      },
       "NillableAdSetTargetingRuleV26Q1": {
         "type": "object",
         "properties": {
@@ -13722,6 +14518,25 @@
           }
         },
         "description": "A class implementing the body of a response without data of the Criteo API as described in API Guild Guidelines"
+      },
+      "PaginationMetadata": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "Pagination applied to the returned collection.",
+        "nullable": true
       },
       "PatchAdSetAttributionConfigurationV26Q1": {
         "type": "object",
@@ -15695,6 +16510,25 @@
         },
         "description": "Settings to target prospecting users to website visitors.",
         "nullable": true
+      },
+      "QualityDecision": {
+        "enum": [
+          "accepted",
+          "blocked",
+          "overridden"
+        ],
+        "type": "string",
+        "description": "Decision taken from the quality score of the ingested catalog.",
+        "x-enumNames": [
+          "Accepted",
+          "Blocked",
+          "Overridden"
+        ],
+        "x-enum-varnames": [
+          "Accepted",
+          "Blocked",
+          "Overridden"
+        ]
       },
       "ReadAdSetAttributionConfigurationV26Q1": {
         "type": "object",
@@ -18220,6 +19054,22 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "TriggerType": {
+        "enum": [
+          "manual",
+          "scheduled"
+        ],
+        "type": "string",
+        "description": "How the ingestion was started.",
+        "x-enumNames": [
+          "Manual",
+          "Scheduled"
+        ],
+        "x-enum-varnames": [
+          "Manual",
+          "Scheduled"
+        ]
+      },
       "UpdateCoupon": {
         "required": [
           "startDate"
@@ -18444,11 +19294,10 @@
           },
           "type": {
             "type": "string",
-            "description": "Type of the resource.",
             "nullable": true
           }
         },
-        "description": "A value resource exposed by the API."
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
       "ValueResourceOfPatchProductSetRequest": {
         "type": "object",
