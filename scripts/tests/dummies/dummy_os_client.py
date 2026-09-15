@@ -15,7 +15,7 @@ class DummyOsClient(IOsClient):
 
     return self.response_on_get_private_key.result
   
-  def get_generated_sources_base_path(self, programming_language):
+  def get_generated_sources_base_path(self, programming_language, test_only=False):
     if self.response_on_get_generated_sources_base_path.is_exception():
       raise self.response_on_get_generated_sources_base_path.exception
 

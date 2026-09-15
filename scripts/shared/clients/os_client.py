@@ -15,8 +15,8 @@ class IOsClient:
     """
     pass
   
-  def get_generated_sources_base_path(self, programming_language):
-    """Returns path of directory containing generated SDKs"""
+  def get_generated_sources_base_path(self, programming_language, test_only=False):
+    """Returns path of directory containing generated SDKs (the test-only ones, generated but never pushed, when test_only is set)"""
     pass
 
   def get_sdk_repo_base_path(self):
@@ -40,8 +40,9 @@ class OsClient(IOsClient):
     else:
       raise Exception(f'Unsupported programming language ({programming_language})')
   
-  def get_generated_sources_base_path(self, programming_language):
-    generator_repo_dir = path.join(assert_environment_variable('GITHUB_WORKSPACE'), f'generated-sources/{programming_language}')
+  def get_generated_sources_base_path(self, programming_language, test_only=False):
+    generated_sources_dir_name = 'generated-sources-test-only' if test_only else 'generated-sources'
+    generator_repo_dir = path.join(assert_environment_variable('GITHUB_WORKSPACE'), f'{generated_sources_dir_name}/{programming_language}')
     return generator_repo_dir
 
   def get_sdk_repo_base_path(self):

@@ -1,0 +1,434 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Criteo API",
+    "description": "Criteo API - Api",
+    "version": "Experimental"
+  },
+  "servers": [
+    {
+      "url": "https://api.criteo.com"
+    }
+  ],
+  "paths": {
+    "/experimental/sample/testing/inheritance": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/experimental/sample/testing/inheritance",
+        "description": "Echoes a concrete derived type (plain inheritance / allOf).",
+        "operationId": "PostInheritance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DerivedTypeOneRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DerivedTypeOneResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
+      }
+    },
+    "/experimental/sample/testing/polymorphic-list": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/experimental/sample/testing/polymorphic-list",
+        "description": "Echoes a list of the polymorphic types.",
+        "operationId": "PostPolymorphicList",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseTypeListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseTypeListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
+      }
+    },
+    "/experimental/sample/testing/polymorphism": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/experimental/sample/testing/polymorphism",
+        "description": "Echoes a polymorphic type (allOf + discriminator).",
+        "operationId": "PostPolymorphism",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseTypeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseTypeResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BaseType": {
+        "required": [
+          "typeDiscriminator"
+        ],
+        "type": "object",
+        "properties": {
+          "commonData": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "typeDiscriminator": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Abstract base of the polymorphic hierarchy, carrying the discriminator and data common to every derived type.",
+        "nullable": true,
+        "discriminator": {
+          "propertyName": "typeDiscriminator",
+          "mapping": {
+            "derivedTypeOne": "#/components/schemas/DerivedTypeOne",
+            "derivedTypeTwo": "#/components/schemas/DerivedTypeTwo"
+          }
+        }
+      },
+      "BaseTypeListRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseTypeResource"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for several values."
+      },
+      "BaseTypeListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseTypeResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several values."
+      },
+      "BaseTypeRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BaseTypeResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "BaseTypeResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/BaseType"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "nullable": true
+      },
+      "BaseTypeResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BaseTypeResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "CommonProblem": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "A machine-readable error code, expressed as a string value.",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem.",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that identifies the specific occurrence of the problem.",
+            "nullable": true
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s).",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "A short human-readable description of the problem type.",
+            "nullable": true
+          },
+          "traceId": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from.",
+            "nullable": true
+          },
+          "traceIdentifier": {
+            "type": "string",
+            "description": "Deprecated. The request correlation ID this problem comes from.",
+            "nullable": true,
+            "deprecated": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "The problem's category.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Common problem object."
+      },
+      "DerivedTypeOne": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseType"
+          }
+        ],
+        "properties": {
+          "typeOneValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Concrete polymorphic type identified by the \"derivedTypeOne\" discriminator value.",
+        "nullable": true
+      },
+      "DerivedTypeOneRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DerivedTypeOneResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "DerivedTypeOneResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/DerivedTypeOne"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "nullable": true
+      },
+      "DerivedTypeOneResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DerivedTypeOneResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "DerivedTypeTwo": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseType"
+          }
+        ],
+        "properties": {
+          "typeTwoValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Concrete polymorphic type identified by the \"derivedTypeTwo\" discriminator value."
+      }
+    },
+    "securitySchemes": {
+      "oauth": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.criteo.com/oauth2/token",
+            "scopes": { }
+          },
+          "authorizationCode": {
+            "authorizationUrl": "https://api.criteo.com/oauth2",
+            "tokenUrl": "https://api.criteo.com/oauth2/token",
+            "scopes": { }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Analytics"
+    }
+  ],
+  "x-samples-languages": [
+    "java",
+    "python",
+    "php",
+    "csharp",
+    "javascript",
+    "curl",
+    "ruby"
+  ]
+}

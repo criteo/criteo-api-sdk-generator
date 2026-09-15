@@ -19,23 +19,26 @@ ext {
 }
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/php"
+def clientOutputDirTestOnly = "$rootDir/$rootProject.generatedClientsDirNameTestOnly/php"
 def criteoPackage = providers.gradleProperty("package.name.base").orNull
 def generatorVersion = providers.gradleProperty("generator.version").orNull
 def technologyStack = "php"
 def nameSeparator = '\\'
 def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()
 
-def cleanPreviousDist = registerCleanPreviousDistTask(tasks, clientOutputDir)
+def cleanPreviousDist = registerCleanPreviousDistTask(tasks, [clientOutputDir, clientOutputDirTestOnly])
 
 def taskList = [cleanPreviousDist];
 
-rootProject.swaggerSourceList.each {
-    def parsedApiName = it.getName().replace(".json", "").toLowerCase();
+def specsWithOutputRoot = rootProject.swaggerSourceList.collect { [it, clientOutputDir, 'generatorConfiguration.yaml'] } +
+                          rootProject.swaggerSourceListTestOnly.collect { [it, clientOutputDirTestOnly, 'generatorConfigurationTestOnly.yaml'] }
+specsWithOutputRoot.each { specFile, outputRoot, generatorConfigurationFileName ->
+    def parsedApiName = specFile.getName().replace(".json", "").toLowerCase();
     def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
     def criteoApiVersion = apiVersionFromName.replace('-', '_');
 
-    def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
-    def specPath = it.path;
+    def clientOutputDirPerVersion = outputRoot + "/" + parsedApiName;
+    def specPath = specFile.path;
 
     def versionInNamespace =  computeVersionInNamespace(criteoApiVersion)
 
@@ -43,7 +46,7 @@ rootProject.swaggerSourceList.each {
 
     def artifactVersion = getArtifactVersion(criteoApiVersion, generatorVersion)
 
-    def generateTask = registerOpenApiGenerateTask(project, "${technologyStack}_${parsedApiName}", language, "$projectDir/generatorConfiguration.yaml", specPath, clientOutputDirPerVersion, criteoService, [
+    def generateTask = registerOpenApiGenerateTask(project, "${technologyStack}_${parsedApiName}", language, "$projectDir/${generatorConfigurationFileName}", specPath, clientOutputDirPerVersion, criteoService, [
             artifactVersion         : "${artifactVersion}",
             invokerPackage          : "${namespaceBase}",
             packageName             : "criteo-api-${criteoService}-sdk",

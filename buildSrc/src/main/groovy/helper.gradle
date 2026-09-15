@@ -4,12 +4,12 @@ static def getFormattedDate() {
     return formattedDate
 }
 
-static def registerCleanPreviousDistTask(def tasks, String clientOutputDir) {
+static def registerCleanPreviousDistTask(def tasks, Iterable<String> clientOutputDirs) {
   return tasks.register("cleanPreviousDist", Delete) {
       group = 'Criteo'
       description = 'Clean up generated client output folder'
 
-      delete clientOutputDir
+      delete clientOutputDirs
       followSymlinks = true
   }
 }
@@ -44,9 +44,9 @@ static def registerRemoveUnwantedFilesTasks(def project, String technologyStack,
     }
 }
 
-static def registerCreateConfigTask(def project, String taskSuffix, String configDir, String destFileName, String sdkFolder="", String testFolder="") {
+static def registerCreateConfigTask(def project, String taskSuffix, String sourceConfigFileName, String configDir, String destFileName, String sdkFolder="", String testFolder="") {
     return project.tasks.register("createConfig_${taskSuffix}", Copy) {
-        from "${project.projectDir}/generatorConfiguration.yaml"
+        from "${project.projectDir}/${sourceConfigFileName}"
         into configDir
         rename { filename -> destFileName }
         filter { line -> line.replaceAll('%sdkFolder%', sdkFolder).replaceAll('%testFolder%', testFolder) }

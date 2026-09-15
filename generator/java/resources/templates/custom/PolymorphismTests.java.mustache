@@ -1,0 +1,30 @@
+package {{invokerPackage}};
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiException;
+import {{apiPackage}}.AnalyticsApi;
+import {{modelPackage}}.DerivedTypeOneRequest;
+
+public class PolymorphismTests {
+
+    @Test
+    public void testPostInheritanceWithEmptyTokenShouldReturnUnauthorized() {
+        // Arrange
+        ApiClient client = new ApiClient();
+        client.setAccessToken("");
+        AnalyticsApi api = new AnalyticsApi(client);
+        // An empty body is enough, since the call is rejected for its token
+        DerivedTypeOneRequest request = new DerivedTypeOneRequest();
+
+        // Act & Assert
+        ApiException exception = assertThrows(ApiException.class, () -> {
+            api.postInheritance(request);
+        });
+
+        assertEquals(401, exception.getCode());
+    }
+}

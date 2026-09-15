@@ -1,0 +1,35 @@
+<?php
+namespace {{invokerPackage}};
+
+use {{invokerPackage}}\Api\AnalyticsApi;
+use {{invokerPackage}}\Configuration;
+use {{invokerPackage}}\ApiException;
+use {{invokerPackage}}\Model\DerivedTypeOneRequest;
+use Jchook\AssertThrows\AssertThrows;
+use PHPUnit\Framework\TestCase;
+
+class PolymorphismApiTest extends TestCase
+{
+    use AssertThrows;
+
+    public function testPostInheritanceWithEmptyTokenShouldReturnUnauthorized()
+    {
+        $this->assertThrows(ApiException::class,
+            function () {
+                // Arrange
+                $config = (new Configuration())->setAccessToken("");
+                // Client omitted: AnalyticsApi defaults it to a new GuzzleHttp\Client internally.
+                $api = new AnalyticsApi(null, $config);
+                // An empty body is enough, since the call is rejected for its token
+                $request = new DerivedTypeOneRequest();
+
+                // Act
+                $api->postInheritanceWithHttpInfo($request);
+            },
+            function ($exception) {
+                // Assert
+                $this->assertEquals(401, $exception->getCode());
+            }
+        );
+    }
+}
