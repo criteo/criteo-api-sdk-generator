@@ -25,6 +25,17 @@ if (swaggerList.isEmpty()) {
     throw new GradleException("No swaggers found in api-specifications folder")
 }
 
+// Test-only specs: generated, but never pushed to the public SDK repositories nor to Postman.
+def swaggerListTestOnly = []
+def dirTestOnly = new File("$rootDir/api-specifications-test-only".toString());
+
+if (dirTestOnly.exists()) {
+    dirTestOnly.eachFileRecurse(FileType.FILES) { file ->
+        if (file.getName().endsWith(".json"))
+            swaggerListTestOnly << file
+    }
+}
+
 ext {
     artifactId = "criteo-client-generator"
     groupId = "com.criteo.api"
@@ -33,5 +44,7 @@ ext {
     sourceCompatibility = '1.8'
     jar.enabled = false
     generatedClientsDirName = 'generated-sources'
+    generatedClientsDirNameTestOnly = 'generated-sources-test-only' // never pushed
     swaggerSourceList = swaggerList
+    swaggerSourceListTestOnly = swaggerListTestOnly
 }
