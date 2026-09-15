@@ -18,6 +18,7 @@ ext {
 }
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/php"
+def clientOutputDirTestOnly = "$rootDir/$rootProject.generatedClientsDirNameTestOnly/php"
 def resourcesDir = "$projectDir/resources".toString()
 def criteoPackage = project.properties["package.name.base"]
 def generatorVersion = project.properties["generator.version"]
@@ -29,7 +30,7 @@ task cleanPreviousDist(type: Delete) {
     group 'Criteo'
     description 'Clean up client output folder'
 
-    delete clientOutputDir
+    delete clientOutputDir, clientOutputDirTestOnly
     followSymlinks = true
 }
 
@@ -39,13 +40,15 @@ task generateClient(type: GradleBuild) {
 
     def taskList = ['cleanPreviousDist'];
 
-	rootProject.swaggerSourceList.each {
-        def parsedApiName = it.getName().replace(".json", "").toLowerCase();
+    def specsWithOutputRoot = rootProject.swaggerSourceList.collect { [it, clientOutputDir] } +
+                              rootProject.swaggerSourceListTestOnly.collect { [it, clientOutputDirTestOnly] }
+    specsWithOutputRoot.each { specFile, outputRoot ->
+        def parsedApiName = specFile.getName().replace(".json", "").toLowerCase();
         def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
         def criteoApiVersion = apiVersionFromName.replace('-', '_');
         
-        def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
-        def specPath = it.path;
+        def clientOutputDirPerVersion = outputRoot + "/" + parsedApiName;
+        def specPath = specFile.path;
         def isPreviewOrExperimental = criteoApiVersion == 'preview' || criteoApiVersion == 'experimental';
 
         def versionInNamespace =  criteoApiVersion
