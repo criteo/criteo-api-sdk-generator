@@ -545,7 +545,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/accounts/{account-id}/campaigns/search",
-        "description": "Searches campaigns under an account using optional filters and pagination.\r\nBudget details are sourced from the search index and may be eventually consistent with the\r\nKobalos-backed campaign returned by GET.\r\nSearch does not perform Kobalos enrichment, so drawable balance ids are not included.",
+        "description": "Searches campaigns under an account using optional filters and pagination.\r\nBudgets are sourced from the search index, so they lag a campaign that has just changed.\r\nSearch does not perform Kobalos enrichment, so drawable balance ids are not included.",
         "operationId": "SearchCampaigns",
         "parameters": [
           {
@@ -2270,6 +2270,99 @@
         ]
       }
     },
+    "/experimental/retail-media/line-items/{line-item-id}/set-bidding-strategy": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/set-bidding-strategy",
+        "description": "Replaces the submitted Standard page-type bids and updates the supplied strategy settings. Omitted\r\nsettings are preserved. Other line item types are not currently supported by this endpoint.",
+        "operationId": "SetBiddingStrategyByLineItemId",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "The identifier of the line item whose bidding settings are being updated.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The bidding settings to apply.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BiddingSettingsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BiddingSettingsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/line-items/{line-item-id}/submit": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/submit",
+        "description": "Submits a Commerce Display line item for retailer review, transitioning its eligible reviewable\r\nproperties to In Review. A successful submission responds with 204 No Content and an empty body.",
+        "operationId": "SubmitLineItem",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "The external id of the line item to submit.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The submission details, including an optional comment for the reviewer.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitLineItemRequestModelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/experimental/retail-media/line-items/{line-item-id}/targets": {
       "get": {
         "tags": [
@@ -2355,6 +2448,56 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateTargetRequestModelListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/line-items/{line-item-id}/targets/update": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/targets/update",
+        "description": "Updates targets in bulk. The request has PATCH-like semantics: immutable target details identify\r\neach target, while mutable fields supplied in the request are updated.",
+        "operationId": "UpdateTargetsByLineItemId",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "Unique identifier for the line item.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Targets to update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetListRequest"
               }
             }
           }
@@ -4868,6 +5011,16 @@
         "description": "Represents the bidding configuration for a line item.",
         "nullable": true
       },
+      "BiddingSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BiddingSettingsResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "BiddingSettingsResource": {
         "type": "object",
         "properties": {
@@ -5006,77 +5159,52 @@
         "description": "An object that represents the result from a brand ID search.",
         "nullable": true
       },
-      "BudgetDetailsCreateModel": {
+      "BudgetCappingModel": {
         "type": "object",
         "properties": {
-          "budget": {
+          "amount": {
             "type": "number",
+            "description": "Ceiling for the period.",
             "format": "double",
             "nullable": true
           },
-          "dailyPacing": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "isAutoDailyPacing": {
-            "type": "boolean"
-          },
-          "monthlyPacing": {
-            "type": "number",
-            "format": "double",
+          "type": {
+            "enum": [
+              "Unknown",
+              "Daily",
+              "Monthly"
+            ],
+            "type": "string",
+            "description": "Period the ceiling applies to.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Budget and pacing of the campaign."
+        "description": "A ceiling on what a campaign may spend within one period."
       },
-      "BudgetDetailsModel": {
+      "BudgetCappingRequestModel": {
+        "required": [
+          "amount",
+          "type"
+        ],
         "type": "object",
         "properties": {
-          "budget": {
+          "amount": {
             "type": "number",
-            "format": "double",
-            "nullable": true
+            "description": "Ceiling for the period.",
+            "format": "double"
           },
-          "dailyPacing": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "isAutoDailyPacing": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "monthlyPacing": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
+          "type": {
+            "enum": [
+              "Daily",
+              "Monthly"
+            ],
+            "type": "string",
+            "description": "Period the ceiling applies to. Each period may appear at most once on a budget."
           }
         },
         "additionalProperties": false,
-        "description": "Indexed budget and pacing details returned for Sponsored Products campaigns.",
-        "nullable": true
-      },
-      "BudgetDetailsUpdateModel": {
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/DecimalNullableNillableV2"
-          },
-          "dailyPacing": {
-            "$ref": "#/components/schemas/DecimalNullableNillableV2"
-          },
-          "isAutoDailyPacing": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "monthlyPacing": {
-            "$ref": "#/components/schemas/DecimalNullableNillableV2"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Writable budget and pacing fields for a SponsoredProducts campaign.\r\nOmitted fields remain unchanged."
+        "description": "A ceiling on what a campaign may spend within one period."
       },
       "CampaignCreateModel": {
         "required": [
@@ -5092,9 +5220,6 @@
           "billByRetailerId": {
             "type": "string",
             "nullable": true
-          },
-          "budgetDetails": {
-            "$ref": "#/components/schemas/BudgetDetailsCreateModel"
           },
           "buyType": {
             "enum": [
@@ -5127,23 +5252,26 @@
             "minLength": 0,
             "type": "string"
           },
-          "objective": {
-            "enum": [
-              "Manual",
-              "Clicks",
-              "Conversion",
-              "Revenue",
-              "Impressions"
-            ],
+          "onBehalfCompanyName": {
             "type": "string",
             "nullable": true
           },
-          "onBehalfCompanyName": {
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/OnsiteDisplayDetailsCreateModel"
+          },
+          "regulatedCategory": {
+            "enum": [
+              "None",
+              "Alcohol"
+            ],
             "type": "string",
             "nullable": true
           },
           "scheduleDetails": {
             "$ref": "#/components/schemas/ScheduleDetailsCreateModel"
+          },
+          "sponsoredProductsDetails": {
+            "$ref": "#/components/schemas/SponsoredProductsDetailsCreateModel"
           }
         },
         "additionalProperties": false,
@@ -5183,6 +5311,7 @@
           "createdAt",
           "drawableBalanceIds",
           "name",
+          "regulatedCategory",
           "status",
           "updatedAt"
         ],
@@ -5197,9 +5326,6 @@
           "billByRetailerId": {
             "type": "string",
             "nullable": true
-          },
-          "budgetDetails": {
-            "$ref": "#/components/schemas/BudgetDetailsModel"
           },
           "buyType": {
             "enum": [
@@ -5243,25 +5369,27 @@
             "minLength": 0,
             "type": "string"
           },
-          "objective": {
-            "enum": [
-              "Manual",
-              "Clicks",
-              "Conversion",
-              "Revenue",
-              "Impressions",
-              "Unknown"
-            ],
-            "type": "string",
-            "description": "Dynamic Campaign Budgets control: manual keeps today's behavior; clicks, conversion and\r\nrevenue activate campaign-level budget allocation. Impressions is the Onsite Display\r\nobjective.",
-            "nullable": true
-          },
           "onBehalfCompanyName": {
             "type": "string",
             "nullable": true
           },
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/OnsiteDisplayDetailsModel"
+          },
+          "regulatedCategory": {
+            "enum": [
+              "Unknown",
+              "None",
+              "Alcohol"
+            ],
+            "type": "string",
+            "description": "Regulated category the campaign advertises in, set only on creation."
+          },
           "scheduleDetails": {
             "$ref": "#/components/schemas/ScheduleDetailsModel"
+          },
+          "sponsoredProductsDetails": {
+            "$ref": "#/components/schemas/SponsoredProductsDetailsModel"
           },
           "status": {
             "enum": [
@@ -5480,9 +5608,6 @@
           "attributionSettings": {
             "$ref": "#/components/schemas/AttributionSettingsUpdateModel"
           },
-          "budgetDetails": {
-            "$ref": "#/components/schemas/BudgetDetailsUpdateModel"
-          },
           "companyName": {
             "$ref": "#/components/schemas/StringNillableV2"
           },
@@ -5490,22 +5615,17 @@
             "type": "string",
             "nullable": true
           },
-          "objective": {
-            "enum": [
-              "Manual",
-              "Clicks",
-              "Conversion",
-              "Revenue",
-              "Impressions"
-            ],
-            "type": "string",
-            "nullable": true
-          },
           "onBehalfCompanyName": {
             "$ref": "#/components/schemas/StringNillableV2"
           },
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/OnsiteDisplayDetailsUpdateModel"
+          },
           "scheduleDetails": {
             "$ref": "#/components/schemas/ScheduleDetailsUpdateModel"
+          },
+          "sponsoredProductsDetails": {
+            "$ref": "#/components/schemas/SponsoredProductsDetailsUpdateModel"
           }
         },
         "additionalProperties": false,
@@ -6826,18 +6946,6 @@
         "description": "Data freshness: the instant through which report data is complete, expressed in the report's request timezone.",
         "nullable": true
       },
-      "DecimalNullableNillableV2": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A wrapper around an optional decimal value in an update payload. Omit the property to leave the current value unchanged, or send a null value to clear it."
-      },
       "DeleteCreativesModel": {
         "required": [
           "creativeIds"
@@ -7657,9 +7765,6 @@
             "type": "string",
             "description": "The campaign id of the associated campaign.",
             "nullable": true
-          },
-          "flightDates": {
-            "$ref": "#/components/schemas/ExperimentalFlightDatesModel"
           },
           "isPaused": {
             "type": "boolean",
@@ -9574,6 +9679,75 @@
         "description": "Extended attributes for a Auction Onsite Display Line Item",
         "nullable": true
       },
+      "OnsiteDisplayBudgetCreateModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Total the campaign may spend over its flight.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Financial intent of an OnsiteDisplay campaign. An amount only: per-period cappings and pacing\r\napply to SponsoredProducts."
+      },
+      "OnsiteDisplayBudgetModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Financial intent of an OnsiteDisplay campaign.",
+        "nullable": true
+      },
+      "OnsiteDisplayBudgetUpdateModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "New financial intent of an OnsiteDisplay campaign. The whole node replaces the previous budget;\r\nomit it to leave the budget unchanged."
+      },
+      "OnsiteDisplayDetailsCreateModel": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/OnsiteDisplayBudgetCreateModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Settings that apply only to an OnsiteDisplay campaign. The objective is not exposed externally;\r\nevery campaign created through this endpoint is an impressions campaign."
+      },
+      "OnsiteDisplayDetailsModel": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/OnsiteDisplayBudgetModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Settings that apply only to an OnsiteDisplay campaign. The objective is not exposed externally.",
+        "nullable": true
+      },
+      "OnsiteDisplayDetailsUpdateModel": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/OnsiteDisplayBudgetUpdateModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "OnsiteDisplay settings to update. Omitted settings remain unchanged."
+      },
       "Outcome": {
         "type": "object",
         "properties": {
@@ -9598,6 +9772,40 @@
         },
         "additionalProperties": false,
         "description": "The outcome of an API call."
+      },
+      "PacingModel": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "Unknown",
+              "Automatic"
+            ],
+            "type": "string",
+            "description": "How the platform spreads a campaign budget over its flight.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "How the platform spreads the campaign budget over its flight.",
+        "nullable": true
+      },
+      "PacingRequestModel": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "Automatic"
+            ],
+            "type": "string",
+            "description": "How the platform spreads a campaign budget over its flight."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Asks the platform to spread the campaign budget rather than cap it per period."
       },
       "PageTypeEnvironment2": {
         "type": "object",
@@ -12027,7 +12235,7 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "Campaign end date. Pass exactly {9999-12-30T00:00:00Z} for a SponsoredProducts campaign that\r\nruns indefinitely; any other value, including a neighbouring far-future date, is a real end date.",
+            "description": "Campaign end date. Pass exactly {9999-12-30T00:00:00Z} for a SponsoredProducts campaign that\r\nruns indefinitely; any other value, including a neighbouring far-future date, is a real end date.\r\nAn OnsiteDisplay Auction campaign cannot run indefinitely and rejects that date.",
             "format": "date-time"
           },
           "startDate": {
@@ -12037,14 +12245,14 @@
           }
         },
         "additionalProperties": false,
-        "description": "Flight dates of the campaign. Applies to SponsoredProducts only; OnsiteDisplay campaigns\r\nderive their dates from their line items and reject this node."
+        "description": "Flight dates the campaign holds itself. A SponsoredProducts or OnsiteDisplay Auction campaign\r\nowns its dates and requires this node; any other OnsiteDisplay campaign derives its dates from\r\nits line items and rejects it."
       },
       "ScheduleDetailsModel": {
         "type": "object",
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "Campaign end date. A SponsoredProducts campaign that runs indefinitely reports\r\n{9999-12-30T00:00:00Z}.",
+            "description": "Campaign end date. A SponsoredProducts campaign that runs indefinitely reports\r\n{9999-12-30T00:00:00Z}. An OnsiteDisplay campaign reports a real end date, and omits\r\nit when neither the campaign nor its line items carry one.",
             "format": "date-time",
             "nullable": true
           },
@@ -12056,7 +12264,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Flight dates of the campaign. Always complete: both dates are present on every read.\r\nA SponsoredProducts campaign that runs indefinitely reports the documented indefinite end date\r\nrather than omitting it.",
+        "description": "Flight dates of the campaign. A SponsoredProducts campaign and an OnsiteDisplay Auction\r\ncampaign report the dates they hold themselves; any other OnsiteDisplay campaign reports the\r\ndates derived from its line items, which it cannot set through this API. A SponsoredProducts\r\ncampaign that runs indefinitely reports the documented indefinite end date rather than\r\nomitting it.",
         "nullable": true
       },
       "ScheduleDetailsUpdateModel": {
@@ -12068,7 +12276,7 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "New campaign end date. Pass exactly {9999-12-30T00:00:00Z} to make the campaign run\r\nindefinitely; any other value is a real end date.",
+            "description": "New campaign end date. Pass exactly {9999-12-30T00:00:00Z} to make a SponsoredProducts\r\ncampaign run indefinitely; any other value is a real end date. An OnsiteDisplay Auction\r\ncampaign cannot run indefinitely and rejects that date.",
             "format": "date-time"
           },
           "startDate": {
@@ -12078,7 +12286,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "New flight dates for a SponsoredProducts campaign. Omit the whole node to leave the schedule\r\nunchanged; when present, both dates are required together."
+        "description": "New flight dates for a campaign that owns them: a SponsoredProducts or OnsiteDisplay Auction\r\ncampaign. Omit the whole node to leave the schedule unchanged; when present, both dates are\r\nrequired together. Any other OnsiteDisplay campaign derives its dates from its line items and\r\nrejects this node."
       },
       "SdkApiRestCommonProblem": {
         "type": "object",
@@ -12621,6 +12829,131 @@
         "description": "Extended attributes for a Auction Sponsored Products Line Item",
         "nullable": true
       },
+      "SponsoredProductsBudgetCreateModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Total the campaign may spend over its flight.",
+            "format": "double",
+            "nullable": true
+          },
+          "cappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BudgetCappingRequestModel"
+            },
+            "description": "Per-period ceilings. At most one entry per period.",
+            "nullable": true
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/PacingRequestModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Financial intent of a SponsoredProducts campaign."
+      },
+      "SponsoredProductsBudgetModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BudgetCappingModel"
+            },
+            "description": "Per-period ceilings. Only capped periods are reported.",
+            "nullable": true
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/PacingModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Financial intent of a SponsoredProducts campaign.",
+        "nullable": true
+      },
+      "SponsoredProductsBudgetUpdateModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BudgetCappingRequestModel"
+            },
+            "description": "Per-period ceilings. At most one entry per period.",
+            "nullable": true
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/PacingRequestModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "New financial intent of a SponsoredProducts campaign. The whole node replaces the previous\r\nbudget; omit it to leave the budget unchanged."
+      },
+      "SponsoredProductsDetailsCreateModel": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/SponsoredProductsBudgetCreateModel"
+          },
+          "objective": {
+            "enum": [
+              "Manual",
+              "Clicks",
+              "Conversion",
+              "Revenue"
+            ],
+            "type": "string",
+            "description": "Defaults to manual when omitted.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Settings that apply only to a SponsoredProducts campaign. Sending this node on a campaign of\r\nanother type is refused."
+      },
+      "SponsoredProductsDetailsModel": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/SponsoredProductsBudgetModel"
+          },
+          "objective": {
+            "enum": [
+              "Manual",
+              "Clicks",
+              "Conversion",
+              "Revenue",
+              "Unknown"
+            ],
+            "type": "string",
+            "description": "Objective of a SponsoredProducts campaign.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Settings that apply only to a SponsoredProducts campaign. Present only on campaigns of that\r\ntype.",
+        "nullable": true
+      },
+      "SponsoredProductsDetailsUpdateModel": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/SponsoredProductsBudgetUpdateModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "SponsoredProducts settings to update. Omitted settings remain unchanged."
+      },
       "SponsoredProductsLineItem": {
         "required": [
           "budgetRemaining",
@@ -13066,6 +13399,44 @@
         "additionalProperties": false,
         "description": "A wrapper around an optional text value in an update payload. Omit the property to leave the current value unchanged, or send a null value to clear it."
       },
+      "SubmitLineItemRequestModel": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "maxLength": 255,
+            "type": "string",
+            "description": "Optional comment for the retailer reviewing the line item.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details supplied when submitting a line item for retailer review."
+      },
+      "SubmitLineItemRequestModelRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SubmitLineItemRequestModelResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "SubmitLineItemRequestModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SubmitLineItemRequestModel"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "SupplySearch": {
         "type": "object",
         "properties": {
@@ -13308,6 +13679,20 @@
         "additionalProperties": false,
         "description": "A specific Target configured on the line item",
         "nullable": true
+      },
+      "TargetListRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TargetResource"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for several value objects."
       },
       "TargetListResponse": {
         "type": "object",
