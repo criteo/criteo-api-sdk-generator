@@ -1,4 +1,4 @@
-from shared.utils import run_command, CommandException
+from shared.utils import run_command, CommandException, VERSION_BUMP_PATTERN
 
 class IGitClient:
     def setup(self, actor):
@@ -63,7 +63,7 @@ class GitClient(IGitClient):
         diff_count = run_command(
             f"git -c diff.renameLimit=0 diff -U0 --staged{path_arg}"
             " | grep '^[+-][^+-]'"
-            r" | grep -Ev '[0-9]+\.[0-9]+(\.[0-9]+)*\.[0-9]{6}'"
+            f" | grep -Ev '{VERSION_BUMP_PATTERN}'"
             " | wc -l | tr -d '[:space:]'"
         )
         return int(diff_count)

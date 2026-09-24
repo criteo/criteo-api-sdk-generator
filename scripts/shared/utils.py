@@ -7,6 +7,13 @@ from .models.criteo_service import CriteoService
 
 PREVIEW_AND_EXPERIMENTAL_VERSIONS = {'preview', 'experimental'}
 
+# Matches version-bump lines of the form X.Y(.Z...).NNNNNN, where NNNNNN is the
+# 6-digit date suffix (e.g. 0.0.260924 for preview/experimental,
+# 2026.01.0.260924 for dated versions). diff_count greps these out so that a
+# regeneration whose only change is the dated version string is treated as
+# "no meaningful change". Tested via re.search (mirrors grep -E semantics).
+VERSION_BUMP_PATTERN = r'[0-9]+\.[0-9]+(\.[0-9]+)*\.[0-9]{6}'
+
 logger = None
 formatted_date = None
 
