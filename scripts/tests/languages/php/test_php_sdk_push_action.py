@@ -13,7 +13,7 @@ from tests.builders.os_client_builder import OsClientBuilder
 class TestPhpSdkPushAction:
   @pytest.fixture(autouse=True)
   def setup_builders(self):
-    self.criteo_service = CriteoService.marketingsolutions
+    self.criteo_service = CriteoService.marketingsolutions.value
     self.api_version = '2021-10'
     self.repository_name = f'criteo-api-{self.criteo_service}-php-sdk'
     self.generated_sources = '/Users/john.doe/criteo-api-sdk-generator/generated-sources/php'
@@ -67,7 +67,7 @@ class TestPhpSdkPushAction:
     # Arrange
     invalid_api_version = 'invalid-api-version'
     
-    fs_client = self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [f'{CriteoService.marketingsolutions}_{invalid_api_version}']).client
+    fs_client = self.fs_client_builder.that_responds_on_list_dir(self.generated_sources, [f'{CriteoService.marketingsolutions.value}_{invalid_api_version}']).client
     action = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
     
     # Act & Assert
@@ -85,17 +85,6 @@ class TestPhpSdkPushAction:
     with pytest.raises(FileNotFoundError):
       action.execute()
   
-  def test_execute_should_fail_when_copy_new_sources_fails(self):
-    # Arrange
-    expected_exception = FileNotFoundError()
-    
-    fs_client = self.fs_client_builder.that_fails_on_copy(expected_exception).client
-    action = PhpSdkPushAction(self.git_client_builder.client, fs_client, self.os_client_builder.client)
-    
-    # Act & Assert
-    with pytest.raises(FileNotFoundError):
-      action.execute()
-      
   def test_execute_should_fail_when_copy_new_sources_fails(self):
     # Arrange
     expected_exception = FileNotFoundError()
