@@ -11,6 +11,7 @@ buildscript {
     }
 }
 
+apply plugin: 'helper'
 apply plugin: 'org.openapi.generator'
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/java"
@@ -138,10 +139,3 @@ task generateClient(type: GradleBuild) {
 
     generateClient.dependsOn(taskList);
 }
-
-def getFormattedDate() {
-    def date = new Date()
-    def formattedDate = date.format('yyMMdd')
-    return formattedDate
-}
-
