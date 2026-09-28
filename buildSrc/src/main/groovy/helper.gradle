@@ -14,8 +14,15 @@ static def registerCleanPreviousDistTask(def tasks, String clientOutputDir) {
   }
 }
 
+static def getArtifactVersion(String criteoApiVersion, String generatorVersion) {
+    def isPreviewOrExperimental = criteoApiVersion == 'preview' || criteoApiVersion == 'experimental';
+    def artifactVersion = isPreviewOrExperimental ? '0' : criteoApiVersion.replaceAll("_",".").toString()
+    artifactVersion += ".${generatorVersion}.${getFormattedDate()}".toString() // example : 2021.01.0.211110 for stable , 0.0.211110 for preview
+    return artifactVersion
+}
+
 ext {
-    getFormattedDate = this.&getFormattedDate
     registerCleanPreviousDistTask = this.&registerCleanPreviousDistTask
+    getArtifactVersion = this.&getArtifactVersion
 
 }
