@@ -19,8 +19,8 @@ ext {
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/php"
 def resourcesDir = "$projectDir/resources".toString()
-def criteoPackage = project.properties["package.name.base"]
-def generatorVersion = project.properties["generator.version"]
+def criteoPackage = providers.gradleProperty("package.name.base").orNull
+def generatorVersion = providers.gradleProperty("generator.version").orNull
 def technologyStack = "php"
 def nameSeparator = '\\'
 def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()

@@ -16,9 +16,9 @@ apply plugin: 'org.openapi.generator'
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/java"
 def buildDir = "$projectDir/build";
 def resourcesDir = "$projectDir/resources".toString()
-def criteoPackage = project.properties["package.name.base"]
+def criteoPackage = providers.gradleProperty("package.name.base").orNull
 def basePackagePath = criteoPackage.replace(".", "/")
-def generatorVersion = project.properties["generator.version"]
+def generatorVersion = providers.gradleProperty("generator.version").orNull
 def technologyStack = "java8"
 def nameSeparator = '.'
 def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()
