@@ -90,14 +90,7 @@ task generateClient(type: GradleBuild) {
             mustRunAfter createConfig
         }
 
-        def copyLicense = task("copyLicense_" + taskSuffix, type: Copy) {
-            group = 'Criteo'
-            description = 'Copy the license into the client output folder'
-
-            from "$projectDir/../LICENSE"
-            into clientOutputDirPerVersion
-            rename 'LICENSE', 'LICENSE.txt'
-        }
+        def copyLicense = registerCopyLicenseTask(project, technologyStack, parsedApiName, clientOutputDirPerVersion)
 
         def removeUnwantedFiles = task("removeUnwantedFiles_" + taskSuffix, type: Delete) {
             group = 'Criteo'

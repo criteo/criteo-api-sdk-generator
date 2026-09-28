@@ -21,8 +21,20 @@ static def getArtifactVersion(String criteoApiVersion, String generatorVersion) 
     return artifactVersion
 }
 
+static def registerCopyLicenseTask(def project, String technologyStack, String parsedApiName, String clientOutputDirPerVersion) {
+    return project.tasks.register("copyLicense_${technologyStack}_${parsedApiName}", Copy) {
+        group = 'Criteo'
+        description = 'Copy the license into the client output folder'
+
+        from "$project.projectDir/../LICENSE"
+        into clientOutputDirPerVersion
+        rename 'LICENSE', 'LICENSE.txt'
+    };
+}
+
 ext {
     registerCleanPreviousDistTask = this.&registerCleanPreviousDistTask
     getArtifactVersion = this.&getArtifactVersion
+    registerCopyLicenseTask = this.&registerCopyLicenseTask
 
 }
