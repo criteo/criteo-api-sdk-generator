@@ -28,19 +28,13 @@ def technologyStack = "python"
 def nameSeparator = '_'
 def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()
 
-task cleanPreviousDist(type: Delete) {
-    group = 'Criteo'
-    description = 'Clean up client output folder'
-
-    delete clientOutputDir
-    followSymlinks = true
-}
+def cleanPreviousDist = registerCleanPreviousDistTask(tasks, clientOutputDir)
 
 task generateClient(type: GradleBuild) {
     group = 'Criteo'
     description = 'Generate the ${language.toUpperCase()} client using openapi-generator and custom templates'
 
-    def taskList = ['cleanPreviousDist'];
+    def taskList = [cleanPreviousDist];
 
     rootProject.swaggerSourceList.each {
         def parsedApiName = it.getName().replace(".json", "").toLowerCase();

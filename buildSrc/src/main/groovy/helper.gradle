@@ -4,7 +4,18 @@ static def getFormattedDate() {
     return formattedDate
 }
 
+static def registerCleanPreviousDistTask(def tasks, String clientOutputDir) {
+  return tasks.register("cleanPreviousDist", Delete) {
+      group = 'Criteo'
+      description = 'Clean up generated client output folder'
+
+      delete clientOutputDir
+      followSymlinks = true
+  }
+}
+
 ext {
     getFormattedDate = this.&getFormattedDate
+    registerCleanPreviousDistTask = this.&registerCleanPreviousDistTask
 
 }

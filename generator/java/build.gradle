@@ -24,13 +24,7 @@ def technologyStack = "java8"
 def nameSeparator = '.'
 def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()
 
-task cleanPreviousJavaBuild(type: Delete) {
-    group = 'Criteo'
-    description = 'Clean up generated client output folder'
-
-    delete clientOutputDir
-    followSymlinks = true
-}
+def cleanPreviousDist = registerCleanPreviousDistTask(tasks, clientOutputDir)
 
 task generateClient(type: GradleBuild) {
     group = 'Criteo'
@@ -73,7 +67,7 @@ task generateClient(type: GradleBuild) {
             def configContent = file.text.replace('sdkFolder', sdkMainDir).replace('testFolder', sdkTestDir)
             configFileForCriteoServiceVersion.text = configContent
         }
-        createConfig.dependsOn(cleanPreviousJavaBuild.name)
+        createConfig.dependsOn(cleanPreviousDist.name)
 
         def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "$language".toString()
