@@ -4403,13 +4403,167 @@
         ]
       }
     },
+    "/preview/marketing-solutions/marketplace-performance-outcomes/stats/product-reports/{reportId}": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/product-reports/{reportId}",
+        "description": "Downloads the generated MPO products report export.\n<br />\nThis endpoint is subject to specific rate limits.",
+        "operationId": "DownloadMpoProductsExport",
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "path",
+            "description": "The identifier of the MPO products report export.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductReportDataResponse"
+                },
+                "example": {
+                  "data": {
+                    "type": "ProductReportData",
+                    "attributes": {
+                      "columns": [
+                        "adSetId",
+                        "sellerId",
+                        "productId",
+                        "impressions",
+                        "clicks",
+                        "cost"
+                      ],
+                      "data": [
+                        [
+                          123,
+                          456,
+                          "abc",
+                          100,
+                          8,
+                          2
+                        ]
+                      ],
+                      "rows": 1
+                    }
+                  },
+                  "warnings": [ ],
+                  "errors": [ ]
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/preview/marketing-solutions/marketplace-performance-outcomes/stats/product-reports/export": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/product-reports/export",
+        "description": "Creates an MPO products report export job.\n<br />\nThis endpoint is subject to specific rate limits.",
+        "operationId": "CreateMpoProductsExport",
+        "requestBody": {
+          "description": "The MPO products report export request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductReportJobRequest"
+              },
+              "example": {
+                "data": {
+                  "type": "ProductReportJob",
+                  "attributes": {
+                    "fileFormat": "json",
+                    "startDate": "2026-09-01T00:00:00.0000000+00:00",
+                    "endDate": "2026-09-04T00:00:00.0000000+00:00",
+                    "advertiserIds": [
+                      "123"
+                    ],
+                    "campaignIds": [
+                      "111"
+                    ],
+                    "adSetIds": [
+                      "135"
+                    ],
+                    "dimensions": [
+                      "adSetId",
+                      "sellerId",
+                      "productId"
+                    ],
+                    "metrics": [
+                      "impressions",
+                      "clicks",
+                      "cost"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportJobStatusResponse"
+                },
+                "example": {
+                  "data": {
+                    "type": "ReportJobStatus",
+                    "attributes": {
+                      "exportId": "e0893b6b-be25-477f-9ca3-e6e8c8ec9e30",
+                      "status": "Pending",
+                      "message": null
+                    }
+                  },
+                  "warnings": [ ],
+                  "errors": [ ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/{reportId}": {
       "get": {
         "tags": [
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/{reportId}",
-        "description": "Downloads the generated marketplace performance outcomes realtime report export.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Downloads the generated marketplace performance outcomes realtime report export.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GetRealtimeProduct",
         "parameters": [
           {
@@ -4459,7 +4613,7 @@
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/marketplace-performance-outcomes/stats/realtime-reports/export",
-        "description": "Creates a marketplace performance outcomes realtime report export.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Creates a marketplace performance outcomes realtime report export.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "CreateRealtimeProductReport",
         "requestBody": {
           "description": "The realtime report export request.",
@@ -4650,7 +4804,7 @@
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/report/products/{reportId}",
-        "description": "Downloads the generated all-products report export.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Downloads the generated all-products report export.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "DownloadAllProductsExport",
         "parameters": [
           {
@@ -4691,7 +4845,7 @@
           "Analytics"
         ],
         "summary": "/preview/marketing-solutions/report/products/export",
-        "description": "Creates an all-products report export job.\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Creates an all-products report export job.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "CreateAllProductsExport",
         "requestBody": {
           "description": "The all-products report export request.",
@@ -5998,7 +6152,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this ad. If the end date is not specified (i.e. null) then the ad will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this ad. If the end date is not specified (i.e. null) then\r\nthe ad will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:30:00.000Z\".",
             "nullable": true
           },
           "id": {
@@ -6023,7 +6177,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the ad will be launched\r\nString must be in ISO8601 format",
+            "description": "The date when the ad will be launched.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:30:00.000Z\".",
             "nullable": true
           }
         },
@@ -7219,7 +7373,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this ad. If the end date is not specified (i.e. null) then the ad will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this ad, which must come after the start date. If the end\r\ndate is not specified (i.e. null) then the ad will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:30:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:30:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:30:00Z\".",
             "nullable": true
           },
           "id": {
@@ -7243,7 +7397,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the ad will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the ad will be launched. It must be a date in the future.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:30:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:30:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:30:00Z\"."
           }
         },
         "description": "Entity to create an ad"
@@ -9600,7 +9754,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon. If the end date is not specified (i.e. null)\r\nthen the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:00:00.000Z\".",
             "nullable": true
           },
           "format": {
@@ -9650,7 +9804,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the Coupon will be launched\r\nString must be in ISO8601 format",
+            "description": "The date when the coupon will be launched.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:00:00.000Z\".",
             "nullable": true
           },
           "status": {
@@ -10139,7 +10293,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon, which must come after the start date. If the\r\nend date is not specified (i.e. null) then the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\".",
             "nullable": true
           },
           "format": {
@@ -10192,7 +10346,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the coupon will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the coupon will be launched. It must be a date in the future.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\"."
           }
         },
         "description": "Entity to create a Coupon"
@@ -15565,6 +15719,202 @@
         },
         "description": "Price information"
       },
+      "ProductReportData": {
+        "type": "object",
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Column names",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { }
+            },
+            "description": "Report data",
+            "nullable": true
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Number of rows reported",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The generated product report JSON.",
+        "nullable": true
+      },
+      "ProductReportDataResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ProductReportData"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "ProductReportDataResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ProductReportDataResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
+      "ProductReportJob": {
+        "required": [
+          "advertiserIds",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "adSetIds": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of ad set ids. Maximum 10.",
+            "nullable": true
+          },
+          "advertiserIds": {
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of advertiser account IDs. Maximum 5, numeric."
+          },
+          "campaignIds": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of marketing campaign ids. Maximum 10.",
+            "nullable": true
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "advertiserId",
+                "partnerId",
+                "campaignId",
+                "adSetId",
+                "sellerId",
+                "productId"
+              ],
+              "type": "string",
+              "description": "Dimensions available for grouping in an MPO products report."
+            },
+            "description": "The dimensions of the report. If not included, the default list of dimensions will be used.",
+            "default": [
+              "advertiserId",
+              "adSetId",
+              "sellerId",
+              "productId"
+            ],
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End of the reporting interval. ISO 8601 date-time (UTC). Defaults to the last complete day.",
+            "format": "date-time"
+          },
+          "fileFormat": {
+            "type": "string",
+            "description": "The output file format. Supported: csv, json.",
+            "default": "csv",
+            "nullable": true
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "clicks",
+                "impressions",
+                "cost"
+              ],
+              "type": "string",
+              "description": "Metrics available for an MPO products report."
+            },
+            "description": "The list of metrics to report. If not included, the default list of metrics will be used.",
+            "default": [
+              "clicks",
+              "impressions",
+              "cost"
+            ],
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start of the reporting interval. ISO 8601 date-time (UTC).",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "This is the message defining the query for the MPO product report (async export)."
+      },
+      "ProductReportJobRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ProductReportJobResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ProductReportJobResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ProductReportJob"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "ProductsCustomBatchRequest": {
         "required": [
           "entries"
@@ -16739,6 +17089,79 @@
           }
         },
         "description": "A list of warnings on a batch operation."
+      },
+      "ReportJobStatus": {
+        "type": "object",
+        "properties": {
+          "exportId": {
+            "type": "string",
+            "description": "ID of the report job",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Optional informational message (e.g. rows_count=1232)",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "Pending",
+              "Done",
+              "Failure",
+              "Expired"
+            ],
+            "type": "string",
+            "description": "Status of the report job",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Status of a report export job.",
+        "nullable": true
+      },
+      "ReportJobStatusResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ReportJobStatus"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "ReportJobStatusResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ReportJobStatusResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
       "ReportOkResponse": {
         "required": [
@@ -18820,7 +19243,7 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon, which must come after the start date. If the\r\nend date is not specified (i.e. null) then the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\".",
             "nullable": true
           },
           "id": {
@@ -18829,7 +19252,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the Coupon will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the coupon will be launched. It must be a date in the future, and it must not\r\nmove earlier than the start date the coupon already has.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\"."
           }
         },
         "description": "Entity to edit a Coupon"
