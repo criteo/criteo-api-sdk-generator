@@ -75,6 +75,13 @@ static def registerOpenApiGenerateTask(def project, String taskSuffix, String ge
     }
 }
 
+static String computeVersionInNamespace(String criteoApiVersion) {
+    def versionInNamespace =  criteoApiVersion
+    if (versionInNamespace.matches("[0-9].*"))
+        versionInNamespace= "v" + versionInNamespace
+    return versionInNamespace
+}
+
 ext {
     registerCleanPreviousDistTask = this.&registerCleanPreviousDistTask
     getArtifactVersion = this.&getArtifactVersion
@@ -82,4 +89,5 @@ ext {
     registerRemoveUnwantedFilesTasks = this.&registerRemoveUnwantedFilesTasks
     registerCreateConfigTask = this.&registerCreateConfigTask
     registerOpenApiGenerateTask = this.&registerOpenApiGenerateTask
+    computeVersionInNamespace = this.&computeVersionInNamespace
 }

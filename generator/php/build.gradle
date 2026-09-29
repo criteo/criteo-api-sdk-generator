@@ -41,9 +41,7 @@ task generateClient(type: GradleBuild) {
         def clientOutputDirPerVersion = clientOutputDir + "/" + parsedApiName;
         def specPath = it.path;
 
-        def versionInNamespace =  criteoApiVersion
-        if (versionInNamespace.matches("[0-9].*"))
-             versionInNamespace= "v" + versionInNamespace
+        def versionInNamespace =  computeVersionInNamespace(criteoApiVersion)
 
         def namespaceBase = "${criteoPackage}.${criteoService}.${versionInNamespace}".replace('.', nameSeparator).toString(); // example: criteo\api\marketingsolutions\v2021_10
 
