@@ -44,10 +44,19 @@ static def registerRemoveUnwantedFilesTasks(def project, String technologyStack,
     }
 }
 
+static def registerCreateConfigTask(def project, String taskSuffix, String configDir, String destFileName, String sdkFolder="", String testFolder="") {
+    return project.tasks.register("createConfig_${taskSuffix}", Copy) {
+        from "${project.projectDir}/generatorConfiguration.yaml"
+        into configDir
+        rename { filename -> destFileName }
+        filter { line -> line.replaceAll('%sdkFolder%', sdkFolder).replaceAll('%testFolder%', testFolder) }
+    }
+}
+
 ext {
     registerCleanPreviousDistTask = this.&registerCleanPreviousDistTask
     getArtifactVersion = this.&getArtifactVersion
     registerCopyLicenseTask = this.&registerCopyLicenseTask
     registerRemoveUnwantedFilesTasks = this.&registerRemoveUnwantedFilesTasks
-
+    registerCreateConfigTask = this.&registerCreateConfigTask
 }

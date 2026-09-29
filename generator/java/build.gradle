@@ -58,17 +58,13 @@ task generateClient(type: GradleBuild) {
         def sdkMainDir = 'src/main/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
         def sdkTestDir = 'src/test/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
 
-        def createConfig  = task("createConfig_${technologyStack}_" + parsedApiName) {
-            mkdir "$buildDir"
-            def file = new File("$projectDir/generatorConfiguration.yaml")
-            def configFileForCriteoServiceVersion = new File("$buildDir/${criteoService}-${versionInNamespace}.yaml")
-            def configContent = file.text.replace('sdkFolder', sdkMainDir).replace('testFolder', sdkTestDir)
-            configFileForCriteoServiceVersion.text = configContent
-        }
+        def configDir = "${buildDir}/${parsedApiName}"
+        def generatedConfigFile = "${criteoService}-${versionInNamespace}.yaml"
+        def createConfig = registerCreateConfigTask(project, "${technologyStack}_${parsedApiName}", configDir, generatedConfigFile, sdkMainDir, sdkTestDir)
 
         def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "$language".toString()
-            configFile = "${buildDir}/${criteoService}-${versionInNamespace}.yaml".toString()
+            configFile = "${configDir}/${generatedConfigFile}"
             templateDir = "$resourcesDir/templates/".toString()
             inputSpec = specPath
             outputDir = clientOutputDirPerVersion

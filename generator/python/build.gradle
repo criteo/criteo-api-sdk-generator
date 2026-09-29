@@ -54,17 +54,12 @@ task generateClient(type: GradleBuild) {
         def artifactVersion = getArtifactVersion(criteoApiVersion, generatorVersion)
 
         def configDir = "${buildDir}/${parsedApiName}"
-        def createConfig  = task("createConfig_" + taskSuffix, type: Copy)
-       {
-            from "${projectDir}/generatorConfiguration.yaml"
-            into "${configDir}"
-            rename  {filename -> namespaceBase + ".yaml" }
-            filter { line -> line.replaceAll('%sdkFolder%', namespaceBase) }
-        }
+        def generatedConfigFile = "${namespaceBase}.yaml"
+        def createConfig = registerCreateConfigTask(project, taskSuffix, configDir, generatedConfigFile, namespaceBase)
 
         def generateTask = task("openApiGenerate_" + taskSuffix, type: GenerateTask.class) {
             generatorName = "python-prior"
-            configFile = "${configDir}/${namespaceBase}.yaml"
+            configFile = "${configDir}/${generatedConfigFile}"
             templateDir = "$resourcesDir/templates/".toString()
             inputSpec = specPath
             outputDir = clientOutputDirPerVersion
@@ -87,7 +82,7 @@ task generateClient(type: GradleBuild) {
             additionalProperties = [
                     criteoServiceAsPrefix   : "${criteoService}".toString().toUpperCase(),
             ]
-            mustRunAfter createConfig
+            dependsOn createConfig
         }
 
         def copyLicense = registerCopyLicenseTask(project, technologyStack, parsedApiName, clientOutputDirPerVersion)
