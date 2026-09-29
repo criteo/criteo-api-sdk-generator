@@ -1,4 +1,4 @@
-import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+//import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 buildscript {
     repositories {
@@ -19,7 +19,6 @@ ext {
 }
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/php"
-def resourcesDir = "$projectDir/resources".toString()
 def criteoPackage = providers.gradleProperty("package.name.base").orNull
 def generatorVersion = providers.gradleProperty("generator.version").orNull
 def technologyStack = "php"
@@ -50,30 +49,16 @@ task generateClient(type: GradleBuild) {
 
         def artifactVersion = getArtifactVersion(criteoApiVersion, generatorVersion)
 
-        def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
-                configFile = "$projectDir/generatorConfiguration.yaml".toString()
-                generatorName = "$language".toString()
-                templateDir = "$resourcesDir/templates/".toString()
-                inputSpec = specPath
-                outputDir = clientOutputDirPerVersion
-                removeOperationIdPrefix = true
-                generateApiTests = false
-                generateModelTests = false
-                gitUserId = 'criteo'
-                gitRepoId = "criteo-api-${criteoService}-${language}-sdk".toString()
-                cleanupOutput = true
-                configOptions = [
-                        groupId                 : 'criteo',
+        def generateTask = registerOpenApiGenerateTask(project, "${technologyStack}_${parsedApiName}", language, "$projectDir/generatorConfiguration.yaml", specPath, clientOutputDirPerVersion, criteoService, [
                         artifactVersion         : "${artifactVersion}".toString(),
-                        hideGenerationTimestamp : 'true',
                         invokerPackage          : "${namespaceBase}".toString(),
                         packageName             : "criteo-api-${criteoService}-sdk".toString(),
-                 ]
-                additionalProperties = [
-                        criteoServiceAsPrefix   : "${criteoService}".toString().toUpperCase(),                         
                 ]
+        )
+        generateTask.configure {
+            gitUserId = 'criteo'
+            gitRepoId = "criteo-api-${criteoService}-${language}-sdk"
         }
-
 
         def copyLicense = registerCopyLicenseTask(project, technologyStack, parsedApiName, clientOutputDirPerVersion)
 

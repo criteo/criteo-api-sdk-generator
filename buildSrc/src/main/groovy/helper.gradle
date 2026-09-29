@@ -53,10 +53,33 @@ static def registerCreateConfigTask(def project, String taskSuffix, String confi
     }
 }
 
+static def registerOpenApiGenerateTask(def project, String taskSuffix, String generatorName, String configFileFullPath, String specPath, String outputDir, String criteoService, def configOptions) {
+    def generateTaskClass = Class.forName("org.openapitools.generator.gradle.plugin.tasks.GenerateTask", true, project.buildscript.classLoader)
+    return project.tasks.register("openApiGenerate_${taskSuffix}", generateTaskClass) {
+        it.generatorName = generatorName
+        configFile = configFileFullPath
+        templateDir = "${project.projectDir}/resources/templates"
+        inputSpec = specPath
+        it.outputDir = outputDir
+        removeOperationIdPrefix = true
+        generateApiTests = false
+        generateModelTests = false
+        cleanupOutput = true
+        it.configOptions = configOptions + [
+                groupId: 'com.criteo',
+                hideGenerationTimestamp : 'true',
+        ]
+        additionalProperties = [
+                criteoServiceAsPrefix   : criteoService.toString().toUpperCase(),
+        ]
+    }
+}
+
 ext {
     registerCleanPreviousDistTask = this.&registerCleanPreviousDistTask
     getArtifactVersion = this.&getArtifactVersion
     registerCopyLicenseTask = this.&registerCopyLicenseTask
     registerRemoveUnwantedFilesTasks = this.&registerRemoveUnwantedFilesTasks
     registerCreateConfigTask = this.&registerCreateConfigTask
+    registerOpenApiGenerateTask = this.&registerOpenApiGenerateTask
 }

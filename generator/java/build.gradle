@@ -16,7 +16,6 @@ apply plugin: 'org.openapi.generator'
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/java"
 def buildDir = "$projectDir/build";
-def resourcesDir = "$projectDir/resources".toString()
 def criteoPackage = providers.gradleProperty("package.name.base").orNull
 def basePackagePath = criteoPackage.replace(".", "/")
 def generatorVersion = providers.gradleProperty("generator.version").orNull
@@ -62,43 +61,32 @@ task generateClient(type: GradleBuild) {
         def generatedConfigFile = "${criteoService}-${versionInNamespace}.yaml"
         def createConfig = registerCreateConfigTask(project, "${technologyStack}_${parsedApiName}", configDir, generatedConfigFile, sdkMainDir, sdkTestDir)
 
-        def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
-            generatorName = "$language".toString()
-            configFile = "${configDir}/${generatedConfigFile}"
-            templateDir = "$resourcesDir/templates/".toString()
-            inputSpec = specPath
-            outputDir = clientOutputDirPerVersion
-            removeOperationIdPrefix = true
-            generateApiTests = false
-            generateModelTests = false
-            cleanupOutput = true
-            configOptions = [
-                    groupId                  : 'com.criteo',
-                    apiPackage               : "${namespaceBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
-                    modelPackage             : "${namespaceBase}.model".toString(),
-                    artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
-                    artifactId               : artifactId.toString(), // criteo-api-marketingsolutions-sdk (or criteo-api-marketingsolutions-sdk-experimental)
-                    artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110
-                    artifactUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
-                    dateLibrary              : technologyStack.toString(),
-                    developerName            : 'Criteo',
-                    developerEmail           : 'public-api-maintainers@criteois.com',
-                    developerOrganization    : 'Criteo',
-                    developerOrganizationUrl : 'https://www.criteo.com/',
-                    hideGenerationTimestamp  : 'true',
-                    licenseName              : 'Apache License, version 2.0',
-                    licenseUrl               : 'https://www.apache.org/licenses/LICENSE-2.0.txt',
-                    scmConnection            : "scm:git:git://github.com/criteo/criteo-api-${language}-sdk.git".toString(),
-                    scmDeveloperConnection   : "scm:git:ssh://github.com:criteo/criteo-api-${language}-sdk.git".toString(),
-                    scmUrl                   : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
-                    disallowAdditionalPropertiesIfNotPresent : 'false',
-            ]
-            additionalProperties = [
-                        sdkTestDir        : "${sdkTestDir}",
-                        criteoServiceAsPrefix   : "${criteoService}".toString().toUpperCase(),
-                    ]
+        def generateTask = registerOpenApiGenerateTask(project, "${technologyStack}_${parsedApiName}", language, "${configDir}/${generatedConfigFile}", specPath, clientOutputDirPerVersion, criteoService, [
+                        apiPackage               : "${namespaceBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
+                        modelPackage             : "${namespaceBase}.model".toString(),
+                        artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version".toString(),
+                        artifactId               : artifactId.toString(), // criteo-api-marketingsolutions-sdk (or criteo-api-marketingsolutions-sdk-experimental)
+                        artifactVersion          : "${artifactVersion}".toString(), // 2021.10.0.211110
+                        artifactUrl              : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
+                        dateLibrary              : technologyStack.toString(),
+                        developerName            : 'Criteo',
+                        developerEmail           : 'public-api-maintainers@criteois.com',
+                        developerOrganization    : 'Criteo',
+                        developerOrganizationUrl : 'https://www.criteo.com/',
+                        licenseName              : 'Apache License, version 2.0',
+                        licenseUrl               : 'https://www.apache.org/licenses/LICENSE-2.0.txt',
+                        scmConnection            : "scm:git:git://github.com/criteo/criteo-api-${language}-sdk.git".toString(),
+                        scmDeveloperConnection   : "scm:git:ssh://github.com:criteo/criteo-api-${language}-sdk.git".toString(),
+                        scmUrl                   : "https://github.com/criteo/criteo-api-${language}-sdk".toString(),
+                        disallowAdditionalPropertiesIfNotPresent : 'false',
+                ]
+        )
+        generateTask.configure {
+            additionalProperties.putAll([
+                    sdkTestDir: "${sdkTestDir}",
+            ])
+            dependsOn(createConfig.name)
         }
-        generateTask.dependsOn(createConfig.name)
 
         def copyLicense = registerCopyLicenseTask(project, technologyStack, parsedApiName, clientOutputDirPerVersion)
 
