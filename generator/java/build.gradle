@@ -30,7 +30,7 @@ task generateClient(type: GradleBuild) {
     group = 'Criteo'
     description = "Generate the ${language.toUpperCase()} client using openapi-generator and custom templates".toString()
 
-    def taskList = [];
+    def taskList = [cleanPreviousDist];
 
 	rootProject.swaggerSourceList.each {
         def parsedApiName = it.getName().replace(".json", "").toLowerCase();
@@ -65,7 +65,6 @@ task generateClient(type: GradleBuild) {
             def configContent = file.text.replace('sdkFolder', sdkMainDir).replace('testFolder', sdkTestDir)
             configFileForCriteoServiceVersion.text = configContent
         }
-        createConfig.dependsOn(cleanPreviousDist.name)
 
         def generateTask = task("openApiGenerate_${technologyStack}_" + parsedApiName, type: GenerateTask.class) {
             generatorName = "$language".toString()
@@ -76,6 +75,7 @@ task generateClient(type: GradleBuild) {
             removeOperationIdPrefix = true
             generateApiTests = false
             generateModelTests = false
+            cleanupOutput = true
             configOptions = [
                     groupId                  : 'com.criteo',
                     apiPackage               : "${namespaceBase}.api".toString(), // com.criteo.api.marketingsolutions.v2021_10.api
@@ -113,7 +113,7 @@ task generateClient(type: GradleBuild) {
         taskList << generateTask.name
         taskList << copyLicense.name
         taskList << removeUnwantedFiles.name
-        dependsOn(generateTask, copyLicense, removeUnwantedFiles);
+        dependsOn(generateTask, copyLicense, removeUnwantedFiles, cleanPreviousDist);
     }
 
     generateClient.dependsOn(taskList);

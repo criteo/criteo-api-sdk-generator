@@ -56,7 +56,6 @@ task generateClient(type: GradleBuild) {
         def configDir = "${buildDir}/${parsedApiName}"
         def createConfig  = task("createConfig_" + taskSuffix, type: Copy)
        {
-            mustRunAfter cleanPreviousDist
             from "${projectDir}/generatorConfiguration.yaml"
             into "${configDir}"
             rename  {filename -> namespaceBase + ".yaml" }
@@ -72,6 +71,7 @@ task generateClient(type: GradleBuild) {
             removeOperationIdPrefix = true
             generateApiTests = false
             generateModelTests = false
+            cleanupOutput = true
             configOptions = [
                     groupId                 : 'criteo',
                     apiVersion              : "${artifactVersion}".toString(),
