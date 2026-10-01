@@ -1,3 +1,5 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 static def getFormattedDate() {
     def date = new Date()
     def formattedDate = date.format('yyMMdd')
@@ -54,8 +56,7 @@ static def registerCreateConfigTask(def project, String taskSuffix, String sourc
 }
 
 static def registerOpenApiGenerateTask(def project, String taskSuffix, String generatorName, String configFileFullPath, String specPath, String outputDir, String criteoService, def configOptions) {
-    def generateTaskClass = Class.forName("org.openapitools.generator.gradle.plugin.tasks.GenerateTask", true, project.buildscript.classLoader)
-    return project.tasks.register("openApiGenerate_${taskSuffix}", generateTaskClass) {
+    return project.tasks.register("openApiGenerate_${taskSuffix}", GenerateTask) {
         it.generatorName = generatorName
         configFile = configFileFullPath
         templateDir = "${project.projectDir}/resources/templates"
