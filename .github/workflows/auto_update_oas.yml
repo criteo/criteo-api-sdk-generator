@@ -1,4 +1,4 @@
-name: Weekly autoupdate OAS for Experimental
+name: Weekly autoupdate OAS for Preview and Experimental
 
 on:
   schedule:
@@ -23,7 +23,10 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Update OAS
+      - name: Update OAS for Preview
+        run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r Preview
+
+      - name: Update OAS for Experimental
         run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r Experimental
 
       - name: Check for changes
@@ -41,7 +44,7 @@ jobs:
         run: |
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot@users.noreply.github.com"
-          git commit -m "Update OAS for Experimental"
+          git commit -m "Update OAS for Preview and Experimental"
           git push origin HEAD:main
 
       - name: Send success notification
@@ -54,7 +57,7 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Autoupdate of OAS in Experimental. Autoupdate of OAS in experimental runs weekly on Monday."
+            text: "Autoupdate of OAS in Preview and Experimental. Autoupdate of OAS runs weekly on Monday."
             icon_emoji: ":bell:"
 
       - name: Send failure notification
@@ -67,5 +70,5 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Autoupdate of OAS in Experimental failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
+            text: "Autoupdate of OAS in Preview and Experimental failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
             icon_emoji: ":x:"
