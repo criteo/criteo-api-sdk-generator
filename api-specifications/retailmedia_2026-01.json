@@ -2019,7 +2019,7 @@
           "Accounts"
         ],
         "summary": "/2026-01/retail-media/accounts/fees/search",
-        "description": "Get fees for provided accounts",
+        "description": "Get fees for provided accounts\r\nThis endpoint is deprecated and no longer performs any operation.",
         "operationId": "AccountFeesSearch",
         "parameters": [
           {
@@ -2069,6 +2069,7 @@
             }
           }
         },
+        "deprecated": true,
         "security": [
           {
             "oauth": [
@@ -2084,7 +2085,7 @@
           "Accounts"
         ],
         "summary": "/2026-01/retail-media/accounts/fees/update",
-        "description": "Set fees for provided accounts",
+        "description": "Set fees for provided accounts\r\nThis endpoint is deprecated and no longer performs any operation.",
         "operationId": "UpdateAccountFees",
         "requestBody": {
           "content": {
@@ -2101,6 +2102,7 @@
             "description": "Success"
           }
         },
+        "deprecated": true,
         "security": [
           {
             "oauth": [
@@ -2177,7 +2179,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -4953,7 +4955,7 @@
           "Analytics"
         ],
         "summary": "/2026-01/retail-media/reports/accounts",
-        "description": "Returns an asynchronous Accounts Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Accounts Report\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncAccountsReportV2",
         "requestBody": {
           "content": {
@@ -4993,7 +4995,7 @@
           "Analytics"
         ],
         "summary": "/2026-01/retail-media/reports/campaigns",
-        "description": "Return an asynchronous Campaigns Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Return an asynchronous Campaigns Report\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncCampaignsReportV2",
         "requestBody": {
           "content": {
@@ -5033,7 +5035,7 @@
           "Analytics"
         ],
         "summary": "/2026-01/retail-media/reports/fillrate",
-        "description": "Returns an asynchronous Fill Rate Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Fill Rate Report\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncFillRateReport",
         "requestBody": {
           "content": {
@@ -5073,7 +5075,7 @@
           "Analytics"
         ],
         "summary": "/2026-01/retail-media/reports/line-items",
-        "description": "Returns an asynchronous Line Items Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Line Items Report\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncLineItemsReportV2",
         "requestBody": {
           "content": {
@@ -5113,7 +5115,7 @@
           "Analytics"
         ],
         "summary": "/2026-01/retail-media/reports/revenue",
-        "description": "Returns an asynchronous Revenue Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Revenue Report\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncRevenueReport",
         "requestBody": {
           "content": {
@@ -5153,7 +5155,7 @@
           "Analytics"
         ],
         "summary": "/2026-01/retail-media/reports/unfilled-placements",
-        "description": "Returns an asynchronous Unfilled Placements Report\r\n<br />\r\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Unfilled Placements Report\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncUnfilledPlacementsReport",
         "requestBody": {
           "content": {
@@ -6109,7 +6111,8 @@
                 "frequency",
                 "winRate",
                 "sampledBidsWon",
-                "sampledBidsParticipated"
+                "sampledBidsParticipated",
+                "makeGoodSpend"
               ],
               "type": "string"
             },
@@ -6413,7 +6416,8 @@
                 "frequency",
                 "winRate",
                 "sampledBidsWon",
-                "sampledBidsParticipated"
+                "sampledBidsParticipated",
+                "makeGoodSpend"
               ],
               "type": "string"
             },
@@ -6849,7 +6853,8 @@
                 "frequency",
                 "winRate",
                 "sampledBidsWon",
-                "sampledBidsParticipated"
+                "sampledBidsParticipated",
+                "makeGoodSpend"
               ],
               "type": "string"
             },
@@ -9132,7 +9137,7 @@
           "overallMinBid": {
             "type": "number",
             "description": "Overall minimum bid amount for the given list of sku ids.",
-            "format": "double"
+            "format": "decimal"
           },
           "skuMinBids": {
             "type": "array",
@@ -11511,6 +11516,12 @@
       "LineItemBidMultipliersV2": {
         "type": "object",
         "properties": {
+          "aiAssistant": {
+            "type": "number",
+            "description": "AiAssistant Page Type Bid Multiplier",
+            "format": "double",
+            "nullable": true
+          },
           "category": {
             "type": "number",
             "description": "Categories Page Type Bid Multiplier",
@@ -14694,7 +14705,7 @@
           "minBid": {
             "type": "number",
             "description": "Minimum bid amount value.",
-            "format": "double"
+            "format": "decimal"
           },
           "skuId": {
             "type": "string",
@@ -15680,8 +15691,7 @@
           },
           "type": {
             "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
+            "description": "Type of the resource."
           }
         },
         "additionalProperties": false,
@@ -15749,7 +15759,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value objects."
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "ValueResourceInputOfBrandCatalogRequestV2": {
         "type": "object",
@@ -16528,12 +16538,34 @@
         "flows": {
           "clientCredentials": {
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "RetailMedia_Accounts_Manage": "Grants Manage access to the capabilities from the Accounts domain, for RetailMedia applications",
+              "RetailMedia_Accounts_Read": "Grants Read access to the capabilities from the Accounts domain, for RetailMedia applications",
+              "RetailMedia_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for RetailMedia applications",
+              "RetailMedia_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for RetailMedia applications",
+              "RetailMedia_Audience_Read": "Grants Read access to the capabilities from the Audience domain, for RetailMedia applications",
+              "RetailMedia_Balance_Manage": "Grants Manage access to the capabilities from the Balance domain, for RetailMedia applications",
+              "RetailMedia_Balance_Read": "Grants Read access to the capabilities from the Balance domain, for RetailMedia applications",
+              "RetailMedia_Billing_Read": "Grants Read access to the capabilities from the Billing domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for RetailMedia applications"
+            }
           },
           "authorizationCode": {
             "authorizationUrl": "https://api.criteo.com/oauth2",
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "RetailMedia_Accounts_Manage": "Grants Manage access to the capabilities from the Accounts domain, for RetailMedia applications",
+              "RetailMedia_Accounts_Read": "Grants Read access to the capabilities from the Accounts domain, for RetailMedia applications",
+              "RetailMedia_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for RetailMedia applications",
+              "RetailMedia_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for RetailMedia applications",
+              "RetailMedia_Audience_Read": "Grants Read access to the capabilities from the Audience domain, for RetailMedia applications",
+              "RetailMedia_Balance_Manage": "Grants Manage access to the capabilities from the Balance domain, for RetailMedia applications",
+              "RetailMedia_Balance_Read": "Grants Read access to the capabilities from the Balance domain, for RetailMedia applications",
+              "RetailMedia_Billing_Read": "Grants Read access to the capabilities from the Billing domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for RetailMedia applications"
+            }
           }
         }
       }

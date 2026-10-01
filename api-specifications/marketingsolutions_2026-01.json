@@ -752,7 +752,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/ads/{id}",
-        "description": "Delete an Ad",
+        "description": "Deletes one ad, which stops it delivering for good. The creative it was bound to is kept and can be\r\nreused; to stop delivery without losing the ad, pause it instead.",
         "operationId": "DeleteAd",
         "parameters": [
           {
@@ -784,7 +784,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/ads/{id}",
-        "description": "Get an Ad with its id",
+        "description": "Reads one ad by its id: the creative and ad set it binds, its schedule and its delivery status. The\r\nid comes from the ad list of the advertiser.",
         "operationId": "GetAd",
         "parameters": [
           {
@@ -825,7 +825,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/ads",
-        "description": "Get the list of self-services Ads for a given advertiser",
+        "description": "Lists the ads of one advertiser, each one binding a creative to an ad set. Use it to find an ad id\r\nbefore reading, pausing, unpausing or deleting a single ad. Page through the ads with limit and\r\noffset.",
         "operationId": "GetAdvertiserAds",
         "parameters": [
           {
@@ -883,7 +883,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/ads",
-        "description": "Create an Ad",
+        "description": "Creates an ad by binding an existing creative to an existing ad set of the advertiser, delivering\r\nfrom the start date given. The creative and the ad set must both belong to that advertiser. Returns\r\nthe new ad and its id.",
         "operationId": "CreateAdvertiserAd",
         "parameters": [
           {
@@ -897,6 +897,7 @@
           }
         ],
         "requestBody": {
+          "description": "The ad information.",
           "content": {
             "application/json": {
               "schema": {
@@ -934,7 +935,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons",
-        "description": "Get the list of self-services Coupons for a given advertiser",
+        "description": "Lists the coupons of one advertiser. Use it to find a coupon id before reading, editing, previewing\r\nor deleting a single coupon. Page through the coupons with limit and offset.",
         "operationId": "GetAdvertiserCoupons",
         "parameters": [
           {
@@ -992,7 +993,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons",
-        "description": "Create a Coupon",
+        "description": "Creates a coupon on one ad set of the advertiser. The ad set must already carry dynamic display or\r\nHTML ads, and each slide image must match a size that ad set supports, which the supported-sizes\r\noperation lists. Returns the new coupon and its id.",
         "operationId": "CreateAdvertiserCoupon",
         "parameters": [
           {
@@ -1006,6 +1007,7 @@
           }
         ],
         "requestBody": {
+          "description": "The coupon to create.",
           "content": {
             "application/json": {
               "schema": {
@@ -1043,7 +1045,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons-supported-sizes",
-        "description": "Get the list of Coupon supported sizes",
+        "description": "Lists, per coupon format, the sizes an ad set supports. Call it before creating a coupon to pick a\r\nvalid slide size; the ad set must already carry dynamic ads.",
         "operationId": "GetAdvertiserCouponSupportedSizes",
         "parameters": [
           {
@@ -1091,7 +1093,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}",
-        "description": "Delete a Coupon",
+        "description": "Deletes one coupon of an advertiser. A coupon that is already deleted or under review cannot be\r\ndeleted.",
         "operationId": "DeleteAdvertiserCoupon",
         "parameters": [
           {
@@ -1131,7 +1133,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}",
-        "description": "Get a Coupon with its id",
+        "description": "Reads one coupon of an advertiser by its id: its schedule, its slides and the ad set it runs on. The\r\nid comes from the coupon list of the advertiser.",
         "operationId": "GetAdvertiserCoupon",
         "parameters": [
           {
@@ -1178,7 +1180,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}",
-        "description": "Edit a specific Coupon",
+        "description": "Changes when a coupon runs; only the start and end dates can be edited, and the start date must come\r\nbefore the end date. The coupon must still be a draft or live coupon that is not yet delivering.",
         "operationId": "EditAdvertiserCoupon",
         "parameters": [
           {
@@ -1201,6 +1203,7 @@
           }
         ],
         "requestBody": {
+          "description": "The new start and end dates of the coupon.",
           "content": {
             "application/json": {
               "schema": {
@@ -1238,7 +1241,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}/preview",
-        "description": "Get the preview of a specific Coupon",
+        "description": "Renders one coupon as preview HTML at the size asked for. The size must be one the coupon's ad set\r\nsupports, as listed by the supported-sizes operation.",
         "operationId": "GetAdvertiserCouponPreview",
         "parameters": [
           {
@@ -1310,7 +1313,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/creatives",
-        "description": "Get the list of self-services Creatives for a given advertiser",
+        "description": "Lists the creatives in the library of one advertiser. Use it to find a creative id before reading,\r\nediting or previewing a creative, or before binding one to an ad. Page through the library with\r\nlimit and offset.",
         "operationId": "GetAdvertiserCreatives",
         "parameters": [
           {
@@ -1345,7 +1348,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of self-services Creatives is returned.This list will contain creatives in draft status as well which will have some properties as null",
+            "description": "The list of self-services Creatives is returned.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1368,7 +1371,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/advertisers/{advertiser-id}/creatives",
-        "description": "Create a Creative",
+        "description": "Creates a creative in the library of one advertiser. The format decides which attributes block must\r\nbe filled in, and the dataset must be one of that advertiser's. Returns the new creative, whose id is\r\nwhat an ad binds to.",
         "operationId": "CreateAdvertiserCreative",
         "parameters": [
           {
@@ -1382,6 +1385,7 @@
           }
         ],
         "requestBody": {
+          "description": "The creative information.",
           "content": {
             "application/json": {
               "schema": {
@@ -2387,7 +2391,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/creatives/{id}",
-        "description": "Delete a Creative if there are no ads binded to it",
+        "description": "Deletes one creative. Every ad bound to it must be deleted or rebound first, and a creative that is\r\nalready deleted or under review cannot be deleted.",
         "operationId": "DeleteCreative",
         "parameters": [
           {
@@ -2418,7 +2422,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/creatives/{id}",
-        "description": "Get a Creative with its id",
+        "description": "Reads one creative by its id, with the attributes of its format. Use it to check a creative before\r\nediting it or binding it to an ad.",
         "operationId": "GetCreative",
         "parameters": [
           {
@@ -2456,7 +2460,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/creatives/{id}",
-        "description": "Edit a specific Creative",
+        "description": "Replaces the attributes of one creative: any attribute left out is cleared, so read the creative\r\nfirst and send it back with your changes applied. The format must be the creative's existing format\r\nand the dataset must stay the one it already belongs to; neither can be changed here. A creative\r\nthat is being deployed, archived or deleted cannot be edited.",
         "operationId": "EditCreative",
         "parameters": [
           {
@@ -2470,6 +2474,7 @@
           }
         ],
         "requestBody": {
+          "description": "The complete new attributes of the creative.",
           "content": {
             "application/json": {
               "schema": {
@@ -2507,7 +2512,7 @@
           "Creative"
         ],
         "summary": "/2026-01/marketing-solutions/creatives/{id}/preview",
-        "description": "Get the preview of a specific Creative",
+        "description": "Renders one creative as preview HTML at the size asked for. Only the sizes the creative was built for\r\ncan be previewed; when the size does not match, the error lists the ones that can.",
         "operationId": "GenerateCreativePreview",
         "parameters": [
           {
@@ -4966,6 +4971,31 @@
       "Ad": {
         "type": "object",
         "properties": {
+          "adClickTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdClickTracking"
+            },
+            "description": "Optional ad-level click tracking configuration.",
+            "nullable": true
+          },
+          "adDeliveryStatus": {
+            "enum": [
+              "Live",
+              "Paused"
+            ],
+            "type": "string",
+            "description": "The delivery status of the ad. Possible values are \"Live\" and \"Paused\". This is read-only: use the\r\ndedicated pause and unpause operations to change it.",
+            "nullable": true
+          },
+          "adImpressionTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdImpressionTracking"
+            },
+            "description": "Optional ad-level impression tracking configuration.",
+            "nullable": true
+          },
           "adSetId": {
             "type": "string",
             "description": "The id of the Ad Set binded to this Ad",
@@ -4983,22 +5013,22 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this ad. If the end date is not specified (i.e. null) then the ad will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this ad. If the end date is not specified (i.e. null) then\r\nthe ad will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:30:00.000Z\".",
             "nullable": true
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "inventoryType": {
             "enum": [
               "Native",
               "Display",
-              "Video"
+              "Video",
+              "Meta"
             ],
             "type": "string",
-            "description": "The inventory the Ad belongs to. Possible values are \"Display\" and \"Native\". This is optional since this doesn't make sense for every creative type but will throw an error if not set for a dynamic creative.",
+            "description": "The inventory the Ad belongs to. Possible values are \"Display\", \"Native\", \"Video\" and \"Meta\". This is\r\noptional since it doesn't make sense for every creative type: it is inferred from the creative for a\r\nvideo creative, and an error is returned if it is not set for a dynamic creative.",
             "nullable": true
           },
           "name": {
@@ -5008,7 +5038,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the ad will be launched\r\nString must be in ISO8601 format",
+            "description": "The date when the ad will be launched.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:30:00.000Z\".",
             "nullable": true
           }
         },
@@ -5844,6 +5874,22 @@
         ],
         "type": "object",
         "properties": {
+          "adClickTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdClickTracking"
+            },
+            "description": "Optional ad-level click tracking configuration.",
+            "nullable": true
+          },
+          "adImpressionTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdImpressionTracking"
+            },
+            "description": "Optional ad-level impression tracking configuration.",
+            "nullable": true
+          },
           "adSetId": {
             "type": "string",
             "description": "The id of the Ad Set bound to this Ad"
@@ -5859,16 +5905,22 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this ad. If the end date is not specified (i.e. null) then the ad will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this ad, which must come after the start date. If the end\r\ndate is not specified (i.e. null) then the ad will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:30:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:30:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:30:00Z\".",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           },
           "inventoryType": {
             "enum": [
+              "Native",
               "Display",
-              "Native"
+              "Video",
+              "Meta"
             ],
             "type": "string",
-            "description": "The inventory the Ad to be created or updated belongs to. Possible values are \"Display\" and \"Native\". This is optional since this doesn't make sense for every creative type but will throw an error if not set for a dynamic creative.",
+            "description": "The inventory the Ad to be created or updated belongs to. Possible values are \"Display\", \"Native\",\r\n\"Video\" and \"Meta\". This is optional since it doesn't make sense for every creative type: it is inferred\r\nfrom the creative for a video creative, and an error is returned if it is not set for a dynamic creative.\r\n\"Meta\" additionally requires the target ad set to be linked to Meta.",
             "nullable": true
           },
           "name": {
@@ -5877,10 +5929,10 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the ad will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the ad will be launched. It must be a date in the future.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:30:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:30:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:30:00Z\"."
           }
         },
-        "description": "Entity to create or update an ad"
+        "description": "Entity to create an ad"
       },
       "AlgebraNodeV1": {
         "type": "object",
@@ -6587,6 +6639,9 @@
             "type": "string",
             "description": "Description of the segment"
           },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedCreateV1"
+          },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketCreateV1"
           },
@@ -6670,6 +6725,9 @@
             "type": "string",
             "description": "Description of the segment",
             "nullable": true
+          },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedV1"
           },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketV1"
@@ -7101,6 +7159,9 @@
           "description": {
             "$ref": "#/components/schemas/NillableString"
           },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedUpdateV1"
+          },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketUpdateV1"
           },
@@ -7433,6 +7494,24 @@
         "description": "Settings of a behavioral set of users provided by Criteo.",
         "nullable": true
       },
+      "BrandingImageInput": {
+        "required": [
+          "base64String",
+          "shape"
+        ],
+        "type": "object",
+        "properties": {
+          "base64String": {
+            "type": "string",
+            "description": "Branding image as a base-64 encoded string."
+          },
+          "shape": {
+            "type": "string",
+            "description": "Shape of the branding image.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          }
+        },
+        "description": "Branding image input with shape and base-64 encoded image data."
+      },
       "BudgetAutomation": {
         "type": "object",
         "properties": {
@@ -7477,6 +7556,46 @@
         },
         "description": "Budget automation, also known as automated budget or budget pacing, lets users configure KPIs and budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nWhen enabled is false, automatedBudgetConfiguration is null.\r\nWhen enabled is true, automatedBudgetConfiguration.adSetOptimizationObjective is expected.",
         "nullable": true
+      },
+      "CampaignScheduledSpendLimitV23Q1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit, for example \"12345\".",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\n- \"daily\", \"monthly\", and \"lifetime\" are valid when spendLimitType is \"capped\".\r\n- \"undefined\" is returned when spendLimitType is \"uncapped\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n- \"capped\": a spend limit applies, spendLimitAmount.value is non-null, and spendLimitRenewal is \"daily\", \"monthly\", or \"lifetime\".\r\n- \"uncapped\": no spend limit applies, spendLimitAmount.value is null, and spendLimitRenewal is \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-08-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A campaign spend limit scheduled to become active on the specified \"startDate\"."
       },
       "CampaignSearchFiltersV23Q1": {
         "type": "object",
@@ -7568,6 +7687,19 @@
           "name": {
             "type": "string",
             "description": "Name of the campaign",
+            "nullable": true
+          },
+          "scheduledSpendLimits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignScheduledSpendLimitV23Q1"
+            },
+            "description": "Spend limits scheduled to become active in the future. Empty when the campaign has no scheduled spend limits.",
+            "nullable": true
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id of the campaign (string-encoded long)",
             "nullable": true
           },
           "spendLimit": {
@@ -7958,7 +8090,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon. If the end date is not specified (i.e. null)\r\nthen the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:00:00.000Z\".",
             "nullable": true
           },
           "format": {
@@ -7968,7 +8100,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "images": {
@@ -8009,7 +8140,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the Coupon will be launched\r\nString must be in ISO8601 format",
+            "description": "The date when the coupon will be launched.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:00:00.000Z\".",
             "nullable": true
           },
           "status": {
@@ -8030,6 +8161,10 @@
               "type": "string"
             },
             "description": "Array of FullFrame sizes as string in width x height format",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           },
           "logoZone": {
@@ -8387,6 +8522,11 @@
             "description": "Name of the campaign",
             "nullable": true
           },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id attached to this campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
           }
@@ -8474,7 +8614,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon, which must come after the start date. If the\r\nend date is not specified (i.e. null) then the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\".",
             "nullable": true
           },
           "format": {
@@ -8484,6 +8624,10 @@
             ],
             "type": "string",
             "description": "Format of the Coupon, it can have two values: \"FullFrame\" or \"LogoZone\""
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
           },
           "images": {
             "type": "array",
@@ -8523,7 +8667,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the coupon will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the coupon will be launched. It must be a date in the future.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\"."
           }
         },
         "description": "Entity to create a Coupon"
@@ -8678,7 +8822,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "imageAttributes": {
@@ -8688,12 +8831,38 @@
             "type": "string",
             "description": "The name of the creative"
           },
+          "showcaseAttributes": {
+            "$ref": "#/components/schemas/ShowcaseAttributes"
+          },
+          "socialSettings": {
+            "$ref": "#/components/schemas/SocialSettings"
+          },
           "status": {
             "type": "string",
             "description": "The status of the creative"
+          },
+          "vastTagAttributes": {
+            "$ref": "#/components/schemas/VastTagAttributes"
           }
         },
         "description": "A creative is a project with the necessary information to display a creative",
+        "nullable": true
+      },
+      "CreativeMetaSetting": {
+        "type": "object",
+        "properties": {
+          "callToAction": {
+            "type": "string",
+            "description": "Call-to-Action for Meta placements.\r\nPossible values: \"BookTravel\", \"ShopNow\", \"LearnMore\", \"SignUp\", \"Download\", \"OpenLink\".\r\nMatched without case sensitivity. The list follows what Meta supports and can change.",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "description": "Headline text for Meta placements. Maximum 125 characters.",
+            "nullable": true
+          }
+        },
+        "description": "Meta social metadata for a creative.",
         "nullable": true
       },
       "CreativeRead": {
@@ -8737,6 +8906,10 @@
           "htmlTagAttributes": {
             "$ref": "#/components/schemas/HtmlTagAttributes"
           },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "imageAttributes": {
             "$ref": "#/components/schemas/ImageAttributes"
           },
@@ -8744,12 +8917,38 @@
             "type": "string",
             "description": "The name of the creative"
           },
+          "showcaseAttributes": {
+            "$ref": "#/components/schemas/ShowcaseAttributes"
+          },
+          "socialSettings": {
+            "$ref": "#/components/schemas/SocialSettings"
+          },
           "status": {
             "type": "string",
             "description": "The status of the creative"
+          },
+          "vastTagAttributes": {
+            "$ref": "#/components/schemas/VastTagAttributes"
           }
         },
         "description": "A CreativeRead is a project with the necessary information to display a creative",
+        "nullable": true
+      },
+      "CreativeTikTokSetting": {
+        "type": "object",
+        "properties": {
+          "callToAction": {
+            "type": "string",
+            "description": "Call-to-Action for TikTok placements.\r\nPossible values: \"BOOK_NOW\", \"EXPERIENCE_NOW\", \"LEARN_MORE\", \"ORDER_NOW\", \"READ_MORE\",\r\n\"SHOP_NOW\", \"SUBSCRIBE\", \"VIEW_NOW\", \"VISIT_STORE\", \"DOWNLOAD_NOW\".\r\nMatched without case sensitivity. The list follows what TikTok supports and can change.",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "description": "Headline text for TikTok placements. Maximum 100 characters.",
+            "nullable": true
+          }
+        },
+        "description": "TikTok social metadata for a creative.",
         "nullable": true
       },
       "CreativeWrite": {
@@ -8777,16 +8976,22 @@
           },
           "format": {
             "enum": [
-              "Image",
-              "HtmlTag",
               "Dynamic",
-              "Adaptive"
+              "HtmlTag",
+              "Image",
+              "Adaptive",
+              "Showcase",
+              "VastTag"
             ],
             "type": "string",
-            "description": "The format of the creative\r\nYou can use \"Image\", \" HtmlTag\", \"Dynamic\" or \"Adaptive\""
+            "description": "The format of the creative.\r\nYou can use \"Image\", \"HtmlTag\", \"Dynamic\", \"Adaptive\", \"Showcase\" or \"VastTag\""
           },
           "htmlTagWriteAttributes": {
             "$ref": "#/components/schemas/HtmlTagWriteAttributes"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
           },
           "imageWriteAttributes": {
             "$ref": "#/components/schemas/ImageWriteAttributes"
@@ -8794,6 +8999,15 @@
           "name": {
             "type": "string",
             "description": "The name of the creative"
+          },
+          "showcaseWriteAttributes": {
+            "$ref": "#/components/schemas/ShowcaseWriteAttributes"
+          },
+          "socialSettings": {
+            "$ref": "#/components/schemas/SocialSettings"
+          },
+          "vastTagWriteAttributes": {
+            "$ref": "#/components/schemas/VastTagWriteAttributes"
           }
         },
         "description": "Entity to create or update a creative"
@@ -9086,6 +9300,211 @@
         },
         "description": "Generic Criteo API successful data model"
       },
+      "ExamAdClickTracking": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "description": "Unique ID of the ad the rule belongs to. It always names the ad of the request path, so it can be left\r\nout of a write; when it is sent it must match that ad, and a rule naming another one is refused.",
+            "nullable": true
+          },
+          "clickZone": {
+            "enum": [
+              "Unknown",
+              "AppInstall",
+              "Coupon",
+              "Logo",
+              "Main",
+              "Product",
+              "Store",
+              "Video",
+              "BrandingImage"
+            ],
+            "type": "string",
+            "description": "The banner zone this rule applies to. Leave it out for a rule that is not specific to a zone.\r\nPossible values are \"AppInstall\", \"Coupon\", \"Logo\", \"Main\", \"Product\", \"Store\", \"Video\" and\r\n\"BrandingImage\".",
+            "nullable": true
+          },
+          "disableForCoupons": {
+            "type": "boolean",
+            "description": "Whether this rule is skipped for clicks on coupons.",
+            "nullable": true
+          },
+          "disableLandingUrlEncode": {
+            "type": "boolean",
+            "description": "Whether the landing url is left unencoded when it is substituted into the tracking url.",
+            "nullable": true
+          },
+          "disableMacroUrlEncode": {
+            "type": "boolean",
+            "description": "Whether url macros are left unencoded when they are substituted into the tracking url.",
+            "nullable": true
+          },
+          "displayHeight": {
+            "type": "integer",
+            "description": "The height in pixels of the display size this rule applies to. Set it together with displayWidth, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "displayWidth": {
+            "type": "integer",
+            "description": "The width in pixels of the display size this rule applies to. Set it together with displayHeight, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the click tracking rule. Leave it out to create a rule; send back the ID of an existing\r\nrule to update it. Rules of the ad that are absent from a write request are deleted.",
+            "nullable": true
+          },
+          "urlPrefix": {
+            "type": "string",
+            "description": "The url prepended to the landing url of the clicks this rule covers.",
+            "nullable": true
+          },
+          "urlSuffix": {
+            "type": "string",
+            "description": "The url appended to the landing url of the clicks this rule covers.",
+            "nullable": true
+          }
+        },
+        "description": "An ad-level click tracking rule. A rule wraps the landing url of the clicks it covers with a prefix and a\r\nsuffix. It applies either to the whole ad (neither clickZone nor a display size set), to one banner zone\r\n(clickZone set), or to one display size (displayWidth and displayHeight both set)."
+      },
+      "ExamAdImpressionTracking": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "description": "Unique ID of the ad the rule belongs to. It always names the ad of the request path, so it can be left\r\nout of a write; when it is sent it must match that ad, and a rule naming another one is refused.",
+            "nullable": true
+          },
+          "displayHeight": {
+            "type": "integer",
+            "description": "The height in pixels of the display size this rule applies to. Set it together with displayWidth, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "displayWidth": {
+            "type": "integer",
+            "description": "The width in pixels of the display size this rule applies to. Set it together with displayHeight, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the impression tracking rule. Leave it out to create a rule; send back the ID of an\r\nexisting rule to update it. Rules of the ad that are absent from a write request are deleted.",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "The url called when an impression covered by this rule is served.",
+            "nullable": true
+          },
+          "vendorId": {
+            "type": "string",
+            "description": "Unique ID of the third party vendor the tracking url belongs to.",
+            "nullable": true
+          }
+        },
+        "description": "An ad-level impression tracking rule. The rule calls its url when an impression it covers is served. It\r\napplies either to the whole ad (no display size set) or to one display size (displayWidth and displayHeight\r\nboth set)."
+      },
+      "FilterBasedAlgebraNodeV1": {
+        "type": "object",
+        "properties": {
+          "and": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+            },
+            "description": "And node in the algebra tree.",
+            "nullable": true
+          },
+          "filter": {
+            "$ref": "#/components/schemas/FilterBasedDefinitionV1"
+          },
+          "not": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "or": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+            },
+            "description": "Or node in the algebra tree.",
+            "nullable": true
+          }
+        },
+        "description": "Boolean algebra tree used to combine filters with And, Or and Not operators.",
+        "nullable": true
+      },
+      "FilterBasedCreateV1": {
+        "required": [
+          "algebra"
+        ],
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use only signals coming from partners from these countries"
+          }
+        },
+        "description": "Settings to target users based on a combination of filters."
+      },
+      "FilterBasedDefinitionV1": {
+        "type": "object",
+        "properties": {
+          "partnerId": {
+            "$ref": "#/components/schemas/IdFilterV1"
+          },
+          "productCategory": {
+            "$ref": "#/components/schemas/ProductCategoryFilterV1"
+          },
+          "sellerId": {
+            "$ref": "#/components/schemas/IdFilterV1"
+          }
+        },
+        "description": "Definition of one or more filters. If multiple filters are defined, a user signal must match all the filters to be\r\nconsidered in the segment.",
+        "nullable": true
+      },
+      "FilterBasedUpdateV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use signals coming from partners from these countries"
+          }
+        },
+        "description": "Settings to target users based on a combination of filters."
+      },
+      "FilterBasedV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use only signals coming from partners from these countries",
+            "nullable": true
+          }
+        },
+        "description": "Settings to target users based on a combination of filters.",
+        "nullable": true
+      },
       "GetPortfolioResponse": {
         "type": "object",
         "properties": {
@@ -9149,6 +9568,30 @@
           }
         },
         "description": "The attributes specific to create or update a HtmlTag creative"
+      },
+      "IdFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the id filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Identifiers to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that compares identifiers against one or more values.",
+        "nullable": true
       },
       "ImageAttributes": {
         "type": "object",
@@ -9251,7 +9694,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Array of images of the same size uploaded on demostatic.criteo.com when deploying and then static.criteo.net",
+            "description": "Array of images of the same size uploaded on demostatic.criteo.com when deploying and then static.criteo.net",
             "nullable": true
           },
           "width": {
@@ -9766,6 +10209,24 @@
         "description": "Settings to target users based on their location.",
         "nullable": true
       },
+      "LogoInput": {
+        "required": [
+          "base64String",
+          "shape"
+        ],
+        "type": "object",
+        "properties": {
+          "base64String": {
+            "type": "string",
+            "description": "Logo image as a base-64 encoded string."
+          },
+          "shape": {
+            "type": "string",
+            "description": "Shape of the logo.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          }
+        },
+        "description": "Logo input with shape and base-64 encoded image data."
+      },
       "LookalikeCreateV1": {
         "required": [
           "seedSegmentId"
@@ -10253,6 +10714,9 @@
           "budgetAutomation": {
             "$ref": "#/components/schemas/PatchMarketingCampaignBudgetAutomation"
           },
+          "scheduledSpendLimit": {
+            "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimit"
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/PatchCampaignSpendLimit"
           }
@@ -10271,6 +10735,134 @@
           }
         },
         "description": "List of input resources"
+      },
+      "PatchCampaignScheduledSpendLimit": {
+        "type": "object",
+        "properties": {
+          "scheduledSpendLimitCreations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitCreation"
+            },
+            "description": "Scheduled spend limits to create.",
+            "nullable": true
+          },
+          "scheduledSpendLimitDeletions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitDeletion"
+            },
+            "description": "Scheduled spend limits to delete.",
+            "nullable": true
+          },
+          "scheduledSpendLimitUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitUpdate"
+            },
+            "description": "Scheduled spend limits to update.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit operations for a marketing campaign (patch).\r\nCreate, update, and delete operations are applied together by the backend."
+      },
+      "PatchCampaignScheduledSpendLimitCreation": {
+        "required": [
+          "spendLimitType",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-09-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit creation.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount.value is null and spendLimitRenewal is \"undefined\".\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
+      },
+      "PatchCampaignScheduledSpendLimitDeletion": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit to delete.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit deletion."
+      },
+      "PatchCampaignScheduledSpendLimitUpdate": {
+        "required": [
+          "id",
+          "spendLimitType",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit to update.",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-09-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit update.\r\nUpdates are full replacements: id, startDate, spendLimitType, and the capped or uncapped spend-limit values must describe the complete desired state.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
       },
       "PatchCampaignSpendLimit": {
         "type": "object",
@@ -10601,6 +11193,48 @@
         "description": "Class with elementary info about advertiser",
         "nullable": true
       },
+      "ProductCategoryFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals",
+              "In"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the product category filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductCategoryV1"
+            },
+            "description": "Product categories to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that matches when a product category (identified by its id and level) is among the provided values.",
+        "nullable": true
+      },
+      "ProductCategoryV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the product category.",
+            "nullable": true
+          },
+          "level": {
+            "type": "integer",
+            "description": "Level of the product category in the hierarchy.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "A product category identified by its id and its level in the hierarchy."
+      },
       "ProductFilterConfig": {
         "required": [
           "adId",
@@ -10636,7 +11270,8 @@
             "enum": [
               "Unknown",
               "CGrowth",
-              "CMax"
+              "CMax",
+              "GoEnterprise"
             ],
             "type": "string",
             "description": "The client type of the product set"
@@ -12007,21 +12642,357 @@
         },
         "description": "Data used to update a Seller-Campaign's Bid."
       },
+      "ShowcaseAttributes": {
+        "type": "object",
+        "properties": {
+          "androidDeeplinkUrl": {
+            "type": "string",
+            "description": "Android deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "appLinkUrl": {
+            "type": "string",
+            "description": "App link URL (Android fallback).",
+            "format": "uri",
+            "nullable": true
+          },
+          "brandingImageClickUrl": {
+            "type": "string",
+            "description": "Click URL associated with the branding images.",
+            "format": "uri",
+            "nullable": true
+          },
+          "brandingImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShowcaseBrandingImage"
+            },
+            "description": "Branding images per shape (horizontal, vertical, square) displayed in the creative.",
+            "nullable": true
+          },
+          "callsToAction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as \"Buy now\" or \"Go!\".",
+            "nullable": true
+          },
+          "colors": {
+            "$ref": "#/components/schemas/ShowcaseColors"
+          },
+          "iosDeeplinkUrl": {
+            "type": "string",
+            "description": "iOS deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "landingPageUrl": {
+            "type": "string",
+            "description": "Web redirection of the landing page URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "layouts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The layouts enabled for this Showcase creative.\r\nPossible values include \"Showcase\".",
+            "nullable": true
+          },
+          "logos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShowcaseLogo"
+            },
+            "description": "Logo images with their shape and URL.",
+            "nullable": true
+          },
+          "metaSetting": {
+            "$ref": "#/components/schemas/ShowcaseMetaSetting"
+          },
+          "priceSettings": {
+            "$ref": "#/components/schemas/ShowcasePriceSettings"
+          },
+          "primaryFont": {
+            "type": "string",
+            "description": "Font of the primary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "productImageDisplay": {
+            "type": "string",
+            "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping.",
+            "nullable": true
+          },
+          "secondaryFont": {
+            "type": "string",
+            "description": "Font of the secondary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "universalLinkUrl": {
+            "type": "string",
+            "description": "Universal link URL (iOS fallback).",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to Showcase creatives (read).\r\nOn read, URLs are returned instead of base64.",
+        "nullable": true
+      },
+      "ShowcaseBrandingImage": {
+        "required": [
+          "shape",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "shape": {
+            "type": "string",
+            "description": "Shape of the branding image.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the branding image.",
+            "format": "uri"
+          }
+        },
+        "description": "A branding image with its shape as an explicit string and its URL (read model)."
+      },
+      "ShowcaseColors": {
+        "required": [
+          "bodyTextColor",
+          "creativeBackgroundColor",
+          "pricesColor"
+        ],
+        "type": "object",
+        "properties": {
+          "bodyTextColor": {
+            "type": "string",
+            "description": "Color of the creative's body text.\r\nA valid RGB24 color in hexadecimal (e.g. \"#AB00FF\")."
+          },
+          "creativeBackgroundColor": {
+            "type": "string",
+            "description": "Color of the creative's background.\r\nA valid RGB24 color in hexadecimal (e.g. \"#AB00FF\")."
+          },
+          "pricesColor": {
+            "type": "string",
+            "description": "Color of the creative's prices.\r\nA valid RGB24 color in hexadecimal (e.g. \"#AB00FF\")."
+          }
+        },
+        "description": "Colors of the different elements of a Showcase creative.\r\nAll values are valid RGB24 hexadecimal colors (e.g. \"#AB00FF\").",
+        "nullable": true
+      },
+      "ShowcaseLogo": {
+        "required": [
+          "shape",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "shape": {
+            "type": "string",
+            "description": "Shape of the logo.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the logo image.",
+            "format": "uri"
+          }
+        },
+        "description": "Logo with its shape and URL (read model)."
+      },
+      "ShowcaseMetaSetting": {
+        "type": "object",
+        "properties": {
+          "callToAction": {
+            "type": "string",
+            "description": "Call-to-Action for Meta placements.\r\nPossible values: \"BookTravel\", \"ShopNow\", \"LearnMore\", \"SignUp\", \"Download\", \"OpenLink\".",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "description": "Headline text for Meta placements.",
+            "nullable": true
+          }
+        },
+        "description": "Creative-level social metadata for Meta placements.",
+        "nullable": true
+      },
+      "ShowcasePriceSettings": {
+        "type": "object",
+        "properties": {
+          "hideDecimals": {
+            "type": "boolean",
+            "description": "Whether to hide decimal values in prices.",
+            "nullable": true
+          },
+          "priceFormat": {
+            "type": "string",
+            "description": "Price format expression used to display product prices.",
+            "nullable": true
+          },
+          "priceFormatBody": {
+            "type": "string",
+            "description": "Price format body expression.",
+            "nullable": true
+          },
+          "priceTextAfter": {
+            "type": "string",
+            "description": "Text displayed after the price.",
+            "nullable": true
+          },
+          "priceTextBefore": {
+            "type": "string",
+            "description": "Text displayed before the price.",
+            "nullable": true
+          }
+        },
+        "description": "Price formatting settings for Showcase creatives.",
+        "nullable": true
+      },
+      "ShowcaseWriteAttributes": {
+        "required": [
+          "callsToAction",
+          "colors",
+          "layouts",
+          "logoBase64Strings",
+          "productImageDisplay"
+        ],
+        "type": "object",
+        "properties": {
+          "androidDeeplinkUrl": {
+            "type": "string",
+            "description": "Android deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "appLinkUrl": {
+            "type": "string",
+            "description": "App link URL (Android fallback).",
+            "format": "uri",
+            "nullable": true
+          },
+          "brandingImageBase64Strings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BrandingImageInput"
+            },
+            "description": "Branding images as base-64 encoded strings with their shape.",
+            "nullable": true
+          },
+          "brandingImageClickUrl": {
+            "type": "string",
+            "description": "Click URL associated with the branding images.",
+            "format": "uri",
+            "nullable": true
+          },
+          "callsToAction": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as \"Buy now\" or \"Go!\"."
+          },
+          "colors": {
+            "$ref": "#/components/schemas/ShowcaseColors"
+          },
+          "iosDeeplinkUrl": {
+            "type": "string",
+            "description": "iOS deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "landingPageUrl": {
+            "type": "string",
+            "description": "Web redirection of the landing page URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "layouts": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "Showcase"
+              ],
+              "type": "string"
+            },
+            "description": "The layouts to enable for this Showcase creative.\r\nPossible values include \"Showcase\"."
+          },
+          "logoBase64Strings": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogoInput"
+            },
+            "description": "Logo images as base-64 encoded strings with their shape.\r\nAt least one logo is required."
+          },
+          "metaSetting": {
+            "$ref": "#/components/schemas/ShowcaseMetaSetting"
+          },
+          "priceSettings": {
+            "$ref": "#/components/schemas/ShowcasePriceSettings"
+          },
+          "primaryFont": {
+            "type": "string",
+            "description": "Font of the primary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "productImageDisplay": {
+            "enum": [
+              "ShowFullImage",
+              "ZoomOnImage"
+            ],
+            "type": "string",
+            "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping."
+          },
+          "secondaryFont": {
+            "type": "string",
+            "description": "Font of the secondary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "universalLinkUrl": {
+            "type": "string",
+            "description": "Universal link URL (iOS fallback).",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to create or update a Showcase creative (write)."
+      },
       "Size": {
         "type": "object",
         "properties": {
           "height": {
             "type": "integer",
+            "description": "The height of the creative, in pixels",
             "format": "int32",
             "nullable": true
           },
           "width": {
             "type": "integer",
+            "description": "The width of the creative, in pixels",
             "format": "int32",
             "nullable": true
           }
         },
         "description": "Size entity containing width and height of the creative",
+        "nullable": true
+      },
+      "SocialSettings": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/CreativeMetaSetting"
+          },
+          "tiktok": {
+            "$ref": "#/components/schemas/CreativeTikTokSetting"
+          }
+        },
+        "description": "Creative-level social metadata for Meta and TikTok placements.",
         "nullable": true
       },
       "StatisticsReportQueryMessage": {
@@ -12669,12 +13640,16 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon, which must come after the start date. If the\r\nend date is not specified (i.e. null) then the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\".",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the Coupon will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the coupon will be launched. It must be a date in the future, and it must not\r\nmove earlier than the start date the coupon already has.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\"."
           }
         },
         "description": "Entity to edit a Coupon"
@@ -12886,6 +13861,61 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
+      "VastTagAttributes": {
+        "type": "object",
+        "properties": {
+          "hasVpaid": {
+            "type": "boolean",
+            "description": "Whether the tag contains a VPAID unit (vpaid y/n). Derived from the tag. VPAID is a deprecated\r\ninteractivity standard; this flag is recorded for information but interactive playback is not guaranteed.",
+            "nullable": true
+          },
+          "isSkippable": {
+            "type": "boolean",
+            "description": "Whether the video is skippable. Derived from the tag.",
+            "nullable": true
+          },
+          "mimeTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The supported media-file mime types (e.g. \"video/mp4\"). Derived from the tag.",
+            "nullable": true
+          },
+          "vastTagUrl": {
+            "type": "string",
+            "description": "The VAST tag URL (a hosted VAST XML endpoint).",
+            "nullable": true
+          },
+          "vastVersion": {
+            "type": "string",
+            "description": "The VAST version declared by the tag (e.g. \"4.2\"). Derived from the tag.",
+            "nullable": true
+          },
+          "videoDurationMs": {
+            "type": "number",
+            "description": "The video duration in milliseconds. Derived from the tag.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to VastTag creatives (read model).\r\nMost fields are derived by parsing the VAST tag and are read-only.",
+        "nullable": true
+      },
+      "VastTagWriteAttributes": {
+        "required": [
+          "vastTagUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "vastTagUrl": {
+            "type": "string",
+            "description": "The VAST tag URL (a hosted VAST XML endpoint). This is the only essential input for a VastTag creative.",
+            "format": "uri"
+          }
+        },
+        "description": "The attributes specific to create or update a VastTag (VAST tag) creative.\r\nThe VAST tag is parsed server-side to derive version, duration, media-file mime types and skippability."
+      },
       "VideoDetail": {
         "required": [
           "duration",
@@ -12960,12 +13990,32 @@
         "flows": {
           "clientCredentials": {
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "MarketingSolutions_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Read": "Grants Read access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Manage": "Grants Manage access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Read": "Grants Read access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Manage": "Grants Manage access to the capabilities from the Reco domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Read": "Grants Read access to the capabilities from the Reco domain, for MarketingSolutions applications"
+            }
           },
           "authorizationCode": {
             "authorizationUrl": "https://api.criteo.com/oauth2",
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "MarketingSolutions_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Read": "Grants Read access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Manage": "Grants Manage access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Read": "Grants Read access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Manage": "Grants Manage access to the capabilities from the Reco domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Read": "Grants Read access to the capabilities from the Reco domain, for MarketingSolutions applications"
+            }
           }
         }
       }

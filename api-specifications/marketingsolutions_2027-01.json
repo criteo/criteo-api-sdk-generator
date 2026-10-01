@@ -955,7 +955,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/ads/{id}",
-        "description": "Delete an Ad",
+        "description": "Deletes one ad, which stops it delivering for good. The creative it was bound to is kept and can be\r\nreused; to stop delivery without losing the ad, pause it instead.",
         "operationId": "DeleteAd",
         "parameters": [
           {
@@ -987,7 +987,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/ads/{id}",
-        "description": "Get an Ad with its id",
+        "description": "Reads one ad by its id: the creative and ad set it binds, its schedule and its delivery status. The\r\nid comes from the ad list of the advertiser.",
         "operationId": "GetAd",
         "parameters": [
           {
@@ -1028,7 +1028,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/ads",
-        "description": "Get the list of self-services Ads for a given advertiser",
+        "description": "Lists the ads of one advertiser, each one binding a creative to an ad set. Use it to find an ad id\r\nbefore reading, pausing, unpausing or deleting a single ad. Page through the ads with limit and\r\noffset.",
         "operationId": "GetAdvertiserAds",
         "parameters": [
           {
@@ -1086,7 +1086,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/ads",
-        "description": "Create an Ad",
+        "description": "Creates an ad by binding an existing creative to an existing ad set of the advertiser, delivering\r\nfrom the start date given. The creative and the ad set must both belong to that advertiser. Returns\r\nthe new ad and its id.",
         "operationId": "CreateAdvertiserAd",
         "parameters": [
           {
@@ -1100,6 +1100,7 @@
           }
         ],
         "requestBody": {
+          "description": "The ad information.",
           "content": {
             "application/json": {
               "schema": {
@@ -1131,13 +1132,117 @@
         ]
       }
     },
+    "/2027-01/marketing-solutions/advertisers/{advertiser-id}/ads/pause": {
+      "post": {
+        "tags": [
+          "Creative"
+        ],
+        "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/ads/pause",
+        "description": "Pauses a set of ads of one advertiser so that they stop delivering; they can be unpaused later.\r\nThe ads that can be paused are paused even when others in the same request are rejected, so read\r\nthe outcome the response gives for each requested ad id rather than the status code alone.",
+        "operationId": "PauseAdvertiserAds",
+        "parameters": [
+          {
+            "name": "advertiser-id",
+            "in": "path",
+            "description": "The advertiser identifier.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The ads to pause, carried as adIds. For example\r\n{\"data\":{\"type\":\"PauseAdsRequest\",\"attributes\":{\"adIds\":[\"12345\",\"12346\"]}}}.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfPauseAdsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "The outcome for each requested Ad is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfAdDeliveryStatusUpdate"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/2027-01/marketing-solutions/advertisers/{advertiser-id}/ads/unpause": {
+      "post": {
+        "tags": [
+          "Creative"
+        ],
+        "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/ads/unpause",
+        "description": "Unpauses a set of ads of one advertiser so that they resume delivering. The ads that can be\r\nunpaused are unpaused even when others in the same request are rejected, so read the outcome the\r\nresponse gives for each requested ad id rather than the status code alone.",
+        "operationId": "UnpauseAdvertiserAds",
+        "parameters": [
+          {
+            "name": "advertiser-id",
+            "in": "path",
+            "description": "The advertiser identifier.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The ads to unpause, carried as adIds. For example\r\n{\"data\":{\"type\":\"UnpauseAdsRequest\",\"attributes\":{\"adIds\":[\"12345\",\"12346\"]}}}.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfUnpauseAdsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "The outcome for each requested Ad is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueResourceCollectionOutcomeOfAdDeliveryStatusUpdate"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Creative_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons": {
       "get": {
         "tags": [
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons",
-        "description": "Get the list of self-services Coupons for a given advertiser",
+        "description": "Lists the coupons of one advertiser. Use it to find a coupon id before reading, editing, previewing\r\nor deleting a single coupon. Page through the coupons with limit and offset.",
         "operationId": "GetAdvertiserCoupons",
         "parameters": [
           {
@@ -1195,7 +1300,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons",
-        "description": "Create a Coupon",
+        "description": "Creates a coupon on one ad set of the advertiser. The ad set must already carry dynamic display or\r\nHTML ads, and each slide image must match a size that ad set supports, which the supported-sizes\r\noperation lists. Returns the new coupon and its id.",
         "operationId": "CreateAdvertiserCoupon",
         "parameters": [
           {
@@ -1209,6 +1314,7 @@
           }
         ],
         "requestBody": {
+          "description": "The coupon to create.",
           "content": {
             "application/json": {
               "schema": {
@@ -1246,7 +1352,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons-supported-sizes",
-        "description": "Get the list of Coupon supported sizes",
+        "description": "Lists, per coupon format, the sizes an ad set supports. Call it before creating a coupon to pick a\r\nvalid slide size; the ad set must already carry dynamic ads.",
         "operationId": "GetAdvertiserCouponSupportedSizes",
         "parameters": [
           {
@@ -1294,7 +1400,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}",
-        "description": "Delete a Coupon",
+        "description": "Deletes one coupon of an advertiser. A coupon that is already deleted or under review cannot be\r\ndeleted.",
         "operationId": "DeleteAdvertiserCoupon",
         "parameters": [
           {
@@ -1334,7 +1440,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}",
-        "description": "Get a Coupon with its id",
+        "description": "Reads one coupon of an advertiser by its id: its schedule, its slides and the ad set it runs on. The\r\nid comes from the coupon list of the advertiser.",
         "operationId": "GetAdvertiserCoupon",
         "parameters": [
           {
@@ -1381,7 +1487,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}",
-        "description": "Edit a specific Coupon",
+        "description": "Changes when a coupon runs; only the start and end dates can be edited, and the start date must come\r\nbefore the end date. The coupon must still be a draft or live coupon that is not yet delivering.",
         "operationId": "EditAdvertiserCoupon",
         "parameters": [
           {
@@ -1404,6 +1510,7 @@
           }
         ],
         "requestBody": {
+          "description": "The new start and end dates of the coupon.",
           "content": {
             "application/json": {
               "schema": {
@@ -1441,7 +1548,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/coupons/{id}/preview",
-        "description": "Get the preview of a specific Coupon",
+        "description": "Renders one coupon as preview HTML at the size asked for. The size must be one the coupon's ad set\r\nsupports, as listed by the supported-sizes operation.",
         "operationId": "GetAdvertiserCouponPreview",
         "parameters": [
           {
@@ -1513,7 +1620,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/creatives",
-        "description": "Get the list of self-services Creatives for a given advertiser",
+        "description": "Lists the creatives in the library of one advertiser. Use it to find a creative id before reading,\r\nediting or previewing a creative, or before binding one to an ad. Page through the library with\r\nlimit and offset.",
         "operationId": "GetAdvertiserCreatives",
         "parameters": [
           {
@@ -1548,7 +1655,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of self-services Creatives is returned.This list will contain creatives in draft status as well which will have some properties as null",
+            "description": "The list of self-services Creatives is returned.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1571,7 +1678,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/advertisers/{advertiser-id}/creatives",
-        "description": "Create a Creative",
+        "description": "Creates a creative in the library of one advertiser. The format decides which attributes block must\r\nbe filled in, and the dataset must be one of that advertiser's. Returns the new creative, whose id is\r\nwhat an ad binds to.",
         "operationId": "CreateAdvertiserCreative",
         "parameters": [
           {
@@ -1585,6 +1692,7 @@
           }
         ],
         "requestBody": {
+          "description": "The creative information.",
           "content": {
             "application/json": {
               "schema": {
@@ -2584,13 +2692,186 @@
         ]
       }
     },
+    "/2027-01/marketing-solutions/catalog/ingestion/{ingestion-id}/reports/summary": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "/2027-01/marketing-solutions/catalog/ingestion/{ingestion-id}/reports/summary",
+        "description": "Get the summary report of a catalog ingestion: what triggered it, how long it ran, how many offers it held, what it changed and how clean the data was.",
+        "operationId": "GetCatalogIngestionReportSummary",
+        "parameters": [
+          {
+            "name": "ingestion-id",
+            "in": "path",
+            "description": "Identifies the catalog ingestion to report on.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The summary report of the ingestion.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogIngestionSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Catalog_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2027-01/marketing-solutions/catalog/merchants/{merchant-id}/brands": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "/2027-01/marketing-solutions/catalog/merchants/{merchant-id}/brands",
+        "description": "List the brands extracted from the catalogs of a merchant, ordered by brand id.",
+        "operationId": "GetCatalogBrands",
+        "parameters": [
+          {
+            "name": "include-inactive",
+            "in": "query",
+            "description": "Also return the brands that disappeared from the last extraction (status = inactive).",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of brands returned in the page.",
+            "schema": {
+              "maximum": 2000,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 2000
+            }
+          },
+          {
+            "name": "merchant-id",
+            "in": "path",
+            "description": "Identifies the merchant whose catalog brands are listed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first brand of the page, used to page through the collection.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The page of brands extracted from the catalogs of the merchant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrandListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Catalog_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/2027-01/marketing-solutions/catalog/merchants/{merchant-id}/ingestion/reports": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "/2027-01/marketing-solutions/catalog/merchants/{merchant-id}/ingestion/reports",
+        "description": "List the catalog ingestions of a merchant, most recent first, with their type, status and timing.",
+        "operationId": "GetCatalogIngestionReports",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of ingestion reports returned in the page.",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "merchant-id",
+            "in": "path",
+            "description": "Identifies the merchant whose catalog ingestions are reported.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Index of the first ingestion report of the page, used to page through the collection.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The page of catalog ingestion reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogIngestionReportListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Catalog_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/2027-01/marketing-solutions/creatives/{id}": {
       "delete": {
         "tags": [
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/creatives/{id}",
-        "description": "Delete a Creative if there are no ads binded to it",
+        "description": "Deletes one creative. Every ad bound to it must be deleted or rebound first, and a creative that is\r\nalready deleted or under review cannot be deleted.",
         "operationId": "DeleteCreative",
         "parameters": [
           {
@@ -2621,7 +2902,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/creatives/{id}",
-        "description": "Get a Creative with its id",
+        "description": "Reads one creative by its id, with the attributes of its format. Use it to check a creative before\r\nediting it or binding it to an ad.",
         "operationId": "GetCreative",
         "parameters": [
           {
@@ -2659,7 +2940,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/creatives/{id}",
-        "description": "Edit a specific Creative",
+        "description": "Replaces the attributes of one creative: any attribute left out is cleared, so read the creative\r\nfirst and send it back with your changes applied. The format must be the creative's existing format\r\nand the dataset must stay the one it already belongs to; neither can be changed here. A creative\r\nthat is being deployed, archived or deleted cannot be edited.",
         "operationId": "EditCreative",
         "parameters": [
           {
@@ -2673,6 +2954,7 @@
           }
         ],
         "requestBody": {
+          "description": "The complete new attributes of the creative.",
           "content": {
             "application/json": {
               "schema": {
@@ -2710,7 +2992,7 @@
           "Creative"
         ],
         "summary": "/2027-01/marketing-solutions/creatives/{id}/preview",
-        "description": "Get the preview of a specific Creative",
+        "description": "Renders one creative as preview HTML at the size asked for. Only the sizes the creative was built for\r\ncan be previewed; when the size does not match, the error lists the ones that can.",
         "operationId": "GenerateCreativePreview",
         "parameters": [
           {
@@ -2784,7 +3066,8 @@
               "enum": [
                 "Unknown",
                 "CGrowth",
-                "CMax"
+                "CMax",
+                "GoEnterprise"
               ],
               "type": "string",
               "nullable": true
@@ -4924,7 +5207,7 @@
           "Analytics"
         ],
         "summary": "/2027-01/marketing-solutions/statistics-adlevel/report",
-        "description": "Generates a synchronous ad-level report (currently OpenAI campaigns only, with Open Web planned) returned directly in the response as JSON or CSV — no job creation, polling, or separate download step.\r\n<br/><br/>\r\nBreakdown dimensions and metrics must both be explicitly requested — nothing is added to the response just because a dimension was requested. Requesting AdGroupName, ProductId, or AdId as a breakdown requires the query to already be scoped to specific ad set(s), either via a non-empty adsetIds filter or by also including AdsetId in dimensions. Some metrics also require their own matching breakdown dimension to be requested — see the endpoint description for the full compatibility table. Results are capped at 100,000 rows; beyond that the response is truncated and a row-limit-exceeded warning is included.",
+        "description": "Generates a synchronous ad-level report (currently OpenAI campaigns only, with Open Web planned) returned directly in the response as JSON or CSV — no job creation, polling, or separate download step.\r\n<br/><br/>\r\nBreakdown dimensions and metrics must both be explicitly requested — nothing is added to the response just because a dimension was requested. Requesting AdGroupName, ProductId, or AdId as a breakdown requires the query to already be scoped to specific ad set(s), either via a non-empty adsetIds filter or by also including AdsetId in dimensions. Some metrics also require their own matching breakdown dimension to be requested — see the endpoint description for the full compatibility table. Results are capped at 100,000 rows; beyond that the response is truncated and a row-limit-exceeded warning is included.\r\n<br/><br/>\r\nOptional mediaChannel/platform filters narrow results to specific media channels/platforms (e.g. \"AI Platform\"/\"OpenAI\"); omit for no filtering. Monetary metrics (Spend, Cpc, Cpm) are converted into the currency requested via the currency field (ISO 4217 code, defaults to EUR). This report always operates in UTC.",
         "operationId": "GetAdLevelReport",
         "requestBody": {
           "content": {
@@ -4955,7 +5238,13 @@
                       "Ctr",
                       "Spend"
                     ],
-                    "timezone": "UTC",
+                    "mediaChannel": [
+                      "AI Platform"
+                    ],
+                    "platform": [
+                      "OpenAI"
+                    ],
+                    "currency": "USD",
                     "format": "json"
                   }
                 }
@@ -5296,6 +5585,31 @@
       "Ad": {
         "type": "object",
         "properties": {
+          "adClickTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdClickTracking"
+            },
+            "description": "Optional ad-level click tracking configuration.",
+            "nullable": true
+          },
+          "adDeliveryStatus": {
+            "enum": [
+              "Live",
+              "Paused"
+            ],
+            "type": "string",
+            "description": "The delivery status of the ad. Possible values are \"Live\" and \"Paused\". This is read-only: use the\r\ndedicated pause and unpause operations to change it.",
+            "nullable": true
+          },
+          "adImpressionTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdImpressionTracking"
+            },
+            "description": "Optional ad-level impression tracking configuration.",
+            "nullable": true
+          },
           "adSetId": {
             "type": "string",
             "description": "The id of the Ad Set binded to this Ad",
@@ -5313,22 +5627,22 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this ad. If the end date is not specified (i.e. null) then the ad will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this ad. If the end date is not specified (i.e. null) then\r\nthe ad will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:30:00.000Z\".",
             "nullable": true
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "inventoryType": {
             "enum": [
               "Native",
               "Display",
-              "Video"
+              "Video",
+              "Meta"
             ],
             "type": "string",
-            "description": "The inventory the Ad belongs to. Possible values are \"Display\" and \"Native\". This is optional since this doesn't make sense for every creative type but will throw an error if not set for a dynamic creative.",
+            "description": "The inventory the Ad belongs to. Possible values are \"Display\", \"Native\", \"Video\" and \"Meta\". This is\r\noptional since it doesn't make sense for every creative type: it is inferred from the creative for a\r\nvideo creative, and an error is returned if it is not set for a dynamic creative.",
             "nullable": true
           },
           "name": {
@@ -5338,7 +5652,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the ad will be launched\r\nString must be in ISO8601 format",
+            "description": "The date when the ad will be launched.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:30:00.000Z\".",
             "nullable": true
           }
         },
@@ -5658,6 +5972,44 @@
         },
         "description": "The attributes specific to create or update an Adaptive creative"
       },
+      "AdDeliveryStatusUpdate": {
+        "required": [
+          "adId",
+          "result"
+        ],
+        "type": "object",
+        "properties": {
+          "adDeliveryStatus": {
+            "enum": [
+              "Live",
+              "Paused"
+            ],
+            "type": "string",
+            "description": "The ad's delivery status at the end of the operation. Omitted when the ad's existence cannot be\r\ndisclosed to this advertiser.",
+            "nullable": true
+          },
+          "adId": {
+            "type": "string",
+            "description": "The ad this update describes."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why the ad was rejected, set only when the result is \"Failed\". One of \"forbidden\", \"ad-archived\" or\r\n\"ad-creative-not-available-via-api\".",
+            "nullable": true
+          },
+          "result": {
+            "enum": [
+              "Succeeded",
+              "Unchanged",
+              "Failed"
+            ],
+            "type": "string",
+            "description": "Whether the ad reached the requested status, was already in it, or was rejected."
+          }
+        },
+        "description": "The outcome a pause or unpause operation produced for one requested ad.",
+        "nullable": true
+      },
       "AdLevelReportRequestAttributes": {
         "required": [
           "advertiserIds",
@@ -5685,6 +6037,12 @@
             },
             "description": "List of advertiser IDs to report on. Between 1 and 5 advertiser IDs can be provided."
           },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency code to convert monetary metrics (Spend, Cpc, Cpm) into. Defaults to EUR.",
+            "default": "EUR",
+            "nullable": true
+          },
           "dimensions": {
             "minItems": 1,
             "type": "array",
@@ -5696,13 +6054,14 @@
                 "AdsetName",
                 "MediaChannel",
                 "Platform",
+                "Day",
                 "AdGroupName",
                 "ProductId",
                 "AdId"
               ],
               "type": "string"
             },
-            "description": "List of breakdown dimensions for the report. At least one dimension must be provided; nothing is added to the response unless explicitly requested here."
+            "description": "List of breakdown dimensions for the report. At least one dimension must be provided; nothing is added to the response unless explicitly requested here. Day is always a UTC calendar day (YYYY-MM-DD), regardless of the timezone field."
           },
           "endDate": {
             "type": "string",
@@ -5719,6 +6078,14 @@
             "type": "string",
             "description": "Optional file format of the generated report. Only csv and json are currently supported by this endpoint — excel and xml requests are rejected with a 400 error.",
             "default": "json"
+          },
+          "mediaChannel": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional filter on media channel (e.g. \"AI Platform\"). If empty, all media channels are included.",
+            "nullable": true
           },
           "metrics": {
             "minItems": 1,
@@ -5741,16 +6108,18 @@
             },
             "description": "List of metrics to return. At least one metric must be provided. AdGroupContextHint and AdGroupDescription require AdGroupName in dimensions; ProductName requires ProductId; AdTitle and AdCopy require AdId."
           },
+          "platform": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional filter on platform (e.g. \"OpenAI\"). If empty, all platforms are included.",
+            "nullable": true
+          },
           "startDate": {
             "type": "string",
             "description": "Start date of the report. Date component of ISO 8601 format, any time or timezone component is ignored. Must be less than or equal to endDate.",
             "format": "date-time"
-          },
-          "timezone": {
-            "type": "string",
-            "description": "Optional timezone used for the report. Timezone Database (Tz) format.",
-            "default": "UTC",
-            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -6348,6 +6717,22 @@
         ],
         "type": "object",
         "properties": {
+          "adClickTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdClickTracking"
+            },
+            "description": "Optional ad-level click tracking configuration.",
+            "nullable": true
+          },
+          "adImpressionTracking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAdImpressionTracking"
+            },
+            "description": "Optional ad-level impression tracking configuration.",
+            "nullable": true
+          },
           "adSetId": {
             "type": "string",
             "description": "The id of the Ad Set bound to this Ad"
@@ -6363,16 +6748,22 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this ad. If the end date is not specified (i.e. null) then the ad will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this ad, which must come after the start date. If the end\r\ndate is not specified (i.e. null) then the ad will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:30:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:30:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:30:00Z\".",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           },
           "inventoryType": {
             "enum": [
+              "Native",
               "Display",
-              "Native"
+              "Video",
+              "Meta"
             ],
             "type": "string",
-            "description": "The inventory the Ad to be created or updated belongs to. Possible values are \"Display\" and \"Native\". This is optional since this doesn't make sense for every creative type but will throw an error if not set for a dynamic creative.",
+            "description": "The inventory the Ad to be created or updated belongs to. Possible values are \"Display\", \"Native\",\r\n\"Video\" and \"Meta\". This is optional since it doesn't make sense for every creative type: it is inferred\r\nfrom the creative for a video creative, and an error is returned if it is not set for a dynamic creative.\r\n\"Meta\" additionally requires the target ad set to be linked to Meta.",
             "nullable": true
           },
           "name": {
@@ -6381,10 +6772,10 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the ad will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the ad will be launched. It must be a date in the future.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:30:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:30:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:30:00Z\"."
           }
         },
-        "description": "Entity to create or update an ad"
+        "description": "Entity to create an ad"
       },
       "AlgebraNodeV1": {
         "type": "object",
@@ -7091,6 +7482,9 @@
             "type": "string",
             "description": "Description of the segment"
           },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedCreateV1"
+          },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketCreateV1"
           },
@@ -7174,6 +7568,9 @@
             "type": "string",
             "description": "Description of the segment",
             "nullable": true
+          },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedV1"
           },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketV1"
@@ -7605,6 +8002,9 @@
           "description": {
             "$ref": "#/components/schemas/NillableString"
           },
+          "filterBased": {
+            "$ref": "#/components/schemas/FilterBasedUpdateV1"
+          },
           "inMarket": {
             "$ref": "#/components/schemas/InMarketUpdateV1"
           },
@@ -7976,6 +8376,139 @@
         },
         "description": "Encapsulate the parameters needed to create or update a boosting configuration"
       },
+      "Brand": {
+        "type": "object",
+        "properties": {
+          "brandName": {
+            "type": "string",
+            "description": "Brand name as found in the catalog.",
+            "nullable": true
+          },
+          "componentId": {
+            "type": "integer",
+            "description": "Component the brand was extracted from. A brand name can exist on several components of a merchant.",
+            "format": "int32"
+          },
+          "firstSeenDate": {
+            "type": "string",
+            "description": "First extraction the brand was seen in.",
+            "format": "date-time"
+          },
+          "idCustomerBrand": {
+            "type": "string",
+            "description": "Stable identifier of the brand, kept for the lifetime of the brand even if it becomes inactive.",
+            "nullable": true
+          },
+          "lastSeenDate": {
+            "type": "string",
+            "description": "Most recent extraction the brand was seen in.",
+            "format": "date-time"
+          },
+          "merchantId": {
+            "type": "string",
+            "description": "Identifies the merchant the brand was extracted for.",
+            "nullable": true
+          },
+          "productCount": {
+            "type": "integer",
+            "description": "Number of products carrying this brand in the last extraction.",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/BrandStatus"
+          }
+        },
+        "description": "A brand extracted from the catalogs of a merchant, with the component it comes from and how many products carry it.",
+        "nullable": true
+      },
+      "BrandingImageInput": {
+        "required": [
+          "base64String",
+          "shape"
+        ],
+        "type": "object",
+        "properties": {
+          "base64String": {
+            "type": "string",
+            "description": "Branding image as a base-64 encoded string."
+          },
+          "shape": {
+            "type": "string",
+            "description": "Shape of the branding image.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          }
+        },
+        "description": "Branding image input with shape and base-64 encoded image data."
+      },
+      "BrandListResponse": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BrandResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Paginated response holding the brands extracted from the catalogs of a merchant.",
+        "nullable": true
+      },
+      "BrandResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/Brand"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Resource holding a brand extracted from the catalogs of a merchant.",
+        "nullable": true
+      },
+      "BrandStatus": {
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "type": "string",
+        "description": "Whether the brand was still present in the last catalog extraction.",
+        "x-enumNames": [
+          "Active",
+          "Inactive"
+        ],
+        "x-enum-varnames": [
+          "Active",
+          "Inactive"
+        ]
+      },
       "BudgetAutomation": {
         "type": "object",
         "properties": {
@@ -8020,6 +8553,46 @@
         },
         "description": "Budget automation, also known as automated budget or budget pacing, lets users configure KPIs and budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nWhen enabled is false, automatedBudgetConfiguration is null.\r\nWhen enabled is true, automatedBudgetConfiguration.adSetOptimizationObjective is expected.",
         "nullable": true
+      },
+      "CampaignScheduledSpendLimitV23Q1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit, for example \"12345\".",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\n- \"daily\", \"monthly\", and \"lifetime\" are valid when spendLimitType is \"capped\".\r\n- \"undefined\" is returned when spendLimitType is \"uncapped\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n- \"capped\": a spend limit applies, spendLimitAmount.value is non-null, and spendLimitRenewal is \"daily\", \"monthly\", or \"lifetime\".\r\n- \"uncapped\": no spend limit applies, spendLimitAmount.value is null, and spendLimitRenewal is \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-08-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A campaign spend limit scheduled to become active on the specified \"startDate\"."
       },
       "CampaignSearchFiltersV23Q1": {
         "type": "object",
@@ -8113,6 +8686,19 @@
             "description": "Name of the campaign",
             "nullable": true
           },
+          "scheduledSpendLimits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignScheduledSpendLimitV23Q1"
+            },
+            "description": "Spend limits scheduled to become active in the future. Empty when the campaign has no scheduled spend limits.",
+            "nullable": true
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id of the campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CampaignSpendLimitV23Q1"
           }
@@ -8194,6 +8780,432 @@
           }
         },
         "description": "Data model for response resource"
+      },
+      "CatalogIngestionReport": {
+        "type": "object",
+        "properties": {
+          "componentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "string",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ingestionStatus": {
+            "$ref": "#/components/schemas/IngestionStatus"
+          },
+          "ingestionType": {
+            "$ref": "#/components/schemas/IngestionType"
+          },
+          "merchantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "multiSourceReportingStatus": {
+            "$ref": "#/components/schemas/MultiSourceReportingStatus"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Identification, timing and status of a single catalog ingestion. The summary report of the same ingestion repeats these fields and adds its volume, delta and data quality.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingDataQuality": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingErrors"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingQuality"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingDataQualitySummary"
+          },
+          "warnings": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingWarnings"
+          }
+        },
+        "description": "Data quality outcome of the ingestion: quality score, per-error and per-warning product counts, and their totals.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingDataQualitySummary": {
+        "type": "object",
+        "properties": {
+          "totalErrors": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalWarnings": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Total number of data quality errors and warnings raised by the ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingDelta": {
+        "type": "object",
+        "properties": {
+          "addedOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deletedOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unchangedOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedOffers": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Number of offers added, updated, deleted and left unchanged by the ingestion, compared to the previous one.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Error that made the ingestion fail.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingErrors": {
+        "type": "object",
+        "properties": {
+          "invalidGoogleProductCategory": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "invalidGtin": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingDescription": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingImageLink": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingLink": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingPrice": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingTitle": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidCrossSellersProductId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidExternalId": {
+            "type": "integer",
+            "description": "Offers missing ID, overlarge ID, or invalid format.",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidItemGroupId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidSellerId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "productsWithInvalidSellerName": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "description": "Number of products rejected by the ingestion, broken down by the error that rejected them.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingQuality": {
+        "type": "object",
+        "properties": {
+          "qualityDecision": {
+            "$ref": "#/components/schemas/QualityDecision"
+          },
+          "score": {
+            "type": "integer",
+            "description": "Feed quality score (0–100).",
+            "format": "int32"
+          },
+          "threshold": {
+            "type": "integer",
+            "description": "Minimum acceptable quality threshold.",
+            "format": "int32"
+          }
+        },
+        "description": "Quality score of the ingested catalog, the threshold it was compared to, and the resulting decision.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingTrigger": {
+        "type": "object",
+        "properties": {
+          "initiatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/TriggerType"
+          }
+        },
+        "description": "What started the ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingVolume": {
+        "type": "object",
+        "properties": {
+          "multisourceProducts": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalParentOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalSingleOffers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalVariantOffers": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Number of offers held by the ingested catalog, broken down by offer kind.",
+        "nullable": true
+      },
+      "CatalogIngestionReportingWarnings": {
+        "type": "object",
+        "properties": {
+          "missingBrand": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingGoogleProductCategory": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingGtin": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "missingMpn": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "description": "Number of products missing an optional attribute, broken down by attribute.",
+        "nullable": true
+      },
+      "CatalogIngestionReportListResponse": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogIngestionReportResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Paginated response holding the catalog ingestion reports of a merchant.",
+        "nullable": true
+      },
+      "CatalogIngestionReportResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CatalogIngestionReport"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Resource holding the basic information of a catalog ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionSummary": {
+        "type": "object",
+        "properties": {
+          "componentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataQuality": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingDataQuality"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingDelta"
+          },
+          "duration": {
+            "type": "string",
+            "description": "Total ingestion processing time as an ISO 8601 duration.",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "error": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingError"
+          },
+          "ingestionStatus": {
+            "$ref": "#/components/schemas/IngestionStatus"
+          },
+          "ingestionType": {
+            "$ref": "#/components/schemas/IngestionType"
+          },
+          "merchantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchantName": {
+            "type": "string",
+            "nullable": true
+          },
+          "multiSource": {
+            "$ref": "#/components/schemas/MultiSourceReporting"
+          },
+          "multiSourceReportingStatus": {
+            "$ref": "#/components/schemas/MultiSourceReportingStatus"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trigger": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingTrigger"
+          },
+          "volume": {
+            "$ref": "#/components/schemas/CatalogIngestionReportingVolume"
+          }
+        },
+        "description": "Summary report of a catalog ingestion: identification, timing, status, volume, delta and data quality.",
+        "nullable": true
+      },
+      "CatalogIngestionSummaryResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CatalogIngestionSummary"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Resource holding the summary report of a catalog ingestion.",
+        "nullable": true
+      },
+      "CatalogIngestionSummaryResponse": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CatalogIngestionSummaryResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Response holding the summary report of a single catalog ingestion.",
+        "nullable": true
       },
       "CommonProblem": {
         "type": "object",
@@ -8501,7 +9513,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon. If the end date is not specified (i.e. null)\r\nthen the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:00:00.000Z\".",
             "nullable": true
           },
           "format": {
@@ -8511,7 +9523,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "images": {
@@ -8552,7 +9563,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the Coupon will be launched\r\nString must be in ISO8601 format",
+            "description": "The date when the coupon will be launched.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are always present, for example \"2026-10-01T09:00:00.000Z\".",
             "nullable": true
           },
           "status": {
@@ -8573,6 +9584,10 @@
               "type": "string"
             },
             "description": "Array of FullFrame sizes as string in width x height format",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           },
           "logoZone": {
@@ -8945,6 +9960,11 @@
             "description": "Name of the campaign",
             "nullable": true
           },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id attached to this campaign (string-encoded long)",
+            "nullable": true
+          },
           "spendLimit": {
             "$ref": "#/components/schemas/CreateCampaignSpendLimit"
           }
@@ -9032,7 +10052,7 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon, which must come after the start date. If the\r\nend date is not specified (i.e. null) then the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\".",
             "nullable": true
           },
           "format": {
@@ -9042,6 +10062,10 @@
             ],
             "type": "string",
             "description": "Format of the Coupon, it can have two values: \"FullFrame\" or \"LogoZone\""
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
           },
           "images": {
             "type": "array",
@@ -9081,7 +10105,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the coupon will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the coupon will be launched. It must be a date in the future.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\"."
           }
         },
         "description": "Entity to create a Coupon"
@@ -9236,7 +10260,6 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique identifier (duplicate of the parent id).",
             "nullable": true
           },
           "imageAttributes": {
@@ -9246,12 +10269,38 @@
             "type": "string",
             "description": "The name of the creative"
           },
+          "showcaseAttributes": {
+            "$ref": "#/components/schemas/ShowcaseAttributes"
+          },
+          "socialSettings": {
+            "$ref": "#/components/schemas/SocialSettings"
+          },
           "status": {
             "type": "string",
             "description": "The status of the creative"
+          },
+          "vastTagAttributes": {
+            "$ref": "#/components/schemas/VastTagAttributes"
           }
         },
         "description": "A creative is a project with the necessary information to display a creative",
+        "nullable": true
+      },
+      "CreativeMetaSetting": {
+        "type": "object",
+        "properties": {
+          "callToAction": {
+            "type": "string",
+            "description": "Call-to-Action for Meta placements.\r\nPossible values: \"BookTravel\", \"ShopNow\", \"LearnMore\", \"SignUp\", \"Download\", \"OpenLink\".\r\nMatched without case sensitivity. The list follows what Meta supports and can change.",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "description": "Headline text for Meta placements. Maximum 125 characters.",
+            "nullable": true
+          }
+        },
+        "description": "Meta social metadata for a creative.",
         "nullable": true
       },
       "CreativeRead": {
@@ -9295,6 +10344,10 @@
           "htmlTagAttributes": {
             "$ref": "#/components/schemas/HtmlTagAttributes"
           },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "imageAttributes": {
             "$ref": "#/components/schemas/ImageAttributes"
           },
@@ -9302,12 +10355,38 @@
             "type": "string",
             "description": "The name of the creative"
           },
+          "showcaseAttributes": {
+            "$ref": "#/components/schemas/ShowcaseAttributes"
+          },
+          "socialSettings": {
+            "$ref": "#/components/schemas/SocialSettings"
+          },
           "status": {
             "type": "string",
             "description": "The status of the creative"
+          },
+          "vastTagAttributes": {
+            "$ref": "#/components/schemas/VastTagAttributes"
           }
         },
         "description": "A CreativeRead is a project with the necessary information to display a creative",
+        "nullable": true
+      },
+      "CreativeTikTokSetting": {
+        "type": "object",
+        "properties": {
+          "callToAction": {
+            "type": "string",
+            "description": "Call-to-Action for TikTok placements.\r\nPossible values: \"BOOK_NOW\", \"EXPERIENCE_NOW\", \"LEARN_MORE\", \"ORDER_NOW\", \"READ_MORE\",\r\n\"SHOP_NOW\", \"SUBSCRIBE\", \"VIEW_NOW\", \"VISIT_STORE\", \"DOWNLOAD_NOW\".\r\nMatched without case sensitivity. The list follows what TikTok supports and can change.",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "description": "Headline text for TikTok placements. Maximum 100 characters.",
+            "nullable": true
+          }
+        },
+        "description": "TikTok social metadata for a creative.",
         "nullable": true
       },
       "CreativeWrite": {
@@ -9335,16 +10414,22 @@
           },
           "format": {
             "enum": [
-              "Image",
-              "HtmlTag",
               "Dynamic",
-              "Adaptive"
+              "HtmlTag",
+              "Image",
+              "Adaptive",
+              "Showcase",
+              "VastTag"
             ],
             "type": "string",
-            "description": "The format of the creative\r\nYou can use \"Image\", \" HtmlTag\", \"Dynamic\" or \"Adaptive\""
+            "description": "The format of the creative.\r\nYou can use \"Image\", \"HtmlTag\", \"Dynamic\", \"Adaptive\", \"Showcase\" or \"VastTag\""
           },
           "htmlTagWriteAttributes": {
             "$ref": "#/components/schemas/HtmlTagWriteAttributes"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
           },
           "imageWriteAttributes": {
             "$ref": "#/components/schemas/ImageWriteAttributes"
@@ -9352,6 +10437,15 @@
           "name": {
             "type": "string",
             "description": "The name of the creative"
+          },
+          "showcaseWriteAttributes": {
+            "$ref": "#/components/schemas/ShowcaseWriteAttributes"
+          },
+          "socialSettings": {
+            "$ref": "#/components/schemas/SocialSettings"
+          },
+          "vastTagWriteAttributes": {
+            "$ref": "#/components/schemas/VastTagWriteAttributes"
           }
         },
         "description": "Entity to create or update a creative"
@@ -9644,6 +10738,211 @@
         },
         "description": "Generic Criteo API successful data model"
       },
+      "ExamAdClickTracking": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "description": "Unique ID of the ad the rule belongs to. It always names the ad of the request path, so it can be left\r\nout of a write; when it is sent it must match that ad, and a rule naming another one is refused.",
+            "nullable": true
+          },
+          "clickZone": {
+            "enum": [
+              "Unknown",
+              "AppInstall",
+              "Coupon",
+              "Logo",
+              "Main",
+              "Product",
+              "Store",
+              "Video",
+              "BrandingImage"
+            ],
+            "type": "string",
+            "description": "The banner zone this rule applies to. Leave it out for a rule that is not specific to a zone.\r\nPossible values are \"AppInstall\", \"Coupon\", \"Logo\", \"Main\", \"Product\", \"Store\", \"Video\" and\r\n\"BrandingImage\".",
+            "nullable": true
+          },
+          "disableForCoupons": {
+            "type": "boolean",
+            "description": "Whether this rule is skipped for clicks on coupons.",
+            "nullable": true
+          },
+          "disableLandingUrlEncode": {
+            "type": "boolean",
+            "description": "Whether the landing url is left unencoded when it is substituted into the tracking url.",
+            "nullable": true
+          },
+          "disableMacroUrlEncode": {
+            "type": "boolean",
+            "description": "Whether url macros are left unencoded when they are substituted into the tracking url.",
+            "nullable": true
+          },
+          "displayHeight": {
+            "type": "integer",
+            "description": "The height in pixels of the display size this rule applies to. Set it together with displayWidth, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "displayWidth": {
+            "type": "integer",
+            "description": "The width in pixels of the display size this rule applies to. Set it together with displayHeight, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the click tracking rule. Leave it out to create a rule; send back the ID of an existing\r\nrule to update it. Rules of the ad that are absent from a write request are deleted.",
+            "nullable": true
+          },
+          "urlPrefix": {
+            "type": "string",
+            "description": "The url prepended to the landing url of the clicks this rule covers.",
+            "nullable": true
+          },
+          "urlSuffix": {
+            "type": "string",
+            "description": "The url appended to the landing url of the clicks this rule covers.",
+            "nullable": true
+          }
+        },
+        "description": "An ad-level click tracking rule. A rule wraps the landing url of the clicks it covers with a prefix and a\r\nsuffix. It applies either to the whole ad (neither clickZone nor a display size set), to one banner zone\r\n(clickZone set), or to one display size (displayWidth and displayHeight both set)."
+      },
+      "ExamAdImpressionTracking": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "description": "Unique ID of the ad the rule belongs to. It always names the ad of the request path, so it can be left\r\nout of a write; when it is sent it must match that ad, and a rule naming another one is refused.",
+            "nullable": true
+          },
+          "displayHeight": {
+            "type": "integer",
+            "description": "The height in pixels of the display size this rule applies to. Set it together with displayWidth, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "displayWidth": {
+            "type": "integer",
+            "description": "The width in pixels of the display size this rule applies to. Set it together with displayHeight, and\r\nleave both out for a rule that is not specific to a display size.",
+            "format": "int32",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the impression tracking rule. Leave it out to create a rule; send back the ID of an\r\nexisting rule to update it. Rules of the ad that are absent from a write request are deleted.",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "The url called when an impression covered by this rule is served.",
+            "nullable": true
+          },
+          "vendorId": {
+            "type": "string",
+            "description": "Unique ID of the third party vendor the tracking url belongs to.",
+            "nullable": true
+          }
+        },
+        "description": "An ad-level impression tracking rule. The rule calls its url when an impression it covers is served. It\r\napplies either to the whole ad (no display size set) or to one display size (displayWidth and displayHeight\r\nboth set)."
+      },
+      "FilterBasedAlgebraNodeV1": {
+        "type": "object",
+        "properties": {
+          "and": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+            },
+            "description": "And node in the algebra tree.",
+            "nullable": true
+          },
+          "filter": {
+            "$ref": "#/components/schemas/FilterBasedDefinitionV1"
+          },
+          "not": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "or": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+            },
+            "description": "Or node in the algebra tree.",
+            "nullable": true
+          }
+        },
+        "description": "Boolean algebra tree used to combine filters with And, Or and Not operators.",
+        "nullable": true
+      },
+      "FilterBasedCreateV1": {
+        "required": [
+          "algebra"
+        ],
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use only signals coming from partners from these countries"
+          }
+        },
+        "description": "Settings to target users based on a combination of filters."
+      },
+      "FilterBasedDefinitionV1": {
+        "type": "object",
+        "properties": {
+          "partnerId": {
+            "$ref": "#/components/schemas/IdFilterV1"
+          },
+          "productCategory": {
+            "$ref": "#/components/schemas/ProductCategoryFilterV1"
+          },
+          "sellerId": {
+            "$ref": "#/components/schemas/IdFilterV1"
+          }
+        },
+        "description": "Definition of one or more filters. If multiple filters are defined, a user signal must match all the filters to be\r\nconsidered in the segment.",
+        "nullable": true
+      },
+      "FilterBasedUpdateV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use signals coming from partners from these countries"
+          }
+        },
+        "description": "Settings to target users based on a combination of filters."
+      },
+      "FilterBasedV1": {
+        "type": "object",
+        "properties": {
+          "algebra": {
+            "$ref": "#/components/schemas/FilterBasedAlgebraNodeV1"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Use only signals coming from partners from these countries",
+            "nullable": true
+          }
+        },
+        "description": "Settings to target users based on a combination of filters.",
+        "nullable": true
+      },
       "GetPortfolioResponse": {
         "type": "object",
         "properties": {
@@ -9707,6 +11006,30 @@
           }
         },
         "description": "The attributes specific to create or update a HtmlTag creative"
+      },
+      "IdFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the id filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Identifiers to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that compares identifiers against one or more values.",
+        "nullable": true
       },
       "ImageAttributes": {
         "type": "object",
@@ -9809,7 +11132,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Array of images of the same size uploaded on demostatic.criteo.com when deploying and then static.criteo.net",
+            "description": "Array of images of the same size uploaded on demostatic.criteo.com when deploying and then static.criteo.net",
             "nullable": true
           },
           "width": {
@@ -9843,6 +11166,44 @@
           }
         },
         "description": "The attributes specific to create or update an Image creative"
+      },
+      "IngestionStatus": {
+        "enum": [
+          "inProgress",
+          "finished",
+          "failed",
+          "blocked"
+        ],
+        "type": "string",
+        "description": "Status of the ingestion.",
+        "x-enumNames": [
+          "InProgress",
+          "Finished",
+          "Failed",
+          "Blocked"
+        ],
+        "x-enum-varnames": [
+          "InProgress",
+          "Finished",
+          "Failed",
+          "Blocked"
+        ]
+      },
+      "IngestionType": {
+        "enum": [
+          "catalogImport",
+          "productImporter"
+        ],
+        "type": "string",
+        "description": "Pipeline that ran the ingestion.",
+        "x-enumNames": [
+          "CatalogImport",
+          "ProductImporter"
+        ],
+        "x-enum-varnames": [
+          "CatalogImport",
+          "ProductImporter"
+        ]
       },
       "InMarketAudienceSegmentBrandEntityV1": {
         "type": "object",
@@ -10324,6 +11685,24 @@
         "description": "Settings to target users based on their location.",
         "nullable": true
       },
+      "LogoInput": {
+        "required": [
+          "base64String",
+          "shape"
+        ],
+        "type": "object",
+        "properties": {
+          "base64String": {
+            "type": "string",
+            "description": "Logo image as a base-64 encoded string."
+          },
+          "shape": {
+            "type": "string",
+            "description": "Shape of the logo.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          }
+        },
+        "description": "Logo input with shape and base-64 encoded image data."
+      },
       "LookalikeCreateV1": {
         "required": [
           "seedSegmentId"
@@ -10396,6 +11775,218 @@
           }
         },
         "description": "Parameters to modify an audience"
+      },
+      "MultiSourceAttributeCoverage": {
+        "type": "object",
+        "properties": {
+          "filledFromSource": {
+            "type": "integer",
+            "description": "Products that kept this attribute from the primary catalog: the number of products in the ingestion, less the products where the attribute was overridden. The same value as valueOrigin.primaryComponent. Products whose attribute is absent from every source are counted here too.",
+            "format": "int64"
+          },
+          "overridden": {
+            "type": "integer",
+            "description": "Products where an existing value was replaced.",
+            "format": "int64"
+          }
+        },
+        "description": "Number of products whose attribute was filled from the source, and number of products whose attribute was overridden.",
+        "nullable": true
+      },
+      "MultiSourceAttributeDetails": {
+        "type": "object",
+        "properties": {
+          "coverage": {
+            "$ref": "#/components/schemas/MultiSourceAttributeCoverage"
+          },
+          "resolution": {
+            "$ref": "#/components/schemas/MultiSourceAttributeResolution"
+          },
+          "sourceField": {
+            "type": "string",
+            "description": "Source field used for this attribute.",
+            "nullable": true
+          },
+          "sourcePriority": {
+            "type": "integer",
+            "description": "Priority of the additional source that wins for this attribute, which is the lowest priority configured for it. Zero when no additional source overrides the attribute, and also when the winning source is itself configured with priority zero; the two cases cannot be told apart.",
+            "format": "int32"
+          }
+        },
+        "description": "Multi-Source enrichment details of a single attribute: source field, source priority, coverage and resolution.",
+        "nullable": true
+      },
+      "MultiSourceAttributeMapping": {
+        "type": "object",
+        "properties": {
+          "attributeName": {
+            "type": "string",
+            "description": "Target attribute in the catalog schema.",
+            "nullable": true
+          },
+          "sourceComponentId": {
+            "type": "integer",
+            "description": "Identifies the additional source component this attribute is overridden from. Several mappings share it when one component overrides more than one attribute, which is why sourcesCount counts only the distinct ones.",
+            "format": "int32"
+          },
+          "sourceField": {
+            "type": "string",
+            "description": "Field name from the additional source mapped to this attribute.",
+            "nullable": true
+          },
+          "sourcePriority": {
+            "type": "integer",
+            "description": "Priority of this source for this attribute: lower wins (1 overrides 2).",
+            "format": "int32"
+          }
+        },
+        "description": "Mapping of one catalog attribute to the source component field it is filled from.",
+        "nullable": true
+      },
+      "MultiSourceAttributeResolution": {
+        "type": "object",
+        "properties": {
+          "overrideRate": {
+            "type": "number",
+            "description": "Percentage of products where the primary value was overridden for this attribute, out of the number of products in the ingestion, rounded to the nearest whole percent.",
+            "format": "double"
+          },
+          "valueOrigin": {
+            "$ref": "#/components/schemas/MultiSourceValueOrigin"
+          }
+        },
+        "description": "How the value of the attribute was resolved between the primary component and the additional sources.",
+        "nullable": true
+      },
+      "MultiSourceConfiguration": {
+        "type": "object",
+        "properties": {
+          "attributeMappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MultiSourceAttributeMapping"
+            },
+            "description": "Attribute-level mapping rules applied during enrichment.",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether Multi-Source Catalog was enabled for this ingestion."
+          },
+          "mainComponentId": {
+            "type": "integer",
+            "description": "Identifier of the primary catalog component.",
+            "format": "int32"
+          },
+          "matchingKeys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Keys used to match products between the primary catalog and the additional sources.",
+            "nullable": true
+          },
+          "sourcesCount": {
+            "type": "integer",
+            "description": "Number of additional sources configured, excluding the primary catalog.",
+            "format": "int32"
+          }
+        },
+        "description": "Multi-Source Catalog configuration applied to the ingestion: main component, number of sources, matching keys and attribute mappings.",
+        "nullable": true
+      },
+      "MultiSourceImpact": {
+        "type": "object",
+        "properties": {
+          "productsEnriched": {
+            "type": "integer",
+            "description": "Products where at least one missing attribute was filled. Not exclusive with productsModified: a product can be both enriched and modified.",
+            "format": "int64"
+          },
+          "productsEvaluated": {
+            "type": "integer",
+            "description": "Total products considered for Multi-Source enrichment.",
+            "format": "int64"
+          },
+          "productsMatched": {
+            "type": "integer",
+            "description": "Products matched with at least one additional source using the matching keys.",
+            "format": "int64"
+          },
+          "productsModified": {
+            "type": "integer",
+            "description": "Products where an existing value was overridden.",
+            "format": "int64"
+          },
+          "productsUnmatched": {
+            "type": "integer",
+            "description": "Products not matched with any additional source.",
+            "format": "int64"
+          }
+        },
+        "description": "Number of products evaluated, matched, enriched, modified and left unmatched by the Multi-Source enrichment.",
+        "nullable": true
+      },
+      "MultiSourceReporting": {
+        "type": "object",
+        "properties": {
+          "attributeDetails": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MultiSourceAttributeDetails"
+            },
+            "description": "Attribute-level reporting keyed by catalog attribute name (e.g. brand, color, gtin).",
+            "nullable": true
+          },
+          "configuration": {
+            "$ref": "#/components/schemas/MultiSourceConfiguration"
+          },
+          "impact": {
+            "$ref": "#/components/schemas/MultiSourceImpact"
+          }
+        },
+        "description": "The Multi-Source Catalog enrichment of one ingestion, as reported under multiSource in the ingestion summary: the configuration that was applied, its impact on the products, and the per-attribute details.",
+        "nullable": true
+      },
+      "MultiSourceReportingStatus": {
+        "enum": [
+          "notEnabled",
+          "inProgress",
+          "success",
+          "failed"
+        ],
+        "type": "string",
+        "description": "Status of the Multi-Source Catalog enrichment for the ingestion.",
+        "x-enumNames": [
+          "NotEnabled",
+          "InProgress",
+          "Success",
+          "Failed"
+        ],
+        "x-enum-varnames": [
+          "NotEnabled",
+          "InProgress",
+          "Success",
+          "Failed"
+        ]
+      },
+      "MultiSourceValueOrigin": {
+        "type": "object",
+        "properties": {
+          "additionalSource": {
+            "type": "integer",
+            "description": "Products where the final value came from an additional source.",
+            "format": "int64"
+          },
+          "primaryComponent": {
+            "type": "integer",
+            "description": "Products where the final value came from the main component: the number of products in the ingestion, less the products where this attribute came from an additional source.",
+            "format": "int64"
+          }
+        },
+        "description": "Number of products whose attribute value came from the primary component, and number whose value came from an additional source.",
+        "nullable": true
       },
       "NillableAdSetTargetingRuleV26Q1": {
         "type": "object",
@@ -10501,6 +12092,25 @@
           }
         },
         "description": "A class implementing the body of a response without data of the Criteo API as described in API Guild Guidelines"
+      },
+      "PaginationMetadata": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "Pagination applied to the returned collection.",
+        "nullable": true
       },
       "PatchAdSetAttributionConfigurationV26Q1": {
         "type": "object",
@@ -10782,6 +12392,200 @@
         },
         "description": "Data model for a Resource"
       },
+      "PatchAdSetScheduledBudgetCreationV26Q1": {
+        "required": [
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "description": "Maximum budget amount in the advertiser's currency per renewal period.\r\nRequired when budgetStrategy is \"capped\"; must be omitted when budgetStrategy is \"uncapped\".",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled budget becomes active. Required, strictly in the future.",
+            "format": "date"
+          }
+        },
+        "description": "A budget configuration to schedule on the ad set, becoming active on the specified \"startDate\".\r\nIt contains the same fields as an active-budget patch, plus the required start date.\r\nThe start date must be strictly in the future and unique among the ad set's scheduled budgets.\r\nCreating an \"uncapped\" scheduled budget: set budgetStrategy to \"uncapped\" and omit budgetAmount.\r\nCreating a \"capped\" scheduled budget: set budgetStrategy to \"capped\", budgetAmount to a positive number, budgetRenewal to a period, budgetDeliverySmoothing to a pacing strategy and pacingBehavior if budgetDeliverySmoothing is standard.\r\nManual scheduled budget changes are not supported when the linked marketing campaign has budget automation enabled."
+      },
+      "PatchAdSetScheduledBudgetDeletionV26Q1": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget to delete.",
+            "nullable": true
+          }
+        },
+        "description": "Deletion of an existing scheduled budget of the ad set, identified by its \"id\"."
+      },
+      "PatchAdSetScheduledBudgetUpdateV26Q1": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget to update.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Required for uncapped budgets and accelerated budgets.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "New advertiser-local calendar date when the scheduled budget becomes active. Must be strictly in the future\r\nand unique among the ad set's scheduled budgets.",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A patch of an existing scheduled budget of the ad set, identified by its \"id\".\r\nOnly provided fields are updated; omitted fields are left unchanged.\r\nSwitching to \"uncapped\": set budgetStrategy to \"uncapped\" and budgetAmount.value to null. The explicit null triggers the transition and automatically clears budgetRenewal, budgetDeliverySmoothing, budgetDeliveryWeek, and pacingBehavior.\r\nSwitching to \"capped\": set budgetStrategy to \"capped\", budgetAmount.value to a positive number, budgetRenewal to a period, budgetDeliverySmoothing to a pacing strategy and pacingBehavior if budgetDeliverySmoothing is standard.\r\nManual scheduled budget changes are not supported when the linked marketing campaign has budget automation enabled."
+      },
+      "PatchAdSetScheduledBudgetV26Q1": {
+        "type": "object",
+        "properties": {
+          "scheduledBudgetCreations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchAdSetScheduledBudgetCreationV26Q1"
+            },
+            "nullable": true
+          },
+          "scheduledBudgetDeletions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchAdSetScheduledBudgetDeletionV26Q1"
+            },
+            "nullable": true
+          },
+          "scheduledBudgetUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchAdSetScheduledBudgetUpdateV26Q1"
+            },
+            "nullable": true
+          }
+        },
+        "description": "Scheduled budget patch model for an ad set. Groups the operations (Create, Update, Delete) on the ad set's scheduled budget."
+      },
       "PatchAdSetSchedulingV26Q1": {
         "type": "object",
         "properties": {
@@ -10811,6 +12615,9 @@
             "description": "Name of the ad set.",
             "nullable": true
           },
+          "scheduledBudget": {
+            "$ref": "#/components/schemas/PatchAdSetScheduledBudgetV26Q1"
+          },
           "scheduling": {
             "$ref": "#/components/schemas/PatchAdSetSchedulingV26Q1"
           },
@@ -10825,6 +12632,9 @@
         "properties": {
           "budgetAutomation": {
             "$ref": "#/components/schemas/PatchMarketingCampaignBudgetAutomation"
+          },
+          "scheduledSpendLimit": {
+            "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimit"
           },
           "spendLimit": {
             "$ref": "#/components/schemas/PatchCampaignSpendLimit"
@@ -10844,6 +12654,134 @@
           }
         },
         "description": "List of input resources"
+      },
+      "PatchCampaignScheduledSpendLimit": {
+        "type": "object",
+        "properties": {
+          "scheduledSpendLimitCreations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitCreation"
+            },
+            "description": "Scheduled spend limits to create.",
+            "nullable": true
+          },
+          "scheduledSpendLimitDeletions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitDeletion"
+            },
+            "description": "Scheduled spend limits to delete.",
+            "nullable": true
+          },
+          "scheduledSpendLimitUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitUpdate"
+            },
+            "description": "Scheduled spend limits to update.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit operations for a marketing campaign (patch).\r\nCreate, update, and delete operations are applied together by the backend."
+      },
+      "PatchCampaignScheduledSpendLimitCreation": {
+        "required": [
+          "spendLimitType",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-09-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit creation.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount.value is null and spendLimitRenewal is \"undefined\".\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
+      },
+      "PatchCampaignScheduledSpendLimitDeletion": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit to delete.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit deletion."
+      },
+      "PatchCampaignScheduledSpendLimitUpdate": {
+        "required": [
+          "id",
+          "spendLimitType",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit to update.",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-09-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit update.\r\nUpdates are full replacements: id, startDate, spendLimitType, and the capped or uncapped spend-limit values must describe the complete desired state.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
       },
       "PatchCampaignSpendLimit": {
         "type": "object",
@@ -10983,6 +12921,23 @@
           }
         },
         "description": "read model data for resources"
+      },
+      "PauseAdsRequest": {
+        "required": [
+          "adIds"
+        ],
+        "type": "object",
+        "properties": {
+          "adIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the ads to act on. At least one id is required, and every id must belong to the\r\nadvertiser in the path."
+          }
+        },
+        "description": "The body of a pause request: the ads to pause, sent under the type name \"PauseAdsRequest\". The\r\nenvelope must declare that type name; any other value is refused."
       },
       "PlacementsReportQueryMessage": {
         "required": [
@@ -11174,6 +13129,48 @@
         "description": "Class with elementary info about advertiser",
         "nullable": true
       },
+      "ProductCategoryFilterV1": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "Unknown",
+              "Equals",
+              "In"
+            ],
+            "type": "string",
+            "description": "Comparison operator for the product category filter",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductCategoryV1"
+            },
+            "description": "Product categories to compare against",
+            "nullable": true
+          }
+        },
+        "description": "Filter that matches when a product category (identified by its id and level) is among the provided values.",
+        "nullable": true
+      },
+      "ProductCategoryV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the product category.",
+            "nullable": true
+          },
+          "level": {
+            "type": "integer",
+            "description": "Level of the product category in the hierarchy.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "description": "A product category identified by its id and its level in the hierarchy."
+      },
       "ProductFilterConfig": {
         "required": [
           "adId",
@@ -11209,7 +13206,8 @@
             "enum": [
               "Unknown",
               "CGrowth",
-              "CMax"
+              "CMax",
+              "GoEnterprise"
             ],
             "type": "string",
             "description": "The client type of the product set"
@@ -11393,6 +13391,25 @@
         "description": "Settings to target prospecting users to website visitors.",
         "nullable": true
       },
+      "QualityDecision": {
+        "enum": [
+          "accepted",
+          "blocked",
+          "overridden"
+        ],
+        "type": "string",
+        "description": "Decision taken from the quality score of the ingested catalog.",
+        "x-enumNames": [
+          "Accepted",
+          "Blocked",
+          "Overridden"
+        ],
+        "x-enum-varnames": [
+          "Accepted",
+          "Blocked",
+          "Overridden"
+        ]
+      },
       "ReadAdSetAttributionConfigurationV26Q1": {
         "type": "object",
         "properties": {
@@ -11522,6 +13539,84 @@
         "description": "Budget configuration for an ad set. Controls how much can be spent and how spending is paced.\r\nWhen budgetStrategy is \"capped\": budgetAmount, budgetRenewal, and budgetDeliverySmoothing are all set.\r\nWhen budgetStrategy is \"uncapped\": budgetAmount is null, budgetRenewal is \"undefined\", budgetDeliverySmoothing is null, budgetDeliveryWeek is \"undefined\", and pacingBehavior is \"undefined\".",
         "nullable": true
       },
+      "ReadAdSetScheduledBudgetV26Q1": {
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "description": "Maximum budget amount in the advertiser's currency per renewal period. Non-null when capped. null when uncapped.",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Use for uncapped or accelerated budgets, or omit pacingBehavior.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled budget becomes active.",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A budget configuration scheduled to replace the ad set's active budget on the specified \"startDate\".\r\nIt contains the same fields as the active budget, plus the scheduled budget identifier and start date."
+      },
       "ReadAdSetScheduleV26Q1": {
         "type": "object",
         "properties": {
@@ -11631,6 +13726,13 @@
           },
           "schedule": {
             "$ref": "#/components/schemas/ReadAdSetScheduleV26Q1"
+          },
+          "scheduledBudgets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadAdSetScheduledBudgetV26Q1"
+            },
+            "nullable": true
           },
           "targeting": {
             "$ref": "#/components/schemas/AdSetTargetingV26Q1"
@@ -12603,21 +14705,357 @@
         },
         "description": "Data used to update a Seller-Campaign's Bid."
       },
+      "ShowcaseAttributes": {
+        "type": "object",
+        "properties": {
+          "androidDeeplinkUrl": {
+            "type": "string",
+            "description": "Android deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "appLinkUrl": {
+            "type": "string",
+            "description": "App link URL (Android fallback).",
+            "format": "uri",
+            "nullable": true
+          },
+          "brandingImageClickUrl": {
+            "type": "string",
+            "description": "Click URL associated with the branding images.",
+            "format": "uri",
+            "nullable": true
+          },
+          "brandingImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShowcaseBrandingImage"
+            },
+            "description": "Branding images per shape (horizontal, vertical, square) displayed in the creative.",
+            "nullable": true
+          },
+          "callsToAction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as \"Buy now\" or \"Go!\".",
+            "nullable": true
+          },
+          "colors": {
+            "$ref": "#/components/schemas/ShowcaseColors"
+          },
+          "iosDeeplinkUrl": {
+            "type": "string",
+            "description": "iOS deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "landingPageUrl": {
+            "type": "string",
+            "description": "Web redirection of the landing page URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "layouts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The layouts enabled for this Showcase creative.\r\nPossible values include \"Showcase\".",
+            "nullable": true
+          },
+          "logos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShowcaseLogo"
+            },
+            "description": "Logo images with their shape and URL.",
+            "nullable": true
+          },
+          "metaSetting": {
+            "$ref": "#/components/schemas/ShowcaseMetaSetting"
+          },
+          "priceSettings": {
+            "$ref": "#/components/schemas/ShowcasePriceSettings"
+          },
+          "primaryFont": {
+            "type": "string",
+            "description": "Font of the primary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "productImageDisplay": {
+            "type": "string",
+            "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping.",
+            "nullable": true
+          },
+          "secondaryFont": {
+            "type": "string",
+            "description": "Font of the secondary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "universalLinkUrl": {
+            "type": "string",
+            "description": "Universal link URL (iOS fallback).",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to Showcase creatives (read).\r\nOn read, URLs are returned instead of base64.",
+        "nullable": true
+      },
+      "ShowcaseBrandingImage": {
+        "required": [
+          "shape",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "shape": {
+            "type": "string",
+            "description": "Shape of the branding image.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the branding image.",
+            "format": "uri"
+          }
+        },
+        "description": "A branding image with its shape as an explicit string and its URL (read model)."
+      },
+      "ShowcaseColors": {
+        "required": [
+          "bodyTextColor",
+          "creativeBackgroundColor",
+          "pricesColor"
+        ],
+        "type": "object",
+        "properties": {
+          "bodyTextColor": {
+            "type": "string",
+            "description": "Color of the creative's body text.\r\nA valid RGB24 color in hexadecimal (e.g. \"#AB00FF\")."
+          },
+          "creativeBackgroundColor": {
+            "type": "string",
+            "description": "Color of the creative's background.\r\nA valid RGB24 color in hexadecimal (e.g. \"#AB00FF\")."
+          },
+          "pricesColor": {
+            "type": "string",
+            "description": "Color of the creative's prices.\r\nA valid RGB24 color in hexadecimal (e.g. \"#AB00FF\")."
+          }
+        },
+        "description": "Colors of the different elements of a Showcase creative.\r\nAll values are valid RGB24 hexadecimal colors (e.g. \"#AB00FF\").",
+        "nullable": true
+      },
+      "ShowcaseLogo": {
+        "required": [
+          "shape",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "shape": {
+            "type": "string",
+            "description": "Shape of the logo.\r\nPossible values are \"Horizontal\", \"Vertical\", \"Square\"."
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the logo image.",
+            "format": "uri"
+          }
+        },
+        "description": "Logo with its shape and URL (read model)."
+      },
+      "ShowcaseMetaSetting": {
+        "type": "object",
+        "properties": {
+          "callToAction": {
+            "type": "string",
+            "description": "Call-to-Action for Meta placements.\r\nPossible values: \"BookTravel\", \"ShopNow\", \"LearnMore\", \"SignUp\", \"Download\", \"OpenLink\".",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "description": "Headline text for Meta placements.",
+            "nullable": true
+          }
+        },
+        "description": "Creative-level social metadata for Meta placements.",
+        "nullable": true
+      },
+      "ShowcasePriceSettings": {
+        "type": "object",
+        "properties": {
+          "hideDecimals": {
+            "type": "boolean",
+            "description": "Whether to hide decimal values in prices.",
+            "nullable": true
+          },
+          "priceFormat": {
+            "type": "string",
+            "description": "Price format expression used to display product prices.",
+            "nullable": true
+          },
+          "priceFormatBody": {
+            "type": "string",
+            "description": "Price format body expression.",
+            "nullable": true
+          },
+          "priceTextAfter": {
+            "type": "string",
+            "description": "Text displayed after the price.",
+            "nullable": true
+          },
+          "priceTextBefore": {
+            "type": "string",
+            "description": "Text displayed before the price.",
+            "nullable": true
+          }
+        },
+        "description": "Price formatting settings for Showcase creatives.",
+        "nullable": true
+      },
+      "ShowcaseWriteAttributes": {
+        "required": [
+          "callsToAction",
+          "colors",
+          "layouts",
+          "logoBase64Strings",
+          "productImageDisplay"
+        ],
+        "type": "object",
+        "properties": {
+          "androidDeeplinkUrl": {
+            "type": "string",
+            "description": "Android deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "appLinkUrl": {
+            "type": "string",
+            "description": "App link URL (Android fallback).",
+            "format": "uri",
+            "nullable": true
+          },
+          "brandingImageBase64Strings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BrandingImageInput"
+            },
+            "description": "Branding images as base-64 encoded strings with their shape.",
+            "nullable": true
+          },
+          "brandingImageClickUrl": {
+            "type": "string",
+            "description": "Click URL associated with the branding images.",
+            "format": "uri",
+            "nullable": true
+          },
+          "callsToAction": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A Call-to-Action (CTA) is an action-driven instruction to your audience intended to provoke an immediate\r\nresponse, such as \"Buy now\" or \"Go!\"."
+          },
+          "colors": {
+            "$ref": "#/components/schemas/ShowcaseColors"
+          },
+          "iosDeeplinkUrl": {
+            "type": "string",
+            "description": "iOS deep-link URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "landingPageUrl": {
+            "type": "string",
+            "description": "Web redirection of the landing page URL.",
+            "format": "uri",
+            "nullable": true
+          },
+          "layouts": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "Showcase"
+              ],
+              "type": "string"
+            },
+            "description": "The layouts to enable for this Showcase creative.\r\nPossible values include \"Showcase\"."
+          },
+          "logoBase64Strings": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogoInput"
+            },
+            "description": "Logo images as base-64 encoded strings with their shape.\r\nAt least one logo is required."
+          },
+          "metaSetting": {
+            "$ref": "#/components/schemas/ShowcaseMetaSetting"
+          },
+          "priceSettings": {
+            "$ref": "#/components/schemas/ShowcasePriceSettings"
+          },
+          "primaryFont": {
+            "type": "string",
+            "description": "Font of the primary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "productImageDisplay": {
+            "enum": [
+              "ShowFullImage",
+              "ZoomOnImage"
+            ],
+            "type": "string",
+            "description": "Value can be \"ShowFullImage\" or \"ZoomOnImage\". Choose whether your product catalog images should fit inside the allocated\r\nspace (\"ShowFullImage\") or whether they should fill that space (\"ZoomOnImage\"). If you choose ZoomOnImage, there may be some\r\nimage cropping."
+          },
+          "secondaryFont": {
+            "type": "string",
+            "description": "Font of the secondary font.\r\nValid supported font like \"Arial\"",
+            "nullable": true
+          },
+          "universalLinkUrl": {
+            "type": "string",
+            "description": "Universal link URL (iOS fallback).",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to create or update a Showcase creative (write)."
+      },
       "Size": {
         "type": "object",
         "properties": {
           "height": {
             "type": "integer",
+            "description": "The height of the creative, in pixels",
             "format": "int32",
             "nullable": true
           },
           "width": {
             "type": "integer",
+            "description": "The width of the creative, in pixels",
             "format": "int32",
             "nullable": true
           }
         },
         "description": "Size entity containing width and height of the creative",
+        "nullable": true
+      },
+      "SocialSettings": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/CreativeMetaSetting"
+          },
+          "tiktok": {
+            "$ref": "#/components/schemas/CreativeTikTokSetting"
+          }
+        },
+        "description": "Creative-level social metadata for Meta and TikTok placements.",
         "nullable": true
       },
       "StatisticsReportQueryMessage": {
@@ -13257,6 +15695,39 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "TriggerType": {
+        "enum": [
+          "manual",
+          "scheduled"
+        ],
+        "type": "string",
+        "description": "How the ingestion was started.",
+        "x-enumNames": [
+          "Manual",
+          "Scheduled"
+        ],
+        "x-enum-varnames": [
+          "Manual",
+          "Scheduled"
+        ]
+      },
+      "UnpauseAdsRequest": {
+        "required": [
+          "adIds"
+        ],
+        "type": "object",
+        "properties": {
+          "adIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ids of the ads to act on. At least one id is required, and every id must belong to the\r\nadvertiser in the path."
+          }
+        },
+        "description": "The body of an unpause request: the ads to unpause, sent under the type name \"UnpauseAdsRequest\". The\r\nenvelope must declare that type name; any other value is refused."
+      },
       "UpdateCoupon": {
         "required": [
           "startDate"
@@ -13265,12 +15736,16 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "The date when when we will stop to show this Coupon. If the end date is not specified (i.e. null) then the Coupon will go on forever\r\nString must be in ISO8601 format",
+            "description": "The date when we will stop showing this coupon, which must come after the start date. If the\r\nend date is not specified (i.e. null) then the coupon will go on forever.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\".",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           },
           "startDate": {
             "type": "string",
-            "description": "The date when the Coupon will be launched\r\nString must be in ISO8601 format"
+            "description": "The date when the coupon will be launched. It must be a date in the future, and it must not\r\nmove earlier than the start date the coupon already has.\r\nString must be in ISO8601 format, more precisely \"yyyy-MM-ddTHH:mm:ss.fffZ\": a UTC timestamp whose\r\nthree millisecond digits and trailing \"Z\" are both required, for example \"2026-10-01T09:00:00.000Z\".\r\nNo other ISO8601 layout is accepted, neither a UTC offset such as \"2026-10-01T11:00:00+02:00\" nor a\r\nsecond-precision \"2026-10-01T09:00:00Z\".\r\nA date that does not fall on a whole hour is rounded up to the next one, so\r\n\"2026-10-01T09:30:00.000Z\" is stored as \"2026-10-01T10:00:00.000Z\"."
           }
         },
         "description": "Entity to edit a Coupon"
@@ -13330,6 +15805,35 @@
           }
         },
         "description": "Base data used to update a seller's budget"
+      },
+      "ValueResourceCollectionOutcomeOfAdDeliveryStatusUpdate": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValueResourceOfAdDeliveryStatusUpdate"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for several values."
       },
       "ValueResourceCollectionOutcomeOfBoostedAdProductSet": {
         "type": "object",
@@ -13444,6 +15948,37 @@
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
+      "ValueResourceInputOfPauseAdsRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfPauseAdsRequest"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "ValueResourceInputOfUnpauseAdsRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfUnpauseAdsRequest"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "ValueResourceOfAdDeliveryStatusUpdate": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AdDeliveryStatusUpdate"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
       "ValueResourceOfBoostedAdProductSet": {
         "type": "object",
         "properties": {
@@ -13508,6 +16043,19 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value"
       },
+      "ValueResourceOfPauseAdsRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/PauseAdsRequest"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
       "ValueResourceOfProductFilterConfig": {
         "type": "object",
         "properties": {
@@ -13521,6 +16069,19 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value.",
         "nullable": true
+      },
+      "ValueResourceOfUnpauseAdsRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/UnpauseAdsRequest"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
       },
       "ValueResourceOutcomeOfBoostedAdProductSet": {
         "type": "object",
@@ -13571,6 +16132,61 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "VastTagAttributes": {
+        "type": "object",
+        "properties": {
+          "hasVpaid": {
+            "type": "boolean",
+            "description": "Whether the tag contains a VPAID unit (vpaid y/n). Derived from the tag. VPAID is a deprecated\r\ninteractivity standard; this flag is recorded for information but interactive playback is not guaranteed.",
+            "nullable": true
+          },
+          "isSkippable": {
+            "type": "boolean",
+            "description": "Whether the video is skippable. Derived from the tag.",
+            "nullable": true
+          },
+          "mimeTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The supported media-file mime types (e.g. \"video/mp4\"). Derived from the tag.",
+            "nullable": true
+          },
+          "vastTagUrl": {
+            "type": "string",
+            "description": "The VAST tag URL (a hosted VAST XML endpoint).",
+            "nullable": true
+          },
+          "vastVersion": {
+            "type": "string",
+            "description": "The VAST version declared by the tag (e.g. \"4.2\"). Derived from the tag.",
+            "nullable": true
+          },
+          "videoDurationMs": {
+            "type": "number",
+            "description": "The video duration in milliseconds. Derived from the tag.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "The attributes specific to VastTag creatives (read model).\r\nMost fields are derived by parsing the VAST tag and are read-only.",
+        "nullable": true
+      },
+      "VastTagWriteAttributes": {
+        "required": [
+          "vastTagUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "vastTagUrl": {
+            "type": "string",
+            "description": "The VAST tag URL (a hosted VAST XML endpoint). This is the only essential input for a VastTag creative.",
+            "format": "uri"
+          }
+        },
+        "description": "The attributes specific to create or update a VastTag (VAST tag) creative.\r\nThe VAST tag is parsed server-side to derive version, duration, media-file mime types and skippability."
       },
       "VideoDetail": {
         "required": [
@@ -13646,12 +16262,34 @@
         "flows": {
           "clientCredentials": {
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "MarketingSolutions_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Read": "Grants Read access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Catalog_Read": "Grants Read access to the capabilities from the Catalog domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Manage": "Grants Manage access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Read": "Grants Read access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Manage": "Grants Manage access to the capabilities from the Reco domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Read": "Grants Read access to the capabilities from the Reco domain, for MarketingSolutions applications"
+            }
           },
           "authorizationCode": {
             "authorizationUrl": "https://api.criteo.com/oauth2",
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "MarketingSolutions_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Audience_Read": "Grants Read access to the capabilities from the Audience domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for MarketingSolutions applications",
+              "MarketingSolutions_Catalog_Read": "Grants Read access to the capabilities from the Catalog domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Manage": "Grants Manage access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Creative_Read": "Grants Read access to the capabilities from the Creative domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Manage": "Grants Manage access to the capabilities from the Reco domain, for MarketingSolutions applications",
+              "MarketingSolutions_Reco_Read": "Grants Read access to the capabilities from the Reco domain, for MarketingSolutions applications"
+            }
           }
         }
       }
@@ -13674,6 +16312,9 @@
     },
     {
       "name": "Campaign"
+    },
+    {
+      "name": "Catalog"
     },
     {
       "name": "Creative"
