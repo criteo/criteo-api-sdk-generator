@@ -9,29 +9,23 @@ buildscript {
 
 apply plugin: 'java-library'
 
-def swaggerList = []
-def dir = new File("$rootDir/api-specifications".toString());
+static def getAllSwaggerFilesFromDir(String dirPath) {
+    def ret = []
+    def dir = new File(dirPath)
 
-if (dir.exists()) {
-    dir.eachFileRecurse(FileType.FILES) { file ->
-        if (file.getName().endsWith(".json"))
-            swaggerList << file
+    if (dir.exists()) {
+        dir.eachFileRecurse(FileType.FILES) { file ->
+            if (file.getName().endsWith(".json"))
+                ret << file
+        }
+    } else {
+        throw new GradleException("Folder ${dirPath} doesn't exist")
     }
-} else {
-    throw new GradleException("Folder api-specifications doesnt exist")
-}
 
-if (swaggerList.isEmpty()) {
-    throw new GradleException("No swaggers found in api-specifications folder")
-}
-
-// Test-only specs: generated, but never pushed to the public SDK repositories nor to Postman.
-def swaggerListTestOnly = []
-def dirSpecTestOnly = new File("$rootDir/api-specifications-test-only".toString());
-
-dirSpecTestOnly.eachFileRecurse(FileType.FILES) { file ->
-    if (file.getName().endsWith(".json"))
-        swaggerListTestOnly << file
+    if (ret.isEmpty()) {
+        throw new GradleException("No swaggers found in ${dirPath} folder")
+    }
+    return ret
 }
 
 ext {
@@ -43,6 +37,6 @@ ext {
     jar.enabled = false
     generatedClientsDirName = 'generated-sources'
     generatedClientsDirNameTestOnly = 'generated-sources-test-only'
-    swaggerSourceList = swaggerList
-    swaggerSourceListTestOnly = swaggerListTestOnly
+    swaggerSourceList = getAllSwaggerFilesFromDir("$rootDir/api-specifications")
+    swaggerSourceListTestOnly = getAllSwaggerFilesFromDir("$rootDir/api-specifications-test-only"); // Test-only specs: generated, but never pushed to the public SDK repositories nor to Postman.
 }
