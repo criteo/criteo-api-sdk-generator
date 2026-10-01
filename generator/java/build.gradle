@@ -3,55 +3,36 @@ apply plugin: 'org.openapi.generator'
 
 def clientOutputDir = "$rootDir/$rootProject.generatedClientsDirName/java"
 def clientOutputDirTestOnly = "$rootDir/$rootProject.generatedClientsDirNameTestOnly/java"
-def buildDir = "$projectDir/build";
-def criteoPackage = providers.gradleProperty("package.name.base").orNull
-def generatorVersion = providers.gradleProperty("generator.version").orNull
 def technologyStack = "java8"
 def nameSeparator = '.'
-def language = technologyStack.replaceAll(/[^a-zA-Z]/,"").toLowerCase()
 
 def cleanPreviousDist = registerCleanPreviousDistTask(tasks, [clientOutputDir, clientOutputDirTestOnly])
-
 
 def taskList = [cleanPreviousDist];
 
 def specsWithOutputRoot = rootProject.swaggerSourceList.collect { [it, clientOutputDir, 'generatorConfiguration.yaml'] } +
                           rootProject.swaggerSourceListTestOnly.collect { [it, clientOutputDirTestOnly, 'generatorConfigurationTestOnly.yaml'] }
 specsWithOutputRoot.each { specFile, outputRoot, generatorConfigurationFileName ->
-    def parsedApiName = specFile.getName().replace(".json", "").toLowerCase();
-    def (criteoService, apiVersionFromName) = parsedApiName.tokenize('_');
-    def criteoApiVersion = apiVersionFromName.replace('-', '_');
+    def helper = new JavaHelper(project, technologyStack, outputRoot, nameSeparator, specFile)
 
-    def clientOutputDirPerVersion = outputRoot + "/" + parsedApiName;
-    def specPath = specFile.path;
-    def isExperimental = criteoApiVersion == 'experimental';
-
-    def versionInNamespace =  computeVersionInNamespace(criteoApiVersion)
-
-    def namespaceBase = "${criteoPackage}.${criteoService}.${versionInNamespace}".replace('.', nameSeparator).toString(); // example : criteo.api.marketingsolutions.v2021_10
-
-    def artifactVersion = getArtifactVersion(criteoApiVersion, generatorVersion)
-
-    // experimental is a parallel track to preview, give it a distinct artifactId so its Maven coordinates don't collide with preview's on Central.
-    def artifactId = isExperimental ? "criteo-api-${criteoService}-sdk-experimental" : "criteo-api-${criteoService}-sdk"
-
-    namespaceBase = "com." + namespaceBase; // 'com' is Java-specific => example: com.criteo.api.marketingsolutions.v2021_10
+    def isExperimental = helper.criteoApiVersion == 'experimental';
+    def artifactId = isExperimental ? "criteo-api-${helper.criteoService}-sdk-experimental" : "criteo-api-${helper.criteoService}-sdk"
 
     // useful when you want templates to be part of the SDK generated
-    def sdkMainDir = 'src/main/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
-    def sdkTestDir = 'src/test/java/com/criteo/api/' + criteoService + '/' + versionInNamespace
+    def sdkMainDir = 'src/main/java/com/criteo/api/' + helper.criteoService + '/' + helper.versionInNamespace
+    def sdkTestDir = 'src/test/java/com/criteo/api/' + helper.criteoService + '/' + helper.versionInNamespace
 
-    def configDir = "${buildDir}/${parsedApiName}"
-    def generatedConfigFile = "${criteoService}-${versionInNamespace}.yaml"
-    def createConfig = registerCreateConfigTask(project, "${technologyStack}_${parsedApiName}", generatorConfigurationFileName, configDir, generatedConfigFile, sdkMainDir, sdkTestDir)
+    def configDir = "${helper.temporaryBuildDirArtifacts}/${helper.parsedApiName}"
+    def generatedConfigFile = "${helper.criteoService}-${helper.versionInNamespace}.yaml"
+    def createConfig = helper.registerCreateConfigTask(generatorConfigurationFileName, configDir, generatedConfigFile, sdkMainDir, sdkTestDir)
 
-    def generateTask = registerOpenApiGenerateTask(project, "${technologyStack}_${parsedApiName}", language, "${configDir}/${generatedConfigFile}", specPath, clientOutputDirPerVersion, criteoService, [
-            apiPackage               : "${namespaceBase}.api", // com.criteo.api.marketingsolutions.v2021_10.api
-            modelPackage             : "${namespaceBase}.model",
-            artifactDescription      : "${language.toUpperCase()} SDK for Criteo API ${criteoService} for ${criteoApiVersion} version",
+    def generateTask = helper.registerOpenApiGenerateTask(helper.language, "${configDir}/${generatedConfigFile}", [
+            apiPackage               : "${helper.namespaceBase}.api", // com.criteo.api.marketingsolutions.v2021_10.api
+            modelPackage             : "${helper.namespaceBase}.model",
+            artifactDescription      : "${helper.language.toUpperCase()} SDK for Criteo API ${helper.criteoService} for ${helper.criteoApiVersion} version",
             artifactId               : artifactId, // criteo-api-marketingsolutions-sdk (or criteo-api-marketingsolutions-sdk-experimental)
-            artifactVersion          : artifactVersion, // 2021.10.0.211110
-            artifactUrl              : "https://github.com/criteo/criteo-api-${language}-sdk",
+            artifactVersion          : helper.artifactVersion, // 2021.10.0.211110
+            artifactUrl              : "https://github.com/criteo/criteo-api-${helper.language}-sdk",
             dateLibrary              : technologyStack,
             developerName            : 'Criteo',
             developerEmail           : 'public-api-maintainers@criteois.com',
@@ -59,9 +40,9 @@ specsWithOutputRoot.each { specFile, outputRoot, generatorConfigurationFileName 
             developerOrganizationUrl : 'https://www.criteo.com/',
             licenseName              : 'Apache License, version 2.0',
             licenseUrl               : 'https://www.apache.org/licenses/LICENSE-2.0.txt',
-            scmConnection            : "scm:git:git://github.com/criteo/criteo-api-${language}-sdk.git",
-            scmDeveloperConnection   : "scm:git:ssh://github.com:criteo/criteo-api-${language}-sdk.git",
-            scmUrl                   : "https://github.com/criteo/criteo-api-${language}-sdk",
+            scmConnection            : "scm:git:git://github.com/criteo/criteo-api-${helper.language}-sdk.git",
+            scmDeveloperConnection   : "scm:git:ssh://github.com:criteo/criteo-api-${helper.language}-sdk.git",
+            scmUrl                   : "https://github.com/criteo/criteo-api-${helper.language}-sdk",
             disallowAdditionalPropertiesIfNotPresent : 'false',
     ]
     )
@@ -69,22 +50,24 @@ specsWithOutputRoot.each { specFile, outputRoot, generatorConfigurationFileName 
         additionalProperties.putAll([
                 sdkTestDir: "${sdkTestDir}",
         ])
-        dependsOn(createConfig.name)
+        dependsOn(createConfig)
     }
 
-    def copyLicense = registerCopyLicenseTask(project, technologyStack, parsedApiName, clientOutputDirPerVersion)
-
-    def removeUnwantedFiles = registerRemoveUnwantedFilesTasks(project, technologyStack, parsedApiName, clientOutputDirPerVersion,
-            [ '.openapi-generator-ignore', '.travis.yml', 'git_push.sh', 'build.sbt', 'src/main/AndroidManifest.xml', 'gradle.properties', 'pom.xml']
-    )
-
-    taskList << generateTask.name
-    taskList << copyLicense.name
-    taskList << removeUnwantedFiles.name
+    taskList << helper.registerCopyLicenseTask()
+    taskList << helper.registerRemoveUnwantedFilesTasks([ '.openapi-generator-ignore', '.travis.yml', 'git_push.sh', 'build.sbt', 'src/main/AndroidManifest.xml', 'gradle.properties', 'pom.xml'])
+    taskList << generateTask
 }
 
 tasks.register("generateClient") {
     group = 'Criteo'
-    description = "Generate the ${language.toUpperCase()} client using openapi-generator and custom templates".toString()
+    description = "Generate the ${technologyStack.toUpperCase()} client using openapi-generator and custom templates".toString()
     dependsOn(taskList)
+}
+
+class JavaHelper extends Helper {
+
+    JavaHelper(Object project, String technologyStack, String clientOutputDir, Object nameSeparator, File swaggerFile) {
+        super(project, technologyStack, clientOutputDir, nameSeparator, swaggerFile)
+        namespaceBase = "com." + super.namespaceBase; // 'com' is Java-specific => example: com.criteo.api.marketingsolutions.v2021_10
+    }
 }
