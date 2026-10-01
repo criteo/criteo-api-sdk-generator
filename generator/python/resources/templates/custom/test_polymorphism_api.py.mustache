@@ -1,0 +1,24 @@
+import pytest
+
+from {{packageName}}.api.analytics_api import AnalyticsApi
+from {{packageName}}.api_client import ApiClient
+from {{packageName}}.configuration import Configuration
+from {{packageName}}.rest import ApiException
+from {{packageName}}.model.derived_type_one_request import DerivedTypeOneRequest
+
+
+class TestPolymorphismApi:
+
+    def test_post_inheritance_with_empty_token_should_return_unauthorized(self):
+        # Arrange
+        configuration = Configuration()
+        configuration.access_token = ""
+        api = AnalyticsApi(ApiClient(configuration))
+        # An empty body is enough, since the call is rejected for its token
+        request = DerivedTypeOneRequest()
+
+        # Act & Assert
+        with pytest.raises(ApiException) as exc_info:
+            api.post_inheritance(derived_type_one_request=request)
+
+        assert exc_info.value.status == 401

@@ -24,11 +24,16 @@ def run_tests(language):
   else:
     raise Exception(f'Unsupported programming language ({language}).')
 
-  generated_sdks_path = os_client.get_generated_sources_base_path(language)
-  for sdk_name in fs_client.list_dir(generated_sdks_path):
-    fs_client.change_dir(path.join(generated_sdks_path, sdk_name))
+  generated_sdks_paths = [os_client.get_generated_sources_base_path(language)]
+  # SDKs generated from api-specifications-test-only/ are never pushed, but they are tested like the public ones
+  test_only_sdks_path = os_client.get_generated_sources_base_path(language, test_only=True)
+  generated_sdks_paths.append(test_only_sdks_path)
 
-    action.execute(sdk_name)
+  for generated_sdks_path in generated_sdks_paths:
+    for sdk_name in fs_client.list_dir(generated_sdks_path):
+      fs_client.change_dir(path.join(generated_sdks_path, sdk_name))
+
+      action.execute(sdk_name)
 
 def main():
   try:
