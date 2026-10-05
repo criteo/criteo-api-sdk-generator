@@ -1690,6 +1690,44 @@
       }
     },
     "/experimental/retail-media/line-items/{line-item-id}": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}",
+        "description": "Retrieves a consolidated line item view from the line item domain services.",
+        "operationId": "GetLineItem",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "The line item identifier.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineItemDetailsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      },
       "patch": {
         "tags": [
           "Campaign"
@@ -1805,7 +1843,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FetchCreativesModelResponse"
+                  "$ref": "#/components/schemas/LineItemCreativesResponse"
                 }
               }
             }
@@ -1844,7 +1882,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DeleteCreativesModelRequest"
+                "$ref": "#/components/schemas/DeleteLineItemCreativesRequest"
               }
             }
           },
@@ -1895,7 +1933,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpsertCreativesModelRequest"
+                "$ref": "#/components/schemas/UpsertLineItemCreativesRequest"
               }
             }
           },
@@ -1907,7 +1945,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreativesModelResponse"
+                  "$ref": "#/components/schemas/UpsertLineItemCreativesResponse"
                 }
               }
             }
@@ -3355,6 +3393,18 @@
         "description": "Represents the bidding settings used when the active strategy is Adaptive.",
         "nullable": true
       },
+      "AddDisplayProductDetailModel": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A product associated with a line item."
+      },
       "AddProductsModel": {
         "type": "object",
         "properties": {
@@ -3362,7 +3412,7 @@
             "maxItems": 1500,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProductModel"
+              "$ref": "#/components/schemas/AddDisplayProductDetailModel"
             },
             "description": "The display products to add to the line item.",
             "nullable": true
@@ -4940,7 +4990,7 @@
         "additionalProperties": false,
         "description": "Attribution settings that may be changed after creation. Omitted settings remain unchanged."
       },
-      "AuctionCreativeDetailsInputModel": {
+      "AuctionCreativeDetails": {
         "required": [
           "lineItemCreatives"
         ],
@@ -4949,29 +4999,29 @@
           "lineItemCreatives": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/LineItemCreativeInputModel"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "description": "The auction creatives to associate with a line item."
-      },
-      "AuctionCreativeDetailsModel": {
-        "required": [
-          "lineItemCreatives"
-        ],
-        "type": "object",
-        "properties": {
-          "lineItemCreatives": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LineItemCreativeModel"
+              "$ref": "#/components/schemas/LineItemCreative"
             }
           }
         },
         "additionalProperties": false,
         "description": "The auction creatives associated with a line item.",
         "nullable": true
+      },
+      "AuctionCreativeDetailsInput": {
+        "required": [
+          "lineItemCreatives"
+        ],
+        "type": "object",
+        "properties": {
+          "lineItemCreatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemCreativeInput"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The auction creatives to associate with a line item."
       },
       "BalanceV1": {
         "required": [
@@ -6473,6 +6523,24 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "Creative": {
+        "required": [
+          "id",
+          "modifiedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A reference to a creative associated with a line item."
+      },
       "Creative2": {
         "required": [
           "creativeFormatV2Type",
@@ -6649,7 +6717,7 @@
         "additionalProperties": false,
         "description": "Create model of a creative"
       },
-      "CreativeInputModel": {
+      "CreativeInput": {
         "required": [
           "id"
         ],
@@ -6662,25 +6730,7 @@
         "additionalProperties": false,
         "description": "A reference to the creative to associate with a line item."
       },
-      "CreativeModel": {
-        "required": [
-          "id",
-          "modifiedAt"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "modifiedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A reference to a creative associated with a line item."
-      },
-      "CreativeProductCollectionInputModel": {
+      "CreativeProductCollection": {
         "required": [
           "isMandatory",
           "products"
@@ -6693,32 +6743,32 @@
           "products": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DisplayProductInputModel"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "description": "A collection of products to configure on a creative."
-      },
-      "CreativeProductCollectionModel": {
-        "required": [
-          "isMandatory",
-          "products"
-        ],
-        "type": "object",
-        "properties": {
-          "isMandatory": {
-            "type": "boolean"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DisplayProductModel"
+              "$ref": "#/components/schemas/DisplayProduct"
             }
           }
         },
         "additionalProperties": false,
         "description": "A collection of products associated with a creative."
+      },
+      "CreativeProductCollectionInput": {
+        "required": [
+          "isMandatory",
+          "products"
+        ],
+        "type": "object",
+        "properties": {
+          "isMandatory": {
+            "type": "boolean"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DisplayProductInput"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of products to configure on a creative."
       },
       "CreativeSearchRequest": {
         "type": "object",
@@ -6903,75 +6953,6 @@
         "description": "Creative search response model",
         "nullable": true
       },
-      "CreativesModel": {
-        "required": [
-          "mediaType"
-        ],
-        "type": "object",
-        "properties": {
-          "auctionCreativeDetails": {
-            "$ref": "#/components/schemas/AuctionCreativeDetailsModel"
-          },
-          "mediaType": {
-            "enum": [
-              "Unknown",
-              "Display",
-              "Video"
-            ],
-            "type": "string"
-          },
-          "preferredDealsCreativeDetails": {
-            "$ref": "#/components/schemas/PreferredDealsCreativeDetailsModel"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Creatives associated with a line item.",
-        "nullable": true
-      },
-      "CreativesModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/CreativesModel"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
-      "CreativesModelResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/CreativesModelResource"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
-      },
       "CreativeUpdateModel2": {
         "required": [
           "name",
@@ -7050,7 +7031,19 @@
         "description": "Data freshness: the instant through which report data is complete, expressed in the report's request timezone.",
         "nullable": true
       },
-      "DeleteCreativesModel": {
+      "DecimalNullableNillableV2": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A wrapper around an optional numeric value in an update payload. Omit the property to leave the current value unchanged, or send a null value to clear it."
+      },
+      "DeleteLineItemCreativesInput": {
         "required": [
           "creativeIds"
         ],
@@ -7067,21 +7060,11 @@
         "additionalProperties": false,
         "description": "Creatives to remove from a line item."
       },
-      "DeleteCreativesModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/DeleteCreativesModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "DeleteCreativesModelResource": {
+      "DeleteLineItemCreativesInputResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/DeleteCreativesModel"
+            "$ref": "#/components/schemas/DeleteLineItemCreativesInput"
           },
           "type": {
             "type": "string",
@@ -7091,6 +7074,16 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "DeleteLineItemCreativesRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DeleteLineItemCreativesInputResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "DeleteProductModel": {
         "type": "object",
@@ -7429,42 +7422,7 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
-      "DisplayProductDetails": {
-        "type": "object",
-        "properties": {
-          "approvalStatus": {
-            "enum": [
-              "Unknown",
-              "Approved",
-              "AutoApproved",
-              "InReview",
-              "Rejected",
-              "AutoRejected",
-              "Unsubmitted"
-            ],
-            "type": "string",
-            "description": "The approval status of the product, calculated by the Approvals API.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Onsite Display-specific product details.",
-        "nullable": true
-      },
-      "DisplayProductInputModel": {
-        "required": [
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A product to add to a creative's product collection."
-      },
-      "DisplayProductModel": {
+      "DisplayProduct": {
         "required": [
           "approvalStatus",
           "id"
@@ -7489,6 +7447,67 @@
         },
         "additionalProperties": false,
         "description": "A product in a creative's product collection."
+      },
+      "DisplayProductDetailModel": {
+        "type": "object",
+        "properties": {
+          "approvalStatus": {
+            "enum": [
+              "Unknown",
+              "Approved",
+              "AutoApproved",
+              "InReview",
+              "Rejected",
+              "AutoRejected",
+              "Unsubmitted"
+            ],
+            "type": "string",
+            "description": "The approval status of the product.",
+            "nullable": true
+          },
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A display product associated with a line item."
+      },
+      "DisplayProductDetails": {
+        "type": "object",
+        "properties": {
+          "approvalStatus": {
+            "enum": [
+              "Unknown",
+              "Approved",
+              "AutoApproved",
+              "InReview",
+              "Rejected",
+              "AutoRejected",
+              "Unsubmitted"
+            ],
+            "type": "string",
+            "description": "The approval status of the product, calculated by the Approvals API.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Onsite Display-specific product details.",
+        "nullable": true
+      },
+      "DisplayProductInput": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A product to add to a creative's product collection."
       },
       "DisplayProductResultModel": {
         "type": "object",
@@ -8119,6 +8138,18 @@
       "ExternalLineItem": {
         "type": "object",
         "properties": {
+          "budgetStatus": {
+            "enum": [
+              "Unknown",
+              "BudgetAvailable",
+              "DailyBudgetReached",
+              "MonthlyBudgetReached",
+              "TotalBudgetReached"
+            ],
+            "type": "string",
+            "description": "Indicates whether the line item has budget headroom to serve ads.",
+            "nullable": true
+          },
           "campaignId": {
             "type": "string",
             "description": "The campaign id of the associated campaign.",
@@ -8129,19 +8160,6 @@
           },
           "effectiveFlightDates": {
             "$ref": "#/components/schemas/ExternalFlightDatesModel"
-          },
-          "fundingStatus": {
-            "enum": [
-              "Unknown",
-              "Funded",
-              "DailyBudgetReached",
-              "MonthlyBudgetReached",
-              "TotalBudgetReached",
-              "BalanceExhausted"
-            ],
-            "type": "string",
-            "description": "Indicates whether the line item is funded.",
-            "nullable": true
           },
           "isPaused": {
             "type": "boolean",
@@ -8449,78 +8467,6 @@
         },
         "additionalProperties": false,
         "description": "The onsite display settings to change. Omitted fields are left unchanged."
-      },
-      "FetchCreativesModel": {
-        "required": [
-          "creatives"
-        ],
-        "type": "object",
-        "properties": {
-          "creatives": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LineItemCreativeModel"
-            },
-            "description": "The creatives associated with the line item."
-          },
-          "mediaType": {
-            "enum": [
-              "Unknown",
-              "Display",
-              "Video"
-            ],
-            "type": "string",
-            "description": "The media type of the associated creatives, if known.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Creatives associated with a line item.",
-        "nullable": true
-      },
-      "FetchCreativesModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/FetchCreativesModel"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
-      "FetchCreativesModelResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/FetchCreativesModelResource"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
       "FilesVariableValue": {
         "required": [
@@ -8908,6 +8854,18 @@
             "description": "The account id of the associated account.",
             "nullable": true
           },
+          "budgetStatus": {
+            "enum": [
+              "Unknown",
+              "BudgetAvailable",
+              "DailyBudgetReached",
+              "MonthlyBudgetReached",
+              "TotalBudgetReached"
+            ],
+            "type": "string",
+            "description": "Indicates whether the line item has budget headroom to serve ads.",
+            "nullable": true
+          },
           "buyType": {
             "enum": [
               "Auction",
@@ -8928,19 +8886,6 @@
           },
           "flightDates": {
             "$ref": "#/components/schemas/FlightDates"
-          },
-          "fundingStatus": {
-            "enum": [
-              "Unknown",
-              "Funded",
-              "DailyBudgetReached",
-              "MonthlyBudgetReached",
-              "TotalBudgetReached",
-              "BalanceExhausted"
-            ],
-            "type": "string",
-            "description": "Indicates whether the line item is funded.",
-            "nullable": true
           },
           "isPaused": {
             "type": "boolean",
@@ -8985,6 +8930,20 @@
         },
         "additionalProperties": false,
         "description": "Line Item search attributes",
+        "nullable": true
+      },
+      "LineItemAdContentDetails": {
+        "type": "object",
+        "properties": {
+          "creatives": {
+            "$ref": "#/components/schemas/LineItemCreatives"
+          },
+          "products": {
+            "$ref": "#/components/schemas/ProductsModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Ad-content details associated with a line item.",
         "nullable": true
       },
       "LineItemAuctionBid": {
@@ -9148,27 +9107,7 @@
         "description": "Frequency Capping for a Preferred Line Item",
         "nullable": true
       },
-      "LineItemCreativeInputModel": {
-        "required": [
-          "creative",
-          "creativeProductCollections"
-        ],
-        "type": "object",
-        "properties": {
-          "creative": {
-            "$ref": "#/components/schemas/CreativeInputModel"
-          },
-          "creativeProductCollections": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreativeProductCollectionInputModel"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "description": "A creative to associate with a line item, and the product collections configured on it."
-      },
-      "LineItemCreativeModel": {
+      "LineItemCreative": {
         "required": [
           "approvalStatus",
           "creative",
@@ -9189,7 +9128,7 @@
             "type": "string"
           },
           "creative": {
-            "$ref": "#/components/schemas/CreativeModel"
+            "$ref": "#/components/schemas/Creative"
           },
           "creativePreviewCode": {
             "type": "string",
@@ -9198,12 +9137,176 @@
           "creativeProductCollections": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CreativeProductCollectionModel"
+              "$ref": "#/components/schemas/CreativeProductCollection"
             }
           }
         },
         "additionalProperties": false,
         "description": "The association between a line item and one of its creatives."
+      },
+      "LineItemCreativeInput": {
+        "required": [
+          "creative",
+          "creativeProductCollections"
+        ],
+        "type": "object",
+        "properties": {
+          "creative": {
+            "$ref": "#/components/schemas/CreativeInput"
+          },
+          "creativeProductCollections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreativeProductCollectionInput"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A creative to associate with a line item, and the product collections configured on it."
+      },
+      "LineItemCreatives": {
+        "required": [
+          "creatives"
+        ],
+        "type": "object",
+        "properties": {
+          "creatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemCreative"
+            },
+            "description": "The creatives associated with the line item."
+          },
+          "mediaType": {
+            "enum": [
+              "Unknown",
+              "Display",
+              "Video"
+            ],
+            "type": "string",
+            "description": "The media type of the associated creatives, if known.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Creatives associated with a line item.",
+        "nullable": true
+      },
+      "LineItemCreativesResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemCreatives"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "LineItemCreativesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/LineItemCreativesResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
+      "LineItemDetails": {
+        "required": [
+          "core"
+        ],
+        "type": "object",
+        "properties": {
+          "adContent": {
+            "$ref": "#/components/schemas/LineItemAdContentDetails"
+          },
+          "bidding": {
+            "$ref": "#/components/schemas/BiddingSettings"
+          },
+          "core": {
+            "$ref": "#/components/schemas/ExternalLineItem"
+          },
+          "targeting": {
+            "$ref": "#/components/schemas/LineItemTargetingDetails"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A consolidated view of a line item and its details.",
+        "nullable": true
+      },
+      "LineItemDetailsResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemDetails"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
+      "LineItemDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/LineItemDetailsResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
       },
       "LineItemListResponseWithPagination": {
         "type": "object",
@@ -9499,6 +9602,24 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
+      "LineItemTargetingDetails": {
+        "required": [
+          "targets"
+        ],
+        "type": "object",
+        "properties": {
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Target"
+            },
+            "description": "Targets associated with the line item."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Targeting details associated with a line item.",
+        "nullable": true
       },
       "LoyaltyPoints": {
         "type": "object",
@@ -9947,13 +10068,15 @@
         "nullable": true
       },
       "OnsiteDisplayBudgetCreateModel": {
+        "required": [
+          "amount"
+        ],
         "type": "object",
         "properties": {
           "amount": {
             "type": "number",
             "description": "Total the campaign may spend over its flight.",
-            "format": "double",
-            "nullable": true
+            "format": "double"
           }
         },
         "additionalProperties": false,
@@ -9973,12 +10096,14 @@
         "nullable": true
       },
       "OnsiteDisplayBudgetUpdateModel": {
+        "required": [
+          "amount"
+        ],
         "type": "object",
         "properties": {
           "amount": {
             "type": "number",
-            "format": "double",
-            "nullable": true
+            "format": "double"
           }
         },
         "additionalProperties": false,
@@ -10059,8 +10184,9 @@
         "properties": {
           "type": {
             "enum": [
-              "Unknown",
-              "Automatic"
+              "None",
+              "Automatic",
+              "Unknown"
             ],
             "type": "string",
             "description": "How the platform spreads a campaign budget over its flight.",
@@ -10079,6 +10205,7 @@
         "properties": {
           "type": {
             "enum": [
+              "None",
               "Automatic"
             ],
             "type": "string",
@@ -10307,32 +10434,32 @@
         "description": "Metadata for paging data.",
         "nullable": true
       },
-      "PreferredDealsCreativeDetailsInputModel": {
+      "PreferredDealsCreativeDetails": {
         "required": [
           "lineItemCreative"
         ],
         "type": "object",
         "properties": {
           "lineItemCreative": {
-            "$ref": "#/components/schemas/LineItemCreativeInputModel"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The preferred-deal creative to associate with a line item."
-      },
-      "PreferredDealsCreativeDetailsModel": {
-        "required": [
-          "lineItemCreative"
-        ],
-        "type": "object",
-        "properties": {
-          "lineItemCreative": {
-            "$ref": "#/components/schemas/LineItemCreativeModel"
+            "$ref": "#/components/schemas/LineItemCreative"
           }
         },
         "additionalProperties": false,
         "description": "The preferred-deal creative associated with a line item.",
         "nullable": true
+      },
+      "PreferredDealsCreativeDetailsInput": {
+        "required": [
+          "lineItemCreative"
+        ],
+        "type": "object",
+        "properties": {
+          "lineItemCreative": {
+            "$ref": "#/components/schemas/LineItemCreativeInput"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The preferred-deal creative to associate with a line item."
       },
       "PreferredLineItemCreateModelV2": {
         "required": [
@@ -11147,18 +11274,6 @@
         "additionalProperties": false,
         "description": "The new buy box winner for a product after it is updated as part of a SetBuyBoxWinner operation"
       },
-      "ProductModel": {
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "string",
-            "description": "The identifier of the product.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A product associated with a line item."
-      },
       "ProductRecommendation": {
         "title": "ProductRecommendation",
         "required": [
@@ -11344,6 +11459,40 @@
           }
         },
         "description": "Defines the shipping weight of a product."
+      },
+      "ProductsModel": {
+        "type": "object",
+        "properties": {
+          "displayProductDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DisplayProductDetailModel"
+            },
+            "description": "The display product details.",
+            "nullable": true
+          },
+          "productType": {
+            "enum": [
+              "Unknown",
+              "DisplayProduct",
+              "SponsoredProduct"
+            ],
+            "type": "string",
+            "description": "The type of products.",
+            "nullable": true
+          },
+          "sponsoredProductDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SponsoredProductDetailModel"
+            },
+            "description": "The sponsored product details.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Products associated with a line item.",
+        "nullable": true
       },
       "ProductTax": {
         "type": "object",
@@ -12590,7 +12739,7 @@
         "properties": {
           "endDate": {
             "type": "string",
-            "description": "Campaign end date. Pass exactly {9999-12-30T00:00:00Z} for a SponsoredProducts campaign that\r\nruns indefinitely; any other value, including a neighbouring far-future date, is a real end date.\r\nAn OnsiteDisplay Auction campaign cannot run indefinitely and rejects that date.",
+            "description": "Campaign end date. Pass exactly {9999-12-30T00:00:00Z} for a SponsoredProducts campaign that\r\nruns indefinitely; any other value, including a neighbouring far-future date, is a real end date.\r\nA dynamic objective spends over a flight and rejects that date. An OnsiteDisplay Auction\r\ncampaign cannot run indefinitely and rejects it too.",
             "format": "date-time"
           },
           "startDate": {
@@ -13160,6 +13309,30 @@
         "additionalProperties": false,
         "description": "A set of retailer SKUs to filter on."
       },
+      "SponsoredProductDetailModel": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the product.",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "Active",
+              "Inactive",
+              "Expired",
+              "Removed",
+              "Deleted"
+            ],
+            "type": "string",
+            "description": "The status of the product in the line item's product pool.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A sponsored product associated with a line item."
+      },
       "SponsoredProductDetails": {
         "type": "object",
         "properties": {
@@ -13263,9 +13436,7 @@
         "type": "object",
         "properties": {
           "amount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
+            "$ref": "#/components/schemas/DecimalNullableNillableV2"
           },
           "cappings": {
             "type": "array",
@@ -13280,7 +13451,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "New financial intent of a SponsoredProducts campaign. The whole node replaces the previous\r\nbudget; omit it to leave the budget unchanged."
+        "description": "Budget fields of a SponsoredProducts campaign to update. An omitted field is left unchanged."
       },
       "SponsoredProductsDetailsCreateModel": {
         "type": "object",
@@ -14059,8 +14230,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A specific Target configured on the line item",
-        "nullable": true
+        "description": "A specific Target configured on the line item"
       },
       "TargetListRequest": {
         "type": "object",
@@ -14240,14 +14410,39 @@
         "additionalProperties": false,
         "description": "The request passed by the caller of the Update endpoint"
       },
-      "UpsertCreativesModel": {
+      "UpsertLineItemCreatives": {
+        "required": [
+          "mediaType"
+        ],
+        "type": "object",
+        "properties": {
+          "auctionCreativeDetails": {
+            "$ref": "#/components/schemas/AuctionCreativeDetails"
+          },
+          "mediaType": {
+            "enum": [
+              "Unknown",
+              "Display",
+              "Video"
+            ],
+            "type": "string"
+          },
+          "preferredDealsCreativeDetails": {
+            "$ref": "#/components/schemas/PreferredDealsCreativeDetails"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Creatives associated with a line item.",
+        "nullable": true
+      },
+      "UpsertLineItemCreativesInput": {
         "required": [
           "creativeType"
         ],
         "type": "object",
         "properties": {
           "auctionCreativeDetails": {
-            "$ref": "#/components/schemas/AuctionCreativeDetailsInputModel"
+            "$ref": "#/components/schemas/AuctionCreativeDetailsInput"
           },
           "creativeType": {
             "enum": [
@@ -14258,27 +14453,17 @@
             "type": "string"
           },
           "preferredDealsCreativeDetails": {
-            "$ref": "#/components/schemas/PreferredDealsCreativeDetailsInputModel"
+            "$ref": "#/components/schemas/PreferredDealsCreativeDetailsInput"
           }
         },
         "additionalProperties": false,
         "description": "Creatives to associate with a line item."
       },
-      "UpsertCreativesModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/UpsertCreativesModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "UpsertCreativesModelResource": {
+      "UpsertLineItemCreativesInputResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/UpsertCreativesModel"
+            "$ref": "#/components/schemas/UpsertLineItemCreativesInput"
           },
           "type": {
             "type": "string",
@@ -14288,6 +14473,60 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "UpsertLineItemCreativesRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/UpsertLineItemCreativesInputResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "UpsertLineItemCreativesResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/UpsertLineItemCreatives"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "UpsertLineItemCreativesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/UpsertLineItemCreativesResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
       "ValueResourceBrandIdSearchRequest": {
         "type": "object",
@@ -14687,12 +14926,34 @@
         "flows": {
           "clientCredentials": {
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "RetailMedia_Accounts_Read": "Grants Read access to the capabilities from the Accounts domain, for RetailMedia applications",
+              "RetailMedia_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for RetailMedia applications",
+              "RetailMedia_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for RetailMedia applications",
+              "RetailMedia_Balance_Read": "Grants Read access to the capabilities from the Balance domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for RetailMedia applications",
+              "RetailMedia_Catalog_Manage": "Grants Manage access to the capabilities from the Catalog domain, for RetailMedia applications",
+              "RetailMedia_Catalog_Read": "Grants Read access to the capabilities from the Catalog domain, for RetailMedia applications",
+              "RetailMedia_OnSiteRecommendation_Read": "Grants Read access to the capabilities from the OnSiteRecommendation domain, for RetailMedia applications",
+              "RetailMedia_ThirdPartyAccounts_Manage": "Grants Manage access to the capabilities from the ThirdPartyAccounts domain, for RetailMedia applications"
+            }
           },
           "authorizationCode": {
             "authorizationUrl": "https://api.criteo.com/oauth2",
             "tokenUrl": "https://api.criteo.com/oauth2/token",
-            "scopes": { }
+            "scopes": {
+              "RetailMedia_Accounts_Read": "Grants Read access to the capabilities from the Accounts domain, for RetailMedia applications",
+              "RetailMedia_Analytics_Read": "Grants Read access to the capabilities from the Analytics domain, for RetailMedia applications",
+              "RetailMedia_Audience_Manage": "Grants Manage access to the capabilities from the Audience domain, for RetailMedia applications",
+              "RetailMedia_Balance_Read": "Grants Read access to the capabilities from the Balance domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Manage": "Grants Manage access to the capabilities from the Campaign domain, for RetailMedia applications",
+              "RetailMedia_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for RetailMedia applications",
+              "RetailMedia_Catalog_Manage": "Grants Manage access to the capabilities from the Catalog domain, for RetailMedia applications",
+              "RetailMedia_Catalog_Read": "Grants Read access to the capabilities from the Catalog domain, for RetailMedia applications",
+              "RetailMedia_OnSiteRecommendation_Read": "Grants Read access to the capabilities from the OnSiteRecommendation domain, for RetailMedia applications",
+              "RetailMedia_ThirdPartyAccounts_Manage": "Grants Manage access to the capabilities from the ThirdPartyAccounts domain, for RetailMedia applications"
+            }
           }
         }
       }
