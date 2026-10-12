@@ -589,6 +589,139 @@
         ]
       }
     },
+    "/experimental/retail-media/accounts/{account-id}/change-history-entries": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/accounts/{account-id}/change-history-entries",
+        "description": "Returns a paginated collection of changes to Retail Media objects under the\nrequested account. Use `event-types` and `entity-types` to narrow the results.\n\nRequests for inaccessible or unknown accounts return `403`. Changes outside\nthe caller's access are omitted. Actor information is limited to role labels;\nuser identifiers are not returned.\n\nResults are returned in descending order by `occurredAt`. The relative\norder of entries with identical `occurredAt` values is unspecified.\n\nAdditional `eventType`, entity `type`, and change `field` values may be\nreturned. Clients must tolerate values they do not recognize.\n",
+        "operationId": "ListAccountChangeHistoryEntries",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "External opaque identifier of the advertiser account whose change history is requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "campaign-ids",
+            "in": "query",
+            "description": "When provided, only changes for these external opaque campaign identifiers\nare returned. Entries for campaigns outside the caller's account access are\nexcluded without revealing whether the campaign exists. Omission is\nequivalent to an empty array.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "end-time",
+            "in": "query",
+            "description": "Inclusive upper bound on change time, in UTC (ISO-8601 date-time). Defaults to the request time when omitted.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "entity-types",
+            "in": "query",
+            "description": "Restrict results to changes on the given entity types (see the entity\n`type` field). Unknown values are not errors; they simply match no entries.\nOmission is equivalent to an empty array.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "event-types",
+            "in": "query",
+            "description": "Restrict results to specific change-event types (see `eventType`). When\nomitted, all supported event types may be returned. Unknown values are not\nerrors; they simply match no entries. Omission is equivalent to an empty\narray.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of change-history entries to return in a single page.",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "line-item-ids",
+            "in": "query",
+            "description": "When provided, only changes for these external opaque line-item identifiers\nare returned. Entries for line items outside the caller's account access are\nexcluded without revealing whether the line item exists. Omission is\nequivalent to an empty array.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Zero-based index of the first change-history entry to return.",
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "start-time",
+            "in": "query",
+            "description": "Inclusive lower bound on change time, in UTC (ISO-8601 date-time). Defaults to 7 days before the request time when omitted.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Change history entries retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeV2OfChangeHistoryEntryResponseAndSdkPageMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ],
+        "x-suppress-rules": [
+          "response-body-naming"
+        ],
+        "x-operation-type": "fetch"
+      }
+    },
     "/experimental/retail-media/accounts/{account-id}/creatives": {
       "post": {
         "tags": [
@@ -811,6 +944,81 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCreativeSearchResponseAndMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/accounts/{account-id}/creatives/search-enriched": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/accounts/{account-id}/creatives/search-enriched",
+        "description": "Get account creatives enriched with the product collection constraints of their template.\r\n            The returned id is the first parent external id of the creative (stable across versions).",
+        "operationId": "SearchAccountCreativesEnriched",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "External account id to retrieve creatives for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "limit to paginated result",
+            "schema": {
+              "maximum": 500,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "offset to paginated result",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "search request filter",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntityResourceInputCreativeSearchEnrichedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Creatives found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeCreativeSearchEnrichedResponseAndMetadata"
                 }
               }
             }
@@ -2261,7 +2469,7 @@
             "description": "The maximum number of products to return.",
             "schema": {
               "maximum": 1000,
-              "minimum": 0,
+              "minimum": 1,
               "type": "integer",
               "format": "int32",
               "default": 500
@@ -2334,7 +2542,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddProductsModelRequest"
+                "$ref": "#/components/schemas/AddLineItemProductsListRequest"
               }
             }
           },
@@ -2346,7 +2554,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddProductsResultModelResponse"
+                  "$ref": "#/components/schemas/AddLineItemProductsListResponse"
                 }
               }
             }
@@ -2385,7 +2593,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DeleteProductModelRequest"
+                "$ref": "#/components/schemas/DeleteLineItemProductsListRequest"
               }
             }
           },
@@ -2397,7 +2605,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Outcome"
+                  "$ref": "#/components/schemas/DeleteLineItemProductsListResponse"
                 }
               }
             }
@@ -3024,6 +3232,139 @@
         ]
       }
     },
+    "/experimental/retail-media/retailers/{retailer-id}/change-history-entries": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/retailers/{retailer-id}/change-history-entries",
+        "description": "Returns a paginated collection of changes to Retail Media objects under the\nrequested retailer. Use `event-types` and `entity-types` to narrow the results.\n\nRequests for inaccessible or unknown retailers return `403`. Changes outside\nthe caller's access are omitted. Offsite campaign-level changes are not\nreturned; offsite line-item changes are included. Actor information is limited\nto role labels; user identifiers are not returned.\n\nResults are returned in descending order by `occurredAt`. The relative\norder of entries with identical `occurredAt` values is unspecified.\n\nAdditional `eventType`, entity `type`, and change `field` values may be\nreturned. Clients must tolerate values they do not recognize.\n",
+        "operationId": "ListRetailerChangeHistoryEntries",
+        "parameters": [
+          {
+            "name": "campaign-ids",
+            "in": "query",
+            "description": "When provided, only changes for these external opaque campaign identifiers\nare returned. Entries for campaigns outside the caller's retailer access are\nexcluded without revealing whether the campaign exists. Omission is\nequivalent to an empty array.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "end-time",
+            "in": "query",
+            "description": "Inclusive upper bound on change time, in UTC (ISO-8601 date-time). Defaults to the request time when omitted.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "entity-types",
+            "in": "query",
+            "description": "Restrict results to changes on the given entity types (see the entity\n`type` field). Unknown values are not errors; they simply match no entries.\nOmission is equivalent to an empty array.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "event-types",
+            "in": "query",
+            "description": "Restrict results to specific change-event types (see `eventType`). When\nomitted, all supported event types may be returned. Unknown values are not\nerrors; they simply match no entries. Omission is equivalent to an empty\narray.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of change-history entries to return in a single page.",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "line-item-ids",
+            "in": "query",
+            "description": "When provided, only changes for these external opaque line-item identifiers\nare returned. Entries for line items outside the caller's retailer access are\nexcluded without revealing whether the line item exists. Omission is\nequivalent to an empty array.\n",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Zero-based index of the first change-history entry to return.",
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "retailer-id",
+            "in": "path",
+            "description": "External opaque identifier of the retailer whose change history is requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start-time",
+            "in": "query",
+            "description": "Inclusive lower bound on change time, in UTC (ISO-8601 date-time). Defaults to 7 days before the request time when omitted.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Change history entries retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeV2OfChangeHistoryEntryResponseAndSdkPageMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ],
+        "x-suppress-rules": [
+          "response-body-naming"
+        ],
+        "x-operation-type": "fetch"
+      }
+    },
     "/experimental/retail-media/retailers/{retailer-id}/offers/update": {
       "post": {
         "tags": [
@@ -3379,6 +3720,17 @@
   },
   "components": {
     "schemas": {
+      "ActorRole": {
+        "enum": [
+          "unknown",
+          "internal",
+          "external",
+          "api",
+          "automatedTask"
+        ],
+        "type": "string",
+        "description": "Role label exposed to external callers for the actor of a change."
+      },
       "AdaptiveBiddingSettings": {
         "type": "object",
         "properties": {
@@ -3393,114 +3745,29 @@
         "description": "Represents the bidding settings used when the active strategy is Adaptive.",
         "nullable": true
       },
-      "AddDisplayProductDetailModel": {
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "string",
-            "description": "The identifier of the product.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A product associated with a line item."
-      },
-      "AddProductsModel": {
-        "type": "object",
-        "properties": {
-          "displayProductDetails": {
-            "maxItems": 1500,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AddDisplayProductDetailModel"
-            },
-            "description": "The display products to add to the line item.",
-            "nullable": true
-          },
-          "productType": {
-            "enum": [
-              "DisplayProduct",
-              "SponsoredProduct"
-            ],
-            "type": "string",
-            "description": "The type of product being added.",
-            "default": "DisplayProduct"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The products to add to a line item."
-      },
-      "AddProductsModelRequest": {
+      "AddLineItemProductsListRequest": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/AddProductsModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "AddProductsModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AddProductsModel"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "AddProductsResultModel": {
-        "type": "object",
-        "properties": {
-          "displayProductDetails": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DisplayProductResultModel"
+              "$ref": "#/components/schemas/LineItemProductInputResource"
             },
-            "description": "The display products added to the line item.",
-            "nullable": true
-          },
-          "productType": {
-            "enum": [
-              "DisplayProduct",
-              "SponsoredProduct"
-            ],
-            "type": "string",
-            "description": "The type of product that was added.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "The result of adding products to a line item.",
-        "nullable": true
+        "description": "The products to add to a line item's product pool, one resource per product."
       },
-      "AddProductsResultModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/AddProductsResultModel"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
-      "AddProductsResultModelResponse": {
+      "AddLineItemProductsListResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/AddProductsResultModelResource"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemProductResource"
+            },
+            "nullable": true
           },
           "errors": {
             "type": "array",
@@ -3522,7 +3789,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+        "description": "The products added to a line item's product pool, one resource per product."
       },
       "ApiResourcesPageMetadata": {
         "required": [
@@ -6302,6 +6569,103 @@
         "description": "Details on Category Targets",
         "nullable": true
       },
+      "ChangedField": {
+        "required": [
+          "field",
+          "previousValue",
+          "newValue"
+        ],
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Name of the field that changed, in camelCase — for example `name`, `status`,\n`budget`, `bid`, `startDate`, or `endDate`.\n"
+          },
+          "newValue": {
+            "type": "string",
+            "description": "Display-safe value after the change, serialized as a string for consistent\ndisplay across primitive field types. Null when the field was cleared or\nremoved.\n",
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "description": "Display-safe value before the change, serialized as a string for consistent\ndisplay across primitive field types. Null when the field did not exist\npreviously.\n",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single field change included in a change-history entry."
+      },
+      "ChangeHistoryEntity": {
+        "required": [
+          "type",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "description": "External opaque campaign identifier when the changed entity belongs to a\ncampaign (for example a line item). Omitted otherwise; omission and `null`\nhave the same meaning.\n",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "External opaque identifier of the entity that changed."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of entity that changed, such as `campaign`, `lineItem`, `balance`,\n`audience`, `audienceSegment`, `creative`, or `targetingList`. Additional\nvalues may be returned.\n"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Entity associated with a change-history entry."
+      },
+      "ChangeHistoryEntryResponse": {
+        "required": [
+          "occurredAt",
+          "eventType",
+          "actorRole",
+          "entity",
+          "changes"
+        ],
+        "type": "object",
+        "properties": {
+          "actorRole": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ],
+            "description": "Role label of the actor that performed the change. No user identifiers are exposed."
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChangedField"
+            },
+            "description": "Old and new values for each field changed as part of this event."
+          },
+          "entity": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChangeHistoryEntity"
+              }
+            ],
+            "description": "Primary entity affected by the change."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "Semantic type of the configuration change, `<entityType><Action>` style —\nfor example `campaignCreated`, `lineItemUpdated`, `balanceUpdated`.\nAdditional values may be returned.\n"
+          },
+          "occurredAt": {
+            "type": "string",
+            "description": "UTC timestamp when the change occurred (ISO-8601).",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single configuration change.",
+        "nullable": true
+      },
       "ChoiceVariableValue": {
         "required": [
           "chosenOptions"
@@ -6770,6 +7134,207 @@
         "additionalProperties": false,
         "description": "A collection of products to configure on a creative."
       },
+      "CreativeSearchEnrichedRequest": {
+        "type": "object",
+        "properties": {
+          "creativeIds": {
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Search Id",
+            "nullable": true
+          },
+          "creativeName": {
+            "type": "string",
+            "description": "Name to search",
+            "nullable": true
+          },
+          "creativeTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "CommerceDisplay",
+                "CommerceVideo",
+                "StandardVideo",
+                "StandardDisplay"
+              ],
+              "type": "string"
+            },
+            "description": "Creative type",
+            "nullable": true
+          },
+          "pageTypes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "Search",
+                "Home",
+                "Browse",
+                "Checkout",
+                "Category",
+                "ProductDetail",
+                "Confirmation",
+                "Merchandising",
+                "Deals",
+                "Favorites",
+                "SearchBar",
+                "CategoryMenu"
+              ],
+              "type": "string"
+            },
+            "description": "Page type",
+            "nullable": true
+          },
+          "retailerIds": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "RetailerId of the search filter",
+            "nullable": true
+          },
+          "templateIds": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Id of the template this creative was created on",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Creative search-enriched request model"
+      },
+      "CreativeSearchEnrichedResponse": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "description": "Time search is created",
+            "format": "date-time",
+            "nullable": true
+          },
+          "creativeType": {
+            "enum": [
+              "Unknown",
+              "CommerceDisplay",
+              "CommerceVideo",
+              "StandardVideo",
+              "StandardDisplay"
+            ],
+            "type": "string",
+            "description": "Creative type",
+            "nullable": true
+          },
+          "displayableProductsMax": {
+            "type": "integer",
+            "description": "Maximum number of displayable products allowed by the template",
+            "format": "int32",
+            "nullable": true
+          },
+          "modifiedAt": {
+            "type": "string",
+            "description": "Time it's modified",
+            "format": "date-time",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the creative",
+            "nullable": true
+          },
+          "pageType": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Unknown",
+                "Search",
+                "Home",
+                "Browse",
+                "Checkout",
+                "Category",
+                "ProductDetail",
+                "Confirmation",
+                "Merchandising",
+                "Deals",
+                "Favorites",
+                "SearchBar",
+                "CategoryMenu"
+              ],
+              "type": "string"
+            },
+            "description": "Page type",
+            "nullable": true
+          },
+          "preview": {
+            "type": "string",
+            "description": "Preview url of the creative",
+            "nullable": true
+          },
+          "productCollectionsHaveImages": {
+            "type": "boolean",
+            "description": "Whether the template's product collections carry an image",
+            "nullable": true
+          },
+          "productCollectionsHaveText": {
+            "type": "boolean",
+            "description": "Whether the template's product collections carry a text",
+            "nullable": true
+          },
+          "productCollectionsMax": {
+            "type": "integer",
+            "description": "Maximum number of product collections allowed by the template",
+            "format": "int32",
+            "nullable": true
+          },
+          "productCollectionsMin": {
+            "type": "integer",
+            "description": "Minimum number of product collections required by the template",
+            "format": "int32",
+            "nullable": true
+          },
+          "productsPerCollectionMax": {
+            "type": "integer",
+            "description": "Maximum number of products per collection allowed by the template",
+            "format": "int32",
+            "nullable": true
+          },
+          "productsPerCollectionMin": {
+            "type": "integer",
+            "description": "Minimum number of products per collection required by the template",
+            "format": "int32",
+            "nullable": true
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "RetailerId of the search filter",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "Ready",
+              "In Use",
+              "Archived"
+            ],
+            "type": "string",
+            "description": "The search status",
+            "nullable": true
+          },
+          "templateId": {
+            "type": "string",
+            "description": "Template Id",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Creative search-enriched response model. Same attributes as Criteo.RetailMedia.Creatives.Api.ExternalApi.Models.Creatives.V3.CreativeSearchResponse\r\nplus the product collection constraints of the creative's template (retailer overrides applied).\r\nThe resource id is the first parent external id of the creative.",
+        "nullable": true
+      },
       "CreativeSearchRequest": {
         "type": "object",
         "properties": {
@@ -7085,7 +7650,10 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
-      "DeleteProductModel": {
+      "DeleteLineItemProductsInput": {
+        "required": [
+          "productType"
+        ],
         "type": "object",
         "properties": {
           "productIds": {
@@ -7093,37 +7661,27 @@
             "items": {
               "type": "string"
             },
-            "description": "The products ids to soft delete from the line item.",
+            "description": "The product ids to soft delete from the line item.",
             "nullable": true
           },
           "productType": {
             "enum": [
+              "Unknown",
               "DisplayProduct",
               "SponsoredProduct"
             ],
             "type": "string",
-            "description": "The type of product being deleted.",
-            "default": "DisplayProduct"
+            "description": "The type of the products being deleted."
           }
         },
         "additionalProperties": false,
-        "description": "The products to soft delete from a line item."
+        "description": "The products to soft delete from a line item's product pool."
       },
-      "DeleteProductModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/DeleteProductModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "DeleteProductModelResource": {
+      "DeleteLineItemProductsInputResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/DeleteProductModel"
+            "$ref": "#/components/schemas/DeleteLineItemProductsInput"
           },
           "type": {
             "type": "string",
@@ -7133,6 +7691,41 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "DeleteLineItemProductsListRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DeleteLineItemProductsInputResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The products to soft delete from a line item's product pool."
+      },
+      "DeleteLineItemProductsListResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The outcome of soft deleting products from a line item's product pool."
       },
       "DemandSearch": {
         "type": "object",
@@ -7496,6 +8089,11 @@
         "description": "Onsite Display-specific product details.",
         "nullable": true
       },
+      "DisplayProductDetailsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Onsite Display-specific product details supplied when adding a product. A display product is\r\nidentified entirely by its resource id, so this object carries no fields of its own today; it\r\nexists so display can gain request-only fields without reshaping the request."
+      },
       "DisplayProductInput": {
         "required": [
           "id"
@@ -7508,32 +8106,6 @@
         },
         "additionalProperties": false,
         "description": "A product to add to a creative's product collection."
-      },
-      "DisplayProductResultModel": {
-        "type": "object",
-        "properties": {
-          "approvalStatus": {
-            "enum": [
-              "Unknown",
-              "Approved",
-              "AutoApproved",
-              "InReview",
-              "Rejected",
-              "AutoRejected",
-              "Unsubmitted"
-            ],
-            "type": "string",
-            "description": "The approval status of the product.",
-            "nullable": true
-          },
-          "productId": {
-            "type": "string",
-            "description": "The identifier of the product.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A display product returned after being added to a line item."
       },
       "EntityResourceBalanceV1": {
         "type": "object",
@@ -7643,6 +8215,41 @@
         },
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
+      "EntityResourceCollectionOutcomeCreativeSearchEnrichedResponseAndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceCreativeSearchEnrichedResponse"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
       "EntityResourceCollectionOutcomeCreativeSearchResponseAndMetadata": {
         "type": "object",
         "properties": {
@@ -7677,6 +8284,79 @@
         },
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
+      "EntityResourceCollectionOutcomeV2OfChangeHistoryEntryResponseAndSdkPageMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfChangeHistoryEntryResponse"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/SdkPageMetadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
+      "EntityResourceCreativeSearchEnrichedRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreativeSearchEnrichedRequest"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceCreativeSearchEnrichedResponse": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CreativeSearchEnrichedResponse"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "EntityResourceCreativeSearchRequest": {
         "type": "object",
@@ -7718,6 +8398,16 @@
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id."
       },
+      "EntityResourceInputCreativeSearchEnrichedRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EntityResourceCreativeSearchEnrichedRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single entity."
+      },
       "EntityResourceInputCreativeSearchRequest": {
         "type": "object",
         "properties": {
@@ -7748,6 +8438,26 @@
         "additionalProperties": false,
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
+      },
+      "EntityResourceOfChangeHistoryEntryResponse": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ChangeHistoryEntryResponse"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "EntityResourceOfRetailMediaAccountV2": {
         "type": "object",
@@ -9499,6 +10209,51 @@
         "additionalProperties": false,
         "description": "One product in a line item's product pool. The product identifier is the resource id;\r\ntype-specific fields are grouped under the detail object selected by Criteo.RetailMedia.LineItem.AdContent.Contract.V2.Models.Products.ProductAttributesModel.ProductType.",
         "nullable": true
+      },
+      "LineItemProductInput": {
+        "required": [
+          "productType"
+        ],
+        "type": "object",
+        "properties": {
+          "displayProductDetails": {
+            "$ref": "#/components/schemas/DisplayProductDetailsRequest"
+          },
+          "productType": {
+            "enum": [
+              "Unknown",
+              "DisplayProduct",
+              "SponsoredProduct"
+            ],
+            "type": "string",
+            "description": "The type of the product, selecting which detail object is read."
+          },
+          "sponsoredProductDetails": {
+            "$ref": "#/components/schemas/SponsoredProductDetails"
+          }
+        },
+        "additionalProperties": false,
+        "description": "One product to add to a line item's product pool. The product identifier is the resource id;\r\ntype-specific fields are grouped under the detail object selected by Criteo.RetailMedia.LineItem.AdContent.Contract.V2.Models.Products.LineItemProductInputModel.ProductType."
+      },
+      "LineItemProductInputResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemProductInput"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
       },
       "LineItemProductListResponseV2WithPaginationMeta": {
         "type": "object",
@@ -12852,6 +13607,34 @@
         "additionalProperties": false,
         "description": "Common problem object."
       },
+      "SdkPageMetadata": {
+        "required": [
+          "offset",
+          "limit"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of items across all pages in the collection.",
+            "format": "int32",
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of elements to be returned.",
+            "format": "int32"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The (zero-based) starting offset in the collection.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Offset based pagination metadata.",
+        "nullable": true
+      },
       "SetProductBuyBoxWinnersRequest": {
         "required": [
           "productBuyBoxWinners"
@@ -13336,18 +14119,11 @@
       "SponsoredProductDetails": {
         "type": "object",
         "properties": {
-          "bidOverride": {
-            "type": "number",
-            "description": "The per-product bid override. Null means the line-item bid applies.",
-            "format": "double",
-            "nullable": true
-          },
           "status": {
             "enum": [
               "Unknown",
               "Active",
               "Inactive",
-              "Expired",
               "Removed",
               "Deleted"
             ],
