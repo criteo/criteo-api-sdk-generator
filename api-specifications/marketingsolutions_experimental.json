@@ -4124,6 +4124,46 @@
         ]
       }
     },
+    "/experimental/marketing-solutions/audiences/recommend-segments": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "summary": "/experimental/marketing-solutions/audiences/recommend-segments",
+        "description": "Recommend audience segments for MarketingSolutions from a freeform brief.",
+        "operationId": "RecommendSegments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendSegmentsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Recommended audience segments.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendSegmentsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Audience_Read"
+            ]
+          }
+        ]
+      }
+    },
     "/experimental/marketing-solutions/audiences/search": {
       "post": {
         "tags": [
@@ -4195,14 +4235,14 @@
           "Campaign"
         ],
         "summary": "/experimental/marketing-solutions/campaigns",
-        "description": "Patch a list of Campaigns.\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
+        "description": "Patch a list of Campaigns: name, spend limit, scheduled spend limits and budget automation.\r\nOmitted attributes are left unchanged. When provided, the name must not be empty.\r\n            \r\nA campaign, or in other words a marketing campaign, is an entity that defines advertising objectives and success criteria.",
         "operationId": "PatchCampaigns",
         "requestBody": {
           "description": "List of campaigns to patch.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchCampaignListRequest"
+                "$ref": "#/components/schemas/PatchCampaignV27Q1ListRequest"
               }
             }
           },
@@ -4215,7 +4255,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PatchResultCampaignListResponse"
+                  "$ref": "#/components/schemas/PatchResultCampaignV27Q1ListResponse"
                 }
               }
             }
@@ -4769,6 +4809,52 @@
           {
             "oauth": [
               "MarketingSolutions_Analytics_Read"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/marketing-solutions/marketplace-performance-outcomes/stats/report": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/marketing-solutions/marketplace-performance-outcomes/stats/report",
+        "description": "Generates a seller performance report synchronously and returns the report data directly in the response payload.",
+        "operationId": "CreateMarketplaceStatsReport",
+        "requestBody": {
+          "description": "The seller report filters, dimensions, metrics, and output format.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SellerReportRequestRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-bodyName": "request"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SellerReportDataResponse"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "$ref": "#/components/schemas/SellerReportDataResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "MarketingSolutions_Campaign_Read"
             ]
           }
         ]
@@ -7520,6 +7606,57 @@
         },
         "description": "Entity to create an ad"
       },
+      "AffinityRecommendationV1": {
+        "required": [
+          "country",
+          "targetingCategoryIds",
+          "customCategoryIds",
+          "lookbackDays",
+          "numberOfEvents",
+          "targetingCategoryNames",
+          "customCategoryNames"
+        ],
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "customCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customCategoryNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lookbackDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfEvents": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "targetingCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "targetingCategoryNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Configuration of a recommended affinity segment.",
+        "nullable": true
+      },
       "AlgebraNodeV1": {
         "type": "object",
         "properties": {
@@ -9087,6 +9224,38 @@
           }
         },
         "description": "A batch was accepted. The report can be accessed using the reporting endpoint."
+      },
+      "BehavioralRecommendationV1": {
+        "required": [
+          "category"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "enum": [
+              "seasonal",
+              "lifestyles",
+              "lifeEvents",
+              "buyingPatterns",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Configuration of a recommended behavioral segment.",
+        "nullable": true
       },
       "BehavioralV1": {
         "required": [
@@ -13894,6 +14063,72 @@
         },
         "description": "Settings to target users based on high shopping intents and demographics."
       },
+      "InMarketRecommendationV1": {
+        "required": [
+          "country",
+          "buyingPower",
+          "interestIds",
+          "brandIds",
+          "priceRange",
+          "interestNames",
+          "brandNames",
+          "brandDesc"
+        ],
+        "type": "object",
+        "properties": {
+          "brandDesc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "brandIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "brandNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "buyingPower": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "country": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "interestIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "interestNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "priceRange": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Configuration of a recommended in-market segment.",
+        "nullable": true
+      },
       "InMarketSizeEstimationV1": {
         "required": [
           "country"
@@ -14213,6 +14448,46 @@
         },
         "description": "Settings to target users based on their location."
       },
+      "LocationRecommendationV1": {
+        "required": [
+          "registryType",
+          "pointsOfInterest",
+          "geoDivisions",
+          "radiusInKm"
+        ],
+        "type": "object",
+        "properties": {
+          "geoDivisions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "partnerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "pointsOfInterest": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "radiusInKm": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "registryType": {
+            "type": "string"
+          },
+          "userGroupId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Configuration of a recommended location segment.",
+        "nullable": true
+      },
       "LocationSizeEstimationV1": {
         "required": [
           "pointsOfInterest",
@@ -14323,6 +14598,28 @@
           }
         },
         "description": "Settings to target users close to a given seed segment."
+      },
+      "LookalikeRecommendationV1": {
+        "required": [
+          "seedSegmentId",
+          "targetSize",
+          "country"
+        ],
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "seedSegmentId": {
+            "type": "string"
+          },
+          "targetSize": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Configuration of a recommended lookalike segment.",
+        "nullable": true
       },
       "LookalikeUpdateV1": {
         "type": "object",
@@ -15453,65 +15750,22 @@
         },
         "description": "Model for patching an ad set."
       },
-      "PatchCampaign": {
+      "PatchBudgetAutomationConfiguration": {
         "type": "object",
         "properties": {
-          "budgetAutomation": {
-            "$ref": "#/components/schemas/PatchMarketingCampaignBudgetAutomation"
-          },
-          "scheduledSpendLimit": {
-            "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimit"
-          },
-          "spendLimit": {
-            "$ref": "#/components/schemas/PatchCampaignSpendLimit"
+          "adSetObjectives": {
+            "enum": [
+              "conversions",
+              "revenue",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string"
           }
         },
-        "description": "Campaign patch model.\r\nThe campaign identifier is provided in the resource {id} field (string-encoded integer) and is required."
+        "description": "Configuration for budget automation. Only meaningful when \"enabled\" is true.\r\nWhen \"enabled\" is false or omitted, this field is ignored."
       },
-      "PatchCampaignListRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PatchCampaignWriteResource"
-            },
-            "nullable": true
-          }
-        },
-        "description": "List of input resources"
-      },
-      "PatchCampaignScheduledSpendLimit": {
-        "type": "object",
-        "properties": {
-          "scheduledSpendLimitCreations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitCreation"
-            },
-            "description": "Scheduled spend limits to create.",
-            "nullable": true
-          },
-          "scheduledSpendLimitDeletions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitDeletion"
-            },
-            "description": "Scheduled spend limits to delete.",
-            "nullable": true
-          },
-          "scheduledSpendLimitUpdates": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitUpdate"
-            },
-            "description": "Scheduled spend limits to update.",
-            "nullable": true
-          }
-        },
-        "description": "Scheduled spend-limit operations for a marketing campaign (patch).\r\nCreate, update, and delete operations are applied together by the backend."
-      },
-      "PatchCampaignScheduledSpendLimitCreation": {
+      "PatchCampaignScheduledSpendLimitCreationV27Q1": {
         "required": [
           "spendLimitType",
           "startDate"
@@ -15548,9 +15802,9 @@
             "nullable": true
           }
         },
-        "description": "Scheduled spend-limit creation.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount.value is null and spendLimitRenewal is \"undefined\".\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
+        "description": "Scheduled spend-limit creation.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount.value is null and spendLimitRenewal is \"undefined\".\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal (periodicity) as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
       },
-      "PatchCampaignScheduledSpendLimitDeletion": {
+      "PatchCampaignScheduledSpendLimitDeletionV27Q1": {
         "required": [
           "id"
         ],
@@ -15564,11 +15818,9 @@
         },
         "description": "Scheduled spend-limit deletion."
       },
-      "PatchCampaignScheduledSpendLimitUpdate": {
+      "PatchCampaignScheduledSpendLimitUpdateV27Q1": {
         "required": [
-          "id",
-          "spendLimitType",
-          "startDate"
+          "id"
         ],
         "type": "object",
         "properties": {
@@ -15607,9 +15859,39 @@
             "nullable": true
           }
         },
-        "description": "Scheduled spend-limit update.\r\nUpdates are full replacements: id, startDate, spendLimitType, and the capped or uncapped spend-limit values must describe the complete desired state.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
+        "description": "Scheduled spend-limit update.\r\nOnly provided fields are updated; omitted fields are left unchanged. The id is required.\r\nThe startDate is an advertiser-local calendar date, for example 2026-09-01.\r\nAll scheduled spend limits for the campaign must use the same spendLimitRenewal (periodicity) as the active spend limit.\r\nWhen spendLimitRenewal is \"monthly\", startDate must be the first day of the month."
       },
-      "PatchCampaignSpendLimit": {
+      "PatchCampaignScheduledSpendLimitV27Q1": {
+        "type": "object",
+        "properties": {
+          "scheduledSpendLimitCreations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitCreationV27Q1"
+            },
+            "description": "Scheduled spend limits to create.",
+            "nullable": true
+          },
+          "scheduledSpendLimitDeletions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitDeletionV27Q1"
+            },
+            "description": "Scheduled spend limits to delete.",
+            "nullable": true
+          },
+          "scheduledSpendLimitUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitUpdateV27Q1"
+            },
+            "description": "Scheduled spend limits to update.",
+            "nullable": true
+          }
+        },
+        "description": "Scheduled spend-limit operations for a marketing campaign (patch).\r\nCreate, update, and delete operations are applied together by the backend."
+      },
+      "PatchCampaignSpendLimitV27Q1": {
         "type": "object",
         "properties": {
           "spendLimitAmount": {
@@ -15623,7 +15905,6 @@
               "lifetime"
             ],
             "type": "string",
-            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
             "nullable": true
           },
           "spendLimitType": {
@@ -15632,17 +15913,49 @@
               "uncapped"
             ],
             "type": "string",
-            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
             "nullable": true
           }
         },
         "description": "Spend limit configuration for a marketing campaign (patch).\r\nOnly provided fields are updated; omitted fields are left unchanged.\r\nWhen spendLimitType is \"capped\": spendLimitAmount and spendLimitRenewal are required.\r\nWhen spendLimitType is \"uncapped\": spendLimitAmount is null and spendLimitRenewal is \"undefined\"."
       },
-      "PatchCampaignWriteResource": {
+      "PatchCampaignV27Q1": {
+        "type": "object",
+        "properties": {
+          "budgetAutomation": {
+            "$ref": "#/components/schemas/PatchMarketingCampaignBudgetAutomationV27Q1"
+          },
+          "name": {
+            "type": "string",
+            "description": "New name of the campaign. Omit to leave unchanged. Must not be empty when provided.",
+            "nullable": true
+          },
+          "scheduledSpendLimit": {
+            "$ref": "#/components/schemas/PatchCampaignScheduledSpendLimitV27Q1"
+          },
+          "spendLimit": {
+            "$ref": "#/components/schemas/PatchCampaignSpendLimitV27Q1"
+          }
+        },
+        "description": "Campaign patch model.\r\nThe campaign identifier is provided in the resource {id} field (string-encoded integer) and is required."
+      },
+      "PatchCampaignV27Q1ListRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchCampaignV27Q1WriteResource"
+            },
+            "nullable": true
+          }
+        },
+        "description": "List of input resources"
+      },
+      "PatchCampaignV27Q1WriteResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/PatchCampaign"
+            "$ref": "#/components/schemas/PatchCampaignV27Q1"
           },
           "id": {
             "type": "string",
@@ -15658,15 +15971,15 @@
         },
         "description": "write model data for resources"
       },
-      "PatchMarketingCampaignBudgetAutomation": {
+      "PatchMarketingCampaignBudgetAutomationV27Q1": {
         "type": "object",
         "properties": {
           "budgetConfiguration": {
-            "$ref": "#/components/schemas/BudgetAutomationConfiguration"
+            "$ref": "#/components/schemas/PatchBudgetAutomationConfiguration"
           },
           "enabled": {
             "type": "boolean",
-            "description": "Whether budget automation is enabled for this campaign. This field is always present in the response."
+            "description": "Whether budget automation is active for this marketing campaign.\r\n- true: budget automation is enabled and \"budgetConfiguration\" must be provided with a valid objective.\r\n- false (default when omitted): budget automation is disabled; \"budgetConfiguration\" is ignored if provided."
           }
         },
         "description": "Budget automation, lets users configure budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nOnly provided fields are updated; omitted fields are left unchanged.\r\nIf \"enabled\" is omitted and only \"budgetConfiguration\" is provided, \"enabled\" defaults to false — budget automation will not be activated.\r\nTo activate budget automation, \"enabled\" must be explicitly set to true along with a valid \"budgetConfiguration\".\r\nTo deactivate, set \"enabled\" to false; \"budgetConfiguration\" can be omitted."
@@ -15700,13 +16013,13 @@
         },
         "description": "Entity to update a product set"
       },
-      "PatchResultCampaignListResponse": {
+      "PatchResultCampaignV27Q1ListResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PatchResultCampaignReadResource"
+              "$ref": "#/components/schemas/PatchResultCampaignV27Q1ReadResource"
             },
             "nullable": true,
             "readOnly": true
@@ -15730,7 +16043,7 @@
         },
         "description": "List of output resources"
       },
-      "PatchResultCampaignReadResource": {
+      "PatchResultCampaignV27Q1ReadResource": {
         "type": "object",
         "properties": {
           "id": {
@@ -17814,6 +18127,159 @@
         },
         "description": "Represents a recommended product."
       },
+      "RecommendSegmentsData": {
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SegmentConfigurationV1"
+          },
+          "type": {
+            "enum": [
+              "SegmentRecommendation"
+            ],
+            "type": "string",
+            "default": "SegmentRecommendation",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A recommended segment wrapped in a JSON:API-style data object."
+      },
+      "RecommendSegmentsProblem": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A warning or an error raised while processing the request."
+      },
+      "RecommendSegmentsRequest": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RecommendSegmentsRequestData"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request to recommend audience segments from a freeform brief."
+      },
+      "RecommendSegmentsRequestAttributes": {
+        "required": [
+          "brief"
+        ],
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "description": "Advertiser ID the caller has access to."
+          },
+          "brief": {
+            "type": "string",
+            "description": "A freeform audience description."
+          },
+          "nbSegments": {
+            "type": "integer",
+            "description": "Number of segments to recommend, between 1 and 20 (defaults to 5).",
+            "format": "int32",
+            "default": 5
+          },
+          "segmentStatusToRecommend": {
+            "enum": [
+              "new",
+              "existing"
+            ],
+            "type": "string",
+            "description": "Recommend existing segments or suggest new ones.",
+            "default": "new"
+          },
+          "segmentTypesToRecommend": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "affinityAllLevels",
+                "affinityTopLevel",
+                "affinityChildren",
+                "inMarketCategoryAllLevels",
+                "inMarketCategoryLevel1",
+                "inMarketCategoryLevel2",
+                "inMarketCategoryLevel3",
+                "behavioral",
+                "websiteVisitor",
+                "predictiveCLV",
+                "location",
+                "lookalike",
+                "filterBased"
+              ],
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "Brief and options of a segment recommendation request."
+      },
+      "RecommendSegmentsRequestData": {
+        "required": [
+          "attributes"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RecommendSegmentsRequestAttributes"
+          },
+          "type": {
+            "enum": [
+              "RecommendSegmentsRequest"
+            ],
+            "type": "string",
+            "default": "RecommendSegmentsRequest"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The request attributes wrapped in a JSON:API-style data object."
+      },
+      "RecommendSegmentsResponse": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecommendSegmentsData"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecommendSegmentsProblem"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecommendSegmentsProblem"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Recommended segments together with any warnings and errors."
+      },
       "ReportDetailError": {
         "required": [
           "isServerRelated",
@@ -18757,6 +19223,365 @@
         },
         "description": "Settings to target users based on its type and days since last visit.",
         "nullable": true
+      },
+      "SegmentConfigurationV1": {
+        "required": [
+          "description",
+          "segmentType",
+          "alreadyCreated"
+        ],
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "affinityConfiguration": {
+            "$ref": "#/components/schemas/AffinityRecommendationV1"
+          },
+          "alreadyCreated": {
+            "type": "boolean"
+          },
+          "behavioralConfiguration": {
+            "$ref": "#/components/schemas/BehavioralRecommendationV1"
+          },
+          "dataProviderId": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "inMarketConfiguration": {
+            "$ref": "#/components/schemas/InMarketRecommendationV1"
+          },
+          "locationConfiguration": {
+            "$ref": "#/components/schemas/LocationRecommendationV1"
+          },
+          "lookalikeConfiguration": {
+            "$ref": "#/components/schemas/LookalikeRecommendationV1"
+          },
+          "segmentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "segmentName": {
+            "type": "string",
+            "nullable": true
+          },
+          "segmentType": {
+            "enum": [
+              "affinity",
+              "inMarket",
+              "websiteVisitor",
+              "predictiveCLV",
+              "location",
+              "lookalike",
+              "filterBased",
+              "behavioral"
+            ],
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A recommended audience segment and its configuration."
+      },
+      "SellerReportData": {
+        "type": "object",
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Column names"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { }
+            },
+            "description": "Report data"
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Number of rows reported",
+            "format": "int32"
+          }
+        },
+        "description": "The generated seller performance report."
+      },
+      "SellerReportDataResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SellerReportData"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value."
+      },
+      "SellerReportDataResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SellerReportDataResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "readOnly": true
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API response for a single value.",
+        "x-readonly-warnings": true,
+        "x-readonly-errors": true
+      },
+      "SellerReportRequest": {
+        "required": [
+          "advertiserId",
+          "dimensions",
+          "endDate",
+          "metrics",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "adSetIds": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Restricts the report to the specified ad sets. If omitted, all ad sets in scope are included.\r\nUp to 10 ad set identifiers can be supplied."
+          },
+          "advertiserId": {
+            "type": "string",
+            "description": "Identifier of the advertiser for which the report is generated."
+          },
+          "campaignIds": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Restricts the report to the specified marketing campaigns. If omitted, all campaigns in scope are included.\r\nUp to 10 campaign identifiers can be supplied."
+          },
+          "dimensions": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "campaignId",
+                "adSetId",
+                "sellerId",
+                "hour",
+                "day",
+                "month",
+                "year"
+              ],
+              "type": "string",
+              "format": "string"
+            },
+            "description": "Dimensions used to group the report. At least one dimension is required."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Inclusive end date of the reporting period, formatted as yyyy-MM-dd.",
+            "format": "date"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "csv"
+            ],
+            "type": "string",
+            "description": "Output format. Defaults to JSON.",
+            "format": "string",
+            "default": "json"
+          },
+          "metrics": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "enum": [
+                "impressions",
+                "clicks",
+                "cost",
+                "sellerVisits",
+                "sellerUniqueUsers",
+                "saleUnitsPc1dSameSeller",
+                "saleUnitsPc1dAnySeller",
+                "saleUnitsPc7dSameSeller",
+                "saleUnitsPc7dAnySeller",
+                "saleUnitsPc30dSameSeller",
+                "saleUnitsPc30dAnySeller",
+                "saleUnitsPc1dPv1dSameSeller",
+                "saleUnitsPc1dPv1dAnySeller",
+                "saleUnitsPc1dPv7dSameSeller",
+                "saleUnitsPc1dPv7dAnySeller",
+                "saleUnitsPc7dPv1dSameSeller",
+                "saleUnitsPc7dPv1dAnySeller",
+                "saleUnitsPc7dPv7dSameSeller",
+                "saleUnitsPc7dPv7dAnySeller",
+                "saleUnitsPc30dPv1dSameSeller",
+                "saleUnitsPc30dPv1dAnySeller",
+                "saleUnitsPc30dPv7dSameSeller",
+                "saleUnitsPc30dPv7dAnySeller",
+                "revenuePc1dSameSeller",
+                "revenuePc1dAnySeller",
+                "revenuePc7dSameSeller",
+                "revenuePc7dAnySeller",
+                "revenuePc30dSameSeller",
+                "revenuePc30dAnySeller",
+                "revenuePc1dPv1dSameSeller",
+                "revenuePc1dPv1dAnySeller",
+                "revenuePc1dPv7dSameSeller",
+                "revenuePc1dPv7dAnySeller",
+                "revenuePc7dPv1dSameSeller",
+                "revenuePc7dPv1dAnySeller",
+                "revenuePc7dPv7dSameSeller",
+                "revenuePc7dPv7dAnySeller",
+                "revenuePc30dPv1dSameSeller",
+                "revenuePc30dPv1dAnySeller",
+                "revenuePc30dPv7dSameSeller",
+                "revenuePc30dPv7dAnySeller",
+                "crPc1dSameSeller",
+                "crPc1dAnySeller",
+                "crPc7dSameSeller",
+                "crPc7dAnySeller",
+                "crPc30dSameSeller",
+                "crPc30dAnySeller",
+                "crPc1dPv1dSameSeller",
+                "crPc1dPv1dAnySeller",
+                "crPc1dPv7dSameSeller",
+                "crPc1dPv7dAnySeller",
+                "crPc7dPv1dSameSeller",
+                "crPc7dPv1dAnySeller",
+                "crPc7dPv7dSameSeller",
+                "crPc7dPv7dAnySeller",
+                "crPc30dPv1dSameSeller",
+                "crPc30dPv1dAnySeller",
+                "crPc30dPv7dSameSeller",
+                "crPc30dPv7dAnySeller",
+                "cpoPc1dSameSeller",
+                "cpoPc1dAnySeller",
+                "cpoPc7dSameSeller",
+                "cpoPc7dAnySeller",
+                "cpoPc30dSameSeller",
+                "cpoPc30dAnySeller",
+                "cpoPc1dPv1dSameSeller",
+                "cpoPc1dPv1dAnySeller",
+                "cpoPc1dPv7dSameSeller",
+                "cpoPc1dPv7dAnySeller",
+                "cpoPc7dPv1dSameSeller",
+                "cpoPc7dPv1dAnySeller",
+                "cpoPc7dPv7dSameSeller",
+                "cpoPc7dPv7dAnySeller",
+                "cpoPc30dPv1dSameSeller",
+                "cpoPc30dPv1dAnySeller",
+                "cpoPc30dPv7dSameSeller",
+                "cpoPc30dPv7dAnySeller",
+                "cosPc1dSameSeller",
+                "cosPc1dAnySeller",
+                "cosPc7dSameSeller",
+                "cosPc7dAnySeller",
+                "cosPc30dSameSeller",
+                "cosPc30dAnySeller",
+                "cosPc1dPv1dSameSeller",
+                "cosPc1dPv1dAnySeller",
+                "cosPc1dPv7dSameSeller",
+                "cosPc1dPv7dAnySeller",
+                "cosPc7dPv1dSameSeller",
+                "cosPc7dPv1dAnySeller",
+                "cosPc7dPv7dSameSeller",
+                "cosPc7dPv7dAnySeller",
+                "cosPc30dPv1dSameSeller",
+                "cosPc30dPv1dAnySeller",
+                "cosPc30dPv7dSameSeller",
+                "cosPc30dPv7dAnySeller",
+                "roasPc1dSameSeller",
+                "roasPc1dAnySeller",
+                "roasPc7dSameSeller",
+                "roasPc7dAnySeller",
+                "roasPc30dSameSeller",
+                "roasPc30dAnySeller",
+                "roasPc1dPv1dSameSeller",
+                "roasPc1dPv1dAnySeller",
+                "roasPc1dPv7dSameSeller",
+                "roasPc1dPv7dAnySeller",
+                "roasPc7dPv1dSameSeller",
+                "roasPc7dPv1dAnySeller",
+                "roasPc7dPv7dSameSeller",
+                "roasPc7dPv7dAnySeller",
+                "roasPc30dPv1dSameSeller",
+                "roasPc30dPv1dAnySeller",
+                "roasPc30dPv7dSameSeller",
+                "roasPc30dPv7dAnySeller"
+              ],
+              "type": "string",
+              "format": "string"
+            },
+            "description": "Metrics returned for each dimension combination. At least one metric is required."
+          },
+          "sellerIds": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Restricts the report to the specified sellers. If omitted, all sellers in scope are included.\r\nUp to 10 seller identifiers can be supplied."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Inclusive start date of the reporting period, formatted as yyyy-MM-dd.",
+            "format": "date"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA time zone used for time-based aggregation. Defaults to UTC.",
+            "default": "UTC"
+          }
+        },
+        "description": "Filters and options used to generate a synchronous seller performance report."
+      },
+      "SellerReportRequestRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SellerReportRequestResource"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "SellerReportRequestResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/SellerReportRequest"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A top-level object that encapsulates a Criteo API request for a single value."
       },
       "SetAdSetTargetingDealIds": {
         "type": "object",
