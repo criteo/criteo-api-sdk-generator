@@ -1,3 +1,4 @@
+{{!--  original template: https://github.com/OpenAPITools/openapi-generator/blob/v6.3.0/modules/openapi-generator/src/main/resources/python-prior/model_utils.mustache --}}
 {{>partial_header}}
 
 from datetime import date, datetime  # noqa: F401
@@ -808,21 +809,25 @@ def remove_uncoercible(required_types_classes, current_item, spec_property_namin
     return results_classes
 
 
-def get_discriminated_classes(cls):
+def get_discriminated_classes(cls, _possible_classes=None):
     """
     Returns all the classes that a discriminator converts to
     TODO: lru_cache this
     """
-    possible_classes = []
+    # The generator copies a base type's discriminator mapping into each of its
+    # subtypes, so subtypes map to themselves, which would recurse forever. Add
+    # each mapped class once, before walking its own discriminator, and skip
+    # classes already found.
+    if _possible_classes is None:
+        _possible_classes = [cls] if is_type_nullable(cls) else []
     key = list(cls.discriminator.keys())[0]
-    if is_type_nullable(cls):
-        possible_classes.append(cls)
     for discr_cls in cls.discriminator[key].values():
+        if discr_cls in _possible_classes:
+            continue
+        _possible_classes.append(discr_cls)
         if hasattr(discr_cls, 'discriminator') and discr_cls.discriminator is not None:
-            possible_classes.extend(get_discriminated_classes(discr_cls))
-        else:
-            possible_classes.append(discr_cls)
-    return possible_classes
+            get_discriminated_classes(discr_cls, _possible_classes)
+    return _possible_classes
 
 
 def get_possible_classes(cls, from_server_context):
