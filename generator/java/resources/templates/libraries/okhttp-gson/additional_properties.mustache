@@ -1,4 +1,22 @@
+{{!-- original template: https://github.com/OpenAPITools/openapi-generator/blob/v6.3.0/modules/openapi-generator/src/main/resources/Java/libraries/okhttp-gson/additional_properties.mustache --}}
+{{!-- When the parent model already holds the additional properties, the child must not declare its own field: Gson rejects a class declaring multiple JSON fields with the same name --}}
 {{#isAdditionalPropertiesTrue}}
+{{#parentModel.isAdditionalPropertiesTrue}}
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the {{classname}} instance itself
+   */
+  @Override
+  public {{classname}} putAdditionalProperty(String key, Object value) {
+    super.putAdditionalProperty(key, value);
+    return this;
+  }
+{{/parentModel.isAdditionalPropertiesTrue}}
+{{^parentModel.isAdditionalPropertiesTrue}}
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with
@@ -43,4 +61,5 @@
     }
     return this.additionalProperties.get(key);
   }
+{{/parentModel.isAdditionalPropertiesTrue}}
 {{/isAdditionalPropertiesTrue}}
