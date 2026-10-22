@@ -15144,6 +15144,17 @@
             },
             "description": "Conversation between the user and the agent."
           },
+          "identityType": {
+            "enum": [
+              "CtoBundle",
+              "Idfa",
+              "Gaid",
+              "InternalUserId",
+              "AgenticUserId"
+            ],
+            "type": "string",
+            "description": "Type of the user identifier (CtoBundle, Idfa, Gaid, AgenticUserId...) Optional if its type is CtoBundle"
+          },
           "nbRequestedProducts": {
             "type": "integer",
             "description": "Amount of products to recommend.",
@@ -15159,7 +15170,11 @@
           },
           "userId": {
             "type": "string",
-            "description": "Used to retrieve user events from Criteo trackers."
+            "description": "One user identifier: a Criteo bundle, GAID, IDFA, internal user id, or an agentic partner user id."
+          },
+          "userIdOrigin": {
+            "type": "string",
+            "description": "When IdentityType is AgenticUserId, the issuer should recognize themselves with their organization name issued by Criteo."
           }
         },
         "description": "Conversational recommendation request parameters"

@@ -432,113 +432,6 @@
         ]
       }
     },
-    "/experimental/retail-media/accounts/{account-id}/campaigns/{campaign-id}": {
-      "get": {
-        "tags": [
-          "Campaign"
-        ],
-        "summary": "/experimental/retail-media/accounts/{account-id}/campaigns/{campaign-id}",
-        "description": "Gets a campaign by its external id.",
-        "operationId": "GetCampaign",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The external id of the account.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "campaign-id",
-            "in": "path",
-            "description": "The external id of the campaign.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignResponseModelResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Read"
-            ]
-          }
-        ]
-      },
-      "patch": {
-        "tags": [
-          "Campaign"
-        ],
-        "summary": "/experimental/retail-media/accounts/{account-id}/campaigns/{campaign-id}",
-        "description": "Selectively updates a campaign. Omitted properties remain unchanged.",
-        "operationId": "UpdateCampaign",
-        "parameters": [
-          {
-            "name": "account-id",
-            "in": "path",
-            "description": "The external id of the account.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "campaign-id",
-            "in": "path",
-            "description": "The external id of the campaign.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The campaign fields to update.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignUpdateModelRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignResponseModelResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "RetailMedia_Campaign_Manage"
-            ]
-          }
-        ]
-      }
-    },
     "/experimental/retail-media/accounts/{account-id}/campaigns/search": {
       "post": {
         "tags": [
@@ -1321,6 +1214,95 @@
         ]
       }
     },
+    "/experimental/retail-media/campaigns/{campaign-id}": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/campaigns/{campaign-id}",
+        "description": "Gets a campaign by its external id.",
+        "operationId": "GetCampaign",
+        "parameters": [
+          {
+            "name": "campaign-id",
+            "in": "path",
+            "description": "The external id of the campaign.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignResponseModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/campaigns/{campaign-id}",
+        "description": "Selectively updates a campaign. Omitted properties remain unchanged.",
+        "operationId": "UpdateCampaign",
+        "parameters": [
+          {
+            "name": "campaign-id",
+            "in": "path",
+            "description": "The external id of the campaign.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The campaign fields to update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignUpdateModelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignModelResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
     "/experimental/retail-media/campaigns/{campaign-id}/preferred-line-items": {
       "post": {
         "tags": [
@@ -1959,7 +1941,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExternalUpdateLineItemModelRequest"
+                "$ref": "#/components/schemas/ExternalPatchLineItemModelRequest"
               }
             }
           },
@@ -1971,7 +1953,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LineItemResponse"
+                  "$ref": "#/components/schemas/LineItemResponseV2"
                 }
               }
             }
@@ -2792,7 +2774,7 @@
           "Analytics"
         ],
         "summary": "/experimental/retail-media/reports/accounts",
-        "description": "Returns an asynchronous Accounts Report\n<br />\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Accounts Report\r\nReturns 403 for access issues, such as when access to a requested account is refused.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncAccountsReportV2",
         "requestBody": {
           "content": {
@@ -2872,7 +2854,7 @@
           "Analytics"
         ],
         "summary": "/experimental/retail-media/reports/fillrate",
-        "description": "Returns an asynchronous Fill Rate Report\n<br />\nThis endpoint is subject to specific rate limits.",
+        "description": "Returns an asynchronous Fill Rate Report\r\nReturns 403 for access issues, such as when access to a requested account is refused.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GenerateAsyncFillRateReport",
         "requestBody": {
           "content": {
@@ -3523,7 +3505,7 @@
           "automatedTask"
         ],
         "type": "string",
-        "description": "Role label exposed to external callers for the actor of a change."
+        "description": "Role label of the actor that performed the change. No user identifiers are exposed."
       },
       "AdaptiveBiddingSettings": {
         "type": "object",
@@ -3972,6 +3954,9 @@
         "description": "Async Accounts report body request"
       },
       "AsyncAccountsReportRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -3981,6 +3966,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncAccountsReportResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -3990,7 +3978,7 @@
             "type": "string"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A report request resource containing its type and required attributes."
       },
       "AsyncCampaignsReport": {
         "required": [
@@ -4277,6 +4265,9 @@
         "description": "Async Campaigns report body request"
       },
       "AsyncCampaignsReportRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -4286,6 +4277,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncCampaignsReportResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -4295,7 +4289,7 @@
             "type": "string"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A report request resource containing its type and required attributes."
       },
       "AsyncFillRateReport": {
         "required": [
@@ -4411,6 +4405,9 @@
         "description": "Async FillRate report body request"
       },
       "AsyncFillRateReportRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -4420,6 +4417,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncFillRateReportResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -4429,7 +4429,7 @@
             "type": "string"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A report request resource containing its type and required attributes."
       },
       "AsyncInsightResponse": {
         "type": "object",
@@ -4761,6 +4761,9 @@
         "description": "Async Line Items report body request"
       },
       "AsyncLineItemsReportRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -4770,6 +4773,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncLineItemsReportResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -4779,7 +4785,7 @@
             "type": "string"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A report request resource containing its type and required attributes."
       },
       "AsyncOffsiteReport": {
         "required": [
@@ -4989,6 +4995,9 @@
         "description": "Async Offsite report body request"
       },
       "AsyncOffsiteReportRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -4998,6 +5007,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncOffsiteReportResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -5007,7 +5019,7 @@
             "type": "string"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A report request resource containing its type and required attributes."
       },
       "AsyncReportResponse": {
         "type": "object",
@@ -5134,7 +5146,8 @@
           }
         },
         "additionalProperties": false,
-        "description": "Wrapper for attribution settings."
+        "description": "Wrapper for attribution settings.",
+        "nullable": true
       },
       "AttributionSettingsUpdateModel": {
         "type": "object",
@@ -5531,11 +5544,55 @@
         "additionalProperties": false,
         "description": "A ceiling on what a campaign may spend within one period."
       },
+      "CampaignBudgetModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Total the campaign may spend over its flight. Null when the campaign is uncapped.",
+            "format": "double",
+            "nullable": true
+          },
+          "cappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BudgetCappingModel"
+            },
+            "description": "Per-period ceilings. Only capped periods are reported.",
+            "nullable": true
+          },
+          "memo": {
+            "type": "string",
+            "description": "Note recorded with the latest budget change.",
+            "nullable": true
+          },
+          "pacing": {
+            "$ref": "#/components/schemas/PacingModel"
+          },
+          "remaining": {
+            "type": "number",
+            "description": "Amount left under the cap. Null when the campaign is uncapped.",
+            "format": "double",
+            "nullable": true
+          },
+          "spent": {
+            "type": "number",
+            "description": "Amount spent so far.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Financial intent of a campaign.",
+        "nullable": true
+      },
       "CampaignCreateModel": {
         "required": [
+          "budget",
           "buyType",
           "campaignType",
           "name",
+          "objective",
           "scheduleDetails"
         ],
         "type": "object",
@@ -5546,6 +5603,9 @@
           "billByRetailerId": {
             "type": "string",
             "nullable": true
+          },
+          "budget": {
+            "$ref": "#/components/schemas/DynamicBudgetCreateModel"
           },
           "buyType": {
             "enum": [
@@ -5578,12 +5638,19 @@
             "minLength": 0,
             "type": "string"
           },
+          "objective": {
+            "enum": [
+              "Clicks",
+              "Conversion",
+              "Revenue",
+              "Impressions"
+            ],
+            "type": "string",
+            "description": "Objective the campaign is optimized for. The platform derives the line item budgets from the\r\ncampaign budget to serve it. SponsoredProducts accepts clicks, conversion and revenue;\r\nOnsiteDisplay accepts impressions."
+          },
           "onBehalfCompanyName": {
             "type": "string",
             "nullable": true
-          },
-          "onsiteDisplayDetails": {
-            "$ref": "#/components/schemas/OnsiteDisplayDetailsCreateModel"
           },
           "regulatedCategory": {
             "enum": [
@@ -5595,9 +5662,6 @@
           },
           "scheduleDetails": {
             "$ref": "#/components/schemas/ScheduleDetailsCreateModel"
-          },
-          "sponsoredProductsDetails": {
-            "$ref": "#/components/schemas/SponsoredProductsDetailsCreateModel"
           }
         },
         "additionalProperties": false,
@@ -5628,6 +5692,168 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "CampaignModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "Account ID associated with the campaign, generated internally by Criteo.",
+            "nullable": true
+          },
+          "attributionSettings": {
+            "$ref": "#/components/schemas/AttributionSettingsModel"
+          },
+          "billByRetailerId": {
+            "type": "string",
+            "description": "The retailer this campaign is associated with, set only on creation. Required when using a\r\nretailer budget balance.",
+            "nullable": true
+          },
+          "budget": {
+            "$ref": "#/components/schemas/CampaignBudgetModel"
+          },
+          "buyType": {
+            "enum": [
+              "Unknown",
+              "Auction",
+              "PreferredDeals",
+              "Sponsorship"
+            ],
+            "type": "string",
+            "description": "Buy type of campaign, set only on creation.",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "Unknown",
+              "SponsoredProducts",
+              "OnsiteDisplay"
+            ],
+            "type": "string",
+            "description": "Type of campaign, set only on creation.",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "description": "This optional field, exclusively accessible to marketplaces within the European Union (in\r\ncompliance with the Digital Service Act - DSA), will display the name of the company\r\nassociated with the advertisement.",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp of campaign creation, in UTC.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Campaign ID, generated internally by Criteo.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Campaign name; must be unique within an Account.",
+            "nullable": true
+          },
+          "objective": {
+            "enum": [
+              "Manual",
+              "Clicks",
+              "Conversion",
+              "Revenue",
+              "Impressions",
+              "Unknown"
+            ],
+            "type": "string",
+            "description": "Objective of a campaign.",
+            "nullable": true
+          },
+          "onBehalfCompanyName": {
+            "type": "string",
+            "description": "This optional field, exclusively accessible to marketplaces within the European Union (in\r\ncompliance with the Digital Service Act - DSA), will display the name of the company (on\r\nbehalf of companyName) associated with the advertisement.",
+            "nullable": true
+          },
+          "regulatedCategory": {
+            "enum": [
+              "Unknown",
+              "None",
+              "Alcohol"
+            ],
+            "type": "string",
+            "description": "Regulated category the campaign advertises in, set only on creation.",
+            "nullable": true
+          },
+          "scheduleDetails": {
+            "$ref": "#/components/schemas/ScheduleDetailsModel"
+          },
+          "status": {
+            "enum": [
+              "Unknown",
+              "Active",
+              "Inactive"
+            ],
+            "type": "string",
+            "description": "Campaign status, derived from the status of Line Items it holds; active if at least\r\none line item is active.",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp of last campaign update, in UTC.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A campaign. A campaign groups line items that share attribution settings, flight dates and\r\nbudget.",
+        "nullable": true
+      },
+      "CampaignModelResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CampaignModel"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id.",
+        "nullable": true
+      },
+      "CampaignModelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CampaignModelResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
+      },
       "CampaignResponseModel": {
         "required": [
           "accountId",
@@ -5637,6 +5863,7 @@
           "createdAt",
           "drawableBalanceIds",
           "name",
+          "objective",
           "regulatedCategory",
           "status",
           "updatedAt"
@@ -5652,6 +5879,9 @@
           "billByRetailerId": {
             "type": "string",
             "nullable": true
+          },
+          "budget": {
+            "$ref": "#/components/schemas/CampaignBudgetModel"
           },
           "buyType": {
             "enum": [
@@ -5695,12 +5925,21 @@
             "minLength": 0,
             "type": "string"
           },
+          "objective": {
+            "enum": [
+              "Manual",
+              "Clicks",
+              "Conversion",
+              "Revenue",
+              "Impressions",
+              "Unknown"
+            ],
+            "type": "string",
+            "description": "Objective of a campaign."
+          },
           "onBehalfCompanyName": {
             "type": "string",
             "nullable": true
-          },
-          "onsiteDisplayDetails": {
-            "$ref": "#/components/schemas/OnsiteDisplayDetailsModel"
           },
           "regulatedCategory": {
             "enum": [
@@ -5713,9 +5952,6 @@
           },
           "scheduleDetails": {
             "$ref": "#/components/schemas/ScheduleDetailsModel"
-          },
-          "sponsoredProductsDetails": {
-            "$ref": "#/components/schemas/SponsoredProductsDetailsModel"
           },
           "status": {
             "enum": [
@@ -5934,6 +6170,9 @@
           "attributionSettings": {
             "$ref": "#/components/schemas/AttributionSettingsUpdateModel"
           },
+          "budget": {
+            "$ref": "#/components/schemas/DynamicBudgetUpdateModel"
+          },
           "companyName": {
             "$ref": "#/components/schemas/StringNillableV2"
           },
@@ -5944,14 +6183,8 @@
           "onBehalfCompanyName": {
             "$ref": "#/components/schemas/StringNillableV2"
           },
-          "onsiteDisplayDetails": {
-            "$ref": "#/components/schemas/OnsiteDisplayDetailsUpdateModel"
-          },
           "scheduleDetails": {
             "$ref": "#/components/schemas/ScheduleDetailsUpdateModel"
-          },
-          "sponsoredProductsDetails": {
-            "$ref": "#/components/schemas/SponsoredProductsDetailsUpdateModel"
           }
         },
         "additionalProperties": false,
@@ -6535,12 +6768,7 @@
         "type": "object",
         "properties": {
           "actorRole": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorRole"
-              }
-            ],
-            "description": "Role label of the actor that performed the change. No user identifiers are exposed."
+            "$ref": "#/components/schemas/ActorRole"
           },
           "changes": {
             "type": "array",
@@ -6668,34 +6896,6 @@
           }
         },
         "description": "Common problem object."
-      },
-      "ConquestingSettings": {
-        "type": "object",
-        "properties": {
-          "conquestingAdStrategyEnabled": {
-            "type": "boolean",
-            "description": "Flag indicating if Conquesting ad strategy is enabled for the line item.",
-            "nullable": true
-          },
-          "defensiveAdStrategyEnabled": {
-            "type": "boolean",
-            "description": "Flag indicating if Defensive ad strategy is enabled for the line item.",
-            "nullable": true
-          },
-          "isAdStrategyLocked": {
-            "type": "boolean",
-            "description": "Indicates whether the ad strategy settings (conquesting, neutral, and defensive) are locked\r\nand cannot be modified for this line item. When true, any attempt to update the ad strategy\r\nsettings will be rejected.",
-            "nullable": true
-          },
-          "neutralAdStrategyEnabled": {
-            "type": "boolean",
-            "description": "Flag indicating if Neutral ad strategy is enabled for the line item.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Conquesting Settings",
-        "nullable": true
       },
       "CpmBiddingSettings": {
         "required": [
@@ -8000,6 +8200,41 @@
         "additionalProperties": false,
         "description": "A product to add to a creative's product collection."
       },
+      "DynamicBudgetCreateModel": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Total the campaign may spend over its flight.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Financial intent of a campaign. An amount only: the platform derives the periods and pacing\r\nfrom the objective."
+      },
+      "DynamicBudgetUpdateModel": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "New total the campaign may spend over its flight.",
+            "format": "double"
+          },
+          "memo": {
+            "type": "string",
+            "description": "Note for the budget change, up to 250-chars string. Omit to keep the stored one, empty clears it.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "New financial intent of a campaign. An amount only: the platform derives the periods and\r\npacing from the objective. Omit the node to leave the budget unchanged."
+      },
       "EntityResourceBalanceV1": {
         "type": "object",
         "properties": {
@@ -8828,19 +9063,48 @@
           }
         },
         "additionalProperties": false,
-        "description": "A unit of ad delivery configuration within a campaign. It defines how a specific subset of ads\r\nis targeted.",
-        "nullable": true
+        "description": "A unit of ad delivery configuration within a campaign. It defines how a specific subset of ads\r\nis targeted."
       },
-      "ExternalLineItemResource": {
+      "ExternalPatchLineItemModel": {
+        "type": "object",
+        "properties": {
+          "isPaused": {
+            "type": "boolean",
+            "description": "Whether the line item is paused.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
+          "onsiteDisplayDetails": {
+            "$ref": "#/components/schemas/ExternalPatchOnsiteDisplayLineItemDetails"
+          },
+          "serveToOptOutUser": {
+            "type": "boolean",
+            "description": "Whether to serve ads to users who have opted out of personalization.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The line item settings to change. Omitted fields are left unchanged."
+      },
+      "ExternalPatchLineItemModelRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ExternalPatchLineItemModelResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ExternalPatchLineItemModelResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/ExternalLineItem"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique id of the entity.",
-            "nullable": true
+            "$ref": "#/components/schemas/ExternalPatchLineItemModel"
           },
           "type": {
             "type": "string",
@@ -8849,8 +9113,32 @@
           }
         },
         "additionalProperties": false,
-        "description": "A domain entity exposed by the API, identified by a unique id.",
-        "nullable": true
+        "description": "A value resource exposed by the API."
+      },
+      "ExternalPatchOnsiteDisplayAuctionLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "isDynamicMatch": {
+            "type": "boolean",
+            "description": "Whether only products relevant to the page context serve.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The auction settings to change on an onsite display line item. Omitted fields are left unchanged."
+      },
+      "ExternalPatchOnsiteDisplayLineItemDetails": {
+        "type": "object",
+        "properties": {
+          "auctionDetails": {
+            "$ref": "#/components/schemas/ExternalPatchOnsiteDisplayAuctionLineItemDetails"
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/ExternalFrequencyCappingModelNillableV2"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The onsite display settings to change. Omitted fields are left unchanged."
       },
       "ExternalRetailMediaAccountV2": {
         "type": "object",
@@ -9020,81 +9308,6 @@
         "additionalProperties": false,
         "description": "the initial set up and configuration options for a new private market demand brand account"
       },
-      "ExternalUpdateLineItemModel": {
-        "type": "object",
-        "properties": {
-          "isPaused": {
-            "type": "boolean",
-            "description": "Indicates whether the line item is paused.",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the line item.",
-            "nullable": true
-          },
-          "onsiteDisplayDetails": {
-            "$ref": "#/components/schemas/ExternalUpdateOnsiteDisplayLineItemDetails"
-          },
-          "serveToOptOutUser": {
-            "type": "boolean",
-            "description": "Whether to serve ads to users who have opted out of personalization.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The line item settings to change. Omitted fields are left unchanged."
-      },
-      "ExternalUpdateLineItemModelRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ExternalUpdateLineItemModelResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "ExternalUpdateLineItemModelResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/ExternalUpdateLineItemModel"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
-      "ExternalUpdateOnsiteDisplayAuctionLineItemDetails": {
-        "type": "object",
-        "properties": {
-          "isDynamicMatch": {
-            "type": "boolean",
-            "description": "Whether to serve only products relevant to the page context, replacing manual SKU curation.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The auction settings to change on an onsite display line item. Omitted fields are left unchanged."
-      },
-      "ExternalUpdateOnsiteDisplayLineItemDetails": {
-        "type": "object",
-        "properties": {
-          "auctionDetails": {
-            "$ref": "#/components/schemas/ExternalUpdateOnsiteDisplayAuctionLineItemDetails"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/ExternalFrequencyCappingModelNillableV2"
-          }
-        },
-        "additionalProperties": false,
-        "description": "The onsite display settings to change. Omitted fields are left unchanged."
-      },
       "FilesVariableValue": {
         "required": [
           "assetIds"
@@ -9185,30 +9398,6 @@
         },
         "additionalProperties": false,
         "description": "A flight schedule for a line item.",
-        "nullable": true
-      },
-      "FrequencyCappingModel": {
-        "type": "object",
-        "properties": {
-          "cappingCount": {
-            "type": "integer",
-            "description": "How many times the ads may be shown within the duration.",
-            "format": "int32",
-            "nullable": true
-          },
-          "cappingDurationType": {
-            "enum": [
-              "Unknown",
-              "Session",
-              "Day"
-            ],
-            "type": "string",
-            "description": "The period the count applies to.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "How often a single user may be shown the line item's ads.",
         "nullable": true
       },
       "GeographyTargetDetails": {
@@ -9508,9 +9697,6 @@
             "description": "The campaign id of the associated campaign.",
             "nullable": true
           },
-          "conquestingSettings": {
-            "$ref": "#/components/schemas/ConquestingSettings"
-          },
           "flightDates": {
             "$ref": "#/components/schemas/FlightDates"
           },
@@ -9550,9 +9736,6 @@
             "type": "boolean",
             "description": "Whether to serve ads to users who have opted out of personalization.",
             "nullable": true
-          },
-          "sponsoredProducts": {
-            "$ref": "#/components/schemas/SponsoredProductsAttributes"
           }
         },
         "additionalProperties": false,
@@ -10268,34 +10451,6 @@
         "description": "A domain entity exposed by the API, identified by a unique id.",
         "nullable": true
       },
-      "LineItemResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ExternalLineItemResource"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single entity."
-      },
       "LineItemResponseV2": {
         "type": "object",
         "properties": {
@@ -10825,9 +10980,6 @@
         "properties": {
           "auction": {
             "$ref": "#/components/schemas/OnsiteDisplayAuctionAttributes"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/FrequencyCappingModel"
           }
         },
         "additionalProperties": false,
@@ -10873,100 +11025,6 @@
         "description": "Settings that only apply to auction-bought onsite display line items.",
         "nullable": true
       },
-      "OnsiteDisplayBudgetCreateModel": {
-        "required": [
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "description": "Total the campaign may spend over its flight.",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Financial intent of an OnsiteDisplay campaign. An amount only: per-period cappings and pacing\r\napply to SponsoredProducts."
-      },
-      "OnsiteDisplayBudgetModel": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Financial intent of an OnsiteDisplay campaign.",
-        "nullable": true
-      },
-      "OnsiteDisplayBudgetUpdateModel": {
-        "required": [
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "New financial intent of an OnsiteDisplay campaign. The whole node replaces the previous budget;\r\nomit it to leave the budget unchanged."
-      },
-      "OnsiteDisplayDetailsCreateModel": {
-        "required": [
-          "budget",
-          "objective"
-        ],
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/OnsiteDisplayBudgetCreateModel"
-          },
-          "objective": {
-            "enum": [
-              "Impressions"
-            ],
-            "type": "string",
-            "description": "Objective an OnsiteDisplay campaign is optimized for. The platform derives the line item\r\nbudgets from the campaign budget to serve it."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Settings that apply only to an OnsiteDisplay campaign. Sending this node on a campaign of\r\nanother type is refused."
-      },
-      "OnsiteDisplayDetailsModel": {
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/OnsiteDisplayBudgetModel"
-          },
-          "objective": {
-            "enum": [
-              "Manual",
-              "Impressions",
-              "Unknown"
-            ],
-            "type": "string",
-            "description": "Objective of an OnsiteDisplay campaign.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Settings that apply only to an OnsiteDisplay campaign. Present only on campaigns of that type.",
-        "nullable": true
-      },
-      "OnsiteDisplayDetailsUpdateModel": {
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/OnsiteDisplayBudgetUpdateModel"
-          }
-        },
-        "additionalProperties": false,
-        "description": "OnsiteDisplay settings to update. Omitted settings remain unchanged."
-      },
       "OnsiteDisplayLineItemDetails": {
         "type": "object",
         "properties": {
@@ -10986,6 +11044,9 @@
         "properties": {
           "auctionDetails": {
             "$ref": "#/components/schemas/OnsiteDisplayAuctionLineItemDetailsV2"
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/ExternalFrequencyCappingModel"
           }
         },
         "additionalProperties": false,
@@ -13684,6 +13745,10 @@
             "items": {
               "enum": [
                 "date",
+                "week",
+                "month",
+                "quarter",
+                "year",
                 "accountId",
                 "accountName",
                 "retailerId",
@@ -13716,7 +13781,7 @@
               "type": "string",
               "description": "Dimension by which Share of Voice results can be broken down."
             },
-            "description": "Dimensions to report on."
+            "description": "Dimensions to report on. `week`, `month`, `quarter` and `year` return the first day of the period\r\n(weeks start on Monday), which may be earlier than `startDate`; values cover only the requested range."
           },
           "endDate": {
             "type": "string",
@@ -13776,6 +13841,10 @@
           "aggregationLevel": "category",
           "dimensions": [
             "date",
+            "week",
+            "month",
+            "quarter",
+            "year",
             "accountId",
             "accountName",
             "retailerId",
@@ -13875,6 +13944,10 @@
               "aggregationLevel": "category",
               "dimensions": [
                 "date",
+                "week",
+                "month",
+                "quarter",
+                "year",
                 "accountId",
                 "accountName",
                 "retailerId",
@@ -14040,140 +14113,6 @@
         "description": "Sponsored Product-specific product details.",
         "nullable": true
       },
-      "SponsoredProductsAttributes": {
-        "type": "object",
-        "properties": {
-          "auction": {
-            "$ref": "#/components/schemas/SponsoredProductsAuctionAttributes"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Extended attributes for a Auction Sponsored Products Line Item",
-        "nullable": true
-      },
-      "SponsoredProductsAuctionAttributes": {
-        "type": "object",
-        "properties": {
-          "allInventory": {
-            "type": "boolean",
-            "description": "Whether to target all inventory.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Extended attributes for a Auction Sponsored Products Line Item",
-        "nullable": true
-      },
-      "SponsoredProductsBudgetCreateModel": {
-        "required": [
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "description": "Total the campaign may spend over its flight.",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Financial intent of a SponsoredProducts campaign. An amount only: the platform derives the\r\nperiods and pacing from the objective."
-      },
-      "SponsoredProductsBudgetModel": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "cappings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BudgetCappingModel"
-            },
-            "description": "Per-period ceilings. Only capped periods are reported.",
-            "nullable": true
-          },
-          "pacing": {
-            "$ref": "#/components/schemas/PacingModel"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Financial intent of a SponsoredProducts campaign.",
-        "nullable": true
-      },
-      "SponsoredProductsBudgetUpdateModel": {
-        "required": [
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "description": "New total the campaign may spend over its flight.",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "New financial intent of a SponsoredProducts campaign. An amount only: the platform derives the\r\nperiods and pacing from the objective. Omit the node to leave the budget unchanged."
-      },
-      "SponsoredProductsDetailsCreateModel": {
-        "required": [
-          "budget",
-          "objective"
-        ],
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/SponsoredProductsBudgetCreateModel"
-          },
-          "objective": {
-            "enum": [
-              "Clicks",
-              "Conversion",
-              "Revenue"
-            ],
-            "type": "string",
-            "description": "Objective a SponsoredProducts campaign is optimized for. The platform derives the line item\r\nbudgets from the campaign budget to serve it."
-          }
-        },
-        "additionalProperties": false,
-        "description": "Settings that apply only to a SponsoredProducts campaign. Sending this node on a campaign of\r\nanother type is refused."
-      },
-      "SponsoredProductsDetailsModel": {
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/SponsoredProductsBudgetModel"
-          },
-          "objective": {
-            "enum": [
-              "Manual",
-              "Clicks",
-              "Conversion",
-              "Revenue",
-              "Unknown"
-            ],
-            "type": "string",
-            "description": "Objective of a SponsoredProducts campaign.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Settings that apply only to a SponsoredProducts campaign. Present only on campaigns of that\r\ntype.",
-        "nullable": true
-      },
-      "SponsoredProductsDetailsUpdateModel": {
-        "type": "object",
-        "properties": {
-          "budget": {
-            "$ref": "#/components/schemas/SponsoredProductsBudgetUpdateModel"
-          }
-        },
-        "additionalProperties": false,
-        "description": "SponsoredProducts settings to update. Omitted settings remain unchanged."
-      },
       "SponsoredProductsLineItem": {
         "required": [
           "budgetRemaining",
@@ -14302,7 +14241,7 @@
               "noFunds"
             ],
             "type": "string",
-            "description": "The current status of the line item.",
+            "description": "The current status of the line item.\r\n            \r\nunknown: could not be determined (data issue, not a line item state).\r\ndraft: never fully configured, has never served.\r\nscheduled: configured, start date is in the future.\r\nactive: in flight, funded, under no budget cap.\r\npaused: previously active, manually deactivated.\r\n            \r\nended: end date passed, within the last 90 days.\r\narchived: end date passed more than 90 days ago - same as ended, just older, not reversible.\r\n            \r\nnoFunds: no currently-active funding source (no Active mapped Insertion Order, no active\r\nMake-Good credit IO) - a missing-funding problem, separate from any budget cap.\r\nbudgetHit: a budget cap (daily, hourly, monthly, or total) is capped with zero or below\r\nremaining. Doesn't distinguish line item vs. campaign budget, or which cap type.\r\n            \r\ndraft/scheduled/ended/archived short-circuit before the funding/budget check runs, so\r\nthose states never report noFunds or budgetHit regardless of underlying financial data.\r\nWhere both would apply, noFunds takes precedence over budgetHit.",
             "nullable": true
           },
           "targetBid": {
@@ -14827,6 +14766,9 @@
         "description": "Real Time Performance report body request (one sheeter: startDate, endDate (optional), RetailerIds, accountIds, campaignIds, lineItemIds, dimensions, metrics, timezones).\r\nExtends SyncReport only (no default filters); adds entry filter arrays.\r\nDimensions and metrics are restricted to their supported enumerated values; invalid values cause deserialization to fail."
       },
       "SyncRealTimePerformanceReportRequest": {
+        "required": [
+          "data"
+        ],
         "type": "object",
         "properties": {
           "data": {
@@ -14836,6 +14778,9 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "SyncRealTimePerformanceReportResource": {
+        "required": [
+          "attributes"
+        ],
         "type": "object",
         "properties": {
           "attributes": {
@@ -14845,7 +14790,7 @@
             "type": "string"
           }
         },
-        "description": "A top-level object that encapsulates a Criteo API response for a single value"
+        "description": "A report request resource containing its type and required attributes."
       },
       "Target": {
         "type": "object",
