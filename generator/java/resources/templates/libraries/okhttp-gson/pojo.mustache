@@ -431,6 +431,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#allVars}}
     openapiFields.add("{{baseName}}");
     {{/allVars}}
+    {{! For discriminator subtypes, allVars only carries the parent's fields, so the child's own properties are added explicitly here (HashSet dedupes the overlap for non-inherited models). }}
+    {{#vars}}
+    openapiFields.add("{{baseName}}");
+    {{/vars}}
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
