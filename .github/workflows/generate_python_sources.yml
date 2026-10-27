@@ -10,50 +10,31 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/_generate_and_test.yml
+    with:
+      language: python
+      upload_generated_sources: true
+    secrets: inherit
 
+  push:
+    needs: build
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v6
-        with:
-          java-version: 17
-          distribution: temurin
-      
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
           python-version: '3.9'
-  
+
       - name: Setup SSH Agent for git operations
         uses: webfactory/ssh-agent@v0.10.0
         with:
             ssh-private-key: ${{ secrets.PYTHON_SDK_REPO_PRIVATE_KEY }}
 
-      - name: Generate SDKs
-        run: ./gradlew :generator:python:generateClient
-        shell: bash
-
-      - name: Test SDKs
-        run: python ./scripts/test_sdk.py --language python
-        shell: bash
-        env:
-          RETAILMEDIA_TEST_CLIENT_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_ID }}
-          RETAILMEDIA_TEST_CLIENT_SECRET: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_SECRET }}
-          RETAILMEDIA_TEST_APPLICATION_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_APPLICATION_ID }}
-          MARKETINGSOLUTIONS_TEST_CLIENT_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_ID }}
-          MARKETINGSOLUTIONS_TEST_CLIENT_SECRET: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_SECRET }}
-          MARKETINGSOLUTIONS_TEST_APPLICATION_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_APPLICATION_ID }}
-          COMMERCEGRID_TEST_CLIENT_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_ID }}
-          COMMERCEGRID_TEST_CLIENT_SECRET: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_SECRET }}
-          COMMERCEGRID_TEST_APPLICATION_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_APPLICATION_ID }}
-
-      - name: Upload Sdk
-        uses: actions/upload-artifact@v7
+      # Publish the sources that the build job validated.
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
         with:
           name: generated-sources-python
           path: ./generated-sources/python
@@ -62,9 +43,15 @@ jobs:
         run: python ./scripts/push_sdk.py --language python
         shell: bash
 
-
+  # Notifications live in their own job: if the build job fails, `push` is skipped,
+  # and notifications inside `push` would never fire.
+  notify:
+    needs: [build, push]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
       - name: Send success notification
-        if: ${{ success() }}
+        if: needs.push.result == 'success'
         uses: slackapi/slack-github-action@v4.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -75,9 +62,9 @@ jobs:
             username: "sdk-generation-bot"
             text: "Python build succeeded. <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{github.run_id}}|Link to build>."
             icon_emoji: ":green_check_mark:"
-            
+
       - name: Send failure notification
-        if: ${{ failure() }}
+        if: needs.build.result == 'failure' || needs.push.result == 'failure'
         uses: slackapi/slack-github-action@v4.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}

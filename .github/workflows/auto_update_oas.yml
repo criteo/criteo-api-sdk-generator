@@ -13,6 +13,8 @@ permissions:
 jobs:
   update-oas:
     runs-on: ubuntu-latest
+    outputs:
+      has_changes: ${{ steps.check_changes.outputs.has_changes }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -32,23 +34,90 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          git add *
+          git add -A api-specifications
           if git diff --cached --exit-code; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push files
+      # The updated specs are handed over as an artifact since and a red gate must leave main untouched.
+      - name: Upload updated OAS specifications
         if: steps.check_changes.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: oas-specifications
+          path: |
+            api-specifications
+            api-specifications-test-only
+          retention-days: 7
+
+  test-java:
+    needs: update-oas
+    if: needs.update-oas.outputs.has_changes == 'true'
+    uses: ./.github/workflows/_generate_and_test.yml
+    with:
+      language: java
+      oas_specs_artifact: oas-specifications
+    secrets: inherit
+
+  test-python:
+    needs: update-oas
+    if: needs.update-oas.outputs.has_changes == 'true'
+    uses: ./.github/workflows/_generate_and_test.yml
+    with:
+      language: python
+      oas_specs_artifact: oas-specifications
+    secrets: inherit
+
+  test-php:
+    needs: update-oas
+    if: needs.update-oas.outputs.has_changes == 'true'
+    uses: ./.github/workflows/_generate_and_test.yml
+    with:
+      language: php
+      oas_specs_artifact: oas-specifications
+    secrets: inherit
+
+  push:
+    # Only push to main if all succeeded
+    needs: [update-oas, test-java, test-python, test-php]
+    if: |
+      needs.update-oas.outputs.has_changes == 'true' &&
+      needs.test-java.result == 'success' &&
+      needs.test-python.result == 'success' &&
+      needs.test-php.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ssh-key: ${{ secrets.CRITEO_API_SDK_GENERATOR_REPO_PRIVATE_KEY }}
+
+      - name: Restore updated OAS specifications (remove checked-out ones)
+        run: rm -rf api-specifications api-specifications-test-only
+
+      - name: Restore updated OAS specifications (download artifact)
+        uses: actions/download-artifact@v8
+        with:
+          name: oas-specifications
+          path: .
+
+      - name: Commit and push files
         run: |
           git config --global user.name "update-oas-bot"
           git config --global user.email "update-oas-bot@users.noreply.github.com"
+          # -A so that specifications deleted upstream are committed as deletions.
+          git add -A api-specifications
           git commit -m "Update OAS for Preview and Experimental"
           git push origin HEAD:main
 
+  notify:
+    needs: [update-oas, test-java, test-python, test-php, push]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
       - name: Send success notification
-        if: ${{ success() && steps.check_changes.outputs.has_changes == 'true' }}
+        if: needs.update-oas.outputs.has_changes == 'true' && needs.push.result == 'success'
         uses: slackapi/slack-github-action@v4.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -57,11 +126,11 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Autoupdate of OAS in Preview and Experimental. Autoupdate of OAS runs weekly on Monday."
+            text: "Autoupdate of OAS in Preview and Experimental: generation and tests passed for java, python and php, changes pushed to main. Autoupdate of OAS runs weekly on Monday."
             icon_emoji: ":bell:"
 
       - name: Send failure notification
-        if: ${{ failure() }}
+        if: needs.update-oas.result == 'failure' || needs.test-java.result == 'failure' || needs.test-python.result == 'failure' || needs.test-php.result == 'failure' || needs.push.result == 'failure'
         uses: slackapi/slack-github-action@v4.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -70,5 +139,5 @@ jobs:
             status: "${{ job.status }}"
             channel: "C02J0CWR789"
             username: "sdk-generation-bot"
-            text: "Autoupdate of OAS in Preview and Experimental failure, check <https://github.com/criteo/criteo-api-sdk-generator/actions|action results>. <!subteam^S07BSM1MDN2>."
+            text: "Autoupdate of OAS in Preview and Experimental FAILED (generation or tests), so nothing was pushed to main. See <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{ github.run_id }}|the run>. <!subteam^S07BSM1MDN2>."
             icon_emoji: ":x:"

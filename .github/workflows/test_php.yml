@@ -6,59 +6,23 @@ on:
       - 'generator/php/**'
       - 'api-specifications/**'
       - 'api-specifications-test-only/**'
+      # Shared build logic may break generation of every language without touching generator/python/**.
+      - 'buildSrc/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - 'gradle/**'
+      - 'gradlew'
+      - 'scripts/**'
+      - '.github/workflows/_generate_and_test.yml'
   push:
     branches:
-      - 'update-oas-**'   
+      - 'update-oas-**'
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v7
-      
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v6
-        with:
-          java-version: 17
-          distribution: temurin
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.9'
-
-      - name: Set up PHP Composer
-        uses: php-actions/composer@v6
-        with:
-          version: 2
-          php_version: 8.0
-          command: about
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install GitPython
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Generate SDKs
-        run: ./gradlew :generator:php:generateClient
-        shell: bash
-
-      - name: Test SDKs
-        run: python ./scripts/test_sdk.py --language php
-        env:
-          RETAILMEDIA_TEST_CLIENT_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_ID }}
-          RETAILMEDIA_TEST_CLIENT_SECRET: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_SECRET }}
-          RETAILMEDIA_TEST_APPLICATION_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_APPLICATION_ID }}
-          MARKETINGSOLUTIONS_TEST_CLIENT_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_ID }}
-          MARKETINGSOLUTIONS_TEST_CLIENT_SECRET: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_SECRET }}
-          MARKETINGSOLUTIONS_TEST_APPLICATION_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_APPLICATION_ID }}
-          COMMERCEGRID_TEST_CLIENT_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_ID }}
-          COMMERCEGRID_TEST_CLIENT_SECRET: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_SECRET }}
-          COMMERCEGRID_TEST_APPLICATION_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_APPLICATION_ID }}
-        shell: bash
+    uses: ./.github/workflows/_generate_and_test.yml
+    with:
+      language: php
+    secrets: inherit

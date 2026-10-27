@@ -10,31 +10,22 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/_generate_and_test.yml
+    with:
+      language: php
+      upload_generated_sources: true
+    secrets: inherit
 
+  push:
+    needs: build
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v6
-        with:
-          java-version: 17
-          distribution: temurin
 
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
           python-version: '3.9'
-      
-      - name: Set up PHP Composer
-        uses: php-actions/composer@v6
-        with:
-          version: 2
-          php_version: 8.0
-          command: about
 
       - uses: webfactory/ssh-agent@v0.10.0
         with:
@@ -43,32 +34,9 @@ jobs:
               ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_RM }}
               ${{ secrets.PHP_SDK_REPO_PRIVATE_KEY_CGRID }}
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install GitPython
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Generate SDKs
-        run: ./gradlew :generator:php:generateClient
-        shell: bash
-
-      - name: Test SDKs
-        run: python ./scripts/test_sdk.py --language php
-        env:
-          RETAILMEDIA_TEST_CLIENT_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_ID }}
-          RETAILMEDIA_TEST_CLIENT_SECRET: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_SECRET }}
-          RETAILMEDIA_TEST_APPLICATION_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_APPLICATION_ID }}
-          MARKETINGSOLUTIONS_TEST_CLIENT_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_ID }}
-          MARKETINGSOLUTIONS_TEST_CLIENT_SECRET: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_SECRET }}
-          MARKETINGSOLUTIONS_TEST_APPLICATION_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_APPLICATION_ID }}
-          COMMERCEGRID_TEST_CLIENT_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_ID }}
-          COMMERCEGRID_TEST_CLIENT_SECRET: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_SECRET }}
-          COMMERCEGRID_TEST_APPLICATION_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_APPLICATION_ID }}
-        shell: bash
-
-      - name: Upload SDKs
-        uses: actions/upload-artifact@v7
+      # Publish the sources that the build job validated.
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
         with:
           name: generated-sources-php
           path: ./generated-sources/php
@@ -77,8 +45,15 @@ jobs:
         run: python ./scripts/push_sdk.py --language php
         shell: bash
 
+  # Notifications live in their own job: if the build job fails, `push` is skipped,
+  # and notifications inside `push` would never fire.
+  notify:
+    needs: [build, push]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
       - name: Send success notification
-        if: ${{ success() }}
+        if: needs.push.result == 'success'
         uses: slackapi/slack-github-action@v4.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -89,9 +64,9 @@ jobs:
             username: "sdk-generation-bot"
             text: "PHP build succeeded. <https://github.com/criteo/criteo-api-sdk-generator/actions/runs/${{github.run_id}}|Link to build>."
             icon_emoji: ":green_check_mark:"
-            
+
       - name: Send failure notification
-        if: ${{ failure() }}
+        if: needs.build.result == 'failure' || needs.push.result == 'failure'
         uses: slackapi/slack-github-action@v4.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
