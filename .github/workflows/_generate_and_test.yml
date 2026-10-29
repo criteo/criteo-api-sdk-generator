@@ -1,0 +1,112 @@
+# Reusable workflow: generate the SDKs for one language, then test them.
+#
+# This is the single definition of "the generated code is good", shared by:
+#   - the pull-request gates: test_java.yml, test_php.yml, test_python.yml
+#   - auto_update_oas.yml, as a gate that must pass *before* the OAS update is pushed to main
+#   - generate_*_sources.yml
+name: Generate And Test SDKs
+
+on:
+  workflow_call:
+    inputs:
+      language:
+        description: 'Programming language to generate and test (java, python or php).'
+        required: true
+        type: string
+      oas_specs_artifact:
+        description: |
+          Name of an artifact holding the `api-specifications/` and
+          `api-specifications-test-only/` folders to generate from. When set, the
+          checkout's specifications are replaced by the artifact, so a caller can
+          test specifications that are not committed yet (OAS autoupdate).
+          Leave empty to generate from the checked-out specifications.
+        required: false
+        type: string
+        default: ''
+      upload_generated_sources:
+        description: |
+          Publish the generated sources as an artifact named
+          `generated-sources-<language>`, for a caller that wants to push them to
+          an SDK repository. Off by default so the pull-request gates do not store
+          an artifact on every run.
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  generate-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # The artifact is the source of truth for specifications when provided, so
+      # remove first: an obsolete spec deleted upstream must not linger from the
+      # checkout and get generated (and, for callers that push, published).
+      - name: Restore updated OAS specifications (remove checked-out ones)
+        if: inputs.oas_specs_artifact != ''
+        run: |
+          rm -rf api-specifications api-specifications-test-only
+
+      - name: Restore updated OAS specifications (download artifact)
+        if: inputs.oas_specs_artifact != ''
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ inputs.oas_specs_artifact }}
+          path: .
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v6
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.9'
+
+      - name: Set up PHP Composer
+        if: inputs.language == 'php'
+        uses: php-actions/composer@v6
+        with:
+          version: 2
+          php_version: 8.0
+          command: about
+
+      - name: Install Python dependencies
+        if: inputs.language == 'php'
+        run: |
+          python -m pip install --upgrade pip
+          pip install GitPython
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Generate SDKs
+        run: ./gradlew :generator:${{ inputs.language }}:generateClient
+        shell: bash
+
+      # Fails the job (and therefore the caller) on the first broken SDK.
+      - name: Test SDKs
+        run: python ./scripts/test_sdk.py --language ${{ inputs.language }}
+        shell: bash
+        env:
+          RETAILMEDIA_TEST_CLIENT_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_ID }}
+          RETAILMEDIA_TEST_CLIENT_SECRET: ${{ secrets.RETAILMEDIA_SDK_TEST_CLIENT_SECRET }}
+          RETAILMEDIA_TEST_APPLICATION_ID: ${{ secrets.RETAILMEDIA_SDK_TEST_APPLICATION_ID }}
+          MARKETINGSOLUTIONS_TEST_CLIENT_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_ID }}
+          MARKETINGSOLUTIONS_TEST_CLIENT_SECRET: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_CLIENT_SECRET }}
+          MARKETINGSOLUTIONS_TEST_APPLICATION_ID: ${{ secrets.MARKETINGSOLUTIONS_SDK_TEST_APPLICATION_ID }}
+          COMMERCEGRID_TEST_CLIENT_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_ID }}
+          COMMERCEGRID_TEST_CLIENT_SECRET: ${{ secrets.COMMERCEGRID_SDK_TEST_CLIENT_SECRET }}
+          COMMERCEGRID_TEST_APPLICATION_ID: ${{ secrets.COMMERCEGRID_SDK_TEST_APPLICATION_ID }}
+
+      # Uploaded only after the tests pass, so what a caller publishes is exactly
+      # what was validated.
+      - name: Upload generated sources
+        if: inputs.upload_generated_sources
+        uses: actions/upload-artifact@v7
+        with:
+          name: generated-sources-${{ inputs.language }}
+          path: ./generated-sources/${{ inputs.language }}
