@@ -84,8 +84,7 @@ A separate `test_scripts.yml` runs `pytest` whenever `scripts/**` changes.
 ### OAS update workflows
 
 The OpenAPI specifications are kept up to date by three workflows:
-- `auto_update_experimental.yml` — runs on a weekly schedule (Monday 16:00 UTC) and on demand; updates the `Experimental` release and commits directly to `main`.
-- `auto_update_preview.yml` — same schedule; updates the `Preview` release and commits directly to `main`.
+- `auto_update_oas.yml` — runs on a weekly schedule (Monday 16:00 UTC) and on demand; updates the `Experimental` release and commits directly to `main`.
 - `update_oas.yml` — manual dispatch only, taking `latest-version` (e.g. `2027-01`) and `release-candidate` (skip cleanup of obsolete versions) inputs; creates an `update-oas-<date>` branch and opens a pull request against `main`.
 
 ### Postman collections
