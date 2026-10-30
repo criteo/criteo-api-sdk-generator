@@ -19,19 +19,21 @@ def specsWithOutputRoot = rootProject.swaggerSourceList.collect { [it, clientOut
                           rootProject.swaggerSourceListTestOnly.collect { [it, clientOutputDirTestOnly, 'generatorConfigurationTestOnly.yaml'] }
 specsWithOutputRoot.each { specFile, outputRoot, generatorConfigurationFileName ->
     def helper = new Helper(project, technologyStack, outputRoot, nameSeparator, specFile)
+    def isExperimental = helper.criteoApiVersion == 'experimental';
+    def artifactId = isExperimental ? "criteo-api-${helper.criteoService}-sdk-experimental" : "criteo-api-${helper.criteoService}-sdk"
     def configDir = "${helper.temporaryBuildDirArtifacts}/${helper.parsedApiName}"
     def generatedConfigFile = "${helper.namespaceBase}.yaml"
     def createConfig = helper.registerCreateConfigTask(generatorConfigurationFileName, configDir, generatedConfigFile, helper.namespaceBase)
 
     def generateTask = helper.registerOpenApiGenerateTask("python-prior", "${configDir}/${generatedConfigFile}", [
             apiVersion              : helper.artifactVersion,
-            artifactId              : "criteo-api-${helper.criteoService}-sdk",
+            artifactId              : artifactId, // criteo-api-marketingsolutions-sdk (or criteo-api-marketingsolutions-sdk-experimental)
             description             : "${helper.language.toUpperCase()} SDK for Criteo API ${helper.criteoService} for ${helper.criteoApiVersion} version",
             invokerPackage          : 'Criteo\\SDK',
             packageName             : helper.namespaceBase,
             packageUrl              : "https://github.com/criteo/criteo-api-${helper.language}-sdk",
             packageVersion          : helper.artifactVersion, // v2021_10.1.211109
-            projectName             : "criteo-api-${helper.criteoService}-sdk",
+            projectName             : artifactId,
     ]
     )
     generateTask.configure {
