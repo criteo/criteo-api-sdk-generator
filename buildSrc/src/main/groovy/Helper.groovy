@@ -42,8 +42,8 @@ class Helper {
         taskSuffix = "${this.language}_${parsedApiName}"
     }
     def getArtifactVersion() {
-        def isPreviewOrExperimental = criteoApiVersion == 'preview' || criteoApiVersion == 'experimental';
-        def artifactVersion = isPreviewOrExperimental ? '0' : criteoApiVersion.replaceAll("_",".").toString()
+        def isExperimental = criteoApiVersion == 'experimental';
+        def artifactVersion = isExperimental ? '0' : criteoApiVersion.replaceAll("_",".").toString()
         artifactVersion += ".${generatorVersion}.${getFormattedDate()}" // example: 2021.01.0.211110 for stable , 0.0.211110 for experimental
         return artifactVersion
     }
