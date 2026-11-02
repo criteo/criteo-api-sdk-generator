@@ -438,7 +438,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/accounts/{account-id}/campaigns/search",
-        "description": "Searches campaigns under an account using optional filters and pagination.\r\nBudgets are sourced from the search index, so they lag a campaign that has just changed.\r\nSearch does not perform Kobalos enrichment, so drawable balance ids are not included.",
+        "description": "Searches campaigns under an account using optional filters and pagination.\r\nBudgets and their status come from the search index.\r\nSearch does not perform Kobalos enrichment, so drawable balance ids are not included.",
         "operationId": "SearchCampaigns",
         "parameters": [
           {
@@ -613,6 +613,57 @@
           "response-body-naming"
         ],
         "x-operation-type": "fetch"
+      }
+    },
+    "/experimental/retail-media/accounts/{account-id}/compute-onsite-display-forecast": {
+      "post": {
+        "tags": [
+          "Forecasting"
+        ],
+        "summary": "/experimental/retail-media/accounts/{account-id}/compute-onsite-display-forecast",
+        "description": "Computes a forecast of available impressions and budget for a retailer account.\n<br />\nThis endpoint is subject to specific rate limits.",
+        "operationId": "ComputeOnsiteDisplayForecast",
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "ID of the retailer account for which to compute the onsite display forecast.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Forecast computation parameters.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComputeOnsiteDisplayForecastRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnsiteDisplayForecastListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Forecasting_Read"
+            ]
+          }
+        ]
       }
     },
     "/experimental/retail-media/accounts/{account-id}/creatives": {
@@ -1092,6 +1143,81 @@
           {
             "oauth": [
               "RetailMedia_ThirdPartyAccounts_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/accounts/{accountId}/retailers/search": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/accounts/{accountId}/retailers/search",
+        "description": "Searches for retailers associated with the specified account and returns budget model availability for each retailer",
+        "operationId": "SearchAccountRetailers",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The external account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to return. Must be between 1 and 100. Default is 5.",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of items to skip before starting to collect the result set. Default is 0.",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The search request containing filtering parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValueResourceInputOfRetailerSearchRequestV2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResourceCollectionOutcomeOfRetailerResultV2AndMetadata"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Read"
             ]
           }
         ]
@@ -1628,44 +1754,48 @@
         ]
       }
     },
-    "/experimental/retail-media/chatbot-catalogs/{catalogid}/product-recommendations": {
-      "post": {
+    "/experimental/retail-media/diagnostics/line-item-checks": {
+      "get": {
         "tags": [
-          "OnSiteRecommendation"
+          "Campaign"
         ],
-        "summary": "/experimental/retail-media/chatbot-catalogs/{catalogid}/product-recommendations",
-        "description": "Ask a chatbot for a product recommendation",
-        "operationId": "chatbotProductRecommendations",
+        "summary": "/experimental/retail-media/diagnostics/line-item-checks",
+        "description": "Retrieve external diagnostics for a line item\n<br />\nRetrieves a diagnostic report for a line item accessible to the caller.",
+        "operationId": "GetExternalLineItemChecks",
         "parameters": [
           {
-            "name": "catalogid",
-            "in": "path",
-            "description": "the identifier of the catalog to query",
-            "required": true,
+            "name": "as-approved",
+            "in": "query",
+            "description": "When true, evaluates the approved Onsite Display line item when one exists. This parameter has no effect for Sponsored Products line items.",
             "schema": {
-              "title": "catalogid",
-              "type": "string",
-              "description": "the identifier of the catalog to query"
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of optional attributes to return: context, issues, and parameters. Fixed attributes status and systemData are always returned; requesting them produces a warning.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "line-item-id",
+            "in": "query",
+            "description": "The external identifier of the line item to evaluate.",
+            "schema": {
+              "type": "string"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InbotDiscussionBodyModel"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "The diagnostic report for the requested line item.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MessageBodyModel"
+                  "$ref": "#/components/schemas/LineItemCheckCollectionResponse"
                 }
               }
             }
@@ -1674,7 +1804,7 @@
         "security": [
           {
             "oauth": [
-              "RetailMedia_OnSiteRecommendation_Read"
+              "RetailMedia_Campaign_Read"
             ]
           }
         ]
@@ -2534,6 +2664,55 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateTargetRequestModelListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth": [
+              "RetailMedia_Campaign_Manage"
+            ]
+          }
+        ]
+      }
+    },
+    "/experimental/retail-media/line-items/{line-item-id}/targets/delete": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/targets/delete",
+        "description": "Deletes Targets",
+        "operationId": "DeleteTargetsByLineItemId",
+        "parameters": [
+          {
+            "name": "line-item-id",
+            "in": "path",
+            "description": "Unique identifier for the line item",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetListRequest"
               }
             }
           }
@@ -3696,7 +3875,8 @@
             ],
             "type": "string",
             "description": "Level of aggregation, if no dimensions and metrics are provided, falls back to campaign aggregationLevel",
-            "default": "campaign"
+            "default": "campaign",
+            "nullable": true
           },
           "budgetModels": {
             "type": "array",
@@ -3740,7 +3920,8 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           },
           "dimensions": {
             "type": "array",
@@ -3879,7 +4060,8 @@
             ],
             "type": "string",
             "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
-            "default": "summary"
+            "default": "summary",
+            "nullable": true
           },
           "salesChannel": {
             "enum": [
@@ -3936,7 +4118,8 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
+            "default": "UTC",
+            "nullable": true
           },
           "viewAttributionWindow": {
             "enum": [
@@ -3948,9 +4131,11 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Async Accounts report body request"
       },
       "AsyncAccountsReportRequest": {
@@ -3963,6 +4148,7 @@
             "$ref": "#/components/schemas/AsyncAccountsReportResource"
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncAccountsReportResource": {
@@ -3975,9 +4161,11 @@
             "$ref": "#/components/schemas/AsyncAccountsReport"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A report request resource containing its type and required attributes."
       },
       "AsyncCampaignsReport": {
@@ -4040,7 +4228,8 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           },
           "dimensions": {
             "type": "array",
@@ -4106,7 +4295,8 @@
           },
           "id": {
             "type": "string",
-            "description": "Campaign id to report on"
+            "description": "Campaign id to report on",
+            "nullable": true
           },
           "ids": {
             "type": "array",
@@ -4190,7 +4380,8 @@
             ],
             "type": "string",
             "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
-            "default": "summary"
+            "default": "summary",
+            "nullable": true
           },
           "salesChannel": {
             "enum": [
@@ -4247,7 +4438,8 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
+            "default": "UTC",
+            "nullable": true
           },
           "viewAttributionWindow": {
             "enum": [
@@ -4259,9 +4451,11 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Async Campaigns report body request"
       },
       "AsyncCampaignsReportRequest": {
@@ -4274,6 +4468,7 @@
             "$ref": "#/components/schemas/AsyncCampaignsReportResource"
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncCampaignsReportResource": {
@@ -4286,9 +4481,11 @@
             "$ref": "#/components/schemas/AsyncCampaignsReport"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A report request resource containing its type and required attributes."
       },
       "AsyncFillRateReport": {
@@ -4399,9 +4596,11 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
+            "default": "UTC",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Async FillRate report body request"
       },
       "AsyncFillRateReportRequest": {
@@ -4414,6 +4613,7 @@
             "$ref": "#/components/schemas/AsyncFillRateReportResource"
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncFillRateReportResource": {
@@ -4426,9 +4626,11 @@
             "$ref": "#/components/schemas/AsyncFillRateReport"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A report request resource containing its type and required attributes."
       },
       "AsyncInsightResponse": {
@@ -4536,7 +4738,8 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           },
           "dimensions": {
             "type": "array",
@@ -4602,7 +4805,8 @@
           },
           "id": {
             "type": "string",
-            "description": "Line Item id to report on"
+            "description": "Line Item id to report on",
+            "nullable": true
           },
           "ids": {
             "type": "array",
@@ -4686,7 +4890,8 @@
             ],
             "type": "string",
             "description": "Type of report, if no dimensions and metrics are provided, falls back to summary reportType",
-            "default": "summary"
+            "default": "summary",
+            "nullable": true
           },
           "salesChannel": {
             "enum": [
@@ -4743,7 +4948,8 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
+            "default": "UTC",
+            "nullable": true
           },
           "viewAttributionWindow": {
             "enum": [
@@ -4755,9 +4961,11 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Async Line Items report body request"
       },
       "AsyncLineItemsReportRequest": {
@@ -4770,6 +4978,7 @@
             "$ref": "#/components/schemas/AsyncLineItemsReportResource"
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncLineItemsReportResource": {
@@ -4782,9 +4991,11 @@
             "$ref": "#/components/schemas/AsyncLineItemsReport"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A report request resource containing its type and required attributes."
       },
       "AsyncOffsiteReport": {
@@ -4811,7 +5022,8 @@
               "sponsorship"
             ],
             "type": "string",
-            "description": "Filter on buy type: Auction, Preferred Deals or Sponsorship"
+            "description": "Filter on buy type: Auction, Preferred Deals or Sponsorship",
+            "nullable": true
           },
           "campaignIds": {
             "type": "array",
@@ -4839,7 +5051,8 @@
             ],
             "type": "string",
             "description": "Click attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           },
           "creativeIds": {
             "type": "array",
@@ -4977,7 +5190,8 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
+            "default": "UTC",
+            "nullable": true
           },
           "viewAttributionWindow": {
             "enum": [
@@ -4989,9 +5203,11 @@
             ],
             "type": "string",
             "description": "View attribution window",
-            "default": "none"
+            "default": "none",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Async Offsite report body request"
       },
       "AsyncOffsiteReportRequest": {
@@ -5004,6 +5220,7 @@
             "$ref": "#/components/schemas/AsyncOffsiteReportResource"
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "AsyncOffsiteReportResource": {
@@ -5016,9 +5233,11 @@
             "$ref": "#/components/schemas/AsyncOffsiteReport"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A report request resource containing its type and required attributes."
       },
       "AsyncReportResponse": {
@@ -5044,6 +5263,7 @@
             "readOnly": true
           }
         },
+        "additionalProperties": false,
         "description": "Async Report response format"
       },
       "AttributionSettingsCreateModel": {
@@ -5427,35 +5647,6 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value object."
       },
-      "BotMessage": {
-        "title": "BotMessage",
-        "type": "object",
-        "properties": {
-          "closing": {
-            "title": "Closing",
-            "type": "string",
-            "description": "closing remark from the bot",
-            "nullable": true
-          },
-          "opening": {
-            "title": "Opening",
-            "type": "string",
-            "description": "opening comment from the bot, introducing the list of recommended products if relevant.",
-            "nullable": true
-          },
-          "productRecos": {
-            "title": "Productrecos",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductRecommendation"
-            },
-            "description": "list of recommended products",
-            "nullable": true
-          }
-        },
-        "description": "bot structured answer to the user prompt",
-        "nullable": true
-      },
       "BrandIdSearchRequest": {
         "required": [
           "retailerIds"
@@ -5544,6 +5735,58 @@
         "additionalProperties": false,
         "description": "A ceiling on what a campaign may spend within one period."
       },
+      "CampaignAvailabilityV2": {
+        "type": "object",
+        "properties": {
+          "budgetModelAvailabilities": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "unknown",
+                "criteoBudget",
+                "retailerBudget"
+              ],
+              "type": "string",
+              "description": "Possible budget models for retail media campaigns"
+            },
+            "description": "The budget models available for this campaign type and buy type combination. Presence of a value indicates that budget model is available.",
+            "nullable": true
+          },
+          "buyType": {
+            "enum": [
+              "unknown",
+              "auction",
+              "preferredDeals",
+              "sponsorship",
+              "offsite"
+            ],
+            "type": "string",
+            "description": "The buy type this object represents availability for",
+            "nullable": true
+          },
+          "campaignType": {
+            "enum": [
+              "unknown",
+              "sponsoredProducts",
+              "onsiteDisplay",
+              "offsite"
+            ],
+            "type": "string",
+            "description": "The type of campaign this object represents availability for",
+            "nullable": true
+          },
+          "validCombinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageTypeCombinationV2"
+            },
+            "description": "PageType-PageEnvironmentType pairs which are supported for this campaign-buy type combination",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Information about the budget model availability for a specific campaign type and buy type combination, and page types and environments supported for that combination"
+      },
       "CampaignBudgetModel": {
         "type": "object",
         "properties": {
@@ -5580,6 +5823,18 @@
             "description": "Amount spent so far.",
             "format": "double",
             "nullable": true
+          },
+          "status": {
+            "enum": [
+              "Unknown",
+              "BudgetAvailable",
+              "DailyBudgetReached",
+              "MonthlyBudgetReached",
+              "TotalBudgetReached"
+            ],
+            "type": "string",
+            "description": "Which budget cap, if any, stops the campaign from spending. Omitted when no status is indexed, Unknown when the indexed one is not recognized.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -5588,7 +5843,7 @@
       },
       "CampaignCreateModel": {
         "required": [
-          "budget",
+          "budgetDetails",
           "buyType",
           "campaignType",
           "name",
@@ -5604,7 +5859,7 @@
             "type": "string",
             "nullable": true
           },
-          "budget": {
+          "budgetDetails": {
             "$ref": "#/components/schemas/DynamicBudgetCreateModel"
           },
           "buyType": {
@@ -5708,7 +5963,7 @@
             "description": "The retailer this campaign is associated with, set only on creation. Required when using a\r\nretailer budget balance.",
             "nullable": true
           },
-          "budget": {
+          "budgetDetails": {
             "$ref": "#/components/schemas/CampaignBudgetModel"
           },
           "buyType": {
@@ -5880,7 +6135,7 @@
             "type": "string",
             "nullable": true
           },
-          "budget": {
+          "budgetDetails": {
             "$ref": "#/components/schemas/CampaignBudgetModel"
           },
           "buyType": {
@@ -6170,7 +6425,7 @@
           "attributionSettings": {
             "$ref": "#/components/schemas/AttributionSettingsUpdateModel"
           },
-          "budget": {
+          "budgetDetails": {
             "$ref": "#/components/schemas/DynamicBudgetUpdateModel"
           },
           "companyName": {
@@ -6799,6 +7054,16 @@
         "description": "A single configuration change.",
         "nullable": true
       },
+      "CheckStatus": {
+        "enum": [
+          "Unknown",
+          "CanFullyServe",
+          "CannotServe",
+          "CanPartiallyServe"
+        ],
+        "type": "string",
+        "description": "The servability result for a line item."
+      },
       "ChoiceVariableValue": {
         "required": [
           "chosenOptions"
@@ -6896,6 +7161,119 @@
           }
         },
         "description": "Common problem object."
+      },
+      "ComputeOnsiteDisplayForecast": {
+        "required": [
+          "endDate",
+          "pageSettings",
+          "retailerId",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "buyType": {
+            "enum": [
+              "auction",
+              "preferredDeals",
+              "sponsorship"
+            ],
+            "type": "string",
+            "description": "How the inventory is bought.",
+            "default": "auction"
+          },
+          "creativeFormats": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "flagShip",
+                "showcase",
+                "butterfly",
+                "bundleBoost",
+                "iab",
+                "custom",
+                "displayPanel",
+                "digitalShelfTalker",
+                "commerceVideoSpotlight",
+                "brandingVideoStandout"
+              ],
+              "type": "string",
+              "description": "Creative formats accepted in a request."
+            },
+            "description": "Restricts the forecast to these creative formats. Defaults to all formats."
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Last day of the forecast period, inclusive, as `YYYY-MM-DD`. May equal\r\n`startDate` for a single-day forecast.",
+            "format": "date"
+          },
+          "frequencyCapping": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FrequencyCapping"
+              }
+            ],
+            "description": "Frequency capping to apply. Omit to forecast without a cap."
+          },
+          "pageSettings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageSetting"
+            },
+            "description": "Page types to include, at least one, and at most one entry per page type."
+          },
+          "retailerId": {
+            "type": "string",
+            "description": "Identifies the retailer whose inventory is being forecast."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "First day of the forecast period, as `YYYY-MM-DD`.",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameters for computing an Onsite Display forecast."
+      },
+      "ComputeOnsiteDisplayForecastRequest": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ComputeOnsiteDisplayForecastResource"
+              }
+            ],
+            "description": "A value resource exposed by the API."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "ComputeOnsiteDisplayForecastResource": {
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ComputeOnsiteDisplayForecast"
+              }
+            ],
+            "description": "Attributes of the resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "CpmBiddingSettings": {
         "required": [
@@ -7698,6 +8076,7 @@
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Data freshness: the instant through which report data is complete, expressed in the report's request timezone.",
         "nullable": true
       },
@@ -7744,9 +8123,6 @@
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
       "DeleteLineItemProductsInput": {
-        "required": [
-          "productType"
-        ],
         "type": "object",
         "properties": {
           "productIds": {
@@ -7756,15 +8132,6 @@
             },
             "description": "The product ids to soft delete from the line item.",
             "nullable": true
-          },
-          "productType": {
-            "enum": [
-              "Unknown",
-              "DisplayProduct",
-              "SponsoredProduct"
-            ],
-            "type": "string",
-            "description": "The type of the products being deleted."
           }
         },
         "additionalProperties": false,
@@ -7891,6 +8258,114 @@
         },
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
+      },
+      "DiagnosticContext": {
+        "required": [
+          "accountId",
+          "campaignId",
+          "retailerId",
+          "lineItemId",
+          "campaignType",
+          "buyType"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "buyType": {
+            "enum": [
+              "Unknown",
+              "Auction",
+              "PreferredDeals",
+              "Sponsorship"
+            ],
+            "type": "string"
+          },
+          "campaignId": {
+            "type": "string"
+          },
+          "campaignType": {
+            "enum": [
+              "Unknown",
+              "SponsoredProducts",
+              "OnsiteDisplay"
+            ],
+            "type": "string"
+          },
+          "lineItemId": {
+            "type": "string"
+          },
+          "retailerId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Identifiers and targeting context used to evaluate a line item.",
+        "nullable": true
+      },
+      "DiagnosticIssue": {
+        "required": [
+          "ruleId",
+          "ruleName",
+          "code",
+          "severity",
+          "tags",
+          "format",
+          "outputParameters",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "outputParameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "ruleName": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "Unknown",
+              "Error",
+              "Warning",
+              "Info"
+            ],
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A rule-based issue that affects line item servability."
       },
       "DigitalShelfIntelligenceFilters": {
         "type": "object",
@@ -8413,6 +8888,41 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
+      "EntityResourceCollectionOutcomeOfRetailerResultV2AndMetadata": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityResourceOfRetailerResultV2"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
+      },
       "EntityResourceCollectionOutcomeV2OfChangeHistoryEntryResponseAndSdkPageMetadata": {
         "type": "object",
         "properties": {
@@ -8572,6 +9082,26 @@
         "properties": {
           "attributes": {
             "$ref": "#/components/schemas/ChangeHistoryEntryResponse"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the entity.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A domain entity exposed by the API, identified by a unique id."
+      },
+      "EntityResourceOfRetailerResultV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RetailerResultV2"
           },
           "id": {
             "type": "string",
@@ -8780,6 +9310,7 @@
             "description": "Type of the column"
           }
         },
+        "additionalProperties": false,
         "description": "Description of a column from an async report request"
       },
       "ExportReportMetaData": {
@@ -8801,37 +9332,8 @@
             "nullable": true
           }
         },
-        "description": "Metadata for a report response: data freshness, column descriptions, and row count.",
-        "nullable": true
-      },
-      "ExternalConquestingSettings": {
-        "required": [
-          "conquestingAdStrategyEnabled",
-          "defensiveAdStrategyEnabled",
-          "isAdStrategyLocked",
-          "neutralAdStrategyEnabled"
-        ],
-        "type": "object",
-        "properties": {
-          "conquestingAdStrategyEnabled": {
-            "type": "boolean",
-            "description": "Whether the line item may bid on competitors' branded keywords. Defaults to false."
-          },
-          "defensiveAdStrategyEnabled": {
-            "type": "boolean",
-            "description": "Whether the line item may bid on the advertiser's own branded keywords. Defaults to true."
-          },
-          "isAdStrategyLocked": {
-            "type": "boolean",
-            "description": "Whether the keyword strategy flags have been set and can no longer be changed."
-          },
-          "neutralAdStrategyEnabled": {
-            "type": "boolean",
-            "description": "Whether the line item may bid on generic, unbranded category keywords. Defaults to true."
-          }
-        },
         "additionalProperties": false,
-        "description": "Which categories of search keyword the line item is eligible to bid on.",
+        "description": "Metadata for a report response: data freshness, column descriptions, and row count.",
         "nullable": true
       },
       "ExternalCreateLineItemModel": {
@@ -9016,9 +9518,6 @@
             "type": "string",
             "description": "The campaign id of the associated campaign.",
             "nullable": true
-          },
-          "conquestingSettings": {
-            "$ref": "#/components/schemas/ExternalConquestingSettings"
           },
           "effectiveFlightDates": {
             "$ref": "#/components/schemas/ExternalFlightDatesModel"
@@ -9400,6 +9899,30 @@
         "description": "A flight schedule for a line item.",
         "nullable": true
       },
+      "FrequencyCapping": {
+        "required": [
+          "count",
+          "durationType"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Maximum impressions per user per window. Must be at least 1 - omit the whole frequency\r\ncapping object to forecast without a cap.",
+            "format": "int32"
+          },
+          "durationType": {
+            "enum": [
+              "session",
+              "day"
+            ],
+            "type": "string",
+            "description": "The window the cap applies over."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Caps how often the same user may be shown an impression while the forecast is computed."
+      },
       "GeographyTargetDetails": {
         "type": "object",
         "properties": {
@@ -9467,53 +9990,6 @@
         "additionalProperties": false,
         "description": "A value of a template hyperlink variable",
         "nullable": true
-      },
-      "InbotDiscussion": {
-        "title": "InbotDiscussion",
-        "type": "object",
-        "properties": {
-          "messages": {
-            "title": "Messages",
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Message"
-            },
-            "description": "ordered list of previous messages, alternating between user prompts and bot answers"
-          }
-        },
-        "description": "discussion between the user and the chatbot"
-      },
-      "InbotDiscussionBodyModel": {
-        "title": "InbotDiscussionBodyModel",
-        "required": [
-          "data"
-        ],
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/InbotDiscussionDataInstanceModel"
-          }
-        },
-        "description": "an API recommendation message"
-      },
-      "InbotDiscussionDataInstanceModel": {
-        "title": "InbotDiscussionDataInstanceModel",
-        "required": [
-          "attributes"
-        ],
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/InbotDiscussion"
-          },
-          "type": {
-            "title": "Type",
-            "type": "string",
-            "default": "InbotDiscussion"
-          }
-        },
-        "description": "an API recommendation request"
       },
       "IngestionStatus": {
         "enum": [
@@ -9661,6 +10137,80 @@
           }
         },
         "description": "Defines the installment of a product."
+      },
+      "InventoryForecastDetail": {
+        "required": [
+          "availableImpressions",
+          "averageCpm",
+          "budget",
+          "creativeFormats",
+          "date",
+          "placementConfigId"
+        ],
+        "type": "object",
+        "properties": {
+          "availableImpressions": {
+            "type": "integer",
+            "description": "Estimated available impressions for this day.",
+            "format": "int64"
+          },
+          "averageCpm": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Money"
+              }
+            ],
+            "description": "Average CPM for this day."
+          },
+          "budget": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Money"
+              }
+            ],
+            "description": "Estimated available budget for this day."
+          },
+          "creativeFormats": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "flagShip",
+                "showcase",
+                "butterfly",
+                "bundleBoost",
+                "iab",
+                "custom",
+                "displayPanel",
+                "digitalShelfTalker",
+                "commerceVideoSpotlight",
+                "brandingVideoStandout",
+                "unknown"
+              ],
+              "type": "string",
+              "description": "Creative formats returned in a response."
+            },
+            "description": "Every creative format available on this placement configuration, restricted to the formats\r\nthe request asked for. The row aggregates them - impressions are not split per format."
+          },
+          "date": {
+            "type": "string",
+            "description": "The forecast day, as `YYYY-MM-DD`.",
+            "format": "date"
+          },
+          "keyword": {
+            "type": "string",
+            "description": "The keyword this row is for. Present only for search and search bar pages."
+          },
+          "placementConfigId": {
+            "type": "string",
+            "description": "Placement configuration this row is for."
+          },
+          "taxonomyId": {
+            "type": "string",
+            "description": "The taxonomy id this row is for. Present only for category, product detail, category menu\r\nand merchandising pages."
+          }
+        },
+        "additionalProperties": false,
+        "description": "One row of a page type's daily breakdown."
       },
       "LineItem": {
         "type": "object",
@@ -9916,6 +10466,83 @@
         },
         "description": "Frequency Capping for a Preferred Line Item",
         "nullable": true
+      },
+      "LineItemCheck": {
+        "required": [
+          "status",
+          "systemData"
+        ],
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/DiagnosticContext"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticIssue"
+            },
+            "nullable": true
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/CheckStatus"
+          },
+          "systemData": {
+            "$ref": "#/components/schemas/SystemData"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The servability diagnostic result for a line item.",
+        "nullable": true
+      },
+      "LineItemCheckCollectionResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItemCheckResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection response containing line item diagnostic results and any problems."
+      },
+      "LineItemCheckResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemCheck"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A resource containing one line item diagnostic result."
       },
       "LineItemCreative": {
         "required": [
@@ -10611,91 +11238,6 @@
         "description": "Details on Manual Keyword Targets",
         "nullable": true
       },
-      "Message": {
-        "title": "Message",
-        "type": "object",
-        "properties": {
-          "botMessage": {
-            "$ref": "#/components/schemas/BotMessage"
-          },
-          "userMessage": {
-            "title": "Usermessage",
-            "type": "string",
-            "description": "user prompt",
-            "nullable": true
-          }
-        },
-        "description": "message of the discussion"
-      },
-      "MessageBodyModel": {
-        "title": "MessageBodyModel",
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/MessageDataInstanceModel"
-          },
-          "errors": {
-            "title": "Errors",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MessageError"
-            },
-            "nullable": true
-          }
-        },
-        "description": "error message"
-      },
-      "MessageDataInstanceModel": {
-        "title": "MessageDataInstanceModel",
-        "required": [
-          "attributes"
-        ],
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/Message"
-          },
-          "type": {
-            "title": "Type",
-            "type": "string",
-            "default": "Message",
-            "nullable": true
-          }
-        },
-        "description": "an API answer message",
-        "nullable": true
-      },
-      "MessageError": {
-        "title": "MessageError",
-        "type": "object",
-        "properties": {
-          "code": {
-            "title": "Code",
-            "type": "string",
-            "description": "error code",
-            "nullable": true
-          },
-          "instance": {
-            "title": "Instance",
-            "type": "string",
-            "description": "specific occurrence of the problem",
-            "nullable": true
-          },
-          "traceId": {
-            "title": "Traceid",
-            "type": "string",
-            "description": "correlation ID, unique to each request",
-            "nullable": true
-          },
-          "type": {
-            "title": "Type",
-            "type": "string",
-            "description": "error category",
-            "nullable": true
-          }
-        },
-        "description": "error message"
-      },
       "Metadata": {
         "required": [
           "limit",
@@ -10722,6 +11264,26 @@
         "additionalProperties": false,
         "description": "Metadata related to the current request.",
         "nullable": true
+      },
+      "Money": {
+        "required": [
+          "currency",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "description": "The ISO 4217 currency code, for example `USD`."
+          },
+          "value": {
+            "type": "number",
+            "description": "The monetary value. Decimal so that amounts round-trip without the rounding errors a binary\r\nfloating point type would introduce.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A monetary amount, in the account's currency."
       },
       "MultiSourceAttributeCoverage": {
         "type": "object",
@@ -11025,14 +11587,132 @@
         "description": "Settings that only apply to auction-bought onsite display line items.",
         "nullable": true
       },
+      "OnsiteDisplayForecast": {
+        "required": [
+          "availableImpressions",
+          "budget",
+          "details",
+          "pageType",
+          "reservationRate"
+        ],
+        "type": "object",
+        "properties": {
+          "availableImpressions": {
+            "type": "integer",
+            "description": "Estimated available impressions over the whole forecast period.",
+            "format": "int64"
+          },
+          "averageCpm": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Money"
+              }
+            ],
+            "description": "Average CPM across the period. Omitted when no inventory data is available."
+          },
+          "budget": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Money"
+              }
+            ],
+            "description": "Estimated budget over the whole forecast period."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryForecastDetail"
+            },
+            "description": "Daily breakdown, one entry per row of the grain described on\r\n`InventoryForecastDetail`."
+          },
+          "pageType": {
+            "enum": [
+              "search",
+              "home",
+              "browse",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchBar",
+              "categoryMenu",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Page type this forecast applies to."
+          },
+          "reservationRate": {
+            "type": "number",
+            "description": "Proportion of inventory already reserved, from 0.0 to 1.0.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The forecast for one page type, returned as an item of the response `data` array."
+      },
+      "OnsiteDisplayForecastListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnsiteDisplayForecastResource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SdkApiRestCommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for several value objects."
+      },
+      "OnsiteDisplayForecastResource": {
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OnsiteDisplayForecast"
+              }
+            ],
+            "description": "Attributes of the resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
       "OnsiteDisplayLineItemDetails": {
         "type": "object",
         "properties": {
           "auctionDetails": {
             "$ref": "#/components/schemas/OnsiteDisplayAuctionLineItemDetails"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/ExternalFrequencyCappingModel"
           }
         },
         "additionalProperties": false,
@@ -11095,6 +11775,98 @@
         "additionalProperties": false,
         "description": "How the platform spreads the campaign budget over its flight.",
         "nullable": true
+      },
+      "PageSetting": {
+        "required": [
+          "pageType"
+        ],
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords to filter inventory by, up to 100. Required when `pageType` is\r\n`search` or `searchBar`. Recommended\r\nkeywords come from `POST /retail-media/retailers/{retailerId}/recommend-keywords`."
+          },
+          "pageCpm": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Money"
+              }
+            ],
+            "description": "Bid CPM override for this page type, as a price per 1,000 impressions."
+          },
+          "pageType": {
+            "enum": [
+              "search",
+              "home",
+              "browse",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchBar",
+              "categoryMenu"
+            ],
+            "type": "string",
+            "description": "Page type to forecast."
+          },
+          "taxonomyIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Retail Media category IDs to filter inventory by, up to 100. Required when\r\n`pageType` is `category`,\r\n`productDetail`, `categoryMenu` or\r\n`merchandising`. The ids come from the returned category `id`\r\nof `POST /retail-media/retailers/{retailerId}/categories/search`."
+          }
+        },
+        "additionalProperties": false,
+        "description": "One page type to include in the forecast, and how to filter its inventory."
+      },
+      "PageTypeCombinationV2": {
+        "type": "object",
+        "properties": {
+          "pageEnvironmentType": {
+            "enum": [
+              "unknown",
+              "web",
+              "mobile",
+              "app",
+              "lockout",
+              "mixed",
+              "ios",
+              "android"
+            ],
+            "type": "string",
+            "description": "The page environment type supported for this campaign-buy type combination",
+            "nullable": true
+          },
+          "pageType": {
+            "enum": [
+              "unknown",
+              "search",
+              "home",
+              "checkout",
+              "category",
+              "productDetail",
+              "confirmation",
+              "merchandising",
+              "deals",
+              "favorites",
+              "searchbar",
+              "categoryMenu",
+              "aiAssistant"
+            ],
+            "type": "string",
+            "description": "The page type supported for this campaign-buy type combination",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a combination of page type and page environment type for a specific campaign-buy type."
       },
       "PageTypeEnvironment2": {
         "type": "object",
@@ -12032,69 +12804,6 @@
         "additionalProperties": false,
         "description": "The new buy box winner for a product after it is updated as part of a SetBuyBoxWinner operation"
       },
-      "ProductRecommendation": {
-        "title": "ProductRecommendation",
-        "required": [
-          "rationale"
-        ],
-        "type": "object",
-        "properties": {
-          "brand": {
-            "title": "Brand",
-            "type": "string",
-            "description": "brand of the product",
-            "nullable": true
-          },
-          "currency": {
-            "title": "Currency",
-            "type": "string",
-            "description": "currency of the price of the product",
-            "nullable": true
-          },
-          "description": {
-            "title": "Description",
-            "type": "string",
-            "description": "description of the product",
-            "nullable": true
-          },
-          "imageUrl": {
-            "title": "Imageurl",
-            "maxLength": 65536,
-            "minLength": 1,
-            "type": "string",
-            "description": "url of the product image",
-            "format": "uri",
-            "nullable": true
-          },
-          "name": {
-            "title": "Name",
-            "type": "string",
-            "description": "name of the product",
-            "nullable": true
-          },
-          "price": {
-            "title": "Price",
-            "type": "number",
-            "description": "numerical value of the price of the product",
-            "nullable": true
-          },
-          "rationale": {
-            "title": "Rationale",
-            "type": "string",
-            "description": "reason for this recommendation, given by the bot"
-          },
-          "url": {
-            "title": "Url",
-            "maxLength": 65536,
-            "minLength": 1,
-            "type": "string",
-            "description": "url of the product on the retailer website",
-            "format": "uri",
-            "nullable": true
-          }
-        },
-        "description": "recommendation data for a product"
-      },
       "ProductsCustomBatchRequest": {
         "required": [
           "entries"
@@ -12352,6 +13061,7 @@
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for a single value",
         "nullable": true
       },
@@ -12560,6 +13270,7 @@
             "readOnly": true
           }
         },
+        "additionalProperties": false,
         "description": "Report response format"
       },
       "ResourceOfCreative2": {
@@ -12618,6 +13329,42 @@
         },
         "description": "A class that represents a domain entity exposed by an API",
         "nullable": true
+      },
+      "RetailerResultV2": {
+        "type": "object",
+        "properties": {
+          "campaignAvailabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignAvailabilityV2"
+            },
+            "description": "A list of campaign availabilities for the retailer, each showing the budget models available for a specific campaign type and buy type combination",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the retailer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The result of a query for the configuration of a retailer",
+        "nullable": true
+      },
+      "RetailerSearchRequestV2": {
+        "type": "object",
+        "properties": {
+          "retailerIdFilter": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of retailer IDs to filter the results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request model for searching retailers"
       },
       "RmAlgebraNodeV1": {
         "type": "object",
@@ -14523,6 +15270,7 @@
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Status of an async report request",
         "nullable": true,
         "x-criteo-canonical": {
@@ -14544,6 +15292,7 @@
             "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A class that represents a domain entity exposed by an API",
         "nullable": true
       },
@@ -14723,7 +15472,8 @@
           "endDate": {
             "type": "string",
             "description": "Optional end date/time (inclusive in the request timezone). If empty or not provided, no end date filter is applied.\r\nWhen provided, used as the inclusive upper bound for the report range.\r\nHides base Report.EndDate so this report can treat end date as optional (no [Required]).",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "lineItemIds": {
             "type": "array",
@@ -14760,9 +15510,11 @@
           "timezone": {
             "type": "string",
             "description": "Time zone : see criteo developer portal for supported time zones",
-            "default": "UTC"
+            "default": "UTC",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "Real Time Performance report body request (one sheeter: startDate, endDate (optional), RetailerIds, accountIds, campaignIds, lineItemIds, dimensions, metrics, timezones).\r\nExtends SyncReport only (no default filters); adds entry filter arrays.\r\nDimensions and metrics are restricted to their supported enumerated values; invalid values cause deserialization to fail."
       },
       "SyncRealTimePerformanceReportRequest": {
@@ -14775,6 +15527,7 @@
             "$ref": "#/components/schemas/SyncRealTimePerformanceReportResource"
           }
         },
+        "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value"
       },
       "SyncRealTimePerformanceReportResource": {
@@ -14787,10 +15540,36 @@
             "$ref": "#/components/schemas/SyncRealTimePerformanceReport"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
+        "additionalProperties": false,
         "description": "A report request resource containing its type and required attributes."
+      },
+      "SystemData": {
+        "required": [
+          "checkTime",
+          "lineItemCreatedTime",
+          "lineItemUpdatedTime"
+        ],
+        "type": "object",
+        "properties": {
+          "checkTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lineItemCreatedTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lineItemUpdatedTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Timestamps associated with the diagnostic evaluation and line item."
       },
       "Target": {
         "type": "object",
@@ -15219,6 +15998,16 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API request for a single value object."
       },
+      "ValueResourceInputOfRetailerSearchRequestV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceOfRetailerSearchRequestV2"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
       "ValueResourceInputOfRetailMediaBrandAccountCreationV2": {
         "type": "object",
         "properties": {
@@ -15319,6 +16108,21 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API.",
         "nullable": true
+      },
+      "ValueResourceOfRetailerSearchRequestV2": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/RetailerSearchRequestV2"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
       },
       "ValueResourceOfRetailMediaBrandAccountCreationV2": {
         "type": "object",
@@ -15547,7 +16351,7 @@
               "RetailMedia_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for RetailMedia applications",
               "RetailMedia_Catalog_Manage": "Grants Manage access to the capabilities from the Catalog domain, for RetailMedia applications",
               "RetailMedia_Catalog_Read": "Grants Read access to the capabilities from the Catalog domain, for RetailMedia applications",
-              "RetailMedia_OnSiteRecommendation_Read": "Grants Read access to the capabilities from the OnSiteRecommendation domain, for RetailMedia applications",
+              "RetailMedia_Forecasting_Read": "Grants Read access to the capabilities from the Forecasting domain, for RetailMedia applications",
               "RetailMedia_ThirdPartyAccounts_Manage": "Grants Manage access to the capabilities from the ThirdPartyAccounts domain, for RetailMedia applications"
             }
           },
@@ -15563,7 +16367,7 @@
               "RetailMedia_Campaign_Read": "Grants Read access to the capabilities from the Campaign domain, for RetailMedia applications",
               "RetailMedia_Catalog_Manage": "Grants Manage access to the capabilities from the Catalog domain, for RetailMedia applications",
               "RetailMedia_Catalog_Read": "Grants Read access to the capabilities from the Catalog domain, for RetailMedia applications",
-              "RetailMedia_OnSiteRecommendation_Read": "Grants Read access to the capabilities from the OnSiteRecommendation domain, for RetailMedia applications",
+              "RetailMedia_Forecasting_Read": "Grants Read access to the capabilities from the Forecasting domain, for RetailMedia applications",
               "RetailMedia_ThirdPartyAccounts_Manage": "Grants Manage access to the capabilities from the ThirdPartyAccounts domain, for RetailMedia applications"
             }
           }
@@ -15596,10 +16400,10 @@
       "name": "Catalog"
     },
     {
-      "name": "Gateway"
+      "name": "Forecasting"
     },
     {
-      "name": "OnSiteRecommendation"
+      "name": "Gateway"
     },
     {
       "name": "ThirdPartyAccounts"

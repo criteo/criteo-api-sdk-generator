@@ -2848,7 +2848,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AdSetSearchRequestV26Q1"
+                "$ref": "#/components/schemas/AdSetSearchRequestV27Q1"
               }
             }
           },
@@ -2860,7 +2860,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponsesReadAdSetV26Q1"
+                  "$ref": "#/components/schemas/ResponsesReadAdSetV27Q1"
                 }
               }
             }
@@ -4362,7 +4362,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CampaignSearchRequestV23Q1"
+                "$ref": "#/components/schemas/CampaignSearchRequestV27Q1"
               }
             }
           },
@@ -4374,7 +4374,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CampaignV23Q1ListResponse"
+                  "$ref": "#/components/schemas/CampaignV27Q1ListResponse"
                 }
               }
             }
@@ -6871,6 +6871,55 @@
         "description": "Delivery limitations for an ad set.",
         "nullable": true
       },
+      "AdSetDeliveryLimitationsV27Q1": {
+        "type": "object",
+        "properties": {
+          "devices": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "other",
+                "desktop",
+                "mobile",
+                "tablet"
+              ],
+              "type": "string",
+              "description": "Targeted device type.\r\n            \r\nPossible values:\r\n- other\r\n- desktop\r\n- mobile\r\n- tablet"
+            },
+            "description": "List of devices which the ad set should target.\r\n            \r\nNo limitation if the list is empty.",
+            "nullable": true
+          },
+          "environments": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "web",
+                "inApp"
+              ],
+              "type": "string",
+              "description": "Targeted environment type.\r\n            \r\nNote: this is very different from AdSetDestinationEnvironment: this parameter defines a delivery limitation,\r\nnot an impression's destination.\r\n            \r\nPossible values:\r\n- web\r\n- inApp"
+            },
+            "description": "List of environments which the ad set should target.\r\n            \r\nNo limitation if the list is empty.",
+            "nullable": true
+          },
+          "operatingSystems": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "android",
+                "ios",
+                "unknown"
+              ],
+              "type": "string",
+              "description": "Targeted operating system.\r\n            \r\nPossible values:\r\n- android\r\n- ios\r\n- unknown"
+            },
+            "description": "List of operating systems which the ad set should target.\r\n            \r\nNo limitation if the list is empty.",
+            "nullable": true
+          }
+        },
+        "description": "Delivery limitations for an ad set.",
+        "nullable": true
+      },
       "AdSetDisplayMultiplier": {
         "type": "object",
         "properties": {
@@ -6962,6 +7011,27 @@
         "description": "Ad set frequency capping.\r\n            \r\nSettings that can limit the number of impression by viewer and by period.",
         "nullable": true
       },
+      "AdSetFrequencyCappingV27Q1": {
+        "type": "object",
+        "properties": {
+          "frequency": {
+            "enum": [
+              "hourly",
+              "daily",
+              "lifetime",
+              "advanced"
+            ],
+            "type": "string",
+            "description": "Period on which impression limitation is calculated.\r\n            \r\nPossible values:\r\n- hourly\r\n- daily\r\n- lifetime\r\n- advanced"
+          },
+          "maximumImpressions": {
+            "type": "integer",
+            "description": "Maximum impressions for the specified period.",
+            "format": "int32"
+          }
+        },
+        "description": "Ad set frequency capping.\r\n            \r\nSettings that can limit the number of impression by viewer and by period."
+      },
       "AdSetGeoLocationV26Q1": {
         "type": "object",
         "properties": {
@@ -6978,12 +7048,28 @@
         "description": "Ad set geolocation options.",
         "nullable": true
       },
+      "AdSetGeoLocationV27Q1": {
+        "type": "object",
+        "properties": {
+          "countries": {
+            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV27Q1"
+          },
+          "subdivisions": {
+            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV27Q1"
+          },
+          "zipCodes": {
+            "$ref": "#/components/schemas/NillableAdSetTargetingRuleV27Q1"
+          }
+        },
+        "description": "Ad set geolocation options.",
+        "nullable": true
+      },
       "AdSetIdV26Q1": {
         "type": "object",
         "description": "ad set id model",
         "nullable": true
       },
-      "AdSetSearchFilterV26Q1": {
+      "AdSetSearchInputV27Q1": {
         "type": "object",
         "properties": {
           "adSetIds": {
@@ -7011,9 +7097,9 @@
             "nullable": true
           }
         },
-        "description": "Filter on ad set ids.\r\n            \r\nMultiple filters are combined with an implicit AND operation.\r\nIdentifiers are string-encoded integers; invalid values are ignored.\r\nIf no filter is provided (both arrays are null or empty), the search returns all accessible campaigns."
+        "description": "Multiple filters are combined with an implicit AND operation.\r\nIdentifiers are string-encoded integers; invalid values are ignored.\r\nIf no filter is provided (both arrays are null or empty), the search returns all accessible campaigns."
       },
-      "AdSetSearchRequestMetadataV26Q1": {
+      "AdSetSearchRequestMetadataV27Q1": {
         "type": "object",
         "properties": {
           "fields": {
@@ -7043,22 +7129,27 @@
         },
         "description": "Optional metadata for searching ad sets"
       },
-      "AdSetSearchRequestV26Q1": {
+      "AdSetSearchRequestV27Q1": {
         "type": "object",
         "properties": {
-          "filters": {
-            "$ref": "#/components/schemas/AdSetSearchFilterV26Q1"
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceAdSetSearchInputV27Q1"
           },
           "meta": {
-            "$ref": "#/components/schemas/AdSetSearchRequestMetadataV26Q1"
+            "$ref": "#/components/schemas/AdSetSearchRequestMetadataV27Q1"
           }
         },
         "description": "request payload of the search endpoint",
         "example": {
-          "filters": {
-            "advertiserIds": [
-              "12345"
-            ]
+          "data": {
+            "type": "AdSetSearch",
+            "attributes": {
+              "adSetIds": null,
+              "advertiserIds": [
+                "12345"
+              ],
+              "campaignIds": null
+            }
           }
         }
       },
@@ -7220,6 +7311,27 @@
         "description": "Represents an API response message containing the usual outcome fields (warnings+errors), and a valueResource data,\r\ni.e. data is not an entity (no id). This can be used for association objects."
       },
       "AdSetTargetingRuleV26Q1": {
+        "type": "object",
+        "properties": {
+          "operand": {
+            "enum": [
+              "undefined",
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "description": "ad set targeting rule model"
+      },
+      "AdSetTargetingRuleV27Q1": {
         "type": "object",
         "properties": {
           "operand": {
@@ -9192,6 +9304,24 @@
         "description": "Detailed configuration used when campaign budget automation is enabled.",
         "nullable": true
       },
+      "AutomatedBudgetConfigurationV27Q1": {
+        "type": "object",
+        "properties": {
+          "adSetOptimizationObjective": {
+            "enum": [
+              "conversions",
+              "revenue",
+              "visits",
+              "videoViews"
+            ],
+            "type": "string",
+            "description": "Optimization objective used to automate budget allocation across ad sets.\r\nExpected when budgetAutomation.enabled is true.\r\nPossible values are \"conversions\", \"revenue\", \"visits\", and \"videoViews\".",
+            "nullable": true
+          }
+        },
+        "description": "Detailed configuration used when campaign budget automation is enabled.",
+        "nullable": true
+      },
       "BasicAudienceDefinition": {
         "required": [
           "id",
@@ -9397,6 +9527,21 @@
         "description": "Budget automation, also known as automated budget or budget pacing, lets users configure KPIs and budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nWhen enabled is false, automatedBudgetConfiguration is null.\r\nWhen enabled is true, automatedBudgetConfiguration.adSetOptimizationObjective is expected.",
         "nullable": true
       },
+      "CampaignBudgetAutomationV27Q1": {
+        "type": "object",
+        "properties": {
+          "automatedBudgetConfiguration": {
+            "$ref": "#/components/schemas/AutomatedBudgetConfigurationV27Q1"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether budget automation is enabled for this campaign. This field is always present in the response.",
+            "nullable": true
+          }
+        },
+        "description": "Budget automation, also known as automated budget or budget pacing, lets users configure KPIs and budgets once at the campaign level while Criteo dynamically routes spend toward the best-performing ad sets.\r\nWhen enabled is false, automatedBudgetConfiguration is null.\r\nWhen enabled is true, automatedBudgetConfiguration.adSetOptimizationObjective is expected.",
+        "nullable": true
+      },
       "CampaignScheduledSpendLimitV23Q1": {
         "type": "object",
         "properties": {
@@ -9437,7 +9582,47 @@
         },
         "description": "A campaign spend limit scheduled to become active on the specified \"startDate\"."
       },
-      "CampaignSearchFiltersV23Q1": {
+      "CampaignScheduledSpendLimitV27Q1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled spend limit, for example \"12745\".",
+            "nullable": true
+          },
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\n- \"daily\", \"monthly\", and \"lifetime\" are valid when spendLimitType is \"capped\".\r\n- \"undefined\" is returned when spendLimitType is \"uncapped\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n- \"capped\": a spend limit applies, spendLimitAmount.value is non-null, and spendLimitRenewal is \"daily\", \"monthly\", or \"lifetime\".\r\n- \"uncapped\": no spend limit applies, spendLimitAmount.value is null, and spendLimitRenewal is \"unknown\".",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled spend limit becomes active, for example \"2026-08-01\".",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A campaign spend limit scheduled to become active on the specified \"startDate\"."
+      },
+      "CampaignSearchInputV27Q1": {
         "type": "object",
         "properties": {
           "advertiserIds": {
@@ -9459,16 +9644,57 @@
         },
         "description": "Filters for searching campaigns.\r\n            \r\nMultiple filters are combined with an implicit AND operation.\r\nIdentifiers are string-encoded integers; invalid values are ignored.\r\nIf no filter is provided (both arrays are null or empty), the search returns all accessible campaigns."
       },
-      "CampaignSearchRequestV23Q1": {
+      "CampaignSearchRequestV27Q1": {
         "type": "object",
         "properties": {
-          "filters": {
-            "$ref": "#/components/schemas/CampaignSearchFiltersV23Q1"
+          "data": {
+            "$ref": "#/components/schemas/ValueResourceCampaignSearchInputV27Q1"
           }
         },
-        "description": "Request payload for the campaign search endpoint."
+        "description": "Request payload for the campaign search endpoint.",
+        "example": {
+          "data": {
+            "type": "CampaignSearch",
+            "attributes": {
+              "campaignIds": null,
+              "advertiserIds": [
+                "12345"
+              ]
+            }
+          }
+        }
       },
       "CampaignSpendLimitV23Q1": {
+        "type": "object",
+        "properties": {
+          "spendLimitAmount": {
+            "$ref": "#/components/schemas/NillableDecimal"
+          },
+          "spendLimitRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime"
+            ],
+            "type": "string",
+            "description": "The period over which the campaign spend limit is applied.\r\nWhen spendLimitType is \"capped\", this is \"daily\", \"monthly\", or \"lifetime\".\r\nWhen spendLimitType is \"uncapped\", this is \"undefined\".",
+            "nullable": true
+          },
+          "spendLimitType": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the campaign has a spend limit.\r\n\"capped\" returns a non-null spendLimitAmount.value and a spendLimitRenewal of \"daily\", \"monthly\", or \"lifetime\".\r\n\"uncapped\" returns spendLimitAmount.value as null and spendLimitRenewal as \"undefined\".",
+            "nullable": true
+          }
+        },
+        "description": "Campaign spend-limit configuration. A capped spend limit restricts campaign spending per renewal period. An uncapped spend limit does not impose a spending ceiling.",
+        "nullable": true
+      },
+      "CampaignSpendLimitV27Q1": {
         "type": "object",
         "properties": {
           "spendLimitAmount": {
@@ -9549,35 +9775,6 @@
         "description": "Campaign read model\r\n            \r\nThe {id} field is the campaign identifier (string-encoded integer).",
         "nullable": true
       },
-      "CampaignV23Q1ListResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CampaignV23Q1Resource"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "description": "Data model for a list of response resources"
-      },
       "CampaignV23Q1Resource": {
         "type": "object",
         "properties": {
@@ -9623,6 +9820,101 @@
           }
         },
         "description": "Data model for response resource"
+      },
+      "CampaignV27Q1": {
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "description": "Advertiser id of the campaign (string-encoded integer)",
+            "nullable": true
+          },
+          "budgetAutomation": {
+            "$ref": "#/components/schemas/CampaignBudgetAutomationV27Q1"
+          },
+          "goal": {
+            "enum": [
+              "unspecified",
+              "acquisition",
+              "retention"
+            ],
+            "type": "string",
+            "description": "Goal of the campaign\r\n            \r\nSerialized values are {unspecified}, {acquisition} and {retention}.\r\n            \r\nAcquisition and retention are defined as follows:\r\n- Acquisition: campaign with the goal of acquiring new customers. The success of an acquisition campaign is measured by the number of new customers it brings.\r\n- Retention: campaign with the goal of retaining existing customers. The success of a retention campaign is measured by the number of existing customers it retains.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the campaign",
+            "nullable": true
+          },
+          "scheduledSpendLimits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignScheduledSpendLimitV27Q1"
+            },
+            "description": "Spend limits scheduled to become active in the future. Empty when the campaign has no scheduled spend limits.",
+            "nullable": true
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "Optional marketplace seller id of the campaign (string-encoded long)",
+            "nullable": true
+          },
+          "spendLimit": {
+            "$ref": "#/components/schemas/CampaignSpendLimitV27Q1"
+          }
+        },
+        "description": "Campaign read model\r\n            \r\nThe {id} field is the campaign identifier (string-encoded integer).",
+        "nullable": true
+      },
+      "CampaignV27Q1ListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampaignV27Q1Resource"
+            },
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "description": "Data model for a list of response resources"
+      },
+      "CampaignV27Q1Resource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CampaignV27Q1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Canonical type name of the entity",
+            "nullable": true,
+            "example": "Campaign"
+          }
+        },
+        "description": "Data model for a Resource"
       },
       "CatalogIngestionReport": {
         "type": "object",
@@ -14980,6 +15272,22 @@
         "description": "Number of products whose attribute value came from the primary component, and number whose value came from an additional source.",
         "nullable": true
       },
+      "NillableAdSetFrequencyCappingV27Q1": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdSetFrequencyCappingV27Q1"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true
+      },
       "NillableAdSetTargetingRuleV26Q1": {
         "type": "object",
         "properties": {
@@ -14988,6 +15296,22 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/AdSetTargetingRuleV26Q1"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "description": "structure that encapsulates an object that have valid business null values. If the structure is provided (i.e. not null), then the value in it, even null, is provided.",
+        "nullable": true
+      },
+      "NillableAdSetTargetingRuleV27Q1": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdSetTargetingRuleV27Q1"
               }
             ],
             "nullable": true
@@ -17487,7 +17811,67 @@
         "description": "Read model for an ad set's attribution configuration.\r\n            \r\nThe lookback window is only set for ad sets with an attribution method that is postClick or lastClick.\r\nIt will be null with any other attribution method.",
         "nullable": true
       },
+      "ReadAdSetAttributionConfigurationV27Q1": {
+        "type": "object",
+        "properties": {
+          "attributionMethod": {
+            "enum": [
+              "unknown",
+              "criteoAttribution",
+              "lastClick",
+              "postClick",
+              "sftp",
+              "googleAnalytics"
+            ],
+            "type": "string",
+            "description": "Ad set attribution method.\r\nThis defines how certain events (visits, clicks, sales...) are attributed to the ad set.\r\n            \r\nNote: Old Google Analytics attribution methods (lastClickGoogleAnalytics = 2 and googleAnalyticsDataDriven = 3) are not supported anymore. Use the new Google Analytics attribution method instead (googleAnalytics).\r\n            \r\nPossible values:\r\n- unknown\r\n- criteoAttribution (default attribution method)\r\n- lastClick\r\n- postClick\r\n- sftp\r\n- googleAnalytics (requires Google Analytics integration)",
+            "nullable": true
+          },
+          "lookbackWindow": {
+            "enum": [
+              "unknown",
+              "30M",
+              "24H",
+              "7D",
+              "30D"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Read model for an ad set's attribution configuration.\r\n            \r\nThe lookback window is only set for ad sets with an attribution method that is postClick or lastClick.\r\nIt will be null with any other attribution method.",
+        "nullable": true
+      },
       "ReadAdSetBiddingV26Q1": {
+        "type": "object",
+        "properties": {
+          "bidAmount": {
+            "type": "number",
+            "description": "Decimal value target relating to the `adSetObjective` specified.\r\nMay be `null` for objectives that do not require a target value.\r\nAt most 4 decimals are supported. Additional decimals are rounded.",
+            "format": "double",
+            "nullable": true
+          },
+          "costController": {
+            "enum": [
+              "COS",
+              "maxCPC",
+              "CPI",
+              "CPM",
+              "CPO",
+              "CPSV",
+              "CPV",
+              "dailyBudget",
+              "targetCPM"
+            ],
+            "type": "string",
+            "description": "Cost controller for the ad set.\r\n            \r\nPossible values:\r\n- COS\r\n- maxCPC\r\n- CPI\r\n- CPM\r\n- CPO\r\n- CPSV\r\n- CPV\r\n- dailyBudget\r\n- targetCPM",
+            "nullable": true
+          }
+        },
+        "description": "Ad set bidding read configuration.",
+        "nullable": true
+      },
+      "ReadAdSetBiddingV27Q1": {
         "type": "object",
         "properties": {
           "bidAmount": {
@@ -17584,7 +17968,152 @@
         "description": "Budget configuration for an ad set. Controls how much can be spent and how spending is paced.\r\nWhen budgetStrategy is \"capped\": budgetAmount, budgetRenewal, and budgetDeliverySmoothing are all set.\r\nWhen budgetStrategy is \"uncapped\": budgetAmount is null, budgetRenewal is \"undefined\", budgetDeliverySmoothing is null, budgetDeliveryWeek is \"undefined\", and pacingBehavior is \"undefined\".",
         "nullable": true
       },
+      "ReadAdSetBudgetV27Q1": {
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "description": "Maximum budget amount in the advertiser's currency per renewal period. Non-null when capped. null when uncapped.",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Currently only returned for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Returned for uncapped budgets and budgets without explicit pacing behavior.",
+            "nullable": true
+          }
+        },
+        "description": "Budget configuration for an ad set. Controls how much can be spent and how spending is paced.\r\nWhen budgetStrategy is \"capped\": budgetAmount, budgetRenewal, and budgetDeliverySmoothing are all set.\r\nWhen budgetStrategy is \"uncapped\": budgetAmount is null, budgetRenewal is \"undefined\", budgetDeliverySmoothing is null, and budgetDeliveryWeek is \"undefined\".",
+        "nullable": true
+      },
       "ReadAdSetScheduledBudgetV26Q1": {
+        "type": "object",
+        "properties": {
+          "budgetAmount": {
+            "type": "number",
+            "description": "Maximum budget amount in the advertiser's currency per renewal period. Non-null when capped. null when uncapped.",
+            "format": "double",
+            "nullable": true
+          },
+          "budgetDeliverySmoothing": {
+            "enum": [
+              "accelerated",
+              "standard"
+            ],
+            "type": "string",
+            "description": "Pacing strategy for spending the budget within a renewal period. Only applicable when budgetStrategy is \"capped\".\r\n- \"accelerated\": spend pacing is based on delivery efficiency rather than the full budget period.\r\n- \"standard\": spread spending evenly over the renewal period.\r\nWhen budgetStrategy is \"uncapped\", this field is not set (null in read responses, omit in create/patch requests).",
+            "nullable": true
+          },
+          "budgetDeliveryWeek": {
+            "enum": [
+              "undefined",
+              "mondayToSunday",
+              "tuesdayToMonday",
+              "wednesdayToTuesday",
+              "thursdayToWednesday",
+              "fridayToThursday",
+              "saturdayToFriday",
+              "sundayToSaturday"
+            ],
+            "type": "string",
+            "description": "Defines which day-of-week boundaries are used for weekly budget renewal. Only applicable when budgetStrategy is \"capped\", budgetRenewal is \"weekly\", and budgetDeliverySmoothing is \"standard\".\r\n- \"mondayToSunday\", \"tuesdayToMonday\", etc.: the day range over which the weekly budget is paced. Changing this value on the active budget also propagates to all scheduled budgets of the same ad set.\r\n- \"undefined\": used when budgetStrategy is \"uncapped\", when budgetRenewal is not \"weekly\", or when budgetDeliverySmoothing is \"accelerated\".",
+            "nullable": true
+          },
+          "budgetRenewal": {
+            "enum": [
+              "undefined",
+              "daily",
+              "monthly",
+              "lifetime",
+              "weekly"
+            ],
+            "type": "string",
+            "description": "The period over which the budget is spent.\r\n- \"daily\", \"monthly\", \"weekly\": budget resets at the start of each period.\r\n- \"lifetime\": budget covers the entire ad set duration without resetting.\r\n- \"undefined\": only used when budgetStrategy is \"uncapped\" (no renewal applies). Required for capped budgets (must not be \"undefined\").",
+            "nullable": true
+          },
+          "budgetStrategy": {
+            "enum": [
+              "capped",
+              "uncapped"
+            ],
+            "type": "string",
+            "description": "Controls whether the ad set has a spending limit.\r\n- \"capped\": spending is limited to budgetAmount. Requires budgetAmount (non-null), budgetRenewal (not \"undefined\"), and budgetDeliverySmoothing (not null).\r\n- \"uncapped\": no spending limit. budgetAmount is null, budgetRenewal is \"undefined\", and budgetDeliverySmoothing is null.",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the scheduled budget.",
+            "nullable": true
+          },
+          "pacingBehavior": {
+            "enum": [
+              "undefined",
+              "targetFullBudget",
+              "targetAverageDailyBudget"
+            ],
+            "type": "string",
+            "description": "Controls how a standard capped budget is paced.\r\n- \"targetFullBudget\": spend toward the full budget amount within the renewal period.\r\n- \"targetAverageDailyBudget\": spend toward an average daily amount. Only supported for capped, standard, monthly budgets.\r\n- \"undefined\": no explicit pacing behavior. Use for uncapped or accelerated budgets, or omit pacingBehavior.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Advertiser-local calendar date when the scheduled budget becomes active.",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "description": "A budget configuration scheduled to replace the ad set's active budget on the specified \"startDate\".\r\nIt contains the same fields as the active budget, plus the scheduled budget identifier and start date."
+      },
+      "ReadAdSetScheduledBudgetV27Q1": {
         "type": "object",
         "properties": {
           "budgetAmount": {
@@ -17701,9 +18230,74 @@
         "description": "Ad set schedule read model",
         "nullable": true
       },
+      "ReadAdSetScheduleV27Q1": {
+        "type": "object",
+        "properties": {
+          "activationStatus": {
+            "enum": [
+              "on",
+              "off"
+            ],
+            "type": "string",
+            "description": "Activation status of the ad set, i.e. whether the consumer wants it to deliver",
+            "nullable": true
+          },
+          "deliveryStatus": {
+            "enum": [
+              "draft",
+              "inactive",
+              "live",
+              "notLive",
+              "pausing",
+              "paused",
+              "scheduled",
+              "ended",
+              "notDelivering",
+              "archived"
+            ],
+            "type": "string",
+            "description": "Delivery status of the ad set, i.e. whether the ad set is delivering.\r\n            \r\nPossible values:\r\n- draft\r\n- inactive\r\n- live\r\n- notLive\r\n- pausing\r\n- paused\r\n- scheduled\r\n- ended\r\n- notDelivering\r\n- archived",
+            "nullable": true
+          },
+          "endDate": {
+            "$ref": "#/components/schemas/NillableDateTime"
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/NillableDateTime"
+          }
+        },
+        "description": "Ad set schedule read model",
+        "nullable": true
+      },
+      "ReadAdSetTargetingV27Q1": {
+        "type": "object",
+        "properties": {
+          "deliveryLimitations": {
+            "$ref": "#/components/schemas/AdSetDeliveryLimitationsV27Q1"
+          },
+          "frequencyCapping": {
+            "$ref": "#/components/schemas/NillableAdSetFrequencyCappingV27Q1"
+          },
+          "geoLocation": {
+            "$ref": "#/components/schemas/AdSetGeoLocationV27Q1"
+          }
+        },
+        "description": "Ad set targeting options.",
+        "nullable": true
+      },
       "ReadAdSetV26Q1": {
         "type": "object",
         "properties": {
+          "adSetType": {
+            "enum": [
+              "standard",
+              "appRetargeting",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Type of the ad set.\r\nNot returned when field projection (meta.fields) is used in a search.",
+            "nullable": true
+          },
           "advertiserId": {
             "type": "string",
             "description": "Advertiser id of the campaign this ad set belongs to\r\nThis value is a string-encoded integer.",
@@ -17779,8 +18373,110 @@
             },
             "nullable": true
           },
+          "serverToServerTrackings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServerToServerTrackingV26Q1"
+            },
+            "description": "MMP / server-to-server tracking URLs. Always present on GET ad-sets/{id} (null when not app retargeting, empty, or unavailable).\r\nAlways omitted on search.",
+            "nullable": true
+          },
           "targeting": {
             "$ref": "#/components/schemas/AdSetTargetingV26Q1"
+          },
+          "videoChannel": {
+            "enum": [
+              "olv",
+              "ctv"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Ad set read model.\r\n            \r\nThe ad set is the configuration unit that defines ads delivery. Its binds together the objective, budget,\r\nscheduling, targeting options and ads.",
+        "nullable": true
+      },
+      "ReadAdSetV27Q1": {
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "description": "Advertiser id of the campaign this ad set belongs to\r\nThis value is a string-encoded integer.",
+            "nullable": true
+          },
+          "attributionConfiguration": {
+            "$ref": "#/components/schemas/ReadAdSetAttributionConfigurationV27Q1"
+          },
+          "bidding": {
+            "$ref": "#/components/schemas/ReadAdSetBiddingV27Q1"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/ReadAdSetBudgetV27Q1"
+          },
+          "campaignId": {
+            "type": "string",
+            "description": "Campaign id this ad set belongs to.\r\n            \r\nThis is a key to a MarketingCampaign entity, which can be retrieved using the MarketingCampaigns endpoints.\r\nThis value is a string-encoded integer.",
+            "nullable": true
+          },
+          "datasetId": {
+            "type": "string",
+            "description": "Dataset id of this ad set\r\nThis value is a string-encoded integer.",
+            "nullable": true
+          },
+          "destinationEnvironment": {
+            "enum": [
+              "undefined",
+              "web",
+              "app"
+            ],
+            "type": "string",
+            "description": "The environment that an ad click will lead a user to.\r\n            \r\nPossible values:\r\n- undefined: the ad set does not specify its destination environment\r\n- web: the ad set lead users to a web page\r\n- app: the ad set lead users to an app",
+            "nullable": true
+          },
+          "mediaType": {
+            "enum": [
+              "display",
+              "video"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the ad set",
+            "nullable": true
+          },
+          "objective": {
+            "enum": [
+              "customAction",
+              "clicks",
+              "conversions",
+              "displays",
+              "appPromotion",
+              "revenue",
+              "storeConversions",
+              "value",
+              "reach",
+              "visits",
+              "videoViews",
+              "qualifiedReach"
+            ],
+            "type": "string",
+            "description": "Ad set objective.\r\n            \r\nPossible values:\r\n- customAction (previously \"Actions\")\r\n- clicks\r\n- conversions\r\n- displays\r\n- appPromotion (previously \"Installs\")\r\n- revenue\r\n- storeConversions\r\n- value\r\n- reach (previously \"ViewedImpressions\")\r\n- qualifiedReach\r\n- visits\r\n- videoViews (previously \"CompletedVideoViews\")",
+            "nullable": true
+          },
+          "schedule": {
+            "$ref": "#/components/schemas/ReadAdSetScheduleV27Q1"
+          },
+          "scheduledBudgets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadAdSetScheduledBudgetV27Q1"
+            },
+            "nullable": true
+          },
+          "targeting": {
+            "$ref": "#/components/schemas/ReadAdSetTargetingV27Q1"
           },
           "videoChannel": {
             "enum": [
@@ -17854,6 +18550,27 @@
         },
         "description": "read model data for resources",
         "nullable": true
+      },
+      "ReadModelReadAdSetV27Q1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/ReadAdSetV27Q1"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the entity",
+            "nullable": true,
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true,
+            "example": "ReadAdSetV27Q1"
+          }
+        },
+        "description": "read model data for resources"
       },
       "RealTimeProductReportJob": {
         "type": "object",
@@ -19124,13 +19841,13 @@
         },
         "description": "List of output resources"
       },
-      "ResponsesReadAdSetV26Q1": {
+      "ResponsesReadAdSetV27Q1": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ReadModelReadAdSetV26Q1"
+              "$ref": "#/components/schemas/ReadModelReadAdSetV27Q1"
             },
             "nullable": true,
             "readOnly": true
@@ -19597,6 +20314,16 @@
           }
         },
         "description": "A top-level object that encapsulates a Criteo API request for a single value."
+      },
+      "ServerToServerTrackingV26Q1": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Server-to-server (MMP) tracking URL for an app retargeting ad set."
       },
       "SetAdSetTargetingDealIds": {
         "type": "object",
@@ -20968,6 +21695,32 @@
           }
         },
         "description": "User definition with an identifier (email, uid...) and attributes (key, value)"
+      },
+      "ValueResourceAdSetSearchInputV27Q1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/AdSetSearchInputV27Q1"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Data model for a value resource"
+      },
+      "ValueResourceCampaignSearchInputV27Q1": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/CampaignSearchInputV27Q1"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Data model for a value resource"
       },
       "ValueResourceCollectionOutcomeOfBoostedAdProductSet": {
         "type": "object",
