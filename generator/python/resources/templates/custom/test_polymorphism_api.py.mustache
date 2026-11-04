@@ -1,13 +1,78 @@
+import os
+
 import pytest
 
 from {{packageName}}.api.analytics_api import AnalyticsApi
 from {{packageName}}.api_client import ApiClient
+from {{packageName}}.api_client_builder import ApiClientBuilder
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.rest import ApiException
+from {{packageName}}.model.base_type import BaseType
+from {{packageName}}.model.base_type_list_request import BaseTypeListRequest
+from {{packageName}}.model.base_type_request import BaseTypeRequest
+from {{packageName}}.model.base_type_resource import BaseTypeResource
+from {{packageName}}.model.derived_type_one import DerivedTypeOne
 from {{packageName}}.model.derived_type_one_request import DerivedTypeOneRequest
+from {{packageName}}.model.derived_type_one_resource import DerivedTypeOneResource
+from {{packageName}}.model.derived_type_two import DerivedTypeTwo
+from {{packageName}}.model_utils import get_discriminated_classes
+
+
+TYPE_ONE_VALUE = "type-one"
+TYPE_TWO_VALUE = 42
+# commonData is a byte field, so it is sent as a base64 string ("common data!").
+COMMON_DATA = "Y29tbW9uIGRhdGEh"
 
 
 class TestPolymorphismApi:
+
+    @pytest.fixture(autouse=True)
+    def before_each(self):
+        # The test-only spec has no test credentials of its own, so these tests use the Marketing Solutions ones, already set in CI
+        self.client_id = os.environ.get("MARKETINGSOLUTIONS_TEST_CLIENT_ID")
+        self.client_secret = os.environ.get("MARKETINGSOLUTIONS_TEST_CLIENT_SECRET")
+
+        self.client = ApiClientBuilder.WithClientCredentials(clientId=self.client_id, clientSecret=self.client_secret)
+
+    def test_environment_variables(self):
+        assert len(self.client_id) > 0, "Environment variable \"MARKETINGSOLUTIONS_TEST_CLIENT_ID\" not found."
+        assert len(self.client_secret) > 0, "Environment variable \"MARKETINGSOLUTIONS_TEST_CLIENT_SECRET\" not found."
+
+    # NOTE on type_discriminator: the generated model does not populate the discriminator
+    # with the mapping value, and the server expects the mapping value ("derivedTypeOne"),
+    # so it is set explicitly on every derived instance below.
+
+    @staticmethod
+    def _sample_derived_type_one():
+        return DerivedTypeOne(
+            type_one_value=TYPE_ONE_VALUE,
+            common_data=COMMON_DATA,
+            type_discriminator="derivedTypeOne",
+        )
+
+    @staticmethod
+    def _sample_derived_type_two():
+        return DerivedTypeTwo(
+            type_two_value=TYPE_TWO_VALUE,
+            common_data=COMMON_DATA,
+            type_discriminator="derivedTypeTwo",
+        )
+
+    def _sample_inheritance_request(self):
+        return DerivedTypeOneRequest(
+            data=DerivedTypeOneResource(
+                type="DerivedTypeOne",
+                attributes=self._sample_derived_type_one(),
+            )
+        )
+
+    def test_get_discriminated_classes_of_base_type_should_return_base_and_derived_types(self):
+        # Act
+        classes = get_discriminated_classes(BaseType)
+
+        # Assert
+        # BaseType is nullable, so it is kept along with the derived types.
+        assert classes == [BaseType, DerivedTypeOne, DerivedTypeTwo]
 
     def test_post_inheritance_with_empty_token_should_return_unauthorized(self):
         # Arrange
@@ -22,3 +87,87 @@ class TestPolymorphismApi:
             api.post_inheritance(derived_type_one_request=request)
 
         assert exc_info.value.status == 401
+
+    def test_post_inheritance_should_succeed(self):
+        # Arrange
+        api = AnalyticsApi(self.client)
+
+        # Act
+        response = api.post_inheritance(derived_type_one_request=self._sample_inheritance_request())
+
+        # Assert
+        derived_type_one = response.data.attributes
+        assert derived_type_one is not None
+        assert derived_type_one.common_data == COMMON_DATA
+        assert derived_type_one.type_one_value == TYPE_ONE_VALUE
+
+    def test_post_polymorphism_with_derived_type_one_should_succeed(self):
+        # Arrange
+        api = AnalyticsApi(self.client)
+        request = BaseTypeRequest(
+            data=BaseTypeResource(
+                type="DerivedTypeOne",
+                attributes=self._sample_derived_type_one(),
+            )
+        )
+
+        # Act
+        response = api.post_polymorphism(base_type_request=request)
+
+        # Assert
+        attributes = response.data.attributes
+        assert isinstance(attributes, DerivedTypeOne), \
+            "attributes should be deserialized as DerivedTypeOne but was %s" % type(attributes).__name__
+        assert attributes.common_data == COMMON_DATA
+        assert attributes.type_one_value == TYPE_ONE_VALUE
+
+    def test_post_polymorphism_with_derived_type_two_should_succeed(self):
+        # Arrange
+        api = AnalyticsApi(self.client)
+        request = BaseTypeRequest(
+            data=BaseTypeResource(
+                type="DerivedTypeTwo",
+                attributes=self._sample_derived_type_two(),
+            )
+        )
+
+        # Act
+        response = api.post_polymorphism(base_type_request=request)
+
+        # Assert
+        attributes = response.data.attributes
+        assert isinstance(attributes, DerivedTypeTwo), \
+            "attributes should be deserialized as DerivedTypeTwo but was %s" % type(attributes).__name__
+        assert attributes.common_data == COMMON_DATA
+        assert attributes.type_two_value == TYPE_TWO_VALUE
+
+    def test_post_polymorphic_list_with_derived_types_should_succeed(self):
+        # Arrange
+        api = AnalyticsApi(self.client)
+        request = BaseTypeListRequest(
+            data=[
+                BaseTypeResource(type="DerivedTypeOne", attributes=self._sample_derived_type_one()),
+                BaseTypeResource(type="DerivedTypeTwo", attributes=self._sample_derived_type_two()),
+            ]
+        )
+
+        # Act
+        response = api.post_polymorphic_list(base_type_list_request=request)
+
+        # Assert
+        data = response.data
+        assert len(data) == 2
+
+        # First element should round-trip as DerivedTypeOne.
+        first = data[0].attributes
+        assert isinstance(first, DerivedTypeOne), \
+            "first element should be DerivedTypeOne but was %s" % type(first).__name__
+        assert first.common_data == COMMON_DATA
+        assert first.type_one_value == TYPE_ONE_VALUE
+
+        # Second element should round-trip as DerivedTypeTwo.
+        second = data[1].attributes
+        assert isinstance(second, DerivedTypeTwo), \
+            "second element should be DerivedTypeTwo but was %s" % type(second).__name__
+        assert second.common_data == COMMON_DATA
+        assert second.type_two_value == TYPE_TWO_VALUE
