@@ -2,15 +2,90 @@
 namespace {{invokerPackage}};
 
 use {{invokerPackage}}\Api\AnalyticsApi;
+use {{invokerPackage}}\ClientCredentialsClient;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\ApiException;
+use {{invokerPackage}}\Model\BaseTypeListRequest;
+use {{invokerPackage}}\Model\BaseTypeRequest;
+use {{invokerPackage}}\Model\BaseTypeResource;
+use {{invokerPackage}}\Model\DerivedTypeOne;
 use {{invokerPackage}}\Model\DerivedTypeOneRequest;
+use {{invokerPackage}}\Model\DerivedTypeOneResource;
+use {{invokerPackage}}\Model\DerivedTypeTwo;
 use Jchook\AssertThrows\AssertThrows;
 use PHPUnit\Framework\TestCase;
 
 class PolymorphismApiTest extends TestCase
 {
     use AssertThrows;
+
+    private const TYPE_ONE_VALUE = "type-one";
+    private const TYPE_TWO_VALUE = 42;
+    private const COMMON_DATA_LENGTH = 12;
+
+    /**
+     * @var string
+     */
+    private $clientId;
+
+    /**
+     * @var string
+     */
+    private $clientSecret;
+
+    function __construct()
+    {
+        parent::__construct();
+
+        // The test-only spec has no test credentials of its own, so these tests use the Marketing Solutions ones, already set in CI
+        $this->clientId = $_SERVER["MARKETINGSOLUTIONS_TEST_CLIENT_ID"];
+        $this->clientSecret = $_SERVER["MARKETINGSOLUTIONS_TEST_CLIENT_SECRET"];
+    }
+
+    private function authenticatedApi(): AnalyticsApi
+    {
+        return new AnalyticsApi(new ClientCredentialsClient($this->clientId, $this->clientSecret));
+    }
+
+    // commonData is a byte field, serialized as a base64 string.
+    private function commonData(): string
+    {
+        return base64_encode(str_repeat("\0", self::COMMON_DATA_LENGTH));
+    }
+
+    // NOTE on typeDiscriminator: the generated model defaults it to the model name
+    // ("DerivedTypeOne"), but the server expects the discriminator mapping value
+    // ("derivedTypeOne"), so it is set explicitly (after construction, since the
+    // BaseType constructor overwrites it with the model name).
+    private function sampleDerivedTypeOne(): DerivedTypeOne
+    {
+        $attributes = new DerivedTypeOne([
+            'type_one_value' => self::TYPE_ONE_VALUE,
+            'common_data' => $this->commonData(),
+        ]);
+        $attributes->setTypeDiscriminator('derivedTypeOne');
+        return $attributes;
+    }
+
+    private function sampleDerivedTypeTwo(): DerivedTypeTwo
+    {
+        $attributes = new DerivedTypeTwo([
+            'type_two_value' => self::TYPE_TWO_VALUE,
+            'common_data' => $this->commonData(),
+        ]);
+        $attributes->setTypeDiscriminator('derivedTypeTwo');
+        return $attributes;
+    }
+
+    private function sampleInheritanceRequest(): DerivedTypeOneRequest
+    {
+        return new DerivedTypeOneRequest([
+            'data' => new DerivedTypeOneResource([
+                'type' => 'DerivedTypeOne',
+                'attributes' => $this->sampleDerivedTypeOne(),
+            ]),
+        ]);
+    }
 
     public function testPostInheritanceWithEmptyTokenShouldReturnUnauthorized()
     {
@@ -31,5 +106,107 @@ class PolymorphismApiTest extends TestCase
                 $this->assertEquals(401, $exception->getCode());
             }
         );
+    }
+
+    public function testPostInheritanceShouldSucceed()
+    {
+        // Arrange
+        $api = $this->authenticatedApi();
+
+        // Act
+        $response = $api->postInheritanceWithHttpInfo($this->sampleInheritanceRequest());
+
+        // Assert
+        $this->assertEquals(200, $response[1]);
+
+        $derivedTypeOne = $response[0]->getData()->getAttributes();
+        $this->assertNotNull($derivedTypeOne);
+        $this->assertEquals(self::COMMON_DATA_LENGTH, strlen(base64_decode($derivedTypeOne->getCommonData())));
+        $this->assertEquals(self::TYPE_ONE_VALUE, $derivedTypeOne->getTypeOneValue());
+    }
+
+    public function testPostPolymorphismWithDerivedTypeOneShouldSucceed()
+    {
+        // Arrange
+        $api = $this->authenticatedApi();
+        $request = new BaseTypeRequest([
+            'data' => new BaseTypeResource([
+                'type' => 'DerivedTypeOne',
+                'attributes' => $this->sampleDerivedTypeOne(),
+            ]),
+        ]);
+
+        // Act
+        $response = $api->postPolymorphismWithHttpInfo($request);
+
+        // Assert
+        $this->assertEquals(200, $response[1]);
+
+        $attributes = $response[0]->getData()->getAttributes();
+        $this->assertInstanceOf(DerivedTypeOne::class, $attributes);
+        $this->assertEquals(self::COMMON_DATA_LENGTH, strlen(base64_decode($attributes->getCommonData())));
+        $this->assertEquals(self::TYPE_ONE_VALUE, $attributes->getTypeOneValue());
+    }
+
+    public function testPostPolymorphismWithDerivedTypeTwoShouldSucceed()
+    {
+        // Arrange
+        $api = $this->authenticatedApi();
+        $request = new BaseTypeRequest([
+            'data' => new BaseTypeResource([
+                'type' => 'DerivedTypeTwo',
+                'attributes' => $this->sampleDerivedTypeTwo(),
+            ]),
+        ]);
+
+        // Act
+        $response = $api->postPolymorphismWithHttpInfo($request);
+
+        // Assert
+        $this->assertEquals(200, $response[1]);
+
+        $attributes = $response[0]->getData()->getAttributes();
+        $this->assertInstanceOf(DerivedTypeTwo::class, $attributes);
+        $this->assertEquals(self::COMMON_DATA_LENGTH, strlen(base64_decode($attributes->getCommonData())));
+        $this->assertEquals(self::TYPE_TWO_VALUE, $attributes->getTypeTwoValue());
+    }
+
+    public function testPostPolymorphicListWithDerivedTypesShouldSucceed()
+    {
+        // Arrange
+        $api = $this->authenticatedApi();
+        $request = new BaseTypeListRequest([
+            'data' => [
+                new BaseTypeResource([
+                    'type' => 'DerivedTypeOne',
+                    'attributes' => $this->sampleDerivedTypeOne(),
+                ]),
+                new BaseTypeResource([
+                    'type' => 'DerivedTypeTwo',
+                    'attributes' => $this->sampleDerivedTypeTwo(),
+                ]),
+            ],
+        ]);
+
+        // Act
+        $response = $api->postPolymorphicListWithHttpInfo($request);
+
+        // Assert
+        $this->assertEquals(200, $response[1]);
+
+        $data = $response[0]->getData();
+        $this->assertCount(2, $data);
+
+        // First element should round-trip as DerivedTypeOne.
+        $first = $data[0]->getAttributes();
+        $this->assertInstanceOf(DerivedTypeOne::class, $first);
+        $this->assertEquals(self::COMMON_DATA_LENGTH, strlen(base64_decode($first->getCommonData())));
+        $this->assertEquals(self::TYPE_ONE_VALUE, $first->getTypeOneValue());
+
+        // Second element should round-trip as DerivedTypeTwo.
+        $second = $data[1]->getAttributes();
+        $this->assertInstanceOf(DerivedTypeTwo::class, $second);
+        $this->assertEquals(self::COMMON_DATA_LENGTH, strlen(base64_decode($second->getCommonData())));
+        $this->assertEquals(self::TYPE_TWO_VALUE, $second->getTypeTwoValue());
     }
 }
