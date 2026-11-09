@@ -572,8 +572,9 @@
           {
             "name": "offset",
             "in": "query",
-            "description": "Zero-based index of the first change-history entry to return.",
+            "description": "Zero-based index of the first change-history entry to return. The sum of offset and limit must not exceed 10000; narrow the time range to page through more history.",
             "schema": {
+              "maximum": 9999,
               "minimum": 0,
               "type": "integer",
               "format": "int32",
@@ -1975,7 +1976,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items",
-        "description": "Create a new line item.",
+        "description": "Create a line item.\n<br />\n\n\r\nCreates the line item under its parent campaign, then sets up its dynamic budgets when the campaign requires\r\nthem. If setting up the dynamic budgets fails, the request fails and the line item that was created is renamed\r\nwith a [FAILED] prefix.",
         "operationId": "CreateLineItem",
         "requestBody": {
           "description": "Line item details",
@@ -2015,7 +2016,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}",
-        "description": "Retrieves a consolidated line item view from the line item domain services.",
+        "description": "Get a line item.\n<br />\n\n\r\nReturns the line item with its bidding settings, products, creatives and targets. A part that cannot be retrieved is left out and\r\nreported as a warning.",
         "operationId": "GetLineItem",
         "parameters": [
           {
@@ -2053,7 +2054,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}",
-        "description": "Update an existing line item.",
+        "description": "Update a line item.\n<br />\n\n\r\nUpdates the supplied fields of an existing line item. Omitted fields are left unchanged.",
         "operationId": "UpdateLineItem",
         "parameters": [
           {
@@ -2098,19 +2099,19 @@
         ]
       }
     },
-    "/experimental/retail-media/line-items/{line-item-id}/bidding-strategy": {
+    "/experimental/retail-media/line-items/{line-item-id}/bidding": {
       "get": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/experimental/retail-media/line-items/{line-item-id}/bidding-strategy",
-        "description": "Returns the current bidding configuration for a Display auction line item, including the active\r\nbidding strategy and any preserved Standard and Adaptive strategy settings. Other line item types are\r\nnot currently supported by this endpoint.",
-        "operationId": "GetBiddingStrategyByLineItemId",
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/bidding",
+        "description": "Returns the Adaptive bidding configuration of a line item under an adaptive budget campaign.",
+        "operationId": "GetBiddingByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "The identifier of the line item whose bidding settings are requested.",
+            "description": "The identifier of the line item whose bidding is requested.",
             "required": true,
             "schema": {
               "type": "string"
@@ -2123,7 +2124,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BiddingSettingsResponse"
+                  "$ref": "#/components/schemas/LineItemBiddingResponseResponse"
                 }
               }
             }
@@ -2144,7 +2145,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}/creatives",
-        "description": "Retrieve the creatives and product collections associated with a line item.",
+        "description": "Retrieve the creatives and product collections associated with a line item.\n<br />\n\n\r\nReturns each creative of the line item with its product collections.",
         "operationId": "FetchCreatives",
         "parameters": [
           {
@@ -2184,7 +2185,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}/creatives/delete",
-        "description": "Delete creatives and their product collections from a line item.",
+        "description": "Delete creatives from a line item.\n<br />\n\n\r\nDelete creatives and their product collections from a line item.",
         "operationId": "DeleteCreatives",
         "parameters": [
           {
@@ -2235,7 +2236,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}/creatives/upsert",
-        "description": "Resolves each supplied stable creative identifier to its latest revision and\r\nassociates those revisions with the line item's proposal.",
+        "description": "Add or update creatives on a line item.\n<br />\n\n\r\nResolves each supplied stable creative identifier to its latest revision and\r\nassociates those revisions with the line item's proposal.",
         "operationId": "UpsertCreatives",
         "parameters": [
           {
@@ -2280,14 +2281,14 @@
         ]
       }
     },
-    "/experimental/retail-media/line-items/{line-item-id}/min-bids": {
+    "/experimental/retail-media/line-items/{line-item-id}/min-bid": {
       "get": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/experimental/retail-media/line-items/{line-item-id}/min-bids",
-        "description": "Returns page-type minimum bids and derived bidding thresholds for a Display auction line item.",
-        "operationId": "GetMinBidsByLineItemId",
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/min-bid",
+        "description": "Returns the Adaptive minimum bid guidance of a line item.",
+        "operationId": "GetMinBidByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
@@ -2305,7 +2306,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LineItemMinBidsResponse"
+                  "$ref": "#/components/schemas/LineItemMinBidResponseResponse"
                 }
               }
             }
@@ -2326,7 +2327,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}/products",
-        "description": "Retrieve a page of products configured on a line item.",
+        "description": "Fetch the products of a line item.\n<br />\n\n\r\nRetrieve a page of products configured on a line item.",
         "operationId": "FetchProducts",
         "parameters": [
           {
@@ -2390,7 +2391,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}/products/add",
-        "description": "Add products to a line item.",
+        "description": "Add products to a line item.\n<br />\n\n\r\nAdd products to a line item. The add is all-or-nothing.",
         "operationId": "AddProducts",
         "parameters": [
           {
@@ -2441,7 +2442,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/{line-item-id}/products/delete",
-        "description": "Delete products from a line item.",
+        "description": "Delete products from a line item.\n<br />\n\n\r\nDelete products from a line item. The products are soft deleted.",
         "operationId": "DeleteProducts",
         "parameters": [
           {
@@ -2486,19 +2487,19 @@
         ]
       }
     },
-    "/experimental/retail-media/line-items/{line-item-id}/set-bidding-strategy": {
+    "/experimental/retail-media/line-items/{line-item-id}/set-bidding": {
       "post": {
         "tags": [
           "Campaign"
         ],
-        "summary": "/experimental/retail-media/line-items/{line-item-id}/set-bidding-strategy",
-        "description": "Replaces the submitted Standard page-type bids and updates the supplied strategy settings. Omitted\r\nsettings are preserved. Other line item types are not currently supported by this endpoint.",
-        "operationId": "SetBiddingStrategyByLineItemId",
+        "summary": "/experimental/retail-media/line-items/{line-item-id}/set-bidding",
+        "description": "Sets the Adaptive bidding configuration of a line item under an adaptive budget campaign.",
+        "operationId": "SetBiddingByLineItemId",
         "parameters": [
           {
             "name": "line-item-id",
             "in": "path",
-            "description": "The identifier of the line item whose bidding settings are being updated.",
+            "description": "The identifier of the line item whose bidding is being set.",
             "required": true,
             "schema": {
               "type": "string"
@@ -2506,11 +2507,11 @@
           }
         ],
         "requestBody": {
-          "description": "The bidding settings to apply.",
+          "description": "The bidding configuration to apply.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BiddingSettingsRequest"
+                "$ref": "#/components/schemas/LineItemBiddingRequestRequest"
               }
             }
           }
@@ -2521,7 +2522,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BiddingSettingsResponse"
+                  "$ref": "#/components/schemas/LineItemBiddingResponseResponse"
                 }
               }
             }
@@ -2794,7 +2795,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/demand-search",
-        "description": "Search line items accessible from demand accounts.",
+        "description": "Search line items of demand accounts.\n<br />\n\n\r\nSearch line items accessible from demand accounts.",
         "operationId": "LineItemsDemandSearch",
         "requestBody": {
           "description": "Search criteria and pagination.",
@@ -2834,7 +2835,7 @@
           "Campaign"
         ],
         "summary": "/experimental/retail-media/line-items/supply-search",
-        "description": "Search line items accessible from a supply account and its retailers.",
+        "description": "Search line items of a supply account.\n<br />\n\n\r\nSearch line items accessible from a supply account and its retailers.",
         "operationId": "LineItemsSupplySearch",
         "requestBody": {
           "description": "Search criteria and pagination.",
@@ -3268,8 +3269,9 @@
           {
             "name": "offset",
             "in": "query",
-            "description": "Zero-based index of the first change-history entry to return.",
+            "description": "Zero-based index of the first change-history entry to return. The sum of offset and limit must not exceed 10000; narrow the time range to page through more history.",
             "schema": {
+              "maximum": 9999,
               "minimum": 0,
               "type": "integer",
               "format": "int32",
@@ -5593,60 +5595,6 @@
         "description": "Represents the bidding configuration for a line item.",
         "nullable": true
       },
-      "BiddingSettingsRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/BiddingSettingsResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "BiddingSettingsResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/BiddingSettings"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API.",
-        "nullable": true
-      },
-      "BiddingSettingsResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/BiddingSettingsResource"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Errors that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommonProblem"
-            },
-            "description": "Warnings that occured during this call.",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
-      },
       "BrandIdSearchRequest": {
         "required": [
           "retailerIds"
@@ -7275,6 +7223,22 @@
         "additionalProperties": false,
         "description": "A value resource exposed by the API."
       },
+      "CpcMinBidDetails": {
+        "required": [
+          "minBid"
+        ],
+        "type": "object",
+        "properties": {
+          "minBid": {
+            "type": "number",
+            "description": "The lowest allowed max CPC for the line item.\r\nIt is the lowest minimum bid across the line item SKUs.\r\nA bid below this value is rejected.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the CPC minimum bid guidance of a Sponsored Products line item.",
+        "nullable": true
+      },
       "CpmBiddingSettings": {
         "required": [
           "bidStrategy"
@@ -7298,6 +7262,28 @@
         },
         "additionalProperties": false,
         "description": "Represents the bidding configuration for a CPM-based line item.",
+        "nullable": true
+      },
+      "CpmMinBidDetails": {
+        "required": [
+          "minBid"
+        ],
+        "type": "object",
+        "properties": {
+          "minBid": {
+            "type": "number",
+            "description": "The lowest allowed max CPM for the line item, or zero if there is no minimum.\r\nA max bid below this value is rejected.",
+            "format": "double"
+          },
+          "recommendedMinBid": {
+            "type": "number",
+            "description": "The recommended max CPM for the line item, or null if no recommendation is available.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the CPM minimum bid guidance of a line item.",
         "nullable": true
       },
       "CreateTargetRequestModel": {
@@ -9465,40 +9451,6 @@
         "description": "Active date range for a line item.",
         "nullable": true
       },
-      "ExternalFrequencyCappingModel": {
-        "type": "object",
-        "properties": {
-          "cappingCount": {
-            "type": "integer",
-            "description": "How many times the ads may be shown within the duration.",
-            "format": "int32",
-            "nullable": true
-          },
-          "cappingDurationType": {
-            "enum": [
-              "Unknown",
-              "Session",
-              "Day"
-            ],
-            "type": "string",
-            "description": "The period the count applies to.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "How often a single user may be shown the line item's ads.",
-        "nullable": true
-      },
-      "ExternalFrequencyCappingModelNillableV2": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "$ref": "#/components/schemas/ExternalFrequencyCappingModel"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Wraps an update value. Omit the containing property to leave it unchanged, or set `value` to null to remove the existing value."
-      },
       "ExternalLineItem": {
         "type": "object",
         "properties": {
@@ -9631,9 +9583,6 @@
         "properties": {
           "auctionDetails": {
             "$ref": "#/components/schemas/ExternalPatchOnsiteDisplayAuctionLineItemDetails"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/ExternalFrequencyCappingModelNillableV2"
           }
         },
         "additionalProperties": false,
@@ -10342,6 +10291,102 @@
         "additionalProperties": false,
         "description": "Represents a manual bid amount for a single page type."
       },
+      "LineItemBiddingRequest": {
+        "type": "object",
+        "properties": {
+          "maxBid": {
+            "type": "number",
+            "description": "The maximum bid to set for the Adaptive strategy.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the external bidding configuration to apply to a line item."
+      },
+      "LineItemBiddingRequestRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/LineItemBiddingRequestResource"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
+      },
+      "LineItemBiddingRequestResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemBiddingRequest"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API."
+      },
+      "LineItemBiddingResponse": {
+        "type": "object",
+        "properties": {
+          "maxBid": {
+            "type": "number",
+            "description": "The maximum bid that the Adaptive strategy may use.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents the external bidding configuration for a line item.",
+        "nullable": true
+      },
+      "LineItemBiddingResponseResource": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/LineItemBiddingResponse"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the resource.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A value resource exposed by the API.",
+        "nullable": true
+      },
+      "LineItemBiddingResponseResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/LineItemBiddingResponseResource"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Errors that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonProblem"
+            },
+            "description": "Warnings that occured during this call.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A top-level object that encapsulates a Criteo API response for a single value object."
+      },
       "LineItemBudgetCapOutHistory": {
         "type": "object",
         "properties": {
@@ -10780,41 +10825,37 @@
         "additionalProperties": false,
         "description": "A top-level object that encapsulates a Criteo API response for several entities and metadata."
       },
-      "LineItemMinBids": {
+      "LineItemMinBidResponse": {
         "required": [
-          "adaptiveMinBid",
-          "pageTypeMinBids"
+          "biddingType"
         ],
         "type": "object",
         "properties": {
-          "adaptiveMinBid": {
-            "type": "number",
-            "description": "The lowest strictly positive page-type minimum in the line item's currency, or zero when no positive minimum exists.",
-            "format": "double"
+          "biddingType": {
+            "enum": [
+              "Unknown",
+              "CpmBidding",
+              "CpcBidding"
+            ],
+            "type": "string",
+            "description": "The type of bidding the guidance applies to. It matches the populated details:\r\nCriteo.RetailMedia.LineItem.Bid.Contract.V1.Models.BiddingType.CpmBidding for CPM details and Criteo.RetailMedia.LineItem.Bid.Contract.V1.Models.BiddingType.CpcBidding for CPC details."
           },
-          "adaptiveRecommendedMinBid": {
-            "type": "number",
-            "description": "The bid below which Adaptive bidding validation emits a low-bid warning in the line item's currency.",
-            "format": "double",
-            "nullable": true
+          "cpcMinBidDetails": {
+            "$ref": "#/components/schemas/CpcMinBidDetails"
           },
-          "pageTypeMinBids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PageTypeMinBid"
-            },
-            "description": "The minimum bidding guidance for every page type configured on the line item."
+          "cpmMinBidDetails": {
+            "$ref": "#/components/schemas/CpmMinBidDetails"
           }
         },
         "additionalProperties": false,
-        "description": "Represents minimum bidding guidance calculated for a line item.",
+        "description": "Represents the minimum bid guidance of a line item using Adaptive bidding.",
         "nullable": true
       },
-      "LineItemMinBidsResource": {
+      "LineItemMinBidResponseResource": {
         "type": "object",
         "properties": {
           "attributes": {
-            "$ref": "#/components/schemas/LineItemMinBids"
+            "$ref": "#/components/schemas/LineItemMinBidResponse"
           },
           "type": {
             "type": "string",
@@ -10826,11 +10867,11 @@
         "description": "A value resource exposed by the API.",
         "nullable": true
       },
-      "LineItemMinBidsResponse": {
+      "LineItemMinBidResponseResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/LineItemMinBidsResource"
+            "$ref": "#/components/schemas/LineItemMinBidResponseResource"
           },
           "errors": {
             "type": "array",
@@ -11724,9 +11765,6 @@
         "properties": {
           "auctionDetails": {
             "$ref": "#/components/schemas/OnsiteDisplayAuctionLineItemDetailsV2"
-          },
-          "frequencyCapping": {
-            "$ref": "#/components/schemas/ExternalFrequencyCappingModel"
           }
         },
         "additionalProperties": false,
@@ -11912,48 +11950,6 @@
         },
         "additionalProperties": false,
         "description": "The PageType-Environment Tuples for creatives"
-      },
-      "PageTypeMinBid": {
-        "required": [
-          "minBid",
-          "pageType"
-        ],
-        "type": "object",
-        "properties": {
-          "minBid": {
-            "type": "number",
-            "description": "The inclusive minimum valid bid in the line item's currency.",
-            "format": "double"
-          },
-          "pageType": {
-            "enum": [
-              "Unknown",
-              "Search",
-              "Home",
-              "Browse",
-              "Checkout",
-              "Category",
-              "ProductDetail",
-              "Confirmation",
-              "Merchandising",
-              "Deals",
-              "Favorites",
-              "SearchBar",
-              "CategoryMenu",
-              "AiAssistant"
-            ],
-            "type": "string",
-            "description": "The page type to which the bidding guidance applies."
-          },
-          "recommendedMinBid": {
-            "type": "number",
-            "description": "The bid below which validation emits a low-bid warning in the line item's currency.",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Represents minimum bidding guidance for one page type configured on a line item."
       },
       "PageTypeTargetDetails": {
         "type": "object",

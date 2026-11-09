@@ -4145,7 +4145,7 @@
         },
         "responses": {
           "200": {
-            "description": "Recommended audience segments.",
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
@@ -9369,7 +9369,8 @@
               "buyingPatterns",
               "unknown"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Category of a behavioral segment."
           },
           "country": {
             "type": "string",
@@ -11038,6 +11039,16 @@
         ],
         "type": "object",
         "properties": {
+          "adSetType": {
+            "enum": [
+              "standard",
+              "appRetargeting",
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Type of the ad set. Optional, defaults to standard if omitted.\r\n\"unknown\" is read-only and is rejected on create.",
+            "nullable": true
+          },
           "attributionConfiguration": {
             "$ref": "#/components/schemas/CreateAdSetAttributionConfigurationV26Q1"
           },
@@ -11088,6 +11099,14 @@
           },
           "schedule": {
             "$ref": "#/components/schemas/CreateAdSetScheduleV26Q1"
+          },
+          "serverToServerTrackings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServerToServerTrackingV26Q1"
+            },
+            "description": "MMP server-to-server tracking URLs. Optional, only allowed for app retargeting ad sets.",
+            "nullable": true
           },
           "targeting": {
             "$ref": "#/components/schemas/CreateAdSetTargetingV26Q1"
@@ -16083,6 +16102,14 @@
           "scheduling": {
             "$ref": "#/components/schemas/PatchAdSetSchedulingV26Q1"
           },
+          "serverToServerTrackings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServerToServerTrackingV26Q1"
+            },
+            "description": "MMP server-to-server tracking URLs. Only allowed for app retargeting ad sets. Replaces the existing URLs when provided, clears them when empty, and leaves them unchanged when omitted",
+            "nullable": true
+          },
           "targeting": {
             "$ref": "#/components/schemas/AdSetTargetingV26Q1"
           }
@@ -18873,6 +18900,7 @@
               "SegmentRecommendation"
             ],
             "type": "string",
+            "description": "Type of recommended segment data object.",
             "default": "SegmentRecommendation",
             "nullable": true
           }
@@ -18883,17 +18911,62 @@
       "RecommendSegmentsProblem": {
         "type": "object",
         "properties": {
+          "code": {
+            "type": "string",
+            "description": "A machine-readable error code, expressed as a string value.",
+            "nullable": true
+          },
           "detail": {
             "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem.",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that identifies the specific occurrence of the problem.",
+            "nullable": true
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "A machine-readable structure to reference to the exact location(s) causing the error(s).",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "string",
+            "description": "",
             "nullable": true
           },
           "title": {
             "type": "string",
+            "description": "A short human-readable description of the problem type.",
+            "nullable": true
+          },
+          "traceId": {
+            "type": "string",
+            "description": "The request correlation ID this problem comes from.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "access-control",
+              "authentication",
+              "authorization",
+              "availability",
+              "deprecation",
+              "quota",
+              "validation"
+            ],
+            "type": "string",
+            "description": "The problem's category.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "A warning or an error raised while processing the request."
+        "description": "Common problem object."
       },
       "RecommendSegmentsRequest": {
         "required": [
@@ -18916,15 +18989,19 @@
         "properties": {
           "advertiserId": {
             "type": "string",
-            "description": "Advertiser ID the caller has access to."
+            "description": "[Optional] AdvertiserId this requestor has access to."
           },
           "brief": {
             "type": "string",
             "description": "A freeform audience description."
           },
+          "country": {
+            "type": "string",
+            "description": "[Optional] Country code. Must be a supported country. When `advertiserId` is set, it must also match the country of the advertiser."
+          },
           "nbSegments": {
             "type": "integer",
-            "description": "Number of segments to recommend, between 1 and 20 (defaults to 5).",
+            "description": "Number of segments to recommend, between 1 and 20 (default to 5).",
             "format": "int32",
             "default": 5
           },
@@ -18934,7 +19011,7 @@
               "existing"
             ],
             "type": "string",
-            "description": "Recommend existing segments or suggest new ones.",
+            "description": "[Optional] Recommend only existing segments or suggest the new ones. Default to new.",
             "default": "new"
           },
           "segmentTypesToRecommend": {
@@ -18955,8 +19032,10 @@
                 "lookalike",
                 "filterBased"
               ],
-              "type": "string"
-            }
+              "type": "string",
+              "description": "Segment type, and optionally level, that can be requested.\n\nOnly existing segments can be requested for: affinityAllLevels, affinityTopLevel, affinityChildren, behavioral,\nwebsiteVisitor, predictiveCLV, filterBased.\n\nRequire an advertiserId: inMarketCategoryAllLevels, inMarketCategoryLevel1, inMarketCategoryLevel2,\ninMarketCategoryLevel3, behavioral, websiteVisitor, predictiveCLV, lookalike, filterBased.\n\nAvailable to data coop advertisers only: behavioral, lookalike."
+            },
+            "description": "[Optional] Restrict the recommended segment types."
           }
         },
         "additionalProperties": false,
@@ -18976,6 +19055,7 @@
               "RecommendSegmentsRequest"
             ],
             "type": "string",
+            "description": "Type of the data object of a segment recommendation request.",
             "default": "RecommendSegmentsRequest"
           }
         },
@@ -20012,7 +20092,8 @@
               "filterBased",
               "behavioral"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Type of recommended segment."
           },
           "size": {
             "type": "integer",
