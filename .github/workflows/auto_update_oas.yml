@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   update-oas:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       has_changes: ${{ steps.check_changes.outputs.has_changes }}
     steps:
@@ -84,7 +84,7 @@ jobs:
       needs.test-java.result == 'success' &&
       needs.test-python.result == 'success' &&
       needs.test-php.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -111,7 +111,7 @@ jobs:
   notify:
     needs: [update-oas, test-java, test-python, test-php, push]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Send success notification
         if: needs.update-oas.outputs.has_changes == 'true' && needs.push.result == 'success'
