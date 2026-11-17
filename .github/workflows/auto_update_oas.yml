@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   update-oas:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       has_changes: ${{ steps.check_changes.outputs.has_changes }}
     steps:
@@ -23,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: "3.9"
+          python-version: '3.15'
 
       - name: Update OAS for Experimental
         run: python scripts/update_specification_files.py -s api-specifications -g https://api.criteo.com -r Experimental
@@ -84,7 +84,7 @@ jobs:
       needs.test-java.result == 'success' &&
       needs.test-python.result == 'success' &&
       needs.test-php.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -111,7 +111,7 @@ jobs:
   notify:
     needs: [update-oas, test-java, test-python, test-php, push]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Send success notification
         if: needs.update-oas.outputs.has_changes == 'true' && needs.push.result == 'success'
