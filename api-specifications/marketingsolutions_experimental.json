@@ -1691,7 +1691,7 @@
           "Catalog"
         ],
         "summary": "/experimental/catalog/products/batch",
-        "description": "Used to publish a batch of operations to insert, update and deletes products.\n The batch is processed asynchronously.The response provides an operationToken which can be used to track\n the status of the report of the operation.",
+        "description": "Used to publish a batch of operations to insert, update and delete products.\n The batch is processed asynchronously. The response provides an operation id in `operationToken`\n which can be used to track the status of the report of the operation.",
         "operationId": "SubmitCatalogProductsBatch",
         "requestBody": {
           "content": {
@@ -1706,7 +1706,7 @@
         },
         "responses": {
           "202": {
-            "description": "Batch accepted. The status of the operation can be tracked using the report endpoint and the operationToken.",
+            "description": "Batch accepted. The status of the operation can be tracked using the report endpoint and the operation id in `operationToken`.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1771,13 +1771,13 @@
           "Catalog"
         ],
         "summary": "/experimental/catalog/stats/merchants/{merchant-id}",
-        "description": "get an stats request",
+        "description": "Get the statistics of the catalog of a merchant over the last `lastNumHours` hours (24 hours by default)",
         "operationId": "GetCatalogMerchantStats",
         "parameters": [
           {
             "name": "lastNumHours",
             "in": "query",
-            "description": "the last number of hours",
+            "description": "The number of past hours covered by the statistics (1 to 1000, 24 by default).",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1786,17 +1786,16 @@
           {
             "name": "merchant-id",
             "in": "path",
-            "description": "merchant-id to get",
+            "description": "The id of the merchant whose catalog statistics are requested.",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "The successful response of GET stats request",
+            "description": "The statistics object",
             "content": {
               "application/json": {
                 "schema": {
@@ -4937,161 +4936,6 @@
         ]
       }
     },
-    "/experimental/marketing-solutions/report-jobs/{reportId}": {
-      "get": {
-        "tags": [
-          "Analytics"
-        ],
-        "summary": "/experimental/marketing-solutions/report-jobs/{reportId}",
-        "description": "Gets the status of  report export job.",
-        "operationId": "GetExportStatus",
-        "parameters": [
-          {
-            "name": "reportId",
-            "in": "path",
-            "description": "The identifier of the report export job.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExportStatusModelResponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExportStatusModelResponse"
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExportStatusModelResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Analytics_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/experimental/marketing-solutions/report/products/{reportId}": {
-      "get": {
-        "tags": [
-          "Analytics"
-        ],
-        "summary": "/experimental/marketing-solutions/report/products/{reportId}",
-        "description": "Downloads the generated all-products report export.\n<br />\nThis endpoint is subject to specific rate limits.",
-        "operationId": "DownloadAllProductsExport",
-        "parameters": [
-          {
-            "name": "reportId",
-            "in": "path",
-            "description": "The identifier of the all-products report export.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Analytics_Read"
-            ]
-          }
-        ]
-      }
-    },
-    "/experimental/marketing-solutions/report/products/export": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "summary": "/experimental/marketing-solutions/report/products/export",
-        "description": "Creates an all-products report export job.\n<br />\nThis endpoint is subject to specific rate limits.",
-        "operationId": "CreateAllProductsExport",
-        "requestBody": {
-          "description": "The all-products report export request.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateAllProductsReportRequestAttributesRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateAllProductsReportRequestAttributesRequest"
-              }
-            },
-            "text/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateAllProductsReportRequestAttributesRequest"
-              }
-            },
-            "application/*+xml": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateAllProductsReportRequestAttributesRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExportStatusModelResponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExportStatusModelResponse"
-                }
-              },
-              "text/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExportStatusModelResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth": [
-              "MarketingSolutions_Analytics_Read"
-            ]
-          }
-        ]
-      }
-    },
     "/experimental/placements/report": {
       "post": {
         "tags": [
@@ -6105,7 +5949,7 @@
           "Analytics"
         ],
         "summary": "/experimental/statistics/report",
-        "description": "This Statistics endpoint provides ad set related data. It is an upgrade of our previous Statistics endpoint, and includes new metrics and customization capabilities.\r\n<br/><br/>\r\nThis endpoint supports data retrieval for up to two years in the past.",
+        "description": "This Statistics endpoint provides ad set related data. It is an upgrade of our previous Statistics endpoint, and includes new metrics and customization capabilities.\r\n<br/><br/>\r\nThis endpoint supports data retrieval for up to two years in the past.\n<br />\nThis endpoint is subject to specific rate limits.",
         "operationId": "GetAdsetReport",
         "requestBody": {
           "content": {
@@ -12691,135 +12535,6 @@
         "description": "Settings to target users based on a combination of filters.",
         "nullable": true
       },
-      "GenerateAllProductsReportRequestAttributes": {
-        "required": [
-          "advertiserIds",
-          "startDate"
-        ],
-        "type": "object",
-        "properties": {
-          "adSetIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The list of ad set ids.",
-            "nullable": true
-          },
-          "advertiserIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The list of advertiser account IDs."
-          },
-          "campaignIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The list of campaign ids.",
-            "nullable": true
-          },
-          "currency": {
-            "type": "string",
-            "description": "The currency used for the report. ISO 4217 code (three-letter capitals).",
-            "default": "EUR",
-            "nullable": true
-          },
-          "dimensions": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "AdvertiserId",
-                "PartnerId",
-                "CampaignId",
-                "AdSetId",
-                "ProductId",
-                "SellerId"
-              ],
-              "type": "string"
-            },
-            "description": "The dimensions for the report.",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "description": "End date of the report. ISO 8601 date-time (UTC). Defaults to Now if not provided.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "fileFormat": {
-            "type": "string",
-            "description": "The output file format. Supported: csv, json.",
-            "default": "csv",
-            "nullable": true
-          },
-          "metrics": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "Clicks",
-                "Displays",
-                "Ctr",
-                "Visits",
-                "Sales",
-                "Cost",
-                "Revenue"
-              ],
-              "type": "string"
-            },
-            "description": "The list of metrics to report.",
-            "nullable": true
-          },
-          "sellerIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The list of seller ids.",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "description": "Start date of the report. ISO 8601 date-time (UTC).",
-            "format": "date-time"
-          },
-          "timezone": {
-            "type": "string",
-            "description": "The timezone used for the report. Timezone Database format (Tz).",
-            "default": "UTC",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "This is the message defining the query for AllProducts report (async export)"
-      },
-      "GenerateAllProductsReportRequestAttributesRequest": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/GenerateAllProductsReportRequestAttributesResource"
-          }
-        },
-        "additionalProperties": false,
-        "description": "A top-level object that encapsulates a Criteo API request for a single value object."
-      },
-      "GenerateAllProductsReportRequestAttributesResource": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/GenerateAllProductsReportRequestAttributes"
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the resource.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A value resource exposed by the API."
-      },
       "GenerateAudiencePerformanceReport": {
         "required": [
           "advertiserId",
@@ -16633,7 +16348,7 @@
       },
       "Product": {
         "required": [
-          "channel",
+          "availability",
           "id",
           "imageLink",
           "link",
@@ -16672,8 +16387,14 @@
             "description": "Target age group of the item."
           },
           "availability": {
+            "enum": [
+              "in_stock",
+              "out_of_stock",
+              "preorder",
+              "backorder"
+            ],
             "type": "string",
-            "description": "Availability status of the item. RECOMMENDED."
+            "description": "Availability status of the item."
           },
           "availabilityDate": {
             "type": "string",
@@ -16688,9 +16409,6 @@
             "description": "Brand of the item. RECOMMENDED."
           },
           "channel": {
-            "enum": [
-              "online"
-            ],
             "type": "string",
             "description": "The item's channel (online only)."
           },
@@ -16714,7 +16432,7 @@
             "items": {
               "$ref": "#/components/schemas/CustomAttribute"
             },
-            "description": "A list of custom (merchant-provided) attributes. This is useful for submitting attributes not explicitly exposed by the API. Declaring attributes explicitly exposed by the API using is forbidden"
+            "description": "A list of custom (merchant-provided) attributes. This is useful for submitting attributes not explicitly exposed by the API. Declaring attributes explicitly exposed by the API using this field is forbidden."
           },
           "customLabel0": {
             "type": "string",
@@ -16738,7 +16456,7 @@
           },
           "description": {
             "type": "string",
-            "description": "Description of the item. RECOMMENDED. (5000 UTF8 characters max)."
+            "description": "Description of the item. RECOMMENDED. (5000 UTF-8 characters max)."
           },
           "displayAdsId": {
             "type": "string",
@@ -16768,6 +16486,13 @@
             "type": "string",
             "description": "The energy efficiency class as defined in EU directive 2010/30/EU."
           },
+          "excludedChannels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of channels to exclude for this product. Accepted values: PERF_MEDIA, RM_ONSITE, RM_OFFSITE."
+          },
           "excludedDestinations": {
             "type": "array",
             "items": {
@@ -16781,11 +16506,11 @@
           },
           "externalSellerId": {
             "type": "string",
-            "description": "The external id of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads."
+            "description": "The external ID of the seller (case sensitive and 50 UTF-8 characters max). This information is required by the Criteo Offsite Ads."
           },
           "externalSellerName": {
             "type": "string",
-            "description": "The external name of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads."
+            "description": "The external name of the seller (case sensitive and 750 UTF-8 characters max). This information is required by the Criteo Offsite Ads."
           },
           "filters": {
             "type": "object",
@@ -16819,7 +16544,7 @@
           },
           "imageLink": {
             "type": "string",
-            "description": "URL of an image of the item. Supported formats: PNG, JPEG, GIF. (2000 UTF8 characters max). "
+            "description": "URL of an image of the item. Supported formats: PNG, JPEG, GIF. (2000 UTF-8 characters max). "
           },
           "includedDestinations": {
             "type": "array",
@@ -16835,6 +16560,10 @@
             "type": "boolean",
             "description": "Whether the item is a merchant-defined bundle. A bundle is a custom grouping of different products sold by a merchant for a single price."
           },
+          "isBuybox": {
+            "type": "boolean",
+            "description": "Flag indicating whether this SKU is currently the Buy Box Winner (BBW) on its Product Detail Page."
+          },
           "itemGroupId": {
             "type": "string",
             "description": "Shared identifier for all variants of the same product. RECOMMENDED. Don’t use casing to make IDs unique. (50 characters max)"
@@ -16845,7 +16574,7 @@
           },
           "link": {
             "type": "string",
-            "description": "URL directly linking to your item's page on your website. (1000 UTF8 characters max)."
+            "description": "URL directly linking to your item's page on your website. (2000 UTF-8 characters max)."
           },
           "loyaltyPoints": {
             "$ref": "#/components/schemas/LoyaltyPoints"
@@ -16874,7 +16603,7 @@
           },
           "mobileLink": {
             "type": "string",
-            "description": "accounts.link to a mobile-optimized version of the landing page."
+            "description": "Link to a mobile-optimized version of the landing page."
           },
           "mpn": {
             "type": "string",
@@ -16935,7 +16664,7 @@
           },
           "sellerId": {
             "type": "string",
-            "description": "(Deprecated Field) The external ID of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads."
+            "description": "(Deprecated Field) The external ID of the seller (case sensitive and 50 UTF-8 characters max). This information is required by the Criteo Offsite Ads."
           },
           "sellOnGoogleQuantity": {
             "type": "integer",
@@ -16954,7 +16683,7 @@
           },
           "shippingLabel": {
             "type": "string",
-            "description": "The shipping label of the product, used to group product in account-level shipping rules."
+            "description": "The shipping label of the product, used to group products in account-level shipping rules."
           },
           "shippingLength": {
             "$ref": "#/components/schemas/ProductShippingDimension"
@@ -16970,7 +16699,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Size of the item. RECOMMENDED. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same itemGroupId value."
+            "description": "Size of the item. RECOMMENDED. For variants with different sizes, insert a separate product for each size with the same itemGroupId value."
           },
           "sizeSystem": {
             "type": "string",
@@ -17001,11 +16730,11 @@
           },
           "title": {
             "type": "string",
-            "description": "Title of the item. (500 UTF8 characters max)."
+            "description": "Title of the item. (500 UTF-8 characters max)."
           },
           "transitTimeLabel": {
             "type": "string",
-            "description": "The transit time label of the product, used to group product in account-level transit time tables."
+            "description": "The transit time label of the product, used to group products in account-level transit time tables."
           },
           "unitPricingBaseMeasure": {
             "$ref": "#/components/schemas/ProductUnitPricingBaseMeasure"
@@ -17433,12 +17162,11 @@
           },
           "itemGroupId": {
             "type": "string",
-            "description": "Deprecated (providing this information is no more needed, this field will be removed in next release). The itemGroupId of the product to delete. To be defined when the method is delete and the product is a variant."
+            "description": "Deprecated (providing this information is no longer needed, this field will be removed in the next release). The itemGroupId of the product to delete. To be defined when the method is delete and the product is a variant."
           },
           "merchantId": {
-            "type": "integer",
-            "description": "The ID of the managing account. Criteo: the partnerId.",
-            "format": "int32"
+            "type": "string",
+            "description": "The ID of the managing account. Criteo: the partnerId."
           },
           "method": {
             "enum": [
@@ -19289,39 +19017,27 @@
           },
           "importRequestTimestamp": {
             "type": "string",
-            "description": "The date when the original batch request was sent.",
-            "format": "int64",
-            "nullable": true
+            "description": "The date when the original batch request was sent."
           },
           "numberOfProductsDeleted": {
             "type": "string",
-            "description": "The number of products deleted.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products deleted."
           },
           "numberOfProductsInTheBatch": {
             "type": "string",
-            "description": "The number of products present in the batch.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products present in the batch."
           },
           "numberOfProductsUpserted": {
             "type": "string",
-            "description": "The number of products upserted.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products upserted."
           },
           "numberOfProductsWithErrors": {
             "type": "string",
-            "description": "The number of products with errors.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products with errors."
           },
           "numberOfProductsWithWarnings": {
             "type": "string",
-            "description": "The number of products with Warnings.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products with warnings."
           },
           "status": {
             "enum": [
@@ -19339,7 +19055,7 @@
             "items": {
               "$ref": "#/components/schemas/ReportDetailWarnings"
             },
-            "description": "The list of Warnings with details."
+            "description": "The list of warnings with details."
           }
         },
         "description": "The report on a given operationToken is ready. The report is available for 4 days"
@@ -20935,7 +20651,7 @@
             "readOnly": true
           }
         },
-        "description": "The statistics reports"
+        "description": "The statistics successful reports response"
       },
       "StatisticsRecord": {
         "required": [
@@ -20953,90 +20669,74 @@
           "outOfStock",
           "startDate",
           "total",
-          "variant",
-          "updated"
+          "updated",
+          "variant"
         ],
         "type": "object",
         "properties": {
           "added": {
             "type": "string",
-            "description": "The number of inserted products during the period between startDate and endDate",
-            "format": "int64"
+            "description": "The number of inserted products during the period between startDate and endDate"
           },
           "blacklisted": {
             "type": "string",
-            "description": "The number of total blacklisted products at endDate moment",
-            "format": "int64"
+            "description": "The number of total blacklisted products at endDate moment"
           },
           "deleted": {
             "type": "string",
-            "description": "The number of deleted products during the period between startDate and endDate",
-            "format": "int64"
+            "description": "The number of deleted products during the period between startDate and endDate"
           },
           "displayable": {
             "type": "string",
-            "description": "The number of total displayable products at endDate moment",
-            "format": "int64"
+            "description": "The number of total displayable products at endDate moment"
           },
           "endDate": {
             "type": "string",
-            "description": "End date of streaming products collection",
-            "format": "date-time"
+            "description": "End date of streaming products collection"
           },
           "missingDescription": {
             "type": "string",
-            "description": "The number of total missing description products at endDate moment",
-            "format": "int64"
+            "description": "The number of total missing description products at endDate moment"
           },
           "missingImage": {
             "type": "string",
-            "description": "The number of total missing image products at endDate moment",
-            "format": "int64"
+            "description": "The number of total missing image products at endDate moment"
           },
           "missingName": {
             "type": "string",
-            "description": "The number of total missing name products at endDate moment",
-            "format": "int64"
+            "description": "The number of total missing name products at endDate moment"
           },
           "missingPrice": {
             "type": "string",
-            "description": "The number of total missing price products at endDate moment",
-            "format": "int64"
+            "description": "The number of total missing price products at endDate moment"
           },
           "missingUrl": {
             "type": "string",
-            "description": "The number of total missing url products at endDate moment",
-            "format": "int64"
+            "description": "The number of total missing url products at endDate moment"
           },
           "nonDisplayable": {
             "type": "string",
-            "description": "The number of total non-displayable products at endDate moment",
-            "format": "int64"
+            "description": "The number of total non-displayable products at endDate moment"
           },
           "outOfStock": {
             "type": "string",
-            "description": "The number of total out-of-stock products at endDate moment",
-            "format": "int64"
+            "description": "The number of total out-of-stock products at endDate moment"
           },
           "startDate": {
             "type": "string",
-            "description": "Start date of streaming products collection",
-            "format": "date-time"
+            "description": "Start date of streaming products collection"
           },
           "total": {
             "type": "string",
-            "description": "The number of total products at endDate moment",
-            "format": "int64"
+            "description": "The number of total products at endDate moment"
           },
           "updated": {
             "type": "string",
-            "description": "The number of updated products during the period between startDate and endDate",
-            "format": "int64"
+            "description": "The number of updated products during the period between startDate and endDate"
           },
           "variant": {
             "type": "string",
-            "description": "The number of total variant products at endDate moment",
-            "format": "int64"
+            "description": "The number of total variant products at endDate moment"
           }
         },
         "description": "The format  statistics report for a period between startDate and endDate"

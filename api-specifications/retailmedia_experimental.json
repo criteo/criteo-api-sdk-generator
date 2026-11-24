@@ -1641,7 +1641,7 @@
           "Catalog"
         ],
         "summary": "/experimental/retail-media/catalog/products/batch",
-        "description": "Used to publish a batch of operations to insert, update and deletes products.\n The batch is processed asynchronously.The response provides an operationToken which can be used to track\n the status of the report of the operation.",
+        "description": "Used to publish a batch of operations to insert, update and delete products.\n The batch is processed asynchronously. The response provides an operation id in `operationToken`\n which can be used to track the status of the report of the operation.",
         "operationId": "SubmitCatalogProductsBatch",
         "requestBody": {
           "content": {
@@ -1656,7 +1656,7 @@
         },
         "responses": {
           "202": {
-            "description": "Batch accepted. The status of the operation can be tracked using the report endpoint and the operationToken.",
+            "description": "Batch accepted. The status of the operation can be tracked using the report endpoint and the operation id in `operationToken`.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6285,6 +6285,19 @@
       "CampaignSearchModel": {
         "type": "object",
         "properties": {
+          "budgetStatusFilter": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "BudgetAvailable",
+                "DailyBudgetReached",
+                "MonthlyBudgetReached",
+                "TotalBudgetReached"
+              ],
+              "type": "string"
+            },
+            "nullable": true
+          },
           "buyTypeFilter": {
             "type": "array",
             "items": {
@@ -9325,7 +9338,7 @@
       "ExternalCreateLineItemModel": {
         "required": [
           "campaignId",
-          "name",
+          "lineItemName",
           "retailerId"
         ],
         "type": "object",
@@ -9335,7 +9348,7 @@
             "description": "The campaign id of the associated campaign.",
             "nullable": true
           },
-          "name": {
+          "lineItemName": {
             "type": "string",
             "description": "The name of the line item.",
             "nullable": true
@@ -9484,7 +9497,7 @@
             "description": "The unique identifier of the line item.",
             "nullable": true
           },
-          "name": {
+          "lineItemName": {
             "type": "string",
             "description": "The name of the line item.",
             "nullable": true
@@ -9524,7 +9537,7 @@
             "description": "Whether the line item is paused.",
             "nullable": true
           },
-          "name": {
+          "lineItemName": {
             "type": "string",
             "description": "The name of the line item.",
             "nullable": true
@@ -10209,6 +10222,11 @@
             "description": "The id of the line item.",
             "nullable": true
           },
+          "lineItemName": {
+            "type": "string",
+            "description": "The name of the line item.",
+            "nullable": true
+          },
           "lineItemType": {
             "enum": [
               "SponsoredProduct",
@@ -10216,11 +10234,6 @@
             ],
             "type": "string",
             "description": "The type of the line item.",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the line item.",
             "nullable": true
           },
           "onsiteDisplay": {
@@ -11171,7 +11184,7 @@
           "campaignId",
           "isPaused",
           "lineItemId",
-          "name",
+          "lineItemName",
           "retailerId",
           "serveToOptOutUser",
           "type"
@@ -11206,7 +11219,7 @@
             "description": "The unique identifier of the line item.",
             "nullable": true
           },
-          "name": {
+          "lineItemName": {
             "type": "string",
             "description": "The name of the line item.",
             "nullable": true
@@ -12404,7 +12417,7 @@
       },
       "Product": {
         "required": [
-          "channel",
+          "availability",
           "id",
           "imageLink",
           "link",
@@ -12443,8 +12456,14 @@
             "description": "Target age group of the item."
           },
           "availability": {
+            "enum": [
+              "in_stock",
+              "out_of_stock",
+              "preorder",
+              "backorder"
+            ],
             "type": "string",
-            "description": "Availability status of the item. RECOMMENDED."
+            "description": "Availability status of the item."
           },
           "availabilityDate": {
             "type": "string",
@@ -12459,9 +12478,6 @@
             "description": "Brand of the item. RECOMMENDED."
           },
           "channel": {
-            "enum": [
-              "online"
-            ],
             "type": "string",
             "description": "The item's channel (online only)."
           },
@@ -12485,7 +12501,7 @@
             "items": {
               "$ref": "#/components/schemas/CustomAttribute"
             },
-            "description": "A list of custom (merchant-provided) attributes. This is useful for submitting attributes not explicitly exposed by the API. Declaring attributes explicitly exposed by the API using is forbidden"
+            "description": "A list of custom (merchant-provided) attributes. This is useful for submitting attributes not explicitly exposed by the API. Declaring attributes explicitly exposed by the API using this field is forbidden."
           },
           "customLabel0": {
             "type": "string",
@@ -12509,7 +12525,7 @@
           },
           "description": {
             "type": "string",
-            "description": "Description of the item. RECOMMENDED. (5000 UTF8 characters max)."
+            "description": "Description of the item. RECOMMENDED. (5000 UTF-8 characters max)."
           },
           "displayAdsId": {
             "type": "string",
@@ -12539,6 +12555,13 @@
             "type": "string",
             "description": "The energy efficiency class as defined in EU directive 2010/30/EU."
           },
+          "excludedChannels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of channels to exclude for this product. Accepted values: PERF_MEDIA, RM_ONSITE, RM_OFFSITE."
+          },
           "excludedDestinations": {
             "type": "array",
             "items": {
@@ -12552,11 +12575,11 @@
           },
           "externalSellerId": {
             "type": "string",
-            "description": "The external id of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads."
+            "description": "The external ID of the seller (case sensitive and 50 UTF-8 characters max). This information is required by the Criteo Offsite Ads."
           },
           "externalSellerName": {
             "type": "string",
-            "description": "The external name of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads."
+            "description": "The external name of the seller (case sensitive and 750 UTF-8 characters max). This information is required by the Criteo Offsite Ads."
           },
           "filters": {
             "type": "object",
@@ -12590,7 +12613,7 @@
           },
           "imageLink": {
             "type": "string",
-            "description": "URL of an image of the item. Supported formats: PNG, JPEG, GIF. (2000 UTF8 characters max). "
+            "description": "URL of an image of the item. Supported formats: PNG, JPEG, GIF. (2000 UTF-8 characters max). "
           },
           "includedDestinations": {
             "type": "array",
@@ -12606,6 +12629,10 @@
             "type": "boolean",
             "description": "Whether the item is a merchant-defined bundle. A bundle is a custom grouping of different products sold by a merchant for a single price."
           },
+          "isBuybox": {
+            "type": "boolean",
+            "description": "Flag indicating whether this SKU is currently the Buy Box Winner (BBW) on its Product Detail Page."
+          },
           "itemGroupId": {
             "type": "string",
             "description": "Shared identifier for all variants of the same product. RECOMMENDED. Don’t use casing to make IDs unique. (50 characters max)"
@@ -12616,7 +12643,7 @@
           },
           "link": {
             "type": "string",
-            "description": "URL directly linking to your item's page on your website. (1000 UTF8 characters max)."
+            "description": "URL directly linking to your item's page on your website. (2000 UTF-8 characters max)."
           },
           "loyaltyPoints": {
             "$ref": "#/components/schemas/LoyaltyPoints"
@@ -12645,7 +12672,7 @@
           },
           "mobileLink": {
             "type": "string",
-            "description": "accounts.link to a mobile-optimized version of the landing page."
+            "description": "Link to a mobile-optimized version of the landing page."
           },
           "mpn": {
             "type": "string",
@@ -12706,7 +12733,7 @@
           },
           "sellerId": {
             "type": "string",
-            "description": "(Deprecated Field) The external ID of the seller (case sensitive and 50 UTF8 characters max). This information is required by the Criteo Offsite Ads."
+            "description": "(Deprecated Field) The external ID of the seller (case sensitive and 50 UTF-8 characters max). This information is required by the Criteo Offsite Ads."
           },
           "sellOnGoogleQuantity": {
             "type": "integer",
@@ -12725,7 +12752,7 @@
           },
           "shippingLabel": {
             "type": "string",
-            "description": "The shipping label of the product, used to group product in account-level shipping rules."
+            "description": "The shipping label of the product, used to group products in account-level shipping rules."
           },
           "shippingLength": {
             "$ref": "#/components/schemas/ProductShippingDimension"
@@ -12741,7 +12768,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Size of the item. RECOMMENDED. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same itemGroupId value."
+            "description": "Size of the item. RECOMMENDED. For variants with different sizes, insert a separate product for each size with the same itemGroupId value."
           },
           "sizeSystem": {
             "type": "string",
@@ -12772,11 +12799,11 @@
           },
           "title": {
             "type": "string",
-            "description": "Title of the item. (500 UTF8 characters max)."
+            "description": "Title of the item. (500 UTF-8 characters max)."
           },
           "transitTimeLabel": {
             "type": "string",
-            "description": "The transit time label of the product, used to group product in account-level transit time tables."
+            "description": "The transit time label of the product, used to group products in account-level transit time tables."
           },
           "unitPricingBaseMeasure": {
             "$ref": "#/components/schemas/ProductUnitPricingBaseMeasure"
@@ -12834,12 +12861,11 @@
           },
           "itemGroupId": {
             "type": "string",
-            "description": "Deprecated (providing this information is no more needed, this field will be removed in next release). The itemGroupId of the product to delete. To be defined when the method is delete and the product is a variant."
+            "description": "Deprecated (providing this information is no longer needed, this field will be removed in the next release). The itemGroupId of the product to delete. To be defined when the method is delete and the product is a variant."
           },
           "merchantId": {
-            "type": "integer",
-            "description": "The ID of the managing account. Criteo: the partnerId.",
-            "format": "int32"
+            "type": "string",
+            "description": "The ID of the managing account. Criteo: the partnerId."
           },
           "method": {
             "enum": [
@@ -13185,39 +13211,27 @@
           },
           "importRequestTimestamp": {
             "type": "string",
-            "description": "The date when the original batch request was sent.",
-            "format": "int64",
-            "nullable": true
+            "description": "The date when the original batch request was sent."
           },
           "numberOfProductsDeleted": {
             "type": "string",
-            "description": "The number of products deleted.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products deleted."
           },
           "numberOfProductsInTheBatch": {
             "type": "string",
-            "description": "The number of products present in the batch.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products present in the batch."
           },
           "numberOfProductsUpserted": {
             "type": "string",
-            "description": "The number of products upserted.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products upserted."
           },
           "numberOfProductsWithErrors": {
             "type": "string",
-            "description": "The number of products with errors.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products with errors."
           },
           "numberOfProductsWithWarnings": {
             "type": "string",
-            "description": "The number of products with Warnings.",
-            "format": "int32",
-            "nullable": true
+            "description": "The number of products with warnings."
           },
           "status": {
             "enum": [
@@ -13235,7 +13249,7 @@
             "items": {
               "$ref": "#/components/schemas/ReportDetailWarnings"
             },
-            "description": "The list of Warnings with details."
+            "description": "The list of warnings with details."
           }
         },
         "description": "The report on a given operationToken is ready. The report is available for 4 days"
