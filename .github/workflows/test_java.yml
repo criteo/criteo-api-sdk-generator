@@ -1,28 +1,35 @@
-name: Test Java Generator
+# Temporary smoke test for the preprod vcluster self-hosted runner (ghrunners plan 1.10).
+# Lives only on branch test/vcluster-runner-smoke — do not merge.
+name: vcluster runner smoke test
 
 on:
-  pull_request:
-    paths:
-      - 'generator/java/**'
-      - 'api-specifications/**'
-      - 'api-specifications-test-only/**'
-      # Shared build logic may break generation of every language without touching generator/python/**.
-      - 'buildSrc/**'
-      - 'build.gradle'
-      - 'settings.gradle'
-      - 'gradle.properties'
-      - 'gradle/**'
-      - 'gradlew'
-      - 'scripts/**'
-      - '.github/workflows/_generate_and_test.yml'
   push:
     branches:
-      - 'update-oas-**'
+      - test/vcluster-runner-smoke
   workflow_dispatch:
 
 jobs:
-  build:
-    uses: ./.github/workflows/_generate_and_test.yml
-    with:
-      language: java
-    secrets: inherit
+  smoke:
+    runs-on: [self-hosted, vcluster-preprod]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Runner info
+        run: |
+          echo "runner: $RUNNER_NAME ($RUNNER_OS/$RUNNER_ARCH)"
+          uname -a
+          nproc
+          free -h
+          df -h /runner/_work
+
+      - name: Workspace
+        run: ls -la
+
+      - name: Artefact
+        run: echo "hello from $RUNNER_NAME at $(date -u)" > smoke.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smoke
+          path: smoke.txt
