@@ -1,0 +1,119 @@
+<?php
+namespace {{invokerPackage}};
+
+use {{invokerPackage}}\ObjectSerializer;
+use {{invokerPackage}}\Model\InlineEnumBaseType;
+use {{invokerPackage}}\Model\InlineEnumDerivedTypeOne;
+use {{invokerPackage}}\Model\InlineEnumDerivedTypeTwo;
+use {{invokerPackage}}\Model\RefEnumBaseType;
+use {{invokerPackage}}\Model\RefEnumDerivedTypeOne;
+use {{invokerPackage}}\Model\RefEnumDerivedTypeTwo;
+use {{invokerPackage}}\Model\RefEnumTypeDiscriminator;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Tests of discriminators typed as an enum: an inline enum (InlineEnum*) or a reference to an enum schema (RefEnum*).
+ * No path of the test-only spec uses these models, so these tests run offline.
+ *
+ * The discriminator mapping lookup is done by our ObjectSerializer and model_generic templates,
+ * since the original PHP templates use the discriminator value as the class name.
+ */
+class EnumDiscriminatorTest extends TestCase
+{
+    private const TYPE_ONE_VALUE = "type-one";
+    private const TYPE_TWO_VALUE = 42;
+
+    private const TYPE_ONE_JSON = '{"typeDiscriminator":"DERIVED_TYPE_ONE","typeOneValue":"type-one"}';
+    private const TYPE_TWO_JSON = '{"typeDiscriminator":"DERIVED_TYPE_TWO","typeTwoValue":42}';
+
+    private function assertSerializedAs(string $expectedJson, $model): void
+    {
+        $this->assertEquals(
+            json_decode($expectedJson, true),
+            json_decode(json_encode(ObjectSerializer::sanitizeForSerialization($model)), true)
+        );
+    }
+
+    public function baseTypeProvider(): array
+    {
+        return [
+            'inline enum, DERIVED_TYPE_ONE' => [InlineEnumBaseType::class, self::TYPE_ONE_JSON, InlineEnumDerivedTypeOne::class],
+            'inline enum, DERIVED_TYPE_TWO' => [InlineEnumBaseType::class, self::TYPE_TWO_JSON, InlineEnumDerivedTypeTwo::class],
+            'enum schema, DERIVED_TYPE_ONE' => [RefEnumBaseType::class, self::TYPE_ONE_JSON, RefEnumDerivedTypeOne::class],
+            'enum schema, DERIVED_TYPE_TWO' => [RefEnumBaseType::class, self::TYPE_TWO_JSON, RefEnumDerivedTypeTwo::class],
+        ];
+    }
+
+    /**
+     * @dataProvider baseTypeProvider
+     */
+    public function testBaseTypeShouldDeserializeDerivedTypes(string $baseClass, string $json, string $expectedClass): void
+    {
+        // Act
+        $deserialized = ObjectSerializer::deserialize(json_decode($json), $baseClass);
+
+        // Assert
+        $this->assertInstanceOf($expectedClass, $deserialized);
+        $this->assertTrue($deserialized->valid(), json_encode($deserialized->listInvalidProperties()));
+        $this->assertSerializedAs($json, $deserialized);
+    }
+
+    // NOTE on typeDiscriminator: the constructor of the base type sets it to the model name, even
+    // over a value given to the constructor, so it is set after construction.
+
+    public function testInlineEnumDerivedTypeShouldSerializeDiscriminatorValue(): void
+    {
+        // Arrange
+        $one = new InlineEnumDerivedTypeOne(['type_one_value' => self::TYPE_ONE_VALUE]);
+        $one->setTypeDiscriminator(InlineEnumBaseType::TYPE_DISCRIMINATOR_ONE);
+        $two = new InlineEnumDerivedTypeTwo(['type_two_value' => self::TYPE_TWO_VALUE]);
+        $two->setTypeDiscriminator(InlineEnumBaseType::TYPE_DISCRIMINATOR_TWO);
+
+        // Act & Assert
+        $this->assertTrue($one->valid(), json_encode($one->listInvalidProperties()));
+        $this->assertSerializedAs(self::TYPE_ONE_JSON, $one);
+        $this->assertTrue($two->valid(), json_encode($two->listInvalidProperties()));
+        $this->assertSerializedAs(self::TYPE_TWO_JSON, $two);
+    }
+
+    public function testRefEnumDerivedTypeShouldSerializeDiscriminatorValue(): void
+    {
+        // Arrange
+        $one = new RefEnumDerivedTypeOne(['type_one_value' => self::TYPE_ONE_VALUE]);
+        $one->setTypeDiscriminator(RefEnumTypeDiscriminator::ONE);
+        $two = new RefEnumDerivedTypeTwo(['type_two_value' => self::TYPE_TWO_VALUE]);
+        $two->setTypeDiscriminator(RefEnumTypeDiscriminator::TWO);
+
+        // Act & Assert
+        $this->assertTrue($one->valid(), json_encode($one->listInvalidProperties()));
+        $this->assertSerializedAs(self::TYPE_ONE_JSON, $one);
+        $this->assertTrue($two->valid(), json_encode($two->listInvalidProperties()));
+        $this->assertSerializedAs(self::TYPE_TWO_JSON, $two);
+    }
+
+    // The model name isn't a valid enum value, so a derived type whose enum discriminator isn't set
+    // holds an invalid value. These tests document how that shows up, which differs between the two kinds of enum.
+
+    public function testInlineEnumDerivedTypeWithoutDiscriminatorShouldBeInvalid(): void
+    {
+        // Act
+        $one = new InlineEnumDerivedTypeOne(['type_one_value' => self::TYPE_ONE_VALUE]);
+
+        // Assert: the model name is reported as invalid, but still serialized
+        $this->assertSame('InlineEnumDerivedTypeOne', $one->getTypeDiscriminator());
+        $this->assertFalse($one->valid());
+        $this->assertSerializedAs('{"typeDiscriminator":"InlineEnumDerivedTypeOne","typeOneValue":"type-one"}', $one);
+    }
+
+    public function testRefEnumDerivedTypeWithoutDiscriminatorShouldNotBeSerialized(): void
+    {
+        // Arrange
+        $one = new RefEnumDerivedTypeOne(['type_one_value' => self::TYPE_ONE_VALUE]);
+
+        // Assert: valid() only checks inline enums, so it misses the model name, but the serializer rejects it
+        $this->assertSame('RefEnumDerivedTypeOne', $one->getTypeDiscriminator());
+        $this->assertTrue($one->valid());
+        $this->expectException(\InvalidArgumentException::class);
+        ObjectSerializer::sanitizeForSerialization($one);
+    }
+}

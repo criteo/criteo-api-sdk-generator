@@ -1,0 +1,110 @@
+import pytest
+
+from {{packageName}}.api_client import ApiClient
+from {{packageName}}.configuration import Configuration
+from {{packageName}}.exceptions import ApiValueError
+from {{packageName}}.model.inline_enum_base_type import InlineEnumBaseType
+from {{packageName}}.model.inline_enum_derived_type_one import InlineEnumDerivedTypeOne
+from {{packageName}}.model.inline_enum_derived_type_two import InlineEnumDerivedTypeTwo
+from {{packageName}}.model.ref_enum_base_type import RefEnumBaseType
+from {{packageName}}.model.ref_enum_derived_type_one import RefEnumDerivedTypeOne
+from {{packageName}}.model.ref_enum_derived_type_two import RefEnumDerivedTypeTwo
+from {{packageName}}.model.ref_enum_type_discriminator import RefEnumTypeDiscriminator
+from {{packageName}}.model_utils import validate_and_convert_types
+
+
+TYPE_ONE_VALUE = "type-one"
+TYPE_TWO_VALUE = 42
+
+TYPE_ONE_JSON = {"typeDiscriminator": "DERIVED_TYPE_ONE", "typeOneValue": TYPE_ONE_VALUE}
+TYPE_TWO_JSON = {"typeDiscriminator": "DERIVED_TYPE_TWO", "typeTwoValue": TYPE_TWO_VALUE}
+
+
+def deserialize(data, model_class):
+    # What ApiClient.deserialize does with the JSON of a response
+    return validate_and_convert_types(data, (model_class,), ["received_data"], True, True, configuration=Configuration())
+
+
+class TestEnumDiscriminator:
+    """
+    Tests of discriminators typed as an enum: an inline enum (InlineEnum*) or a reference to an enum schema (RefEnum*).
+    No path of the test-only spec uses these models, so these tests run offline.
+    """
+
+    # A discriminator that references an enum schema holds an instance of that enum model,
+    # which used to make building the derived types raise "TypeError: unhashable type".
+
+    @pytest.mark.parametrize("model_class, discriminator, expected_json", [
+        (RefEnumDerivedTypeOne, "DERIVED_TYPE_ONE", TYPE_ONE_JSON),
+        (RefEnumDerivedTypeTwo, "DERIVED_TYPE_TWO", TYPE_TWO_JSON),
+    ])
+    def test_ref_enum_derived_type_should_be_built_and_serialized(self, model_class, discriminator, expected_json):
+        # Arrange
+        fields = {"type_one_value": TYPE_ONE_VALUE} if model_class is RefEnumDerivedTypeOne else {"type_two_value": TYPE_TWO_VALUE}
+
+        # Act
+        built = model_class(type_discriminator=RefEnumTypeDiscriminator(discriminator), **fields)
+
+        # Assert
+        assert isinstance(built, model_class)
+        assert built.type_discriminator == RefEnumTypeDiscriminator(discriminator)
+        assert ApiClient.sanitize_for_serialization(built) == expected_json
+
+    @pytest.mark.parametrize("base_class, discriminator, fields, expected_class, expected_json", [
+        (InlineEnumBaseType, "DERIVED_TYPE_ONE", {"type_one_value": TYPE_ONE_VALUE}, InlineEnumDerivedTypeOne, TYPE_ONE_JSON),
+        (InlineEnumBaseType, "DERIVED_TYPE_TWO", {"type_two_value": TYPE_TWO_VALUE}, InlineEnumDerivedTypeTwo, TYPE_TWO_JSON),
+        (RefEnumBaseType, RefEnumTypeDiscriminator("DERIVED_TYPE_ONE"), {"type_one_value": TYPE_ONE_VALUE}, RefEnumDerivedTypeOne, TYPE_ONE_JSON),
+        (RefEnumBaseType, RefEnumTypeDiscriminator("DERIVED_TYPE_TWO"), {"type_two_value": TYPE_TWO_VALUE}, RefEnumDerivedTypeTwo, TYPE_TWO_JSON),
+    ])
+    def test_base_type_should_build_the_derived_type_of_its_discriminator(self, base_class, discriminator, fields, expected_class, expected_json):
+        # Act
+        built = base_class(type_discriminator=discriminator, **fields)
+
+        # Assert
+        assert isinstance(built, expected_class), \
+            "%s should build a %s but built a %s" % (discriminator, expected_class.__name__, type(built).__name__)
+        assert ApiClient.sanitize_for_serialization(built) == expected_json
+
+    # Unlike Java and PHP, which default the discriminator (to None and to the model name), the Python
+    # derived types require it.
+
+    @pytest.mark.parametrize("model_class, fields", [
+        (InlineEnumDerivedTypeOne, {"type_one_value": TYPE_ONE_VALUE}),
+        (InlineEnumDerivedTypeTwo, {"type_two_value": TYPE_TWO_VALUE}),
+        (RefEnumDerivedTypeOne, {"type_one_value": TYPE_ONE_VALUE}),
+        (RefEnumDerivedTypeTwo, {"type_two_value": TYPE_TWO_VALUE}),
+    ])
+    def test_derived_type_without_discriminator_should_raise_value_error(self, model_class, fields):
+        # Act & Assert
+        with pytest.raises(ApiValueError, match="missing discriminator"):
+            model_class(**fields)
+
+    @pytest.mark.parametrize("model_class, discriminator, expected_json", [
+        (InlineEnumDerivedTypeOne, "DERIVED_TYPE_ONE", TYPE_ONE_JSON),
+        (InlineEnumDerivedTypeTwo, "DERIVED_TYPE_TWO", TYPE_TWO_JSON),
+    ])
+    def test_inline_enum_derived_type_should_be_built_and_serialized(self, model_class, discriminator, expected_json):
+        # Arrange
+        fields = {"type_one_value": TYPE_ONE_VALUE} if model_class is InlineEnumDerivedTypeOne else {"type_two_value": TYPE_TWO_VALUE}
+
+        # Act
+        built = model_class(type_discriminator=discriminator, **fields)
+
+        # Assert
+        assert isinstance(built, model_class)
+        assert ApiClient.sanitize_for_serialization(built) == expected_json
+
+    @pytest.mark.parametrize("base_class, data, expected_class", [
+        (InlineEnumBaseType, TYPE_ONE_JSON, InlineEnumDerivedTypeOne),
+        (InlineEnumBaseType, TYPE_TWO_JSON, InlineEnumDerivedTypeTwo),
+        (RefEnumBaseType, TYPE_ONE_JSON, RefEnumDerivedTypeOne),
+        (RefEnumBaseType, TYPE_TWO_JSON, RefEnumDerivedTypeTwo),
+    ])
+    def test_base_type_should_deserialize_derived_types(self, base_class, data, expected_class):
+        # Act
+        deserialized = deserialize(dict(data), base_class)
+
+        # Assert
+        assert isinstance(deserialized, expected_class), \
+            "%s should be deserialized as %s but was %s" % (data["typeDiscriminator"], expected_class.__name__, type(deserialized).__name__)
+        assert ApiClient.sanitize_for_serialization(deserialized) == data
