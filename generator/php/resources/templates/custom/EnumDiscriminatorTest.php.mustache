@@ -56,9 +56,6 @@ class EnumDiscriminatorTest extends TestCase
         ObjectSerializer::sanitizeForSerialization($one);
     }
 
-    // The base type's constructor always sets the discriminator to the model name, replacing any
-    // value passed in the constructor data, so the tests set it after construction.
-
     public function testInlineEnumDerivedTypeShouldSerializeDiscriminatorValue(): void
     {
         // Arrange
@@ -85,6 +82,42 @@ class EnumDiscriminatorTest extends TestCase
         $two->setTypeTwoValue(self::TYPE_TWO_VALUE);
 
         // Act & Assert
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    // PHP only: the discriminator can also be given to the constructor, which keeps it instead of the model name.
+
+    public function testInlineEnumDerivedTypeShouldKeepDiscriminatorGivenToConstructor(): void
+    {
+        // Act
+        $one = new InlineEnumDerivedTypeOne([
+            'type_discriminator' => InlineEnumBaseType::TYPE_DISCRIMINATOR_ONE,
+            'type_one_value' => self::TYPE_ONE_VALUE,
+        ]);
+        $two = new InlineEnumDerivedTypeTwo([
+            'type_discriminator' => InlineEnumBaseType::TYPE_DISCRIMINATOR_TWO,
+            'type_two_value' => self::TYPE_TWO_VALUE,
+        ]);
+
+        // Assert
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    public function testRefEnumDerivedTypeShouldKeepDiscriminatorGivenToConstructor(): void
+    {
+        // Act
+        $one = new RefEnumDerivedTypeOne([
+            'type_discriminator' => RefEnumTypeDiscriminator::ONE,
+            'type_one_value' => self::TYPE_ONE_VALUE,
+        ]);
+        $two = new RefEnumDerivedTypeTwo([
+            'type_discriminator' => RefEnumTypeDiscriminator::TWO,
+            'type_two_value' => self::TYPE_TWO_VALUE,
+        ]);
+
+        // Assert
         $this->assertSameJson(self::TYPE_ONE_JSON, $one);
         $this->assertSameJson(self::TYPE_TWO_JSON, $two);
     }
