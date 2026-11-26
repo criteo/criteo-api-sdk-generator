@@ -1,0 +1,129 @@
+package {{invokerPackage}};
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+
+import com.google.gson.JsonParser;
+
+import {{modelPackage}}.InlineEnumBaseType;
+import {{modelPackage}}.InlineEnumDerivedTypeOne;
+import {{modelPackage}}.InlineEnumDerivedTypeTwo;
+import {{modelPackage}}.RefEnumBaseType;
+import {{modelPackage}}.RefEnumDerivedTypeOne;
+import {{modelPackage}}.RefEnumDerivedTypeTwo;
+import {{modelPackage}}.RefEnumTypeDiscriminator;
+
+/**
+ * Tests of discriminators typed as an enum: an inline enum (InlineEnum*) or a reference to an enum schema (RefEnum*).
+ * No path of the test-only spec uses these models, so these tests run offline.
+ *
+ * Compiling this SDK is part of the test: the derived types used to assign their class name, a String,
+ * to the inherited enum discriminator, which didn't compile.
+ */
+public class EnumDiscriminatorTests {
+    private static final String TYPE_ONE_VALUE = "type-one";
+    private static final int TYPE_TWO_VALUE = 42;
+
+    private static final String TYPE_ONE_JSON = "{\"typeDiscriminator\":\"DERIVED_TYPE_ONE\",\"typeOneValue\":\"" + TYPE_ONE_VALUE + "\"}";
+    private static final String TYPE_TWO_JSON = "{\"typeDiscriminator\":\"DERIVED_TYPE_TWO\",\"typeTwoValue\":" + TYPE_TWO_VALUE + "}";
+
+    @BeforeAll
+    public static void setUp() {
+        // The JSON constructor sets the static Gson instance used by fromJson and toJson
+        new JSON();
+    }
+
+    private static void assertSameJson(String expected, String actual) {
+        assertEquals(JsonParser.parseString(expected), JsonParser.parseString(actual));
+    }
+
+    // NOTE on the discriminator default: the class name isn't a valid enum value, so the derived types
+    // leave an enum discriminator unset and callers set it. openapi-generator 7.12.0 and later default it
+    // to the mapping value instead, so this assertion will change on an upgrade.
+
+    @Test
+    public void testNewInlineEnumDerivedTypeShouldLeaveDiscriminatorUnset() {
+        assertNull(new InlineEnumDerivedTypeOne().getTypeDiscriminator());
+        assertNull(new InlineEnumDerivedTypeTwo().getTypeDiscriminator());
+    }
+
+    @Test
+    public void testNewRefEnumDerivedTypeShouldLeaveDiscriminatorUnset() {
+        assertNull(new RefEnumDerivedTypeOne().getTypeDiscriminator());
+        assertNull(new RefEnumDerivedTypeTwo().getTypeDiscriminator());
+    }
+
+    @Test
+    public void testInlineEnumDerivedTypeShouldSerializeDiscriminatorValue() {
+        // Arrange
+        InlineEnumDerivedTypeOne one = new InlineEnumDerivedTypeOne();
+        one.setTypeDiscriminator(InlineEnumBaseType.TypeDiscriminatorEnum.ONE);
+        one.setTypeOneValue(TYPE_ONE_VALUE);
+        InlineEnumDerivedTypeTwo two = new InlineEnumDerivedTypeTwo();
+        two.setTypeDiscriminator(InlineEnumBaseType.TypeDiscriminatorEnum.TWO);
+        two.setTypeTwoValue(TYPE_TWO_VALUE);
+
+        // Act & Assert
+        assertSameJson(TYPE_ONE_JSON, one.toJson());
+        assertSameJson(TYPE_TWO_JSON, two.toJson());
+    }
+
+    @Test
+    public void testRefEnumDerivedTypeShouldSerializeDiscriminatorValue() {
+        // Arrange
+        RefEnumDerivedTypeOne one = new RefEnumDerivedTypeOne();
+        one.setTypeDiscriminator(RefEnumTypeDiscriminator.ONE);
+        one.setTypeOneValue(TYPE_ONE_VALUE);
+        RefEnumDerivedTypeTwo two = new RefEnumDerivedTypeTwo();
+        two.setTypeDiscriminator(RefEnumTypeDiscriminator.TWO);
+        two.setTypeTwoValue(TYPE_TWO_VALUE);
+
+        // Act & Assert
+        assertSameJson(TYPE_ONE_JSON, one.toJson());
+        assertSameJson(TYPE_TWO_JSON, two.toJson());
+    }
+
+    @Test
+    public void testInlineEnumBaseTypeShouldDeserializeDerivedTypes() throws IOException {
+        // Act
+        InlineEnumBaseType one = InlineEnumBaseType.fromJson(TYPE_ONE_JSON);
+        InlineEnumBaseType two = InlineEnumBaseType.fromJson(TYPE_TWO_JSON);
+
+        // Assert
+        assertTrue(one instanceof InlineEnumDerivedTypeOne,
+                "DERIVED_TYPE_ONE should be deserialized as InlineEnumDerivedTypeOne but was " + one.getClass().getName());
+        assertEquals(InlineEnumBaseType.TypeDiscriminatorEnum.ONE, one.getTypeDiscriminator());
+        assertEquals(TYPE_ONE_VALUE, ((InlineEnumDerivedTypeOne) one).getTypeOneValue());
+        assertSameJson(TYPE_ONE_JSON, one.toJson());
+
+        assertTrue(two instanceof InlineEnumDerivedTypeTwo,
+                "DERIVED_TYPE_TWO should be deserialized as InlineEnumDerivedTypeTwo but was " + two.getClass().getName());
+        assertEquals(InlineEnumBaseType.TypeDiscriminatorEnum.TWO, two.getTypeDiscriminator());
+        assertEquals(TYPE_TWO_VALUE, ((InlineEnumDerivedTypeTwo) two).getTypeTwoValue().intValue());
+        assertSameJson(TYPE_TWO_JSON, two.toJson());
+    }
+
+    @Test
+    public void testRefEnumBaseTypeShouldDeserializeDerivedTypes() throws IOException {
+        // Act
+        RefEnumBaseType one = RefEnumBaseType.fromJson(TYPE_ONE_JSON);
+        RefEnumBaseType two = RefEnumBaseType.fromJson(TYPE_TWO_JSON);
+
+        // Assert
+        assertTrue(one instanceof RefEnumDerivedTypeOne,
+                "DERIVED_TYPE_ONE should be deserialized as RefEnumDerivedTypeOne but was " + one.getClass().getName());
+        assertEquals(RefEnumTypeDiscriminator.ONE, one.getTypeDiscriminator());
+        assertEquals(TYPE_ONE_VALUE, ((RefEnumDerivedTypeOne) one).getTypeOneValue());
+        assertSameJson(TYPE_ONE_JSON, one.toJson());
+
+        assertTrue(two instanceof RefEnumDerivedTypeTwo,
+                "DERIVED_TYPE_TWO should be deserialized as RefEnumDerivedTypeTwo but was " + two.getClass().getName());
+        assertEquals(RefEnumTypeDiscriminator.TWO, two.getTypeDiscriminator());
+        assertEquals(TYPE_TWO_VALUE, ((RefEnumDerivedTypeTwo) two).getTypeTwoValue().intValue());
+        assertSameJson(TYPE_TWO_JSON, two.toJson());
+    }
+}
