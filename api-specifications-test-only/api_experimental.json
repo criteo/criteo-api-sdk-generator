@@ -390,6 +390,116 @@
           }
         },
         "description": "Concrete polymorphic type identified by the \"derivedTypeTwo\" discriminator value."
+      },
+      "InlineEnumBaseType": {
+        "required": [
+          "typeDiscriminator"
+        ],
+        "type": "object",
+        "properties": {
+          "typeDiscriminator": {
+            "enum": [
+              "DERIVED_TYPE_ONE",
+              "DERIVED_TYPE_TWO"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "Abstract base of a polymorphic hierarchy whose discriminator is an inline enum. Not used by any path: it only checks that the SDKs compile and dispatch such discriminators.",
+        "discriminator": {
+          "propertyName": "typeDiscriminator",
+          "mapping": {
+            "DERIVED_TYPE_ONE": "#/components/schemas/InlineEnumDerivedTypeOne",
+            "DERIVED_TYPE_TWO": "#/components/schemas/InlineEnumDerivedTypeTwo"
+          }
+        }
+      },
+      "InlineEnumDerivedTypeOne": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InlineEnumBaseType"
+          }
+        ],
+        "properties": {
+          "typeOneValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Concrete polymorphic type identified by the \"DERIVED_TYPE_ONE\" inline enum discriminator value."
+      },
+      "InlineEnumDerivedTypeTwo": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InlineEnumBaseType"
+          }
+        ],
+        "properties": {
+          "typeTwoValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "Concrete polymorphic type identified by the \"DERIVED_TYPE_TWO\" inline enum discriminator value."
+      },
+      "RefEnumBaseType": {
+        "required": [
+          "typeDiscriminator"
+        ],
+        "type": "object",
+        "properties": {
+          "typeDiscriminator": {
+            "$ref": "#/components/schemas/RefEnumTypeDiscriminator"
+          }
+        },
+        "description": "Abstract base of a polymorphic hierarchy whose discriminator references an enum schema. Not used by any path: it only checks that the SDKs compile and dispatch such discriminators.",
+        "discriminator": {
+          "propertyName": "typeDiscriminator",
+          "mapping": {
+            "DERIVED_TYPE_ONE": "#/components/schemas/RefEnumDerivedTypeOne",
+            "DERIVED_TYPE_TWO": "#/components/schemas/RefEnumDerivedTypeTwo"
+          }
+        }
+      },
+      "RefEnumDerivedTypeOne": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RefEnumBaseType"
+          }
+        ],
+        "properties": {
+          "typeOneValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "description": "Concrete polymorphic type identified by the \"DERIVED_TYPE_ONE\" enum schema discriminator value."
+      },
+      "RefEnumDerivedTypeTwo": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RefEnumBaseType"
+          }
+        ],
+        "properties": {
+          "typeTwoValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "Concrete polymorphic type identified by the \"DERIVED_TYPE_TWO\" enum schema discriminator value."
+      },
+      "RefEnumTypeDiscriminator": {
+        "enum": [
+          "DERIVED_TYPE_ONE",
+          "DERIVED_TYPE_TWO"
+        ],
+        "type": "string",
+        "description": "Discriminator values of RefEnumBaseType."
       }
     },
     "securitySchemes": {

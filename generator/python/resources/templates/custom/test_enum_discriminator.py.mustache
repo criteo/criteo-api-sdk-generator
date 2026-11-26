@@ -1,0 +1,139 @@
+import json
+
+import pytest
+
+from {{packageName}}.api_client import ApiClient
+from {{packageName}}.configuration import Configuration
+from {{packageName}}.exceptions import ApiValueError
+from {{packageName}}.model.inline_enum_base_type import InlineEnumBaseType
+from {{packageName}}.model.inline_enum_derived_type_one import InlineEnumDerivedTypeOne
+from {{packageName}}.model.inline_enum_derived_type_two import InlineEnumDerivedTypeTwo
+from {{packageName}}.model.ref_enum_base_type import RefEnumBaseType
+from {{packageName}}.model.ref_enum_derived_type_one import RefEnumDerivedTypeOne
+from {{packageName}}.model.ref_enum_derived_type_two import RefEnumDerivedTypeTwo
+from {{packageName}}.model.ref_enum_type_discriminator import RefEnumTypeDiscriminator
+from {{packageName}}.model_utils import validate_and_convert_types
+
+
+TYPE_ONE_VALUE = "type-one"
+TYPE_TWO_VALUE = 42
+
+TYPE_ONE_JSON = '{"typeDiscriminator":"DERIVED_TYPE_ONE","typeOneValue":"' + TYPE_ONE_VALUE + '"}'
+TYPE_TWO_JSON = '{"typeDiscriminator":"DERIVED_TYPE_TWO","typeTwoValue":' + str(TYPE_TWO_VALUE) + '}'
+
+
+class TestEnumDiscriminator:
+    """
+    Tests of discriminators typed as an enum: an inline enum (InlineEnum*) or a reference to an enum schema (RefEnum*).
+    No path of the test-only spec uses these models, so these tests run offline.
+
+    A discriminator that references an enum schema holds an instance of that enum model,
+    which used to make building the derived types raise "TypeError: unhashable type".
+    """
+
+    @staticmethod
+    def assert_same_json(expected, model):
+        assert ApiClient.sanitize_for_serialization(model) == json.loads(expected)
+
+    @staticmethod
+    def from_json(json_string, model_class):
+        # What ApiClient.deserialize does with the JSON of a response
+        return validate_and_convert_types(json.loads(json_string), (model_class,), ["received_data"], True, True,
+                                          configuration=Configuration())
+
+    # NOTE on the discriminator default: unlike Java and PHP, which default an enum discriminator
+    # (to null and to the model name), the Python derived types require it.
+
+    def test_new_inline_enum_derived_type_without_discriminator_should_raise_value_error(self):
+        with pytest.raises(ApiValueError, match="missing discriminator"):
+            InlineEnumDerivedTypeOne(type_one_value=TYPE_ONE_VALUE)
+        with pytest.raises(ApiValueError, match="missing discriminator"):
+            InlineEnumDerivedTypeTwo(type_two_value=TYPE_TWO_VALUE)
+
+    def test_new_ref_enum_derived_type_without_discriminator_should_raise_value_error(self):
+        with pytest.raises(ApiValueError, match="missing discriminator"):
+            RefEnumDerivedTypeOne(type_one_value=TYPE_ONE_VALUE)
+        with pytest.raises(ApiValueError, match="missing discriminator"):
+            RefEnumDerivedTypeTwo(type_two_value=TYPE_TWO_VALUE)
+
+    def test_inline_enum_derived_type_should_serialize_discriminator_value(self):
+        # Arrange
+        one = InlineEnumDerivedTypeOne(type_discriminator="DERIVED_TYPE_ONE", type_one_value=TYPE_ONE_VALUE)
+        two = InlineEnumDerivedTypeTwo(type_discriminator="DERIVED_TYPE_TWO", type_two_value=TYPE_TWO_VALUE)
+
+        # Act & Assert
+        self.assert_same_json(TYPE_ONE_JSON, one)
+        self.assert_same_json(TYPE_TWO_JSON, two)
+
+    def test_ref_enum_derived_type_should_serialize_discriminator_value(self):
+        # Arrange
+        one = RefEnumDerivedTypeOne(type_discriminator=RefEnumTypeDiscriminator("DERIVED_TYPE_ONE"), type_one_value=TYPE_ONE_VALUE)
+        two = RefEnumDerivedTypeTwo(type_discriminator=RefEnumTypeDiscriminator("DERIVED_TYPE_TWO"), type_two_value=TYPE_TWO_VALUE)
+
+        # Act & Assert
+        self.assert_same_json(TYPE_ONE_JSON, one)
+        self.assert_same_json(TYPE_TWO_JSON, two)
+
+    def test_inline_enum_base_type_should_deserialize_derived_types(self):
+        # Act
+        one = self.from_json(TYPE_ONE_JSON, InlineEnumBaseType)
+        two = self.from_json(TYPE_TWO_JSON, InlineEnumBaseType)
+
+        # Assert
+        assert isinstance(one, InlineEnumDerivedTypeOne), \
+            "DERIVED_TYPE_ONE should be deserialized as InlineEnumDerivedTypeOne but was %s" % type(one).__name__
+        assert one.type_discriminator == "DERIVED_TYPE_ONE"
+        assert one.type_one_value == TYPE_ONE_VALUE
+        self.assert_same_json(TYPE_ONE_JSON, one)
+
+        assert isinstance(two, InlineEnumDerivedTypeTwo), \
+            "DERIVED_TYPE_TWO should be deserialized as InlineEnumDerivedTypeTwo but was %s" % type(two).__name__
+        assert two.type_discriminator == "DERIVED_TYPE_TWO"
+        assert two.type_two_value == TYPE_TWO_VALUE
+        self.assert_same_json(TYPE_TWO_JSON, two)
+
+    def test_ref_enum_base_type_should_deserialize_derived_types(self):
+        # Act
+        one = self.from_json(TYPE_ONE_JSON, RefEnumBaseType)
+        two = self.from_json(TYPE_TWO_JSON, RefEnumBaseType)
+
+        # Assert
+        assert isinstance(one, RefEnumDerivedTypeOne), \
+            "DERIVED_TYPE_ONE should be deserialized as RefEnumDerivedTypeOne but was %s" % type(one).__name__
+        assert one.type_discriminator == RefEnumTypeDiscriminator("DERIVED_TYPE_ONE")
+        assert one.type_one_value == TYPE_ONE_VALUE
+        self.assert_same_json(TYPE_ONE_JSON, one)
+
+        assert isinstance(two, RefEnumDerivedTypeTwo), \
+            "DERIVED_TYPE_TWO should be deserialized as RefEnumDerivedTypeTwo but was %s" % type(two).__name__
+        assert two.type_discriminator == RefEnumTypeDiscriminator("DERIVED_TYPE_TWO")
+        assert two.type_two_value == TYPE_TWO_VALUE
+        self.assert_same_json(TYPE_TWO_JSON, two)
+
+    # Python only: building a base type returns the derived type named by its discriminator.
+
+    def test_inline_enum_base_type_should_build_derived_types(self):
+        # Act
+        one = InlineEnumBaseType(type_discriminator="DERIVED_TYPE_ONE", type_one_value=TYPE_ONE_VALUE)
+        two = InlineEnumBaseType(type_discriminator="DERIVED_TYPE_TWO", type_two_value=TYPE_TWO_VALUE)
+
+        # Assert
+        assert isinstance(one, InlineEnumDerivedTypeOne), \
+            "DERIVED_TYPE_ONE should build an InlineEnumDerivedTypeOne but built a %s" % type(one).__name__
+        self.assert_same_json(TYPE_ONE_JSON, one)
+        assert isinstance(two, InlineEnumDerivedTypeTwo), \
+            "DERIVED_TYPE_TWO should build an InlineEnumDerivedTypeTwo but built a %s" % type(two).__name__
+        self.assert_same_json(TYPE_TWO_JSON, two)
+
+    def test_ref_enum_base_type_should_build_derived_types(self):
+        # Act
+        one = RefEnumBaseType(type_discriminator=RefEnumTypeDiscriminator("DERIVED_TYPE_ONE"), type_one_value=TYPE_ONE_VALUE)
+        two = RefEnumBaseType(type_discriminator=RefEnumTypeDiscriminator("DERIVED_TYPE_TWO"), type_two_value=TYPE_TWO_VALUE)
+
+        # Assert
+        assert isinstance(one, RefEnumDerivedTypeOne), \
+            "DERIVED_TYPE_ONE should build a RefEnumDerivedTypeOne but built a %s" % type(one).__name__
+        self.assert_same_json(TYPE_ONE_JSON, one)
+        assert isinstance(two, RefEnumDerivedTypeTwo), \
+            "DERIVED_TYPE_TWO should build a RefEnumDerivedTypeTwo but built a %s" % type(two).__name__
+        self.assert_same_json(TYPE_TWO_JSON, two)

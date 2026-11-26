@@ -55,26 +55,23 @@ class PolymorphismApiTest extends TestCase
 
     // NOTE on typeDiscriminator: the generated model defaults it to the model name
     // ("DerivedTypeOne"), but the server expects the discriminator mapping value
-    // ("derivedTypeOne"), so it is set explicitly (after construction, since the
-    // BaseType constructor overwrites it with the model name).
+    // ("derivedTypeOne"), so it is set explicitly.
     private function sampleDerivedTypeOne(): DerivedTypeOne
     {
-        $attributes = new DerivedTypeOne([
+        return new DerivedTypeOne([
+            'type_discriminator' => 'derivedTypeOne',
             'type_one_value' => self::TYPE_ONE_VALUE,
             'common_data' => $this->commonData(),
         ]);
-        $attributes->setTypeDiscriminator('derivedTypeOne');
-        return $attributes;
     }
 
     private function sampleDerivedTypeTwo(): DerivedTypeTwo
     {
-        $attributes = new DerivedTypeTwo([
+        return new DerivedTypeTwo([
+            'type_discriminator' => 'derivedTypeTwo',
             'type_two_value' => self::TYPE_TWO_VALUE,
             'common_data' => $this->commonData(),
         ]);
-        $attributes->setTypeDiscriminator('derivedTypeTwo');
-        return $attributes;
     }
 
     private function sampleInheritanceRequest(): DerivedTypeOneRequest

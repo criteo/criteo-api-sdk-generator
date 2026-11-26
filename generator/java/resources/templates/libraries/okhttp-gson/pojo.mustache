@@ -119,9 +119,16 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/parent}}
     {{#gson}}
     {{#discriminator}}
-    {{^discriminator.isEnum}}
+    {{! discriminator.isEnum only looks at the model's own properties and only recognizes inline enums, so it is false in subtypes, where the discriminator property is inherited, and for references to an enum schema. Check the property itself instead: the class name is only assigned when the property is a plain String, not an inline enum or a reference to an enum schema. }}
+    {{#allVars}}
+    {{#isDiscriminator}}
+    {{#isString}}
+    {{^isEnum}}
     this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-    {{/discriminator.isEnum}}
+    {{/isEnum}}
+    {{/isString}}
+    {{/isDiscriminator}}
+    {{/allVars}}
     {{/discriminator}}
     {{/gson}}
   }

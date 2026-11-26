@@ -1,0 +1,160 @@
+<?php
+namespace {{invokerPackage}};
+
+use {{invokerPackage}}\ObjectSerializer;
+use {{invokerPackage}}\Model\InlineEnumBaseType;
+use {{invokerPackage}}\Model\InlineEnumDerivedTypeOne;
+use {{invokerPackage}}\Model\InlineEnumDerivedTypeTwo;
+use {{invokerPackage}}\Model\RefEnumBaseType;
+use {{invokerPackage}}\Model\RefEnumDerivedTypeOne;
+use {{invokerPackage}}\Model\RefEnumDerivedTypeTwo;
+use {{invokerPackage}}\Model\RefEnumTypeDiscriminator;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Tests of discriminators typed as an enum: an inline enum (InlineEnum*) or a reference to an enum schema (RefEnum*).
+ * No path of the test-only spec uses these models, so these tests run offline.
+ */
+class EnumDiscriminatorTest extends TestCase
+{
+    private const TYPE_ONE_VALUE = "type-one";
+    private const TYPE_TWO_VALUE = 42;
+
+    private const TYPE_ONE_JSON = '{"typeDiscriminator":"DERIVED_TYPE_ONE","typeOneValue":"' . self::TYPE_ONE_VALUE . '"}';
+    private const TYPE_TWO_JSON = '{"typeDiscriminator":"DERIVED_TYPE_TWO","typeTwoValue":' . self::TYPE_TWO_VALUE . '}';
+
+    private function assertSameJson(string $expected, $model): void
+    {
+        $this->assertEquals(
+            json_decode($expected, true),
+            json_decode(json_encode(ObjectSerializer::sanitizeForSerialization($model)), true)
+        );
+    }
+
+    // NOTE on the discriminator default: the constructor of the base type sets it to the model name, which isn't
+    // a valid enum value. valid() only reports this for an inline enum, while the serializer only rejects it for
+    // a reference to an enum schema.
+
+    public function testNewInlineEnumDerivedTypeShouldSetDiscriminatorToModelName(): void
+    {
+        $one = new InlineEnumDerivedTypeOne();
+        $two = new InlineEnumDerivedTypeTwo();
+
+        $this->assertSame('InlineEnumDerivedTypeOne', $one->getTypeDiscriminator());
+        $this->assertSame('InlineEnumDerivedTypeTwo', $two->getTypeDiscriminator());
+        $this->assertFalse($one->valid());
+    }
+
+    public function testNewRefEnumDerivedTypeShouldSetDiscriminatorToModelName(): void
+    {
+        $one = new RefEnumDerivedTypeOne();
+        $two = new RefEnumDerivedTypeTwo();
+
+        $this->assertSame('RefEnumDerivedTypeOne', $one->getTypeDiscriminator());
+        $this->assertSame('RefEnumDerivedTypeTwo', $two->getTypeDiscriminator());
+        $this->expectException(\InvalidArgumentException::class);
+        ObjectSerializer::sanitizeForSerialization($one);
+    }
+
+    public function testInlineEnumDerivedTypeShouldSerializeDiscriminatorValue(): void
+    {
+        // Arrange
+        $one = new InlineEnumDerivedTypeOne();
+        $one->setTypeDiscriminator(InlineEnumBaseType::TYPE_DISCRIMINATOR_ONE);
+        $one->setTypeOneValue(self::TYPE_ONE_VALUE);
+        $two = new InlineEnumDerivedTypeTwo();
+        $two->setTypeDiscriminator(InlineEnumBaseType::TYPE_DISCRIMINATOR_TWO);
+        $two->setTypeTwoValue(self::TYPE_TWO_VALUE);
+
+        // Act & Assert
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    public function testRefEnumDerivedTypeShouldSerializeDiscriminatorValue(): void
+    {
+        // Arrange
+        $one = new RefEnumDerivedTypeOne();
+        $one->setTypeDiscriminator(RefEnumTypeDiscriminator::ONE);
+        $one->setTypeOneValue(self::TYPE_ONE_VALUE);
+        $two = new RefEnumDerivedTypeTwo();
+        $two->setTypeDiscriminator(RefEnumTypeDiscriminator::TWO);
+        $two->setTypeTwoValue(self::TYPE_TWO_VALUE);
+
+        // Act & Assert
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    // PHP only: the discriminator can also be given to the constructor, which keeps it instead of the model name.
+
+    public function testInlineEnumDerivedTypeShouldKeepDiscriminatorGivenToConstructor(): void
+    {
+        // Act
+        $one = new InlineEnumDerivedTypeOne([
+            'type_discriminator' => InlineEnumBaseType::TYPE_DISCRIMINATOR_ONE,
+            'type_one_value' => self::TYPE_ONE_VALUE,
+        ]);
+        $two = new InlineEnumDerivedTypeTwo([
+            'type_discriminator' => InlineEnumBaseType::TYPE_DISCRIMINATOR_TWO,
+            'type_two_value' => self::TYPE_TWO_VALUE,
+        ]);
+
+        // Assert
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    public function testRefEnumDerivedTypeShouldKeepDiscriminatorGivenToConstructor(): void
+    {
+        // Act
+        $one = new RefEnumDerivedTypeOne([
+            'type_discriminator' => RefEnumTypeDiscriminator::ONE,
+            'type_one_value' => self::TYPE_ONE_VALUE,
+        ]);
+        $two = new RefEnumDerivedTypeTwo([
+            'type_discriminator' => RefEnumTypeDiscriminator::TWO,
+            'type_two_value' => self::TYPE_TWO_VALUE,
+        ]);
+
+        // Assert
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    public function testInlineEnumBaseTypeShouldDeserializeDerivedTypes(): void
+    {
+        // Act
+        $one = ObjectSerializer::deserialize(json_decode(self::TYPE_ONE_JSON), InlineEnumBaseType::class);
+        $two = ObjectSerializer::deserialize(json_decode(self::TYPE_TWO_JSON), InlineEnumBaseType::class);
+
+        // Assert
+        $this->assertInstanceOf(InlineEnumDerivedTypeOne::class, $one);
+        $this->assertSame(InlineEnumBaseType::TYPE_DISCRIMINATOR_ONE, $one->getTypeDiscriminator());
+        $this->assertSame(self::TYPE_ONE_VALUE, $one->getTypeOneValue());
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+
+        $this->assertInstanceOf(InlineEnumDerivedTypeTwo::class, $two);
+        $this->assertSame(InlineEnumBaseType::TYPE_DISCRIMINATOR_TWO, $two->getTypeDiscriminator());
+        $this->assertSame(self::TYPE_TWO_VALUE, $two->getTypeTwoValue());
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+
+    public function testRefEnumBaseTypeShouldDeserializeDerivedTypes(): void
+    {
+        // Act
+        $one = ObjectSerializer::deserialize(json_decode(self::TYPE_ONE_JSON), RefEnumBaseType::class);
+        $two = ObjectSerializer::deserialize(json_decode(self::TYPE_TWO_JSON), RefEnumBaseType::class);
+
+        // Assert
+        $this->assertInstanceOf(RefEnumDerivedTypeOne::class, $one);
+        $this->assertSame(RefEnumTypeDiscriminator::ONE, $one->getTypeDiscriminator());
+        $this->assertSame(self::TYPE_ONE_VALUE, $one->getTypeOneValue());
+        $this->assertSameJson(self::TYPE_ONE_JSON, $one);
+
+        $this->assertInstanceOf(RefEnumDerivedTypeTwo::class, $two);
+        $this->assertSame(RefEnumTypeDiscriminator::TWO, $two->getTypeDiscriminator());
+        $this->assertSame(self::TYPE_TWO_VALUE, $two->getTypeTwoValue());
+        $this->assertSameJson(self::TYPE_TWO_JSON, $two);
+    }
+}

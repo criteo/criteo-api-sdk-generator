@@ -995,6 +995,10 @@ def get_discriminator_class(model_class,
             If a class is not found, None is returned.
     """
 
+    if isinstance(discr_value, ModelSimple):
+        # A discriminator that references an enum schema can hold an instance of that enum model,
+        # which can't be used as a dict key: look up its value instead.
+        discr_value = discr_value.value
     if model_class in cls_visited:
         # The class has already been visited and no suitable class was found.
         return None
